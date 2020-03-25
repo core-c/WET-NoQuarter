@@ -1,0 +1,352 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{9539793c-256c-4972-b102-1443cbdd0e3a}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;rc;def;r;odl;hpj;bat;for;f90</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{cbe236d0-bdbc-4a62-afe2-46b64a213a66}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;fi;fd</Extensions>
+    </Filter>
+    <Filter Include="SHA">
+      <UniqueIdentifier>{b56bfe74-c15d-4f0c-8570-c486cb7bb7c3}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;rc;def;r;odl;hpj;bat;for;f90</Extensions>
+    </Filter>
+    <Filter Include="SHA\Header Files">
+      <UniqueIdentifier>{0e2992b0-955e-4f60-a75a-d3e8db6c770d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SHA\Source Files">
+      <UniqueIdentifier>{a6ec8ea8-2d9a-4850-b671-f1824844b47e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LUA">
+      <UniqueIdentifier>{74bca73b-023f-46a6-944a-b8b18191a59a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HWBAN">
+      <UniqueIdentifier>{27af65f4-e2e2-4434-b2aa-bf3d976fbad7}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="bg_animation.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="bg_animgroup.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="bg_campaign.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="bg_character.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="bg_classes.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="bg_lib.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="bg_misc.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="bg_pmove.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="bg_profiler_hook.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="bg_slidemove.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="bg_sscript.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="bg_stats.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="bg_tracemap.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="bg_weapons.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Omnibot\Common\BotLoadLibrary.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="et-antiwarp.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="etpro_mdx.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="g_active.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="g_alarm.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="g_antilag.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="g_buddy_list.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="g_character.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="g_client.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="g_cmds.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="g_cmds_ext.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="g_combat.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="g_config.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="g_crash.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="g_etbot_interface.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="g_fireteams.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="g_items.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="g_lua.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="g_main.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="g_match.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="g_match_tokens.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="g_mem.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="g_misc.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="g_missile.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="g_mover.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="g_multiview.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="g_osfile.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="g_props.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="g_referee.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="g_script.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="g_script_actions.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="g_session.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="g_sha1.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="g_shrubbot.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="g_spawn.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="g_stats.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="g_strparse.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="g_svcmds.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="g_syscalls.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="g_systemmsg.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="g_target.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="g_team.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="g_teammapdata.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="g_time.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="g_trigger.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="g_utils.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="g_vote.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="g_weapon.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="g_xpsave.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="geoip.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="q_math.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="q_shared.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\sha-1\sha1.c">
+      <Filter>SHA\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="base64.c">
+      <Filter>HWBAN</Filter>
+    </ClCompile>
+    <ClCompile Include="bg_hwguid.c">
+      <Filter>HWBAN</Filter>
+    </ClCompile>
+    <ClCompile Include="crc32.c">
+      <Filter>HWBAN</Filter>
+    </ClCompile>
+    <ClCompile Include="diskId32.cpp">
+      <Filter>HWBAN</Filter>
+    </ClCompile>
+    <ClCompile Include="md5.c">
+      <Filter>HWBAN</Filter>
+    </ClCompile>
+    <ClCompile Include="xorcrypt.c">
+      <Filter>HWBAN</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="game.def">
+      <Filter>Source Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="bg_local.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bg_profiler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bg_public.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="botlib.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="etpro_mdx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="etpro_mdx_lut.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="etpub.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="g_etbot_interface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="g_local.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="g_osfile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="g_public.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="g_shrubbot.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="g_strparse.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="g_team.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="g_time.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="g_xpsave.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="q_shared.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="surfaceflags.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuildStep Include="g_lua.h">
+      <Filter>Header Files</Filter>
+    </CustomBuildStep>
+    <CustomBuildStep Include="..\sha-1\sha1.h">
+      <Filter>SHA\Header Files</Filter>
+    </CustomBuildStep>
+    <CustomBuildStep Include="..\lua\include\lauxlib.h">
+      <Filter>LUA</Filter>
+    </CustomBuildStep>
+    <CustomBuildStep Include="..\lua\include\lua.h">
+      <Filter>LUA</Filter>
+    </CustomBuildStep>
+    <CustomBuildStep Include="..\lua\include\lua.hpp">
+      <Filter>LUA</Filter>
+    </CustomBuildStep>
+    <CustomBuildStep Include="..\lua\include\luaconf.h">
+      <Filter>LUA</Filter>
+    </CustomBuildStep>
+    <CustomBuildStep Include="..\lua\include\lualib.h">
+      <Filter>LUA</Filter>
+    </CustomBuildStep>
+    <CustomBuildStep Include="base64.h">
+      <Filter>HWBAN</Filter>
+    </CustomBuildStep>
+    <CustomBuildStep Include="bg_hwguid.h">
+      <Filter>HWBAN</Filter>
+    </CustomBuildStep>
+    <CustomBuildStep Include="bg_hwguid_win32_cross.h">
+      <Filter>HWBAN</Filter>
+    </CustomBuildStep>
+    <CustomBuildStep Include="crc32.h">
+      <Filter>HWBAN</Filter>
+    </CustomBuildStep>
+    <CustomBuildStep Include="md5.h">
+      <Filter>HWBAN</Filter>
+    </CustomBuildStep>
+    <CustomBuildStep Include="xorcrypt.h">
+      <Filter>HWBAN</Filter>
+    </CustomBuildStep>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,59 @@
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/include/curl
+END
+stdcheaders.h
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/include/curl/stdcheaders.h
+END
+multi.h
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/include/curl/multi.h
+END
+Makefile.in
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/include/curl/Makefile.in
+END
+mprintf.h
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/include/curl/mprintf.h
+END
+easy.h
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/include/curl/easy.h
+END
+curlver.h
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/include/curl/curlver.h
+END
+Makefile.am
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/include/curl/Makefile.am
+END
+types.h
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/include/curl/types.h
+END
+curl.h
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/include/curl/curl.h
+END

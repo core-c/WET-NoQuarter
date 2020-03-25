@@ -1,0 +1,21 @@
+K 10
+svn:ignore
+V 225
+Debug
+build
+build-mingw
+cgame.mp.i386.so
+cgame_mp_x86.dll
+qagame.mp.i386.so
+qagame_mp_x86.dll
+scons.signatures.dblite
+scons_utils.pyc
+site.conf
+ui.mp.i386.so
+ui_mp_x86.dll
+*.ncb
+*.suo
+*.user
+_ReSharper.NoQuarter (VC++2008EE)
+
+END

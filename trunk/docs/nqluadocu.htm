@@ -1,0 +1,1021 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+       "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>No Quarter LUA Documentation</title>
+</head>
+
+<body>
+<h1>No Quarter LUA Documentation</h1>
+
+<fieldset><legend>Content</legend>
+<ol><li><a href="#Client fields">Client fields</a></li>
+<li><a href="#Functions">Functions</a></li></ol>
+</fieldset><br>
+
+<h2><span id="Client fields">Client fields</span></h2>
+<blockquote><table border="1" cellpadding="5">
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Permission</th>
+<th>Description</th>
+</tr>
+
+<tr>
+<td>acc</td>
+<td>FLOAT</td>
+<td>read-only</td>
+<td>current overall accuracy</td>
+</tr>
+
+<tr>
+<td>client.inactivityTime</td>
+<td>INT</td>
+<td>read/write</td>
+<td>see <a href="#inactivityTime">inactivityTime</a></td>
+</tr>
+
+<tr>
+<td>client.inactivityWarning</td>
+<td>INT</td>
+<td>read/write</td>
+<td>see <a href="#inactivityWarning">inactivityWarning</a></td>
+</tr>
+
+<tr>
+<td><a href="#combatState">combatState</a></td>
+<td>BITMASK</td>
+<td>read-only</td>
+</tr>
+
+<tr>
+<td>deathTime</td>
+<td>INT</td>
+<td>read-only</td>
+<td>last time player died</td>
+</tr>
+
+<tr>
+<td>freezed</td>
+<td>BOOLEAN</td>
+<td>read/write</td>
+<td>player is(nt) !frozen</td>
+</tr>
+
+<tr>
+<td>headshots</td>
+<td>INT</td>
+<td>read-only</td>
+<td># of headshots made (cleared on respawn)</td>
+</tr>
+
+<tr>
+<td><span id="inactivityTime">inactivityTime</span></td>
+<td>INT</td>
+<td>read/write</td>
+</tr>
+
+<tr>
+<td><span id="inactivityWarning">inactivityWarning</span></td>
+<td>INT</td>
+<td>read/write</td>
+</tr>
+
+<tr>
+<td>lasthurt_mod</td>
+<td>INT</td>
+<td>read-only</td>
+<td>MOD of last damage infliction on player</td>
+</tr>
+
+<tr>
+<td>lasthurt_time</td>
+<td>INT</td>
+<td>read-only</td>
+<td>last time player was hurt</td>
+</tr>
+
+<tr>
+<td>lastKillTime</td>
+<td>INT</td>
+<td>read-only</td>
+<td>last time player made a kill</td>
+</tr>
+
+<tr>
+<td>multikill</td>
+<td>INT</td>
+<td>read-only</td>
+<td>current kills made within g_multikillTime</td>
+</tr>
+
+<tr>
+<td>origin</td>
+<td>VEC3</td>
+<td>read/write</td>
+<td>same as <a href="#ps.origin">ps.origin</a></td>
+</tr>
+
+<tr>
+<td>PCSpecialPickedUpCount</td>
+<td>INT</td>
+<td>read-only</td>
+<td># of health/ammo packs picked up by teammates (cleared on respawn)</td>
+</tr>
+
+<tr>
+<td>pers.applicationClient</td>
+<td>INT</td>
+<td>read/write</td>
+</tr>
+
+<tr>
+<td>pers.applicationEndTime</td>
+<td>INT</td>
+<td>read/write</td>
+</tr>
+
+<tr>
+<td>pers.autofireteamCreateEndTime</td>
+<td>INT</td>
+<td>read/write</td>
+</tr>
+
+<tr>
+<td>pers.autofireteamEndTime</td>
+<td>INT</td>
+<td>read/write</td>
+</tr>
+
+<tr>
+<td>pers.autofireteamJoinEndTime</td>
+<td>INT</td>
+<td>read/write</td>
+</tr>
+
+<tr>
+<td>pers.complaintClient</td>
+<td>INT</td>
+<td>read/write</td>
+</tr>
+
+<tr>
+<td>pers.complaintEndTime</td>
+<td>INT</td>
+<td>read/write</td>
+</tr>
+
+<tr>
+<td>pers.complaints</td>
+<td>INT</td>
+<td>read/write</td>
+</tr>
+
+<tr>
+<td><a href="#pers.connected">pers.connected</a></td>
+<td>INT</td>
+<td>read-only</td>
+</tr>
+
+<tr>
+<td>pers.connectTime</td>
+<td>BOOLEAN</td>
+<td>read-only</td>
+</tr>
+
+<tr>
+<td>pers.enterTime</td>
+<td>BOOLEAN</td>
+<td>TODO</td>
+</tr>
+
+<tr>
+<td>pers.initialSpawn</td>
+<td>BOOLEAN</td>
+<td>TODO</td>
+</tr>
+
+<tr>
+<td>pers.invitationClient</td>
+<td>INT</td>
+<td>read/write</td>
+</tr>
+
+<tr>
+<td>pers.invitationEndTime</td>
+<td>INT</td>
+<td>read/write</td>
+</tr>
+
+<tr>
+<td>pers.lastammo_client</td>
+<td>INT</td>
+<td>read-only</td>
+</tr>
+
+<tr>
+<td>pers.lastBattleSenseBonusTime</td>
+<td>INT</td>
+<td>read-only</td>
+</tr>
+
+<tr>
+<td>pers.lasthealth_client</td>
+<td>INT</td>
+<td>read-only</td>
+</tr>
+
+<tr>
+<td>pers.lastHQArtyReportTime</td>
+<td>INT</td>
+<td>read-only</td>
+</tr>
+
+<tr>
+<td>pers.lastHQMineReportTime</td>
+<td>INT</td>
+<td>read-only</td>
+</tr>
+
+<tr>
+<td>pers.lastkilled_client</td>
+<td>INT</td>
+<td>read-only</td>
+</tr>
+
+<tr>
+<td>pers.lastkiller_client</td>
+<td>INT</td>
+<td>read-only</td>
+</tr>
+
+<tr>
+<td>pers.lastReinforceTime</td>
+<td>INT</td>
+<td>TODO</td>
+</tr>
+
+<tr>
+<td>pers.lastrevive_client</td>
+<td>INT</td>
+<td>read-only</td>
+</tr>
+
+<tr>
+<td>pers.lastSpawnTime</td>
+<td>INT</td>
+<td>read-only</td>
+</tr>
+
+<tr>
+<td>pers.lastteambleed_client</td>
+<td>INT</td>
+<td>read-only</td>
+</tr>
+
+<tr>
+<td>pers.lastteambleed_dmg</td>
+<td>INT</td>
+<td>read-only</td>
+</tr>
+
+<tr>
+<td>pers.localClient</td>
+<td>BOOLEAN</td>
+<td>TODO</td>
+</tr>
+
+<tr>
+<td>pers.netname</td>
+<td>STRING</td>
+<td>read-only</td>
+<td>playername</td>
+</tr>
+
+<tr>
+<td><a href="#pers.playerStats.hitRegions">pers.playerStats.hitRegions</a></td>
+<td>INT_ARRAY</td>
+<td>read-only</td>
+</tr>
+
+<tr>
+<td>pers.playerStats.suicides</td>
+<td>INT</td>
+<td>read-only</td>
+<td>times selfkilled in current round</td>
+</tr>
+
+<tr>
+<td>pers.propositionClient</td>
+<td>INT</td>
+<td>read/write</td>
+</tr>
+
+<tr>
+<td>pers.propositionClient2</td>
+<td>INT</td>
+<td>read/write</td>
+</tr>
+
+<tr>
+<td>pers.propositionEndTime</td>
+<td>INT</td>
+<td>read/write</td>
+</tr>
+
+<tr>
+<td>pers.ready</td>
+<td>BOOLEAN</td>
+<td>read/write</td>
+</tr>
+
+<tr>
+<td>pers.teamState.state</td>
+<td>TODO</td>
+<td>TODO</td>
+<td>0=TEAM_BEGIN// Beginning a team game, spawn at base,1=TEAM_ACTIVE// Now actively playing
+</tr>
+
+<tr>
+<td>pers.voteCount</td>
+<td>INT</td>
+<td>read/write</td>
+</tr>
+
+<tr>
+<td>ps.ammo</td>
+<td>INT_ARRAY</td>
+<td>read/write</td>
+<td>current ammo for weapon</td>
+</tr>
+
+<tr>
+<td>ps.ammoclip</td>
+<td>INT_ARRAY</td>
+<td>read/write</td>
+<td>current ammo in clip</td>
+</tr>
+
+<tr>
+<td><a href="#ps.eFlags">ps.eFlags</a></td>
+<td>BITMASK</td>
+<td>read/write</td>
+</tr>
+
+<tr>
+<td><span id="ps.origin">ps.origin</span></td>
+<td>VEC3</td>
+<td>read/write</td>
+<td>current origin</td>
+</tr>
+
+<tr>
+<td><a href="#ps.persistant">ps.persistant</a></td>
+<td>INT_ARRAY</td>
+<td>read-only</td>
+</tr>
+
+<tr>
+<td>ps.ping</td>
+<td>INT</td>
+<td>read-only</td>
+</tr>
+
+<tr>
+<td><a href="#ps.pm_flags">ps.pm_flags</a></td>
+<td>BITMASK</td>
+<td>read-only</td>
+</tr>
+
+<tr>
+<td>ps.pm_time</td>
+<td>INT</td>
+<td>read-only</td>
+<td>auto-set according to ps.pm_flags</td>
+</tr>
+
+<tr>
+<td><a href="#ps.powerups">ps.powerups</a></td>
+<td>INT_ARRAY</td>
+<td>read/write</td>
+</tr>
+
+<tr>
+<td><a href="#ps.stats">ps.stats</a></td>
+<td>INT_ARRAY</td>
+<td>read/write</td>
+</tr>
+
+<tr>
+<td><a href="#ps.weaponstate">ps.weaponstate</a></td>
+<td>INT</td>
+<td>read-only</td>
+</tr>
+
+<tr>
+<td><a href="#ps.persistant">saved_persistant</a></td>
+<td>INT_ARRAY</td>
+<td>read-only</td>
+<td>Save ps.persistant here during Limbo</td>
+</tr>
+
+<tr>
+<td>sess.betTime</td>
+<td>INT</td>
+<td>read/write</td>
+<td>time the current bet started</td>
+</tr>
+
+<tr>
+<td>sess.buyTime</td>
+<td>INT</td>
+<td>read/write</td>
+<td>last time the player bought sth</td>
+</tr>
+
+<tr>
+<td>sess.credits</td>
+<td>INT</td>
+<td>read/write</td>
+<td>current amount of credits</td>
+</tr>
+
+<tr>
+<td>sess.currentBetAmount</td>
+<td>INT</td>
+<td>read/write</td>
+<td>current bet amount</td>
+</tr>
+
+<tr>
+<td>sess.currentBetTarget</td>
+<td>INT</td>
+<td>read/write</td>
+<td>current bet target</td>
+</tr>
+
+<tr>
+<td><a href="#sess.skillpoints">sess.skillpoints</a></td>
+<td>INT_ARRAY</td>
+<td>read-only</td>
+<td>acquired xp per class</td>
+</tr>
+</table>
+
+<h3><span id="combatState">combatState</span></h3>
+<table border="1" cellpadding="5"><tr>
+<th>Bitflag</th>
+<th>Name</th>
+</tr>
+<tr>
+<td>2</td>
+<td>COMBATSTATE_DAMAGEDEALT</td>
+</tr>
+<tr>
+<td>4</td>
+<td>COMBATSTATE_DAMAGERECEIVED</td>
+</tr>
+<tr>
+<td>8</td>
+<td>COMBATSTATE_KILLEDPLAYER</td>
+</tr>
+</table>
+
+
+<h3><span id="pers.connected">pers.connected</span></h3>
+<table border="1" cellpadding="5"><tr>
+<th>Value</th>
+<th>Name</th>
+</tr>
+<tr>
+<td>0</td>
+<td>CON_DISCONNECTED</td>
+</tr>
+<tr>
+<td>1</td>
+<td>CON_CONNECTING</td>
+</tr>
+<tr>
+<td>2</td>
+<td>CON_CONNECTED</td>
+</tr>
+</table>
+
+
+<h3><span id="pers.playerStats.hitRegions">pers.playerStats.hitRegions</span></h3>
+<table border="1" cellpadding="5"><tr>
+<th>Arrayindex</th>
+<th>Name</th>
+<th>Description</th>
+</tr>
+<tr>
+<td>0</td>
+<td>HR_HEAD</td>
+<td>Total hits on head</td>
+</tr>
+<tr>
+<td>1</td>
+<td>HR_ARMS</td>
+<td>Total hits on arms</td>
+</tr>
+<tr>
+<td>2</td>
+<td>HR_BODY</td>
+<td>Total hits on body</td>
+</tr>
+<tr>
+<td>3</td>
+<td>HR_LEGS</td>
+<td>Total hits on legs</td>
+</tr>
+</table>
+
+
+
+<h3><span id="ps.eFlags">ps.eFlags</span></h3>
+<table border="1" cellpadding="5"><tr>
+<th>Bitflag</th>
+<th>Name</th>
+<th>Description</th>
+</tr>
+<tr>
+<td>1</td>
+<td>EF_DEAD</td>
+<td>player is dead</td>
+</tr>
+<tr>
+<td>2</td>
+<td>EF_POISONED</td>
+<td>toggles poison effect (shaky screen)</td>
+</tr>
+<tr>
+<td>4</td>
+<td>EF_TELEPORT_BIT</td>
+<td>toggled every time the origin abruptly changes</td>
+</tr>
+<tr>
+<td>8</td>
+<td>EF_READY</td>
+<td>player is ready</td>
+</tr>
+<tr>
+<td>16</td>
+<td>EF_CROUCHING</td>
+<td>player is crouching</td>
+</tr>
+<tr>
+<td>32</td>
+<td>EF_MG42_ACTIVE</td>
+<td>player is currently using an MG42</td>
+</tr>
+<tr>
+<td>64</td>
+<td>EF_GLOW</td>
+<td>toggles glow status</td>
+</tr>
+<tr>
+<td>128</td>
+<td>EF_FIRING</td>
+<td>player is firing a weapon</td>
+</tr>
+<tr>
+<td>256</td>
+<td>EF_BREATH</td>
+<td>toggles character breath (as seen on winter maps)</td>
+</tr>
+<tr>
+<td>512</td>
+<td>EF_TALK</td>
+<td>talk balloon</td>
+</tr>
+<tr>
+<td>1024</td>
+<td>EF_CONNECTION</td>
+<td>connection trouble</td>
+</tr>
+<tr>
+<td>4096</td>
+<td>EF_HEADSHOT</td>
+<td>toggles helmet</td>
+</tr>
+<tr>
+<td>16384</td>
+<td>EF_VOTED</td>
+<td>player already cast a vote</td>
+</tr>
+<tr>
+<td>32768</td>
+<td>EF_MOUNTEDTANK</td>
+<td>player is currently using a tank MG42</td>
+</tr>
+<tr>
+<td>65536</td>
+<td>EF_PANTSED</td>
+<td>player is pantsed</td>
+</tr>
+<tr>
+<td>262144</td>
+<td>EF_ZOOMING</td>
+<td>player is zooming</td>
+</tr>
+<tr>
+<td>524288</td>
+<td>EF_PRONE</td>
+<td>player is prone</td>
+</tr>
+<tr>
+<td>1048576</td>
+<td>EF_PRONE_MOVING</td>
+<td>player is prone and moving</td>
+</tr>
+<tr>
+<td>4194304</td>
+<td>EF_BUYING</td>
+<td>player has just bought sth</td>
+</tr>
+<tr>
+<td>8388608</td>
+<td>EF_PLAYDEAD</td>
+<td>player is playing dead</td>
+</tr>
+</table>
+
+<h3><span id="ps.pm_flags">ps.pm_flags</span></h3>
+<table border="1" cellpadding="5"><tr>
+<th>Bitflag</th>
+<th>Name</th>
+<th>Description</th>
+</tr>
+<tr>
+<td>4</td>
+<td>PMF_LADDER</td>
+<td>player is on a ladder</td>
+</tr>
+<tr>
+<td>128</td>
+<td>PMF_DOUBLEJUMPING</td>
+<td>player is doublejumping</td>
+</tr>
+<tr>
+<td>512</td>
+<td>PMF_RESPAWNED</td>
+<td>will be cleared after the attack and jump keys come up</td>
+</tr>
+<tr>
+<td>4096</td>
+<td>PMF_FOLLOW</td>
+<td>spectator following another player</td>
+</tr>
+<tr>
+<td>16384</td>
+<td>PMF_LIMBO</td>
+<td>limbo state, ps.pm_time is time until reinforce</td>
+</tr>
+</table>
+
+
+<h3><span id="ps.persistant">ps.persistant</span></h3>
+<table border="1" cellpadding="5"><tr>
+<th>Arrayindex</th>
+<th>Name</th>
+<th>Description</th>
+</tr>
+<tr>
+<td>0</td>
+<td>PERS_SCORE</td>
+</tr>
+<tr>
+<td>1</td>
+<td>PERS_HITS</td>
+<td>total points damage inflicted</td>
+</tr>
+<tr>
+<td>2</td>
+<td>PERS_RANK</td>
+</tr>
+<tr>
+<td>3</td>
+<td>PERS_TEAM</td>
+</tr>
+<tr>
+<td>4</td>
+<td>PERS_SPAWN_COUNT</td>
+<td>incremented every respawn</td>
+</tr>
+<tr>
+<td>5</td>
+<td>PERS_ATTACKER</td>
+<td>clientnum of last damage inflicter</td>
+</tr>
+<tr>
+<td>6</td>
+<td>PERS_HEADSHOTS</td>
+</tr>
+<tr>
+<td>9</td>
+<td>PERS_REVIVE_COUNT</td>
+</tr>
+<tr>
+<td>10</td>
+<td>PERS_AWARDS</td>
+<td>(0-255 each) Deaths</td>
+</tr>
+<tr>
+<td>11</td>
+<td>PERS_AWARDS2</td>
+<td>(0-255 each) Best Spree, Bounty</td>
+</tr>
+<tr>
+<td>12</td>
+<td>PERS_HWEAPON_USE</td>
+</tr>
+<tr>
+<td>13</td>
+<td>PERS_KILLSPREE</td>
+<td>killing spree as a number</td>
+</tr>
+<tr>
+<td>14</td>
+<td>PERS_KILLS</td>
+<td>total kills as a number</td>
+</tr>
+</table>
+
+<h3><span id="ps.powerups">ps.powerups</span></h3>
+<table border="1" cellpadding="5"><tr>
+<th>Arrayindex</th>
+<th>Name</th>
+<th>Description</th>
+</tr>
+<tr>
+<td>0</td>
+<td>PW_NONE</td>
+</tr>
+<tr>
+<td>1</td>
+<td>PW_INVULNERABLE</td>
+</tr>
+<tr>
+<td>2</td>
+<td>PW_FLAKJACKET</td>
+</tr>
+<tr>
+<td>3</td>
+<td>PW_HELMET</td>
+</tr>
+<tr>
+<td>4</td>
+<td>PW_NOFATIGUE</td>
+</tr>
+<tr>
+<td>5</td>
+<td>PW_REDFLAG</td>
+</tr>
+<tr>
+<td>6</td>
+<td>PW_BLUEFLAG</td>
+</tr>
+<tr>
+<td>7</td>
+<td>PW_OPS_DISGUISED</td>
+</tr>
+<tr>
+<td>8</td>
+<td>PW_OPS_CLASS_1</td>
+</tr>
+<tr>
+<td>9</td>
+<td>PW_OPS_CLASS_2</td>
+</tr>
+<tr>
+<td>10</td>
+<td>PW_OPS_CLASS_3</td>
+</tr>
+<tr>
+<td>11</td>
+<td>PW_ADRENALINE</td>
+</tr>
+<tr>
+<td>12</td>
+<td>PW_HELMETSHIELD</td>
+</tr>
+<tr>
+<td>13</td>
+<td>PW_HEAVY_BURNS</td>
+<td>Burnt by improved flamethrower, receiving less heal</td>
+</tr>
+<tr>
+<td>14</td>
+<td>PW_BLACKOUT</td>
+<td>spec blackout/speclock</td>
+</tr>
+</table>
+
+<h3><span id="ps.stats">ps.stats</span></h3>
+<table border="1" cellpadding="5"><tr>
+<th>Arrayindex</th>
+<th>Name</th>
+<th>Description</th>
+</tr>
+<tr>
+<td>0</td>
+<td>STAT_HEALTH</td>
+</tr>
+<tr>
+<td>1</td>
+<td>STAT_KEYS</td>
+</tr>
+<tr>
+<td>2</td>
+<td>STAT_DEAD_YAW</td>
+<td>look this direction when dead</td>
+</tr>
+<tr>
+<td>3</td>
+<td>STAT_TEAMAURA</td>
+</tr>
+<tr>
+<td>4</td>
+<td>STAT_MAX_HEALTH</td>
+</tr>
+<tr>
+<td>5</td>
+<td>STAT_PLAYER_CLASS</td>
+</tr>
+<tr>
+<td>6</td>
+<td>STAT_XP</td>
+</tr>
+<tr>
+<td>7</td>
+<td>STAT_IDENTIFYAMMO</td>
+<td>percentage of ammo</td>
+</tr>
+<tr>
+<td>8</td>
+<td>STAT_IDENTIFYCLIP</td>
+<td>percentage of clip</td>
+</tr>
+<tr>
+<td>9</td>
+<td>STAT_XP_OVERFLOW</td>
+<td>count XP overflow (every 2^15)</td>
+</tr>
+<tr>
+<td>10</td>
+<td>STAT_PS_FLAGS</td>
+</tr>
+<tr>
+<td>11</td>
+<td>STAT_SPRINTTIME</td>
+</tr>
+<tr>
+<td>12</td>
+<td>STAT_AIRLEFT</td>
+</tr>
+<tr>
+<td>13</td>
+<td>STAT_DOGTAGS</td>
+<td>collected dogtags counter</td>
+</tr>
+</table>
+
+
+<h3><span id="ps.weaponstate">ps.weaponstate</span></h3>
+<table border="1" cellpadding="5"><tr>
+<th>Value</th>
+<th>Name</th>
+</tr>
+<tr>
+<td>0</td>
+<td>WEAPON_READY</td>
+</tr>
+<tr>
+<td>1</td>
+<td>WEAPON_RAISING</td>
+</tr>
+<tr>
+<td>2</td>
+<td>WEAPON_RAISING_TORELOAD</td>
+</tr>
+<tr>
+<td>3</td>
+<td>WEAPON_DROPPING</td>
+</tr>
+<tr>
+<td>4</td>
+<td>WEAPON_DROPPING_TORELOAD</td>
+</tr>
+<tr>
+<td>5</td>
+<td>WEAPON_FIRING</td>
+</tr>
+<tr>
+<td>6</td>
+<td>WEAPON_FIRINGALT</td>
+</tr>
+<tr>
+<td>7</td>
+<td>WEAPON_RELOADING</td>
+</tr>
+<tr>
+<td>8</td>
+<td>WEAPON_HOLSTER_IN</td>
+</tr>
+<tr>
+<td>9</td>
+<td>WEAPON_HOLSTER_OUT</td>
+</tr>
+</table>
+
+
+<h3><span id="sess.skillpoints">sess.skillpoints</span></h3>
+<table border="1" cellpadding="5"><tr>
+<th>Arrayindex</th>
+<th>Name</th>
+<th>Description</th>
+</tr>
+<tr>
+<td>0</td>
+<td>SK_BATTLE_SENSE</td>
+<td>Acquired battle sense xp</td>
+</tr>
+<tr>
+<td>1</td>
+<td>SK_EXPLOSIVES_AND_CONSTRUCTION</td>
+<td>Acquired engineer xp</td>
+</tr>
+<tr>
+<td>2</td>
+<td>SK_FIRST_AID</td>
+<td>Acquired medic xp</td>
+</tr>
+<tr>
+<td>3</td>
+<td>SK_SIGNALS</td>
+<td>Acquired fieldops xp</td>
+</tr>
+<tr>
+<td>4</td>
+<td>SK_LIGHT_WEAPONS</td>
+<td>Acquired light weapons xp</td>
+</tr>
+<tr>
+<td>5</td>
+<td>SK_HEAVY_WEAPONS</td>
+<td>Acquired heavy weapons xp</td>
+</tr>
+<tr>
+<td>6</td>
+<td>SK_MILITARY_INTELLIGENCE_AND_SCOPED_WEAPONS</td>
+<td>Acquired covert ops xp</td>
+</tr>
+</table></blockquote>
+
+<h2><span id="Functions">Functions</span></h2>
+<blockquote>
+
+<h3>et.ClientNumberFromString(name)</h3>
+<blockquote>This function searches the online playernames for the string 'name' and returns the player's clientNum.<br>
+If no or multiple matches are found, nil is returned.</blockquote>
+
+<h3>et.G_shrubbot_level(clientNum)</h3>
+<blockquote>This function returns the shrubbot level of player 'clientNum'.</blockquote>
+
+<h3>et.G_shrubbot_permission(clientNum,flag)</h3>
+<blockquote>This function returns true/false if player 'clientNum' has the permission to execute the command specified with flag 'flag'.<br>
+Flags can be found in the <a href="http://shitstorm.org/noquarter/wiki/index.php?title=Shrubbot#Command_and_Flag_Table">Shrubbot documentation</a>.</blockquote>
+
+<h3>et.G_XP_Set(clientNum,xp,skill,add)</h3>
+<blockquote>This function sets XP for clientNum or adds it to their existing XP if 'add' is "1".<br>
+'skill' sets their skill-level. This function only works if XPSave is turned on in the server config.</blockquote>
+
+<h3>et.isBitSet(bit,value)</h3>
+<blockquote>This function allows lua to handle bitmask values and returns true/false if bit 'bit' is/isnt set in 'value'.<br>
+In order to set/clear a certain bit, you can use the following helper functions:<br><br>
+<fieldset><legend>Helper Functions</legend>
+function setBit(bit,value)<br>
+if et.isBitSet(bit,value) then<br>
+return value<br>
+end<br>
+return value + bit<br>
+end<br>
+<br>
+function clearBit(bit,value)<br>
+if et.isBitSet(bit,value) then<br>
+return value - bit<br>
+end<br>
+return value<br>
+end<br>
+<br>
+function toggleBit(bit,value)<br>
+if et.isBitSet(bit,value) then<br>
+return value - bit<br>
+end<br>
+return value + bit<br>
+end</fieldset></blockquote>
+</blockquote>
+
+</body>
+</html>

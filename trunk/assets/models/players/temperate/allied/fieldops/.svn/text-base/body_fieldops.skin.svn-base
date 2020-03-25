@@ -1,0 +1,11 @@
+md3_back,		"models/players/temperate/allied/fieldops/acc/backpack.md3"
+md3_hat,		"models/players/temperate/allied/helmet.md3"
+md3_rank,		"models/players/temperate/common/rank_helmet.md3"
+
+l_legs,			"models/players/temperate/allied/leg01.tga"
+u_body,			"models/players/temperate/allied/fieldops/b_fieldops.jpg"
+u_rthand,		"models/players/temperate/allied/fieldops/b_fieldops.jpg"
+u_lfthand,		"models/players/temperate/allied/fieldops/b_fieldops.jpg"
+
+md3_hat2,		"models/players/temperate/allied/fieldops/officercap.md3"
+md3_shield,		"models/players/temperate/axis/helmetArmor.md3"

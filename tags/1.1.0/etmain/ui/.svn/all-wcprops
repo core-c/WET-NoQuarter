@@ -1,0 +1,389 @@
+K 25
+svn:wc:ra_dav:version-url
+V 41
+/svn/nq/!svn/ver/654/tags/1.1.0/etmain/ui
+END
+playonline_serverinfo.menu
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/nq/!svn/ver/654/tags/1.1.0/etmain/ui/playonline_serverinfo.menu
+END
+rec_restart.menu
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/nq/!svn/ver/654/tags/1.1.0/etmain/ui/rec_restart.menu
+END
+playonline_connecttoip.menu
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/nq/!svn/ver/654/tags/1.1.0/etmain/ui/playonline_connecttoip.menu
+END
+options_customise_game.menu
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/nq/!svn/ver/654/tags/1.1.0/etmain/ui/options_customise_game.menu
+END
+profile_delete.menu
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/nq/!svn/ver/654/tags/1.1.0/etmain/ui/profile_delete.menu
+END
+hostgame_dedicated_warning.menu
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/nq/!svn/ver/654/tags/1.1.0/etmain/ui/hostgame_dedicated_warning.menu
+END
+wm_quickmessage.menu
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/nq/!svn/ver/654/tags/1.1.0/etmain/ui/wm_quickmessage.menu
+END
+credits_idsoftware.menu
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/nq/!svn/ver/654/tags/1.1.0/etmain/ui/credits_idsoftware.menu
+END
+ingame_vote_disabled.menu
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/nq/!svn/ver/654/tags/1.1.0/etmain/ui/ingame_vote_disabled.menu
+END
+popup_password.menu
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/nq/!svn/ver/654/tags/1.1.0/etmain/ui/popup_password.menu
+END
+ingame_vote_map.menu
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/nq/!svn/ver/654/tags/1.1.0/etmain/ui/ingame_vote_map.menu
+END
+profile_create_error.menu
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/nq/!svn/ver/654/tags/1.1.0/etmain/ui/profile_create_error.menu
+END
+ingame_vote_players.menu
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/nq/!svn/ver/654/tags/1.1.0/etmain/ui/ingame_vote_players.menu
+END
+credits_quit.menu
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/nq/!svn/ver/654/tags/1.1.0/etmain/ui/credits_quit.menu
+END
+profile.menu
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/nq/!svn/ver/654/tags/1.1.0/etmain/ui/profile.menu
+END
+options_system_gamma.menu
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/nq/!svn/ver/654/tags/1.1.0/etmain/ui/options_system_gamma.menu
+END
+playonline_enablepb.menu
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/nq/!svn/ver/654/tags/1.1.0/etmain/ui/playonline_enablepb.menu
+END
+credits_splashdamage.menu
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/nq/!svn/ver/654/tags/1.1.0/etmain/ui/credits_splashdamage.menu
+END
+menudef.h
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/nq/!svn/ver/654/tags/1.1.0/etmain/ui/menudef.h
+END
+credits_et260.menu
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/nq/!svn/ver/654/tags/1.1.0/etmain/ui/credits_et260.menu
+END
+wm_ftquickmessage.menu
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/nq/!svn/ver/654/tags/1.1.0/etmain/ui/wm_ftquickmessage.menu
+END
+playonline_disablepb.menu
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/nq/!svn/ver/654/tags/1.1.0/etmain/ui/playonline_disablepb.menu
+END
+quit.menu
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/nq/!svn/ver/654/tags/1.1.0/etmain/ui/quit.menu
+END
+credits_activision.menu
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/nq/!svn/ver/654/tags/1.1.0/etmain/ui/credits_activision.menu
+END
+vid_restart.menu
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/nq/!svn/ver/654/tags/1.1.0/etmain/ui/vid_restart.menu
+END
+ingame_vote_misc_refrcon.menu
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/nq/!svn/ver/654/tags/1.1.0/etmain/ui/ingame_vote_misc_refrcon.menu
+END
+hostgame_advanced.menu
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/nq/!svn/ver/654/tags/1.1.0/etmain/ui/hostgame_advanced.menu
+END
+popup_autoupdate.menu
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/nq/!svn/ver/654/tags/1.1.0/etmain/ui/popup_autoupdate.menu
+END
+popup_errormessage_pb.menu
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/nq/!svn/ver/654/tags/1.1.0/etmain/ui/popup_errormessage_pb.menu
+END
+hostgame.menu
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/nq/!svn/ver/654/tags/1.1.0/etmain/ui/hostgame.menu
+END
+ingame_tapoutlms.menu
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/nq/!svn/ver/654/tags/1.1.0/etmain/ui/ingame_tapoutlms.menu
+END
+options_controls.menu
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/nq/!svn/ver/654/tags/1.1.0/etmain/ui/options_controls.menu
+END
+wm_ftquickmessageAlt.menu
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/nq/!svn/ver/654/tags/1.1.0/etmain/ui/wm_ftquickmessageAlt.menu
+END
+ingame_vote_players_warn.menu
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/nq/!svn/ver/654/tags/1.1.0/etmain/ui/ingame_vote_players_warn.menu
+END
+main.menu
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/nq/!svn/ver/654/tags/1.1.0/etmain/ui/main.menu
+END
+credits_additional.menu
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/nq/!svn/ver/654/tags/1.1.0/etmain/ui/credits_additional.menu
+END
+viewreplay.menu
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/nq/!svn/ver/654/tags/1.1.0/etmain/ui/viewreplay.menu
+END
+profile_rename.menu
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/nq/!svn/ver/654/tags/1.1.0/etmain/ui/profile_rename.menu
+END
+profile_create_initial.menu
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/nq/!svn/ver/654/tags/1.1.0/etmain/ui/profile_create_initial.menu
+END
+menumacros.h
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/nq/!svn/ver/654/tags/1.1.0/etmain/ui/menumacros.h
+END
+ingame_vote.menu
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/nq/!svn/ver/654/tags/1.1.0/etmain/ui/ingame_vote.menu
+END
+options_system.menu
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/nq/!svn/ver/654/tags/1.1.0/etmain/ui/options_system.menu
+END
+hostgame_advanced_default.menu
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/nq/!svn/ver/654/tags/1.1.0/etmain/ui/hostgame_advanced_default.menu
+END
+ingame_serverinfo.menu
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/nq/!svn/ver/654/tags/1.1.0/etmain/ui/ingame_serverinfo.menu
+END
+ingame_main.menu
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/nq/!svn/ver/654/tags/1.1.0/etmain/ui/ingame_main.menu
+END
+viewreplay_delete.menu
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/nq/!svn/ver/654/tags/1.1.0/etmain/ui/viewreplay_delete.menu
+END
+popup_hostgameerrormessage.menu
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/nq/!svn/ver/654/tags/1.1.0/etmain/ui/popup_hostgameerrormessage.menu
+END
+ingame_messagemode.menu
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/nq/!svn/ver/654/tags/1.1.0/etmain/ui/ingame_messagemode.menu
+END
+ingame_disconnect.menu
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/nq/!svn/ver/654/tags/1.1.0/etmain/ui/ingame_disconnect.menu
+END
+playonline.menu
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/nq/!svn/ver/654/tags/1.1.0/etmain/ui/playonline.menu
+END
+popup_serverredirect.menu
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/nq/!svn/ver/654/tags/1.1.0/etmain/ui/popup_serverredirect.menu
+END
+popup_errormessage.menu
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/nq/!svn/ver/654/tags/1.1.0/etmain/ui/popup_errormessage.menu
+END
+options_controls_default.menu
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/nq/!svn/ver/654/tags/1.1.0/etmain/ui/options_controls_default.menu
+END
+profile_create.menu
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/nq/!svn/ver/654/tags/1.1.0/etmain/ui/profile_create.menu
+END
+wm_quickmessageAlt.menu
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/nq/!svn/ver/654/tags/1.1.0/etmain/ui/wm_quickmessageAlt.menu
+END
+options_customise_hud.menu
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/nq/!svn/ver/654/tags/1.1.0/etmain/ui/options_customise_hud.menu
+END
+profile_delete_error.menu
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/nq/!svn/ver/654/tags/1.1.0/etmain/ui/profile_delete_error.menu
+END
+options.menu
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/nq/!svn/ver/654/tags/1.1.0/etmain/ui/options.menu
+END
+ingame_tapout.menu
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/nq/!svn/ver/654/tags/1.1.0/etmain/ui/ingame_tapout.menu
+END
+vid_confirm.menu
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/nq/!svn/ver/654/tags/1.1.0/etmain/ui/vid_confirm.menu
+END
+global.menu
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/nq/!svn/ver/654/tags/1.1.0/etmain/ui/global.menu
+END
+menus.txt
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/nq/!svn/ver/654/tags/1.1.0/etmain/ui/menus.txt
+END
+mods.menu
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/nq/!svn/ver/654/tags/1.1.0/etmain/ui/mods.menu
+END
+ingame_vote_misc.menu
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/nq/!svn/ver/654/tags/1.1.0/etmain/ui/ingame_vote_misc.menu
+END

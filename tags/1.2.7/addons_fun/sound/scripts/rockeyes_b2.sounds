@@ -1,0 +1,185 @@
+// **** allied commander ****
+radardef
+{
+	sound sound/extra/radardef.wav
+	voice
+	streaming
+}
+
+radardyn
+{
+	sound sound/extra/radardyn.wav
+	voice
+	streaming
+}
+
+
+radardest
+{
+	sound sound/extra/radardest.wav
+	voice
+	streaming
+}
+fbl
+{
+	sound sound/extra/fbl.wav
+	voice
+	streaming
+}
+
+fbs
+{
+	sound sound/extra/fbs.wav
+	voice
+	streaming
+}
+wallbri
+{
+	sound sound/extra/wallbri.wav
+	voice
+	streaming
+}
+
+gatedest
+{
+	sound sound/extra/gatesdest.wav
+	voice
+	streaming
+}
+radar_allies_bunker_capture
+{
+	sound sound/vo/radar/allies/hq_bunkercap.wav
+	voice
+	streaming
+}
+battery_allies_ramp_construct
+{
+	sound sound/vo/battery/allies/hq_rampcon.wav
+	voice
+	streaming
+}
+
+battery_allies_ramp_destroyed
+{
+	sound sound/vo/battery/allies/hq_rampdest.wav
+	voice
+	streaming
+}
+rockeyes_b2_allies_obj_captured
+{
+	sound sound/vo/general/allies/hq_objcap.wav
+	voice
+	streaming
+}
+
+rockeyes_b2_allies_obj_lost
+{
+	sound sound/vo/general/allies/hq_objlost.wav
+	voice
+	streaming
+}
+
+rockeyes_b2_allies_obj_destroyed
+{
+	sound sound/vo/general/allies/hq_objdest.wav
+	voice
+	streaming
+}
+
+rockeyes_b2_allies_const_destroyed
+{
+	sound sound/vo/general/allies/hq_condest_b.wav
+	voice
+	streaming
+}
+
+rockeyes_b2_allies_ramp_constructed
+{
+	sound sound/vo/battery/allies/hq_rampconst.wav
+	voice
+	streaming
+}
+
+rockeyes_b2_allies_const_completed
+{
+	sound sound/vo/general/allies/hq_conconst_b.wav
+	voice
+	streaming
+}
+
+rockeyes_b2_allies_const_failed
+{
+	sound sound/vo/general/allies/hq_confail.wav
+	voice
+	streaming
+}
+
+
+// **** axis commander ****
+radar_axis_bunker_stop
+{
+	sound sound/vo/radar/axis/hq_bunkerstop.wav
+	voice
+	streaming
+}
+battery_axis_ramp_stop
+{
+	sound sound/vo/battery/axis/hq_rampstop.wav
+	voice
+	streaming
+}
+rockeyes_b2_axis_obj_captured
+{
+	sound sound/vo/general/axis/hq_objcap.wav
+	voice
+	streaming
+}
+
+rockeyes_b2_axis_obj_lost
+{
+	sound sound/vo/general/axis/hq_objlost.wav
+	voice
+	streaming
+}
+
+rockeyes_b2_axis_obj_destroyed
+{
+	sound sound/vo/general/axis/hq_objdest.wav
+	voice
+	streaming
+}
+
+rockeyes_b2_axis_obj_secured
+{
+	sound sound/vo/general/axis/hq_objsec.wav
+	voice
+	streaming
+}
+
+rockeyes_b2_axis_ramp_destroyed
+{
+	sound sound/vo/battery/axis/hq_rampdest.wav
+	voice
+	streaming
+}
+
+rockeyes_b2_axis_ramp_constructed
+{
+	sound sound/vo/battery/axis/hq_rampconst.wav
+	voice
+	streaming
+}
+
+rockeyes_b2_axis_const_completed
+{
+	sound sound/vo/general/axis/hq_conconst_a.wav
+	voice
+	streaming
+}
+
+rockeyes_b2_axis_const_failed
+{
+	sound sound/vo/general/axis/hq_confail_b.wav
+	voice
+	streaming
+}

@@ -1,0 +1,1236 @@
+game_manager
+{
+	spawn 
+   	{
+	create
+		{
+			model "models/mapobjects/crate/crate.md3"
+			origin "5535 -3488 -10"
+			classname "misc_gamemodel"
+			modelscale 1
+			contents 1
+			mins "-30 -30 -0"
+			maxs "30 30 64"
+			clipmask 1
+			scriptname "crate"
+		} 
+create
+		{
+			model "models/mapobjects/crate/crate.md3"
+			origin "5535 -3552 -10"
+			classname "misc_gamemodel"
+			modelscale 1
+			contents 1
+			mins "-30 -30 -0"
+			maxs "30 30 64"
+			clipmask 1
+			scriptname "crate"
+		} 
+create
+		{
+			model "models/mapobjects/crate/crate.md3"
+			origin "5535 -3616 -10"
+			classname "misc_gamemodel"
+			modelscale 1
+			contents 1
+			mins "-30 -30 -0"
+			maxs "30 30 64"
+			clipmask 1
+			scriptname "crate"
+		} 
+create
+		{
+			model "models/mapobjects/crate/crate.md3"
+			origin "5535 -3680 -10"
+			classname "misc_gamemodel"
+			modelscale 1
+			contents 1
+			mins "-30 -30 -0"
+			maxs "30 30 64"
+			clipmask 1
+			scriptname "crate"
+		}
+ create
+		{
+			model "models/mapobjects/crate/crate.md3"
+			origin "5535 -3744 -10"
+			classname "misc_gamemodel"
+			modelscale 1
+			contents 1
+			mins "-30 -30 -0"
+			maxs "30 30 64"
+			clipmask 1
+			scriptname "crate"
+		} 
+ create
+		{
+			model "models/mapobjects/crate/crate.md3"
+			origin "5535 -3808 -10"
+			classname "misc_gamemodel"
+			modelscale 1
+			contents 1
+			mins "-30 -30 -0"
+			maxs "30 30 64"
+			clipmask 1
+			scriptname "crate"
+		} 
+ create
+		{
+			model "models/mapobjects/crate/crate.md3"
+			origin "5535 -3872 -10"
+			classname "misc_gamemodel"
+			modelscale 1
+			contents 1
+			mins "-30 -30 -0"
+			maxs "30 30 64"
+			clipmask 1
+			scriptname "crate"
+		} 
+//second line
+	create
+		{
+			model "models/mapobjects/crate/crate.md3"
+			origin "5535 -3488 54"
+			classname "misc_gamemodel"
+			modelscale 1
+			contents 1
+			mins "-30 -30 -0"
+			maxs "30 30 64"
+			clipmask 1
+			scriptname "crate"
+		} 
+create
+		{
+			model "models/mapobjects/crate/crate.md3"
+			origin "5535 -3552 54"
+			classname "misc_gamemodel"
+			modelscale 1
+			contents 1
+			mins "-30 -30 -0"
+			maxs "30 30 64"
+			clipmask 1
+			scriptname "crate"
+		} 
+create
+		{
+			model "models/mapobjects/crate/crate.md3"
+			origin "5535 -3616 54"
+			classname "misc_gamemodel"
+			modelscale 1
+			contents 1
+			mins "-30 -30 -0"
+			maxs "30 30 64"
+			clipmask 1
+			scriptname "crate"
+		} 
+create
+		{
+			model "models/mapobjects/crate/crate.md3"
+			origin "5535 -3680 54"
+			classname "misc_gamemodel"
+			modelscale 1
+			contents 1
+			mins "-30 -30 -0"
+			maxs "30 30 64"
+			clipmask 1
+			scriptname "crate"
+		}
+ create
+		{
+			model "models/mapobjects/crate/crate.md3"
+			origin "5535 -3744 54"
+			classname "misc_gamemodel"
+			modelscale 1
+			contents 1
+			mins "-30 -30 -0"
+			maxs "30 30 64"
+			clipmask 1
+			scriptname "crate"
+		} 
+ create
+		{
+			model "models/mapobjects/crate/crate.md3"
+			origin "5535 -3808 54"
+			classname "misc_gamemodel"
+			modelscale 1
+			contents 1
+			mins "-30 -30 -0"
+			maxs "30 30 64"
+			clipmask 1
+			scriptname "crate"
+		} 
+ create
+		{
+			model "models/mapobjects/crate/crate.md3"
+			origin "5535 -3872 54"
+			classname "misc_gamemodel"
+			modelscale 1
+			contents 1
+			mins "-30 -30 -0"
+			maxs "30 30 64"
+			clipmask 1
+			scriptname "crate"
+		} 
+//another line
+ create
+		{
+			model "models/mapobjects/crate/crate.md3"
+			origin "5471 -3872 54"
+			classname "misc_gamemodel"
+			modelscale 1
+			contents 1
+			mins "-30 -30 -0"
+			maxs "30 30 64"
+			clipmask 1
+			scriptname "crate"
+		} 
+
+ create
+		{
+			model "models/mapobjects/crate/crate.md3"
+			origin "5471 -3872 -10"
+			classname "misc_gamemodel"
+			modelscale 1
+			contents 1
+			mins "-30 -30 -0"
+			maxs "30 30 64"
+			clipmask 1
+			scriptname "crate"
+		} 
+
+ create
+		{
+			model "models/mapobjects/crate/crate.md3"
+			origin "5407 -3872 -10"
+			classname "misc_gamemodel"
+			modelscale 1
+			contents 1
+			mins "-30 -30 -0"
+			maxs "30 30 64"
+			clipmask 1
+			scriptname "crate"
+		} 
+
+ create
+		{
+			model "models/mapobjects/crate/crate.md3"
+			origin "5407 -3872 54"
+			classname "misc_gamemodel"
+			modelscale 1
+			contents 1
+			mins "-30 -30 -0"
+			maxs "30 30 64"
+			clipmask 1
+			scriptname "crate"
+		} 
+ create
+		{
+			model "models/mapobjects/crate/crate.md3"
+			origin "5343 -3872 -10"
+			classname "misc_gamemodel"
+			modelscale 1
+			contents 1
+			mins "-30 -30 -0"
+			maxs "30 30 64"
+			clipmask 1
+			scriptname "crate"
+		} 
+
+ create
+		{
+			model "models/mapobjects/crate/crate.md3"
+			origin "5343 -3872 54"
+			classname "misc_gamemodel"
+			modelscale 1
+			contents 1
+			mins "-30 -30 -0"
+			maxs "30 30 64"
+			clipmask 1
+			scriptname "crate"
+		} 
+ create
+		{
+			model "models/mapobjects/crate/crate.md3"
+			origin "5279 -3872 -10"
+			classname "misc_gamemodel"
+			modelscale 1
+			contents 1
+			mins "-30 -30 -0"
+			maxs "30 30 64"
+			clipmask 1
+			scriptname "crate"
+		} 
+
+ create
+		{
+			model "models/mapobjects/crate/crate.md3"
+			origin "5279 -3872 54"
+			classname "misc_gamemodel"
+			modelscale 1
+			contents 1
+			mins "-30 -30 -0"
+			maxs "30 30 64"
+			clipmask 1
+			scriptname "crate"
+		}
+create 
+		{
+			scriptName "objdoor1"
+			targetname "objdoor1"
+			classname "func_door_rotating"
+		       allowteams "axis"
+			type "4"
+			origin "4778 -3320 133"
+			angle "-60"
+			model "*30"
+			modelscale 1.00
+//		 	  spawnflags "5"
+		}
+		remapshaderflush
+		
+		// Game rules
+		wm_axis_respawntime	25
+		wm_allied_respawntime	15
+		wm_number_of_objectives	8
+		wm_set_round_timelimit	30
+
+		// Current main objectives for each team (0=Axis, 1=Allies)
+		wm_set_main_objective		1	0
+		wm_set_main_objective		1	1
+
+
+
+
+		// Objectives
+
+		wm_objective_status 1 0 0 ///////////////////////////The Swamp Bridge
+		wm_objective_status 1 1 0
+
+
+		wm_objective_status 2 0 0 ////////////////////////////// The Graveyard Gate
+		wm_objective_status 2 1 0
+
+		wm_objective_status 3 0 0 ///////////////////////////////The Altar
+		wm_objective_status 3 1 0
+
+		wm_objective_status 4 0 0  /////////////////////////////// The Crypt Wall
+		wm_objective_status 4 1 0
+
+		wm_objective_status 5 0 0 ///////////////////////////////// The Command Post
+		wm_objective_status 5 1 0
+
+		wm_objective_status 6 0 0 //////////////////////////////// The Bedroom Door
+		wm_objective_status 6 1 0
+	
+		wm_objective_status 7 0 0 ///////////////////////////////// The Gold
+		wm_objective_status 7 1 0
+
+		wm_objective_status 8 0 0 ///////////////////////////////// The Assault Ramp
+		wm_objective_status 8 1 0
+
+		//Accum values
+		
+		
+
+		// Stopwatch mode defending team (0=Axis, 1=Allies)
+		wm_set_defending_team	0
+
+		// Winner on expiration of round timer (0=Axis, 1=Allies, -1=no winner at expiration)
+		wm_setwinner	0 //Axis are Defending
+
+		
+
+		wait 150
+
+		setautospawn	"Allied Spawn"	1 //Uses name from description field of team_WOLF_objective
+		setautospawn	"Forward Spawn"	0
+//		setstate "axis spawn 2" invisible
+		
+		wait 350
+
+		wm_teamvoiceannounce 1 "fueldump_allies_bridge_construct"
+     		wm_teamvoiceannounce 0 "fueldump_axis_bridge_stop"
+		
+		wm_teamvoiceannounce 1 "radar_allies_entrances_destroy"
+     		wm_teamvoiceannounce 0 "radar_axis_entrances_defend"
+		
+		wm_teamvoiceannounce 1 "radar_allies_bunker_capture"
+     		wm_teamvoiceannounce 0 "radar_axis_bunker_stop"
+		
+
+		
+		wait 2000
+		
+   	}
+
+
+
+trigger dynamiteobj1_destroyed
+	{
+
+
+		// spawns:
+		// Allied Spawn
+		// Forward Spawn
+		// Axis Spawn
+		
+		setautospawn "Forward Spawn" 1
+		setautospawn "Axis Spawn" 0 
+
+		trigger forwardspawn1_flag kill // Switch forward spawn to Allied ONLY
+		
+
+		wait 1000
+
+		
+	}
+	
+
+
+
+   trigger ALLIED_checkgame
+   {
+      
+      
+	wm_announce "^2The Allies have secured the Leprechaun´s Gold and saved the Virgin ! phew ^^"
+	
+     		wm_teamvoiceannounce 0 "endround"	
+		wm_teamvoiceannounce 1 "endround"	
+
+		wm_objective_status 7 0 2
+		wm_objective_status 7 1 1
+
+      wm_setwinner 1
+      wm_endround
+   }
+
+
+
+}
+
+
+
+//////////////////////////////////////////////////////////////
+
+// SECURE: team_CTF_redflag = docu's
+
+scr_AXIS_GOLD
+{
+   spawn
+   {
+      wait 200
+	
+
+   }
+
+   trigger stolen
+   {
+      wm_teamvoiceannounce 1 "Secure the Docu's"
+      wm_teamvoiceannounce 0 "The Axis have stolen the Docu's"
+	
+wm_objective_status 7 0 2
+wm_objective_status 7 1 1
+	
+
+   }
+
+   trigger returned
+   {
+      wm_teamvoiceannounce 1 "The Axis have retrieved the docu's"
+      wm_teamvoiceannounce 0 "Docu's returned! Protect the docu's"
+
+wm_objective_status 7 0 1
+wm_objective_status 7 1 2
+
+
+   }
+
+   trigger captured
+   {
+   }
+}
+
+// trigger_flagonly_multiple
+
+scr_AXIS_GOLD_flagonly
+{
+   spawn
+   {
+   }
+
+   death
+   {
+     
+
+      wm_announce "^2The Allies have secured the Leprechaun´s Gold and saved all the Beer! phew ^^"
+
+	wm_teamvoiceannounce 1 "allies_hq_objective_captured"
+	wm_teamvoiceannounce 0 "axis_hq_objective_lost"
+
+      trigger game_manager ALLIED_checkgame
+   }
+
+}
+
+
+// ============================================================================
+// Forward Spawn point - Initially owned by Axis
+//
+// ============================================================================
+forwardspawn1_flag
+{
+	spawn
+	{
+		accum 0 set 0			// Who owns flag: 0-Axis, 1-Allied
+	}
+
+	trigger axis_capture				// Touched by an Axis player
+	{
+		accum 0 abort_if_equal 0 		// do Axis own flag?
+
+		accum 0 set 0 			// Axis own the flag
+
+		wm_announce "^1Axis reclaim the Forward Spawn!"
+
+		wm_teamvoiceannounce 1 "radar_allies_bunker_reclaimed"
+		wm_teamvoiceannounce 0 "radar_axis_bunker_reclaimed"
+
+		alertentity forwardspawn1_wobj		// Switch command map marker
+		
+		
+		setautospawn "Forward Spawn"	0	// Set Axis to forward spawn
+		
+	}
+
+	trigger allied_capture				// Touched by an allied player
+	{
+		accum 0 abort_if_equal 1 		// do Allies own flag?
+
+		accum 0 set 1 			// Allied own the flag
+		wm_announce "^3Allies capture the Forward Spawn!"
+
+		wm_teamvoiceannounce 1 "radar_allies_bunker_captured"
+		wm_teamvoiceannounce 0 "radar_axis_bunker_captured"
+
+		alertentity forwardspawn1_wobj		// Switch command map marker
+		setautospawn "Forward Spawn"	1	// Set Allies to forward spawn
+		setautospawn "Axis Spawn"	0	// Set Axis to Axis spawn
+	
+	}
+
+
+	trigger kill
+	{
+		
+		remove
+	}
+
+	trigger check_obj
+	{
+		accum 0 abort_if_equal 1 // Do Allied own the flag?
+
+
+
+	}
+
+	trigger force_allied
+	{
+		accum 0 abort_if_equal 1 		// Do Allies own the flag?
+		alertentity forwardspawn1_wobj		// Switch command map marker
+		alertentity forwardspawn1_spawns		// Switch all spawnpoints
+						
+	}
+	
+}
+
+dynamiteobj1
+{
+	spawn
+	{
+		wait 50				// Wait for all entities to spawn
+		constructible_class 3			// Dynamite only
+	}
+
+	death
+	{
+
+		
+		
+		wm_teamvoiceannounce 1 "allies_hq_const_destroyed"
+
+		wm_objective_status 3 0 2
+		wm_objective_status 3 1 1	
+
+		wm_announce "Allies have destroyed the ^3Altar!"
+	}
+}
+
+
+dynamiteobj2
+{
+	spawn
+	{
+		wait 50				// Wait for all entities to spawn
+		constructible_class 3			// Dynamite only
+	}
+
+	death
+	{
+		trigger forwardspawn1_flag force_allied 	// Switch forward spawn to Allied ONLY
+		trigger forwardspawn1_flag kill		// Remove entities
+		trigger defense1 remove 		// Remove the Graveyard Gate
+		trigger defense2 remove 		// Remove the Back Door
+		trigger forwardspawn1_flag check_obj
+		trigger game_manager dynamiteobj1_destroyed
+
+		wm_announce "Allies have destroyed the ^3Crypt Wall!^w and secured the Forward Spawn!"
+		setautospawn	"Allied CP Spawn"	1
+		wm_teamvoiceannounce 1 "allies_hq_const_destroyed"
+		
+		
+		setstate axisteamdoor1 invisible
+		setstate axisteamdoor2 invisible
+		setstate axisteamdoor3 invisible
+		
+		
+		wm_objective_status 4 0 2
+		wm_objective_status 4 1 1
+	}
+}
+
+
+
+
+bedroomdoor
+{
+	spawn
+	{
+		wait 50				// Wait for all entities to spawn
+		constructible_class 3			// Dynamite only
+	}
+
+	death
+	{	
+		wm_teamvoiceannounce 1 "allies_hq_const_destroyed"
+		wm_objective_status 6 0 2
+		wm_objective_status 6 1 1
+		
+		
+
+		
+		
+		wm_teamvoiceannounce 1 "goldrush_allies_gold_get"
+
+		wm_teamvoiceannounce 0 "goldrush_axis_gold_defend"
+
+		wm_announce "Allies have destroyed the ^3Bedroom Door!^w!"
+	}
+}
+
+
+
+
+defense1
+{
+	spawn
+	{
+		wait 400
+		trigger defense1 setup
+
+		constructible_class 2
+	}
+
+	trigger setup
+	{
+		setstate defense1_materials invisible
+		setstate defense1_materials_clip invisible
+		setstate defense1_toi default
+		setstate gatezacken default
+		
+		
+	}
+
+	buildstart final
+	{
+		setstate defense1_materials default
+		setstate defense1_materials_clip default
+		
+
+
+		
+	}
+
+	built final
+	{
+
+		trigger defense1 setup
+		
+		wm_teamvoiceannounce 0 "axis_hq_const_completed"
+			
+		wm_objective_status 2 0 1
+		wm_objective_status 2 1 2
+		
+		wm_announce "^1The Graveyard Gate has been constructed !"
+		
+	}
+
+	decayed final
+	{
+		setstate defense1_materials default
+		setstate defense1_materials_clip default
+		setstate gatezacken invisible
+
+
+	}
+
+	death
+	{
+		setstate defense1_materials default
+		setstate defense1_materials_clip default
+		setstate gatezacken invisible
+		setstate defense1_toi default
+
+		wm_teamvoiceannounce 1 "allies_hq_const_destroyed"
+		
+		wm_objective_status 2 0 2
+		wm_objective_status 2 1 1
+
+		wm_announce "^3The Graveyard Gate has been destroyed."
+
+				
+	}
+
+	trigger remove
+	{
+		setstate defense1_toi invisible
+		setstate defense1_materials invisible
+		setstate defense1_materials_clip invisible
+		setstate gatezacken invisible
+		
+
+		remove
+	}
+}
+
+
+//Axis MG
+
+axisconstruct1
+{
+	spawn
+	{
+		wait 50
+		
+		constructible_class 2			// Dyno+Satchel
+
+		setstate axisconstruct1_materials default	// Crate Models
+		setstate axisconstruct1_clip default	// Clip brushes
+		
+
+		setstate axisconstruct1_mg42 invisible	// MG42 entity
+
+	}
+
+	buildstart final
+
+ 
+   	{ 
+	setstate axisconstruct1_mg42 underconstruction
+   	} 
+	
+	
+	built final
+	{
+		setstate axisconstruct1_materials invisible	// Crate Models
+		setstate axisconstruct1_clip invisible	// Clip brushes
+		
+		setstate axisconstruct1_mg42 default	// MG42 entity
+		wm_teamvoiceannounce 0 "axis_hq_const_completed"
+		wm_announce "^1Axis Team have built the BLAH MG42 nest!!"
+	}
+
+	decayed final
+	{
+		setstate axisconstruct1_materials invisible	// Crate Models
+		setstate axisconstruct1_clip invisible	// Clip brushes
+		
+		setstate axisconstruct1_mg42 default
+	}
+
+	death
+	{
+		trigger self setup
+		wm_announce "^3Allies have destroyed the BLAH MG42 Nest!!" 
+		repairmg42 axisconstruct1_mg42	
+
+		wm_teamvoiceannounce 1 "allies_hq_const_destroyed"
+		
+	}
+
+
+
+	trigger setup
+	{
+		setstate axisconstruct1_materials default	// Crate Models
+		setstate axisconstruct1_clip default	// Clip brushes
+		
+
+		setstate axisconstruct1_mg42 invisible	// MG42 entity
+		
+	}
+
+	
+
+	
+	
+	
+
+
+}
+
+
+/////////////////////////////////////SWAMP BRIDGE
+
+
+alliedconstruct1
+{
+	spawn
+	{
+		wait 400
+		
+
+		constructible_class 2
+	}
+
+	
+	buildstart final
+	{
+		setstate alliedconstruct1_materials default
+		setstate alliedconstruct1_clip default
+		
+
+
+		
+	}
+
+	built final
+	{
+
+		
+		
+		setstate alliedconstruct1_materials invisible
+		setstate alliedconstruct1_clip invisible
+		
+		wm_teamvoiceannounce 1 "fueldump_allies_bridge_constructed"
+		wm_teamvoiceannounce 0 "fueldump_axis_bridge_destroy"
+
+		wm_objective_status 1 0 2
+		wm_objective_status 1 1 1
+	
+		wm_announce "^3The Swamp Bridge has been constructed !"
+		
+	}
+
+	decayed final
+	{
+		setstate alliedconstruct1_materials default
+		setstate alliedconstruct1_clip default
+		
+
+
+	}
+
+	death
+	{
+		setstate alliedconstruct1_materials default
+		setstate alliedconstruct1_clip default
+		
+		setstate alliedconstruct1_toi default
+
+		wm_objective_status 1 0 1
+		wm_objective_status 1 1 2
+
+		wm_announce "^1The Swamp Bridge has been destroyed."
+
+	
+		wm_teamvoiceannounce 0 "fueldump_axis_bridge_destroyed"
+		wm_teamvoiceannounce 1 "fueldump_allies_bridge_destroyed"		
+	}
+
+	
+}
+
+
+
+
+/////////////////////////////////////ASSAULT RAMP
+
+alliedconstruct2
+{
+	spawn
+	{
+		wait 400
+		
+
+		constructible_class 3
+	}
+
+	
+	buildstart final
+	{
+		setstate alliedconstruct2_materials default
+		setstate alliedconstruct2_clip default
+		
+
+
+		
+	}
+
+	built final
+	{
+
+		
+		
+		setstate alliedconstruct2_materials invisible
+		setstate alliedconstruct2_clip invisible
+		
+		wm_teamvoiceannounce 1 "battery_allies_ramp_constructed"
+		wm_teamvoiceannounce 0 "battery_axis_ramp_constructed"
+
+		wm_objective_status 8 0 2
+		wm_objective_status 8 1 1
+	
+		wm_announce "^3The Assault Ramp has been constructed !"
+		
+	}
+
+	decayed final
+	{
+		setstate alliedconstruct2_materials default
+		setstate alliedconstruct2_clip default
+		
+
+
+	}
+
+	death
+	{
+		setstate alliedconstruct2_materials default
+		setstate alliedconstruct2_clip default
+		
+		setstate alliedconstruct2_toi default
+
+		wm_objective_status 8 0 1
+		wm_objective_status 8 1 2
+
+		wm_announce "^1The Assault Ramp has been destroyed."
+		wm_teamvoiceannounce 1 "battery_allies_ramp_construct"
+	
+		wm_teamvoiceannounce 0 "battery_axis_ramp_destroyed"
+		wm_teamvoiceannounce 1 "battery_allies_ramp_destroyed"		
+	}
+
+	
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ================================================
+// ============ NEUTRAL COMMAND POST ==============
+// ================================================
+
+allied_compost_built
+{
+	spawn
+	{
+		wait 400
+		trigger allied_compost_built setup
+
+		constructible_class 2
+	}
+
+	trigger setup
+	{
+		setchargetimefactor 1 soldier 1
+		setchargetimefactor 1 lieutenant 1
+		setchargetimefactor 1 medic 1
+		setchargetimefactor 1 engineer 1
+		setchargetimefactor 1 covertops 1
+		sethqstatus 1 0
+	}
+
+	buildstart final
+	{
+		setstate allied_compost_built_model underconstruction
+		setstate neutral_compost_closed_clip invisible
+		setstate neutral_compost_closed_model invisible
+	}
+
+	built final
+	{
+		setstate allied_compost_built_model default
+		setstate neutral_compost_closed_clip invisible
+		setstate neutral_compost_closed_model invisible
+
+		trigger allied_compost_built_model enable_allied_features
+
+		trigger alliedcpspawns_obj on
+		
+		wm_objective_status 5 0 2
+		wm_objective_status 5 1 1
+
+
+		enablespeaker allies_compost_sound
+	}
+
+	decayed final
+	{
+		setstate allied_compost_built_model invisible
+		setstate neutral_compost_closed_clip default
+		setstate neutral_compost_closed_model default
+	}
+
+	death
+	{
+		setstate allied_compost_built_model invisible
+		setstate neutral_compost_closed_clip default
+		setstate neutral_compost_closed_model default
+
+		trigger allied_compost_built_model disable_allied_features
+		
+		trigger alliedcpspawns_obj off
+
+		wm_objective_status 5 0 1
+		wm_objective_status 5 1 2
+		
+
+		disablespeaker allies_compost_sound
+	}
+}
+
+allied_compost_built_model
+{
+	spawn
+	{
+		wait 400
+		setstate allied_compost_built_model invisible
+	}
+
+	trigger enable_allied_features
+	{
+		setchargetimefactor 1 soldier 0.75
+		setchargetimefactor 1 lieutenant 0.75
+		setchargetimefactor 1 medic 0.75
+		setchargetimefactor 1 engineer 0.75
+		setchargetimefactor 1 covertops 0.75
+		sethqstatus 1 1
+
+		wm_announce	"Allied Command Post constructed. Charge speed increased! Extra Spawn activated!"
+		
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "axis_hq_compost_constructed_allies"
+
+		wm_teamvoiceannounce 1 "allies_hq_compost_constructed"
+
+		wm_removeteamvoiceannounce 1 "allies_hq_compost_construct"
+		// *---------------------------------------------------------------------------------*
+
+	}
+
+	trigger disable_allied_features
+	{
+		setchargetimefactor 1 soldier 1
+		setchargetimefactor 1 lieutenant 1
+		setchargetimefactor 1 medic 1
+		setchargetimefactor 1 engineer 1
+		setchargetimefactor 1 covertops 1
+		sethqstatus 1 0
+
+		wm_announce	"Axis team has destroyed the Allied Command Post!"
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_addteamvoiceannounce 0 "axis_hq_compost_construct"
+
+		wm_addteamvoiceannounce 1 "allies_hq_compost_construct"
+
+		wm_teamvoiceannounce 0 "axis_hq_compost_construct"
+
+		wm_teamvoiceannounce 1 "allies_hq_compost_damaged"
+		// *---------------------------------------------------------------------------------*
+
+		
+	}
+}
+
+axis_compost_built
+{
+	spawn
+	{
+		wait 400
+		trigger axis_compost_built setup
+
+		constructible_class 2
+	}
+
+	trigger setup
+	{
+		setchargetimefactor 0 soldier 1
+		setchargetimefactor 0 lieutenant 1
+		setchargetimefactor 0 medic 1
+		setchargetimefactor 0 engineer 1
+		setchargetimefactor 0 covertops 1
+		sethqstatus 0 0
+	}
+
+	buildstart final
+	{
+		setstate axis_compost_built_model underconstruction
+		setstate neutral_compost_closed_clip invisible
+		setstate neutral_compost_closed_model invisible
+	}
+
+	built final
+	{
+		setstate axis_compost_built_model default
+		setstate neutral_compost_closed_clip invisible
+		setstate neutral_compost_closed_model invisible
+
+		trigger axis_compost_built_model enable_axis_features
+		
+		wm_objective_status 5 0 1
+		wm_objective_status 5 1 2
+		
+		
+
+		enablespeaker axis_compost_sound
+	}
+
+	decayed final
+	{
+		setstate axis_compost_built_model invisible
+		setstate neutral_compost_closed_clip default
+		setstate neutral_compost_closed_model default
+	}
+
+	death
+	{
+		setstate axis_compost_built_model invisible
+		setstate neutral_compost_closed_clip default
+		setstate neutral_compost_closed_model default
+
+		trigger axis_compost_built_model disable_axis_features
+
+		wm_objective_status 5 0 2
+		wm_objective_status 5 1 1
+
+		disablespeaker axis_compost_sound
+	}
+}
+
+axis_compost_built_model
+{
+	spawn
+	{
+		wait 400
+		setstate axis_compost_built_model invisible
+	}
+
+	trigger enable_axis_features
+	{
+		setchargetimefactor 0 soldier 0.75
+		setchargetimefactor 0 lieutenant 0.75
+		setchargetimefactor 0 medic 0.75
+		setchargetimefactor 0 engineer 0.75
+		setchargetimefactor 0 covertops 0.75
+		sethqstatus 0 1
+
+		wm_announce	"Axis Command Post constructed. Charge speed increased!"
+		
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "axis_hq_compost_constructed"
+
+		wm_teamvoiceannounce 1 "allies_hq_compost_constructed_axis"
+
+		wm_removeteamvoiceannounce 0 "axis_hq_compost_construct"
+		// *---------------------------------------------------------------------------------*
+
+	}
+
+	trigger disable_axis_features
+	{
+		setchargetimefactor 0 soldier 1
+		setchargetimefactor 0 lieutenant 1
+		setchargetimefactor 0 medic 1
+		setchargetimefactor 0 engineer 1
+		setchargetimefactor 0 covertops 1
+		sethqstatus 0 0
+
+		wm_announce	"Allied team has destroyed the Axis Command Post!"
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_addteamvoiceannounce 0 "axis_hq_compost_construct"
+
+		wm_addteamvoiceannounce 1 "allies_hq_compost_construct"
+
+		wm_teamvoiceannounce 0 "axis_hq_compost_damaged"
+
+		wm_teamvoiceannounce 1 "allies_hq_compost_construct"
+		// *---------------------------------------------------------------------------------*
+
+		wm_objective_status 4 0 0
+		wm_objective_status 4 1 1
+	}
+}
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////Trigger for the Spawnpoints
+////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+alliedcpspawns_obj
+{
+	spawn
+	{
+		wait 50
+		setstate alliedcpspawns_obj invisible
+		setstate alliedcpspawns invisible
+	}
+
+	trigger on
+	{
+		setstate alliedcpspawns_obj default
+		setstate alliedcpspawns default
+	}
+
+	trigger off
+	{
+		setstate alliedcpspawns_obj invisible
+		setstate alliedcpspawns invisible
+	}
+}
+
+alliedcpspawns
+{
+	spawn
+	{
+		wait 50
+		setstate alliedcpspawns invisible
+	}
+}
+

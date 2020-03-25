@@ -1,0 +1,52 @@
+weaponDef
+{
+	both {
+		name					"Satchel Charge"
+		statname				"Satchel"
+		damage					260
+		splashdamage			260
+		splashdamage_radius		300
+		selfKillMessage			"embraced his own satchel explosion."
+		KillMessage				"was blasted by"
+		KillMessage2			"'s Satchel Charge."
+		GibbingWeapon
+	}
+
+	client {
+		weaponConfig			"models/multiplayer/satchel/weapon.cfg"
+		handsModel				"models/multiplayer/satchel/v_satchel_hand.md3"
+
+		weaponIcon				"icons/iconw_satchel"
+		weaponSelectedIcon		"icons/iconw_satchel_1_select"
+
+		missileModel			"models/multiplayer/satchel/satchel_world.md3"
+		missileaxisskin			"models/multiplayer/satchel/satchel_axis.skin"
+		missilealliedskin		"models/multiplayer/satchel/satchel_allied.skin"
+
+		firstPerson {
+			model				"models/multiplayer/satchel/v_satchel.md3"
+			axisskin			"models/multiplayer/satchel/satchel_axis.skin"
+			alliedskin			"models/multiplayer/satchel/satchel_allied.skin"
+
+			weaponLink
+			{
+				part 0
+				{
+					tag			"tag_barrel"
+					model		"models/multiplayer/satchel/v_satchel_barrel.md3"
+				}
+				part 1
+				{
+					tag			"tag_barrel2"
+					model		"models/multiplayer/satchel/v_satchel_barrel2.md3"
+				}
+			}
+		}
+
+		thirdPerson {
+			model				"models/multiplayer/satchel/satchel.md3"
+			axisskin			"models/multiplayer/satchel/satchel_axis.skin"
+			alliedskin			"models/multiplayer/satchel/satchel_allied.skin"
+		}
+	}
+}

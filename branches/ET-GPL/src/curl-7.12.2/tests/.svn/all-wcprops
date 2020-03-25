@@ -1,0 +1,83 @@
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/tests
+END
+testcurl.pl
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/tests/testcurl.pl
+END
+httpserver.pl
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/tests/httpserver.pl
+END
+getpart.pm
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/tests/getpart.pm
+END
+runtests.pl
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/tests/runtests.pl
+END
+Makefile.in
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/tests/Makefile.in
+END
+httpsserver.pl
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/tests/httpsserver.pl
+END
+FILEFORMAT
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/tests/FILEFORMAT
+END
+stunnel.pem
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/tests/stunnel.pem
+END
+Makefile.am
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/tests/Makefile.am
+END
+ftpserver.pl
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/tests/ftpserver.pl
+END
+memanalyze.pl
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/tests/memanalyze.pl
+END
+README
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/tests/README
+END
+ftpsserver.pl
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/tests/ftpsserver.pl
+END

@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/nq/!svn/ver/822/tags/1.2.0/assets/sound/weapons/poison
+END
+poison_slash2.wav
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/nq/!svn/ver/822/tags/1.2.0/assets/sound/weapons/poison/poison_slash2.wav
+END
+poison_hit.wav
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/nq/!svn/ver/822/tags/1.2.0/assets/sound/weapons/poison/poison_hit.wav
+END
+poison_hitwall.wav
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/nq/!svn/ver/822/tags/1.2.0/assets/sound/weapons/poison/poison_hitwall.wav
+END
+poison_slash1.wav
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/nq/!svn/ver/822/tags/1.2.0/assets/sound/weapons/poison/poison_slash1.wav
+END

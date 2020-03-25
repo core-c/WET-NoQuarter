@@ -1,0 +1,125 @@
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/unix
+END
+staticlinkcpp.sh
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/unix/staticlinkcpp.sh
+END
+unix_glw.h
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/unix/unix_glw.h
+END
+wolf.vpw
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/unix/wolf.vpw
+END
+linux_qgl.c
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/unix/linux_qgl.c
+END
+linux_snd.c
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/unix/linux_snd.c
+END
+qasm.h
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/unix/qasm.h
+END
+ChangeLog
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/unix/ChangeLog
+END
+linux_common.c
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/unix/linux_common.c
+END
+unix_shared.c
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/unix/unix_shared.c
+END
+matha.spp
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/unix/matha.spp
+END
+linux_local.h
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/unix/linux_local.h
+END
+linux_joystick.c
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/unix/linux_joystick.c
+END
+linux_signals.c
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/unix/linux_signals.c
+END
+ftol.nasm
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/unix/ftol.nasm
+END
+snd_mixa.spp
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/unix/snd_mixa.spp
+END
+snapvector.asm
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/unix/snapvector.asm
+END
+linux_glimp.c
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/unix/linux_glimp.c
+END
+unix_main.c
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/unix/unix_main.c
+END
+unix_net.c
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/unix/unix_net.c
+END
+symbolcheck.pl
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/unix/symbolcheck.pl
+END

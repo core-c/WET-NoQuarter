@@ -1,0 +1,2 @@
+- Nobody will be forced to download maps before it is needed to be played.
+- unwanted campaing names are disabled

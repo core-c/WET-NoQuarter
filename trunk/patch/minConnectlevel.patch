@@ -1,0 +1,169 @@
+Index: docs/Example/config/server.cfg
+===================================================================
+--- docs/Example/config/server.cfg	(revision 1647)
++++ docs/Example/config/server.cfg	(working copy)
+@@ -272,6 +272,7 @@
+ set g_bot_flags 0
+ set g_killSpreeSound ""
+ set g_deathSpreeSound ""
++set g_minConnectLevel 0
+ 
+ exec campaigncycle.cfg
+ set com_watchdog 60
+Index: docs/index.html
+===================================================================
+--- docs/index.html	(revision 1647)
++++ docs/index.html	(working copy)
+@@ -38,23 +38,23 @@
+ </tr><tr>
+ <td><a href="#g_killingSpreeSound_X">g_killingSpreeSound_X</a></td>
+ <td><a href="#g_maxXPResetWarn">g_maxXPResetWarn</a></td>
++<td><a href="#g_minConnectLevel">g_minConnectLevel</a></td>
+ <td><a href="#g_XPDecayRate">g_XPDecayRate</a></td>
++</tr><tr>
+ <td><a href="#g_XPSaveMaxAge">g_XPSaveMaxAge</a></td>
+-</tr><tr>
+ <td><a href="#g_XPSaveMaxAge_xp">g_XPSaveMaxAge_xp</a></td>
+ <td><a href="#team_maxCovertOps">team_maxCovertOps</a></td>
+ <td><a href="#team_maxEngineers">team_maxEngineers</a></td>
++</tr><tr>
+ <td><a href="#team_maxFieldOps">team_maxFieldOps</a></td>
+-</tr><tr>
+ <td><a href="#team_maxFlamers">team_maxFlamers</a></td>
+ <td><a href="#team_maxGrenLaunchers">team_maxGrenLaunchers</a></td>
+ <td><a href="#team_maxMedics">team_maxMedics</a></td>
++</tr><tr>
+ <td><a href="#team_maxMG42s">team_maxMG42s</a></td>
+-</tr><tr>
+ <td><a href="#team_maxMortars">team_maxMortars</a></td>
+ <td><a href="#team_maxPanzers">team_maxPanzers</a></td>
+ <td>&nbsp;</td>
+-<td>&nbsp;</td>
+ </tr>
+ </table>
+ 
+@@ -2740,6 +2740,14 @@
+ <br>Only valid when g_gametype is 6 (see <a href="#mapvoting">Map Voting</a>)</p>
+ <p>Default is ""</p>
+ 
++<a name="g_minConnectLevel"></a>
++<dt>g_minConnectLevel [integer]
++<dd>
++<p>The minimum shrubbot adminlevel required for players to be able to connect.
++When set to 0 everyone can connect.</p>
++<p><b>NOTE:</b> Bots won't be enable to connect either.</p>
++<p>Default is 0</p>
++
+ <a name="omnibot_enable"></a>
+ <dt>omnibot_enable [1|0]
+ <dd>
+Index: src/game/g_client.c
+===================================================================
+--- src/game/g_client.c	(revision 1647)
++++ src/game/g_client.c	(working copy)
+@@ -2056,6 +2056,14 @@
+ 
+ 	}
+ 
++	// Dens: Only check when it's greater than 0 to prevent
++	// level 0 users from being kicked
++	if(g_minConnectLevel.integer > 0){
++		if(G_shrubbot_levelconnect_check(userinfo, reason)) {
++			return va("%s\n", reason);
++		}
++	}
++
+ 	// Xian - check for max lives enforcement ban
+ 	if( g_gametype.integer != GT_WOLF_LMS ) {
+ 		if( g_enforcemaxlives.integer && (g_maxlives.integer > 0 || g_axismaxlives.integer > 0 || g_alliedmaxlives.integer > 0) ) {
+Index: src/game/g_local.h
+===================================================================
+--- src/game/g_local.h	(revision 1647)
++++ src/game/g_local.h	(working copy)
+@@ -2407,6 +2407,9 @@
+ extern vmCvar_t g_fixedphysics;
+ extern vmCvar_t g_fixedphysicsfps;
+ 
++// Dens: minimum shrubbot adminlevel
++extern vmCvar_t		g_minConnectLevel;
++
+ void	trap_Printf( const char *fmt );
+ void	trap_Error( const char *fmt );
+ int		trap_Milliseconds( void );
+Index: src/game/g_main.c
+===================================================================
+--- src/game/g_main.c	(revision 1647)
++++ src/game/g_main.c	(working copy)
+@@ -496,6 +496,9 @@
+ vmCvar_t g_watermarkFadeTime;
+ // HOLLEMOD - END
+ 
++// Dens: minimum shrubbot adminlevel
++vmCvar_t		g_minConnectLevel;
++
+ cvarTable_t		gameCvarTable[] = {
+ 	// don't override the cheat state set by the system
+ 	{ &g_cheats, "sv_cheats", "", 0, qfalse },
+@@ -1010,6 +1013,9 @@
+ 	{ &g_watermarkFadeTime, "g_watermarkFadeTime", "0", CVAR_SYSTEMINFO, 0, qfalse},
+ 	// HOLLEMOD - END
+ 
++	// Dens: minimum shrubbot adminlevel
++	{ &g_minConnectLevel, "g_minConnectLevel", "0", 0, 0, qfalse },
++
+ 	{ NULL, "mod_version", ETPUB_VERSION, CVAR_SERVERINFO | CVAR_ROM },
+ 	{ NULL, "mod_url", "http://etpub.org", CVAR_SERVERINFO | CVAR_ROM },
+ 	// Omni-bot user defined path to load bot library from.
+Index: src/game/g_shrubbot.c
+===================================================================
+--- src/game/g_shrubbot.c	(revision 1647)
++++ src/game/g_shrubbot.c	(working copy)
+@@ -765,6 +765,36 @@
+ 	return qfalse;
+ }
+ 
++qboolean G_shrubbot_levelconnect_check(char *userinfo, char *reason) 
++{
++	char *guid;
++	int i;
++
++	if(*userinfo){
++		guid = Info_ValueForKey(userinfo, "cl_guid");
++			
++		if(*guid){
++			for(i=0; g_shrubbot_admins[i]; i++) {
++				if(!Q_stricmp(g_shrubbot_admins[i]->guid, guid)) {
++					if(g_shrubbot_admins[i]->level >= g_minConnectLevel.integer){
++						return qfalse;
++					}else{
++						break;
++					}
++				}
++			}
++		}
++	}
++
++	Com_sprintf(
++		reason, 
++		MAX_STRING_CHARS,
++		"This server is closed for users that don't have adminlevel %i or higher.\n", 
++		g_minConnectLevel.integer
++		);
++	return qtrue;
++}
++
+ qboolean G_shrubbot_cmd_check(gentity_t *ent)
+ {
+ 	int i;
+Index: src/game/g_shrubbot.h
+===================================================================
+--- src/game/g_shrubbot.h	(revision 1647)
++++ src/game/g_shrubbot.h	(working copy)
+@@ -89,6 +89,7 @@
+ 
+ qboolean G_shrubbot_tempban(int clientnum, char *reason, int length);
+ qboolean G_shrubbot_ban_check(char *userinfo, char *reason);
++qboolean G_shrubbot_levelconnect_check(char *userinfo, char *reason);
+ qboolean G_shrubbot_cmd_check(gentity_t *ent);
+ qboolean G_shrubbot_readconfig(gentity_t *ent, int skiparg);
+ qboolean G_shrubbot_time(gentity_t *ent, int skiparg);

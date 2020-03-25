@@ -1,0 +1,150 @@
+// This basically fills out weaponInfo_t
+weaponDef
+{
+	/*
+		// valid keys for both and both_altweap
+		// Note for properties with # you don't need to set a value; The entry itself activates.
+		// If You change recoil, set all 3 properties: recoilDuration, recoilPitch & recoilYaw.
+		name					// name of the weapon - max 22 chars 
+		statname				// name used in stats - kind of short name (max 11 chars)
+		damage					// damage each hit makes
+		spread					// spread of weapon
+		spreadRatio				// ratio at which is spread increased by moving/turning
+		SpreadScaleAdd			// amount of spread to add as trigger is held
+		SpreadScaleAddRand		// random amount of spread to add as trigger is held
+		velocity2spread			//# moving around will cause weapon to increase it's spread
+		viewchange2spread		//# turning around will cause weapon to increase it's spread
+		coolRate				// rate at which weapon cools for weapons with heat
+		defaultStartingAmmo		// amount of ammo you start with
+		defaultStartingClip		// amount in first clip you start with
+		fireDelayTime			// amount of time before firing first round
+		maxammo					// maximum amount of ammo you can carry
+		maxclip					// maximum amount of ammo per clip
+		maxHeat					// time it takes for weapon to overheat
+		mod 					// shouldn't be modified
+		nextShotTime			// time between fired rounds
+		reloadTime 				// shouldn't be modified, data is taken from animation file instead
+		recoilDuration			// amount of time recoil lasts
+		recoilPitch 			// float
+		recoilYaw 				// float
+		KillMessage				// obituary "was blasted by"
+		KillMessage2			// obituary "'s panzerfaust"
+		selfKillMessage			// self kill obituary
+		movementSpeedScale		// slows down player for heavy weapons
+		CrouchSpreadRatio		// spread modifier when crouching with weapon
+		ProneSpreadRatio		// spread modifier when proning with weapon
+		noMidclipReload			// weapon cannot be reloaded unless it's clip is empty
+		HeadshotRatio			// multiplier of damage when headshot is inflicted with this weapon
+		minHeadshotDamage		// minimal damage that can be inflicted by headshot with this weapon
+		HeadshotWeapon	 		//# can make headshots
+		bulletReflection		//# bullets may reflect off metal
+		DistanceFalloff			//# weapon damage is diminished when attacking further targets
+		GibbingWeapon			//# can turn player into gibs
+		limboKill				//# unrevivable when killed with this weapon
+	*/	
+	both {
+
+	}
+
+	both_altweap {
+	}
+	
+	/*	
+		// valid keys for client	
+		standModel				// weapon pickup 'stand'
+		droppedAnglesHack		//# weapon is turned by 90 degres when on ground
+		pickupModel				// weapon pickup model
+		axisPickupModel			// pickup model for axis variant
+		alliedPickupModel		// pickup model for allied variant
+		pickupSkin				// weapon pickup model skin definition
+		axisPickupSkin			// axis variant
+		alliedPickupSkin		// allied variant
+		pickupSound				// unused
+		
+		weaponConfig			// path to animation configuration file
+		handsModel				// model for tag animation skeleton
+		
+		flashDlightColor		// color of flash dynamic light
+		flashSound				// supports up to 4 flash sounds
+		flashEchoSound			// supports up to 4 flash echo sounds
+		lastShotSound			// supports up to 4 last shot sounds
+		deathBySound			// supports up to 4 death by sounds
+		deathBySoundFar			// supports up to 4 death by sound echos
+		readySound				// loop played when weapon is idle
+		firingSound				// no weapons seem to use this, basically it's a replacement hum for readysound, but then when firing
+		overheatSound		
+		reloadSound	
+		reloadFastSound			// some weapons have fast reloads due to the skill system
+		spinupSound				// sound started when fire button goes down, and stepped on when the first fire event happens
+		spindownSound			// sound called if the above is running but player doesn't follow through and fire
+		switchSound				// allow overriding of weaponswitch sound
+		bounceSound				// sound played when weapon is bouncing of ground
+		clipBounceSound			// for clip
+
+		weaponIcon				// supports up to 2 icons
+		weaponSelectedIcon	
+		weaponIconScale
+		
+		missileModel
+		AxisMissileModel
+		AlliedMissileModel
+		missileAlliedSkin
+		missileAxisSkin
+		missileSound
+		missileTrailFunc		// supports "GrenadeTrail", "RocketTrail", "PyroSmokeTrail" and "DynamiteTrail" (we REALLY want a particle system for this)
+		missileDlight
+		missileDlightColor		// do we still use this?
+		
+		ejectBrassFunc			// supports "MachineGunEjectBrass" and "PanzerFaustEjectBrass"
+		brassModel				// model for ejected shell
+
+		flashSmokeSize			// size of smoke of the weapon
+		flashSmokeAlpha			// transparency
+		flashSmokeLife			// duration
+		flashSmokeShader		// shader used for smoke
+		
+		recoil_pitchAdd			// screen recoil
+		recoil_yawRandom
+		recoil_pitchAddRandom
+
+		offset					// x y z offset for weapon position
+		foreShorten				// multiplies view matrix for weapon model ( to prevent eye-fish effect )
+
+		modModel 1				// used for skill addons ( like green syringe skin for Lvl 3 Medic )
+	*/
+	client {
+		/*
+			// valid keys for firstPerson and thirdperson
+			model				// static part of weapon model
+			axisModel			// axis variant
+			alliedModel			// allied variant
+			skin				// skin of static part
+			flashModel			// displayed only when shooting
+			axisSkin			// axis skin of static part
+			alliedSkin			// allied skin of static part
+		*/
+		// first person view
+		firstPerson {
+			/*
+				// The parts are numbered because there are some hardcoded references for some weapons to certain parts
+			*/
+			weaponLink
+			{
+				part 0
+				{
+					tag			// tag on which is part attached
+					model
+					axisModel
+					alliedModel
+					skin
+					axisSkin
+					alliedSkin
+				}
+			}
+			
+		}
+		// third person view
+		thirdPerson {		
+		}
+	}
+}

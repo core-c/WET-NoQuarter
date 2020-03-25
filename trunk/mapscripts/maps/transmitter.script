@@ -1,0 +1,1855 @@
+// Transmitter Scriptfile :[
+// by heeen, MindLink, thegnat
+// last modified: thegnat, 15-10-2004
+// last modified: peyote, 2006, with permission to open the tunnel..
+
+game_manager
+{
+	spawn
+	{
+		remapshader "sprites/objective" "transmitter/objective"
+		remapshaderflush
+
+		accum 0 set 0					// Radio State (axis playing)
+		accum 1 set 0					// Alarm State (off)
+
+		// Game Rules
+		wm_axis_respawntime	25
+		wm_allied_respawntime	15
+		wm_set_round_timelimit	30
+		wm_number_of_objectives 7
+
+		// Objectives
+		// 1: Primary1 : Build Bridge
+		// 2: Primary1 : modkit
+		// 3: Primary1 : antenna
+		// 4: Secondary1 : grate
+		// 5: Secondary2 : hut
+		// 6: Secondary3 : barricade
+		// 7: Secondary4 : compost
+
+		wm_set_main_objective	1 0
+		wm_set_main_objective	1 1
+
+		// Objective Status 1 = succeeded, 0 default, 2 = failed
+		wm_objective_status 1 0 0
+		wm_objective_status 1 1 0
+		wm_objective_status 2 0 0
+		wm_objective_status 2 1 0
+		wm_objective_status 3 0 0
+		wm_objective_status 3 1 0
+		wm_objective_status 4 0 0
+		wm_objective_status 4 1 0
+		wm_objective_status 5 0 0
+		wm_objective_status 5 1 0
+		wm_objective_status 6 0 0
+		wm_objective_status 6 1 0
+		wm_objective_status 7 0 0
+		wm_objective_status 7 1 0
+
+		// Stopwatch mode defending team (0=Axis, 1=Allies)
+		wm_set_defending_team	0
+
+		// Winner on expiration of round timer (0=Axis, 1=Allies)
+		wm_setwinner	0
+
+		// Wait...*gähn*
+		wait 500
+		// spawns:
+		// Allied Base
+		// Forward Spawn
+		// Castle
+		setautospawn	"Forward Spawn"	0
+		setautospawn	"Forward Spawn"	1
+
+		globalaccum 1 set 0			// win stuff
+		globalaccum 4 set 0			// is 10 seconds alarm running?
+		globalaccum 3 set 0			// voiceover stuff
+
+		// Disable CP + ALARM
+
+		disablespeaker allies_compost_sound
+		disablespeaker axis_compost_sound
+
+		alertentity allied_win_speaker
+		alertentity gratedoor_flag
+		alertentity bridgemg_flag
+		alertentity castlemg_ax_flag
+		alertentity castlemg_al_flag
+		
+		// Wait...longer...much longer...*schnarch*
+		wait 2000
+
+		// *----------------------------------- vo ------------------------------------------*
+
+		wm_addteamvoiceannounce 0 "axis_dont_let_them_build_bridge"
+		wm_addteamvoiceannounce 0 "axis_construct_commandpost"
+
+		wm_teamvoiceannounce 0 "axis_dont_let_them_build_bridge"
+		wm_teamvoiceannounce 0 "axis_construct_commandpost"
+
+		wm_addteamvoiceannounce 1 "allies_construct_bridge"
+		wm_addteamvoiceannounce 1 "allies_construct_commandpost"
+
+		wm_teamvoiceannounce 1 "allies_construct_bridge"
+		wm_teamvoiceannounce 1 "allies_construct_commandpost"
+
+		// *---------------------------------------------------------------------------------*
+		
+		// Radios playing axis song 
+		accum 0 set 0
+		// Disable Alarm sound
+		accum 1 set 0
+		
+		trigger game_manager setspeakers
+	}
+
+	// Broadcasting Radios (1 = Antenna, 2 = Forward Spawn, 3 = Allies Base)
+	trigger radios_axis
+	{
+		disablespeaker radio1_allied
+		disablespeaker radio2_allied
+		disablespeaker radio3_allied
+
+		disablespeaker radio1_noise
+		disablespeaker radio2_noise
+		disablespeaker radio3_noise
+
+		enablespeaker radio1_axis
+		enablespeaker radio2_axis
+		enablespeaker radio3_axis
+	}
+
+	trigger radios_noise
+	{
+		disablespeaker radio1_allied
+		disablespeaker radio2_allied
+		disablespeaker radio3_allied
+
+		enablespeaker radio1_noise
+		enablespeaker radio2_noise
+		enablespeaker radio3_noise
+
+		disablespeaker radio1_axis
+		disablespeaker radio2_axis
+		disablespeaker radio3_axis
+	}
+
+	trigger radios_allied
+	{
+		enablespeaker radio1_allied
+		enablespeaker radio2_allied
+		enablespeaker radio3_allied
+
+		disablespeaker radio1_noise
+		disablespeaker radio2_noise
+		disablespeaker radio3_noise
+
+		disablespeaker radio1_axis
+		disablespeaker radio2_axis
+		disablespeaker radio3_axis
+	}
+
+	trigger alarm_on
+	{
+		enablespeaker alarm
+	}
+
+	trigger alarm_off
+	{
+		disablespeaker alarm
+	}
+
+// ================================================
+// ================ BARRICADE (6) =================
+// ================================================
+
+ 	trigger serpbarricade_destroyed
+	{
+		// Objective Status 1 = succeeded, 0 default, 2 = failed
+		// Barricade (Axis failed, Allies succeeded)
+		wm_objective_status 		6 0 1
+		wm_objective_status 		6 1 2
+
+		wm_announce	"^1Allies have breached the Serpentine Barricade and secured the Forward Hut!"
+
+		wm_set_main_objective		2 0
+		wm_set_main_objective		2 1
+
+		trigger forwardflag kill	// Switch forward spawn to Allied ONLY
+
+		globalaccum 3 set 1 // VO kill for bridge
+
+		wait 1000
+
+		// *----------------------------------- vo ------------------------------------------*
+
+		wm_removeteamvoiceannounce 0 "axis_dont_let_them_build_bridge"
+		wm_removeteamvoiceannounce 0 "axis_destroy_bridge"
+		wm_removeteamvoiceannounce 0 "axis_defend_barricade"
+		wm_removeteamvoiceannounce 0 "axis_dont_let_capture_forward_hut"
+
+		wm_addteamvoiceannounce 0 "axis_dont_let_them_modify_transmitter"
+		wm_addteamvoiceannounce 0 "axis_defend_antenna"
+
+		wm_teamvoiceannounce 0 "axis_they_destroyed_barricade"
+		wm_teamvoiceannounce 0 "axis_dont_let_them_modify_transmitter"
+		wm_teamvoiceannounce 0 "axis_defend_antenna"
+
+		wm_removeteamvoiceannounce 1 "allies_construct_bridge"
+       		wm_removeteamvoiceannounce 1 "allies_destroy_barricade"
+       		wm_removeteamvoiceannounce 1 "allies_capture_forward_hut"
+
+       		wm_addteamvoiceannounce 1 "allies_modify_transmitter"
+       		wm_addteamvoiceannounce 1 "allies_rotate_antenna"
+
+		wm_teamvoiceannounce 1 "allies_we_destroyed_barricade"
+       		wm_teamvoiceannounce 1 "allies_modify_transmitter"
+       		wm_teamvoiceannounce 1 "allies_rotate_antenna"
+
+		// *---------------------------------------------------------------------------------*
+
+		trigger self setspeakers
+	}
+
+// ================================================
+// ================ BARRICADE END =================
+// ================================================
+
+	trigger checkgame
+	{
+		globalaccum 1 abort_if_not_equals 2
+		globalaccum 4 abort_if_not_equals 1
+		globalaccum 5 abort_if_not_equals 0
+		trigger game_manager radios_allied
+		wm_announce "^1Allies are sending their pirate signal!"
+		wm_setwinner 1
+		print "Heule aus!"
+		disablespeaker alarm
+		print "Mukke an!"
+		alertentity allied_win_speaker
+		wm_endround
+	}
+
+	trigger enableradionoise
+	{
+		accum 0 set 1					// Radios playing noise
+		trigger self setspeakers
+	}
+
+	trigger enableradioaxis
+	{
+		accum 0 set 0					// Radios playing axis song
+		trigger self setspeakers
+	}
+
+	trigger enableradioallied
+	{
+		accum 0 set 2					// Radios playing allied news
+		trigger self setspeakers
+	}
+
+	trigger disablealarm
+	{
+		accum 1 set 0					// Disable Alarm sound
+		trigger self setspeakers
+	}
+
+	trigger enablealarm
+	{
+		accum 1 set 1					// Enable Alarm sound
+		trigger self setspeakers
+	}
+
+	trigger setspeakers
+	{
+		accum 0 trigger_if_equal 0 game_manager radios_axis
+		accum 0 trigger_if_equal 1 game_manager radios_noise
+		accum 0 trigger_if_equal 2 game_manager radios_allied
+
+		accum 1 trigger_if_equal 0 game_manager alarm_off
+		accum 1 trigger_if_equal 1 game_manager alarm_on
+
+		wait 2000
+		trigger self setspeakers
+	}
+
+	trigger start_countdown
+	{
+		globalaccum 1 abort_if_not_equals 2
+		globalaccum 4 set 1				// enable 10 second countdown
+		globalaccum 5 set 10				// set time to 10 seconds
+		wm_announce "^1The Allies will be sending their pirate signal in 10 seconds!"
+		trigger self check_countdown
+	}
+
+	trigger stop_countdown
+	{
+		globalaccum 4 set 0				// disable countdown
+	}
+
+	trigger check_countdown
+	{
+		globalaccum 1 abort_if_not_equals 2		// are both objectives finished?
+		globalaccum 4 abort_if_equal 0			// is the countdown enabled?
+		wait 1000
+		globalaccum 5 inc -1
+		globalaccum 5 trigger_if_equal 5 game_manager countdown_5
+		globalaccum 5 trigger_if_equal 4 game_manager countdown_4
+		globalaccum 5 trigger_if_equal 3 game_manager countdown_3
+		globalaccum 5 trigger_if_equal 2 game_manager countdown_2
+		globalaccum 5 trigger_if_equal 1 game_manager countdown_1
+		globalaccum 5 trigger_if_equal 0 game_manager checkgame
+		trigger self check_countdown
+	}
+
+	trigger countdown_5
+	{
+		wm_announce "^1 5..."
+	}
+	trigger countdown_4
+	{
+		wm_announce "^1 4..."
+	}
+	trigger countdown_3
+	{
+		wm_announce "^1 3..."
+	}
+	trigger countdown_2
+	{
+		wm_announce "^1 2..."
+	}
+	trigger countdown_1
+	{
+		wm_announce "^1 1..."
+	}
+}								// game_manager end
+
+// Tunnel (Do only open on emergency! oO)
+//AmmoBunker Side
+tunnel_abs_closed
+{
+	spawn
+	{
+		setstate tunnel_abs_closed invisible
+	}
+}
+tunnel_abs_open
+{
+	spawn
+	{
+		setstate tunnel_abs_open default
+	}
+}
+// Grate Side
+tunnel_gs_closed
+{
+	spawn
+	{
+		setstate tunnel_gs_closed invisible
+	}
+}
+	tunnel_gs_open
+{
+	spawn
+	{
+		setstate tunnel_gs_open default
+	}
+}
+
+// ================================================
+// ============== BARRICADE SETUP =================
+// ================================================
+	
+serpbarricade
+{
+	spawn
+	{
+		wait 50
+		constructible_class	3
+		setstate barricade_trighurt default		// Barbwire
+		setstate serpbarricade_stuff default		// Stuff around
+		setstate serpbarricade_dest invisible		// Destroyed Model
+	}
+
+	death
+	{
+		trigger game_manager serpbarricade_destroyed
+		alertentity serpbarricade_debris		// Debris + Explosion
+		togglespeaker barricade_explosion		// Boom
+		setstate serpbarricade_stuff invisible		// Stuff around
+		setstate serpbarricade_dest default		// Destroyed Model
+		setstate barricade_trighurt invisible		// Barbwire
+		setstate ax_td_serp invisible			// Axis Teamdoor @ Serpentine
+		setstate barricade_mg_sandbags invisible	// Sandbags
+		setstate barricade_mg_clip invisible		// Sandbag Clip
+		setstate barricade_mg invisible			// Barricade MG
+	}
+}
+
+// ================================================
+// ============ BARRICADE SETUP END ===============
+// ================================================
+
+// ================================================
+// ============= FORWARD SPAWN (5) ================
+// ================================================
+
+forwardflag
+{
+	spawn
+	{
+		accum 0 set 0					// Who has the flag: 0-Axis, 1-Allied
+	}
+
+	trigger axis_capture					// Flag has been touched by an Axis player
+	{
+		accum 0 abort_if_equal 0			// do Axis own flag?
+
+		accum 0 set 0					// Axis own the flag
+		wm_announce "^1Axis reclaim the Forward Hut!"
+
+		wm_objective_status 		5 0 1
+		wm_objective_status 		5 1 2
+
+		globalaccum 3 set 0				// VO enable for bridge
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_addteamvoiceannounce 0 "axis_dont_let_capture_forward_hut"
+		wm_teamvoiceannounce 0 "axis_forward_hut_reclaimed"
+
+		wm_addteamvoiceannounce 1 "allies_capture_forward_hut"
+		wm_teamvoiceannounce 1 "allies_they_reclaimed_forward_hut"
+		// *---------------------------------------------------------------------------------*
+
+		alertentity forward_wobj
+		alertentity forwardspawns
+	}
+
+	trigger allied_capture					// Flag has been touched by an allied player
+	{
+
+		accum 0 abort_if_equal 1			// do Allies own flag?
+		accum 0 set 1					// Allied own the flag
+		wm_announce "^1Allies capture the Forward Hut!"
+
+		globalaccum 3 set 0				// VO kill for bridge
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "axis_they_captured_forward_hut"
+		wm_removeteamvoiceannounce 0 "axis_dont_let_capture_forward_hut"
+
+		wm_teamvoiceannounce 1 "allies_captured_forward_hut"
+		wm_removeteamvoiceannounce 1 "allies_capture_forward_hut"
+		// *---------------------------------------------------------------------------------*
+
+		wm_objective_status 		5 0 2
+		wm_objective_status 		5 1 1
+
+		alertentity forwardspawns
+		alertentity forward_wobj
+	}
+
+	trigger check_obj
+	{
+		accum 0 abort_if_equal 1			// Do Allied own the flag?
+
+		wm_objective_status 		5 0 2
+		wm_objective_status 		5 1 1
+
+	}
+
+	trigger kill
+	{
+		trigger forwardflag force_allied
+		remove
+	}
+
+	trigger force_allied
+	{
+		accum 0 abort_if_equal 1			// Do Allied own the flag?
+
+		// spawns:
+		// Allied Base
+		// Forward Hut
+		// Castle
+
+		setautospawn "Forward Spawn" 1
+		setautospawn "Castle" 0
+
+		alertentity forward_wobj
+		alertentity forwardspawns
+	}
+}
+
+// ================================================
+// ============= FORWARD SPAWN END ================
+// ================================================
+
+// ================================================
+// ================ BRIDGE (1) ====================
+// ================================================
+
+bridgescript
+{
+	spawn
+	{
+		wait 200
+		constructible_class 3
+		trigger self startup
+		setstate bridge_dest invisible
+	}
+
+	built final
+	{
+		alertentity bridge_flag
+		setstate bridge_materials invisible
+		setstate bridge_dest invisible
+		wm_announce "^1Allied team has built the Bridge!"
+
+		wm_objective_status 		1 0 2
+		wm_objective_status 		1 1 1
+
+		globalaccum 3 abort_if_not_equals 0		// if forward hut is secured, don't announce stuff
+		// *----------------------------------- vo ------------------------------------------*
+		wm_removeteamvoiceannounce 0 "axis_dont_let_them_build_bridge"
+
+		wm_addteamvoiceannounce 0 "axis_destroy_bridge"
+		wm_addteamvoiceannounce 0 "axis_dont_let_capture_forward_hut"
+		wm_addteamvoiceannounce 0 "axis_defend_barricade"
+
+		wm_teamvoiceannounce 0 "axis_destroy_bridge"
+		wm_teamvoiceannounce 0 "axis_dont_let_capture_forward_hut"
+		wm_teamvoiceannounce 0 "axis_defend_barricade"
+
+		wm_removeteamvoiceannounce 1 "allies_construct_bridge"
+
+	       	wm_addteamvoiceannounce 1 "allies_capture_forward_hut"
+	       	wm_addteamvoiceannounce 1 "allies_destroy_barricade"
+
+	       	wm_teamvoiceannounce 1 "allies_bridge_constructed"
+	       	wm_teamvoiceannounce 1 "allies_capture_forward_hut"
+	       	wm_teamvoiceannounce 1 "allies_destroy_barricade"
+		// *---------------------------------------------------------------------------------*
+	}
+
+	decayed final
+	{
+   		trigger self startup
+	}
+
+	death
+	{
+		trigger self startup
+		setstate bridge_dest default
+		wm_announce   "^1Axis team has destroyed the Bridge!"
+		wm_objective_status 		1 0 1
+		wm_objective_status 		1 1 2
+
+		globalaccum 3 abort_if_not_equals 0 // if forward hut is secured, don't announce stuff
+		
+		// *----------------------------------- vo ------------------------------------------*
+		wm_removeteamvoiceannounce 0 "axis_destroy_bridge"
+		wm_removeteamvoiceannounce 0 "axis_defend_barricade"
+		wm_removeteamvoiceannounce 0 "axis_dont_let_capture_forward_hut"
+
+		wm_addteamvoiceannounce 0 "axis_dont_let_them_build_bridge"
+
+		wm_teamvoiceannounce 0 "axis_bridge_damaged"
+
+		wm_removeteamvoiceannounce 1 "allies_capture_forward_hut"
+		wm_removeteamvoiceannounce 1 "allies_destroy_barricade"
+
+		wm_addteamvoiceannounce 1 "allies_construct_bridge"
+
+		wm_teamvoiceannounce 1 "allies_bridge_damaged"
+		// *---------------------------------------------------------------------------------*
+	}
+
+	trigger startup
+	{
+		setstate bridge_materials default
+		alertentity bridge_flag
+	}
+}
+
+// ================================================
+// ================ BRIDGE END ====================
+// ================================================
+
+// ================================================
+// ============== GRATE DOOR (4) ==================
+// ================================================
+
+gratedoor_frame
+{
+	spawn
+	{
+		wait 200
+		constructible_class 3
+		setstate gratedoor_materials invisible
+	}
+
+	buildstart final
+	{
+		setstate gratedoor underconstruction
+	}
+
+	built final
+	{
+		wm_objective_status 		4 0 1
+		wm_objective_status 		4 1 2
+
+		setstate gratedoorkiller default
+		wait 100
+		setstate gratedoorkiller invisible
+		setstate gratedoor_materials invisible
+		alertentity gratedoor_flag
+		setstate gratedoor default
+		wm_announce   "^1Axis team has rebuilt the Grate Door!"
+	}
+
+	decayed final
+	{
+		setstate gratedoor invisible
+	}
+
+	death
+	{
+		wm_objective_status 		4 0 2
+		wm_objective_status 		4 1 1
+		togglespeaker gratedoor_explosion
+		setstate gratedoor invisible
+		setstate gratedoor_materials default
+		alertentity gratedoor_flag
+		wm_announce   "^1Allied team has breached the Grate Door!"
+	}
+
+}
+
+// ================================================
+// ================ CASTLE MG AX ==================
+// ================================================
+
+axiscastlemg_const
+{
+	spawn
+	{
+		wait 300
+		constructible_class 2
+		trigger self startup
+	}
+
+	buildstart final
+	{
+		repairmg42 axiscastlemg
+		setstate axiscastlemg underconstruction
+	}
+
+	built final
+	{
+		setstate axiscastlemg_materials invisible
+		alertentity castlemg_ax_flag
+		setstate axiscastlemg default
+		wm_announce   "^1Axis team has built the Axis Castle MG!"
+	}
+
+	decayed final
+	{
+		trigger self startup
+	}
+
+	death
+	{
+		trigger self startup
+		wm_announce   "^1Allied team has destroyed the Axis Castle MG!"
+	}
+
+	trigger startup
+	{
+		setstate axiscastlemg_materials default
+		alertentity castlemg_ax_flag
+		setstate axiscastlemg invisible
+	}
+}
+
+// ================================================
+// ============== CASTLE MG AX END ================
+// ================================================
+
+// ================================================
+// ================= BRIDGE MG ====================
+// ================================================
+
+bridgemg_const
+{
+	spawn
+	{
+		wait 300
+		constructible_class 2
+		trigger self startup
+	}
+
+	buildstart final
+	{
+		repairmg42 bridgemg
+		setstate bridgemg underconstruction
+		setstate bridgemg_bags underconstruction
+	}
+
+	built final
+	{
+		setstate bridgemg_materials invisible
+		alertentity bridgemg_flag
+		setstate bridgemg default
+		setstate bridgemg_bags default
+		wm_announce   "^1Allied team has built the Bridge MG!"
+	}
+
+	decayed final
+	{
+		trigger self startup
+	}
+
+	death
+	{
+		trigger self startup
+		wm_announce   "^1Axis team has destroyed the Bridge MG!"
+	}
+
+	trigger startup
+	{
+		setstate bridgemg_materials default
+		alertentity bridgemg_flag
+		setstate bridgemg invisible
+		setstate bridgemg_bags invisible
+	}
+}
+
+// ================================================
+// =============== BRIDGE MG END ==================
+// ================================================
+
+// ================================================
+// =============== CASTLE MG AL ===================
+// ================================================
+
+alliedcastlemg_const
+{
+	spawn
+	{
+		wait 300
+		constructible_class 2
+		trigger self startup
+	}
+
+	buildstart final
+	{
+		repairmg42 alliedcastlemg
+		setstate alliedcastlemg underconstruction
+		setstate alliedcastlemg_bags underconstruction
+	}
+
+	built final
+	{
+		setstate alliedcastlemg_materials invisible
+		alertentity castlemg_al_flag
+		setstate alliedcastlemg default
+		setstate alliedcastlemg_bags default
+		wm_announce   "^1Allied team has built the Castle MG!"
+	}
+
+	decayed final
+	{
+		trigger self startup
+	}
+
+	death
+	{
+		trigger self startup
+		wm_announce   "^1Axis team has destroyed the Castle MG!"
+	}
+
+	trigger startup
+	{
+		setstate alliedcastlemg_materials default
+		alertentity castlemg_al_flag
+		setstate alliedcastlemg invisible
+		setstate alliedcastlemg_bags invisible
+	}
+}
+
+// ================================================
+// =============== CASTLE MG AL ===================
+// ================================================
+
+// ================================================
+// ======== NEUTRAL COMMAND POST (7) ==============
+// ========= WITH ALLIED SPAWNPOINT ===============
+// ================================================
+
+// Spawn is working now \o/ -tre
+
+axis_cp_damaged
+{
+	spawn
+	{
+		wait 200
+		accum 0 set 0
+		setstate axis_cp_damaged invisible
+		setstate axis_cp_damaged_model invisible
+	}
+
+	trigger hide
+	{
+		setstate axis_cp_damaged invisible
+		setstate axis_cp_damaged_model invisible
+	}
+
+	trigger show
+	{
+		accum 0 abort_if_equal 0
+		setstate axis_cp_damaged default
+		setstate axis_cp_damaged_model default
+	}
+
+	trigger enable
+	{
+		accum 0 set 1
+	}
+
+	trigger disable
+	{
+		accum 0 set 0
+	}
+}
+
+allied_cp_damaged
+{
+	spawn
+	{
+		wait 200
+		accum 0 set 0
+		setstate allied_cp_damaged invisible
+		setstate allied_cp_damaged_model invisible
+	}
+
+	trigger hide
+	{
+		setstate allied_cp_damaged invisible
+		setstate allied_cp_damaged_model invisible
+	}
+
+	trigger show
+	{
+		accum 0 abort_if_equal 0
+		setstate allied_cp_damaged default
+		setstate allied_cp_damaged_model default
+	}
+
+	trigger enable
+	{
+		accum 0 set 1
+	}
+
+	trigger disable
+	{
+		accum 0 set 0
+	}
+}
+
+neutral_cp_closed
+{
+	spawn
+	{
+		accum 0 set 0
+	}
+
+	trigger hide
+	{
+		setstate neutral_cp_closed invisible
+		setstate neutral_cp_closed_model invisible
+		setstate neutral_cp_closed_clip invisible
+	}
+
+	trigger show
+	{
+		accum 0 abort_if_equal 1
+		setstate neutral_cp_closed default
+		setstate neutral_cp_closed_model default
+		setstate neutral_cp_closed_clip default
+	}
+
+	trigger disable
+	{
+		accum 0 set 1
+	}
+}
+
+allied_cp_built
+{
+	spawn
+	{
+		wait 50
+		constructible_class	2
+		trigger allied_cp_built setup
+		setstate cmdantforrest invisible		//Antenne
+	}
+
+	trigger setup
+	{
+		setchargetimefactor 1 soldier 1
+		setchargetimefactor 1 lieutenant 1
+		setchargetimefactor 1 medic 1
+		setchargetimefactor 1 engineer 1
+		setchargetimefactor 1 covertops 1
+		sethqstatus 1 0
+	}
+
+	buildstart final
+	{
+		trigger allied_cp_built_model trans
+		setstate cmdantforrest underconstruction	//Antenne
+		trigger axis_cp_damaged hide
+		trigger allied_cp_damaged hide
+		trigger neutral_cp_closed hide
+		setstate neutral_cp_closed default
+
+	}
+
+	built final
+	{
+		trigger allied_cp_built_model show
+		setstate cmdantforrest default			//Antenne
+		alertentity cmdantlight				//Coronas
+		trigger allied_cp_damaged enable
+		trigger axis_cp_damaged disable
+		setstate neutral_cp_closed invisible
+		trigger neutral_cp_closed disable
+		trigger allied_cp_built_model enable_allied_features
+		trigger allies_cp_spawns_obj on
+
+
+		enablespeaker allies_compost_sound
+	}
+
+	decayed final
+	{
+		trigger allied_cp_built_model hide
+		trigger allied_cp_damaged show
+		trigger axis_cp_damaged show
+		trigger neutral_cp_closed show
+		setstate cmdantforrest invisible		//Antenne
+	}
+
+	death
+	{
+		trigger allied_cp_built_model hide
+		setstate cmdantforrest invisible		//Antenne
+		alertentity cmdantlight				//Coronas
+		trigger allied_cp_damaged show
+		trigger allied_cp_built_model disable_allied_features
+		trigger allies_cp_spawns_obj off
+
+		disablespeaker allies_compost_sound
+	}
+}
+
+axis_cp_built
+{
+	spawn
+	{
+		wait 50
+		constructible_class	2
+
+		wait 150
+		trigger axis_cp_built setup
+		setstate cmdantforrest invisible		//Antenne
+	}
+
+	trigger setup
+	{
+		setchargetimefactor 0 soldier 1
+		setchargetimefactor 0 lieutenant 1
+		setchargetimefactor 0 medic 1
+		setchargetimefactor 0 engineer 1
+		setchargetimefactor 0 covertops 1
+		sethqstatus 0 0
+	}
+
+	buildstart final
+	{
+		trigger axis_cp_built_model trans
+		setstate cmdantforrest underconstruction	//Antenne
+		trigger axis_cp_damaged hide
+		trigger allied_cp_damaged hide
+		trigger neutral_cp_closed hide
+		setstate neutral_cp_closed default
+	}
+
+	built final
+	{
+		trigger axis_cp_built_model show
+		setstate cmdantforrest default			//Antenne
+		alertentity cmdantlight				//Coronas
+		trigger axis_cp_damaged enable
+		trigger allied_cp_damaged enable
+		setstate neutral_cp_closed invisible
+		trigger neutral_cp_closed disable
+		trigger axis_cp_built_model enable_axis_features
+
+		enablespeaker axis_compost_sound
+	}
+
+	decayed final
+	{
+		trigger axis_cp_built_model hide
+		trigger axis_cp_damaged show
+		trigger allied_cp_damaged show
+		trigger neutral_cp_closed show
+		setstate cmdantforrest invisible		//Antenne
+	}
+
+	death
+	{
+		trigger axis_cp_built_model hide
+		setstate cmdantforrest invisible		//Antenne
+		alertentity cmdantlight				//Coronas
+		trigger axis_cp_damaged show
+		trigger axis_cp_built_model disable_axis_features
+
+		disablespeaker axis_compost_sound
+	}
+}
+
+axis_cp_built_model
+{
+	spawn
+	{
+		accum 1 set 0
+		wait 200
+		setstate axis_cp_built_model invisible
+	}
+
+	trigger show
+	{
+		setstate axis_cp_built_model default
+	}
+
+	trigger hide
+	{
+		setstate axis_cp_built_model invisible
+	}
+
+	trigger trans
+	{
+		setstate axis_cp_built_model underconstruction
+	}
+
+	trigger enable_axis_features
+	{
+		// axis built it
+		setchargetimefactor 0 soldier 0.75
+		setchargetimefactor 0 lieutenant 0.75
+		setchargetimefactor 0 medic 0.75
+		setchargetimefactor 0 engineer 0.75
+		setchargetimefactor 0 covertops 0.75
+		sethqstatus 0 1
+
+		wm_objective_status	7 0 1
+		wm_objective_status	7 1 2
+
+		wm_announce	"^1Axis Command Post constructed. Charge speed increased!"
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 1 "allies_they_constructed_commandpost"
+		wm_teamvoiceannounce 0 "axis_commandpost_constructed"
+
+		wm_removeteamvoiceannounce 0 "axis_construct_commandpost"
+		// *---------------------------------------------------------------------------------*
+	}
+
+	trigger disable_axis_features
+	{
+		// axis lost it
+		setchargetimefactor 0 soldier 1
+		setchargetimefactor 0 lieutenant 1
+		setchargetimefactor 0 medic 1
+		setchargetimefactor 0 engineer 1
+		setchargetimefactor 0 covertops 1
+		sethqstatus 0 0
+
+		wm_objective_status	7 0 0
+		wm_objective_status	7 1 0
+
+		wm_announce	"^1Allied team has damaged the Axis Command Post!"
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_addteamvoiceannounce 0 "axis_construct_commandpost"
+		wm_teamvoiceannounce 0 "axis_commandpost_damaged"
+
+		wm_addteamvoiceannounce 1 "allies_construct_commandpost"
+		wm_teamvoiceannounce 1 "allies_construct_commandpost"
+		// *---------------------------------------------------------------------------------*
+	}
+}
+
+allied_cp_built_model
+{
+	spawn
+	{
+		accum 1 set 0
+		accum 2 set 0
+		wait 200
+		setstate allied_cp_built_model invisible
+	}
+
+	trigger show
+	{
+		setstate allied_cp_built_model default
+		enablespeaker neutral_radio_sound
+	}
+
+	trigger hide
+	{
+		setstate allied_cp_built_model invisible
+		disablespeaker neutral_radio_sound
+	}
+
+	trigger trans
+	{
+		setstate allied_cp_built_model underconstruction
+	}
+
+	trigger alliedcompostvo
+	{
+		accum 2 abort_if_equal 1
+	}
+
+	trigger enable_allied_features
+	{
+		// allies built it
+		accum 1 set 1
+		accum 2 set 1
+		setchargetimefactor 1 soldier 0.75
+		setchargetimefactor 1 lieutenant 0.75
+		setchargetimefactor 1 medic 0.75
+		setchargetimefactor 1 engineer 0.75
+		setchargetimefactor 1 covertops 0.75
+		sethqstatus 0 1
+
+		wm_objective_status	7 0 2
+		wm_objective_status	7 1 1
+
+		wm_announce	"^1Allied Command Post constructed. Charge speed increased! Forest Spawn active!"
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "axis_they_constructed_commandpost"
+		wm_teamvoiceannounce 1 "allies_commandpost_constructed"
+
+		wm_removeteamvoiceannounce 1 "allies_construct_commandpost"
+		// *---------------------------------------------------------------------------------*
+	}
+
+	trigger disable_allied_features
+	{
+		// allies lost it
+		accum 2 set 0
+		wm_announce	"^1Axis team has damaged the Allied Command Post!"
+
+		setchargetimefactor 1 soldier 1
+		setchargetimefactor 1 lieutenant 1
+		setchargetimefactor 1 medic 1
+		setchargetimefactor 1 engineer 1
+		setchargetimefactor 1 covertops 1
+		sethqstatus 0 0
+
+		wm_objective_status	4 1 0
+		wm_objective_status	4 0 0
+		wm_objective_status	5 1 0
+		wm_objective_status	5 0 0
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_addteamvoiceannounce 0 "axis_construct_commandpost"
+		wm_teamvoiceannounce 0 "axis_construct_commandpost"
+		wm_addteamvoiceannounce 1 "allies_construct_commandpost"
+		wm_teamvoiceannounce 1 "allies_commandpost_damaged"
+		// *---------------------------------------------------------------------------------*
+	}
+}
+
+allies_cp_spawns_obj
+{
+	spawn
+	{
+		wait 50
+		setstate allies_cp_spawns_obj invisible
+		setstate allies_cp_spawns invisible
+	}
+
+	trigger on
+	{
+		setstate allies_cp_spawns_obj default
+		setstate allies_cp_spawns default
+	}
+
+	trigger off
+	{
+		setstate allies_cp_spawns_obj invisible
+		setstate allies_cp_spawns invisible
+	}
+}
+
+allies_cp_spawns
+{
+	spawn
+	{
+		wait 50
+		setstate allies_cp_spawns invisible
+	}
+}
+
+// ================================================
+// ========== NEUTRAL COMMAND POST ================
+// ========= WITH ALLIED SPAWNPOINT ===============
+// =================== END ========================
+
+// ================================================
+// ================= BACKGATE =====================
+// ================================================
+
+backdoor_activator
+{
+	trigger movedoor
+	{
+		trigger backdoor open
+	}
+}
+
+backdoor_stopper
+{
+	trigger stopcheck
+	{
+		trigger backdoor stopcheck
+	}
+}
+backgate_dummy
+{
+	spawn
+	{
+		wait 50
+		constructible_class	3
+		setstate backgate_dest invisible
+		globalaccum 2 set 0
+	}
+
+	death
+	{
+		globalaccum 2 set 1
+		setstate backgate_dummy invisible
+		alertentity backgate_explosion			// Boom^^fx
+		togglespeaker backgate_explosion		// Boom
+		trigger backdoor putt
+		trigger backgate_turnwheel stop
+		trigger backgate_bigwheels stop
+
+		setstate backgate_floor invisible
+		setstate backgate_dest default
+
+		wm_announce "^1Backgate destroyed!"
+	}
+}
+backdoor
+{
+	spawn
+	{
+		wait 50
+		accum 1 set 1
+		accum 3 set 0
+		accum 4 set 0
+	}
+
+	trigger open
+	{
+		globalaccum 2 abort_if_equal 1
+		accum 3 set 0
+		accum 2 abort_if_equal 1
+
+		trigger backgate_turnwheel start
+		trigger backgate_bigwheels start
+		accum 1 trigger_if_equal 1 backdoor up1
+		accum 1 trigger_if_equal 2 backdoor up2
+		accum 1 trigger_if_equal 3 backdoor up3
+		accum 1 trigger_if_equal 4 backdoor up4
+		accum 1 trigger_if_equal 5 backdoor up5
+		accum 1 trigger_if_equal 6 backdoor up6
+		accum 1 trigger_if_equal 7 backdoor up7
+		accum 1 trigger_if_equal 8 backdoor up8
+		accum 1 trigger_if_equal 9 backdoor up9
+		accum 1 abort_if_less_than 10
+		trigger backgate_turnwheel stop
+		trigger backgate_bigwheels stop
+		stopsound
+	}
+
+	trigger up1
+	{
+		accum 2 set 1
+		playsound sound/movers/doors/door6_open.wav volume 127
+		playsound sound/movers/doors/door6_loopo.wav looping volume 512
+		gotomarker backdoor_pos1 8 wait
+		accum 1 inc 1
+		accum 2 set 0
+	}
+
+	trigger up2
+	{
+		accum 2 set 1
+		gotomarker backdoor_pos2 8 wait
+		accum 1 inc 1
+		accum 2 set 0
+	}
+
+	trigger up3
+	{
+		accum 2 set 1
+		gotomarker backdoor_pos3 8 wait
+		accum 1 inc 1
+		accum 2 set 0
+	}
+
+	trigger up4
+	{
+		accum 2 set 1
+		gotomarker backdoor_pos4 8 wait
+		accum 1 inc 1
+		accum 2 set 0
+	}
+
+	trigger up5
+	{
+		accum 2 set 1
+		gotomarker backdoor_pos5 8 wait
+		accum 1 inc 1
+		accum 2 set 0
+	}
+	trigger up6
+
+	{
+		accum 2 set 1
+		gotomarker backdoor_pos6 8 wait
+		accum 1 inc 1
+		accum 2 set 0
+	}
+
+	trigger up7
+	{
+		accum 2 set 1
+		gotomarker backdoor_pos7 8 wait
+		accum 1 inc 1
+		accum 2 set 0
+	}
+
+	trigger up8
+	{
+		accum 2 set 1
+		gotomarker backdoor_pos8 8 wait
+		accum 1 inc 1
+		accum 2 set 0
+	}
+
+	trigger up9
+	{
+		accum 2 set 1
+		gotomarker backdoor_pos9 8 wait
+		accum 1 inc 1
+		accum 2 set 0
+	}
+
+	trigger down
+	{
+		globalaccum 2 abort_if_equal 1
+		accum 2 set 1
+		playsound sound/movers/doors/door6_loopc.wav looping volume 512
+		trigger backgate_turnwheel rev
+		trigger backgate_bigwheels rev
+		gotomarker backdoor_pos0 100 wait
+
+		trigger backgate_turnwheel stop
+		trigger backgate_bigwheels stop
+		stopsound
+		playsound sound/movers/doors/door6_endc.wav volume 256
+
+		accum 1 set 1
+		accum 2 set 0
+	}
+
+	trigger stopcheck
+	{
+		globalaccum 2 abort_if_equal 1
+		accum 1 abort_if_equal 1
+		accum 3 inc 1
+		accum 3 abort_if_less_than 2
+		trigger backdoor down
+	}
+	trigger putt
+	{
+		// abortmove
+		gotomarker backdoor_pos0 10000 wait
+		setstate backdoor invisible
+	}
+}
+
+backgate_turnwheel
+{
+	trigger start
+	{
+		globalaccum 2 abort_if_equal 1
+		setrotation 0 0 -100
+	}
+
+	trigger rev
+	{
+		globalaccum 2 abort_if_equal 1
+		setrotation 0 0 300
+	}
+
+	trigger stop
+	{
+		stoprotation
+	}
+}
+
+backgate_bigwheels
+{
+	trigger start
+	{
+		globalaccum 2 abort_if_equal 1
+		setrotation 0 0 -10
+	}
+
+	trigger rev
+	{
+		globalaccum 2 abort_if_equal 1
+		setrotation 0 0 100
+	}
+
+	trigger stop
+	{
+		stoprotation
+	}
+}
+
+// ================================================
+// =============== BACKGATE END ===================
+// ================================================
+
+// ================================================
+// =============== ANTENNA (3) ====================
+// ================================================
+
+antenna
+{
+	spawn
+	{
+		accum 1 set 0
+	}
+
+	trigger axis
+	{
+		wm_announce "^1Axis have rearranged the Antenna!"
+		wm_objective_status 		3 0 1
+		wm_objective_status 		3 1 2
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "axis_antenna_rearranged"
+		wm_teamvoiceannounce 1 "allies_they_rearranged_antenna"
+		// *----------------------------------- vo ------------------------------------------*
+
+		trigger game_manager disablealarm
+		trigger antenna_arrow move2
+		trigger antenna_trigger_allies visible
+		trigger antenna_trigger_axis invisible
+		trigger tower_flag_axis on
+		trigger tower_flag_allies off
+
+		trigger game_manager stop_countdown
+
+		playsound sound/movers/motors/motor_start_01.wav volume 256
+		wait 700
+		playsound sound/movers/motors/motor_loop_01.wav looping volume 512
+		faceangles 0 0 0 3000
+		stopsound
+		playsound sound/movers/motors/motor_end_01.wav volume 256
+		globalaccum 1 trigger_if_equal 1 game_manager enableradioaxis
+		globalaccum 1 trigger_if_equal 2 game_manager enableradionoise
+		wait 1000
+		accum 2 set 0
+		globalaccum 1 inc -1
+		accum 1 set 0
+		resetscript
+	}
+
+	trigger allies
+	{
+		wm_announce "^1Allies have changed the Antenna orientation!"
+		wm_objective_status 		3 0 2
+		wm_objective_status 		3 1 1
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "axis_rearrange_antenna"
+		wm_teamvoiceannounce 1 "allies_we_rotated_antenna"
+		// *----------------------------------- vo ------------------------------------------*
+
+		trigger game_manager enablealarm
+		trigger antenna_arrow move1
+		trigger game_manager enableradionoise
+		globalaccum 1 inc 1
+		trigger game_manager start_countdown
+
+		trigger antenna_trigger_allies invisible
+		trigger antenna_trigger_axis visible
+		trigger tower_flag_axis off
+		trigger tower_flag_allies on
+
+		playsound sound/movers/motors/motor_start_01.wav volume 256
+		wait 700
+		playsound sound/movers/motors/motor_loop_01.wav looping volume 512
+		faceangles 0 -90 0 3000
+		stopsound
+		playsound sound/movers/motors/motor_end_01.wav volume 256
+
+		wait 1000
+		accum 2 set 0
+		accum 1 set 1
+		resetscript
+	}
+
+	trigger move_allies
+	{
+		accum 1 abort_if_equal 1
+		accum 2 abort_if_equal 1
+		accum 2 set 1
+		trigger antenna allies
+	}
+
+	trigger move_axis
+	{
+		accum 1 abort_if_equal 0
+		accum 2 abort_if_equal 1
+		accum 2 set 1
+		trigger antenna axis
+	}
+}
+
+antenna_activator_allies
+{
+	trigger allies
+	{
+		trigger antenna move_allies
+	}
+}
+
+antenna_activator_axis
+{
+	trigger axis
+	{
+		trigger antenna move_axis
+	}
+}
+
+antenna_arrow
+{
+	spawn
+	{
+		faceangles 0 0 45 100
+	}
+
+	trigger move1
+	{
+		playsound sound/movers/switches/switch_01.wav
+		faceangles 0 0 -45 400
+	}
+
+	trigger move2
+	{
+		playsound sound/movers/switches/switch_01.wav
+		faceangles 0 0 45 400
+	}
+}
+
+antenna_trigger_axis
+{
+	spawn
+	{
+		setstate antenna_trigger_axis invisible
+	}
+
+	trigger invisible
+	{
+		setstate antenna_trigger_axis invisible
+	}
+
+	trigger visible
+	{
+		setstate antenna_trigger_axis default
+	}
+}
+
+antenna_trigger_allies
+{
+	trigger invisible
+	{
+		setstate antenna_trigger_allies invisible
+	}
+
+	trigger visible
+	{
+		setstate antenna_trigger_allies default
+	}
+}
+tower_flag_axis
+{
+	spawn
+	{
+	setstate tower_flag_axis default
+	startanimation 0 100 20
+	}
+
+	trigger on
+	{
+	setstate tower_flag_axis default
+	startanimation 0 100 20
+	}
+
+	trigger off
+	{
+	setstate tower_flag_axis invisible
+	}
+}
+
+tower_flag_allies
+{
+	spawn
+	{
+	setstate tower_flag_allies invisible
+	}
+
+	trigger on
+	{
+	setstate tower_flag_allies default
+	startanimation 0 100 20
+	}
+
+	trigger off
+	{
+	setstate tower_flag_allies invisible
+	}
+}
+
+// ================================================
+// =============== ANTENNA END ====================
+// ================================================
+
+// ================================================
+// ================ MODKIT (2) ====================
+// ================================================
+
+radioparts_castle_model
+{
+	spawn
+	{
+		wait 200
+		setstate radioparts_castle_model invisible
+	}
+}
+
+radiopartsmarker
+{
+	spawn
+	{
+		setstate radiopartsmarker default
+	}
+}
+
+radioparts
+{
+	spawn
+	{
+		wait 350
+		setstate radioparts_castle_model invisible
+	}
+
+	trigger stolen
+	{
+		setstate radioparts_model invisible
+		setstate radiopartsmarker invisible
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "axis_modification_kit_taken"
+		wm_teamvoiceannounce 1 "allies_modification_kit_taken"
+		// *---------------------------------------------------------------------------------*
+	}
+
+	trigger returned
+	{
+		setstate radioparts_model default
+		setstate radiopartsmarker default
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "axis_modification_kit_returned"
+		wm_teamvoiceannounce 1 "allies_modification_kit_returned"
+		// *---------------------------------------------------------------------------------*
+	}
+
+	trigger dropped
+	{
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "axis_modification_kit_dropped"
+		wm_teamvoiceannounce 1 "allies_modification_kit_dropped"
+		// *---------------------------------------------------------------------------------*
+	}
+
+	trigger captured
+	{
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_announce "^1Allies have manipulated the receiving frequency!"
+		wm_teamvoiceannounce 0 "axis_they_modified_transmitter"
+		wm_teamvoiceannounce 1 "allies_we_modified_transmitter"
+		// *---------------------------------------------------------------------------------*
+
+		wm_objective_status 		2 0 2
+		wm_objective_status 		2 1 1
+
+		globalaccum 1 inc 1
+		trigger game_manager enableradionoise
+		trigger game_manager start_countdown
+		setstate radioparts_castle_model default
+		setstate radioparts_castle_trans invisible
+	}
+}
+
+// ================================================
+// ================ MODKIT END ====================
+// ================================================
+
+// ================================================
+// =============== CAVE LADDER ====================
+// ================================================
+
+caveladdertrigger
+{
+	trigger switch
+	{
+		trigger caveladder switch
+		trigger caveladder_lb switch
+	}
+}
+
+caveladder
+{
+	spawn
+	{
+		accum 1 set 0
+		accum 2 set 0
+	}
+
+	trigger up
+	{
+		accum 1 abort_if_equal 1
+		accum 1 set 1
+		wm_announce "^1Cave Ladder raised!^7"
+		trigger caveladderswitch up
+		playsound sound/movers/doors/door5_open.wav
+		gotomarker caveladder_up 30 wait
+		playsound sound/movers/doors/door5_endc.wav
+		accum 2 set 0
+		accum 1 set 0
+		resetscript
+	}
+
+	trigger down
+	{
+		accum 1 abort_if_equal 1
+		accum 1 set 1
+		wm_announce "^1Cave Ladder lowered!^7"
+		trigger caveladderswitch down
+		playsound sound/movers/doors/door5_open.wav
+		gotomarker caveladder_down 45 wait
+		playsound sound/movers/doors/door5_endc.wav
+		accum 2 set 1
+		accum 1 set 0
+		resetscript
+	}
+
+	trigger switch
+	{
+		accum 1 abort_if_equal 1
+		accum 2 trigger_if_equal 0 caveladder down
+		accum 2 trigger_if_equal 1 caveladder up
+	}
+}
+
+caveladder_lb
+{
+	spawn
+	{
+		accum 1 set 0
+		accum 2 set 0
+	}
+
+	trigger up
+	{
+		accum 1 abort_if_equal 1
+		accum 1 set 1
+		gotomarker caveladder_up 30 wait
+		accum 2 set 0
+		accum 1 set 0
+		resetscript
+	}
+
+	trigger down
+	{
+		accum 1 abort_if_equal 1
+		accum 1 set 1
+		gotomarker caveladder_down 45 wait
+		accum 2 set 1
+		accum 1 set 0
+		resetscript
+	}
+
+	trigger switch
+	{
+		accum 1 abort_if_equal 1
+		accum 2 trigger_if_equal 0 caveladder_lb down
+		accum 2 trigger_if_equal 1 caveladder_lb up
+	}
+}
+
+caveladderswitch
+{
+	spawn
+	{
+		faceangles 0 0 45 300
+	}
+
+	trigger up
+	{
+		faceangles 0 0 45 300
+		playsound sound/movers/switches/butn2.wav
+	}
+
+	trigger down
+	{
+		playsound sound/movers/switches/butn2.wav
+		faceangles 0 0 -45 300
+	}
+}
+
+// ================================================
+// ============= CAVE LADDER END ==================
+// ================================================
+
+// END TRANSMITTER SCRIPT :D 

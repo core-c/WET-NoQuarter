@@ -1,0 +1,590 @@
+// ================================================
+game_manager
+{
+	spawn
+{
+//zaszlorud helye commandmapon
+		create
+		{
+			scriptName "marker"
+			classname "team_WOLF_objective"
+			targetname "marker"
+			description "Underground"
+			origin "-7 -2650 -415"   // z = CC_FILTER_ALLIES(2) | CC_FILTER_SPAWNS(4)
+			spawnflags 1   // TEAM_ALLIES(2)
+		}
+
+//valos zaszlorud
+		create
+		{
+			scriptName "zaszlorud"
+			classname "team_WOLF_checkpoint"
+			targetname "afp_cp"
+			origin "-68 -2670 -480"   // z = CC_FILTER_ALLIES(2) | CC_FILTER_SPAWNS(4)
+			spawnflags "1"   // BOTH_TEAM(1)
+			target "kripta"
+		}
+
+//allies spawn
+ 
+		create
+		{
+			scriptName "alep1"
+			classname "team_CTF_bluespawn"
+			targetname "asd"
+			origin "-444 -1962 -255"
+			angle "-95"
+			spawnflags 2	// TEAM_ALLIES
+		}
+
+		create
+		{
+			scriptName "alep2"
+			classname "team_CTF_bluespawn"
+			targetname "asd"
+			origin "-173 -2007 -255"
+			angle "88"
+			spawnflags 2	// TEAM_ALLIES
+		}
+
+		create
+		{
+			scriptName "alep3"
+			classname "team_CTF_bluespawn"
+			targetname "asd"
+			origin "167 -1969 -255"
+			angle "84"
+			spawnflags 2	// TEAM_ALLIES
+		}
+
+		create
+		{
+			scriptName "alep4"
+			classname "team_CTF_bluespawn"
+			targetname "asd"
+			origin "449 -1991 -255"
+			angle -94
+			spawnflags 2	// TEAM_ALLIES
+		}
+//axis spawn
+
+		// spawn1
+		create
+		{
+			classname "team_CTF_redspawn"
+			targetname "kripta"
+			scriptName "cpspawn1"
+			origin "-449 -3522 -255"
+			spawnflags 3 // TEAM_AXIS
+			angle "81"
+		} 
+// spawn2
+		create
+		{
+			classname "team_CTF_redspawn"
+			targetname "kripta"
+			scriptName "cpspawn2"
+			origin "-171 -3497 -255"
+			spawnflags 3 // TEAM_AXIS
+			angle "-95"
+		}
+		// spawn3
+		create
+		{
+			classname "team_CTF_redspawn"
+			targetname "kripta"
+			scriptName "cpspawn3"
+			origin "176 -3513 -255"
+			spawnflags 3 // TEAM_AXIS
+			angle "-91"
+		}
+		// spawn4
+		create
+		{
+			classname "team_CTF_redspawn"
+			targetname "kripta"
+			scriptName "cpspawn4"
+			origin "432 -3509 -255"
+			spawnflags 3 // TEAM_AXIS
+			angle "89"
+		}
+
+		wait 200
+		wm_axis_respawntime	25
+		wm_allied_respawntime	25
+		wm_set_round_timelimit	30
+		wm_setwinner	-1
+		wm_number_of_objectives 6
+		setstate marker invisible
+		setstate kripta invisible
+		setstate asd invisible
+		setautospawn "Underground" 1
+		setautospawn "Underground" 0
+
+	}
+
+	trigger allies_win
+	{
+		wm_setwinner 1
+		wait 2500
+		wm_endround
+	}
+
+	trigger axis_win
+	{
+		wm_setwinner 0
+		wait 2500
+		wm_endround
+	}
+}
+
+// ================================================
+allied_cp_open
+{
+	spawn
+	{
+		wait 100
+		accum 0 set 0			// 0=CP Closed, 1=CP Damaged
+		constructible_class 2			// Dyno+Satchel
+
+		trigger self disable_cp_features		// Default charge bar times
+		setstate allied_cp_damaged invisible	// Hide damaged CP clipbrush+model
+		setstate allied_cp_damaged_model invisible
+	}
+
+	trigger disable_cp_features
+	{
+		setstate allied_cp_open_model invisible	// Hide Open CP model
+
+		setchargetimefactor 1 soldier 1
+		setchargetimefactor 1 lieutenant 1
+		setchargetimefactor 1 medic 1
+		setchargetimefactor 1 engineer 1
+		setchargetimefactor 1 covertops 1
+
+		sethqstatus 1 0			// Landmines team warning message
+		disablespeaker allied_cp_sound		// Disable morse code sound
+	}
+
+	trigger enable_cp_features
+	{
+		setstate allied_cp_open_model default	// Show open CP model
+
+		setchargetimefactor 1 soldier 0.75
+		setchargetimefactor 1 lieutenant 0.75
+		setchargetimefactor 1 medic 0.75
+		setchargetimefactor 1 engineer 0.75
+		setchargetimefactor 1 covertops 0.75
+
+		sethqstatus 1 1			// Landmines team warning message
+		enablespeaker allied_cp_sound		// Enable morse code sound
+	}
+
+	buildstart final
+	{
+		setstate allied_cp_closed invisible		// Hide closed CP clipbrush+model
+		setstate allied_cp_closed_model invisible
+		setstate allied_cp_damaged invisible	// Hide damaged CP clipbrush+model
+		setstate allied_cp_damaged_model invisible
+	}
+
+	built final
+	{
+		accum 0 set 1			// Only show the damaged CP model
+		trigger self enable_cp_features		// Increase charge bar times
+
+		wm_announce "Allied Command Post constructed. Charge speed increased!"
+		// *----------------------------------- vo ------------------------------------------*
+		wm_removeteamvoiceannounce 1 "allies_hq_compost_construct"
+		wm_teamvoiceannounce 1 "allies_hq_compost_constructed"
+
+		wm_teamvoiceannounce 0 "axis_hq_compost_constructed_allies"
+		wm_addteamvoiceannounce 0 "axis_hq_compost_constructed_allies"
+		// *----------------------------------- vo ------------------------------------------*
+	}
+
+	decayed final
+	{
+		setstate allied_cp_open_model invisible	// Hide Open CP model
+		trigger self show_damaged_cabinet	// Show previous cabinet state
+		trigger self show_closed_cabinet
+	}
+
+	death
+	{
+		trigger self show_damaged_cabinet	// Show damaged CP model
+		trigger self disable_cp_features		// Default charge bar times
+
+		wm_announce "Axis team has destroyed the Allied Command Post!"
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 1 "allies_hq_compost_damaged"
+		wm_addteamvoiceannounce 1 "allies_hq_compost_construct"
+
+		wm_removeteamvoiceannounce 0 "axis_hq_compost_constructed_allies"
+		// *----------------------------------- vo ------------------------------------------*
+	}
+
+	trigger show_closed_cabinet
+	{
+		accum 0 abort_if_equal 1		// Closed cabinet active yet?
+		setstate allied_cp_closed default
+		setstate allied_cp_closed_model default
+	}
+
+	trigger show_damaged_cabinet
+	{
+		accum 0 abort_if_equal 0		// Damaged cabinet active yet?
+		setstate allied_cp_damaged default
+		setstate allied_cp_damaged_model default
+	}
+}
+
+// ================================================
+axis_cp_open
+{
+	spawn
+	{
+		wait 100
+		accum 0 set 0			// 0=CP Closed, 1=CP Damaged
+		constructible_class 2			// Dyno+Satchel
+
+		trigger self disable_cp_features		// Default charge bar times
+		setstate axis_cp_damaged invisible	// Hide damaged CP clipbrush+model
+		setstate axis_cp_damaged_model invisible
+	}
+
+	trigger disable_cp_features
+	{
+		setstate axis_cp_open_model invisible	// Hide Open CP model
+
+		setchargetimefactor 0 soldier 1
+		setchargetimefactor 0 lieutenant 1
+		setchargetimefactor 0 medic 1
+		setchargetimefactor 0 engineer 1
+		setchargetimefactor 0 covertops 1
+
+		sethqstatus 0 0			// Landmines team warning message
+		disablespeaker axis_cp_sound		// Disable morse code sound
+	}
+
+	trigger enable_cp_features
+	{
+		setstate axis_cp_open_model default	// Show open CP model
+
+		setchargetimefactor 0 soldier 0.75
+		setchargetimefactor 0 lieutenant 0.75
+		setchargetimefactor 0 medic 0.75
+		setchargetimefactor 0 engineer 0.75
+		setchargetimefactor 0 covertops 0.75
+
+		sethqstatus 0 1			// Landmines team warning message
+		enablespeaker axis_cp_sound		// Enable morse code sound
+	}
+
+	buildstart final
+	{
+		setstate axis_cp_closed invisible		// Hide closed CP clipbrush+model
+		setstate axis_cp_closed_model invisible
+		setstate axis_cp_damaged invisible	// Hide damaged CP clipbrush+model
+		setstate axis_cp_damaged_model invisible
+	}
+
+	built final
+	{
+		accum 0 set 1			// Only show the damaged CP model
+		trigger self enable_cp_features		// Increase charge bar times
+
+		wm_announce "Axis Command Post constructed. Charge speed increased!"
+		// *----------------------------------- vo ------------------------------------------*
+		wm_removeteamvoiceannounce 0 "axis_hq_compost_construct"
+		wm_teamvoiceannounce 0 "axis_hq_compost_constructed"
+
+		wm_teamvoiceannounce 1 "allies_hq_compost_constructed_axis"
+		wm_addteamvoiceannounce 1 "allies_hq_compost_constructed_axis"
+		// *----------------------------------- vo ------------------------------------------*
+	}
+
+	decayed final
+	{
+		setstate axis_cp_open_model invisible	// Hide Open CP model
+		trigger self show_damaged_cabinet	// Show previous cabinet state
+		trigger self show_closed_cabinet
+	}
+
+	death
+	{
+		trigger self show_damaged_cabinet	// Show damaged CP model
+		trigger self disable_cp_features		// Default charge bar times
+
+		wm_announce "Allied team has destroyed the Axis Command Post!"
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "axis_hq_compost_damaged"
+		wm_addteamvoiceannounce 0 "axis_hq_compost_construct"
+
+		wm_removeteamvoiceannounce 1 "allies_hq_compost_constructed_axis"
+		// *----------------------------------- vo ------------------------------------------*
+	}
+
+	trigger show_closed_cabinet
+	{
+		accum 0 abort_if_equal 1		// Closed cabinet active yet?
+		setstate axis_cp_closed default
+		setstate axis_cp_closed_model default
+	}
+
+	trigger show_damaged_cabinet
+	{
+		accum 0 abort_if_equal 0		// Damaged cabinet active yet?
+		setstate axis_cp_damaged default
+		setstate axis_cp_damaged_model default
+	}
+}
+
+crypt_axis
+{
+	spawn
+	{
+		wait 200
+		constructible_class 3			// Dynamite only
+	}
+
+	death
+	{
+		setstate crypt_axis_rubble default
+		wm_announce "The Allied Team has Destroyed the Axis Crypt!"
+
+	}
+}
+
+crypt_axis_rubble
+{
+	spawn
+	{
+		wait 200
+		setstate crypt_axis_rubble invisible
+	}
+}
+
+crypt_allied
+{
+	spawn
+	{
+		wait 200
+		constructible_class 3			// Dynamite only
+	}
+
+	death
+	{
+		setstate crypt_allied_rubble default
+		wm_announce "The Axis Team has Destroyed the Allied Crypt!"
+
+	}
+}
+
+crypt_allied_rubble
+{
+	spawn
+	{
+		wait 200
+		setstate crypt_allied_rubble invisible
+	}
+}
+
+axis_gold
+{
+	spawn
+	{
+		wait 200
+	}
+
+	trigger stolen
+	{
+		setstate axis_gold_toi invisible
+	}
+
+	trigger secured
+	{
+	}
+
+	trigger returned
+	{
+		setstate axis_gold_toi default
+	}
+}
+
+axis_gold_red
+{
+	spawn
+	{
+		wait 200
+	}
+}
+
+axis_gold_solid
+{
+	spawn
+	{
+		wait 200
+		setstate axis_gold_solid invisible
+	}
+}
+
+axis_gold_toi
+{
+	spawn
+	{
+		wait 200
+	}
+}
+
+axis_gold_capzone
+{
+	spawn
+	{
+		wait 200
+	}
+
+	death
+	{
+		setstate axis_gold_red invisible
+		setstate axis_gold_solid default
+		wm_announce "The Axis have Secured the Allied Gold!"
+		trigger game_manager axis_win
+	}
+}
+
+axis_crypt_marker
+{
+	spawn
+	{
+		wait 200
+	}
+}
+
+allied_crypt_marker
+{
+	spawn
+	{
+		wait 200
+	}
+}
+
+axis_gold_marker
+{
+	spawn
+	{
+		wait 200
+	}
+}
+
+allied_gold_marker
+{
+	spawn
+	{
+		wait 200
+	}
+}
+
+allied_gold_capzone
+{
+	spawn
+	{
+		wait 200
+	}
+
+	death
+	{
+		setstate allied_gold_red invisible
+		setstate allied_gold_solid default
+		wm_announce "The Allies have Secured the Axis Gold!"
+		trigger game_manager allies_win
+	}
+}
+
+allied_gold_toi
+{
+	spawn
+	{
+		wait 200
+	}
+}
+
+allied_gold
+{
+	spawn
+	{
+		wait 200
+	}
+
+	trigger stolen
+	{
+		setstate allied_gold_toi invisible
+	}
+
+	trigger secured
+	{
+	}
+
+	trigger returned
+	{
+		setstate allied_gold_toi default
+	}
+}
+
+allied_gold_red
+{
+	spawn
+	{
+		wait 200
+	}
+}
+
+allied_gold_solid
+{
+	spawn
+	{
+		wait 200
+		setstate allied_gold_solid invisible
+	}
+}
+
+
+zaszlorud
+{
+	spawn
+	{
+	wait 50
+	accum 1 set 2
+	accum 2 set 1
+	}
+
+	trigger axis_capture	// Flag has been touched by an Axis player
+	{
+		accum 1 abort_if_equal 0 
+		accum 1 set 0
+		wm_setwinner 0
+		wm_announce "^J***^WAxis team have capture the Undergound Flag!^J***"		
+		setstate kripta default  //axis spawn
+		setstate asd invisible  //alied spwan
+		wm_axis_respawntime	20
+		wm_allied_respawntime	25	
+		accum 2 abort_if_equal 1 
+		alertentity marker
+	}
+
+	trigger allied_capture	// Flag has been touched by an allied player
+	{
+		accum 1 abort_if_equal 1
+		accum 1 set 1 
+		wm_axis_respawntime	25
+		wm_allied_respawntime	20
+		wm_setwinner 1
+		wm_announce	"^D***^WAllies team have capture the Undergound Flag!^D***"
+		setstate asd default  
+		setstate kripta invisible
+		setstate marker default
+		alertentity marker
+		accum 2 set 0 // Axis own the flag 
+	}
+
+}

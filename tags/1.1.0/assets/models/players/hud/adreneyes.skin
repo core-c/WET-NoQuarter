@@ -1,0 +1,4 @@
+head, "gfx/misc/head_open"
+teeth,"gfx/misc/head_open"
+eye1, "models/players/hud/adrenEye"
+eye2, "models/players/hud/adrenEye"

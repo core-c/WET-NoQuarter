@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/nq/!svn/ver/4189/branches/experimental/src/lua/Windows
+END
+lua5.1.dll
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/nq/!svn/ver/4189/branches/experimental/src/lua/Windows/lua5.1.dll
+END
+lua51.dll
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/nq/!svn/ver/4189/branches/experimental/src/lua/Windows/lua51.dll
+END
+lua5.1.lib
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/nq/!svn/ver/4189/branches/experimental/src/lua/Windows/lua5.1.lib
+END
+lua51.lib
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/nq/!svn/ver/4189/branches/experimental/src/lua/Windows/lua51.lib
+END

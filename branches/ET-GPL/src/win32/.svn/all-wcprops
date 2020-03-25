@@ -1,0 +1,119 @@
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/win32
+END
+win_gamma.c
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/win32/win_gamma.c
+END
+win_qgl.c
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/win32/win_qgl.c
+END
+win_snd.c
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/win32/win_snd.c
+END
+win_main.c
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/win32/win_main.c
+END
+win_net.c
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/win32/win_net.c
+END
+winquake.rc
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/win32/winquake.rc
+END
+win_eh.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/win32/win_eh.cpp
+END
+glw_win.h
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/win32/glw_win.h
+END
+background.bmp
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/win32/background.bmp
+END
+win_local.h
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/win32/win_local.h
+END
+win_input.c
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/win32/win_input.c
+END
+qe3.ico
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/win32/qe3.ico
+END
+clear.bmp
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/win32/clear.bmp
+END
+win_shared.c
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/win32/win_shared.c
+END
+win_glimp.c
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/win32/win_glimp.c
+END
+wolfet.ico
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/win32/wolfet.ico
+END
+win_wndproc.c
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/win32/win_wndproc.c
+END
+win_syscon.c
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/win32/win_syscon.c
+END
+resource.h
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/win32/resource.h
+END

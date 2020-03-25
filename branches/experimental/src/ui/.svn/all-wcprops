@@ -1,0 +1,95 @@
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/nq/!svn/ver/4189/branches/experimental/src/ui
+END
+ui.vcproj
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/nq/!svn/ver/4189/branches/experimental/src/ui/ui.vcproj
+END
+ui_shared.c
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/nq/!svn/ver/4189/branches/experimental/src/ui/ui_shared.c
+END
+ui2005.vcproj
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/nq/!svn/ver/4189/branches/experimental/src/ui/ui2005.vcproj
+END
+ui_shared.h
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/nq/!svn/ver/4189/branches/experimental/src/ui/ui_shared.h
+END
+keycodes.h
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/nq/!svn/ver/4189/branches/experimental/src/ui/keycodes.h
+END
+ui_public.h
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/nq/!svn/ver/4189/branches/experimental/src/ui/ui_public.h
+END
+ui_atoms.c
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/nq/!svn/ver/4189/branches/experimental/src/ui/ui_atoms.c
+END
+ui_main.c
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/nq/!svn/ver/4189/branches/experimental/src/ui/ui_main.c
+END
+ui.dsp
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/nq/!svn/ver/4189/branches/experimental/src/ui/ui.dsp
+END
+ui_gameinfo.c
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/nq/!svn/ver/4189/branches/experimental/src/ui/ui_gameinfo.c
+END
+ui2008EE.vcproj
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/nq/!svn/ver/4189/branches/experimental/src/ui/ui2008EE.vcproj
+END
+ui.def
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/nq/!svn/ver/4189/branches/experimental/src/ui/ui.def
+END
+ui_syscalls.c
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/nq/!svn/ver/4189/branches/experimental/src/ui/ui_syscalls.c
+END
+ui_local.h
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/nq/!svn/ver/4189/branches/experimental/src/ui/ui_local.h
+END
+ui_loadpanel.c
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/nq/!svn/ver/4189/branches/experimental/src/ui/ui_loadpanel.c
+END

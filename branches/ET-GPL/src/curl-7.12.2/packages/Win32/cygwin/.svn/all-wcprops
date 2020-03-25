@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/packages/Win32/cygwin
+END
+Makefile.in
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/packages/Win32/cygwin/Makefile.in
+END
+Makefile.am
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/packages/Win32/cygwin/Makefile.am
+END
+README
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/packages/Win32/cygwin/README
+END

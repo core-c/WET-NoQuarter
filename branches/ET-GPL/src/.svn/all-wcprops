@@ -1,0 +1,77 @@
+K 25
+svn:wc:ra_dav:version-url
+V 41
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src
+END
+SConscript.game
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/SConscript.game
+END
+makebundle.sh
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/makebundle.sh
+END
+wolf.sln
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/wolf.sln
+END
+SConscript.cgame
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/SConscript.cgame
+END
+SConscript.ui
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/SConscript.ui
+END
+SConstruct.sdk
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/SConstruct.sdk
+END
+SConstruct
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/SConstruct
+END
+wolf.vcproj
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/wolf.vcproj
+END
+SConscript.curl
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/SConscript.curl
+END
+scons_utils.py
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/scons_utils.py
+END
+SConscript.bspc
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/SConscript.bspc
+END
+SConscript.core
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/SConscript.core
+END

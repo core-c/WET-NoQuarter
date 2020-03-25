@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/nq/!svn/ver/4717/trunk/Lua-scripts/LUA%20functions%20tests
+END
+test.lua
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/nq/!svn/ver/3521/trunk/Lua-scripts/LUA%20functions%20tests/test.lua
+END
+functest_entfield.lua
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/nq/!svn/ver/4717/trunk/Lua-scripts/LUA%20functions%20tests/functest_entfield.lua
+END
+functest.lua
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/nq/!svn/ver/4638/trunk/Lua-scripts/LUA%20functions%20tests/functest.lua
+END

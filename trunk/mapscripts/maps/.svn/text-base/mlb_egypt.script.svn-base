@@ -1,0 +1,4813 @@
+
+
+//********************
+//********************
+//*** mlb_egypt ******
+//********************
+//********************
+
+//-------------------------------------
+//-- Lowlife and Bob_le_roux script ---
+//-------------------------------------
+//=SC=Beef - Removed access to the 'secret' rooms. www.silent-clan.com
+
+game_manager
+{
+	spawn
+	{
+		// Scenario information
+
+		wm_axis_respawntime 10
+		wm_allied_respawntime 20
+		wm_number_of_objectives 7
+		wm_set_round_timelimit 20
+		wm_set_defending_team 0
+		wm_setwinner 1
+
+		// Objectives
+		
+		wm_objective_status 1 0 0  // Sail the boat to the floodgate
+		wm_objective_status 1 1 0
+		wm_objective_status 2 0 0  // Sail the boat to the temple
+		wm_objective_status 2 1 0		
+		wm_objective_status 3 0 0  // the temple entrance gate
+		wm_objective_status 3 1 0		
+		wm_objective_status 4 0 0  // Get the ammo, build the gun and fire it at the pyramid door
+		wm_objective_status 4 1 0		
+		wm_objective_status 5 0 0  // the sarcophage room door
+		wm_objective_status 5 1 0		
+		wm_objective_status 6 0 0  // Steal the gold
+		wm_objective_status 6 1 0	
+		wm_objective_status 7 0 0  // take the gold to the River hut
+		wm_objective_status 7 1 0		
+		wait 200				
+		setstate tele invisible
+		setstate tele_pub invisible		
+		alertentity son_gene		
+		remapshader "sprites/objective" "textures/mlb_egypt/objective_shell"
+		remapshaderflush
+		setstate river_ruins invisible
+		setstate main_entrance invisible
+		setstate pyramid invisible
+		setstate new_boat_barrier invisible
+		setautospawn	"Canyon Barrack"	0
+		setautospawn	"Temple Exit"	1
+		wait 1700
+		// *----------------------------------- vo ------------------------------------------*
+		wm_addteamvoiceannounce 0 "axis-togate5"
+		wm_addteamvoiceannounce 1 "ally-stopboat4"
+		wm_addteamvoiceannounce 1 "ally-defflood2"
+		wm_teamvoiceannounce 0 "axis-togate5"
+		wm_teamvoiceannounce 1 "ally-stopboat4"
+		wm_teamvoiceannounce 1 "ally-defflood2"
+		// *---------------------------------------------------------------------------------*
+		trigger waterlevel raisefast //settle water
+		wait 1000
+		trigger upperpanel open_start	//settle upper gate			
+	}
+	trigger acc
+	{		
+		globalaccum 1 abort_if_not_equal 3
+		globalaccum 2 abort_if_not_equal 1
+		globalaccum 3 abort_if_not_equal 2
+		globalaccum 4 abort_if_not_equal 0
+		globalaccum 1 set 0
+		globalaccum 2 set 0
+		globalaccum 3 set 0
+		globalaccum 4 set 0					
+		wait 1000
+		wm_announce	"^1axs!"		
+		setstate tele_pub default
+		wait 100
+		setstate tele_pub invisible	
+	}
+	trigger pub_passed
+	{
+		globalaccum 4 abort_if_not_equal 100		
+		wait 1000		
+		setstate tele_pub default
+		wait 1000
+		setstate tele_pub invisible		
+	}	
+	trigger checkgame
+	{ 
+		wm_setwinner 0
+		wait 2000
+		wm_endround
+	}
+
+	trigger barrier1
+	{ 
+		alertentity river_ruins_sp
+		alertentity temple_ex_sp
+		setstate temple_ex invisible
+		setstate river_ruins default
+		setautospawn	"River Ruins"	0
+		setautospawn	"Flood Gate"	1
+
+	}
+
+	trigger barrier2
+	{ 
+		alertentity new_boat_barrier_sp
+		setstate flood_gate invisible
+		setstate new_boat_barrier default
+		alertentity flood_gate_al
+		setautospawn	"Barrier"		0
+		setautospawn	"Village Ruins"	1
+		wm_set_round_timelimit 25
+		wm_allied_respawntime 25
+
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_addteamvoiceannounce 1 "ally-defflood2"
+
+		wm_teamvoiceannounce 0 "axis-togate5"
+
+		wm_teamvoiceannounce 1 "ally-defflood2"
+		// *---------------------------------------------------------------------------------*
+	}
+
+	trigger flood_gate
+	{ 
+		alertentity flood_gate_ax
+		alertentity flood_gate
+		setstate flood_gate default
+		alertentity village_al
+		alertentity village_ruins
+		setautospawn	"Upper River"		1
+		setautospawn	"Village Ruins"		0
+		wm_set_round_timelimit 30
+		wm_allied_respawntime 20
+		wm_announce "^1The boat is through the floodgate  !"
+		// *----------------------------------- vo ------------------------------------------*
+		wm_removeteamvoiceannounce 0 "axis-thrugate2"
+		wm_removeteamvoiceannounce 0 "battery_axis_generator_defend"
+		wm_addteamvoiceannounce 0 "axis-totemplee1"
+
+		wm_teamvoiceannounce 0 "axis-totemplee1"
+
+		wm_teamvoiceannounce 1 "ally-stopboat4"
+		wm_removeteamvoiceannounce 1 "ally-defflood2"
+		wm_removeteamvoiceannounce 1 "battery_allies_generator_destroy"
+		// *---------------------------------------------------------------------------------*
+
+	}
+	trigger main_entrance
+	{ 
+		alertentity upper_river_sp
+		alertentity main_entrance_sp
+		setstate upper_river invisible
+		setstate main_entrance default
+		setautospawn	"Main Entrance"		0
+		setautospawn	"Inner Temple"		1		
+		wm_set_round_timelimit 35
+	}
+	trigger inner_temple
+	{ 
+		alertentity inner_temple
+		alertentity inner_temple_ax
+		alertentity inner_temple_al
+		setautospawn	"Inner Temple"		0
+		setautospawn	"Side Temple"		1
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_addteamvoiceannounce 0 "axis-congun1"
+		wm_addteamvoiceannounce 0 "axis-capammo1"
+		wm_addteamvoiceannounce 1 "ally-proammo1"
+
+		wm_teamvoiceannounce 0 "axis-congun1"
+		wm_teamvoiceannounce 0 "axis-capammo1"
+		wm_teamvoiceannounce 1 "ally-proammo1"
+		// *---------------------------------------------------------------------------------*
+
+	}
+	trigger pyramid
+	{ 
+		alertentity side_temple_sp
+		alertentity pyramid_sp
+		setstate side_temple invisible
+		setstate pyramid default
+		setautospawn	"Pyramid Entrance"		0
+		setautospawn	"Pyramid Crypt"		1
+		remapshader "sprites/objective" "textures/mlb_egypt/objective_gold"
+		remapshaderflush
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_removeteamvoiceannounce 0 "axis-congun1"
+
+		wm_teamvoiceannounce 0 "axis-brepyramid2"
+		wm_teamvoiceannounce 1 "ally-fallback1"
+		wm_teamvoiceannounce 1 "ally-pyrambrea2"
+		// *---------------------------------------------------------------------------------*
+
+	}
+	trigger crypt
+	{ 
+		alertentity crypt_al
+		alertentity crypt_ax
+		alertentity crypt
+		alertentity exit_sp
+		setautospawn	"Pyramid Crypt"		0
+		setautospawn	"Temple Exit"		1
+
+	}
+	trigger flood_enter
+	{ 
+		wm_objective_status 1 0 1  // Sail the boat to the floodgate
+		wm_objective_status 1 1 2
+		wm_announce "^1The boat is entering the floodgate  !"
+		// *----------------------------------- vo ------------------------------------------*
+		wm_removeteamvoiceannounce 0 "axis-togate5"
+		wm_addteamvoiceannounce 0 "axis-thrugate2"
+
+		wm_teamvoiceannounce 0 "axis-thrugate2"
+
+		wm_teamvoiceannounce 1 "ally-stopboat4"
+		wm_teamvoiceannounce 1 "ally-defflood2"
+		// *---------------------------------------------------------------------------------*
+
+	}
+	trigger water_lower_axis
+	{ 
+		// *----------------------------------- vo ------------------------------------------*
+		wm_addteamvoiceannounce 0 "axis-lowater2"
+
+		wm_teamvoiceannounce 0 "axis-lowater2"
+
+		// *---------------------------------------------------------------------------------*
+	}
+	trigger water_raise_axis
+	{ 
+		// *----------------------------------- vo ------------------------------------------*
+		wm_addteamvoiceannounce 0 "axis-hiwater1"
+
+		wm_teamvoiceannounce 0 "axis-hiwater1"
+
+		// *---------------------------------------------------------------------------------*
+	}
+}
+
+////////////////////////////////////////////////////////////////////////////////
+acc1
+{
+	activate
+	{
+		globalaccum 1 inc 1
+		trigger game_manager acc
+		wait 10000
+		globalaccum 1 set 0				
+	}
+}	
+acc2
+{
+	activate
+	{
+		globalaccum 2 inc 1
+		trigger game_manager acc
+		wait 10000
+		globalaccum 2 set 0				
+	}
+}	
+acc3
+{
+	activate
+	{
+		globalaccum 3 inc 1
+		trigger game_manager acc
+		wait 10000
+		globalaccum 3 set 0			
+	}
+}	
+acc4
+{
+	activate
+	{
+		globalaccum 4 inc 1
+		trigger game_manager pub_passed
+		wait 20000
+		globalaccum 4 set 0				
+	}	
+}
+////////////////////////////////////////////////////////////////////////////////
+ctal
+{
+	spawn
+	{
+		wait 200
+		remove
+		accum 0 set 3	
+	}
+	activate
+	{
+		accum 0 inc 1
+		trigger self do				
+	}
+	trigger down
+	{
+		accum 0 inc -1
+		trigger self do			
+	}
+	trigger do
+	{
+		accum 0 trigger_if_equal 0 ctal do_1
+		accum 0 trigger_if_equal 1 ctal do_1
+		accum 0 trigger_if_equal 2 ctal do_2
+		accum 0 trigger_if_equal 3 ctal do_3
+		accum 0 trigger_if_equal 4 ctal do_4
+		accum 0 trigger_if_equal 5 ctal do_5
+		accum 0 trigger_if_equal 6 ctal do_5				
+	}
+	trigger do_1
+	{
+		accum 0 set 1
+		setchargetimefactor 1 soldier 2
+		setchargetimefactor 1 lieutenant 2
+		setchargetimefactor 1 medic 2
+		setchargetimefactor 1 engineer 2
+		setchargetimefactor 1 covertops 2
+		setchargetimefactor 0 soldier 0.2
+		setchargetimefactor 0 lieutenant 0.2
+		setchargetimefactor 0 medic 0.2
+		setchargetimefactor 0 engineer 0.2
+		setchargetimefactor 0 covertops 0.2
+		wm_announce	"^1Axis Chargetimebonus +2!"					
+	}
+	trigger do_2
+	{
+		setchargetimefactor 1 soldier 1.5
+		setchargetimefactor 1 lieutenant 1.5
+		setchargetimefactor 1 medic 1.5
+		setchargetimefactor 1 engineer 1.5
+		setchargetimefactor 1 covertops 1.5
+		setchargetimefactor 0 soldier 0.6
+		setchargetimefactor 0 lieutenant 0.6
+		setchargetimefactor 0 medic 0.6
+		setchargetimefactor 0 engineer 0.6
+		setchargetimefactor 0 covertops 0.6	
+		wm_announce	"^1Axis Chargetimebonus +1!"			
+	}
+	trigger do_3
+	{
+		setchargetimefactor 1 soldier 1
+		setchargetimefactor 1 lieutenant 1
+		setchargetimefactor 1 medic 1
+		setchargetimefactor 1 engineer 1
+		setchargetimefactor 1 covertops 1
+		setchargetimefactor 0 soldier 1
+		setchargetimefactor 0 lieutenant 1
+		setchargetimefactor 0 medic 1
+		setchargetimefactor 0 engineer 1
+		setchargetimefactor 0 covertops 1
+		wm_announce	"^1Standard Chargetime!"						
+	}
+	trigger do_4
+	{
+		setchargetimefactor 1 soldier 0.6
+		setchargetimefactor 1 lieutenant 0.6
+		setchargetimefactor 1 medic 0.6
+		setchargetimefactor 1 engineer 0.6
+		setchargetimefactor 1 covertops 0.6
+		setchargetimefactor 0 soldier 1.5
+		setchargetimefactor 0 lieutenant 1.5
+		setchargetimefactor 0 medic 1.5
+		setchargetimefactor 0 engineer 1.5
+		setchargetimefactor 0 covertops 1.5
+		wm_announce	"^1Allied Chargetimebonus +1!"							
+	}
+	trigger do_5
+	{
+		accum 0 set 5
+		setchargetimefactor 1 soldier 0.2
+		setchargetimefactor 1 lieutenant 0.2
+		setchargetimefactor 1 medic 0.2
+		setchargetimefactor 1 engineer 0.2
+		setchargetimefactor 1 covertops 0.2
+		setchargetimefactor 0 soldier 2
+		setchargetimefactor 0 lieutenant 2
+		setchargetimefactor 0 medic 2
+		setchargetimefactor 0 engineer 2
+		setchargetimefactor 0 covertops 2	
+		wm_announce	"^1Allied Chargetimebonus +2!"						
+	}	
+}
+ctax
+{
+	activate
+	{
+		trigger ctal down						
+	}
+}
+////////////////////////////////////////////////////////////////////////////////	
+stal
+{
+	spawn
+	{
+		wait 200
+		remove
+		accum 0 set 3	
+	}
+	activate
+	{
+		accum 0 inc 1
+		trigger self do				
+	}
+	trigger down
+	{
+		accum 0 inc -1
+		trigger self do			
+	}
+	trigger do
+	{
+		accum 0 trigger_if_equal 0 stal do_1
+		accum 0 trigger_if_equal 1 stal do_1
+		accum 0 trigger_if_equal 2 stal do_2
+		accum 0 trigger_if_equal 3 stal do_3
+		accum 0 trigger_if_equal 4 stal do_4
+		accum 0 trigger_if_equal 5 stal do_5
+		accum 0 trigger_if_equal 6 stal do_5				
+	}
+	trigger do_1
+	{
+		accum 0 set 1	
+		wm_axis_respawntime 2
+		wm_allied_respawntime 30
+		wm_announce	"^1Axis Spawntimebonus +2!"				
+	}
+	trigger do_2
+	{
+		wm_axis_respawntime 5
+		wm_allied_respawntime 25	
+		wm_announce	"^1Axis Spawntimebonus +1!"			
+	}
+	trigger do_3
+	{
+		wm_axis_respawntime 10
+		wm_allied_respawntime 20	
+		wm_announce	"^1Standard Spawntime!"				
+	}
+	trigger do_4
+	{
+		wm_axis_respawntime 15
+		wm_allied_respawntime 15
+		wm_announce	"^1Allied Spawntimebonus +1!"					
+	}
+	trigger do_5
+	{
+		accum 0 set 5	
+		wm_axis_respawntime 20
+		wm_allied_respawntime 10	
+		wm_announce	"^1Allied Spawntimebonus +2!"			
+	}	
+}	
+stax
+{
+	activate
+	{
+		trigger stal down				
+	}
+}
+////////////////////////////////////////////////////////////////////////////////	
+spal
+{
+	activate
+	{
+		//wm_announce	"^1Allied Special!"				
+	}
+}
+////////////////////////////////////////////////////////////////////////////////	
+spax
+{
+	activate
+	{
+		//wm_announce	"^1Axis Special!"					
+	}
+}	
+////////////////////////////////////////////////////////////////////////////////
+bino_l
+{
+	activate
+	{
+		wm_announce	"^1Not Active on this map!"					
+	}
+}
+bino_s
+{
+	activate
+	{
+		wm_announce	"^1Not Active on this map!"						
+	}
+}
+////////////////////////////////////////////////////////////////////////////////
+reti_l
+{
+	activate
+	{
+		wm_announce	"^1Not Active on this map!"					
+	}
+}
+reti_s
+{
+	activate
+	{
+		wm_announce	"^1Not Active on this map!"							
+	}
+}	
+////////////////////////////////////////////////////////////////////////////////
+
+
+// *************************************************
+// ***************** boat STUFF ********************
+// *************************************************
+
+boat_sound
+{
+	trigger start
+	{
+		trigger boat sound_start
+		wait 2000
+		trigger boat sound_move
+	}
+
+	trigger stop
+	{
+		trigger boat sound_stop
+		wait 3000
+		trigger boat sound_idle
+	}
+
+	trigger rebirth
+	{
+		trigger boat sound_rebirth
+		wait 1000
+		trigger boat sound_idle
+	}
+}
+
+// digibob: converting truck script from goldrush over...
+// ============================================================================
+// accum 0, track state
+// accum 1
+//  - bit 0: barrier1 state		( 0 = not built,	1 = built		)
+//  - bit 1: barrier2 state		( 0 = not built,	1 = built		)
+//  - bit 2: spline status 		( 0 = not moving, 	1 = moving 		)
+//  - bit 3: stuck check flag 	( 0 = not stuck, 	1 = stuck 		)
+//  - bit 4: flag for message	( 0 = dont display, 1= display		)
+//  - bit 5: blank				(									)
+//  - bit 6: temp register 		(XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX)
+//  - bit 7: death status 		( 0 = alive, 		1 = dead		)
+//  - bit 8: player check 		( 0 = players, 		1 = no players	)
+//  - bit 9: visible state		( 0 = alive, 		1 = dead		)
+// accum 2, blank
+// accum 3, current movement loop position
+// accum 4, stop counter
+// accum 5, lockout ref counter
+// accum 6, blank
+// accum 7, blank
+// ===========================================================================================
+// spline points are spln2 -> spln78
+// ===========================================================================================
+// track events:
+//  - tracks_forward
+//  - tracks_stop
+//  - tracks_turn_left
+//  - tracks_turn_right
+
+
+boat
+{
+	spawn
+	{
+		wait 400
+		faceangles 0 90 0 1
+		accum 3 set 1
+		followspline 0 spln0 5000 wait length 32
+		trigger boat sound_idle
+	}
+
+	// ========================================
+	// sound stuff
+
+	trigger sound_idle
+	{
+		stopsound
+		playsound sound/egypt/engine-idle.wav looping volume 512
+	}
+
+	trigger sound_start
+	{
+		stopsound
+		playsound sound/egypt/engine-revup.wav volume 300
+	}
+
+	trigger sound_move
+	{
+		stopsound
+		playsound sound/egypt/engine-workload.wav looping volume 512
+	}
+
+	trigger sound_stop
+	{
+		stopsound
+		playsound sound/egypt/engine-revdown.wav volume 280
+	}
+
+	trigger sound_death
+	{
+		stopsound
+		playsound sound/egypt/engine-stop.wav volume 256
+	}
+
+	trigger sound_rebirth
+	{
+		stopsound
+		playsound sound/egypt/engine-start.wav volume 250
+	}
+
+	// ========================================
+	// ========================================
+
+
+	// ===========================================================================================
+	// ===========================================================================================
+	// ===========================================================================================
+	// ===========================================================================================
+
+	trigger run_continue
+	{
+		accum 3 inc 1
+		trigger self deathcheck
+		trigger self stopcheck
+		trigger self move
+	}
+
+
+	// ===========================================================================================
+	// movement
+
+	trigger move_check
+	{
+		trigger self stuck_check
+		accum 1 abort_if_bitset 3
+
+		trigger self dispatch
+	}
+
+	trigger move
+	{
+		trigger self move_check
+
+		wait 500
+
+		trigger self move
+	}
+
+	trigger dispatch
+	{
+		accum 3 trigger_if_equal 0 boat run_0
+		accum 3 trigger_if_equal 1 boat run_1
+		accum 3 trigger_if_equal 2 boat run_2
+		accum 3 trigger_if_equal 3 boat run_3
+		accum 3 trigger_if_equal 4 boat run_4
+		accum 3 trigger_if_equal 5 boat run_5
+		accum 3 trigger_if_equal 6 boat run_6
+		accum 3 trigger_if_equal 7 boat run_7
+		accum 3 trigger_if_equal 8 boat run_8
+		accum 3 trigger_if_equal 9 boat run_9
+		accum 3 trigger_if_equal 10 boat run_10
+		accum 3 trigger_if_equal 11 boat run_11
+		accum 3 trigger_if_equal 12 boat run_12
+		accum 3 trigger_if_equal 13 boat run_13
+		accum 3 trigger_if_equal 14 boat run_14
+		accum 3 trigger_if_equal 15 boat run_15
+		accum 3 trigger_if_equal 16 boat run_16
+		accum 3 trigger_if_equal 17 boat run_17
+		accum 3 trigger_if_equal 18 boat run_18
+		accum 3 trigger_if_equal 19 boat run_19
+		accum 3 trigger_if_equal 20 boat run_20
+		accum 3 trigger_if_equal 21 boat run_21
+		accum 3 trigger_if_equal 22 boat run_22
+		accum 3 trigger_if_equal 23 boat run_23
+		accum 3 trigger_if_equal 24 boat run_24
+		accum 3 trigger_if_equal 25 boat run_25
+		accum 3 trigger_if_equal 26 boat run_26
+		accum 3 trigger_if_equal 27 boat run_27
+		accum 3 trigger_if_equal 28 boat run_28
+		accum 3 trigger_if_equal 29 boat run_29
+		accum 3 trigger_if_equal 30 boat run_30
+		accum 3 trigger_if_equal 31 boat run_31
+		accum 3 trigger_if_equal 32 boat run_32
+		accum 3 trigger_if_equal 33 boat run_33
+		accum 3 trigger_if_equal 34 boat run_34
+		accum 3 trigger_if_equal 35 boat run_35
+		accum 3 trigger_if_equal 36 boat run_36
+		accum 3 trigger_if_equal 37 boat run_37
+		accum 3 trigger_if_equal 38 boat run_38
+		accum 3 trigger_if_equal 39 boat run_39
+		accum 3 trigger_if_equal 40 boat run_40
+		accum 3 trigger_if_equal 41 boat run_41
+		accum 3 trigger_if_equal 42 boat run_42
+		accum 3 trigger_if_equal 43 boat run_43
+		accum 3 trigger_if_equal 44 boat run_44
+		accum 3 trigger_if_equal 45 boat run_45
+		accum 3 trigger_if_equal 46 boat run_46
+		accum 3 trigger_if_equal 47 boat run_47
+		accum 3 trigger_if_equal 48 boat run_48
+
+// Before Water gate
+
+		accum 3 trigger_if_equal 49 boat run_49
+		accum 3 trigger_if_equal 50 boat run_50
+		accum 3 trigger_if_equal 51 boat run_51
+		accum 3 trigger_if_equal 52 boat run_52
+		accum 3 trigger_if_equal 53 boat run_53
+		accum 3 trigger_if_equal 54 boat run_54
+		accum 3 trigger_if_equal 55 boat run_55
+
+// After Water gate
+
+		accum 3 trigger_if_equal 56 boat run_56
+		accum 3 trigger_if_equal 57 boat run_57
+		accum 3 trigger_if_equal 58 boat run_58
+		accum 3 trigger_if_equal 59 boat run_59
+		accum 3 trigger_if_equal 60 boat run_60
+		accum 3 trigger_if_equal 61 boat run_61
+		accum 3 trigger_if_equal 62 boat run_62
+		accum 3 trigger_if_equal 63 boat run_63
+		accum 3 trigger_if_equal 64 boat run_64
+		accum 3 trigger_if_equal 65 boat run_65
+		accum 3 trigger_if_equal 66 boat run_66
+		accum 3 trigger_if_equal 67 boat run_67
+		accum 3 trigger_if_equal 68 boat run_68
+		accum 3 trigger_if_equal 69 boat run_69
+		accum 3 trigger_if_equal 70 boat run_70
+		accum 3 trigger_if_equal 71 boat run_71
+		accum 3 trigger_if_equal 72 boat run_72
+		accum 3 trigger_if_equal 73 boat run_73
+		accum 3 trigger_if_equal 74 boat run_74
+		accum 3 trigger_if_equal 75 boat run_75
+		accum 3 trigger_if_equal 76 boat run_76
+		accum 3 trigger_if_equal 77 boat run_77
+
+
+	}
+	trigger run_0
+	{
+		trigger boat_trigger run_0
+		trigger chimney run_0
+		trigger boat_build run_0
+		accum 1 bitset 2
+		followspline 0 spln0 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+	trigger run_1
+	{
+		trigger boat_trigger run_1
+		trigger chimney run_1
+		trigger boat_build run_1
+		accum 1 bitset 2
+		followspline 0 spln1 100 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+	trigger run_2
+	{
+		trigger boat_trigger run_2
+		trigger chimney run_2
+		trigger boat_build run_2
+		accum 1 bitset 2
+		followspline 0 spln2 150 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+	trigger run_3
+	{
+		trigger boat_trigger run_3
+		trigger chimney run_3
+		trigger boat_build run_3
+		accum 1 bitset 2
+		followspline 0 spln3 150 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+	trigger run_4
+	{
+		trigger boat_trigger run_4
+		trigger chimney run_4
+		trigger boat_build run_4
+		accum 1 bitset 2
+		followspline 0 spln4 150 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+	trigger run_5
+	{
+		trigger boat_trigger run_5
+		trigger chimney run_5
+		trigger boat_build run_5
+		accum 1 bitset 2
+		followspline 0 spln5 150 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+	trigger run_6
+	{
+		trigger boat_trigger run_6
+		trigger chimney run_6
+		trigger boat_build run_6
+		accum 1 bitset 2
+		followspline 0 spln6 150 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+	trigger run_7
+	{
+		trigger boat_trigger run_7
+		trigger chimney run_7
+		trigger boat_build run_7
+		accum 1 bitset 2
+		followspline 0 spln7 150 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+	trigger run_8
+	{
+		trigger boat_trigger run_8
+		trigger chimney run_8
+		trigger boat_build run_8
+		accum 1 bitset 2
+		followspline 0 spln8 100 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+//Firing the  first wall
+
+	trigger run_9
+	{
+		trigger boat_trigger run_9
+		trigger chimney run_9
+		trigger boat_build run_9
+		accum 1 bitset 2
+		followspline 0 spln9 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self		script_lockout
+
+		trigger boat_sound 	stop
+
+
+		startanimation 45 	10 	15 nolerp norandom
+		wait 666
+		startanimation 0 	1 	15 nolerp norandom
+		wait 900
+		accum 3 inc 1
+		trigger canon_turret turn1
+	}
+
+	trigger run_10
+	{
+		trigger boat_trigger run_10
+		trigger chimney run_10
+		trigger boat_build run_10
+		accum 1 bitset 2
+		followspline 0 spln10 80 wait length 32
+		accum 1 bitreset 2
+		trigger self run_continue
+	}
+
+	trigger run_11
+	{
+		trigger boat_trigger run_11
+		trigger chimney run_11
+		trigger boat_build run_11
+		accum 1 bitset 2
+		followspline 0 spln11 100 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+	trigger run_12
+	{
+		trigger boat_trigger run_12
+		trigger chimney run_12
+		trigger boat_build run_12
+		accum 1 bitset 2
+		followspline 0 spln12 150 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+	trigger run_13
+	{
+		trigger boat_trigger run_13
+		trigger chimney run_13
+		trigger boat_build run_13
+		accum 1 bitset 2
+		followspline 0 spln13 150 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+	trigger run_14
+	{
+		trigger boat_trigger run_14
+		trigger chimney run_14
+		trigger boat_build run_14
+		accum 1 bitset 2
+		followspline 0 spln14 150 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+	trigger run_15
+	{
+		trigger boat_trigger run_15
+		trigger chimney run_15
+		trigger boat_build run_15
+		accum 1 bitset 2
+		followspline 0 spln15 150 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+	trigger run_16
+	{
+		trigger boat_trigger run_16
+		trigger chimney run_16
+		trigger boat_build run_16
+		accum 1 bitset 2
+		followspline 0 spln16 150 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+	trigger run_17
+	{
+		trigger boat_trigger run_17
+		trigger chimney run_17
+		trigger boat_build run_17
+		accum 1 bitset 2
+		followspline 0 spln17 150 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+	trigger run_18
+	{
+		trigger boat_trigger run_18
+		trigger chimney run_18
+		trigger boat_build run_18
+		accum 1 bitset 2
+		followspline 0 spln18 150 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+	trigger run_19
+	{
+		trigger boat_trigger run_19
+		trigger chimney run_19
+		trigger boat_build run_19
+		accum 1 bitset 2
+		followspline 0 spln19 150 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+	trigger run_20
+	{
+		trigger boat_trigger run_20
+		trigger chimney run_20
+		trigger boat_build run_20
+		accum 1 bitset 2
+		followspline 0 spln20 150 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+	trigger run_21
+	{
+		trigger boat_trigger run_21
+		trigger chimney run_21
+		trigger boat_build run_21
+		accum 1 bitset 2
+		followspline 0 spln21 150 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+	trigger run_22
+	{
+		trigger boat_trigger run_22
+		trigger chimney run_22
+		trigger boat_build run_22
+		accum 1 bitset 2
+		followspline 0 spln22 150 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+	trigger run_23
+	{
+		trigger boat_trigger run_23
+		trigger chimney run_23
+		trigger boat_build run_23
+		accum 1 bitset 2
+		followspline 0 spln23 150 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+	trigger run_24
+	{
+		trigger boat_trigger run_24
+		trigger chimney run_24
+		trigger boat_build run_24
+		accum 1 bitset 2
+		followspline 0 spln24 150 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+	trigger run_25
+	{
+		trigger boat_trigger run_25
+		trigger chimney run_25
+		trigger boat_build run_25
+		accum 1 bitset 2
+		followspline 0 spln25 150 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+	trigger run_26
+	{
+		trigger boat_trigger run_26
+		trigger chimney run_26
+		trigger boat_build run_26
+		accum 1 bitset 2
+		followspline 0 spln26 150 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+	trigger run_27
+	{
+		trigger boat_trigger run_27
+		trigger chimney run_27
+		trigger boat_build run_27
+		accum 1 bitset 2
+
+		trigger boat_barrier remove
+		trigger game_manager barrier1
+		followspline 0 spln27 150 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+	trigger run_28
+	{
+		trigger boat_trigger run_28
+		trigger chimney run_28
+		trigger boat_build run_28
+		accum 1 bitset 2
+		followspline 0 spln28 150 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+	trigger run_29
+	{
+		trigger boat_trigger run_29
+		trigger chimney run_29
+		trigger boat_build run_29
+		accum 1 bitset 2
+		followspline 0 spln29 150 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+	trigger run_30
+	{
+		trigger boat_trigger run_30
+		trigger chimney run_30
+		trigger boat_build run_30
+		accum 1 bitset 2
+		followspline 0 spln30 150 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+	trigger run_31
+	{
+		trigger boat_trigger run_31
+		trigger chimney run_31
+		trigger boat_build run_31
+		accum 1 bitset 2
+		followspline 0 spln31 150 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+	trigger run_32
+	{
+		trigger boat_trigger run_32
+		trigger chimney run_32
+		trigger boat_build run_32
+		accum 1 bitset 2
+		followspline 0 spln32 150 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+	trigger run_33
+	{
+		trigger boat_trigger run_33
+		trigger chimney run_33
+		trigger boat_build run_33
+		accum 1 bitset 2
+		followspline 0 spln33 150 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+	trigger run_34
+	{
+		trigger boat_trigger run_34
+		trigger chimney run_34
+		trigger boat_build run_34
+		accum 1 bitset 2
+		followspline 0 spln34 150 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+	trigger run_35
+	{
+		trigger boat_trigger run_35
+		trigger chimney run_35
+		trigger boat_build run_35
+		accum 1 bitset 2
+		followspline 0 spln35 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self		script_lockout
+
+		trigger boat_sound 	stop
+
+
+		startanimation 45 	10 	15 nolerp norandom
+		wait 666
+		startanimation 0 	1 	15 nolerp norandom
+		wait 900
+		accum 3 inc 1
+		trigger canon_turret turn3
+
+	}
+	trigger run_36
+	{
+		trigger boat_trigger run_36
+		trigger chimney run_36
+		trigger boat_build run_36
+		accum 1 bitset 2
+		followspline 0 spln36 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_37
+	{
+		trigger boat_trigger run_37
+		trigger chimney run_37
+		trigger boat_build run_37
+		accum 1 bitset 2
+		followspline 0 spln37 150 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+	trigger run_38
+	{
+		trigger boat_trigger run_38
+		trigger chimney run_38
+		trigger boat_build run_38
+		accum 1 bitset 2
+		followspline 0 spln38 150 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+	trigger run_39
+	{
+		trigger boat_trigger run_39
+		trigger chimney run_39
+		trigger boat_build run_39
+		accum 1 bitset 2
+		followspline 0 spln39 150 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+	trigger run_40
+	{
+		trigger boat_trigger run_40
+		trigger chimney run_40
+		trigger boat_build run_40
+		accum 1 bitset 2
+		followspline 0 spln40 150 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+	trigger run_41
+	{
+		trigger boat_trigger run_41
+		trigger chimney run_41
+		trigger boat_build run_41
+		accum 1 bitset 2
+		followspline 0 spln41 150 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+	trigger run_42
+	{
+		trigger boat_trigger run_42
+		trigger chimney run_42
+		trigger boat_build run_42
+		accum 1 bitset 2
+		followspline 0 spln42 150 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+	trigger run_43
+	{
+		trigger boat_trigger run_43
+		trigger chimney run_43
+		trigger boat_build run_43
+		accum 1 bitset 2
+		followspline 0 spln43 150 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+	trigger run_44
+	{
+		trigger boat_trigger run_44
+		trigger chimney run_44
+		trigger boat_build run_44
+		accum 1 bitset 2
+		followspline 0 spln44 150 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+	trigger run_45
+	{
+		trigger boat_trigger run_45
+		trigger chimney run_45
+		trigger boat_build run_45
+		accum 1 bitset 2
+		followspline 0 spln45 150 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+	trigger run_46
+	{
+		trigger boat_trigger run_46
+		trigger chimney run_46
+		trigger boat_build run_46
+		accum 1 bitset 2
+		followspline 0 spln46 150 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+	trigger run_47
+	{
+		trigger boat_trigger run_47
+		trigger chimney run_47
+		trigger boat_build run_47
+		accum 1 bitset 2
+		followspline 0 spln47 100 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+	trigger run_48
+	{
+
+		trigger boat_trigger run_48
+		trigger chimney run_48
+		trigger boat_build run_48
+		accum 1 bitset 2
+		followspline 0 spln48 80 wait length 32
+		accum 1 bitreset 2
+		trigger game_manager water_lower_axis
+		trigger self run_continue
+	}
+	trigger run_49
+	{
+		trigger waterpanel boatthrough	
+		trigger lowerpanel boatthrough	
+		trigger boat_trigger run_49
+		trigger chimney run_49
+		trigger boat_build run_49
+		accum 1 bitset 2
+		followspline 0 spln49 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+	trigger run_50
+	{
+	trigger game_manager flood_enter
+
+		trigger boat_trigger run_50
+		trigger chimney run_50
+		trigger boat_build run_50
+		accum 1 bitset 2
+		followspline 0 spln50 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+	trigger run_51
+	{
+		trigger boat_trigger run_51
+		trigger chimney run_51
+		trigger boat_build run_51
+		accum 1 bitset 2
+		followspline 0 spln51 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+	trigger run_52
+	{
+
+		trigger boat_trigger run_52
+		trigger chimney run_52
+		trigger boat_build run_52
+		accum 1 bitset 2
+		followspline 0 spln52 80 wait length 32
+		accum 1 bitreset 2
+		trigger lowerpanel boatpassed
+		trigger waterpanel after
+		trigger lowerpanel after
+		trigger upperpanel after
+		trigger upperpanel boatin
+		trigger lowerpanel boatin
+		trigger self run_continue
+	}
+	trigger run_53
+	{
+		
+		trigger boat_trigger run_53
+		trigger chimney run_53
+		trigger boat_build run_53
+		accum 1 bitset 2
+		followspline 0 spln53 40 wait length 32
+		accum 1 bitreset 2
+		trigger game_manager water_raise_axis
+		trigger waterpanel boatpassed
+		trigger waterpanel boatin		
+		trigger self run_continue
+	}
+	trigger run_54
+	{
+		trigger waterpanel boatout
+		trigger upperpanel boatthrough	
+		trigger waterpanel boatthrough
+		trigger boat_trigger run_54
+		trigger chimney run_54
+		trigger boat_build run_54
+		accum 1 bitset 2
+		followspline 0 spln54 40 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+	trigger run_55
+	{
+		trigger boat_trigger run_55
+		trigger chimney run_55
+		trigger boat_build run_55
+		accum 1 bitset 2
+		followspline 0 spln55 80 wait length 32
+		accum 1 bitreset 2		
+		
+		trigger self run_continue
+	}
+	trigger run_56
+	{
+		trigger boat_trigger run_56
+		trigger chimney run_56
+		trigger boat_build run_56
+		accum 1 bitset 2
+		followspline 0 spln56 80 wait length 32
+		accum 1 bitreset 2
+		trigger upperpanel boatout
+		trigger lowerpanel boatout
+		trigger upperpanel boatpassed
+		trigger waterpanel boatpassed
+
+		// Spawn change
+		trigger game_manager flood_gate
+
+		trigger self run_continue
+	}
+	trigger run_57
+	{
+	
+		trigger boat_trigger run_57
+		trigger chimney run_57
+		trigger boat_build run_57
+		accum 1 bitset 2
+		followspline 0 spln57 100 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+	trigger run_58
+	{
+		trigger boat_trigger run_58
+		trigger chimney run_58
+		trigger boat_build run_58
+		accum 1 bitset 2
+		followspline 0 spln58 150 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+	trigger run_59
+	{
+		trigger boat_trigger run_59
+		trigger chimney run_59
+		trigger boat_build run_59
+		accum 1 bitset 2
+		followspline 0 spln59 150 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+	trigger run_60
+	{
+		trigger boat_trigger run_60
+		trigger chimney run_60
+		trigger boat_build run_60
+		accum 1 bitset 2
+		followspline 0 spln60 150 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+	trigger run_61
+	{
+		trigger boat_trigger run_61
+		trigger chimney run_61
+		trigger boat_build run_61
+		accum 1 bitset 2
+		followspline 0 spln61 150 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+	trigger run_62
+	{
+		trigger boat_trigger run_62
+		trigger chimney run_62
+		trigger boat_build run_62
+		accum 1 bitset 2
+		followspline 0 spln62 150 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+	trigger run_63
+	{
+		trigger boat_trigger run_63
+		trigger chimney run_63
+		trigger boat_build run_63
+		accum 1 bitset 2
+		followspline 0 spln63 150 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+	trigger run_64
+	{
+		trigger boat_trigger run_64
+		trigger chimney run_64
+		trigger boat_build run_64
+		accum 1 bitset 2
+		followspline 0 spln64 150 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+	trigger run_65
+	{
+		trigger boat_trigger run_65
+		trigger chimney run_65
+		trigger boat_build run_65
+		accum 1 bitset 2
+		followspline 0 spln65 150 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+	trigger run_66
+	{
+		trigger boat_trigger run_66
+		trigger chimney run_66
+		trigger boat_build run_66
+		accum 1 bitset 2
+		followspline 0 spln66 150 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+	trigger run_67
+	{
+		trigger boat_trigger run_67
+		trigger chimney run_67
+		trigger boat_build run_67
+		accum 1 bitset 2
+		followspline 0 spln67 150 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+	trigger run_68
+	{
+		trigger boat_trigger run_68
+		trigger chimney run_68
+		trigger boat_build run_68
+		accum 1 bitset 2
+		followspline 0 spln68 150 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+	trigger run_69
+	{
+		trigger boat_trigger run_69
+		trigger chimney run_69
+		trigger boat_build run_69
+		accum 1 bitset 2
+		followspline 0 spln69 150 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+	trigger run_70
+	{
+		trigger boat_trigger run_70
+		trigger chimney run_70
+		trigger boat_build run_70
+		accum 1 bitset 2
+		followspline 0 spln70 150 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+	trigger run_71
+	{
+		trigger boat_trigger run_71
+		trigger chimney run_71
+		trigger boat_build run_71
+		accum 1 bitset 2
+		followspline 0 spln71 150 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+	trigger run_72
+	{
+		trigger boat_trigger run_72
+		trigger chimney run_72
+		trigger boat_build run_72
+		accum 1 bitset 2
+		followspline 0 spln72 150 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+	trigger run_73
+	{
+		trigger boat_trigger run_73
+		trigger chimney run_73
+		trigger boat_build run_73
+		accum 1 bitset 2
+		followspline 0 spln73 150 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+	trigger run_74
+	{
+		trigger boat_trigger run_74
+		trigger chimney run_74
+		trigger boat_build run_74
+		accum 1 bitset 2
+		followspline 0 spln74 150 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+	trigger run_75
+	{
+		trigger boat_trigger run_75
+		trigger chimney run_75
+		trigger boat_build run_75
+		accum 1 bitset 2
+		followspline 0 spln75 150 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+	trigger run_76
+	{
+		trigger boat_trigger run_76
+		trigger chimney run_76
+		trigger boat_build run_76
+		accum 1 bitset 2
+		followspline 0 spln76 100 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+	trigger run_77
+	{
+		trigger boat_trigger run_77
+		trigger chimney run_77
+		trigger boat_build run_77
+		accum 1 bitset 2
+		followspline 0 spln77 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self script_lockout
+		trigger boat_sound 	stop
+
+		startanimation 45 10 15 nolerp norandom
+		wait 666
+		startanimation 0 1 15 nolerp norandom
+
+		wait 900
+		accum 3 inc 1
+		trigger canon_turret turn2
+
+	}
+// ===========================================================================================
+	trigger startfire
+	{
+		startanimation 67 8 10 nolerp norandom
+	}
+
+	trigger stopfire
+	{
+		startanimation 0 1 15 nolerp norandom
+	}
+// ===========================================================================================
+// ===========================================================================================
+// ===========================================================================================
+	trigger raise
+	{
+		gotomarker high 20
+	}
+	trigger lower
+	{
+		gotomarker low 20
+	}	
+
+// ===========================================================================================
+// stuck checking
+// digibob: since we cant return variables, just use bit 3 of accum 1 as a register... mmmm assembly...
+	trigger stuck_check
+	{
+		accum 1 bitreset 3
+		trigger self low_gate
+		trigger self high_gate
+		trigger self barrier
+		trigger self stuck_check_scriptlockout
+		trigger self stuck_check_finished
+	}
+
+	trigger stuck_check_finished
+	{
+		accum 3 abort_if_less_than 78
+
+		accum 1 bitset 3
+	}
+	trigger low_gate
+	{
+		accum 3 abort_if_not_equal 49
+		accum 2 abort_if_not_bitset 1
+
+		accum 1 bitset 3
+	}
+	trigger high_gate
+	{
+		accum 3 abort_if_not_equal 54
+		accum 2 abort_if_not_bitset 2
+
+		accum 1 bitset 3
+	}
+	trigger barrier
+	{
+		accum 3 abort_if_not_equal 27
+		accum 2 abort_if_not_bitset 3
+
+		accum 1 bitset 3
+	}
+	trigger stuck_check_scriptlockout
+	{
+		accum 5 abort_if_equal 0
+
+		accum 1 bitset 3
+	}
+
+
+// ===========================================================================================
+// stop check
+
+	trigger stopcheck_setup
+	{
+		accum 1 bitset 6			// stop if we're stuck/no-one's pushing :)
+
+		accum 1 abort_if_bitset 8		// no one in the trigger, abort
+
+		trigger self stuck_check		// call the stop check function
+		accum 1 abort_if_bitset 3		// we're stuck so break out
+
+		accum 1 bitreset 6			// we're free to move
+	}
+
+	trigger stopcheck
+	{
+		trigger self stopcheck_setup
+		accum 1 abort_if_not_bitset 6
+
+		trigger self script_lockout
+
+		// Any just stopped moving stuff goes here
+		trigger boat_sound 	stop
+		startanimation 45 	10 	15 nolerp norandom
+		wait 666
+		startanimation 0 	1 	15 nolerp norandom
+		wait 900
+
+		trigger self script_lockout_stop
+		resetscript
+	}
+
+// ===========================================================================================
+// ===========================================================================================
+// script lockouts
+
+	trigger script_lockout
+	{
+		accum 5 inc 1
+	}
+
+	trigger script_lockout_stop
+	{
+		accum 5 inc -1
+	}
+
+// ===========================================================================================
+// ===========================================================================================
+// enable/disable
+
+	trigger boat_enable
+	{
+		trigger self stuck_check
+		accum 1 abort_if_bitset 3 	// stuck check
+
+		accum 4 set 0				// reset stop counter
+		accum 1 bitreset 8			// reset stop check
+
+		accum 1 abort_if_bitset 2 	// already following spline
+		accum 5 abort_if_not_equal 0	// are we not in a script lockout?
+
+		accum 1 abort_if_bitset 7 	// death check
+
+		// Any just started moving stuff goes here
+
+		trigger self script_lockout
+
+		trigger boat_sound start
+
+		startanimation 55 10 15 nolerp norandom
+		wait 666
+		startanimation 5 40 15 nolerp norandom
+		wait 500
+
+		trigger self script_lockout_stop
+
+		trigger self move
+	}
+
+	trigger boat_disable
+	{
+		accum 4 inc 1				// up the stop counter
+		accum 4 abort_if_less_than 4
+
+		accum 1 bitset 8			// set stop check
+
+		trigger self deathcheck
+	}
+
+// ===========================================================================================
+// ===========================================================================================
+// death / rebirth
+
+	rebirth
+	{
+		accum 1 bitreset 9 // we're visibly alive
+		accum 1 bitreset 7 // we're alive again
+
+		trigger self script_lockout
+		wm_announce "^4The boat has been repaired!"
+
+		setstate boat_smoke default
+		remapshader textures/mlb_egypt/boat-mlb textures/mlb_egypt/boat-mlb_back
+		remapshaderflush
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_addteamvoiceannounce 1 "ally-stopboat4"
+		wm_removeteamvoiceannounce 0 "axis-repboat3"
+
+		wm_teamvoiceannounce 0 "axis-boatrep1"
+
+		wm_teamvoiceannounce 1 "ally-boatre2"
+		wm_teamvoiceannounce 1 "ally-stopboat4"
+
+		wm_removeteamvoiceannounce 1 "allies_hq_boat_damaged_axis"
+		// *---------------------------------------------------------------------------------*
+
+		trigger boat_sound rebirth
+		wait 500
+
+		trigger self script_lockout_stop
+	}
+
+	death
+	{
+		accum 1 bitset 7
+	}
+
+	trigger deathcheck
+	{
+		accum 1 abort_if_not_bitset 7	// are we dead?
+		accum 1 abort_if_bitset 9		// are we not already visibly dead?
+		accum 1 abort_if_bitset 2		// are we not following a spline?
+		accum 5 abort_if_not_equal 0	// are we not in a script lockout?
+
+		accum 1 bitset 9				// we're now visibly dead
+
+
+		wm_announce "^1The boat has been damaged!"
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_removeteamvoiceannounce 1 "ally-stopboat4"
+		wm_addteamvoiceannounce 0 "axis-repboat3"
+
+		wm_teamvoiceannounce 1 "ally-boatdam1"
+
+		wm_teamvoiceannounce 0 "axis-repboat3"
+		// *---------------------------------------------------------------------------------* 
+
+		setstate boat_smoke invisible
+		trigger self sound_death
+    		alertentity kill_boat
+		remapshader textures/mlb_egypt/boat-mlb textures/mlb_egypt/boat-mlb_red
+		remapshaderflush
+
+
+
+		trigger self script_lockout
+
+		startanimation 45 10 15 nolerp norandom
+		wait 666
+		startanimation 0 1 15 nolerp norandom
+
+		trigger self script_lockout_stop
+
+		resetscript
+	}
+
+	trigger enable_stage1
+	{
+		accum 2 bitreset 1
+	}
+
+	trigger disable_stage1
+	{
+		accum 2 bitset 1
+	}
+
+	trigger enable_stage2
+	{
+		accum 2 bitreset 2
+	}
+
+	trigger disable_stage2
+	{
+		accum 2 bitset 2
+	}
+	trigger barrier_destroyed
+	{
+		accum 2 bitreset 3
+	}
+
+	trigger disable_constructed
+	{
+		accum 2 bitset 3
+	}
+}
+
+boat_trigger
+{
+	spawn
+	{
+		wait 500
+		followspline 0 spln0 5000 wait length 32
+		trigger boat_trigger bot_goal_loop
+	}
+
+	trigger bot_goal_loop
+	{
+		wait 4000	// check every 4 seconds
+		trigger boat bot_active_check
+		trigger boat_trigger bot_goal_loop
+	}
+	trigger raise
+	{
+		//gotomarker high 100
+		followspline 0 spln200 20 wait length 32
+	}
+	trigger lower
+	{
+		gotomarker low 20
+	}
+	trigger run_0
+	{
+		followspline 0 spln0 80 wait length 32
+	}
+	trigger run_1
+	{
+		followspline 0 spln1 100 wait length 32
+	}
+	trigger run_2
+	{
+		followspline 0 spln2 150 wait length 32
+	}
+	trigger run_3
+	{
+		followspline 0 spln3 150 wait length 32
+	}
+	trigger run_4
+	{
+		followspline 0 spln4 150 wait length 32
+	}
+	trigger run_5
+	{
+		followspline 0 spln5 150 wait length 32
+	}
+	trigger run_6
+	{
+		followspline 0 spln6 150 wait length 32
+	}
+	trigger run_7
+	{
+		followspline 0 spln7 150 wait length 32
+	}
+	trigger run_8
+	{
+		followspline 0 spln8 100 wait length 32
+	}
+	trigger run_9
+	{
+		followspline 0 spln9 80 wait length 32
+	}
+	trigger run_10
+	{
+		followspline 0 spln10 80 wait length 32
+	}
+	trigger run_11
+	{
+		followspline 0 spln11 100 wait length 32
+	}
+	trigger run_12
+	{
+		followspline 0 spln12 150 wait length 32
+	}
+	trigger run_13
+	{
+		followspline 0 spln13 150 wait length 32
+	}
+	trigger run_14
+	{
+		followspline 0 spln14 150 wait length 32
+	}
+	trigger run_15
+	{
+		followspline 0 spln15 150 wait length 32
+	}
+	trigger run_16
+	{
+		followspline 0 spln16 150 wait length 32
+	}
+	trigger run_17
+	{
+		followspline 0 spln17 150 wait length 32
+	}
+	trigger run_18
+	{
+		followspline 0 spln18 150 wait length 32
+	}
+	trigger run_19
+	{
+		followspline 0 spln19 150 wait length 32
+	}
+	trigger run_20
+	{
+		followspline 0 spln20 150 wait length 32
+	}
+	trigger run_21
+	{
+		followspline 0 spln21 150 wait length 32
+	}
+	trigger run_22
+	{
+		followspline 0 spln22 150 wait length 32
+	}
+	trigger run_23
+	{
+		followspline 0 spln23 150 wait length 32
+	}
+	trigger run_24
+	{
+		followspline 0 spln24 150 wait length 32
+	}
+	trigger run_25
+	{
+		followspline 0 spln25 150 wait length 32
+	}
+	trigger run_26
+	{
+		followspline 0 spln26 150 wait length 32
+	}
+	trigger run_27
+	{
+		followspline 0 spln27 150 wait length 32
+	}
+	trigger run_28
+	{
+		followspline 0 spln28 150 wait length 32
+	}
+	trigger run_29
+	{
+		followspline 0 spln29 150 wait length 32
+	}
+	trigger run_30
+	{
+		followspline 0 spln30 150 wait length 32
+	}
+	trigger run_31
+	{
+		followspline 0 spln31 150 wait length 32
+	}
+	trigger run_32
+	{
+		followspline 0 spln32 150 wait length 32
+	}
+	trigger run_33
+	{
+		followspline 0 spln33 150 wait length 32
+	}
+	trigger run_34
+	{
+		followspline 0 spln34 150 wait length 32
+	}
+	trigger run_35
+	{
+		followspline 0 spln35 80 wait length 32
+	}
+	trigger run_36
+	{
+		followspline 0 spln36 80 wait length 32
+	}
+	trigger run_37
+	{
+		followspline 0 spln37 150 wait length 32
+	}
+	trigger run_38
+	{
+		followspline 0 spln38 150 wait length 32
+	}
+	trigger run_39
+	{
+		followspline 0 spln39 150 wait length 32
+	}
+	trigger run_40
+	{
+		followspline 0 spln40 150 wait length 32
+	}
+	trigger run_41
+	{
+		followspline 0 spln41 150 wait length 32
+	}
+	trigger run_42
+	{
+		followspline 0 spln42 150 wait length 32
+	}
+	trigger run_43
+	{
+		followspline 0 spln43 150 wait length 32
+	}
+	trigger run_44
+	{
+		followspline 0 spln44 150 wait length 32
+	}
+	trigger run_45
+	{
+		followspline 0 spln45 150 wait length 32
+	}
+	trigger run_46
+	{
+		followspline 0 spln46 150 wait length 32
+	}
+	trigger run_47
+	{
+		followspline 0 spln47 100 wait length 32
+	}
+	trigger run_48
+	{
+		followspline 0 spln48 80 wait length 32
+	}
+	trigger run_49
+	{
+		followspline 0 spln49 80 wait length 32
+	}
+	trigger run_50
+	{
+		followspline 0 spln50 80 wait length 32
+	}
+	trigger run_51
+	{
+		followspline 0 spln51 80 wait length 32
+	}
+	trigger run_52
+	{
+		followspline 0 spln52 80 wait length 32
+	}
+	trigger run_53
+	{
+		followspline 0 spln53 40 wait length 32
+	}
+	trigger run_54
+	{
+		followspline 0 spln54 40 wait length 32
+	}
+	trigger run_55
+	{
+		followspline 0 spln55 80 wait length 32
+	}
+	trigger run_56
+	{
+		followspline 0 spln56 80 wait length 32
+	}
+	trigger run_57
+	{
+		followspline 0 spln57 100 wait length 32
+	}
+	trigger run_58
+	{
+		followspline 0 spln58 150 wait length 32
+	}
+	trigger run_59
+	{
+		followspline 0 spln59 150 wait length 32
+	}
+	trigger run_60
+	{
+		followspline 0 spln60 150 wait length 32
+	}
+	trigger run_61
+	{
+		followspline 0 spln61 150 wait length 32
+	}
+	trigger run_62
+	{
+		followspline 0 spln62 150 wait length 32
+	}
+	trigger run_63
+	{
+		followspline 0 spln63 150 wait length 32
+	}
+	trigger run_64
+	{
+		followspline 0 spln64 150 wait length 32
+	}
+	trigger run_65
+	{
+		followspline 0 spln65 150 wait length 32
+	}
+	trigger run_66
+	{
+		followspline 0 spln66 150 wait length 32
+	}
+	trigger run_67
+	{
+		followspline 0 spln67 150 wait length 32
+	}
+	trigger run_68
+	{
+		followspline 0 spln68 150 wait length 32
+	}
+	trigger run_69
+	{
+		followspline 0 spln69 150 wait length 32
+	}
+	trigger run_70
+	{
+		followspline 0 spln70 150 wait length 32
+	}
+	trigger run_71
+	{
+		followspline 0 spln71 150 wait length 32
+	}
+	trigger run_72
+	{
+		followspline 0 spln72 150 wait length 32
+	}
+	trigger run_73
+	{
+		followspline 0 spln73 150 wait length 32
+	}
+	trigger run_74
+	{
+		followspline 0 spln74 150 wait length 32
+	}
+	trigger run_75
+	{
+		followspline 0 spln75 150 wait length 32
+	}
+	trigger run_76
+	{
+		followspline 0 spln76 100 wait length 32
+
+	}
+	trigger run_77
+	{
+		followspline 0 spln77 80 wait length 32
+	}
+}
+
+boat_build
+{
+	spawn
+	{
+		wait 80
+		followspline 0 spln0 5000 wait length 32
+	}
+	trigger raise
+	{
+		followspline 0 spln200 20 wait length 32
+		//gotomarker high 100		
+	}
+	trigger lower
+	{
+		gotomarker low 20
+	}
+	trigger run_0
+	{
+		followspline 0 spln0 80 wait length 32
+	}
+	trigger run_1
+	{
+		followspline 0 spln1 100 wait length 32
+	}
+	trigger run_2
+	{
+		followspline 0 spln2 150 wait length 32
+	}
+	trigger run_3
+	{
+		followspline 0 spln3 150 wait length 32
+	}
+	trigger run_4
+	{
+		followspline 0 spln4 150 wait length 32
+	}
+	trigger run_5
+	{
+		followspline 0 spln5 150 wait length 32
+	}
+	trigger run_6
+	{
+		followspline 0 spln6 150 wait length 32
+	}
+	trigger run_7
+	{
+		followspline 0 spln7 150 wait length 32
+	}
+	trigger run_8
+	{
+		followspline 0 spln8 100 wait length 32
+	}
+	trigger run_9
+	{
+		followspline 0 spln9 80 wait length 32
+	}
+	trigger run_10
+	{
+		followspline 0 spln10 80 wait length 32
+	}
+	trigger run_11
+	{
+		followspline 0 spln11 100 wait length 32
+	}
+	trigger run_12
+	{
+		followspline 0 spln12 150 wait length 32
+	}
+	trigger run_13
+	{
+		followspline 0 spln13 150 wait length 32
+	}
+	trigger run_14
+	{
+		followspline 0 spln14 150 wait length 32
+	}
+	trigger run_15
+	{
+		followspline 0 spln15 150 wait length 32
+	}
+	trigger run_16
+	{
+		followspline 0 spln16 150 wait length 32
+	}
+	trigger run_17
+	{
+		followspline 0 spln17 150 wait length 32
+	}
+	trigger run_18
+	{
+		followspline 0 spln18 150 wait length 32
+	}
+	trigger run_19
+	{
+		followspline 0 spln19 150 wait length 32
+	}
+	trigger run_20
+	{
+		followspline 0 spln20 150 wait length 32
+	}
+	trigger run_21
+	{
+		followspline 0 spln21 150 wait length 32
+	}
+	trigger run_22
+	{
+		followspline 0 spln22 150 wait length 32
+	}
+	trigger run_23
+	{
+		followspline 0 spln23 150 wait length 32
+	}
+	trigger run_24
+	{
+		followspline 0 spln24 150 wait length 32
+	}
+	trigger run_25
+	{
+		followspline 0 spln25 150 wait length 32
+	}
+	trigger run_26
+	{
+		followspline 0 spln26 150 wait length 32
+	}
+	trigger run_27
+	{
+		followspline 0 spln27 150 wait length 32
+	}
+	trigger run_28
+	{
+		followspline 0 spln28 150 wait length 32
+	}
+	trigger run_29
+	{
+		followspline 0 spln29 150 wait length 32
+	}
+	trigger run_30
+	{
+		followspline 0 spln30 150 wait length 32
+	}
+	trigger run_31
+	{
+		followspline 0 spln31 150 wait length 32
+	}
+	trigger run_32
+	{
+		followspline 0 spln32 150 wait length 32
+	}
+	trigger run_33
+	{
+		followspline 0 spln33 150 wait length 32
+	}
+	trigger run_34
+	{
+		followspline 0 spln34 150 wait length 32
+	}
+	trigger run_35
+	{
+		followspline 0 spln35 80 wait length 32
+	}
+	trigger run_36
+	{
+		followspline 0 spln36 80 wait length 32
+	}
+	trigger run_37
+	{
+		followspline 0 spln37 150 wait length 32
+	}
+	trigger run_38
+	{
+		followspline 0 spln38 150 wait length 32
+	}
+	trigger run_39
+	{
+		followspline 0 spln39 150 wait length 32
+	}
+	trigger run_40
+	{
+		followspline 0 spln40 150 wait length 32
+	}
+	trigger run_41
+	{
+		followspline 0 spln41 150 wait length 32
+	}
+	trigger run_42
+	{
+		followspline 0 spln42 150 wait length 32
+	}
+	trigger run_43
+	{
+		followspline 0 spln43 150 wait length 32
+	}
+	trigger run_44
+	{
+		followspline 0 spln44 150 wait length 32
+	}
+	trigger run_45
+	{
+		followspline 0 spln45 150 wait length 32
+	}
+	trigger run_46
+	{
+		followspline 0 spln46 150 wait length 32
+	}
+	trigger run_47
+	{
+		followspline 0 spln47 100 wait length 32
+	}
+	trigger run_48
+	{
+		followspline 0 spln48 80 wait length 32
+	}
+	trigger run_49
+	{
+		followspline 0 spln49 80 wait length 32
+	}
+	trigger run_50
+	{
+		followspline 0 spln50 80 wait length 32
+	}
+	trigger run_51
+	{
+		followspline 0 spln51 80 wait length 32
+	}
+	trigger run_52
+	{
+		followspline 0 spln52 80 wait length 32
+	}
+	trigger run_53
+	{
+		followspline 0 spln53 40 wait length 32
+	}
+	trigger run_54
+	{
+		followspline 0 spln54 40 wait length 32
+	}
+	trigger run_55
+	{
+		followspline 0 spln55 80 wait length 32
+	}
+	trigger run_56
+	{
+		followspline 0 spln56 80 wait length 32
+	}
+	trigger run_57
+	{
+		followspline 0 spln57 100 wait length 32
+	}
+	trigger run_58
+	{
+		followspline 0 spln58 150 wait length 32
+	}
+	trigger run_59
+	{
+		followspline 0 spln59 150 wait length 32
+	}
+	trigger run_60
+	{
+		followspline 0 spln60 150 wait length 32
+	}
+	trigger run_61
+	{
+		followspline 0 spln61 150 wait length 32
+	}
+	trigger run_62
+	{
+		followspline 0 spln62 150 wait length 32
+	}
+	trigger run_63
+	{
+		followspline 0 spln63 150 wait length 32
+	}
+	trigger run_64
+	{
+		followspline 0 spln64 150 wait length 32
+	}
+	trigger run_65
+	{
+		followspline 0 spln65 150 wait length 32
+	}
+	trigger run_66
+	{
+		followspline 0 spln66 150 wait length 32
+	}
+	trigger run_67
+	{
+		followspline 0 spln67 150 wait length 32
+	}
+	trigger run_68
+	{
+		followspline 0 spln68 150 wait length 32
+	}
+	trigger run_69
+	{
+		followspline 0 spln69 150 wait length 32
+	}
+	trigger run_70
+	{
+		followspline 0 spln70 150 wait length 32
+	}
+	trigger run_71
+	{
+		followspline 0 spln71 150 wait length 32
+	}
+	trigger run_72
+	{
+		followspline 0 spln72 150 wait length 32
+	}
+	trigger run_73
+	{
+		followspline 0 spln73 150 wait length 32
+	}
+	trigger run_74
+	{
+		followspline 0 spln74 150 wait length 32
+	}
+	trigger run_75
+	{
+		followspline 0 spln75 150 wait length 32
+	}
+	trigger run_76
+	{
+		followspline 0 spln76 100 wait length 32
+
+	}
+	trigger run_77
+	{
+		followspline 0 spln77 80 wait length 32
+	}
+}
+
+chimney
+{
+	spawn
+	{
+		wait 500
+		faceangles 0 90 0 1
+		followspline 0 spln0 5000 wait length 32
+	}
+	trigger raise
+	{
+		gotomarker high 20
+		
+	}
+	trigger lower
+	{
+		gotomarker low 20
+	}
+	trigger run_0
+	{
+		followspline 0 spln0 80 wait length 32
+	}
+	trigger run_1
+	{
+		followspline 0 spln1 100 wait length 32
+	}
+	trigger run_2
+	{
+		followspline 0 spln2 150 wait length 32
+	}
+	trigger run_3
+	{
+		followspline 0 spln3 150 wait length 32
+	}
+	trigger run_4
+	{
+		followspline 0 spln4 150 wait length 32
+	}
+	trigger run_5
+	{
+		followspline 0 spln5 150 wait length 32
+	}
+	trigger run_6
+	{
+		followspline 0 spln6 150 wait length 32
+	}
+	trigger run_7
+	{
+		followspline 0 spln7 150 wait length 32
+	}
+	trigger run_8
+	{
+		followspline 0 spln8 100 wait length 32
+	}
+	trigger run_9
+	{
+		followspline 0 spln9 80 wait length 32
+	}
+	trigger run_10
+	{
+		followspline 0 spln10 80 wait length 32
+	}
+	trigger run_11
+	{
+		followspline 0 spln11 100 wait length 32
+	}
+	trigger run_12
+	{
+		followspline 0 spln12 150 wait length 32
+	}
+	trigger run_13
+	{
+		followspline 0 spln13 150 wait length 32
+	}
+	trigger run_14
+	{
+		followspline 0 spln14 150 wait length 32
+	}
+	trigger run_15
+	{
+		followspline 0 spln15 150 wait length 32
+	}
+	trigger run_16
+	{
+		followspline 0 spln16 150 wait length 32
+	}
+	trigger run_17
+	{
+		followspline 0 spln17 150 wait length 32
+	}
+	trigger run_18
+	{
+		followspline 0 spln18 150 wait length 32
+	}
+	trigger run_19
+	{
+		followspline 0 spln19 150 wait length 32
+	}
+	trigger run_20
+	{
+		followspline 0 spln20 150 wait length 32
+	}
+	trigger run_21
+	{
+		followspline 0 spln21 150 wait length 32
+	}
+	trigger run_22
+	{
+		followspline 0 spln22 150 wait length 32
+	}
+	trigger run_23
+	{
+		followspline 0 spln23 150 wait length 32
+	}
+	trigger run_24
+	{
+		followspline 0 spln24 150 wait length 32
+	}
+	trigger run_25
+	{
+		followspline 0 spln25 150 wait length 32
+	}
+	trigger run_26
+	{
+		followspline 0 spln26 150 wait length 32
+	}
+	trigger run_27
+	{
+		followspline 0 spln27 150 wait length 32
+	}
+	trigger run_28
+	{
+		followspline 0 spln28 150 wait length 32
+	}
+	trigger run_29
+	{
+		followspline 0 spln29 150 wait length 32
+	}
+	trigger run_30
+	{
+		followspline 0 spln30 150 wait length 32
+	}
+	trigger run_31
+	{
+		followspline 0 spln31 150 wait length 32
+	}
+	trigger run_32
+	{
+		followspline 0 spln32 150 wait length 32
+	}
+	trigger run_33
+	{
+		followspline 0 spln33 150 wait length 32
+	}
+	trigger run_34
+	{
+		followspline 0 spln34 150 wait length 32
+	}
+	trigger run_35
+	{
+		followspline 0 spln35 80 wait length 32
+	}
+	trigger run_36
+	{
+		followspline 0 spln36 80 wait length 32
+	}
+	trigger run_37
+	{
+		followspline 0 spln37 150 wait length 32
+	}
+	trigger run_38
+	{
+		followspline 0 spln38 150 wait length 32
+	}
+	trigger run_39
+	{
+		followspline 0 spln39 150 wait length 32
+	}
+	trigger run_40
+	{
+		followspline 0 spln40 150 wait length 32
+	}
+	trigger run_41
+	{
+		followspline 0 spln41 150 wait length 32
+	}
+	trigger run_42
+	{
+		followspline 0 spln42 150 wait length 32
+	}
+	trigger run_43
+	{
+		followspline 0 spln43 150 wait length 32
+	}
+	trigger run_44
+	{
+		followspline 0 spln44 150 wait length 32
+	}
+	trigger run_45
+	{
+		followspline 0 spln45 150 wait length 32
+	}
+	trigger run_46
+	{
+		followspline 0 spln46 150 wait length 32
+	}
+	trigger run_47
+	{
+		followspline 0 spln47 100 wait length 32
+	}
+	trigger run_48
+	{
+		followspline 0 spln48 80 wait length 32
+	}
+	trigger run_49
+	{
+		followspline 0 spln49 80 wait length 32
+	}
+	trigger run_50
+	{
+		followspline 0 spln50 80 wait length 32
+	}
+	trigger run_51
+	{
+		followspline 0 spln51 80 wait length 32
+	}
+	trigger run_52
+	{
+		followspline 0 spln52 80 wait length 32
+	}
+	trigger run_53
+	{
+		followspline 0 spln53 40 wait length 32
+	}
+	trigger run_54
+	{
+		followspline 0 spln54 40 wait length 32
+	}
+	trigger run_55
+	{
+		followspline 0 spln55 80 wait length 32
+	}
+	trigger run_56
+	{
+		followspline 0 spln56 80 wait length 32
+	}
+	trigger run_57
+	{
+		followspline 0 spln57 100 wait length 32
+	}
+	trigger run_58
+	{
+		followspline 0 spln58 150 wait length 32
+	}
+	trigger run_59
+	{
+		followspline 0 spln59 150 wait length 32
+	}
+	trigger run_60
+	{
+		followspline 0 spln60 150 wait length 32
+	}
+	trigger run_61
+	{
+		followspline 0 spln61 150 wait length 32
+	}
+	trigger run_62
+	{
+		followspline 0 spln62 150 wait length 32
+	}
+	trigger run_63
+	{
+		followspline 0 spln63 150 wait length 32
+	}
+	trigger run_64
+	{
+		followspline 0 spln64 150 wait length 32
+	}
+	trigger run_65
+	{
+		followspline 0 spln65 150 wait length 32
+	}
+	trigger run_66
+	{
+		followspline 0 spln66 150 wait length 32
+	}
+	trigger run_67
+	{
+		followspline 0 spln67 150 wait length 32
+	}
+	trigger run_68
+	{
+		followspline 0 spln68 150 wait length 32
+	}
+	trigger run_69
+	{
+		followspline 0 spln69 150 wait length 32
+	}
+	trigger run_70
+	{
+		followspline 0 spln70 150 wait length 32
+	}
+	trigger run_71
+	{
+		followspline 0 spln71 150 wait length 32
+	}
+	trigger run_72
+	{
+		followspline 0 spln72 150 wait length 32
+	}
+	trigger run_73
+	{
+		followspline 0 spln73 150 wait length 32
+	}
+	trigger run_74
+	{
+		followspline 0 spln74 150 wait length 32
+	}
+	trigger run_75
+	{
+		followspline 0 spln75 150 wait length 32
+	}
+	trigger run_76
+	{
+		followspline 0 spln76 100 wait length 32
+
+	}
+	trigger run_77
+	{
+		followspline 0 spln77 80 wait length 32
+	}
+}
+
+boat_construct
+{
+	spawn
+	{
+		wait 1000
+		constructible_class 2
+		constructible_health 1500
+		constructible_constructxpbonus 10
+		constructible_destructxpbonus 10
+	}
+	built final
+	{
+		alertentity boat
+
+	}
+}
+
+
+boat_flash
+{
+	spawn
+	{
+		setstate boat_flash invisible
+	}
+	trigger run
+	{
+		setstate boat_flash default
+		faceangles 0 90 0 50
+
+		wait 50
+	}
+}
+
+boat_disabler
+{
+	trigger run
+	{
+		trigger boat boat_disable
+	}
+}
+
+boat_enabler
+{
+	trigger run
+	{
+		trigger boat boat_enable
+	}
+}
+
+boat_smoke
+{
+	spawn
+	{
+		wait 300
+		attachtotag chimney tag_smoke
+		setstate boat_smoke default
+	}
+}
+
+//---------------------
+//--- canon's stuff ---
+//---------------------
+
+canon_turret
+{
+	spawn
+	{
+		wait 500
+		attachtotag chimney tag_gun
+	}
+	trigger sound_vertical_move_start
+	{
+		stopsound
+		playsound sound/movers/motors/motor_start_02.wav volume 512
+	}
+	trigger sound_vertical_move
+	{
+		stopsound
+		playsound sound/movers/motors/motor_loop_02.wav looping volume 512
+	}
+	trigger sound_vertical_move_end
+	{
+		stopsound
+		playsound sound/movers/motors/motor_end_02.wav volume 512
+	}
+
+	trigger fire1
+	{
+		wm_announce "^4The brick wall has been shot down"
+		stopsound
+		playsound sound/vehicles/tank/tank_fire.wav
+		trigger boat stopfire
+		trigger canon_turret blowwall
+
+	}
+
+	trigger turn1
+	{
+		wait 1000
+		playsound sound/movers/motors/motor_start_01.wav volume 512
+		wait 800
+		playsound sound/movers/motors/motor_loop_01.wav looping volume 512
+		trigger canon turn1
+		faceangles 0 104 0 2500
+		stopsound
+		playsound sound/movers/motors/motor_end_01.wav volume 512
+		wait 500
+		trigger canon turn1_vert
+
+	}
+	trigger return1
+	{
+		wait 1000
+		playsound sound/movers/motors/motor_start_01.wav volume 512
+		wait 800
+		playsound sound/movers/motors/motor_loop_01.wav looping volume 512
+		trigger canon return1
+		faceangles 0 0 0 2500
+		stopsound
+		playsound sound/movers/motors/motor_end_01.wav volume 512
+		wait 500
+		trigger canon return1_vert
+
+	}
+	trigger blowwall
+	{
+		alertentity bank_door1
+		trigger canon_turret return1		
+
+	}
+	trigger fire2
+	{
+		wm_announce "^4The temple entrance has been destroyed"
+		wm_objective_status 2 0 1  // Sail the boat to the temple
+		wm_objective_status 2 1 2		
+		stopsound
+		playsound sound/vehicles/tank/tank_fire.wav
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_removeteamvoiceannounce 0 "axis-totemplee1"
+
+		wm_removeteamvoiceannounce 1 "ally-stopboat4"
+		// *---------------------------------------------------------------------------------*
+		trigger boat stopfire
+		trigger canon_turret blowwall2
+
+	}
+
+	trigger turn2
+	{
+		wait 1000
+		playsound sound/movers/motors/motor_start_01.wav volume 512
+		wait 800
+		playsound sound/movers/motors/motor_loop_01.wav looping volume 512
+		trigger canon turn2
+		faceangles 0 -20 0 3500
+		stopsound
+		playsound sound/movers/motors/motor_end_01.wav volume 512
+		wait 500
+		trigger canon turn2_vert
+
+	}
+	trigger return2
+	{
+		wait 1000
+		playsound sound/movers/motors/motor_start_01.wav volume 512
+		wait 800
+		playsound sound/movers/motors/motor_loop_01.wav looping volume 512
+		trigger canon return2
+		faceangles 0 0 0 3500
+		stopsound
+		playsound sound/movers/motors/motor_end_01.wav volume 512
+		wait 500
+		trigger canon return2_vert
+
+	}
+	trigger blowwall2
+	{
+		alertentity last_wall
+
+		//Spawn changes
+		trigger game_manager main_entrance
+
+		trigger canon_turret return2		
+
+	}
+	trigger fire3
+	{
+		wm_announce "^4The second barrier has been blown"
+		stopsound
+		playsound sound/vehicles/tank/tank_fire.wav
+		trigger boat stopfire
+		trigger canon_turret blowwall3
+
+	}
+
+	trigger turn3
+	{
+		wait 1000
+		playsound sound/movers/motors/motor_start_01.wav volume 512
+		wait 800
+		playsound sound/movers/motors/motor_loop_01.wav looping volume 512
+		trigger canon turn3
+		faceangles 0 -16 0 1500
+		stopsound
+		playsound sound/movers/motors/motor_end_01.wav volume 512
+		wait 500
+		trigger canon turn3_vert
+
+	}
+	trigger return3
+	{
+		wait 1000
+		playsound sound/movers/motors/motor_start_01.wav volume 512
+		wait 800
+		playsound sound/movers/motors/motor_loop_01.wav looping volume 512
+		trigger canon return3
+		faceangles 0 0 0 1500
+		stopsound
+		playsound sound/movers/motors/motor_end_01.wav volume 512
+		wait 500
+		trigger canon return3_vert
+
+	}
+	trigger blowwall3
+	{
+		alertentity second_barrier
+
+		//Spawn changes
+		trigger game_manager barrier2
+
+		trigger canon_turret return3		
+
+	}
+
+
+}
+
+canon
+{
+	spawn
+	{
+		wait 500
+		attachtotag chimney tag_gun
+	}
+	trigger turn1
+	{
+		faceangles 0 104 0 2500
+	}
+	trigger return1
+	{
+		faceangles -5 0 0 2500
+	}
+	trigger turn1_vert
+	{
+		trigger canon_turret sound_vertical_move_start
+		wait 250
+		trigger canon_turret sound_vertical_move
+		faceangles -5 104 0 500
+		trigger canon_turret sound_vertical_move_end
+		wait 500
+		trigger boat startfire
+		trigger canon_turret fire1
+	}
+	trigger return1_vert
+	{
+		trigger canon_turret sound_vertical_move_start
+		wait 250
+		trigger canon_turret sound_vertical_move
+		faceangles 0 0 0 500
+		trigger canon_turret sound_vertical_move_end
+		wait 500
+		trigger boat script_lockout_stop
+	}
+	trigger turn2
+	{
+		faceangles 0 -20 0 3500
+	}
+	trigger return2
+	{
+		faceangles -7 0 0 3500
+	}
+	trigger turn2_vert
+	{
+		trigger canon_turret sound_vertical_move_start
+		wait 250
+		trigger canon_turret sound_vertical_move
+		faceangles -7 -20 0 500
+		trigger canon_turret sound_vertical_move_end
+		wait 500
+		trigger boat startfire
+		trigger canon_turret fire2
+	}
+	trigger return2_vert
+	{
+		trigger canon_turret sound_vertical_move_start
+		wait 250
+		trigger canon_turret sound_vertical_move
+		faceangles 0 0 0 500
+		trigger canon_turret sound_vertical_move_end
+		wait 500
+		trigger boat sound_death
+		trigger boat script_lockout_stop
+	}
+	trigger turn3
+	{
+		faceangles 0 -16 0 1500
+	}
+	trigger return3
+	{
+		faceangles 3 0 0 1500
+	}
+	trigger turn3_vert
+	{
+		trigger canon_turret sound_vertical_move_start
+		wait 250
+		trigger canon_turret sound_vertical_move
+		faceangles 3 -16 0 500
+		trigger canon_turret sound_vertical_move_end
+		wait 500
+		trigger boat startfire
+		trigger canon_turret fire3
+	}
+	trigger return3_vert
+	{
+		trigger canon_turret sound_vertical_move_start
+		wait 250
+		trigger canon_turret sound_vertical_move
+		faceangles 0 0 0 500
+		trigger canon_turret sound_vertical_move_end
+		wait 500
+		trigger boat script_lockout_stop
+	}
+
+}
+
+
+//*******************************
+//***** Water Gate Entities *****
+//*******************************
+
+
+bridge_west
+{
+	trigger open
+	{
+		playsound sound/movers/motors/motor_start_01.wav volume 512
+		wait 300
+		playsound sound/movers/motors/motor_loop_01.wav looping volume 512
+		faceangles -20 0 0 800
+		faceangles -40 0 0 500
+		faceangles -60 0 0 350
+		faceangles -70 0 0 500
+		faceangles -80 0 0 800
+		stopsound
+		playsound sound/movers/motors/motor_end_01.wav volume 512				
+	}
+	
+	trigger close
+	{
+		playsound sound/movers/motors/motor_start_01.wav volume 512
+		wait 300
+		playsound sound/movers/motors/motor_loop_01.wav looping volume 512
+		faceangles -70 0 0 800
+		faceangles -60 0 0 500
+		faceangles -40 0 0 350
+		faceangles -20 0 0 500		
+		faceangles 0 0 0 800
+		stopsound
+		playsound sound/movers/motors/motor_end_01.wav volume 512
+	}
+}
+bridge_east
+{
+	trigger open
+	{
+		faceangles 20 0 0 800
+		faceangles 40 0 0 500
+		faceangles 60 0 0 350
+		faceangles 70 0 0 500
+		faceangles 80 0 0 800
+	}
+	
+	trigger close
+	{
+		faceangles 70 0 0 800
+		faceangles 60 0 0 500
+		faceangles 40 0 0 350
+		faceangles 20 0 0 500
+		faceangles 0 0 0 800
+	}
+}
+
+
+water_sound
+{
+	trigger raise
+	{
+		trigger waterlevel raise_sound
+	}
+	trigger lower
+	{
+		trigger waterlevel lower_sound
+	}
+	trigger stop
+	{
+		trigger waterlevel sound_stop
+	}
+
+}
+
+waterlevel
+{
+	trigger raise_boat
+	{
+		trigger boat_trigger raise
+		trigger chimney raise
+		trigger boat_build raise
+		trigger boat raise
+		gotomarker high 20
+	}
+	trigger lower_boat
+	{
+		trigger boat_trigger lower
+		trigger chimney lower
+		trigger boat_build lower
+		trigger boat lower
+		gotomarker low 20
+	}
+
+	trigger raise
+	{
+	trigger waterpanel disable
+		trigger lowerpanel watermove
+		trigger upperpanel watermove
+		trigger water_sound raise
+		trigger waterpanel remap_raise
+		gotomarker high 100 wait
+		trigger waterpanel remap_up
+		trigger water_sound stop
+		trigger lowerpanel waterup
+		trigger upperpanel waterup
+	trigger waterpanel enable
+	}
+
+	trigger lower
+	{
+	trigger waterpanel disable
+		trigger lowerpanel watermove
+		trigger upperpanel watermove
+		trigger water_sound lower
+		trigger waterpanel remap_lower
+		gotomarker low 100 wait
+		trigger waterpanel remap_down
+		trigger water_sound stop
+		trigger lowerpanel waterdown
+		trigger upperpanel waterdown
+
+	trigger waterpanel enable
+	}
+	trigger lower_sound
+	{
+		stopsound
+		playsound sound/world/rain_indoor.wav looping volume 1100
+	}
+	trigger raise_sound
+	{
+		stopsound
+		playsound sound/world/water_01.wav looping volume 1100
+	}
+	trigger sound_stop
+	{
+		stopsound
+	}
+	trigger raisefast
+	{
+		trigger waterpanel remap_raise
+		gotomarker high 1000 wait
+		trigger waterpanel remap_up
+	}
+}
+
+
+
+gate_sound
+{
+	trigger high_run
+	{
+		trigger gatehigh_west sound_run
+	}
+	trigger low_run
+	{
+		trigger gatelow_west sound_run
+	}
+}
+
+
+gatehigh_west
+{
+	trigger open
+	{
+		playsound sound/movers/misc/big_gate1.wav volume 127
+		wait 350
+		trigger gate_sound high_run
+		gotomarker ghwo 100
+		stopsound
+		playsound sound/movers/misc/big_gate3.wav volume 127
+	}
+	trigger close
+	{
+		playsound sound/movers/misc/big_gate1.wav volume 127
+		wait 350
+		trigger gate_sound high_run
+		gotomarker ghwc 100
+		stopsound
+		playsound sound/movers/misc/big_gate3.wav volume 127
+	}
+	trigger sound_run
+	{
+		playsound sound/movers/misc/big_gate2.wav looping volume 170
+
+	}
+	
+}
+
+gatehigh_east
+{
+	trigger open
+	{
+		gotomarker gheo 100
+	}
+	
+	trigger close
+	{
+		gotomarker ghec 100
+	}
+}
+gatelow_west
+{
+	trigger open
+	{
+		playsound sound/movers/misc/big_gate1.wav volume 127
+		wait 350
+		trigger gate_sound high_run
+		gotomarker glwo 100
+		stopsound
+		playsound sound/movers/misc/big_gate3.wav volume 127
+	}
+	trigger close
+	{
+		playsound sound/movers/misc/big_gate1.wav volume 127
+		wait 350
+		trigger gate_sound high_run
+		gotomarker glwc 100
+		stopsound
+		playsound sound/movers/misc/big_gate3.wav volume 127
+	}
+	trigger sound_run
+	{
+		playsound sound/movers/misc/big_gate2.wav looping volume 170
+
+	}
+}
+gatelow_east
+{
+	trigger open
+	{
+		gotomarker gleo 100
+	}
+	trigger close
+	{
+		gotomarker glec 100
+	}
+}
+
+
+//*******************************
+//***** Water Gate Controls *****
+//*******************************
+
+generator
+{
+	spawn
+	{
+    	wait 200
+    	accum 0 set 0
+    	constructible_class 3
+    	constructible_chargebarreq 0.7
+    	setstate panelon invisible
+    	setstate paneloff invisible
+    	setstate paneloff default
+   	}
+
+	buildstart final
+	{
+	}
+
+	built final
+	{
+	    wm_announce "^4Axis team has fixed the generator!" 
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_addteamvoiceannounce 0 "battery_axis_generator_defend"
+		wm_addteamvoiceannounce 1 "battery_allies_generator_destroy"
+
+		wm_teamvoiceannounce 0 "battery_axis_generator_constructed"
+		wm_teamvoiceannounce 1 "battery_axis_generator_constructed"
+
+		//wm_teamvoiceannounce 0 "battery_axis_generator_defend"
+		wm_teamvoiceannounce 1 "battery_allies_generator_destroy"
+		// *---------------------------------------------------------------------------------*
+ 
+	    setstate paneloff invisible
+	    setstate panelon default
+		alertentity son_gene
+		trigger waterpanel gene_on
+		trigger upperpanel gene_on
+		trigger lowerpanel gene_on		
+	}
+
+	decayed final
+	{
+	}
+
+	death
+	{
+		wm_announce "^1Allied team has broken the generator!"
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_removeteamvoiceannounce 0 "battery_axis_generator_defend"
+		wm_removeteamvoiceannounce 1 "battery_allies_generator_destroy"
+
+		wm_teamvoiceannounce 1 "battery_allies_generator_destroyed"
+		wm_teamvoiceannounce 0 "battery_axis_generator_destroyed"
+		// *---------------------------------------------------------------------------------*
+	
+		setstate panelon invisible
+		setstate paneloff default
+		alertentity son_gene
+		trigger waterpanel gene_off
+		trigger upperpanel gene_off
+		trigger lowerpanel gene_off
+	}
+	
+	trigger forced_death
+	{
+		accum 0 abort_if_equal 1 // by low
+		alertentity generator  // by low
+		wm_announce "^1The generator broke down!"
+		wm_teamvoiceannounce 1 "ally-stopboat4"
+		setstate panelon invisible
+		setstate paneloff default
+		alertentity son_gene
+		trigger waterpanel gene_off
+		trigger upperpanel gene_off
+		trigger lowerpanel gene_off
+		accum 0 set 1 // by low
+	}
+	trigger forced_death2
+	{
+		accum 1 abort_if_equal 1 // by low
+		alertentity generator  // by low
+		wm_announce "^1The generator broke down!"		
+		wm_teamvoiceannounce 1 "ally-stopboat4"
+		setstate panelon invisible
+		setstate paneloff default
+		alertentity son_gene
+		trigger waterpanel gene_off
+		trigger upperpanel gene_off
+		trigger lowerpanel gene_off
+		accum 1 set 1 // by low
+	}
+				
+}
+
+waterpanel
+{
+	spawn
+	{
+		accum 2 set 0		//generator status 0:off 1:on
+		accum 3 set 0		//boat status when passing the floodgate
+		accum 4 set 0		//boat in the floodgate
+		accum 5 set 0		// Initial state is up
+		accum 7 set 0		// 0:before floodgate,1:after floodgate
+		accum 8 set 0		//lowerdoors status 0:close 1:open
+		accum 9 set 1		//upperdoors status 0:close 1:open
+		accum 6 bitreset 1
+		wait 50			// Wait for everything to settle
+	}
+
+	activate axis
+	{
+		accum 8 abort_if_not_equal 0
+		accum 9 abort_if_not_equal 0
+		accum 3 abort_if_not_equal 0
+		accum 2 abort_if_not_equal 1
+		accum 6 abort_if_bitset 1
+		trigger waterpanel axis_raise
+		trigger waterpanel axis_lower
+
+	}
+	activate allies
+	{
+		accum 8 abort_if_not_equal 0
+		accum 9 abort_if_not_equal 0
+		accum 3 abort_if_not_equal 0
+		accum 2 abort_if_not_equal 1
+		accum 6 abort_if_bitset 1
+		trigger waterpanel allies_raise
+		trigger waterpanel allies_lower	
+	}
+	
+	trigger axis_lower
+	{
+
+		accum 6 abort_if_bitset 1
+		accum 4 abort_if_equal 1
+		accum 5 abort_if_not_equal 0	// Ready to run down routine == 0
+//	trigger lowerpanel force_close
+//	trigger upperpanel force_close
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_removeteamvoiceannounce 0 "axis-lowater2"
+		wm_addteamvoiceannounce 1 "ally-upwatr1"
+
+		wm_teamvoiceannounce 0 "axis-wadown1"
+		wm_teamvoiceannounce 1 "ally-waterdown2"
+		wm_teamvoiceannounce 1 "ally-upwatr1"
+
+		// *---------------------------------------------------------------------------------*
+		wm_announce "^dAxis has lowered the water!"
+
+
+
+	trigger lowerpanel force_close
+	trigger upperpanel force_close
+		trigger waterhandle	move
+		trigger waterlevel lower	
+		accum 5 set 1
+		accum 4 abort_if_not_equal 1
+
+		trigger waterlevel lower_boat
+		
+	}
+
+	trigger axis_raise
+	{
+		accum 7 abort_if_equal 0
+		accum 6 abort_if_bitset 1
+		accum 5 abort_if_not_equal 1	// Ready to run up routine == 1
+//	trigger lowerpanel force_close
+//	trigger upperpanel force_close
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_addteamvoiceannounce 1 "ally-downwat1"
+		wm_removeteamvoiceannounce 0 "axis-hiwater1"
+
+		wm_teamvoiceannounce 0 "axis-waup2"
+		wm_teamvoiceannounce 1 "ally-waterup1"
+		wm_teamvoiceannounce 1 "ally-downwat1"
+		// *---------------------------------------------------------------------------------*
+
+		wm_announce "^dAxis has raised the water!"
+
+	trigger lowerpanel force_close
+	trigger upperpanel force_close
+		trigger waterhandle	move
+		trigger waterlevel raise
+		accum 5 set 0
+		accum 4 abort_if_not_equal 1
+
+		trigger waterlevel raise_boat	
+			
+	}
+	
+	trigger allies_lower
+	{
+		accum 7 abort_if_equal 0
+		accum 6 abort_if_bitset 1
+		accum 5 abort_if_not_equal 0	// Ready to run down routine == 0
+	trigger lowerpanel force_close
+	trigger upperpanel force_close
+		wm_announce "^dAllies has lowered the water!"
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_addteamvoiceannounce 0 "axis-hiwater1"
+		wm_removeteamvoiceannounce 1 "ally-downwat1"
+
+		wm_teamvoiceannounce 0 "axis-wadown1"
+		wm_teamvoiceannounce 0 "axis-hiwater1"
+		wm_teamvoiceannounce 1 "ally-waterdown2"
+		// *---------------------------------------------------------------------------------*
+
+		trigger waterhandle	move
+		trigger waterlevel lower	
+		accum 5 set 1
+		accum 4 abort_if_not_equal 1
+
+		trigger waterlevel lower_boat
+
+	}
+
+	trigger allies_raise
+	{
+		accum 6 abort_if_bitset 1
+		accum 4 abort_if_equal 1
+		accum 5 abort_if_not_equal 1	// Ready to run up routine == 1
+	trigger lowerpanel force_close
+	trigger upperpanel force_close
+		wm_announce "^dAllies has raised the water!"	
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_addteamvoiceannounce 0 "axis-hiwater1"
+		wm_removeteamvoiceannounce 1 "ally-upwatr1"
+
+		wm_teamvoiceannounce 0 "axis-waup2"
+		wm_teamvoiceannounce 0 "axis-hiwater1"
+		wm_teamvoiceannounce 1 "ally-waterup1"
+		// *---------------------------------------------------------------------------------*
+
+		trigger waterhandle	move
+		trigger waterlevel raise
+		accum 5 set 0
+		accum 4 abort_if_not_equal 1
+
+		trigger waterlevel raise_boat
+	
+	}
+
+
+	trigger disable
+	{
+		accum 6 bitset 1
+	}
+	trigger enable
+	{
+		accum 6 bitreset 1
+	}
+	trigger after
+	{
+		accum 7 set 1
+	}
+
+	trigger gene_on
+	{
+		accum 2 set 1
+	}
+	trigger gene_off
+	{
+		accum 2 set 0
+	}
+	trigger boatthrough
+	{
+		accum 3 set 1
+
+	}
+	trigger boatpassed
+	{
+		accum 3 set 0
+
+	}
+	trigger boatin
+	{
+		accum 4 set 1
+
+	}
+	trigger boatout
+	{
+		accum 4 set 0
+
+	}
+	trigger lowerdoor_open
+	{
+		accum 8 set 1
+
+	}
+	trigger lowerdoor_close
+	{
+		accum 8 set 0
+
+	}
+	trigger upperdoor_open
+	{
+		accum 9 set 1
+
+	}
+	trigger upperdoor_close
+	{
+		accum 9 set 0
+
+	}	
+	trigger remap_raise
+	{
+		remapshader textures/mlb_egypt/waterpanel_down textures/mlb_egypt/waterpanel_raise
+		remapshader textures/mlb_egypt/lowerpanel_closed_ready textures/mlb_egypt/lowerpanel_closed		
+		remapshaderflush
+		//Waterstuff by Low - begin   /////////////////////////
+		setstate upperwater_up invisible
+		setstate upperwater_down default
+		setstate lowerwater_up default
+		setstate lowerwater_down invisible
+		setstate sm_waterlevel default
+		//Waterstuff by Low - end    /////////////////////////
+	}
+	
+	trigger remap_up
+	{
+		remapshader textures/mlb_egypt/waterpanel_down textures/mlb_egypt/waterpanel_up_ready
+		remapshader textures/mlb_egypt/upperpanel_closed textures/mlb_egypt/upperpanel_closed_ready
+		remapshaderflush
+		//Waterstuff by Low - begin   /////////////////////////
+		setstate upperwater_up default
+		setstate upperwater_down invisible
+		setstate lowerwater_up default
+		setstate lowerwater_down invisible
+		setstate sm_waterlevel invisible
+		//Waterstuff by Low - end    /////////////////////////
+	}
+	
+	trigger remap_lower
+	{
+		remapshader textures/mlb_egypt/waterpanel_down textures/mlb_egypt/waterpanel_lower
+		remapshader textures/mlb_egypt/upperpanel_closed textures/mlb_egypt/upperpanel_closed
+		remapshaderflush
+		//Waterstuff by Low - begin   /////////////////////////
+		setstate upperwater_up invisible
+		setstate upperwater_down default
+		setstate lowerwater_up default
+		setstate lowerwater_down invisible
+		setstate sm_waterlevel default
+		//Waterstuff by Low - end    /////////////////////////
+	}
+	
+	trigger remap_down
+	{
+		remapshader textures/mlb_egypt/waterpanel_down textures/mlb_egypt/waterpanel_down_ready
+		remapshader textures/mlb_egypt/lowerpanel_closed_ready textures/mlb_egypt/lowerpanel_closed_ready
+		remapshaderflush
+		//Waterstuff by Low - begin   /////////////////////////
+		setstate upperwater_up invisible
+		setstate upperwater_down default
+		setstate lowerwater_up invisible
+		setstate lowerwater_down default
+		setstate sm_waterlevel invisible
+		//Waterstuff by Low - end    /////////////////////////
+	}	
+}
+
+
+lowerpanel
+{
+	spawn
+	{
+
+		accum 2 set 0		//generator status 0:off 1:on
+		accum 3 set 0		//boat status when passing the floodgate
+		accum 4 set 1		//water status 0:down 1:up 2:moving
+		accum 5 set 1		// Initial state is close
+		accum 6 set 0		// Boat status 0: not in the floodgate 1:in the floodgate
+		accum 7 set 0		// 0:before floodgate,1:after floodgate
+		accum 8 set 0
+		wait 450		// Wait for everything to settle
+		trigger boat disable_stage1
+	}
+
+	activate axis
+	{		
+		accum 4 abort_if_not_equal 0
+		accum 3 abort_if_not_equal 0
+		accum 2 abort_if_not_equal 1
+		trigger lowerpanel axis_open
+		trigger lowerpanel axis_close
+	}
+	activate allies
+	{
+		accum 4 abort_if_not_equal 0
+		accum 3 abort_if_not_equal 0
+		accum 2 abort_if_not_equal 1
+		trigger lowerpanel allies_open
+		trigger lowerpanel allies_close	
+	}
+	
+	trigger axis_open
+	{
+		accum 5 abort_if_not_equal 1	// Ready to run up routine == 1
+		accum 6 abort_if_not_equal 0		
+		trigger generator forced_death	 //by low	
+		wm_announce "^dAxis has opened the lower gate!"
+		trigger lowerhandle	move				
+		trigger lowerpanel open
+		
+	}
+
+	trigger axis_close
+	{
+			accum 7 abort_if_equal 0
+			accum 5 abort_if_not_equal 0	// Ready to run down routine == 0
+
+		wm_announce "^dAxis has closed the lower gate!"	
+		trigger lowerhandle	move
+		trigger lowerpanel close			
+	}
+	
+	trigger allies_open
+	{
+			accum 7 abort_if_equal 0
+			accum 5 abort_if_not_equal 1	// Ready to run up routine == 1
+
+		wm_announce "^dAllies has opened the lower gate!"	
+		trigger lowerhandle	move
+		trigger lowerpanel open		
+	}
+
+	trigger allies_close
+	{
+			accum 5 abort_if_not_equal 0	// Ready to run down routine == 0
+		accum 6 abort_if_not_equal 0
+		wm_announce "^dAllies has closed the lower gate!"	
+		trigger lowerhandle	move
+		trigger lowerpanel close
+	}
+	
+	trigger open
+	{
+		accum 8 set 1
+		trigger lowerhandle	move
+		trigger boat enable_stage1
+		trigger self remap_opening	
+		trigger gatelow_west open
+		trigger gatelow_east open		
+		wait 2800
+		trigger waterpanel lowerdoor_open
+		trigger self remap_open
+		accum 5 set 0
+	
+	}
+	trigger close
+	{
+
+		trigger lowerhandle	move
+		trigger boat disable_stage1
+		trigger self remap_closing
+		trigger gatelow_west close
+		trigger gatelow_east close
+		wait 2800
+		trigger waterpanel lowerdoor_close
+		trigger self remap_closed
+		accum 5 set 1
+
+	}
+	trigger force_close
+	{
+		accum 8 abort_if_not_equal 1
+		trigger gatelow_west close
+		trigger gatelow_east close
+		trigger waterpanel lowerdoor_close
+		trigger self remap_closed
+
+	}
+	trigger gene_on
+	{
+		accum 2 set 1
+	}
+	trigger gene_off
+	{
+		accum 2 set 0
+	}
+	trigger after
+	{
+		accum 7 set 1
+	}
+
+	trigger boatthrough
+	{
+		accum 3 set 1
+
+	}
+	trigger boatpassed
+	{
+		accum 3 set 0
+
+	}
+	trigger boatout
+	{
+		accum 6 set 0
+
+	}
+	trigger boatin
+	{
+		accum 6 set 1
+
+	}
+	trigger waterdown
+	{
+		accum 4 set 0
+
+	}
+	trigger waterup
+	{
+		accum 4 set 1
+
+	}
+	trigger watermove
+	{
+		accum 4 set 2
+
+	}
+	trigger remap_opening
+	{
+		remapshader textures/mlb_egypt/waterpanel_down textures/mlb_egypt/waterpanel_down
+		remapshader textures/mlb_egypt/lowerpanel_closed_ready textures/mlb_egypt/lowerpanel_opening		
+		remapshaderflush
+	}
+	
+	trigger remap_open
+	{
+		remapshader textures/mlb_egypt/waterpanel_down textures/mlb_egypt/waterpanel_down
+		remapshader textures/mlb_egypt/lowerpanel_closed_ready textures/mlb_egypt/lowerpanel_open_ready
+		remapshaderflush
+	}
+	
+	trigger remap_closing
+	{
+		remapshader textures/mlb_egypt/lowerpanel_closed_ready textures/mlb_egypt/lowerpanel_closing
+		remapshaderflush
+	}
+	
+	trigger remap_closed
+	{
+		remapshader textures/mlb_egypt/waterpanel_down textures/mlb_egypt/waterpanel_down_ready
+		remapshader textures/mlb_egypt/lowerpanel_closed_ready textures/mlb_egypt/lowerpanel_closed_ready
+		remapshaderflush
+	}			
+}
+
+upperpanel
+{
+	spawn
+	{
+
+		accum 2 set 0		//generator status 0:off 1:on
+		accum 3 set 0		//boat status when passing the floodgate
+		accum 5 set 0			// Initial state is open
+		accum 4 set 1		//water status 0:down 1:up
+		accum 6 set 0		// Boat status 0: not in the floodgate 1:in the floodgate
+		accum 7 set 0		// 0:before floodgate,1:after floodgate
+		accum 8 set 0		// 0: door not opening,1:opening
+		wait 450			// Wait for everything to settle
+		trigger boat enable_stage2
+	}
+
+	activate axis
+	{		
+		accum 4 abort_if_not_equal 1
+		accum 3 abort_if_not_equal 0
+		accum 2 abort_if_not_equal 1
+		trigger upperpanel axis_open
+		trigger upperpanel axis_close
+	}
+	
+	activate allies
+	{
+		accum 4 abort_if_not_equal 1
+		accum 3 abort_if_not_equal 0
+		accum 2 abort_if_not_equal 1
+		trigger upperpanel allies_open
+		trigger upperpanel allies_close	
+	}
+	
+	trigger axis_open
+	{	accum 7 abort_if_equal 0
+		accum 5 abort_if_not_equal 1	
+		wm_announce "^dAxis has opened the upper gate!"
+		trigger generator forced_death2  // by low
+		trigger upperhandle	move				
+		trigger upperpanel open
+	}
+
+	trigger axis_close
+	{
+		accum 6 abort_if_not_equal 0
+		accum 5 abort_if_not_equal 0
+		wm_announce "^dAxis has closed the upper gate!"	
+		trigger upperhandle	move			
+		trigger upperpanel close
+	}
+	
+	trigger allies_open
+	{
+		accum 6 abort_if_not_equal 0
+		accum 5 abort_if_not_equal 1
+		wm_announce "^dAllies has opened the upper gate!"		
+		trigger upperhandle	move
+		trigger upperpanel open	
+	}
+
+	trigger allies_close
+	{	accum 7 abort_if_equal 0
+		accum 5 abort_if_not_equal 0
+		wm_announce "^dAllies has closed the upper gate!"
+		trigger upperhandle	move
+		trigger upperpanel close	
+	}
+	trigger open
+	{
+		accum 5 set 0
+		accum 8 set 1
+		trigger upperhandle	move
+		trigger boat enable_stage2
+
+		trigger upperpanel remap_opening	
+		trigger bridge_west open
+		trigger bridge_east open
+		wait 300
+		trigger gatehigh_west open
+		trigger gatehigh_east open
+		wait 2500
+		trigger waterpanel upperdoor_open
+		trigger upperpanel remap_open
+		accum 8 set 0
+	
+	}
+	trigger close
+	{
+		accum 5 set 1
+		trigger upperhandle	move
+		trigger boat disable_stage2
+
+		trigger upperpanel remap_closing
+		trigger bridge_west close
+		trigger bridge_east close
+		wait 300
+		trigger gatehigh_west close
+		trigger gatehigh_east close		
+		wait 2500
+		trigger waterpanel upperdoor_close
+		trigger upperpanel remap_closed
+
+	}
+	trigger open_start
+	{
+		trigger self remap_opening	
+		trigger bridge_west open
+		trigger bridge_east open
+		wait 300
+		trigger gatehigh_west open
+		trigger gatehigh_east open
+		wait 2500
+		trigger self remap_open
+	}
+	trigger force_close
+	{
+		accum 8 abort_if_not_equal 1
+
+		trigger bridge_west close
+		trigger bridge_east close
+		trigger gatehigh_west close
+		trigger gatehigh_east close		
+		trigger waterpanel upperdoor_close
+		trigger upperpanel remap_closed
+
+	}	
+	trigger gene_on
+	{
+		accum 2 set 1
+	}
+	trigger gene_off
+	{
+		accum 2 set 0
+	}
+	trigger boatthrough
+	{
+		accum 3 set 1
+
+	}
+	trigger boatpassed
+	{
+		accum 3 set 0
+
+	}
+	trigger after
+	{
+		accum 7 set 1
+	}
+	trigger boatout
+	{
+		accum 6 set 0
+
+	}
+	trigger boatin
+	{
+		accum 6 set 1
+
+	}
+	trigger waterdown
+	{
+		accum 4 set 0
+
+	}
+	trigger waterup
+	{
+		accum 4 set 1
+
+	}
+	trigger watermove
+	{
+		accum 4 set 2
+
+	}	
+	trigger remap_opening
+	{
+		remapshader textures/mlb_egypt/waterpanel_down textures/mlb_egypt/waterpanel_up
+		remapshader textures/mlb_egypt/upperpanel_closed textures/mlb_egypt/upperpanel_opening		
+		remapshaderflush
+	}
+	
+	trigger remap_open
+	{
+		remapshader textures/mlb_egypt/waterpanel_down textures/mlb_egypt/waterpanel_up
+		remapshader textures/mlb_egypt/upperpanel_closed textures/mlb_egypt/upperpanel_open_ready
+		remapshaderflush
+	}
+	
+	trigger remap_closing
+	{
+		remapshader textures/mlb_egypt/upperpanel_closed textures/mlb_egypt/upperpanel_closing
+		remapshaderflush
+	}
+	
+	trigger remap_closed
+	{
+		remapshader textures/mlb_egypt/waterpanel_down textures/mlb_egypt/waterpanel_up_ready
+		remapshader textures/mlb_egypt/upperpanel_closed textures/mlb_egypt/upperpanel_closed_ready
+		remapshaderflush
+	}				
+}
+
+
+waterhandle
+{
+	trigger move
+	{
+		playsound sound/movers/switches/butn2.wav
+		faceangles -70 0 0 800	wait
+		playsound sound/movers/switches/switch.wav	
+		faceangles 0 0 0 300
+	}
+}
+
+
+lowerhandle
+{
+	trigger move
+	{
+		playsound sound/movers/switches/butn2.wav
+		faceangles -90 0 0 800	wait
+		playsound sound/movers/switches/switch.wav	
+		faceangles 0 0 0 300
+	}
+}
+
+
+upperhandle
+{
+	trigger move
+	{
+		playsound sound/movers/switches/butn2.wav
+		faceangles -90 0 0 800	wait
+		playsound sound/movers/switches/switch.wav	
+		faceangles 0 0 0 300
+	}
+}
+
+//-.-.-.-.-.-.-.-.-.-.-.-.-.-.-
+//-.-.-.-.-.-.-.-.-.-.-.-.-.-.-
+//-.-.-Ammo and Gold stuff-.-.-
+//-.-.-.-.-.-.-.-.-.-.-.-.-.-.-
+//-.-.-.-.-.-.-.-.-.-.-.-.-.-.-
+
+ammo
+{
+	spawn
+	{
+		wait 500
+	}
+
+	trigger stolen
+	{
+		wm_announce "^1Axis has stolen the ammo !"
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_removeteamvoiceannounce 0 "axis-capammo1"
+		wm_removeteamvoiceannounce 1 "ally-proammo1"
+
+		wm_teamvoiceannounce 0 "axis-stoammo2"
+		wm_teamvoiceannounce 1 "ally-stolammo1"
+		// *---------------------------------------------------------------------------------*
+
+		setstate ammo_toi invisible
+		setstate ammo_cm_marker invisible
+		wm_objective_status 6 0 1  // Steal the gold
+		wm_objective_status 6 1 0	
+	}
+
+	trigger returned
+	{
+		wm_announce "^4Allies has returned the ammo !"
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_addteamvoiceannounce 0 "axis-capammo1"
+		wm_addteamvoiceannounce 1 "ally-proammo1"
+
+		wm_teamvoiceannounce 0 "axis-ammosec2"
+		wm_teamvoiceannounce 0 "axis-capammo1"
+		wm_teamvoiceannounce 1 "ally-moret1"
+		wm_teamvoiceannounce 1 "ally-proammo1"
+		// *---------------------------------------------------------------------------------*
+
+		setstate ammo_toi default
+		setstate ammo_cm_marker default
+		wm_objective_status 6 0 0  // Steal the gold
+		wm_objective_status 6 1 1	
+	}
+
+	trigger captured
+	{
+		wm_announce "^1Axis has loaded the gun !"
+	}
+
+}
+
+ammo_holder
+{
+	spawn
+	{
+	}
+	death
+	{
+		setstate ammo_trans invisible 
+		wait 3500
+		wm_announce "^dThe gun is ready to fire!"
+		// *----------------------------------- vo ------------------------------------------*
+		wm_removeteamvoiceannounce 0 "axis-capammo1"
+		wm_removeteamvoiceannounce 1 "ally-proammo1"
+
+		wm_teamvoiceannounce 0 "axis-firegun1"
+		// *---------------------------------------------------------------------------------* 
+		trigger gun_control ammo_on
+	}
+	trigger remove
+	{
+		remove
+	}
+	trigger on
+	{
+		setstate ammo_holder default
+	}
+	trigger off
+	{
+		setstate ammo_holder invisible
+	}
+}
+
+gold
+{
+	spawn
+	{
+		wait 500
+	}
+
+	trigger stolen
+	{
+		setstate goldbars_toi invisible
+		setstate goldbars_cm_marker invisible
+	}
+
+	trigger returned
+	{
+		setstate goldbars_toi default
+		setstate goldbars_cm_marker default
+	}
+
+	trigger captured
+	{
+	}
+
+}
+goldbar_holder
+{
+	spawn
+	{
+	}
+	death
+	{
+		wm_announce "^4Axis got away with the gold ^d!!!!!!!!!!" 
+		wm_objective_status 7 0 1  //  return it to the River huts
+		wm_objective_status 7 1 2			
+		wait 2000
+		trigger game_manager checkgame
+	}
+}
+
+//*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
+//*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
+//*-*-*Constructibles and destructibles*-*-*
+//*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
+//*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
+
+//--------------------
+//--- scaffholding ---
+//--------------------
+
+td
+{
+	spawn
+	{
+		wait 200
+		trigger td setup
+		constructible_class 3
+	}
+
+	trigger setup
+	{
+		setstate const_td invisible
+		setstate td_materials default
+		setstate td_materials_clip default
+		setstate td_flag default
+	}
+
+	buildstart final
+	{
+		setstate const_td underconstruction
+		setstate td_materials default
+		setstate td_materials_clip default
+		setstate td_flag default
+
+	}
+
+	built final
+	{
+		setstate const_td default
+		setstate td_materials invisible
+		setstate td_materials_clip invisible
+		setstate td_flag invisible
+
+		wm_announce	"^dThe scaffolding has been built"
+
+	}
+
+	decayed final
+	{
+		setstate const_td invisible
+		setstate td_materials default
+		setstate td_materials_clip default
+		setstate td_flag default
+	}
+
+	death
+	{
+		setstate const_td invisible
+		setstate td_materials default
+		setstate td_materials_clip default
+		setstate td_flag default
+
+		wm_announce	"^dThe scaffolding has been destroyed"
+
+	}
+}
+
+
+
+//**********************
+//**** Boat barrier ****
+//**********************
+
+
+boat_barrier
+{ 
+	spawn 
+	{ 
+		wait 200 
+		constructible_class 2 
+		constructible_constructxpbonus 10
+		constructible_destructxpbonus 8
+		trigger self startup 
+	} 
+
+	buildstart final 
+	{ 
+	} 
+
+	built final 
+	{  
+		setstate barrier_materials invisible 
+		setstate boat_barrier default
+		trigger boat disable_constructed
+		wm_announce "^dAllied team has built the boat barrier!" 
+	} 
+
+	decayed final 
+	{ 
+		trigger self startup 
+	} 
+
+	death 
+	{ 
+		trigger boat barrier_destroyed
+		trigger self startup 
+		wm_announce "^dAxis team has destroyed the boat barrier!" 
+	} 
+
+	trigger startup 
+	{ 
+		setstate boat_barrier invisible
+		setstate barrier_materials default  
+	} 
+	trigger remove
+	{ 
+		setstate barrier_trigger invisible
+		setstate boat_barrier invisible
+		setstate barrier_materials invisible 
+		remove 
+	}
+}
+
+//******************************************
+//*** Temple entrance + sarcophagus room ***
+//******************************************
+
+dynawall
+{ 
+	spawn 
+	{ 
+		wait 200 
+		constructible_class 3
+	} 
+
+	death 
+	{ 
+		wm_objective_status 3 0 1  // the temple entrance gate
+		wm_objective_status 3 1 2		
+		wm_announce "^1Axis have breached the Temple entrance!"
+		trigger game_manager inner_temple
+	} 
+}
+
+dynawall2
+{ 
+	spawn 
+	{ 
+		wait 200 
+		constructible_class 3		
+	} 
+
+	death 
+	{ 
+		wm_announce "^1Axis has breached the Sarcophagus room wall!"
+		wm_objective_status 5 0 1  // the sarcophage room door
+		wm_objective_status 5 1 2		
+		trigger game_manager crypt
+	} 
+		
+}
+
+cracked_floor
+{ 
+	spawn 
+	{ 
+		wait 200 
+		constructible_class 3
+	} 
+
+	death 
+	{ 
+		wm_announce "^dAxis has breached the courtyard floor!"
+	} 
+}
+
+
+templeentrancedoor
+{ 
+	spawn 
+	{ 
+		wait 200 
+		constructible_class 3
+	} 
+
+	death 
+	{ 
+	} 
+}
+
+
+//-----------
+//--- Gun ---
+//-----------
+
+const_gun
+{ 
+	spawn 
+	{ 
+		wait 200 
+		constructible_class 3 
+//		constructible_constructxpbonus 10
+//		constructible_destructxpbonus 8
+		setstate ammo_holder invisible
+		setstate ammo_trans invisible
+		accum 1 set 0
+		trigger self startup 
+	} 
+
+	buildstart final 
+	{ 
+		setstate gun_turret_model underconstruction
+	} 
+
+	built final 
+	{  
+		setstate constgun_materials invisible 
+		setstate const_gun default
+		setstate ammo_trans default
+		trigger ammo_holder on
+		trigger gun_turret run 
+		setstate gun_turret_clips default
+		setstate gun_control default
+		wm_announce "^dAxis team has built the Gun!" 
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_removeteamvoiceannounce 0 "axis-congun1"
+
+		wm_teamvoiceannounce 0 "axis-guncon2"
+		wm_teamvoiceannounce 1 "ally-desgun2"
+		// *---------------------------------------------------------------------------------*
+
+		setstate gun_control_cm_marker default
+		setstate gun_control default
+	} 
+
+	decayed final 
+	{ 
+		trigger self startup 
+	} 
+
+	death 
+	{ 
+		trigger self startup 
+		setstate gun_control invisible
+		setstate ammo_trans invisible
+		wm_announce "^dAllied team has destroyed the Gun!" 
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_addteamvoiceannounce 0 "axis-congun1"
+
+		wm_teamvoiceannounce 0 "axis-gundes1"
+		wm_teamvoiceannounce 0 "axis-congun1"
+		wm_teamvoiceannounce 1 "ally-nogun1"
+		// *---------------------------------------------------------------------------------*
+
+	accum 1 abort_if_equal 1
+	trigger ammo_holder off
+
+	} 
+	trigger wall_destroyed 
+	{ 
+		accum 1 set 1 
+	}
+
+	trigger startup 
+	{ 
+		setstate const_gun invisible
+		setstate gun_turret_model invisible
+		setstate gun_turret_clips invisible
+		setstate constgun_materials default
+		setstate gun_control_cm_marker invisible
+		setstate gun_control invisible  
+	} 
+}
+
+const_gun_flash
+{
+	spawn
+	{
+		wait 500
+		setstate const_gun_flash invisible
+	}
+
+	trigger run
+	{
+		setstate const_gun_flash default
+	}
+}
+
+gun_turret
+{
+	spawn
+	{
+		wait 500
+		setstate gun_turret_model invisible
+	}
+
+	trigger run
+	{
+		setstate gun_turret_model default
+	}
+}
+
+gun_turret_clips
+{
+	spawn
+	{
+		wait 500
+	}
+
+	trigger fire 
+	{ 
+
+		stopsound
+		trigger const_gun_flash run
+		playsound sound/vehicles/tank/tank_fire.wav
+		wm_announce "^4The Pyramid entrance has been destroyed"
+		wm_objective_status 4 0 1  // Get the ammo, build the gun and fire it at the pyramid door
+		wm_objective_status 4 1 2	
+		alertentity pyramid_wall
+		wait 500
+		trigger game_manager pyramid
+		setstate const_gun_flash invisible
+		trigger gun_control remove		
+	} 
+				
+}
+
+gun_control
+{
+	spawn
+	{
+		wait 500
+		setstate gun_control invisible
+		accum 1 set 1
+		accum 2 set 0
+	}
+
+	activate axis
+	{		
+		accum 2 abort_if_not_equal 1
+		trigger gun_turret_clips fire
+		accum 2 set 2	
+	}
+	
+	activate allies
+	{
+		accum 1 abort_if_equal 1
+	}
+	trigger ammo_on 
+	{ 
+
+		accum 2 set 1 
+		wait 500
+		setstate gun_control default
+		trigger ammo_holder remove
+		trigger const_gun wall_destroyed 
+	} 
+	trigger remove 
+	{ 
+		remove
+	} 
+				
+}

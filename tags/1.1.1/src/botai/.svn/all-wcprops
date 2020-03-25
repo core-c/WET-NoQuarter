@@ -1,0 +1,137 @@
+K 25
+svn:wc:ra_dav:version-url
+V 41
+/svn/nq/!svn/ver/711/tags/1.1.1/src/botai
+END
+ai_team.c
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/nq/!svn/ver/711/tags/1.1.1/src/botai/ai_team.c
+END
+inv.h
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/nq/!svn/ver/711/tags/1.1.1/src/botai/inv.h
+END
+match.h
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/nq/!svn/ver/711/tags/1.1.1/src/botai/match.h
+END
+ai_main.h
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/nq/!svn/ver/711/tags/1.1.1/src/botai/ai_main.h
+END
+botai.h
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/nq/!svn/ver/711/tags/1.1.1/src/botai/botai.h
+END
+ai_team.h
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/nq/!svn/ver/711/tags/1.1.1/src/botai/ai_team.h
+END
+chars.h
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/nq/!svn/ver/711/tags/1.1.1/src/botai/chars.h
+END
+ai_dmgoal_mp.c
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/nq/!svn/ver/711/tags/1.1.1/src/botai/ai_dmgoal_mp.c
+END
+ai_dmnet_mp.c
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/nq/!svn/ver/711/tags/1.1.1/src/botai/ai_dmnet_mp.c
+END
+ai_cmd.c
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/nq/!svn/ver/711/tags/1.1.1/src/botai/ai_cmd.c
+END
+ai_script.c
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/nq/!svn/ver/711/tags/1.1.1/src/botai/ai_script.c
+END
+ai_dmq3.c
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/nq/!svn/ver/711/tags/1.1.1/src/botai/ai_dmq3.c
+END
+ai_dmgoal_mp.h
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/nq/!svn/ver/711/tags/1.1.1/src/botai/ai_dmgoal_mp.h
+END
+syn.h
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/nq/!svn/ver/711/tags/1.1.1/src/botai/syn.h
+END
+ai_dmnet_mp.h
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/nq/!svn/ver/711/tags/1.1.1/src/botai/ai_dmnet_mp.h
+END
+ai_cmd.h
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/nq/!svn/ver/711/tags/1.1.1/src/botai/ai_cmd.h
+END
+ai_matrix.h
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/nq/!svn/ver/711/tags/1.1.1/src/botai/ai_matrix.h
+END
+ai_dmq3.h
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/nq/!svn/ver/711/tags/1.1.1/src/botai/ai_dmq3.h
+END
+ai_distances.h
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/nq/!svn/ver/711/tags/1.1.1/src/botai/ai_distances.h
+END
+ai_teamX.h
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/nq/!svn/ver/711/tags/1.1.1/src/botai/ai_teamX.h
+END
+ai_script_actions.c
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/nq/!svn/ver/711/tags/1.1.1/src/botai/ai_script_actions.c
+END
+ai_main.c
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/nq/!svn/ver/711/tags/1.1.1/src/botai/ai_main.c
+END

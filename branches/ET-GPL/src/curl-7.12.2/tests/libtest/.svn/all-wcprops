@@ -1,0 +1,119 @@
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/tests/libtest
+END
+lib512.c
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/tests/libtest/lib512.c
+END
+lib503.c
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/tests/libtest/lib503.c
+END
+lib504.c
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/tests/libtest/lib504.c
+END
+lib513.c
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/tests/libtest/lib513.c
+END
+lib505.c
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/tests/libtest/lib505.c
+END
+lib514.c
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/tests/libtest/lib514.c
+END
+lib506.c
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/tests/libtest/lib506.c
+END
+Makefile.in
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/tests/libtest/Makefile.in
+END
+lib507.c
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/tests/libtest/lib507.c
+END
+lib508.c
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/tests/libtest/lib508.c
+END
+lib509.c
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/tests/libtest/lib509.c
+END
+test.h
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/tests/libtest/test.h
+END
+first.c
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/tests/libtest/first.c
+END
+Makefile.am
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/tests/libtest/Makefile.am
+END
+lib500.c
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/tests/libtest/lib500.c
+END
+lib510.c
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/tests/libtest/lib510.c
+END
+lib501.c
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/tests/libtest/lib501.c
+END
+lib511.c
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/tests/libtest/lib511.c
+END
+lib502.c
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/tests/libtest/lib502.c
+END

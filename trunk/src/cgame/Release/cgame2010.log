@@ -1,0 +1,147 @@
+﻿Build started 18.04.2012 09:30:49.
+     1>Project "D:\NQDEV\trunk\src\cgame\cgame2010.vcxproj" on node 4 (build target(s)).
+     1>InitializeBuildStatus:
+         Creating ".\Release\cgame.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /O2 /Ob1 /Oy- /D WIN32 /D AUTO_GUID /D SYSTEM_CHECK /D NDEBUG /D _WINDOWS /D CGAMEDLL /D _CRT_SECURE_NO_DEPRECATE /D _VC80_UPGRADE=0x0710 /D _WINDLL /GF /Gm- /EHsc /MT /Zp16 /GS- /Gy /arch:SSE /fp:precise /Zc:wchar_t /Zc:forScope /Fo".\Release/" /Fd".\Release/vc100.pdb" /Gd /TC /analyze- /errorReport:prompt ..\game\bg_animation.c ..\game\bg_animgroup.c ..\game\bg_campaign.c ..\game\bg_character.c ..\game\bg_classes.c ..\game\bg_misc.c ..\game\bg_pmove.c ..\game\bg_slidemove.c ..\game\bg_sscript.c ..\game\bg_stats.c ..\game\bg_tracemap.c ..\game\bg_weapons.c cg_atmospheric.c cg_character.c cg_commandmap.c cg_consolecmds.c cg_crash.c cg_debriefing.c cg_draw.c cg_drawtools.c cg_effects.c cg_ents.c cg_event.c cg_fireteamoverlay.c cg_fireteams.c cg_flamethrower.c cg_info.c cg_limbopanel.c cg_loadpanel.c cg_localents.c md5.c cg_uid.c cg_main.c cg_marks.c cg_missionbriefing.c cg_missionmessages.c cg_multiview.c cg_newDraw.c cg_particles.c cg_players.c cg_playerstate.c cg_polybus.c cg_popupmessages.c cg_predict.c cg_scoreboard.c cg_servercmds.c cg_snapshot.c cg_sound.c cg_spawn.c cg_statsranksmedals.c cg_syscalls.c cg_trails.c cg_view.c cg_weapons.c cg_window.c ..\game\g_match_tokens.c ..\game\g_strparse.c ..\game\q_math.c ..\game\q_shared.c ..\ui\ui_shared.c
+         bg_animation.c
+         bg_animgroup.c
+         bg_campaign.c
+         bg_character.c
+         bg_classes.c
+         bg_misc.c
+         bg_pmove.c
+         bg_slidemove.c
+         bg_sscript.c
+         bg_stats.c
+         bg_tracemap.c
+         bg_weapons.c
+         cg_atmospheric.c
+         cg_character.c
+         cg_commandmap.c
+         cg_consolecmds.c
+         cg_crash.c
+         cg_debriefing.c
+         cg_draw.c
+         cg_drawtools.c
+         Generating Code...
+         Compiling...
+         cg_effects.c
+         cg_ents.c
+         cg_event.c
+         cg_fireteamoverlay.c
+         cg_fireteams.c
+         cg_flamethrower.c
+         cg_info.c
+         cg_limbopanel.c
+         cg_loadpanel.c
+         cg_localents.c
+         md5.c
+         cg_uid.c
+         cg_main.c
+         cg_marks.c
+         cg_missionbriefing.c
+         cg_missionmessages.c
+         cg_multiview.c
+         cg_newDraw.c
+         cg_particles.c
+         cg_players.c
+         Generating Code...
+     1>d:\nqdev\trunk\src\cgame\cg_uid.c(101): warning C4789: destination of memory copy is too small
+         Compiling...
+         cg_playerstate.c
+         cg_polybus.c
+         cg_popupmessages.c
+         cg_predict.c
+         cg_scoreboard.c
+         cg_servercmds.c
+         cg_snapshot.c
+         cg_sound.c
+         cg_spawn.c
+         cg_statsranksmedals.c
+         cg_syscalls.c
+         cg_trails.c
+         cg_view.c
+         cg_weapons.c
+         cg_window.c
+         g_match_tokens.c
+         g_strparse.c
+         q_math.c
+         q_shared.c
+         ui_shared.c
+         Generating Code...
+     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\Microsoft.CppBuild.targets(990,5): warning MSB8012: TargetPath(D:\NQDEV\trunk\src\cgame\.\Release\cgame.dll) does not match the Linker's OutputFile property value (D:\NQDEV\trunk\cgame_mp_x86.dll). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Link.OutputFile).
+     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\Microsoft.CppBuild.targets(992,5): warning MSB8012: TargetName(cgame) does not match the Linker's OutputFile property value (cgame_mp_x86). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Link.OutputFile).
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"../../cgame_mp_x86.dll" /INCREMENTAL:NO /NOLOGO psapi.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /DEF:".\cgame.def" /MANIFEST /ManifestFile:".\Release\cgame.dll.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /PDB:".\Release/cgame_mp_x86.pdb" /MAP:".\Release/cgame_mp_x86.map" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /IMPLIB:".\Release/cgame_mp_x86.lib" /MACHINE:X86 /DLL .\Release/bg_animation.obj
+         .\Release/bg_animgroup.obj
+         .\Release/bg_campaign.obj
+         .\Release/bg_character.obj
+         .\Release/bg_classes.obj
+         .\Release/bg_misc.obj
+         .\Release/bg_pmove.obj
+         .\Release/bg_slidemove.obj
+         .\Release/bg_sscript.obj
+         .\Release/bg_stats.obj
+         .\Release/bg_tracemap.obj
+         .\Release/bg_weapons.obj
+         .\Release/cg_atmospheric.obj
+         .\Release/cg_character.obj
+         .\Release/cg_commandmap.obj
+         .\Release/cg_consolecmds.obj
+         .\Release/cg_crash.obj
+         .\Release/cg_debriefing.obj
+         .\Release/cg_draw.obj
+         .\Release/cg_drawtools.obj
+         .\Release/cg_effects.obj
+         .\Release/cg_ents.obj
+         .\Release/cg_event.obj
+         .\Release/cg_fireteamoverlay.obj
+         .\Release/cg_fireteams.obj
+         .\Release/cg_flamethrower.obj
+         .\Release/cg_info.obj
+         .\Release/cg_limbopanel.obj
+         .\Release/cg_loadpanel.obj
+         .\Release/cg_localents.obj
+         .\Release/md5.obj
+         .\Release/cg_uid.obj
+         .\Release/cg_main.obj
+         .\Release/cg_marks.obj
+         .\Release/cg_missionbriefing.obj
+         .\Release/cg_missionmessages.obj
+         .\Release/cg_multiview.obj
+         .\Release/cg_newDraw.obj
+         .\Release/cg_particles.obj
+         .\Release/cg_players.obj
+         .\Release/cg_playerstate.obj
+         .\Release/cg_polybus.obj
+         .\Release/cg_popupmessages.obj
+         .\Release/cg_predict.obj
+         .\Release/cg_scoreboard.obj
+         .\Release/cg_servercmds.obj
+         .\Release/cg_snapshot.obj
+         .\Release/cg_sound.obj
+         .\Release/cg_spawn.obj
+         .\Release/cg_statsranksmedals.obj
+         .\Release/cg_syscalls.obj
+         .\Release/cg_trails.obj
+         .\Release/cg_view.obj
+         .\Release/cg_weapons.obj
+         .\Release/cg_window.obj
+         .\Release/g_match_tokens.obj
+         .\Release/g_strparse.obj
+         .\Release/q_math.obj
+         .\Release/q_shared.obj
+         .\Release/ui_shared.obj /MACHINE:I386 
+            Creating library .\Release/cgame_mp_x86.lib and object .\Release/cgame_mp_x86.exp
+         cgame2010.vcxproj -> D:\NQDEV\trunk\src\cgame\.\Release\cgame.dll
+       Manifest:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"../../cgame_mp_x86.dll;#2" /manifest .\Release\cgame.dll.intermediate.manifest
+       FinalizeBuildStatus:
+         Deleting file ".\Release\cgame.unsuccessfulbuild".
+         Touching ".\Release\cgame.lastbuildstate".
+     1>Done Building Project "D:\NQDEV\trunk\src\cgame\cgame2010.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:13.13

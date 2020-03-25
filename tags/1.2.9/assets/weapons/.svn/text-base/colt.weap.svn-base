@@ -1,0 +1,85 @@
+weaponDef
+{
+	both {
+		name					"Colt .45 ACP"
+		statname				"Colt"
+		damage					18
+		spread					600
+		spreadRatio				0.4
+		SpreadScaleAdd			20
+		viewchange2spread
+		CrouchSpreadRatio		0.6
+		ProneSpreadRatio		0.6
+		recoilDuration			100
+		recoilPitch				0.45
+		recoilYaw				0.0
+		selfKillMessage			"found a way to shoot himself!"
+		KillMessage				"was killed by"
+		KillMessage2			"'s .45ACP 1911."
+		headshotWeapon
+	 	bulletReflection
+		DistanceFalloff
+	}
+
+	client {
+		pickupModel				"models/weapons2/colt/colt_pickup_nq.md3"
+		bounceSound				"sound/weapons/weaponbounce.wav"
+		clipBounceSound			"sound/weapons/clipbounce.wav"
+		
+		weaponConfig			"models/weapons2/colt/weapon.cfg"
+		handsModel				"models/weapons2/colt/v_colt_hand.mdc"
+		
+		flashDlightColor		1.0 0.6 0.23
+		flashSound				"sound/weapons/colt/colt_fire.wav"
+		flashEchoSound			"sound/weapons/colt/colt_far.wav"
+		
+		reloadSound				"sound/weapons/colt/colt_reload.wav"
+		reloadFastSound			"sound/weapons/colt/colt_reload_fast.wav"
+		switchSound				"sound/weapons/misc/silence_off.wav"
+		
+		weaponIcon				"icons/iconw_colt"
+		weaponSelectedIcon		"icons/iconw_colt_1_select"
+		
+		ejectBrassFunc			"MachineGunEjectBrass"
+		brassmodel				"models/weapons2/shells/45ACPshell.md3"
+		
+		firstPerson {
+			model				"models/weapons2/colt/v_colt_nq.md3"
+			flashModel			"models/weapons2/colt/v_colt_flash.mdc"
+
+			weaponLink
+			{
+				part 0
+				{
+					tag			"tag_barrel"
+					model		"models/weapons2/colt/v_colt_barrel.mdc"
+				}
+				part 1
+				{
+					tag			"tag_barrel2"
+					model		"models/weapons2/colt/v_colt_barrel2.mdc"
+				}
+				part 2
+				{
+					tag			"tag_barrel3"
+					model		"models/weapons2/colt/v_colt_barrel3.mdc"
+				}
+				part 3
+				{
+					tag			"tag_barrel4"
+					model		"models/weapons2/colt/v_colt_barrel4.mdc"
+				}
+				part 4
+				{
+					tag			"tag_barrel5"
+					model		"models/weapons2/colt/v_colt_barrel5.mdc"
+				}
+			}
+		}
+		
+		thirdPerson {
+			model				"models/weapons2/colt/ss_colt.mdc"
+			flashmodel			"models/weapons2/colt/colt_flash.mdc"
+		}
+	}
+}

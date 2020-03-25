@@ -1,0 +1,102 @@
+weaponDef
+{
+	both {
+		name					"Scoped M1 Garand"
+		statname				"Garand"
+		damage					34
+		spread					250
+		spreadRatio				0.9
+		SpreadScaleAdd			50
+	 	SpreadScaleAddRand		20
+		viewchange2spread
+		CrouchSpreadRatio		0.6
+		ProneSpreadRatio		0.6
+		selfKillMessage			"found a way to shoot himself!"
+		KillMessage				"was killed by"
+		KillMessage2			"'s M1 Garand."
+		headshotWeapon
+		bulletReflection
+	}
+
+	both_altweap {
+		name					"Scoped M1 Garand"
+		damage					50
+		spread					700
+		spreadRatio				10.0
+		SpreadScaleAdd			200
+		velocity2spread
+		recoilDuration			300
+		recoilPitch				0.5
+		recoilYaw				0.5
+		selfKillMessage			"found a way to shoot himself!"
+		KillMessage				"was silenced by"
+		KillMessage2			"'s M1 Garand."
+		headshotWeapon
+		bulletReflection
+	}
+
+	client {
+		droppedAnglesHack
+		pickupModel				"models/multiplayer/m1_garand/m1_garand_scope_pickup.md3"
+		bounceSound				"sound/weapons/weaponbounce.wav"
+		clipBounceSound			"sound/weapons/clipbounce.wav"
+		
+		weaponConfig			"models/multiplayer/m1_garand/weapon2.cfg"
+		handsModel				"models/multiplayer/m1_garand/v_m1_garand_hand2.md3"
+		
+		flashDlightColor		1.0 0.6 0.23
+		flashSound				"sound/weapons/garand/m1_fire_silence.wav"
+		lastShotSound			"sound/weapons/garand/m1_fire_silence_last.wav"	
+		
+		reloadSound				"sound/weapons/garand/m1_reload.wav"
+		
+		weaponIcon				"icons/iconw_mauser"
+		weaponSelectedIcon		"icons/iconw_mauser_1_select"
+		
+		ejectBrassFunc			"MachineGunEjectBrass"
+		brassmodel				"models/weapons2/shells/3006shell.md3"
+		
+		modModel 0				"models/multiplayer/m1_garand/v_m1_garand_scope2.md3"
+		modModel 1				"models/multiplayer/m1_garand/v_m1_garand_silencer.md3"
+		modModel 2				"models/multiplayer/m1_garand/m1_garand_scp.md3"
+		
+		firstPerson {
+			model				"models/multiplayer/m1_garand/v_m1_garand.md3"
+			flashModel			"models/multiplayer/m1_garand/v_m1_garand_flash.mdc"
+
+			weaponLink
+			{
+				part 0
+				{
+					tag			"tag_barrel"
+					model		"models/multiplayer/m1_garand/v_m1_garand_barrel.md3"
+				}
+				part 1
+				{
+					tag			"tag_barrel2"
+					model		"models/multiplayer/m1_garand/v_m1_garand_barrel2.md3"
+				}
+				part 2
+				{
+					tag			"tag_barrel3"
+					model		"models/multiplayer/m1_garand/v_m1_garand_barrel3.md3"
+				}
+				part 3
+				{
+					tag			"tag_barrel4"
+					model		"models/multiplayer/m1_garand/v_m1_garand_barrel4.md3"
+				}
+				part 4
+				{
+					tag			"tag_barrel5"
+					model		"models/multiplayer/m1_garand/v_m1_garand_barrel5.md3"
+				}
+			}
+		}
+		
+		thirdPerson {
+			model				"models/multiplayer/m1_garand/m1_garand_3rd.md3"
+			flashmodel			"models/multiplayer/m1_garand/m1_garand_3rd_flash.mdc"
+		}
+	}
+}

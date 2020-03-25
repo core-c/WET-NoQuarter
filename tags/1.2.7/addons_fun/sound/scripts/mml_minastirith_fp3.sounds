@@ -1,0 +1,13 @@
+fbl
+{
+	sound sound/extra/fbl.wav
+	voice
+	streaming
+}
+
+fbs
+{
+	sound sound/extra/fbs.wav
+	voice
+	streaming
+}

@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/packages/Linux/RPM
+END
+make_curl_rpm
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/packages/Linux/RPM/make_curl_rpm
+END
+Makefile.in
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/packages/Linux/RPM/Makefile.in
+END
+curl-ssl.spec.in
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/packages/Linux/RPM/curl-ssl.spec.in
+END
+curl.spec.in
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/packages/Linux/RPM/curl.spec.in
+END
+Makefile.am
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/packages/Linux/RPM/Makefile.am
+END
+README
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/packages/Linux/RPM/README
+END

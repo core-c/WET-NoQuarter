@@ -1,0 +1,71 @@
+weaponDef
+{
+	both {
+		name					"MP34"
+		statname				"MP34"
+		damage					14
+		spread					200
+		spreadRatio				0.6
+		SpreadScaleAdd			15
+		SpreadScaleAddRand		10
+		viewchange2spread
+		CrouchSpreadRatio		0.6
+		ProneSpreadRatio		0.6
+		selfKillMessage			"found a way to shoot himself!"
+		KillMessage				"died in a hail of lead from"
+		KillMessage2			"'s MP34."
+		headshotWeapon
+		bulletReflection
+		DistanceFalloff
+	}
+
+	client {
+		standModel				"models/weapons2/mp34/mp34_3rd.md3"
+		pickupModel				"models/weapons2/mp34/mp34_pickup.md3"
+		bounceSound				"sound/weapons/weaponbounce.wav"
+		clipBounceSound			"sound/weapons/clipbounce.wav"
+
+		weaponConfig			"models/weapons2/mp34/weapon.cfg"
+		handsModel				"models/weapons2/mp34/v_mp34_hand.md3"
+
+		flashDlightColor		1.0 0.6 0.23
+		flashSound				"sound/weapons/mp34/mp34_fire.wav"
+
+		overheatSound			"sound/weapons/sten/sten_heat.wav"
+		reloadSound				"sound/weapons/sten/sten_reload.wav"
+		reloadFastSound			"sound/weapons/sten/sten_reload_fast.wav"
+
+		weaponIcon				"icons/iconw_mp34"
+		weaponSelectedIcon		"icons/iconw_mp34_1_select"
+
+		ejectBrassFunc			"MachineGunEjectBrass"
+		brassmodel				"models/weapons2/shells/9mmshell.md3"
+
+		firstPerson {
+			model				"models/weapons2/mp34/v_mp34.md3"
+
+			weaponLink
+			{
+				part 0
+				{
+					tag			"tag_barrel"
+					model		"models/weapons2/mp34/v_mp34_barrel.md3"
+				}
+				part 1
+				{
+					tag			"tag_barrel2"
+					model		"models/weapons2/mp34/v_mp34_barrel2.md3"
+				}
+				part 2
+				{
+					tag			"tag_barrel3"
+					model		"models/weapons2/mp34/v_mp34_barrel3.md3"
+				}
+			}
+		}
+
+		thirdPerson {
+			model				"models/weapons2/mp34/mp34_3rd.md3"
+		}
+	}
+}

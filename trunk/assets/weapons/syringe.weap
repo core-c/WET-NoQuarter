@@ -1,0 +1,39 @@
+weaponDef
+{
+	both {
+		name				"Revival Needle"
+		statname			"Syringe"
+		KillMessage			"was liquidated by"
+		KillMessage2		"'s revive needle."
+	}
+
+	client {
+		weaponConfig		"models/multiplayer/syringe/weapon.cfg"
+		handsModel			"models/multiplayer/syringe/v_syringe_hand.md3"
+
+		weaponIcon			"icons/iconw_syringe"
+		weaponSelectedIcon	"icons/iconw_syringe_1_select"
+
+		modModel 0			"models/multiplayer/syringe/100percent" 
+
+		firstPerson {
+			model			"models/multiplayer/syringe/v_syringe.md3"
+			axisskin		"models/multiplayer/syringe/syringe_axis.skin"
+			alliedskin		"models/multiplayer/syringe/syringe_allied.skin"
+
+			weaponLink
+			{
+				part 0
+				{
+					tag		"tag_weapon"
+					model	"models/multiplayer/syringe/v_syringe_barrel.md3"
+				}
+
+			}
+		}
+
+		thirdPerson {
+			model			"models/multiplayer/syringe/syringe.md3"
+		}
+	}
+}

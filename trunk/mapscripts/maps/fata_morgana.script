@@ -1,0 +1,1507 @@
+//////////////////////////////
+////Script made by RoeltjE////
+////Doh...                ////
+////U like it?? :P        ////
+////It's not that hard... ////
+//////////////////////////////
+//add trigger timelimit_hit; so that map ends at timelimit + checks for team who got mroe objectives ; peyote 05.2008
+game_manager
+{
+	spawn
+	{
+		wm_axis_respawntime 15
+		wm_allied_respawntime 15
+		wm_set_round_timelimit 20
+		wm_setwinner 0
+
+		globalaccum 0 set 0 //axis score
+		globalaccum 1 set 0 //allied score
+		globalaccum 2 set 0 //difference
+
+		wait 200
+		
+		remapshader "sprites/objective.tga" "textures/fata_morgana/obj.tga"
+		remapshader textures/fata_morgana/allied_score.tga textures/fata_morgana/allied_score.tga
+		remapshader textures/fata_morgana/axis_score.tga textures/fata_morgana/axis_score.tga
+		remapshaderflush
+	
+
+
+	}
+	trigger allies_score
+	{
+	globalaccum 1 inc 1
+	globalaccum 2 inc 1
+	trigger axis_flag findwinner
+	remapshader textures/fata_morgana/allied_score.tga textures/fata_morgana/nr1.tga
+	remapshaderflush
+	globalaccum 1 abort_if_less_than 2
+	remapshader textures/fata_morgana/allied_score.tga textures/fata_morgana/nr2.tga
+	remapshaderflush
+	globalaccum 1 abort_if_less_than 3
+	remapshader textures/fata_morgana/allied_score.tga textures/fata_morgana/nr3.tga
+	remapshaderflush
+	globalaccum 1 abort_if_less_than 4
+	remapshader textures/fata_morgana/allied_score.tga textures/fata_morgana/nr4.tga
+	remapshaderflush
+	globalaccum 1 abort_if_less_than 5
+	remapshader textures/fata_morgana/allied_score.tga textures/fata_morgana/nr5.tga
+	remapshaderflush
+	globalaccum 1 abort_if_less_than 6
+	remapshader textures/fata_morgana/allied_score.tga textures/fata_morgana/nr6.tga
+	remapshaderflush
+	globalaccum 1 abort_if_less_than 7
+	remapshader textures/fata_morgana/allied_score.tga textures/fata_morgana/nr7.tga
+	remapshaderflush
+	globalaccum 1 abort_if_less_than 8
+	remapshader textures/fata_morgana/allied_score.tga textures/fata_morgana/nr8.tga
+	remapshaderflush
+	globalaccum 1 abort_if_less_than 9
+	remapshader textures/fata_morgana/allied_score.tga textures/fata_morgana/nr9.tga
+	remapshaderflush
+	globalaccum 1 abort_if_less_than 10
+	remapshader textures/fata_morgana/allied_score.tga textures/fata_morgana/nr10.tga
+	remapshaderflush
+	wm_announce "^4The Allies win!!"
+	wm_teamvoiceannounce 0 "blue_team_is_the_winner"
+	wm_teamvoiceannounce 1 "blue_team_is_the_winner"
+	wm_setwinner 1
+	wait 5000
+	wm_endround
+	}
+
+	trigger axis_score
+	{
+	globalaccum 0 inc 1
+	globalaccum 2 inc -1
+	trigger axis_flag findwinner
+	remapshader textures/fata_morgana/axis_score.tga textures/fata_morgana/nr1.tga
+	remapshaderflush
+	globalaccum 0 abort_if_less_than 2
+	remapshader textures/fata_morgana/axis_score.tga textures/fata_morgana/nr2.tga
+	remapshaderflush
+	globalaccum 0 abort_if_less_than 3
+	remapshader textures/fata_morgana/axis_score.tga textures/fata_morgana/nr3.tga
+	remapshaderflush
+	globalaccum 0 abort_if_less_than 4
+	remapshader textures/fata_morgana/axis_score.tga textures/fata_morgana/nr4.tga
+	remapshaderflush
+	globalaccum 0 abort_if_less_than 5
+	remapshader textures/fata_morgana/axis_score.tga textures/fata_morgana/nr5.tga
+	remapshaderflush
+	globalaccum 0 abort_if_less_than 6
+	remapshader textures/fata_morgana/axis_score.tga textures/fata_morgana/nr6.tga
+	remapshaderflush
+	globalaccum 0 abort_if_less_than 7
+	remapshader textures/fata_morgana/axis_score.tga textures/fata_morgana/nr7.tga
+	remapshaderflush
+	globalaccum 0 abort_if_less_than 8
+	remapshader textures/fata_morgana/axis_score.tga textures/fata_morgana/nr8.tga
+	remapshaderflush
+	globalaccum 0 abort_if_less_than 9
+	remapshader textures/fata_morgana/axis_score.tga textures/fata_morgana/nr9.tga
+	remapshaderflush
+	globalaccum 0 abort_if_less_than 10
+	remapshader textures/fata_morgana/axis_score.tga textures/fata_morgana/nr10.tga
+	remapshaderflush
+	wm_announce "^1The Axis win!!"
+	wm_teamvoiceannounce 0 "red_team_is_the_winner"
+	wm_teamvoiceannounce 1 "red_team_is_the_winner"
+	wm_setwinner 0
+	wait 5000
+	wm_endround
+	}
+
+	trigger timelimit_hit
+	{
+		wm_setwinner -1
+		trigger axis_flag findwinner
+		trigger allied_flag findwinner
+		wm_endround
+	}
+
+}
+
+axis_flag
+{
+trigger stolen
+{
+	wm_teamvoiceannounce 0 "a_red_flag_taken"
+	wm_teamvoiceannounce 1 "a_red_flag_taken"
+}
+trigger dropped
+{
+	wm_announce "^1Axis flag dropped!!"
+	wm_teamvoiceannounce 0 "a_red_flag_dropped"
+	wm_teamvoiceannounce 1 "a_red_flag_dropped"
+}
+trigger returned
+{
+	wm_teamvoiceannounce 0 "a_red_flag_returned"
+	wm_teamvoiceannounce 1 "a_red_flag_returned"
+}
+trigger captured
+{
+	wm_announce "^4The Allies score!!"
+	wm_teamvoiceannounce 0 "blue_team_scores"
+	wm_teamvoiceannounce 1 "blue_team_scores"
+	trigger game_manager allies_score
+}
+trigger findwinner
+{
+		wm_setwinner -1
+		globalaccum 2 abort_if_equal 0
+		wm_setwinner 1
+		globalaccum 2 abort_if_greater_than -1
+		wm_setwinner 0
+}
+trigger didaxiswin
+{
+		globalaccum 2 abort_if_greater_than 0
+		wm_announce "^1The Axis win!!"
+		wm_teamvoiceannounce 0 "red_team_is_the_winner"
+		wm_teamvoiceannounce 1 "red_team_is_the_winner"
+}
+}
+
+allied_flag
+{
+trigger stolen
+{
+	wm_teamvoiceannounce 0 "a_blue_flag_taken"
+	wm_teamvoiceannounce 1 "a_blue_flag_taken"
+}
+trigger dropped
+{
+	wm_announce "^4Allied flag dropped!!"
+	wm_teamvoiceannounce 0 "a_blue_flag_dropped"
+	wm_teamvoiceannounce 1 "a_blue_flag_dropped"
+}
+trigger returned
+{
+	wm_teamvoiceannounce 0 "a_blue_flag_returned"
+	wm_teamvoiceannounce 1 "a_blue_flag_returned"
+}
+trigger captured
+{
+	wm_announce "^1The Axis score!!"
+	wm_teamvoiceannounce 0 "red_team_scores"
+	wm_teamvoiceannounce 1 "red_team_scores"
+	trigger game_manager axis_score
+}
+trigger didallieswin
+{
+	globalaccum 2 abort_if_less_than 0
+	wm_announce "^4The Allies win!!"
+	wm_teamvoiceannounce 0 "blue_team_is_the_winner"
+	wm_teamvoiceannounce 1 "blue_team_is_the_winner"
+}
+}
+
+rotator
+{
+spawn
+{
+wait 200
+playsound sound/movers/doors/door2_close.wav looping volume 250
+setrotation 0 25 0
+}
+}
+
+
+axis_mover_1
+{
+spawn
+{
+wait 200
+trigger self move
+}
+trigger move
+{
+wait random 2000 17000
+playsound sound/movers/doors/door2_close.wav looping volume 250
+gotomarker axis_mover_1_down 75 wait
+stopsound
+playsound sound/movers/doors/door2_locked.wav volume 250
+wait random 2000 17000
+playsound sound/movers/doors/door2_close.wav looping volume 250
+gotomarker axis_mover_1_up 75 wait
+stopsound
+playsound sound/movers/doors/door2_locked.wav volume 250
+trigger self move
+}
+}
+
+axis_mover_2
+{
+spawn
+{
+wait 200
+trigger self move
+}
+trigger move
+{
+playsound sound/movers/doors/door2_close.wav looping volume 250
+gotomarker axis_mover_2_down 75 wait
+stopsound
+playsound sound/movers/doors/door2_locked.wav volume 250
+wait random 2000 17000
+playsound sound/movers/doors/door2_close.wav looping volume 250
+gotomarker axis_mover_2_up 75 wait
+stopsound
+playsound sound/movers/doors/door2_locked.wav volume 250
+wait random 2000 17000
+trigger self move
+}
+}
+
+axis_mover_3
+{
+spawn
+{
+wait 200
+trigger self move
+}
+trigger move
+{
+playsound sound/movers/doors/door2_close.wav looping volume 250
+faceangles 0 90 0 3000
+
+stopsound
+playsound sound/movers/doors/door2_locked.wav volume 250
+wait random 2000 17000
+playsound sound/movers/doors/door2_close.wav looping volume 250
+faceangles 0 0 0 3000
+
+stopsound
+playsound sound/movers/doors/door2_locked.wav volume 250
+wait random 2000 17000
+trigger self move
+}
+}
+
+axis_mover_4
+{
+spawn
+{
+wait 200
+trigger self move
+}
+trigger move
+{
+playsound sound/movers/doors/door2_close.wav looping volume 250
+faceangles 0 -90 0 3000
+
+stopsound
+playsound sound/movers/doors/door2_locked.wav volume 250
+wait random 2000 17000
+playsound sound/movers/doors/door2_close.wav looping volume 250
+faceangles 0 0 0 3000
+
+stopsound
+playsound sound/movers/doors/door2_locked.wav volume 250
+wait random 2000 17000
+trigger self move
+}
+}
+
+axis_mover_5
+{
+spawn
+{
+wait 200
+trigger self move
+}
+trigger move
+{
+playsound sound/movers/doors/door2_close.wav looping volume 250
+faceangles 0 30 0 3000
+
+stopsound
+playsound sound/movers/doors/door2_locked.wav volume 250
+wait random 2000 17000
+playsound sound/movers/doors/door2_close.wav looping volume 250
+faceangles 0 -30 0 3000
+
+stopsound
+playsound sound/movers/doors/door2_locked.wav volume 250
+wait random 2000 17000
+trigger self move
+}
+}
+
+axis_mover_6
+{
+spawn
+{
+wait 200
+trigger self move
+}
+trigger move
+{
+playsound sound/movers/doors/door2_close.wav looping volume 250
+faceangles -35 0 0 3000
+
+stopsound
+playsound sound/movers/doors/door2_locked.wav volume 250
+wait random 2000 17000
+playsound sound/movers/doors/door2_close.wav looping volume 250
+faceangles 0 0 0 3000
+
+stopsound
+playsound sound/movers/doors/door2_locked.wav volume 250
+wait random 2000 17000
+trigger self move
+}
+}
+
+
+allies_mover_1
+{
+spawn
+{
+wait 200
+trigger self move
+}
+trigger move
+{
+wait random 2000 17000
+playsound sound/movers/doors/door2_close.wav looping volume 250
+gotomarker allies_mover_1_down 75 wait
+stopsound
+playsound sound/movers/doors/door2_locked.wav volume 250
+wait random 2000 17000
+playsound sound/movers/doors/door2_close.wav looping volume 250
+gotomarker allies_mover_1_up 75 wait
+stopsound
+playsound sound/movers/doors/door2_locked.wav volume 250
+trigger self move
+}
+}
+
+allies_mover_2
+{
+spawn
+{
+wait 200
+trigger self move
+}
+trigger move
+{
+playsound sound/movers/doors/door2_close.wav looping volume 250
+gotomarker allies_mover_2_down 75 wait
+stopsound
+playsound sound/movers/doors/door2_locked.wav volume 250
+wait random 2000 17000
+playsound sound/movers/doors/door2_close.wav looping volume 250
+gotomarker allies_mover_2_up 75 wait
+stopsound
+playsound sound/movers/doors/door2_locked.wav volume 250
+wait random 2000 17000
+trigger self move
+}
+}
+
+allies_mover_3
+{
+spawn
+{
+wait 200
+trigger self move
+}
+trigger move
+{
+playsound sound/movers/doors/door2_close.wav looping volume 250
+faceangles 0 90 0 3000
+
+stopsound
+playsound sound/movers/doors/door2_locked.wav volume 250
+wait random 2000 17000
+playsound sound/movers/doors/door2_close.wav looping volume 250
+faceangles 0 0 0 3000
+
+stopsound
+playsound sound/movers/doors/door2_locked.wav volume 250
+wait random 2000 17000
+trigger self move
+}
+}
+
+allies_mover_4
+{
+spawn
+{
+wait 200
+trigger self move
+}
+trigger move
+{
+playsound sound/movers/doors/door2_close.wav looping volume 250
+faceangles 0 -90 0 3000
+
+stopsound
+playsound sound/movers/doors/door2_locked.wav volume 250
+wait random 2000 17000
+playsound sound/movers/doors/door2_close.wav looping volume 250
+faceangles 0 0 0 3000
+
+stopsound
+playsound sound/movers/doors/door2_locked.wav volume 250
+wait random 2000 17000
+trigger self move
+}
+}
+
+allies_mover_5
+{
+spawn
+{
+wait 200
+trigger self move
+}
+trigger move
+{
+playsound sound/movers/doors/door2_close.wav looping volume 250
+faceangles 0 30 0 3000
+
+stopsound
+playsound sound/movers/doors/door2_locked.wav volume 250
+wait random 2000 17000
+playsound sound/movers/doors/door2_close.wav looping volume 250
+faceangles 0 -30 0 3000
+
+stopsound
+playsound sound/movers/doors/door2_locked.wav volume 250
+wait random 2000 17000
+trigger self move
+}
+}
+
+allies_mover_6
+{
+spawn
+{
+wait 200
+trigger self move
+}
+trigger move
+{
+playsound sound/movers/doors/door2_close.wav looping volume 250
+faceangles 35 0 0 3000
+
+stopsound
+playsound sound/movers/doors/door2_locked.wav volume 250
+wait random 2000 17000
+playsound sound/movers/doors/door2_close.wav looping volume 250
+faceangles 0 0 0 3000
+
+stopsound
+playsound sound/movers/doors/door2_locked.wav volume 250
+wait random 2000 17000
+trigger self move
+}
+}
+
+wall_01
+{
+spawn
+{
+wait 200
+setstate glass_01 invisible
+wait random 200 6000
+trigger self move
+}
+trigger move
+{
+setstate wall_01 invisible
+setstate glass_01 default
+wait random 3000 6000
+setstate glass_01 invisible
+wait random 3000 6000
+setstate glass_01 default
+wait random 3000 6000
+setstate glass_01 invisible
+setstate wall_01 default
+wait random 3000 6000
+trigger self move
+}
+}
+
+wall_02
+{
+spawn
+{
+wait 200
+setstate glass_02 invisible
+wait random 200 10000
+trigger self move
+}
+trigger move
+{
+setstate wall_02 invisible
+setstate glass_02 default
+wait random 3000 6000
+setstate glass_02 invisible
+wait random 3000 6000
+setstate glass_02 default
+wait random 3000 6000
+setstate glass_02 invisible
+setstate wall_02 default
+wait random 3000 6000
+trigger self move
+}
+}
+
+wall_03
+{
+spawn
+{
+wait 200
+setstate glass_03 invisible
+wait random 200 10000
+trigger self move
+}
+trigger move
+{
+setstate wall_03 invisible
+setstate glass_03 default
+wait random 3000 6000
+setstate glass_03 invisible
+wait random 3000 6000
+setstate glass_03 default
+wait random 3000 6000
+setstate glass_03 invisible
+setstate wall_03 default
+wait random 3000 6000
+trigger self move
+}
+}
+
+wall_04
+{
+spawn
+{
+wait 200
+setstate glass_04 invisible
+wait random 200 10000
+trigger self move
+}
+trigger move
+{
+setstate wall_04 invisible
+setstate glass_04 default
+wait random 3000 6000
+setstate glass_04 invisible
+wait random 3000 6000
+setstate glass_04 default
+wait random 3000 6000
+setstate glass_04 invisible
+setstate wall_04 default
+wait random 3000 6000
+trigger self move
+}
+}
+
+wall_05
+{
+spawn
+{
+wait 200
+setstate glass_05 invisible
+wait random 200 10000
+trigger self move
+}
+trigger move
+{
+setstate wall_05 invisible
+setstate glass_05 default
+wait random 3000 6000
+setstate glass_05 invisible
+wait random 3000 6000
+setstate glass_05 default
+wait random 3000 6000
+setstate glass_05 invisible
+setstate wall_05 default
+wait random 3000 6000
+trigger self move
+}
+}
+
+wall_06
+{
+spawn
+{
+wait 200
+setstate glass_06 invisible
+wait random 200 10000
+trigger self move
+}
+trigger move
+{
+setstate wall_06 invisible
+setstate glass_06 default
+wait random 3000 6000
+setstate glass_06 invisible
+wait random 3000 6000
+setstate glass_06 default
+wait random 3000 6000
+setstate glass_06 invisible
+setstate wall_06 default
+wait random 3000 6000
+trigger self move
+}
+}
+
+wall_07
+{
+spawn
+{
+wait 200
+setstate glass_07 invisible
+wait random 200 10000
+trigger self move
+}
+trigger move
+{
+setstate wall_07 invisible
+setstate glass_07 default
+wait random 3000 6000
+setstate glass_07 invisible
+wait random 3000 6000
+setstate glass_07 default
+wait random 3000 6000
+setstate glass_07 invisible
+setstate wall_07 default
+wait random 3000 6000
+trigger self move
+}
+}
+
+wall_08
+{
+spawn
+{
+wait 200
+setstate glass_08 invisible
+wait random 200 10000
+trigger self move
+}
+trigger move
+{
+setstate wall_08 invisible
+setstate glass_08 default
+wait random 3000 6000
+setstate glass_08 invisible
+wait random 3000 6000
+setstate glass_08 default
+wait random 3000 6000
+setstate glass_08 invisible
+setstate wall_08 default
+wait random 3000 6000
+trigger self move
+}
+}
+
+wall_09
+{
+spawn
+{
+wait 200
+setstate glass_09 invisible
+wait random 200 10000
+trigger self move
+}
+trigger move
+{
+setstate wall_09 invisible
+setstate glass_09 default
+wait random 3000 6000
+setstate glass_09 invisible
+wait random 3000 6000
+setstate glass_09 default
+wait random 3000 6000
+setstate glass_09 invisible
+setstate wall_09 default
+wait random 3000 6000
+trigger self move
+}
+}
+
+wall_10
+{
+spawn
+{
+wait 200
+setstate glass_10 invisible
+wait random 200 10000
+trigger self move
+}
+trigger move
+{
+setstate wall_10 invisible
+setstate glass_10 default
+wait random 3000 6000
+setstate glass_10 invisible
+wait random 3000 6000
+setstate glass_10 default
+wait random 3000 6000
+setstate glass_10 invisible
+setstate wall_10 default
+wait random 3000 6000
+trigger self move
+}
+}
+
+wall_11
+{
+spawn
+{
+wait 200
+setstate glass_11 invisible
+wait random 200 10000
+trigger self move
+}
+trigger move
+{
+setstate wall_11 invisible
+setstate glass_11 default
+wait random 3000 6000
+setstate glass_11 invisible
+wait random 3000 6000
+setstate glass_11 default
+wait random 3000 6000
+setstate glass_11 invisible
+setstate wall_11 default
+wait random 3000 6000
+trigger self move
+}
+}
+
+wall_12
+{
+spawn
+{
+wait 200
+setstate glass_12 invisible
+wait random 200 10000
+trigger self move
+}
+trigger move
+{
+setstate wall_12 invisible
+setstate glass_12 default
+wait random 3000 6000
+setstate glass_12 invisible
+wait random 3000 6000
+setstate glass_12 default
+wait random 3000 6000
+setstate glass_12 invisible
+setstate wall_12 default
+wait random 3000 6000
+trigger self move
+}
+}
+
+wall_13
+{
+spawn
+{
+wait 200
+setstate glass_13 invisible
+wait random 200 10000
+trigger self move
+}
+trigger move
+{
+setstate wall_13 invisible
+setstate glass_13 default
+wait random 3000 6000
+setstate glass_13 invisible
+wait random 3000 6000
+setstate glass_13 default
+wait random 3000 6000
+setstate glass_13 invisible
+setstate wall_13 default
+wait random 3000 6000
+trigger self move
+}
+}
+
+wall_14
+{
+spawn
+{
+wait 200
+setstate glass_14 invisible
+wait random 200 10000
+trigger self move
+}
+trigger move
+{
+setstate wall_14 invisible
+setstate glass_14 default
+wait random 3000 6000
+setstate glass_14 invisible
+wait random 3000 6000
+setstate glass_14 default
+wait random 3000 6000
+setstate glass_14 invisible
+setstate wall_14 default
+wait random 3000 6000
+trigger self move
+}
+}
+
+wall_15
+{
+spawn
+{
+wait 200
+setstate glass_15 invisible
+wait random 200 10000
+trigger self move
+}
+trigger move
+{
+setstate wall_15 invisible
+setstate glass_15 default
+wait random 3000 6000
+setstate glass_15 invisible
+wait random 3000 6000
+setstate glass_15 default
+wait random 3000 6000
+setstate glass_15 invisible
+setstate wall_15 default
+wait random 3000 6000
+trigger self move
+}
+}
+
+wall_16
+{
+spawn
+{
+wait 200
+setstate glass_16 invisible
+wait random 200 10000
+trigger self move
+}
+trigger move
+{
+setstate wall_16 invisible
+setstate glass_16 default
+wait random 3000 6000
+setstate glass_16 invisible
+wait random 3000 6000
+setstate glass_16 default
+wait random 3000 6000
+setstate glass_16 invisible
+setstate wall_16 default
+wait random 3000 6000
+trigger self move
+}
+}
+
+wall_17
+{
+spawn
+{
+wait 200
+setstate glass_17 invisible
+wait random 200 10000
+trigger self move
+}
+trigger move
+{
+setstate wall_17 invisible
+setstate glass_17 default
+wait random 3000 6000
+setstate glass_17 invisible
+wait random 3000 6000
+setstate glass_17 default
+wait random 3000 6000
+setstate glass_17 invisible
+setstate wall_17 default
+wait random 3000 6000
+trigger self move
+}
+}
+
+wall_18
+{
+spawn
+{
+wait 200
+setstate glass_18 invisible
+wait random 200 10000
+trigger self move
+}
+trigger move
+{
+setstate wall_18 invisible
+setstate glass_18 default
+wait random 3000 6000
+setstate glass_18 invisible
+wait random 3000 6000
+setstate glass_18 default
+wait random 3000 6000
+setstate glass_18 invisible
+setstate wall_18 default
+wait random 3000 6000
+trigger self move
+}
+}
+
+wall_19
+{
+spawn
+{
+wait 200
+setstate glass_19 invisible
+wait random 200 10000
+trigger self move
+}
+trigger move
+{
+setstate wall_19 invisible
+setstate glass_19 default
+wait random 3000 6000
+setstate glass_19 invisible
+wait random 3000 6000
+setstate glass_19 default
+wait random 3000 6000
+setstate glass_19 invisible
+setstate wall_19 default
+wait random 3000 6000
+trigger self move
+}
+}
+
+wall_20
+{
+spawn
+{
+wait 200
+setstate glass_20 invisible
+wait random 200 10000
+trigger self move
+}
+trigger move
+{
+setstate wall_20 invisible
+setstate glass_20 default
+wait random 3000 6000
+setstate glass_20 invisible
+wait random 3000 6000
+setstate glass_20 default
+wait random 3000 6000
+setstate glass_20 invisible
+setstate wall_20 default
+wait random 3000 6000
+trigger self move
+}
+}
+
+wall_21
+{
+spawn
+{
+wait 200
+setstate glass_21 invisible
+wait random 200 10000
+trigger self move
+}
+trigger move
+{
+setstate wall_21 invisible
+setstate glass_21 default
+wait random 3000 6000
+setstate glass_21 invisible
+wait random 3000 6000
+setstate glass_21 default
+wait random 3000 6000
+setstate glass_21 invisible
+setstate wall_21 default
+wait random 3000 6000
+trigger self move
+}
+}
+
+wall_22
+{
+spawn
+{
+wait 200
+setstate glass_22 invisible
+wait random 200 10000
+trigger self move
+}
+trigger move
+{
+setstate wall_22 invisible
+setstate glass_22 default
+wait random 3000 6000
+setstate glass_22 invisible
+wait random 3000 6000
+setstate glass_22 default
+wait random 3000 6000
+setstate glass_22 invisible
+setstate wall_22 default
+wait random 3000 6000
+trigger self move
+}
+}
+
+wall_23
+{
+spawn
+{
+wait 200
+setstate glass_23 invisible
+wait random 200 10000
+trigger self move
+}
+trigger move
+{
+setstate wall_23 invisible
+setstate glass_23 default
+wait random 3000 6000
+setstate glass_23 invisible
+wait random 3000 6000
+setstate glass_23 default
+wait random 3000 6000
+setstate glass_23 invisible
+setstate wall_23 default
+wait random 3000 6000
+trigger self move
+}
+}
+
+wall_24
+{
+spawn
+{
+wait 200
+setstate glass_24 invisible
+wait random 200 10000
+trigger self move
+}
+trigger move
+{
+setstate wall_24 invisible
+setstate glass_24 default
+wait random 3000 6000
+setstate glass_24 invisible
+wait random 3000 6000
+setstate glass_24 default
+wait random 3000 6000
+setstate glass_24 invisible
+setstate wall_24 default
+wait random 3000 6000
+trigger self move
+}
+}
+
+wall_25
+{
+spawn
+{
+wait 200
+setstate glass_25 invisible
+wait random 200 10000
+trigger self move
+}
+trigger move
+{
+setstate wall_25 invisible
+setstate glass_25 default
+wait random 3000 6000
+setstate glass_25 invisible
+wait random 3000 6000
+setstate glass_25 default
+wait random 3000 6000
+setstate glass_25 invisible
+setstate wall_25 default
+wait random 3000 6000
+trigger self move
+}
+}
+
+wall_26
+{
+spawn
+{
+wait 200
+setstate glass_26 invisible
+wait random 200 10000
+trigger self move
+}
+trigger move
+{
+setstate wall_26 invisible
+setstate glass_26 default
+wait random 3000 6000
+setstate glass_26 invisible
+wait random 3000 6000
+setstate glass_26 default
+wait random 3000 6000
+setstate glass_26 invisible
+setstate wall_26 default
+wait random 3000 6000
+trigger self move
+}
+}
+
+wall_27
+{
+spawn
+{
+wait 200
+setstate glass_27 invisible
+wait random 200 10000
+trigger self move
+}
+trigger move
+{
+setstate wall_27 invisible
+setstate glass_27 default
+wait random 3000 6000
+setstate glass_27 invisible
+wait random 3000 6000
+setstate glass_27 default
+wait random 3000 6000
+setstate glass_27 invisible
+setstate wall_27 default
+wait random 3000 6000
+trigger self move
+}
+}
+
+wall_28
+{
+spawn
+{
+wait 200
+setstate glass_28 invisible
+wait random 200 10000
+trigger self move
+}
+trigger move
+{
+setstate wall_28 invisible
+setstate glass_28 default
+wait random 3000 6000
+setstate glass_28 invisible
+wait random 3000 6000
+setstate glass_28 default
+wait random 3000 6000
+setstate glass_28 invisible
+setstate wall_28 default
+wait random 3000 6000
+trigger self move
+}
+}
+
+wall_29
+{
+spawn
+{
+wait 200
+setstate glass_29 invisible
+wait random 200 10000
+trigger self move
+}
+trigger move
+{
+setstate wall_29 invisible
+setstate glass_29 default
+wait random 3000 6000
+setstate glass_29 invisible
+wait random 3000 6000
+setstate glass_29 default
+wait random 3000 6000
+setstate glass_29 invisible
+setstate wall_29 default
+wait random 3000 6000
+trigger self move
+}
+}
+
+wall_30
+{
+spawn
+{
+wait 200
+setstate glass_30 invisible
+wait random 200 10000
+trigger self move
+}
+trigger move
+{
+setstate wall_30 invisible
+setstate glass_30 default
+wait random 3000 6000
+setstate glass_30 invisible
+wait random 3000 6000
+setstate glass_30 default
+wait random 3000 6000
+setstate glass_30 invisible
+setstate wall_30 default
+wait random 3000 6000
+trigger self move
+}
+}
+
+wall_31
+{
+spawn
+{
+wait 200
+setstate glass_31 invisible
+wait random 200 10000
+trigger self move
+}
+trigger move
+{
+setstate wall_31 invisible
+setstate glass_31 default
+wait random 3000 6000
+setstate glass_31 invisible
+wait random 3000 6000
+setstate glass_31 default
+wait random 3000 6000
+setstate glass_31 invisible
+setstate wall_31 default
+wait random 3000 6000
+trigger self move
+}
+}
+
+wall_32
+{
+spawn
+{
+wait 200
+setstate glass_32 invisible
+wait random 200 10000
+trigger self move
+}
+trigger move
+{
+setstate wall_32 invisible
+setstate glass_32 default
+wait random 3000 6000
+setstate glass_32 invisible
+wait random 3000 6000
+setstate glass_32 default
+wait random 3000 6000
+setstate glass_32 invisible
+setstate wall_32 default
+wait random 3000 6000
+trigger self move
+}
+}
+
+wall_33
+{
+spawn
+{
+wait 200
+setstate glass_33 invisible
+wait random 200 10000
+trigger self move
+}
+trigger move
+{
+setstate wall_33 invisible
+setstate glass_33 default
+wait random 3000 6000
+setstate glass_33 invisible
+wait random 3000 6000
+setstate glass_33 default
+wait random 3000 6000
+setstate glass_33 invisible
+setstate wall_33 default
+wait random 3000 6000
+trigger self move
+}
+}
+
+wall_34
+{
+spawn
+{
+wait 200
+setstate glass_34 invisible
+wait random 200 10000
+trigger self move
+}
+trigger move
+{
+setstate wall_34 invisible
+setstate glass_34 default
+wait random 3000 6000
+setstate glass_34 invisible
+wait random 3000 6000
+setstate glass_34 default
+wait random 3000 6000
+setstate glass_34 invisible
+setstate wall_34 default
+wait random 3000 6000
+trigger self move
+}
+}
+
+wall_35
+{
+spawn
+{
+wait 200
+setstate glass_35 invisible
+wait random 200 10000
+trigger self move
+}
+trigger move
+{
+setstate wall_35 invisible
+setstate glass_35 default
+wait random 3000 6000
+setstate glass_35 invisible
+wait random 3000 6000
+setstate glass_35 default
+wait random 3000 6000
+setstate glass_35 invisible
+setstate wall_35 default
+wait random 3000 6000
+trigger self move
+}
+}
+
+wall_36
+{
+spawn
+{
+wait 200
+setstate glass_36 invisible
+wait random 200 10000
+trigger self move
+}
+trigger move
+{
+setstate wall_36 invisible
+setstate glass_36 default
+wait random 3000 6000
+setstate glass_36 invisible
+wait random 3000 6000
+setstate glass_36 default
+wait random 3000 6000
+setstate glass_36 invisible
+setstate wall_36 default
+wait random 3000 6000
+trigger self move
+}
+}
+
+wall_37
+{
+spawn
+{
+wait 200
+setstate glass_37 invisible
+wait random 200 10000
+trigger self move
+}
+trigger move
+{
+setstate wall_37 invisible
+setstate glass_37 default
+wait random 3000 6000
+setstate glass_37 invisible
+wait random 3000 6000
+setstate glass_37 default
+wait random 3000 6000
+setstate glass_37 invisible
+setstate wall_37 default
+wait random 3000 6000
+trigger self move
+}
+}
+
+wall_38
+{
+spawn
+{
+wait 200
+setstate glass_38 invisible
+wait random 200 10000
+trigger self move
+}
+trigger move
+{
+setstate wall_38 invisible
+setstate glass_38 default
+wait random 3000 6000
+setstate glass_38 invisible
+wait random 3000 6000
+setstate glass_38 default
+wait random 3000 6000
+setstate glass_38 invisible
+setstate wall_38 default
+wait random 3000 6000
+trigger self move
+}
+}
+
+wall_39
+{
+spawn
+{
+wait 200
+setstate glass_39 invisible
+wait random 200 10000
+trigger self move
+}
+trigger move
+{
+setstate wall_39 invisible
+setstate glass_39 default
+wait random 3000 6000
+setstate glass_39 invisible
+wait random 3000 6000
+setstate glass_39 default
+wait random 3000 6000
+setstate glass_39 invisible
+setstate wall_39 default
+wait random 3000 6000
+trigger self move
+}
+}
+
+wall_40
+{
+spawn
+{
+wait 200
+setstate glass_40 invisible
+wait random 200 10000
+trigger self move
+}
+trigger move
+{
+setstate wall_40 invisible
+setstate glass_40 default
+wait random 3000 6000
+setstate glass_40 invisible
+wait random 3000 6000
+setstate glass_40 default
+wait random 3000 6000
+setstate glass_40 invisible
+setstate wall_40 default
+wait random 3000 6000
+trigger self move
+}
+}
+
+
+
+

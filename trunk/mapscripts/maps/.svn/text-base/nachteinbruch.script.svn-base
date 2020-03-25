@@ -1,0 +1,722 @@
+//nachteinbruch script file
+//special thanks to sock for his help in getting alot of this working
+
+game_manager
+{
+	spawn
+	{
+
+		// Game rules
+		wm_axis_respawntime	20
+		wm_allied_respawntime	10
+		wm_number_of_objectives 7
+		wm_set_round_timelimit	20
+		
+
+		// Objectives
+		// 1: the Flak Cannon (m)
+		// 2: main door
+		// 3: forward bunker
+		// 4: ammo supply (m)
+		// 5: the Ammo Storage Gate
+		// 6: the Side Gate
+		// 7: command post
+
+		// Current main objectives for each team (0=Axis, 1=Allies)
+		wm_objective_status 1 1 0
+		wm_objective_status 1 0 0
+		wm_objective_status 2 1 0
+		wm_objective_status 2 0 0
+		wm_objective_status 3 1 0
+		wm_objective_status 3 0 0
+		wm_objective_status 4 1 0
+		wm_objective_status 4 0 0
+		wm_objective_status 5 1 0
+		wm_objective_status 5 0 0
+		wm_objective_status 6 1 0
+		wm_objective_status 6 0 0
+		wm_objective_status 7 1 0
+		wm_objective_status 7 0 0
+
+		wm_set_main_objective		1	1
+		wm_set_main_objective		1	0
+		wm_set_main_objective		4	1
+		wm_set_main_objective		4	0
+
+		accum 1 set 1		// flak cannon broke
+		accum 4 set 0		// ammo supply alive
+		accum 2 set 1		// bigwall alive
+
+		// Stopwatch mode defending team (0=Axis, 1=Allies)
+		wm_set_defending_team	0
+
+		// Current main objectives for each team (0=Axis, 1=Allies)
+		wm_objective_status 3 0 0
+		wm_objective_status 3 1 0
+
+		// Winner on expiration of round timer (0=Axis, 1=Allies)
+		wm_setwinner	0
+
+		wait 50
+	
+		setautospawn "Forward Bunker"	0
+		setautospawn "Forward Bunker"	1 
+		
+		disablespeaker allies_compost_sound 
+ 		
+		 //*----------------------------------- vo ------------------------------------------*
+		wm_addteamvoiceannounce 1 "n_allies_capture_forwardshack"
+		wm_addteamvoiceannounce 1 "n_allies_destroy_maindoor"
+		wm_addteamvoiceannounce 1 "n_allies_destroy_ammosupply"
+		wm_addteamvoiceannounce 1 "n_allies_build_commandpost"			
+		// *---------------------------------------------------------------------------------*
+
+		}
+//*===============ENDGAME===============*//
+trigger checkgame
+	{
+		accum 4 abort_if_not_equal 1
+		accum 1 abort_if_not_equal 1		// flak cannon broke
+		wm_setwinner 1
+		wait 1500
+		wm_endround
+	}
+
+//*========--------- obj 1 ----------=========*//
+trigger flak_scriptbroken
+	{
+		accum 1 set 1		// flak cannon broke
+
+		wm_objective_status 1 1 1
+		wm_objective_status 1 0 0
+		wait 1000
+		trigger game_manager checkgame
+	}		
+
+trigger flak_scriptfixed
+	{
+		accum 1 set 0		// flak cannon fixed
+		wm_objective_status 1 1 0
+		wm_objective_status 1 0 1
+	}		
+
+
+trigger allies_broke_door
+	{
+		wm_objective_status 2 1 1 
+    		wm_objective_status 2 0 0 
+    		wm_objective_status 3 1 1 
+    		wm_objective_status 3 0 0 
+
+		wm_set_main_objective		2	0
+		wm_set_main_objective		2	1
+
+		trigger forwardbunker_flag kill // Switch forward spawn to Allied ONLY
+		wm_announce "Allied team has breached the Main Door and secured the Forward Shack!"
+
+		wait 1000
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_addteamvoiceannounce 1 "n_allies_destroy_pakgun"
+		wm_addteamvoiceannounce 1 "n_allies_maindoor_destroyed"
+		wm_addteamvoiceannounce 1 "n_allies_destroy_ammosupply"
+
+		wm_teamvoiceannounce 1 "n_allies_maindoor_destroyed"
+		wm_teamvoiceannounce 1 "n_allies_destroy_pakgun"
+		wm_teamvoiceannounce 1 "n_allies_destroy_ammosupply"
+
+		wm_teamvoiceannounce 0 "n_ax_maindoor_breached"
+
+		wm_removeteamvoiceannounce 0 "n_ax_defend_shack"
+		wm_removeteamvoiceannounce 0 "n_ax_defend_maindoor"
+
+		wm_removeteamvoiceannounce 1 "n_allies_maindoor_destroyed"
+		// *---------------------------------------------------------------------------------*
+	}
+
+trigger ammo_supply
+	{
+		accum 4 set 1 //ammo supply dead 
+		wm_objective_status 4 1 1
+		wm_objective_status 4 0 0
+		wait 1000		
+		trigger game_manager checkgame
+	}
+}
+
+// ================================================
+// =========== SPAWN POINT CONTROLS ===============
+// ================================================
+forwardbunker_flag
+{
+	spawn
+	{
+		accum 0 set 0	// 0-Axis, 1-Allied
+	}
+
+	trigger axis_capture	// Flag has been claimed by an axis player
+	{
+		accum 0 abort_if_equal 0 // Do Axis already own the flag?
+
+		accum 0 set 0 // Axis own the flag
+		wm_announce	"Axis reclaim the Forward Bunker!"
+
+		wm_objective_status 3 1 2
+		wm_objective_status 3 0 1
+
+		setautospawn "Forward Bunker" 0
+
+		alertentity forwardbunker_wobj
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 1 "n_allies_capture_forwardshack"
+		wm_teamvoiceannounce 0 "n_ax_shack_reclaimed"
+		// *---------------------------------------------------------------------------------*
+	}
+
+	trigger allied_capture	// Flag has been claimed by an allied player
+	{
+		accum 0 abort_if_equal 1 // Do Allies already own flag?
+
+		accum 0 set 1 // Allied own the flag
+		wm_announce	"Allies capture the Forward Bunker!"
+
+		wm_objective_status 3 1 1
+		wm_objective_status 3 0 2
+
+		setautospawn "Axis Main Bunker" 0
+
+		alertentity forwardbunker_wobj
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 1 "n_allies_forwardshack_captured"
+		// *---------------------------------------------------------------------------------*
+	}
+
+	trigger kill
+	{
+		trigger forwardbunker_flag force_allied
+		remove
+	}
+
+	trigger force_allied
+	{
+		accum 0 abort_if_equal 1 // Do Allies already own flag?
+
+		wm_objective_status 3 1 1
+		wm_objective_status 3 0 2
+
+		setautospawn "Forward Bunker" 1
+		setautospawn "Axis Main Bunker" 0
+
+		alertentity forwardbunker_wobj
+		alertentity forwardbunker_spawns
+	}
+}
+
+//*========--------- obj 1 ----------=========*//
+flak_script
+{ 
+	spawn 
+	{ 
+		wait 100 
+		constructible_class 3
+		trigger self startup 
+	} 
+
+buildstart final 
+	{ 
+	} 
+built final 
+	{ 
+		setstate flak_default default 
+		setstate flak_broke invisible 
+		setstate pak75_smoke_2 invisible //new
+		trigger game_manager flak_scriptfixed
+		wm_announce "Axis team have repaired the Pak gun!" 
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_addteamvoiceannounce 0 "n_ax_repair_pak"
+
+		wm_addteamvoiceannounce 1 "n_allies_destroy_pakgun"
+
+		wm_teamvoiceannounce 1 "n_allies_destroy_pakgun"
+
+		wm_teamvoiceannounce 0 "n_ax_pak_repaired"
+
+		// *---------------------------------------------------------------------------------*
+
+	} 
+decayed final 
+	{ 
+		trigger self startup 
+	} 
+death 
+	{ 
+		trigger game_manager flak_scriptbroken
+		trigger self startup 
+		wm_announce "Allied team have damaged the Pak gun!" 
+
+		//wait 1000
+		// *----------------------------------- vo ------------------------------------------*
+		wm_addteamvoiceannounce 1 "n_allies_pakgun_destroyed"
+		
+		wm_teamvoiceannounce 1 "n_allies_pakgun_destroyed"
+
+		wm_teamvoiceannounce 0 "n_ax_pak_destroyed"
+		wm_teamvoiceannounce 0 "n_ax_repair_pak"
+
+		wm_removeteamvoiceannounce 0 "n_ax_repair_pak"
+		wm_removeteamvoiceannounce 1 "n_allies_pakgun_destroyed"
+		// *---------------------------------------------------------------------------------*
+
+	} 
+
+trigger startup 
+	{ 
+		trigger game_manager flak_scriptbroken 
+		setstate pak75_smoke_2 default //new
+		setstate flak_default invisible 
+		setstate flak_broke default 
+	} 
+} 
+
+//*========--------- obj 2 ----------=========*//
+bigwall_01
+{
+	spawn
+	{
+		//accum 2 set 1 //sets wall alive
+		wait 200
+		constructible_class 3
+	}
+
+	death
+	{
+		accum 2 set 0 //sets wall is broke
+		trigger game_manager allies_broke_door
+	}
+}
+
+//*========--------- obj 4 ----------=========*//
+ammo_supply
+{
+	spawn
+	{
+		wait 200
+		constructible_class 3
+	}
+
+	death
+	{
+		wm_announce "Allies have destoyed Ammo Supply!"
+		
+		// *---------------------------------------------------------------------------------*
+
+		wm_teamvoiceannounce 1 "n_allies_ammosupply_destroyed"
+
+		wm_teamvoiceannounce 0 "n_ax_ammosupply_destroyed"
+
+		wm_removeteamvoiceannounce 1 "n_allies_ammosupply_destroyed"
+		wm_removeteamvoiceannounce 0 "n_ax_ammosupply_destroyed"
+		wm_removeteamvoiceannounce 1 "n_allies_destroy_ammosupply"
+		// *---------------------------------------------------------------------------------*
+		
+		trigger ammogate kill // kill ammo gate boxes
+		trigger game_manager ammo_supply
+
+	}
+
+}
+
+//*========--------- obj 6 ----------=========*//
+smallwall_01
+{
+	spawn
+	{
+		wait 200
+		constructible_class 3
+		setstate smallwall_01 default
+	}
+
+	death
+	{
+		wm_announce "Allies have breached the Side Gate!"
+		setstate smallwall_01 invisible
+		wm_objective_status 6 1 1
+		wm_objective_status 6 0 0
+		
+	}
+}
+//*========--------- obj 5 ----------=========*//
+//the Ammo Storage Gate
+ammogate
+	{ 
+	spawn 
+	{ 
+		wait 100 
+		constructible_class 2 
+		trigger self startup 
+} 
+
+buildstart final 
+	{ 
+	} 
+
+built final 
+	{ 
+		setstate ammogate default 
+		setstate construction_materials0122 invisible 
+
+		// Some kind of UI pop-up to alert players 
+		wm_announce "Axis team has built the Ammo Storage Gate!" 
+		
+		// *---------------------------------------------------------------------------------*
+		wm_addteamvoiceannounce 0 "n_ax_build_ammogate"
+
+		wm_teamvoiceannounce 1 "n_allies_ammogate_repaired"
+		wm_teamvoiceannounce 1 "n_allies_destroy_ammogate"
+	
+		wm_teamvoiceannounce 0 "n_ax_ammogate_built"
+		
+		// *---------------------------------------------------------------------------------*
+
+		wm_objective_status 5 1 0
+		wm_objective_status 5 0 1
+
+	} 
+
+decayed final 
+		{ 
+		trigger self startup 
+		} 
+
+death 
+{ 
+	trigger self startup 
+	// Some kind of UI pop-up to alert players 
+	wm_announce "Allied team has destroyed the Ammo Storage Gate!" 
+	wm_objective_status 5 1 1
+	wm_objective_status 5 0 0
+		// *---------------------------------------------------------------------------------*
+
+		wm_teamvoiceannounce 1 "n_allies_ammogate_destroyed"
+		wm_teamvoiceannounce 1 "n_allies_destroy_ammosupply"
+
+		wm_teamvoiceannounce 0 "n_ax_ammogate_destroyed"
+		wm_teamvoiceannounce 0 "n_ax_build_ammogate"
+
+		wm_removeteamvoiceannounce 0 "n_ax_build_ammogate"
+
+		// *---------------------------------------------------------------------------------*
+
+} 
+
+trigger startup 
+	{ 
+		setstate ammogate invisible 
+		setstate construction_materials0122 default 
+	} 
+trigger kill
+	{
+		setstate construction_materials0122 invisible
+		setstate construction22_toi invisible
+		setstate ammogate invisible 
+		remove
+	}
+
+} 
+
+//constructible01 (mg42_near flak)
+construction_script01
+	{ 
+	spawn 
+	{ 
+		wait 200 
+		constructible_class 2 
+		trigger self startup 
+} 
+
+buildstart final 
+	{ 
+	} 
+
+built final 
+	{ 
+		//setstate construction_extra default 
+		setstate construction_mg42 default 
+		setstate construction_materials01 invisible 
+
+		// Some kind of UI pop-up to alert players 
+		wm_announce "Axis team has built the mg42!" 
+} 
+
+	decayed final 
+{ 
+	trigger self startup 
+} 
+
+death 
+{ 
+	trigger self startup 
+	// Some kind of UI pop-up to alert players 
+	wm_announce "Allied team has destroyed the mg42!" 
+} 
+
+trigger startup 
+	{ 
+		//setstate construction_extra invisible 
+		setstate construction_mg42 invisible 
+		setstate construction_materials01 default 
+		repairmg42 construction_mg42 
+	} 
+}
+ //---------------------------COMMAND POST STUFF----------------------------------------//
+allies_radio_destroyed 
+{ 
+   spawn 
+   { 
+      wait 400 
+      setstate allies_radio_destroyed invisible 
+      setstate allies_radio_destroyed_model invisible 
+   } 
+
+   trigger hide 
+   { 
+      setstate allies_radio_destroyed invisible 
+      setstate allies_radio_destroyed_model invisible 
+   } 
+
+   trigger show 
+   { 
+      accum 7 abort_if_equal 0 
+      setstate allies_radio_destroyed default 
+      setstate allies_radio_destroyed_model default 
+   } 
+
+   trigger enable 
+   { 
+      accum 7 set 1 
+   } 
+} 
+
+allies_radio_closed 
+{ 
+   trigger hide 
+   { 
+      setstate allies_radio_closed invisible 
+      setstate allies_radio_closed_model invisible 
+   } 
+
+   trigger show 
+   { 
+      accum 7 abort_if_equal 1 
+      setstate allies_radio_closed default 
+      setstate allies_radio_closed_model default 
+   } 
+
+   trigger disable 
+   { 
+      accum 7 set 1 
+   } 
+} 
+
+allies_radio_built 
+{ 
+   spawn 
+   { 
+      wait 400 
+
+     	constructible_class 2 
+		trigger allies_radio_built setup 
+   } 
+
+   trigger setup 
+   { 
+      setchargetimefactor 0 soldier 1 
+      setchargetimefactor 0 lieutenant 1 
+      setchargetimefactor 0 medic 1 
+      setchargetimefactor 0 engineer 1 
+      setchargetimefactor 0 covertops 1 
+      sethqstatus 1 0 
+   } 
+
+   buildstart final 
+   { 
+      trigger allies_radio_built_model trans 
+
+      trigger allies_radio_destroyed hide 
+      trigger allies_radio_closed hide 
+   } 
+
+   built final 
+   { 
+      trigger allies_radio_built_model show 
+
+      trigger allies_radio_destroyed enable 
+      trigger allies_radio_closed disable 
+
+      trigger allies_radio_built_model enable_allies_features 
+      
+    	trigger alliedcpspawns_obj on //commanpostspawns ON - allies
+    	trigger alliedcpspawns2_obj on //commanpostspawns ON - allies
+
+      enablespeaker allies_compost_sound 
+   } 
+
+   decayed final 
+   { 
+      trigger allies_radio_built_model hide 
+
+      trigger allies_radio_destroyed show 
+      trigger allies_radio_closed show 
+   } 
+
+   death 
+   { 
+      trigger allies_radio_built_model hide 
+
+      trigger allies_radio_destroyed show 
+
+      trigger allies_radio_built_model disable_allies_features 
+      
+   		trigger alliedcpspawns_obj off  //commandpostspawns OFF - allies
+    	trigger alliedcpspawns2_obj off //commanpostspawns ON - allies
+
+      disablespeaker allies_compost_sound 
+   } 
+} 
+
+allies_radio_built_model 
+{ 
+   spawn 
+   { 
+      wait 400 
+      setstate allies_radio_built_model invisible 
+   } 
+
+   trigger show 
+   { 
+      setstate allies_radio_built_model default 
+   } 
+
+   trigger hide 
+   { 
+      setstate allies_radio_built_model invisible 
+   } 
+
+   trigger trans 
+   { 
+      setstate allies_radio_built_model underconstruction 
+   } 
+
+   trigger enable_allies_features 
+   { 
+      setchargetimefactor 1 soldier 0.75 
+      setchargetimefactor 1 lieutenant 0.75 
+      setchargetimefactor 1 medic 0.75 
+      setchargetimefactor 1 engineer 0.75 
+      setchargetimefactor 1 covertops 0.75 
+      sethqstatus 1 1 
+
+      wm_announce "Allied Command Post constructed. Charge speed increased!" 
+
+		// *---------------------------------------------------------------------------------*
+		wm_addteamvoiceannounce 1 "n_allies_build_commandpost"
+
+		wm_teamvoiceannounce 1 "n_allies_commandpost_built"
+
+		wm_teamvoiceannounce 0 "n_ax_destroy_commandpost"
+		// *---------------------------------------------------------------------------------*
+
+      wm_objective_status 7 1 1 
+      wm_objective_status 7 0 2 
+
+   } 
+
+   trigger disable_allies_features 
+   { 
+      // Some kind of UI pop-up to alert players 
+      wm_announce "Axis team has destroyed the Allies Command Post!" 
+
+		// *---------------------------------------------------------------------------------*
+
+		wm_teamvoiceannounce 1 "n_allies_commandpost_destroyed"
+		wm_teamvoiceannounce 1 "n_allies_build_commandpost"
+
+		// *---------------------------------------------------------------------------------*
+
+      setchargetimefactor 1 soldier 1 
+      setchargetimefactor 1 lieutenant 1 
+      setchargetimefactor 1 medic 1 
+      setchargetimefactor 1 engineer 1 
+      setchargetimefactor 1 covertops 1 
+      sethqstatus 1 0 
+
+      wm_objective_status 7 1 2 
+      wm_objective_status 7 0 1 
+   } 
+} 
+//---------------------------END COMMAND POST STUFF----------------------------------------//
+
+//---------- CP ALLIED SPAWNS -----------------//
+alliedcpspawns_obj
+{
+	spawn
+	{
+		wait 50
+		setstate alliedcpspawns_obj invisible
+		setstate alliedcpspawns invisible
+	}
+
+	trigger on
+	{
+		setstate alliedcpspawns_obj default
+		setstate alliedcpspawns default
+	}
+
+	trigger off
+	{
+		setstate alliedcpspawns_obj invisible
+		setstate alliedcpspawns invisible
+	}
+}
+
+alliedcpspawns
+{
+	spawn
+	{
+		wait 50
+		setstate alliedcpspawns invisible
+	}
+}
+alliedcpspawns2_obj
+{
+	spawn
+	{
+		wait 50
+		setstate alliedcpspawns2_obj invisible
+		setstate alliedcpspawns2 invisible
+	}
+
+	trigger on
+	{
+		setstate alliedcpspawns2_obj default
+		setstate alliedcpspawns2 default
+	}
+
+	trigger off
+	{
+		setstate alliedcpspawns2_obj invisible
+		setstate alliedcpspawns2 invisible
+	}
+}
+// command post allies spawn 2
+alliedcpspawns2
+{
+	spawn
+	{
+		wait 50
+		setstate alliedcpspawns2 invisible
+	}
+}

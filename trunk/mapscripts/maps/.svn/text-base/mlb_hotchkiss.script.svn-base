@@ -1,0 +1,2491 @@
+//
+//Brush Scripting
+//Map: game_manager
+//Last edited by: Marko  http://markoweb.free.fr
+//
+//=SC=Beef - Removed access to the 'secret' rooms. www.silent-clan.com
+
+game_manager
+{
+	spawn
+	{
+
+		// INITIAL SPAWN TIMES IN THE MAP
+		wm_axis_respawntime	10
+		wm_allied_respawntime	25
+
+		// ROUND TIME
+		wm_set_round_timelimit	30
+
+
+		// Stopwatch mode defending team (0=Axis, 1=Allies)
+		wm_set_defending_team	1
+
+		// If the round timer expires, the Axis have won, so set the current winning team
+		// Set the round winner:  0 == AXIS, 1 == ALLIED
+		wm_setwinner 1
+
+		accum 1 set 0
+
+		wm_number_of_objectives 4
+
+		wm_objective_status 1 0 0 // factory entrance
+		wm_objective_status 1 1 0 // 
+		wm_objective_status 2 0 0 // 2 explosive charges		
+		wm_objective_status 2 1 0 //		
+		wm_objective_status 3 0 0 // blow the main factory wall
+		wm_objective_status 3 1 0 //
+		wm_objective_status 4 0 0 // Destroy the missile silo
+		wm_objective_status 4 1 0 //
+		wm_objective_status 5 0 0
+		wm_objective_status 5 1 0
+		wm_objective_status 6 0 0
+		wm_objective_status 6 1 0
+		wm_objective_status 7 0 0
+		wm_objective_status 7 1 0
+		wm_objective_status 8 0 0
+		wm_objective_status 8 1 0
+
+
+		wait 300
+
+		alertentity son_bombe
+		alertentity son_gene
+		alertentity switch1
+		setstate switch1 invisible
+		setstate megabombe_cm_marker default
+		setstate placeholder default
+		setstate digitsonwall invisible
+		setstate tele invisible
+		setstate tele_pub invisible		
+		alertentity sidegate
+		setstate Grue_bouton invisible
+		remapshader "sprites/objective" "textures/mlb_hotchkiss/objective_dc"
+		remapshaderflush
+		setautospawn	"Factory Main Gate Area"	1
+		wait 2000
+		wm_teamvoiceannounce 1 "radar_axis_entrances_defend"
+		wm_teamvoiceannounce 0 "radar_allies_entrances_destroy"
+		wm_teamvoiceannounce 1 "allies_hq_need_engineer"
+		wm_teamvoiceannounce 0 "axis_hq_need_engineer"
+	
+	}
+	
+	trigger acc
+	{		
+		globalaccum 1 abort_if_not_equal 3
+		globalaccum 2 abort_if_not_equal 1
+		globalaccum 3 abort_if_not_equal 2
+		globalaccum 4 abort_if_not_equal 0
+		globalaccum 1 set 0
+		globalaccum 2 set 0
+		globalaccum 3 set 0
+		globalaccum 4 set 0
+		wm_announce	"^1axs!"			
+		wait 1000		
+		setstate tele_pub default
+		wait 100
+		setstate tele_pub invisible	
+	}
+	
+	trigger pub_passed
+	{
+		globalaccum 4 abort_if_not_equal 100		
+		wait 1000		
+		setstate tele_pub default
+		wait 1000
+		setstate tele_pub invisible		
+	}	
+	
+	trigger timelimit_hit
+	{
+		wait 2000
+		trigger train move
+	}
+
+	trigger checkdyno
+	{
+		accum 1 inc 1
+		accum 1 abort_if_not_equal 2
+		wm_announce	"^6The charges is ready to be armed!!!!"
+		setstate digitsonwall default
+		setstate t10000428 default
+		setstate t10000429 default
+		setstate t10000430 default
+		setstate t10000431 default
+		setstate counter_xxx0 default
+		setstate counter_xx0x default
+		setstate counter_colon default
+		setstate counter_x0xx default
+		setstate placeholder invisible
+		setstate placeholder_trigger invisible		
+		wm_teamvoiceannounce 0 "axis-armbomb1"
+
+		
+	}
+
+	trigger victory
+	{
+
+		wm_setwinner 0
+		wait 2000
+		wm_endround
+
+	}
+
+
+}
+
+
+//--------------------------
+//--------------------------
+//----- Constructibles -----
+//--------------------------
+//--------------------------
+
+////////////////////////////////////////////////////////////////////////////////
+acc1
+{
+	activate
+	{
+remove
+	}
+}	
+acc2
+{
+	activate
+	{
+		globalaccum 2 inc 1
+		trigger game_manager acc
+		wait 10000
+		globalaccum 2 set 0				
+	}
+}	
+acc3
+{
+	activate
+	{
+		globalaccum 3 inc 1
+		trigger game_manager acc
+		wait 10000
+		globalaccum 3 set 0			
+	}
+}	
+acc4
+{
+	activate
+	{
+		globalaccum 4 inc 1
+		trigger game_manager pub_passed
+		wait 20000
+		globalaccum 4 set 0				
+	}	
+}
+////////////////////////////////////////////////////////////////////////////////
+ctal
+{
+	spawn
+	{
+		wait 200
+		remove
+		accum 0 set 3	
+	}
+	activate
+	{
+		accum 0 inc 1
+		trigger self do				
+	}
+	trigger down
+	{
+		accum 0 inc -1
+		trigger self do			
+	}
+	trigger do
+	{
+		accum 0 trigger_if_equal 0 ctal do_1
+		accum 0 trigger_if_equal 1 ctal do_1
+		accum 0 trigger_if_equal 2 ctal do_2
+		accum 0 trigger_if_equal 3 ctal do_3
+		accum 0 trigger_if_equal 4 ctal do_4
+		accum 0 trigger_if_equal 5 ctal do_5
+		accum 0 trigger_if_equal 6 ctal do_5				
+	}
+		
+}
+ctax
+{
+	activate
+	{
+		trigger ctal down						
+	}
+}
+////////////////////////////////////////////////////////////////////////////////	
+stal
+{
+	spawn
+	{
+		wait 200
+		remove
+		accum 0 set 3	
+	}
+	activate
+	{
+		accum 0 inc 1
+		trigger self do				
+	}
+	trigger down
+	{
+		accum 0 inc -1
+		trigger self do			
+	}
+	trigger do
+	{
+		accum 0 trigger_if_equal 0 stal do_1
+		accum 0 trigger_if_equal 1 stal do_1
+		accum 0 trigger_if_equal 2 stal do_2
+		accum 0 trigger_if_equal 3 stal do_3
+		accum 0 trigger_if_equal 4 stal do_4
+		accum 0 trigger_if_equal 5 stal do_5
+		accum 0 trigger_if_equal 6 stal do_5				
+	}
+	
+}	
+stax
+{
+	activate
+	{
+		trigger stal down				
+	}
+}
+////////////////////////////////////////////////////////////////////////////////	
+spal
+{
+	activate
+	{
+		//wm_announce	"^1Allied Special!"				
+	}
+}
+////////////////////////////////////////////////////////////////////////////////	
+spax
+{
+	activate
+	{
+		//wm_announce	"^1Axis Special!"					
+	}
+}	
+////////////////////////////////////////////////////////////////////////////////	
+
+////////////////////////////////////////////////////////////////////////////////
+
+//********************
+//**** Générateur ****
+//********************
+
+generator
+{
+	spawn
+	{
+
+		wait 200
+		constructible_class 2
+		constructible_constructxpbonus 10
+		trigger self startup
+	}
+
+	buildstart final
+	{
+	}
+
+	built final
+	{
+	trigger door2 close
+	trigger door1 close
+		setstate const_gene default
+		setstate const_towergene invisible
+		alertentity gene_smoke
+		alertentity son_gene
+		wm_announce "^6Axis have repaired the missile conveyor Generator!"
+		
+		wm_teamvoiceannounce 0 "battery_axis_generator_constructed"
+		wait 1000
+		wm_teamvoiceannounce 1 "battery_axis_generator_constructed"
+		wait 1000
+		wm_teamvoiceannounce 1 "battery_axis_generator_defend"
+		wm_teamvoiceannounce 0 "battery_allies_generator_destroy"
+
+	}
+
+	decayed final
+	{
+		trigger self startup
+	}
+
+	death
+	{
+	trigger door2 open
+	trigger door1 open
+		wm_announce "^6The missile conveyor Generator has been disabled !"
+		alertentity gene_smoke
+		alertentity son_gene
+		trigger self startup
+		
+		wm_teamvoiceannounce 0 "battery_allies_generator_destroyed"
+		wm_teamvoiceannounce 1 "battery_axis_generator_destroyed"
+
+	}
+
+	trigger startup
+	{
+		setstate const_gene invisible
+		setstate const_towergene default
+	}
+
+
+
+
+}
+
+
+
+
+
+//***********************************
+//**** Echaffaudage/scaffholding ****
+//***********************************
+
+
+
+td
+{
+	spawn
+	{
+		wait 200
+		trigger td setup
+		constructible_class 3
+	}
+
+	trigger setup
+	{
+		setstate const_td invisible
+		setstate td_materials default
+		setstate td_materials_clip default
+		setstate td_flag default
+	}
+
+	buildstart final
+	{
+		setstate const_td underconstruction
+		setstate td_materials default
+		setstate td_materials_clip default
+		setstate td_flag default
+
+	}
+
+	built final
+	{
+		setstate const_td default
+		setstate td_materials invisible
+		setstate td_materials_clip invisible
+		setstate td_flag invisible
+
+		wm_announce	"^6The scaffolding has been built"
+
+	}
+
+	decayed final
+	{
+		setstate const_td invisible
+		setstate td_materials default
+		setstate td_materials_clip default
+		setstate td_flag default
+	}
+
+	death
+	{
+		setstate const_td invisible
+		setstate td_materials default
+		setstate td_materials_clip default
+		setstate td_flag default
+
+		wm_announce	"^6The scaffolding has been destroyed"
+
+	}
+}
+
+
+//*******************
+//**** Barricade ****
+//*******************
+
+const_te
+{
+	spawn
+	{
+		wait 200
+		trigger const_te setup
+		constructible_class 2
+	}
+
+	trigger setup
+	{
+		setstate const_te invisible
+		setstate te_materials default
+		setstate te_materials_clip default
+		setstate te_flag default
+	}
+
+	buildstart final
+	{
+		setstate const_te underconstruction
+		setstate te_materials default
+		setstate te_materials_clip default
+		setstate te_flag default
+
+	}
+
+	built final
+	{
+		setstate const_te default
+		setstate te_materials invisible
+		setstate te_materials_clip invisible
+		setstate te_flag invisible
+
+		wm_announce	"^6The barricade has been built"
+		wm_teamvoiceannounce 1 "allies_hq_const_completed"
+
+	}
+
+	decayed final
+	{
+		setstate const_te invisible
+		setstate te_materials default
+		setstate te_materials_clip default
+		setstate te_flag default
+	}
+
+	death
+	{
+		setstate const_te invisible
+		setstate te_materials default
+		setstate te_materials_clip default
+		setstate te_flag default
+		
+		wm_teamvoiceannounce 0 "axis-bardes1"
+
+		wm_teamvoiceannounce 1 "ally-desbar1"
+		wm_teamvoiceannounce 1 "ally-conbar1"
+		wm_announce	"^6The barricade has been destroyed"
+		wm_teamvoiceannounce 1 "allies_hq_const_destroyed"
+	}
+}
+
+
+//*****************
+//**** Mg Axes ****
+//*****************
+
+mg_axes_script
+{
+	spawn
+	{
+
+		wait 200
+		constructible_class 2
+
+		trigger self startup
+	}
+
+	buildstart final
+	{
+		setstate mg_axes_mg42 underconstruction
+		setstate mg_axes_target underconstruction
+		setstate mg_axes_extra underconstruction
+	}
+
+	built final
+	{
+		setstate mg_axes_mg42 default
+		setstate mg_axes_target default
+		setstate mg_axes_extra default
+		setstate mg_tower invisible
+	}
+
+	decayed final
+	{
+		setstate mg_axes_mg42 invisible
+		setstate mg_axes_target invisible
+		setstate mg_axes_extra invisible
+	}
+
+	death
+	{
+		setstate mg_axes_mg42 invisible
+		setstate mg_axes_target invisible
+		setstate mg_axes_extra invisible
+		repairmg42 mg_axes_mg42
+		setstate mg_tower default
+
+	}
+
+	trigger startup
+	{
+		setstate mg_axes_mg42 invisible
+		setstate mg_axes_target invisible
+		setstate mg_axes_extra invisible
+		setstate mg_tower default
+	}
+
+}
+
+//*******************
+//**** Mg Alliés ****
+//*******************
+
+mg_allies_script
+{
+	spawn
+	{
+
+		wait 200
+		constructible_class 2
+
+		trigger self startup
+	}
+
+	buildstart final
+	{
+		setstate mg_allies_mg42 underconstruction
+		setstate mg_allies_target underconstruction
+		setstate mg_allies_extra underconstruction
+	}
+
+	built final
+	{
+		setstate mg_allies_mg42 default
+		setstate mg_allies_target default
+		setstate mg_allies_extra default
+		setstate mg_tower invisible
+	}
+
+	decayed final
+	{
+		setstate mg_allies_mg42 invisible
+		setstate mg_allies_target invisible
+		setstate mg_allies_extra invisible
+	}
+
+	death
+	{
+		setstate mg_allies_mg42 invisible
+		setstate mg_allies_target invisible
+		setstate mg_allies_extra invisible
+		repairmg42 mg_allies_mg42
+		setstate mg_tower default
+
+	}
+
+	trigger startup
+	{
+		setstate mg_allies_mg42 invisible
+		setstate mg_allies_extra invisible
+	}
+
+}
+
+//----------------------
+//--- Protection net ---
+//----------------------
+
+
+protection
+{ 
+	spawn 
+	{ 
+		wait 200 
+		constructible_class 3 
+		trigger self startup 
+	} 
+
+	buildstart final 
+	{ 
+	} 
+
+	built final 
+	{  
+		setstate net_materials invisible 
+		setstate protection default 
+		wm_announce "Axis team has built the protection net!" 
+		wm_teamvoiceannounce 0 "axis_hq_const_completed"
+		
+	} 
+
+	decayed final 
+	{ 
+		trigger self startup 
+	} 
+
+	death 
+	{ 
+		trigger self startup 
+		wm_announce "Allied team has destroyed the protection net!" 
+		wm_teamvoiceannounce 0 "axis_hq_const_destroyed"
+	} 
+
+	trigger startup 
+	{ 
+		setstate protection invisible
+		setstate net_materials default  
+	} 
+}
+
+
+
+//-------------------------------------------------
+//-------------------------------------------------
+
+
+
+
+
+///////////////// MARKO'S STUFFFF ////////////////////////
+/////////////////// WUNDERBAR!!!!!!!!! ///////////////////
+
+// ================================================
+// ============ NEUTRAL COMMAND POST ==============
+// ================================================
+
+allied_compost_built
+{
+	spawn
+	{
+		wait 400
+		trigger allied_compost_built setup
+
+		constructible_class 2
+	}
+
+	trigger setup
+	{
+		setchargetimefactor 1 soldier 1
+		setchargetimefactor 1 lieutenant 1
+		setchargetimefactor 1 medic 1
+		setchargetimefactor 1 engineer 1
+		setchargetimefactor 1 covertops 1
+		sethqstatus 1 0
+	}
+
+	buildstart final
+	{
+		setstate allied_compost_built_model underconstruction
+		setstate neutral_compost_closed_clip invisible
+		setstate neutral_compost_closed_model invisible
+	}
+
+	built final
+	{
+		setstate allied_compost_built_model default
+		setstate neutral_compost_closed_clip invisible
+		setstate neutral_compost_closed_model invisible
+
+		trigger allied_compost_built_model enable_allied_features
+
+		enablespeaker allies_compost_sound
+	}
+
+	decayed final
+	{
+		setstate allied_compost_built_model invisible
+		setstate neutral_compost_closed_clip default
+		setstate neutral_compost_closed_model default
+	}
+
+	death
+	{
+		setstate allied_compost_built_model invisible
+		setstate neutral_compost_closed_clip default
+		setstate neutral_compost_closed_model default
+
+		trigger allied_compost_built_model disable_allied_features
+
+		disablespeaker allies_compost_sound
+	}
+}
+
+allied_compost_built_model
+{
+	spawn
+	{
+		wait 400
+		setstate allied_compost_built_model invisible
+	}
+
+	trigger enable_allied_features
+	{
+		setchargetimefactor 1 soldier 1
+		setchargetimefactor 1 lieutenant 1
+		setchargetimefactor 1 medic 1
+		setchargetimefactor 1 engineer 1
+		setchargetimefactor 1 covertops 1
+		sethqstatus 1 1
+
+		wm_announce	"Allied Command Post constructed. Charge speed increased!"
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "axis_hq_compost_constructed_allies"
+
+		wm_teamvoiceannounce 1 "allies_hq_compost_constructed"
+
+		wm_removeteamvoiceannounce 1 "allies_hq_compost_construct"
+		// *---------------------------------------------------------------------------------*
+
+
+	}
+
+	trigger disable_allied_features
+	{
+		setchargetimefactor 1 soldier 1
+		setchargetimefactor 1 lieutenant 1
+		setchargetimefactor 1 medic 1
+		setchargetimefactor 1 engineer 1
+		setchargetimefactor 1 covertops 1
+		sethqstatus 1 0
+
+		wm_announce	"Axis team has destroyed the Allied Command Post!"
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_addteamvoiceannounce 0 "axis_hq_compost_construct"
+
+		wm_teamvoiceannounce 1 "allies_hq_compost_construct"
+
+		wm_teamvoiceannounce 0 "axis_hq_compost_construct"
+
+		wm_teamvoiceannounce 1 "allies_hq_compost_damaged"
+		// *---------------------------------------------------------------------------------*
+
+
+	}
+}
+
+axis_compost_built
+{
+	spawn
+	{
+		wait 400
+		trigger axis_compost_built setup
+
+		constructible_class 2
+	}
+
+	trigger setup
+	{
+		setchargetimefactor 0 soldier 1
+		setchargetimefactor 0 lieutenant 1
+		setchargetimefactor 0 medic 1
+		setchargetimefactor 0 engineer 1
+		setchargetimefactor 0 covertops 1
+		sethqstatus 0 0
+	}
+
+	buildstart final
+	{
+		setstate axis_compost_built_model underconstruction
+		setstate neutral_compost_closed_clip invisible
+		setstate neutral_compost_closed_model invisible
+	}
+
+	built final
+	{
+		setstate axis_compost_built_model default
+		setstate neutral_compost_closed_clip invisible
+		setstate neutral_compost_closed_model invisible
+
+		trigger axis_compost_built_model enable_axis_features
+
+		enablespeaker axis_compost_sound
+	}
+
+	decayed final
+	{
+		setstate axis_compost_built_model invisible
+		setstate neutral_compost_closed_clip default
+		setstate neutral_compost_closed_model default
+	}
+
+	death
+	{
+		setstate axis_compost_built_model invisible
+		setstate neutral_compost_closed_clip default
+		setstate neutral_compost_closed_model default
+
+		trigger axis_compost_built_model disable_axis_features
+
+		disablespeaker axis_compost_sound
+	}
+}
+
+axis_compost_built_model
+{
+	spawn
+	{
+		wait 400
+		setstate axis_compost_built_model invisible
+	}
+
+	trigger enable_axis_features
+	{
+		setchargetimefactor 0 soldier 1
+		setchargetimefactor 0 lieutenant 1
+		setchargetimefactor 0 medic 1
+		setchargetimefactor 0 engineer 1
+		setchargetimefactor 0 covertops 1
+		sethqstatus 0 1
+
+		wm_announce	"Axis Command Post constructed. Charge speed increased!"
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "axis_hq_compost_constructed"
+
+		wm_teamvoiceannounce 1 "allies_hq_compost_constructed_axis"
+
+		wm_removeteamvoiceannounce 0 "axis_hq_compost_construct"
+		// *---------------------------------------------------------------------------------*
+	}
+
+	trigger disable_axis_features
+	{
+		setchargetimefactor 0 soldier 1
+		setchargetimefactor 0 lieutenant 1
+		setchargetimefactor 0 medic 1
+		setchargetimefactor 0 engineer 1
+		setchargetimefactor 0 covertops 1
+		sethqstatus 0 0
+
+		wm_announce	"Allied team has destroyed the Axis Command Post!"
+
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "axis_hq_compost_construct"
+
+		wm_teamvoiceannounce 0 "axis_hq_compost_damaged"
+
+		wm_teamvoiceannounce 1 "allies_hq_compost_construct"
+		// *---------------------------------------------------------------------------------*
+
+
+	}
+
+}
+
+//////////////////////////// MAP ENTITIES////////////////////////
+
+adoor
+{
+	spawn
+	{
+		wait 300
+		constructible_class 3
+	}
+
+	death
+	{
+
+		wm_teamvoiceannounce 1 "ally-desbar1"
+		wm_teamvoiceannounce 0 "axis-bardes1"
+		wm_teamvoiceannounce 0 "axis-takexp4"
+		wm_teamvoiceannounce 1 "ally-proex2"
+		
+		wm_announce	"^6Axis have breached the factory entrance gates!!!!"
+		setautospawn	"Factory Entrance"	0
+		alertentity spawn1
+		setstate switch1 default
+		wm_objective_status 1 0 1
+		wm_objective_status 1 1 2
+	}
+}
+
+cdoor
+{
+	spawn
+	{
+		wait 300
+		constructible_class 3
+	}
+
+	death
+	{
+		wm_teamvoiceannounce 0 "axis-facdes3"		
+		wm_teamvoiceannounce 0 "desmissle"		
+		wm_teamvoiceannounce 1 "ally-defmis2"
+		wm_teamvoiceannounce 1 "ally-facgat1"
+		wm_announce	"^6Axis have breached the factory vault gate!!!!"
+		
+	}
+}
+
+
+
+gold
+{
+	spawn
+	{
+		
+		accum 0 set 0 // gold counter
+		accum 1 set 0 // secured counter
+	}
+
+	trigger stolen
+	{
+		accum 0 inc 1
+		accum 0 trigger_if_equal 1 gold stolen1
+		accum 0 trigger_if_equal 2 gold stolen2
+	}
+
+	trigger secured
+	{
+		accum 1 inc 1
+		accum 1 trigger_if_equal 1 gold secured1
+		accum 1 trigger_if_equal 2 gold secured2
+	}
+
+	trigger returned
+	{
+		accum 0 inc -1
+		accum 0 trigger_if_equal 0 gold returned1
+		accum 0 trigger_if_equal 1 gold returned2
+	}
+
+	trigger stolen1
+	{
+		wm_announce	"^6Axis have stolen the first explosive charge!!!!"
+
+	}
+
+	trigger stolen2
+	{
+		setstate goldbars_cm_marker invisible
+		wm_announce	"^6Axis have stolen the second explosive charge!!!!"
+
+	}
+
+	trigger secured1
+	{
+		wm_announce	"^6The first explosive charge has been placed!!!!"
+		wm_teamvoiceannounce 0 "axis_hq_objective_captured"
+		wm_teamvoiceannounce 1 "allies_hq_objective_captured"
+		setstate dyno1 default
+		setstate idyno1 invisible
+		trigger game_manager checkdyno
+		trigger gate_trigger2 ready
+	}
+
+	trigger secured2
+	{
+		wm_announce	"^6The second explosive charge has been placed!!!!"
+		wm_teamvoiceannounce 0 "axis_hq_objective_captured"
+		wm_teamvoiceannounce 1 "allies_hq_objective_captured"
+		setstate dyno2 default
+		setstate idyno2 invisible
+		setstate goldbars_toi invisible
+		setstate megabombe_cm_marker invisible
+		trigger gate_trigger2 ready
+		trigger game_manager checkdyno
+		wm_objective_status 2 0 1 // 2 explosive charges		
+		wm_objective_status 2 1 2 //	
+	}
+
+	trigger returned1
+	{
+		wm_announce	"^6The first explosive charge has been returned!!!!"
+	}
+
+	trigger returned2
+	{
+		setstate goldbars_cm_marker default
+		wm_announce	"^6The second explosive charge has been returned!!!!"
+
+	}
+
+	trigger captured
+	{
+
+
+	}
+}
+
+goldbar_holder
+{
+	spawn
+	{
+	}
+	death
+	{
+		trigger gold secured
+	}
+}
+
+
+
+// LEVER STUFF
+
+base_lever2
+{
+	spawn
+	{
+	}
+
+	trigger down
+	{
+		gotomarker gate_lever2_downpos 16
+		playsound sound/movers/switches/butn2.wav
+		trigger base_gate1 off
+	}
+
+	trigger up
+	{
+		gotomarker gate_lever2_uppos 16
+		playsound sound/movers/switches/butn2.wav
+		trigger base_gate1 on
+	}
+}
+
+gate_trigger2
+{
+	spawn
+	{
+		wait 200
+		accum 9 set 0
+		accum 3 set 0 // Which team is the switch being closed beneficial to? (0=Axis, 1=Allies)
+	}
+	trigger ready
+	{
+		accum 9 inc 1
+	}
+
+	trigger enable
+	{
+		accum 0 set 0
+	}
+
+	trigger disable
+	{
+		accum 0 set 1
+	}
+
+
+	trigger hard_enable
+	{
+		accum 2 set 0
+	}
+
+	trigger hard_disable
+	{
+		accum 2 set 1
+	}
+
+	activate axis
+	{
+		accum 9 abort_if_not_equal 2
+		trigger self axisopen
+		trigger self axisclose
+	}
+
+	activate allies
+	{
+		accum 9 abort_if_not_equal 2
+		trigger self alliesclose
+		trigger self alliesopen
+	}
+
+	trigger axisbenefit
+	{
+		accum 3 set 0
+	}
+
+	trigger alliesbenefit
+	{
+		accum 3 set 1
+	}
+
+	trigger axisopen
+	{
+		accum 3 abort_if_not_equal 0
+		trigger self open
+	}
+
+	trigger axisclose
+	{
+		accum 3 abort_if_not_equal 1
+		trigger self close
+	}
+
+	trigger alliesopen
+	{
+		accum 3 abort_if_not_equal 1
+		trigger self open
+	}
+
+	trigger alliesclose
+	{
+		accum 3 abort_if_not_equal 0
+		trigger self close
+	}
+
+	trigger open
+	{
+		accum 0 abort_if_equal 1
+		accum 2 abort_if_equal 1
+		accum 1 abort_if_equal 1
+		globalaccum 5 inc 1
+
+		trigger self disable
+		accum 1 set 1
+		trigger base_lever2 up
+		trigger self enable
+
+	}
+
+	trigger close
+	{
+		accum 0 abort_if_equal 1
+		accum 2 abort_if_equal 1
+		accum 1 abort_if_equal 0
+		globalaccum 5 inc -1
+		trigger self disable
+		accum 1 set 0
+		trigger base_lever2 down
+		trigger self enable
+	}
+}
+
+
+
+base_gate1_sound
+{
+	trigger start
+	{
+
+		alertentity son_bombe
+	}
+
+	trigger stop
+	{
+		alertentity son_bombe
+	}
+
+
+}
+
+base_gate1
+{
+	spawn
+	{
+		wait 250
+		setstate dyno1 invisible
+		setstate dyno2 invisible
+		setstate idyno1 default
+		setstate idyno2 default
+		setstate t10000428 invisible
+		setstate t10000429 invisible
+		setstate t10000430 invisible
+		setstate t10000431 invisible
+		setstate counter_xxx0 invisible
+		setstate counter_xx0x invisible
+		setstate counter_colon invisible
+		setstate counter_x0xx invisible
+		accum 0 set 0
+		accum 1 set 91
+	}
+
+
+	trigger on
+	{
+		accum 0 set 1
+		wm_announce	"^6countdown activated"
+		wm_teamvoiceannounce 0 "axis-counton1"
+		wm_teamvoiceannounce 1 "ally-counton2"
+
+		trigger base_gate1_sound start
+		trigger self loop
+	}
+
+	trigger off
+	{
+		accum 0 set 0
+		wm_announce	"^6countdown interrupted"
+		wm_teamvoiceannounce 0 "axis-armbomb1"
+		wm_teamvoiceannounce 1 "ally-countoff3"
+
+		trigger base_gate1_sound stop
+		trigger self loop
+	}
+
+	trigger loop
+	{
+		accum 0 abort_if_not_equal 1
+		wait 1000
+		accum 1 inc -1
+		trigger self check
+	}
+
+	trigger check
+	{
+		accum 1 trigger_if_equal 90 base_gate1 run90
+		accum 1 trigger_if_equal 89 base_gate1 run89
+		accum 1 trigger_if_equal 88 base_gate1 run88
+		accum 1 trigger_if_equal 87 base_gate1 run87
+		accum 1 trigger_if_equal 86 base_gate1 run86
+		accum 1 trigger_if_equal 85 base_gate1 run85
+		accum 1 trigger_if_equal 84 base_gate1 run84
+		accum 1 trigger_if_equal 83 base_gate1 run83
+		accum 1 trigger_if_equal 82 base_gate1 run82
+		accum 1 trigger_if_equal 81 base_gate1 run81
+		accum 1 trigger_if_equal 80 base_gate1 run80
+		accum 1 trigger_if_equal 79 base_gate1 run79
+		accum 1 trigger_if_equal 78 base_gate1 run78
+		accum 1 trigger_if_equal 77 base_gate1 run77
+		accum 1 trigger_if_equal 76 base_gate1 run76
+		accum 1 trigger_if_equal 75 base_gate1 run75
+		accum 1 trigger_if_equal 74 base_gate1 run74
+		accum 1 trigger_if_equal 73 base_gate1 run73
+		accum 1 trigger_if_equal 72 base_gate1 run72
+		accum 1 trigger_if_equal 71 base_gate1 run71
+		accum 1 trigger_if_equal 70 base_gate1 run70
+		accum 1 trigger_if_equal 69 base_gate1 run69
+		accum 1 trigger_if_equal 68 base_gate1 run68
+		accum 1 trigger_if_equal 67 base_gate1 run67
+		accum 1 trigger_if_equal 66 base_gate1 run66
+		accum 1 trigger_if_equal 65 base_gate1 run65
+		accum 1 trigger_if_equal 64 base_gate1 run64
+		accum 1 trigger_if_equal 63 base_gate1 run63
+		accum 1 trigger_if_equal 62 base_gate1 run62
+		accum 1 trigger_if_equal 61 base_gate1 run61
+		accum 1 trigger_if_equal 60 base_gate1 run60
+		accum 1 trigger_if_equal 59 base_gate1 run59
+		accum 1 trigger_if_equal 58 base_gate1 run58
+		accum 1 trigger_if_equal 57 base_gate1 run57
+		accum 1 trigger_if_equal 56 base_gate1 run56
+		accum 1 trigger_if_equal 55 base_gate1 run55
+		accum 1 trigger_if_equal 54 base_gate1 run54
+		accum 1 trigger_if_equal 53 base_gate1 run53
+		accum 1 trigger_if_equal 52 base_gate1 run52
+		accum 1 trigger_if_equal 51 base_gate1 run51
+		accum 1 trigger_if_equal 50 base_gate1 run50
+		accum 1 trigger_if_equal 49 base_gate1 run49
+		accum 1 trigger_if_equal 48 base_gate1 run48
+		accum 1 trigger_if_equal 47 base_gate1 run47
+		accum 1 trigger_if_equal 46 base_gate1 run46
+		accum 1 trigger_if_equal 45 base_gate1 run45
+		accum 1 trigger_if_equal 44 base_gate1 run44
+		accum 1 trigger_if_equal 43 base_gate1 run43
+		accum 1 trigger_if_equal 42 base_gate1 run42
+		accum 1 trigger_if_equal 41 base_gate1 run41
+		accum 1 trigger_if_equal 40 base_gate1 run40
+		accum 1 trigger_if_equal 39 base_gate1 run39
+		accum 1 trigger_if_equal 38 base_gate1 run38
+		accum 1 trigger_if_equal 37 base_gate1 run37
+		accum 1 trigger_if_equal 36 base_gate1 run36
+		accum 1 trigger_if_equal 35 base_gate1 run35
+		accum 1 trigger_if_equal 34 base_gate1 run34
+		accum 1 trigger_if_equal 33 base_gate1 run33
+		accum 1 trigger_if_equal 32 base_gate1 run32
+		accum 1 trigger_if_equal 31 base_gate1 run31
+		accum 1 trigger_if_equal 30 base_gate1 run30
+		accum 1 trigger_if_equal 29 base_gate1 run29
+		accum 1 trigger_if_equal 28 base_gate1 run28
+		accum 1 trigger_if_equal 27 base_gate1 run27
+		accum 1 trigger_if_equal 26 base_gate1 run26
+		accum 1 trigger_if_equal 25 base_gate1 run25
+		accum 1 trigger_if_equal 24 base_gate1 run24
+		accum 1 trigger_if_equal 23 base_gate1 run23
+		accum 1 trigger_if_equal 22 base_gate1 run22
+		accum 1 trigger_if_equal 21 base_gate1 run21
+		accum 1 trigger_if_equal 20 base_gate1 run20
+		accum 1 trigger_if_equal 19 base_gate1 run19
+		accum 1 trigger_if_equal 18 base_gate1 run18
+		accum 1 trigger_if_equal 17 base_gate1 run17
+		accum 1 trigger_if_equal 16 base_gate1 run16
+		accum 1 trigger_if_equal 15 base_gate1 run15
+		accum 1 trigger_if_equal 14 base_gate1 run14
+		accum 1 trigger_if_equal 13 base_gate1 run13
+		accum 1 trigger_if_equal 12 base_gate1 run12
+		accum 1 trigger_if_equal 11 base_gate1 run11
+		accum 1 trigger_if_equal 10 base_gate1 run10
+		accum 1 trigger_if_equal 9 base_gate1 run9
+		accum 1 trigger_if_equal 8 base_gate1 run8
+		accum 1 trigger_if_equal 7 base_gate1 run7
+		accum 1 trigger_if_equal 6 base_gate1 run6
+		accum 1 trigger_if_equal 5 base_gate1 run5
+		accum 1 trigger_if_equal 4 base_gate1 run4
+		accum 1 trigger_if_equal 3 base_gate1 run3
+		accum 1 trigger_if_equal 2 base_gate1 run2
+		accum 1 trigger_if_equal 1 base_gate1 run1
+		accum 1 trigger_if_equal 0 base_gate1 run0
+		trigger self loop
+	}
+
+	trigger run90
+	{
+		wm_announce	"^4...^190 ^3seconds ^3remaining^4... until explosion..."
+		remapshader textures/digits/time_x0xx textures/digits/time_xxx1
+		remapshader textures/digits/time_xx0x textures/digits/time_xxx3
+		remapshader textures/digits/time_xxx0 textures/digits/time_xxx0
+		remapshaderflush
+		trigger self loop
+	}
+	trigger run89
+	{
+		remapshader textures/digits/time_xx0x textures/digits/time_xxx2
+		remapshader textures/digits/time_xxx0 textures/digits/time_xxx9
+		remapshaderflush
+		trigger self loop
+	}
+	trigger run88
+	{
+		remapshader textures/digits/time_xxx0 textures/digits/time_xxx8
+		remapshaderflush
+		trigger self loop
+	}
+	trigger run87
+	{
+		remapshader textures/digits/time_xxx0 textures/digits/time_xxx7
+		remapshaderflush
+		trigger self loop
+	}
+	trigger run86
+	{
+		remapshader textures/digits/time_xxx0 textures/digits/time_xxx6
+		remapshaderflush
+		trigger self loop
+	}
+	trigger run85
+	{
+		remapshader textures/digits/time_xxx0 textures/digits/time_xxx5
+		remapshaderflush
+		trigger self loop
+	}
+	trigger run84
+	{
+		remapshader textures/digits/time_xxx0 textures/digits/time_xxx4
+		remapshaderflush
+		trigger self loop
+	}
+	trigger run83
+	{
+		remapshader textures/digits/time_xxx0 textures/digits/time_xxx3
+		remapshaderflush
+		trigger self loop
+	}
+	trigger run82
+	{
+		remapshader textures/digits/time_xxx0 textures/digits/time_xxx2
+		remapshaderflush
+		trigger self loop
+	}
+	trigger run81
+	{
+		remapshader textures/digits/time_xxx0 textures/digits/time_xxx1
+		remapshaderflush
+		trigger self loop
+	}
+	trigger run80
+	{
+		remapshader textures/digits/time_xxx0 textures/digits/time_xxx0
+		remapshaderflush
+		trigger self loop
+	}
+	trigger run79
+	{
+		remapshader textures/digits/time_xx0x textures/digits/time_xxx1
+		remapshader textures/digits/time_xxx0 textures/digits/time_xxx9
+		remapshaderflush
+		trigger self loop
+	}
+	trigger run78
+	{
+		remapshader textures/digits/time_xxx0 textures/digits/time_xxx8
+		remapshaderflush
+		trigger self loop
+	}
+	trigger run77
+	{
+		remapshader textures/digits/time_xxx0 textures/digits/time_xxx7
+		remapshaderflush
+		trigger self loop
+	}
+	trigger run76
+	{
+		remapshader textures/digits/time_xxx0 textures/digits/time_xxx6
+		remapshaderflush
+		trigger self loop
+	}
+	trigger run75
+	{
+		wm_announce	"^4...^175 ^3seconds ^3remaining^4... until explosion..."
+		remapshader textures/digits/time_xxx0 textures/digits/time_xxx5
+		remapshaderflush
+		trigger self loop
+	}
+	trigger run74
+	{
+		remapshader textures/digits/time_xxx0 textures/digits/time_xxx4
+		remapshaderflush
+		trigger self loop
+	}
+	trigger run73
+	{
+		remapshader textures/digits/time_xxx0 textures/digits/time_xxx3
+		remapshaderflush
+		trigger self loop
+	}
+	trigger run72
+	{
+		remapshader textures/digits/time_xxx0 textures/digits/time_xxx2
+		remapshaderflush
+		trigger self loop
+	}
+	trigger run71
+	{
+		remapshader textures/digits/time_xxx0 textures/digits/time_xxx1
+		remapshaderflush
+		trigger self loop
+	}
+	trigger run70
+	{
+		remapshader textures/digits/time_xxx0 textures/digits/time_xxx0
+		remapshaderflush
+		trigger self loop
+	}
+	trigger run69
+	{
+		remapshader textures/digits/time_xx0x textures/digits/time_xxx0
+		remapshader textures/digits/time_xxx0 textures/digits/time_xxx9
+		remapshaderflush
+		trigger self loop
+	}
+	trigger run68
+	{
+		remapshader textures/digits/time_xxx0 textures/digits/time_xxx8
+		remapshaderflush
+		trigger self loop
+	}
+	trigger run67
+	{
+		remapshader textures/digits/time_xxx0 textures/digits/time_xxx7
+		remapshaderflush
+		trigger self loop
+	}
+	trigger run66
+	{
+		remapshader textures/digits/time_xxx0 textures/digits/time_xxx6
+		remapshaderflush
+		trigger self loop
+	}
+	trigger run65
+	{
+		remapshader textures/digits/time_xxx0 textures/digits/time_xxx5
+		remapshaderflush
+		trigger self loop
+	}
+	trigger run64
+	{
+		remapshader textures/digits/time_xxx0 textures/digits/time_xxx4
+		remapshaderflush
+		trigger self loop
+	}
+	trigger run63
+	{
+		remapshader textures/digits/time_xxx0 textures/digits/time_xxx3
+		remapshaderflush
+		trigger self loop
+	}
+	trigger run62
+	{
+		remapshader textures/digits/time_xxx0 textures/digits/time_xxx2
+		remapshaderflush
+		trigger self loop
+	}
+	trigger run61
+	{
+		remapshader textures/digits/time_xxx0 textures/digits/time_xxx1
+		remapshaderflush
+		trigger self loop
+	}
+	trigger run60
+	{
+		wm_announce	"^4...^160 ^3seconds ^3remaining^4... until explosion..."
+		remapshader textures/digits/time_x0xx textures/digits/time_xxx0
+		remapshader textures/digits/time_xx0x textures/digits/time_xxx6
+		remapshader textures/digits/time_xxx0 textures/digits/time_xxx0
+		remapshaderflush
+		trigger self loop
+	}
+	trigger run59
+	{
+		remapshader textures/digits/time_xx0x textures/digits/time_xxx5
+		remapshader textures/digits/time_xxx0 textures/digits/time_xxx9
+		remapshaderflush
+		trigger self loop
+	}
+	trigger run58
+	{
+		remapshader textures/digits/time_xxx0 textures/digits/time_xxx8
+		remapshaderflush
+		trigger self loop
+	}
+	trigger run57
+	{
+		remapshader textures/digits/time_xxx0 textures/digits/time_xxx7
+		remapshaderflush
+		trigger self loop
+	}
+	trigger run56
+	{
+		remapshader textures/digits/time_xxx0 textures/digits/time_xxx6
+		remapshaderflush
+		trigger self loop
+	}
+	trigger run55
+	{
+		remapshader textures/digits/time_xxx0 textures/digits/time_xxx5
+		remapshaderflush
+		trigger self loop
+	}
+	trigger run54
+	{
+		remapshader textures/digits/time_xxx0 textures/digits/time_xxx4
+		remapshaderflush
+		trigger self loop
+	}
+	trigger run53
+	{
+		remapshader textures/digits/time_xxx0 textures/digits/time_xxx3
+		remapshaderflush
+		trigger self loop
+	}
+	trigger run52
+	{
+		remapshader textures/digits/time_xxx0 textures/digits/time_xxx2
+		remapshaderflush
+		trigger self loop
+	}
+	trigger run51
+	{
+		remapshader textures/digits/time_xxx0 textures/digits/time_xxx1
+		remapshaderflush
+		trigger self loop
+	}
+	trigger run50
+	{
+		remapshader textures/digits/time_xxx0 textures/digits/time_xxx0
+		remapshaderflush
+		trigger self loop
+	}
+	trigger run49
+	{
+		remapshader textures/digits/time_xx0x textures/digits/time_xxx4
+		remapshader textures/digits/time_xxx0 textures/digits/time_xxx9
+		remapshaderflush
+		trigger self loop
+	}
+	trigger run48
+	{
+		remapshader textures/digits/time_xxx0 textures/digits/time_xxx8
+		remapshaderflush
+		trigger self loop
+	}
+	trigger run47
+	{
+		remapshader textures/digits/time_xxx0 textures/digits/time_xxx7
+		remapshaderflush
+		trigger self loop
+	}
+	trigger run46
+	{
+		remapshader textures/digits/time_xxx0 textures/digits/time_xxx6
+		remapshaderflush
+		trigger self loop
+	}
+	trigger run45
+	{
+		wm_announce	"^4...^145 ^3seconds ^3remaining^4..."
+		remapshader textures/digits/time_xxx0 textures/digits/time_xxx5
+		remapshaderflush
+		trigger self loop
+	}
+	trigger run44
+	{
+		remapshader textures/digits/time_xxx0 textures/digits/time_xxx4
+		remapshaderflush
+		trigger self loop
+	}
+	trigger run43
+	{
+		remapshader textures/digits/time_xxx0 textures/digits/time_xxx3
+		remapshaderflush
+		trigger self loop
+	}
+	trigger run42
+	{
+		remapshader textures/digits/time_xxx0 textures/digits/time_xxx2
+		remapshaderflush
+		trigger self loop
+	}
+	trigger run41
+	{
+		remapshader textures/digits/time_xxx0 textures/digits/time_xxx1
+		remapshaderflush
+		trigger self loop
+	}
+	trigger run40
+	{
+		remapshader textures/digits/time_xxx0 textures/digits/time_xxx0
+		remapshaderflush
+		trigger self loop
+	}
+	trigger run39
+	{
+		remapshader textures/digits/time_xx0x textures/digits/time_xxx3
+		remapshader textures/digits/time_xxx0 textures/digits/time_xxx9
+		remapshaderflush
+		trigger self loop
+	}
+	trigger run38
+	{
+		remapshader textures/digits/time_xxx0 textures/digits/time_xxx8
+		remapshaderflush
+		trigger self loop
+	}
+	trigger run37
+	{
+		remapshader textures/digits/time_xxx0 textures/digits/time_xxx7
+		remapshaderflush
+		trigger self loop
+	}
+	trigger run36
+	{
+		remapshader textures/digits/time_xxx0 textures/digits/time_xxx6
+		remapshaderflush
+		trigger self loop
+	}
+	trigger run35
+	{
+		remapshader textures/digits/time_xxx0 textures/digits/time_xxx5
+		remapshaderflush
+		trigger self loop
+	}
+	trigger run34
+	{
+		remapshader textures/digits/time_xxx0 textures/digits/time_xxx4
+		remapshaderflush
+		trigger self loop
+	}
+	trigger run33
+	{
+		remapshader textures/digits/time_xxx0 textures/digits/time_xxx3
+		remapshaderflush
+		trigger self loop
+	}
+	trigger run32
+	{
+		remapshader textures/digits/time_xxx0 textures/digits/time_xxx2
+		remapshaderflush
+		trigger self loop
+	}
+	trigger run31
+	{
+		remapshader textures/digits/time_xxx0 textures/digits/time_xxx1
+		remapshaderflush
+		trigger self loop
+	}
+	trigger run30
+	{
+		wm_announce	"^4...^130 ^3seconds ^3remaining^4..."
+		remapshader textures/digits/time_xxx0 textures/digits/time_xxx0
+		remapshaderflush
+		trigger self loop
+	}
+	trigger run29
+	{
+		remapshader textures/digits/time_xx0x textures/digits/time_xxx2
+		remapshader textures/digits/time_xxx0 textures/digits/time_xxx9
+		remapshaderflush
+		trigger self loop
+	}
+	trigger run28
+	{
+		remapshader textures/digits/time_xxx0 textures/digits/time_xxx8
+		remapshaderflush
+		trigger self loop
+	}
+	trigger run27
+	{
+		remapshader textures/digits/time_xxx0 textures/digits/time_xxx7
+		remapshaderflush
+		trigger self loop
+	}
+	trigger run26
+	{
+		remapshader textures/digits/time_xxx0 textures/digits/time_xxx6
+		remapshaderflush
+		trigger self loop
+	}
+	trigger run25
+	{
+		remapshader textures/digits/time_xxx0 textures/digits/time_xxx5
+		remapshaderflush
+		trigger self loop
+	}
+	trigger run24
+	{
+		remapshader textures/digits/time_xxx0 textures/digits/time_xxx4
+		remapshaderflush
+		trigger self loop
+	}
+	trigger run23
+	{
+		remapshader textures/digits/time_xxx0 textures/digits/time_xxx3
+		remapshaderflush
+		trigger self loop
+	}
+	trigger run22
+	{
+		remapshader textures/digits/time_xxx0 textures/digits/time_xxx2
+		remapshaderflush
+		trigger self loop
+	}
+	trigger run21
+	{
+		remapshader textures/digits/time_xxx0 textures/digits/time_xxx1
+		remapshaderflush
+		trigger self loop
+	}
+	trigger run20
+	{
+		wm_announce	"^4...^120 ^3seconds ^3remaining^4..."
+		remapshader textures/digits/time_xxx0 textures/digits/time_xxx0
+		remapshaderflush
+		trigger self loop
+	}
+	trigger run19
+	{
+		remapshader textures/digits/time_xx0x textures/digits/time_xxx1
+		remapshader textures/digits/time_xxx0 textures/digits/time_xxx9
+		remapshaderflush
+		trigger self loop
+	}
+	trigger run18
+	{
+		remapshader textures/digits/time_xxx0 textures/digits/time_xxx8
+		remapshaderflush
+		trigger self loop
+	}
+	trigger run17
+	{
+		remapshader textures/digits/time_xxx0 textures/digits/time_xxx7
+		remapshaderflush
+		trigger self loop
+	}
+	trigger run16
+	{
+		remapshader textures/digits/time_xxx0 textures/digits/time_xxx6
+		remapshaderflush
+		trigger self loop
+	}
+	trigger run15
+	{
+		remapshader textures/digits/time_xxx0 textures/digits/time_xxx5
+		remapshaderflush
+		trigger self loop
+	}
+	trigger run14
+	{
+		remapshader textures/digits/time_xxx0 textures/digits/time_xxx4
+		remapshaderflush
+		trigger self loop
+	}
+	trigger run13
+	{
+		remapshader textures/digits/time_xxx0 textures/digits/time_xxx3
+		remapshaderflush
+		trigger self loop
+	}
+	trigger run12
+	{
+		remapshader textures/digits/time_xxx0 textures/digits/time_xxx2
+		remapshaderflush
+		trigger self loop
+	}
+	trigger run11
+	{
+		remapshader textures/digits/time_xxx0 textures/digits/time_xxx1
+		remapshaderflush
+		trigger self loop
+	}
+	trigger run10
+	{
+		wm_announce	"^4...^110 ^3seconds ^3remaining^4..."
+		remapshader textures/digits/time_xxx0 textures/digits/time_xxx0
+		remapshaderflush
+		trigger self loop
+	}
+	trigger run9
+	{
+		wm_announce	"^4...^19"
+		remapshader textures/digits/time_xx0x textures/digits/time_xxx0
+		remapshader textures/digits/time_xxx0 textures/digits/time_xxx9
+		remapshaderflush
+		trigger self loop
+	}
+	trigger run8
+	{
+		wm_announce	"^4...^18"
+		remapshader textures/digits/time_xxx0 textures/digits/time_xxx8
+		remapshaderflush
+		trigger self loop
+	}
+	trigger run7
+	{
+		wm_announce	"^4...^17"
+		remapshader textures/digits/time_xxx0 textures/digits/time_xxx7
+		remapshaderflush
+		trigger self loop
+	}
+	trigger run6
+	{
+		wm_announce	"^4...^16"
+		remapshader textures/digits/time_xxx0 textures/digits/time_xxx6
+		remapshaderflush
+		trigger self loop
+	}
+	trigger run5
+	{
+		wm_announce	"^4...^15"
+		remapshader textures/digits/time_xxx0 textures/digits/time_xxx5
+		remapshaderflush
+		trigger self loop
+	}
+	trigger run4
+	{
+		wm_announce	"^4...^14"
+		remapshader textures/digits/time_xxx0 textures/digits/time_xxx4
+		remapshaderflush
+		trigger self loop
+	}
+	trigger run3
+	{
+		wm_announce	"^4...^13"
+		remapshader textures/digits/time_xxx0 textures/digits/time_xxx3
+		remapshaderflush
+		trigger self loop
+	}
+	trigger run2
+	{
+		wm_announce	"^4...^12"
+		remapshader textures/digits/time_xxx0 textures/digits/time_xxx2
+		remapshaderflush
+		trigger self loop
+	}
+	trigger run1
+	{
+		wm_announce	"^4...^11"
+		remapshader textures/digits/time_xxx0 textures/digits/time_xxx1
+		remapshaderflush
+		trigger self loop
+	}
+	trigger run0
+	{
+		wm_announce	"^4...^10"
+		remapshader textures/digits/time_xxx0 textures/digits/time_xxx0
+		remapshaderflush
+		alertentity wall
+		setstate dyno2 invisible
+		setstate dyno1 invisible
+		setstate detonator invisible
+		setstate placeholder invisible
+		setstate t10000428 invisible
+		setstate t10000429 invisible
+		setstate t10000430 invisible
+		setstate t10000431 invisible
+		setstate counter_xxx0 invisible
+		setstate counter_xx0x invisible
+		setstate counter_colon invisible
+		setstate counter_x0xx invisible
+		trigger base_gate1_sound stop
+		wm_objective_status 3 0 1
+		wm_objective_status 3 1 2
+
+		setautospawn	"Factory Main Gate Area"	0
+		setautospawn	"Missile Silo"	1
+
+		setstate digitsonwall invisible
+		alertentity spawn2
+		alertentity switch2
+
+		wm_announce	"^6The factory main wall has been breached !!!"
+		wm_teamvoiceannounce 0 "axis-facmain1"
+		wm_teamvoiceannounce 0 "axis-dynorgate2"
+		wm_teamvoiceannounce 1 "ally-facwal1"
+		accum 0 set 0
+		wm_allied_respawntime	25
+	
+		remove
+	}
+}
+
+
+
+
+
+
+//*********************
+//*********************
+//*****  train  *******
+//*********************
+//*********************
+
+train
+{
+	spawn
+	{
+		wait 50
+		faceangles 0 90 0 50
+
+		accum 3 set 0
+		accum 1 bitset 5
+
+
+	}
+
+
+// ===========================================================================================
+// ===========================================================================================
+	trigger run_incpos
+	{
+		accum 3 abort_if_equal 1
+		accum 3 inc 1
+	}
+
+
+	trigger run_continue
+	{
+		trigger self run_incpos
+		trigger self stopcheck
+		trigger self move
+	}
+// ===========================================================================================
+// ===========================================================================================
+// movement
+	trigger move_check
+	{
+		trigger self stuck_check
+		accum 1 abort_if_bitset 3
+
+		trigger self dispatch
+	}
+
+	trigger move
+	{
+		trigger self move_check
+
+		wait 500
+
+		trigger self move
+	}
+
+
+	trigger dispatch
+	{
+		accum 3 trigger_if_equal 0 train run_0
+		accum 3 trigger_if_equal 1 train run_1
+
+
+	}
+
+// ===========================================================================================
+// ===========================================================================================
+	trigger run_0
+	{
+		followspline 0 spln1000 150 wait length -64
+		trigger self run_continue
+	}
+
+
+	trigger run_1
+	{
+		followspline 0 spln1001 150 wait length -64 roll 0 -1 dampin dampout
+		trigger self script_lockout
+		wait 900
+		accum 3 inc 1
+		trigger self run_incpos
+	}
+
+
+
+
+
+// ===========================================================================================
+// ===========================================================================================
+// stuck checking
+// digibob: since we cant return variables, just use bit 3 of accum 1 as a register... mmmm assembly...
+	trigger stuck_check
+	{
+		accum 1 bitreset 3
+		trigger self stuck_check_scriptlockout
+		trigger self stuck_check_finished
+	}
+
+	trigger stuck_check_finished
+	{
+		accum 3 abort_if_less_than 1
+
+		accum 1 bitset 3
+	}
+
+
+	trigger stuck_check_scriptlockout
+	{
+		accum 5 abort_if_equal 0
+
+		accum 1 bitset 3
+	}
+
+
+
+
+// ===========================================================================================
+// ===========================================================================================
+// stop check
+
+	trigger stopcheck_setup
+	{
+    		accum 1 bitset 6
+		accum 1 abort_if_bitset 8
+    		trigger self stuck_check
+    		accum 1 abort_if_bitset 3
+    		accum 1 bitreset 6
+	}
+
+	trigger stopcheck
+	{
+    		trigger self stopcheck_setup
+    		accum 1 abort_if_not_bitset 6
+    		trigger self script_lockout
+
+    		trigger self script_lockout_stop
+    		resetscript
+	}
+
+// ===========================================================================================
+// ===========================================================================================
+// script lockouts
+
+	trigger script_lockout
+	{
+		accum 5 inc 1
+	}
+
+	trigger script_lockout_stop
+	{
+		accum 5 inc -1
+	}
+
+}
+
+
+//------------------------------------------
+//------------------------------------------
+//------------------------------------------
+
+
+//---------------
+//---- Grue ----
+//---------------
+
+Grue
+{
+	spawn
+	{
+		accum 5 set 0
+		wait 50
+		trigger Grue stop
+
+	}
+
+	trigger forward
+	{
+		accum 5 abort_if_equal 0
+		wait 20
+		playsound sound/movers/motors/motor_loop_01.wav looping volume 500
+		setrotation 0 -25 0
+
+	}
+
+
+	trigger stop
+	{
+		stoprotation
+		stopsound
+
+	}
+
+	trigger depart
+	{
+		accum 5 set 1
+		trigger Grue forward
+
+	}
+
+}
+
+
+Grue_trigger
+{
+	spawn
+	{
+		wait 50
+	}
+	trigger main
+	{
+		wait 1000
+		setstate Grue_bouton invisible
+		trigger Grue depart
+		wait 3670
+		trigger Grue stop
+	}
+
+}
+
+
+
+frontdoor_trigger1
+{
+	spawn
+	{
+		accum 5 set 0			// Initial state is down
+		wait 500			// Wait for everything to settle
+	}
+	trigger main
+	{
+		trigger frontdoor_trigger1 up
+		trigger frontdoor_trigger1 down
+
+	}
+	trigger up
+	{
+			accum 5 abort_if_not_equal 1	// Ready to run up routine == 1
+			resetscript			// return to trigger that called it
+
+			trigger frontdoor_lever1 up
+			accum 5 set 0			// Setup accum for up routine
+	}
+	trigger down
+	{
+			accum 5 abort_if_not_equal 0	// Ready to run down routine == 0
+			resetscript			// return to trigger that called it
+
+			trigger frontdoor_lever1 down
+			accum 5 set 1			// Setup accum for up routine
+	}
+}
+
+frontdoor_lever1
+{
+	spawn
+	{
+		wait 300
+	}
+	trigger down
+	{
+		gotomarker frontdoor_lever1_downpos 16
+		playsound sound/movers/switches/butn2.wav
+		trigger frontdoor open
+	}
+	trigger up
+	{
+		gotomarker frontdoor_lever1_uppos 16
+		playsound sound/movers/switches/switch.wav
+		trigger frontdoor close
+	}
+}
+
+
+
+
+
+
+frontdoor_sound
+{
+	trigger run
+	{
+		trigger frontdoor sound_run
+	}
+}
+
+
+frontdoor
+{
+	spawn
+	{
+	}
+
+	trigger open
+	{
+		wait 500
+		playsound sound/movers/misc/big_gate1.wav volume 127
+		wait 350
+		trigger frontdoor_sound run
+		gotomarker frontdoor_pcup 15 wait
+		stopsound
+		playsound sound/movers/misc/big_gate3.wav volume 127
+	}
+
+	trigger close
+	{
+		wait 500
+		playsound sound/movers/misc/big_gate1.wav volume 127
+		wait 400
+		trigger frontdoor_sound run
+		gotomarker frontdoor_pcdown 15 wait
+		stopsound
+		playsound sound/movers/misc/big_gate3.wav volume 127
+	}
+	trigger sound_run
+	{
+		playsound sound/movers/misc/big_gate2.wav looping volume 170
+
+	}
+
+
+}
+
+door1
+{
+	spawn
+	{
+	trigger door1 open
+	}
+
+	trigger open
+	{
+		wait 500
+		playsound sound/movers/misc/big_gate1.wav volume 127
+		wait 350
+		trigger door1 run
+		gotomarker door1_opened 30 wait
+		stopsound
+		playsound sound/movers/misc/big_gate3.wav volume 127
+	}
+
+	trigger close
+	{
+		wait 500
+		playsound sound/movers/misc/big_gate1.wav volume 127
+		wait 350
+		trigger door1 run
+		gotomarker door1_closed 30 wait
+		stopsound
+		playsound sound/movers/misc/big_gate3.wav volume 127
+	}
+	trigger sound_run
+	{
+		playsound sound/movers/misc/big_gate2.wav looping volume 170
+
+	}
+
+
+}
+
+door2
+{
+	spawn
+	{
+	trigger door2 open
+	}
+
+	trigger open
+	{
+		wait 500
+		playsound sound/movers/misc/big_gate1.wav volume 127
+		wait 350
+		trigger door2 run
+		gotomarker door2_opened 30 wait
+		stopsound
+		playsound sound/movers/misc/big_gate3.wav volume 127
+	}
+
+	trigger close
+	{
+		wait 500
+		playsound sound/movers/misc/big_gate1.wav volume 127
+		wait 350
+		trigger door2 run
+		gotomarker door2_closed 30 wait
+		stopsound
+		playsound sound/movers/misc/big_gate3.wav volume 127
+	}
+	trigger sound_run
+	{
+		playsound sound/movers/misc/big_gate2.wav looping volume 170
+
+	}
+
+
+}
+
+//**********************
+//*** Main objective ***
+//**********************
+
+missile_obj 
+{ 
+	spawn 
+	{ 
+		wait 200 
+		constructible_class 3
+	} 
+
+	death 
+	{ 
+
+
+		wm_announce "^1Axis have destroyed the Missile!"
+		wm_objective_status 4 0 1 // Destroy the missile silo
+		wm_objective_status 4 1 2 //
+	trigger game_manager victory
+
+	} 
+}
+
+
+//----------------
+//----- LIFT -----
+//----------------
+
+lift
+{
+	spawn
+	{
+		wait 100
+		trigger lift_main_trigger stop
+	}
+	trigger down
+	{
+		trigger lift_main_trigger move
+		wait 100
+		playsound sound/movers/misc/big_gate1.wav volume 130
+		wait 350
+		trigger lift_sound run
+		gotomarker lift_down 75 wait
+		stopsound
+		playsound sound/movers/misc/big_gate3.wav volume 130
+		trigger lift_main_trigger stop
+	}
+
+	trigger up
+	{
+		trigger lift_main_trigger move
+		wait 100
+		playsound sound/movers/misc/big_gate1.wav volume 130
+		wait 350
+		trigger lift_sound run
+		gotomarker lift_up 75 wait
+		stopsound
+		playsound sound/movers/misc/big_gate3.wav volume 130
+		trigger lift_main_trigger stop
+
+	}
+
+	trigger sound_run
+	{
+		playsound sound/movers/misc/big_gate2.wav looping volume 275
+
+	}
+}
+
+lift_sound
+{
+
+	spawn
+	{
+		wait 50	
+	}
+
+	trigger run
+	{
+		trigger lift sound_run
+	}
+
+}
+
+
+lift_main_trigger
+{
+	spawn
+	{
+		accum 5 set 1			// Initial state is down
+		wait 50			// Wait for everything to settle
+	}
+	trigger main
+	{
+		accum 1 abort_if_not_equal 0
+		trigger lift_main_trigger up
+		trigger lift_main_trigger down
+
+	}
+	trigger up
+	{
+	
+			accum 5 abort_if_not_equal 1	// Ready to run up routine == 1
+			resetscript			// return to trigger that called it
+
+			trigger lift_lever1 up
+			trigger lift up
+			accum 5 set 0			// Setup accum for up routine
+	}
+	trigger down
+	{
+			accum 5 abort_if_not_equal 0	// Ready to run down routine == 0
+			resetscript			// return to trigger that called it
+
+			trigger lift_lever1 down
+			trigger lift down
+			accum 5 set 1			// Setup accum for up routine
+	}
+
+	trigger move
+	{
+			accum 1 set 1	// Lift is moving --> lever disable
+
+	}
+
+	trigger stop
+	{
+			accum 1 set 0	// Lift is stoped --> lever enable
+	}
+
+}
+
+lift_lever1
+{
+	spawn
+	{
+		wait 50
+	}
+	trigger down
+	{
+		gotomarker lift_lever1_downpos 16
+		playsound sound/movers/switches/butn2.wav
+		trigger lift down
+
+	}
+	trigger up
+	{
+		gotomarker lift_lever1_uppos 16
+		playsound sound/movers/switches/switch.wav
+		trigger lift up
+
+	}
+}
+
+
+

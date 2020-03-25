@@ -1,0 +1,527 @@
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ft2
+END
+ahglyph.h
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ft2/ahglyph.h
+END
+ftnames.h
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ft2/ftnames.h
+END
+ahglobal.c
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ft2/ahglobal.c
+END
+ftglyph.c
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ft2/ftglyph.c
+END
+ftrender.h
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ft2/ftrender.h
+END
+ahglobal.h
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ft2/ahglobal.h
+END
+ftextend.c
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ft2/ftextend.c
+END
+ahtypes.h
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ft2/ahtypes.h
+END
+ahangles.c
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ft2/ahangles.c
+END
+ftglyph.h
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ft2/ftglyph.h
+END
+t1tables.h
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ft2/t1tables.h
+END
+sfdriver.c
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ft2/sfdriver.c
+END
+ftextend.h
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ft2/ftextend.h
+END
+ahangles.h
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ft2/ahangles.h
+END
+ttcmap.c
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ft2/ttcmap.c
+END
+sfdriver.h
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ft2/sfdriver.h
+END
+ftcalc.c
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ft2/ftcalc.c
+END
+ftinit.c
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ft2/ftinit.c
+END
+ttcmap.h
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ft2/ttcmap.h
+END
+ttpost.c
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ft2/ttpost.c
+END
+ahmodule.c
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ft2/ahmodule.c
+END
+ahoptim.c
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ft2/ahoptim.c
+END
+ftcalc.h
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ft2/ftcalc.h
+END
+ttpost.h
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ft2/ttpost.h
+END
+fttypes.h
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ft2/fttypes.h
+END
+ahmodule.h
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ft2/ahmodule.h
+END
+ftconfig.h
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ft2/ftconfig.h
+END
+ahoptim.h
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ft2/ahoptim.h
+END
+ttpload.c
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ft2/ttpload.c
+END
+ttsbit.c
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ft2/ttsbit.c
+END
+ttnameid.h
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ft2/ttnameid.h
+END
+psnames.h
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ft2/psnames.h
+END
+fterrors.h
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ft2/fterrors.h
+END
+ttpload.h
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ft2/ttpload.h
+END
+ttsbit.h
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ft2/ttsbit.h
+END
+sfnt.h
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ft2/sfnt.h
+END
+LICENSE.txt
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ft2/LICENSE.txt
+END
+tttypes.h
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ft2/tttypes.h
+END
+ttload.c
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ft2/ttload.c
+END
+ftraster.c
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ft2/ftraster.c
+END
+ftoutln.c
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ft2/ftoutln.c
+END
+ttload.h
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ft2/ttload.h
+END
+ftraster.h
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ft2/ftraster.h
+END
+ftoutln.h
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ft2/ftoutln.h
+END
+ftsmooth.c
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ft2/ftsmooth.c
+END
+ttdriver.c
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ft2/ttdriver.c
+END
+ftlist.c
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ft2/ftlist.c
+END
+ttobjs.c
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ft2/ttobjs.c
+END
+ftoption.h
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ft2/ftoption.h
+END
+ftmemory.h
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ft2/ftmemory.h
+END
+ftsmooth.h
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ft2/ftsmooth.h
+END
+ttdriver.h
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ft2/ttdriver.h
+END
+ftlist.h
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ft2/ftlist.h
+END
+ttobjs.h
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ft2/ttobjs.h
+END
+tttags.h
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ft2/tttags.h
+END
+ftmodule.h
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ft2/ftmodule.h
+END
+sfobjs.c
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ft2/sfobjs.c
+END
+tttables.h
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ft2/tttables.h
+END
+freetype.h
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ft2/freetype.h
+END
+sfobjs.h
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ft2/sfobjs.h
+END
+ttgload.c
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ft2/ttgload.c
+END
+autohint.h
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ft2/autohint.h
+END
+ftrend1.c
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ft2/ftrend1.c
+END
+ftmm.c
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ft2/ftmm.c
+END
+ttgload.h
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ft2/ttgload.h
+END
+ftrend1.h
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ft2/ftrend1.h
+END
+ftmm.h
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ft2/ftmm.h
+END
+ttinterp.c
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ft2/ttinterp.c
+END
+ahhint.c
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ft2/ahhint.c
+END
+ftsystem.c
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ft2/ftsystem.c
+END
+ttinterp.h
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ft2/ttinterp.h
+END
+ftgrays.c
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ft2/ftgrays.c
+END
+ahhint.h
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ft2/ahhint.h
+END
+ftdebug.c
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ft2/ftdebug.c
+END
+ftimage.h
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ft2/ftimage.h
+END
+ftsystem.h
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ft2/ftsystem.h
+END
+ahloader.h
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ft2/ahloader.h
+END
+ftgrays.h
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ft2/ftgrays.h
+END
+ftstream.c
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ft2/ftstream.c
+END
+ftdebug.h
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ft2/ftdebug.h
+END
+ftobjs.c
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ft2/ftobjs.c
+END
+tterrors.h
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ft2/tterrors.h
+END
+ftstream.h
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ft2/ftstream.h
+END
+ftdriver.h
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ft2/ftdriver.h
+END
+ftobjs.h
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ft2/ftobjs.h
+END
+ahglyph.c
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ft2/ahglyph.c
+END
+ftnames.c
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ft2/ftnames.c
+END

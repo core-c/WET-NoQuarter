@@ -1,0 +1,63 @@
+weaponDef
+{
+	both {
+		name					"Bazooka"
+		statname				"Bazooka"
+		damage					350
+		splashdamage			350
+		splashdamage_radius		300
+		selfKillMessage			"bazooka'd himself."
+		KillMessage				"was blown to smithereens by"
+		KillMessage2			"'s Bazooka."
+		movementSpeedScale		0.5
+		GibbingWeapon
+	}
+
+	client {
+		offset 					0 0 -1
+		foreShorten				0.8
+		standModel				"models/weapons2/bazooka/bazooka_3rd.md3"
+		pickupModel				"models/weapons2/bazooka/bazooka_pickup.md3"
+		bounceSound				"sound/weapons/weaponbounce.wav"
+		clipBounceSound			"sound/weapons/clipbounce.wav"
+
+		weaponConfig			"models/weapons2/bazooka/weapon.cfg"
+		handsModel				"models/weapons2/bazooka/v_bazooka_hand.md3"
+
+		flashDlightColor		1 0.3 0.0
+		flashSound				"sound/weapons/bazooka/bazooka_fire.wav"
+
+		spinupSound				"sound/weapons/bazooka/bazooka_rocket_charge.wav"
+
+		weaponIcon				"icons/iconw_bazooka"
+		weaponSelectedIcon		"icons/iconw_bazooka_1_select"
+
+		missileModel			"models/weapons2/bazooka/bazooka_rocket.md3"
+		missileSound			"sound/weapons/bazooka/bazooka_rocket_fly.wav"
+		missileTrailFunc		"RocketTrail"
+		missileDlight			300
+		missileDlightColor		1 0.3 0.0
+
+		firstPerson {
+			model				"models/weapons2/bazooka/v_bazooka.md3"
+			flashModel			"models/weapons2/panzerfaust/v_pf_flash.mdc"
+
+			weaponLink
+			{
+				part 0
+				{
+					tag			"tag_barrel"
+					model		"models/weapons2/bazooka/v_bazooka_barrel.md3"
+					axisskin	"models/weapons2/bazooka/bazooka_axis.skin"
+					alliedskin	"models/weapons2/bazooka/bazooka_allied.skin"
+					
+				}
+			}
+		}
+
+		thirdPerson {
+			model				"models/weapons2/bazooka/bazooka_3rd.md3"
+			flashmodel			"models/weapons2/panzerfaust/pf_flash.mdc"
+		}
+	}
+}

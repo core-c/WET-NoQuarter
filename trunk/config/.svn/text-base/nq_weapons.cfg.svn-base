@@ -1,0 +1,7 @@
+[minplayers]
+
+[maxweap]
+WP_LANDMINE	= 20
+WP_VENOM	= 0
+
+[percentage]

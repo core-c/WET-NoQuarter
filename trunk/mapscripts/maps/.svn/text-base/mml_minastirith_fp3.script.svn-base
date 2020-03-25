@@ -1,0 +1,588 @@
+// Allied spawn markers
+//alliedcitygatemarker 		// "City Gate"		- alliedcitygatespawns
+//level2entrancemarker 		// "Level 2 Gate"	- level2entrancespawns
+//level2exitmarker 		// "Level 3 Gate"	- level2exitspawns
+//level3defencemarker 		// "Level 4 Gate"	- level3defencespawns
+//level4defencemarker 		// "Level 5 Gate"	- level4defencespawns
+//alliedhohmarker 		// "Houses of Healing"	- alliedhohspawns
+//level7defencemarker 		// "The White Tower"	- level7defencespawns
+
+// Axis spawn markers
+//docksmarker 			// "Docks"		- docksspawns
+//axiscitygatemarker 		// "Level 1"		- axiscitygatespawns
+//level2attackmarker 		// "Level 2"		- level2attackspawns
+//level2flagattackmarker 	// "Level 2 flag"	- level2flagattackspawns
+//level3attackmarker 		// "Level 3"		- level3attackspawns
+//level3flagattackmarker 	// "Level 3 flag"	- level3flagattackspawns
+//level4attackmarker 		// "Level 4"		- level4attackspawns
+//level5attackmarker 		// "Level 5"		- level5attackspawns
+//axishohmarker 		// "Level 6"		- axishohspawns
+
+/////////////////////////////////////////////////////////////////
+// Game manager object
+game_manager
+{
+
+	////////////////////////////////////////////////
+	// Initialising
+
+	// When game starts
+	spawn
+	{
+		// Level initialisation
+		wm_set_round_timelimit 25
+		wm_setwinner 1
+
+		// Set Defending Team for SW Mode
+		wm_set_defending_team 1
+
+		// Set objectives
+		// 0:blank|1:tick|2:cross
+		// Allies = 1, Axis = 0
+
+		wm_number_of_objectives 1
+
+		wm_objective_status 1 1 0
+		wm_objective_status 1 0 0
+
+		// Initial respawn times
+		wm_axis_respawntime	15
+		wm_allied_respawntime	30
+
+		wait 200
+
+		// Set autospawns
+		setautospawn	"Docks"		0	// Axis
+		setautospawn	"City Gate"	1	// Allies
+
+		// Allied spawn markers
+		setstate alliedcitygatemarker default		// "City Gate"		- alliedcitygatespawns
+		setstate level2entrancemarker invisible		// "Level 2 Gate"	- level2entrancespawns
+		setstate level2exitmarker invisible		// "Level 3 Gate"	- level2exitspawns
+		setstate level3defencemarker invisible		// "Level 4 Gate"	- level3defencespawns
+		setstate level4defencemarker invisible		// "Level 5 Gate"	- level4defencespawns
+		setstate alliedhohmarker invisible		// "Houses of Healing"	- alliedhohspawns
+		setstate level7defencemarker invisible		// "The White Tower"	- level7defencespawns
+
+		// Axis spawn markers
+		setstate docksmarker default			// "Docks"		- docksspawns
+		setstate axiscitygatemarker invisible		// "Level 1"		- axiscitygatespawns
+		setstate level2attackmarker invisible		// "Level 2"		- level2attackspawns
+		setstate level2flagattackmarker invisible	// "Level 2 flag"	- level2flagattackspawns
+		setstate level3attackmarker invisible		// "Level 3"		- level3attackspawns
+		setstate level3flagattackmarker invisible	// "Level 3 flag"	- level3flagattackspawns
+		setstate level4attackmarker invisible		// "Level 4"		- level4attackspawns
+		setstate level5attackmarker invisible		// "Level 5"		- level5attackspawns
+		setstate axishohmarker invisible		// "Level 6"		- axishohspawns
+wait 2000
+		wm_announce "mml_minastirith_fp3_fix"
+		// Show version info for my reference
+		print "Map info: MML_Minastirith_fp3"
+
+	}
+
+	trigger axis_won
+	{
+		// Tell everyone
+		wm_announce "Axis have captured the Palantir and gained control of Minas Tirith!"
+
+		wm_setwinner 0	// Mark axis as round winners
+		wait 5000	// Pause for a few seconds
+		wm_endround	// Finish map!
+	}
+
+	// Respawn poomps (gives allies a quick respawn at correct next gate)
+	trigger level1_poomp
+	{
+		// Bump allied respawn (note this happens in level 1, the spawns are pushed back AFTER this one)
+		wm_allied_respawntime	1
+		wait 2000
+		wm_allied_respawntime	35
+
+		// Allied spawn changes
+		setstate 	level2entrancemarker	default		// Enable next
+		setautospawn	"Level 2 Gate"		1		// Use
+		setstate 	alliedcitygatemarker	invisible	// Disable previous
+		alertentity 	alliedcitygatespawns			// Old Allied
+		alertentity 	level2entrancespawns			// New Allied
+	}
+
+	trigger level_poomp
+	{
+		// Bump allied respawn (note this happens in level 1, the spawns are pushed back AFTER this one)
+		wm_allied_respawntime	1
+		wait 2000
+		wm_allied_respawntime	35
+	}
+}
+
+/////////////////////////////////////////////////////////////////
+maingate_left
+{
+	spawn
+	{
+		wait 20000
+
+		trigger self close
+	}
+
+	trigger close
+	{
+		faceangles 0 90 0 15000
+	}
+}
+
+/////////////////////////////////////////////////////////////////
+maingate_left_up
+{
+	spawn
+	{
+		wait 20000
+
+		trigger self close
+	}
+
+	trigger close
+	{
+		faceangles 0 90 0 15000 wait
+		wait 2000
+		gotomarker maingate_left_up_pos 30
+	}
+}
+
+/////////////////////////////////////////////////////////////////
+maingate_left_down
+{
+	spawn
+	{
+		wait 20000
+
+		trigger self close
+	}
+
+	trigger close
+	{
+		faceangles 0 90 0 15000 wait
+		wait 2500
+		gotomarker maingate_left_down_pos 30
+	}
+}
+
+/////////////////////////////////////////////////////////////////
+level1_gate
+{
+	// When object is created
+	spawn
+	{
+		wait 100
+
+		// Mark as dynamitable only
+		constructible_class 3
+		constructible_destructxpbonus 50
+	}
+
+	// When object is destroyed
+	death
+	{
+		// Also hide the other gate
+		setstate	maingate_left		invisible
+		setstate	maingate_left_up	invisible
+		setstate	maingate_left_down	invisible
+
+		// Tell everyone
+		wm_set_round_timelimit 30
+		wm_announce "Axis have blown the City Gate and captured the first level!"
+		wm_teamvoiceannounce 0 "fbs"
+		wm_teamvoiceannounce 1 "fbl"
+
+		// Axis spawn changes
+		setstate	axiscitygatemarker	default		// Enable next
+		setautospawn	"Level 1"		0		// Use
+		setstate	docksmarker		invisible	// Disable previous
+		alertentity	docksspawns				// Old Axis
+		alertentity	axiscitygatespawns			// New Axis
+
+		// Bump allied respawn
+		trigger game_manager level1_poomp
+	}
+} 
+
+/////////////////////////////////////////////////////////////////
+level2_gate
+{
+	// When object is created
+	spawn
+	{
+		wait 100
+
+		// Mark as dynamitable only
+		constructible_class 3
+		constructible_destructxpbonus 20
+	}
+
+	// When object is destroyed
+	death
+	{
+		// Tell everyone
+		wm_set_round_timelimit 35
+		wm_announce "Axis have blown the level 2 gate and captured the second level!"
+		wm_teamvoiceannounce 0 "fbs"
+		wm_teamvoiceannounce 1 "fbl"
+
+		// Allied spawn changes
+		setstate 	level2exitmarker	default		// Enable next
+		setautospawn	"Level 3 Gate"		1		// Use
+		setstate 	level2entrancemarker	invisible	// Disable previous
+		alertentity 	level2entrancespawns			// Old Allied
+		alertentity 	level2exitspawns			// New Allied
+
+		// Axis spawn changes
+		setstate	level2attackmarker	default		// Enable next
+		setautospawn	"Level 2"		0		// Use
+		setstate	axiscitygatemarker	invisible	// Disable previous
+		alertentity	axiscitygatespawns			// Old Axis
+		alertentity	level2attackspawns			// New Axis
+
+		// Bump allied respawn
+		trigger game_manager level_poomp
+ 	}
+} 
+
+/////////////////////////////////////////////////////////////////
+level3_gate
+{
+	// When object is created
+	spawn
+	{
+		wait 100
+
+		// Mark as dynamitable only
+		constructible_class 3
+		constructible_destructxpbonus 20
+	}
+
+	// When object is destroyed
+	death
+	{
+		// Tell everyone
+		wm_set_round_timelimit 40
+		wm_announce "Axis have blown the level 3 gate and captured the second level!"
+		wm_teamvoiceannounce 0 "fbs"
+		wm_teamvoiceannounce 1 "fbl"
+
+		// Allied spawn changes
+		setstate 	level3defencemarker	default		// Enable next
+		setautospawn	"Level 4 Gate"		1		// Use
+		setstate 	level2exitmarker	invisible	// Disable previous
+		alertentity 	level2exitspawns			// Old Allied
+		alertentity 	level3defencespawns			// New Allied
+
+		// Axis spawn changes
+		setstate	level3attackmarker	default		// Enable next
+		setautospawn	"Level 3"		0		// Use
+		setstate	level2attackmarker	invisible	// Disable previous
+		alertentity	level2attackspawns			// Old Axis
+		alertentity	level3attackspawns			// New Axis
+
+		// Clear level 2 flag
+		trigger level2cp clear
+
+		// Bump allied respawn
+		trigger game_manager level_poomp
+	}
+} 
+
+/////////////////////////////////////////////////////////////////
+level4_gate
+{
+	// When object is created
+	spawn
+	{
+		wait 100
+
+		// Mark as dynamitable only
+		constructible_class 3
+		constructible_destructxpbonus 20
+	}
+
+	// When object is destroyed
+	death
+	{
+		// Tell everyone
+		wm_set_round_timelimit 45
+		wm_announce "Axis have blown the level 4 gate and captured the third level!"
+		wm_teamvoiceannounce 0 "fbs"
+		wm_teamvoiceannounce 1 "fbl"
+
+		// Allied spawn changes
+		setstate 	level4defencemarker	default		// Enable next
+		setautospawn	"Level 5 Gate"		1		// Use
+		setstate 	level3defencemarker	invisible	// Disable previous
+		alertentity 	level3defencespawns			// Old Allied
+		alertentity 	level4defencespawns			// New Allied
+
+		// Axis spawn changes
+		setstate	level4attackmarker	default		// Enable next
+		setautospawn	"Level 4"		0		// Use
+		setstate	level3attackmarker	invisible	// Disable previous
+		alertentity	level3attackspawns			// Old Axis
+		alertentity	level4attackspawns			// New Axis
+
+		// Clear level 3 flag
+		trigger level3cp clear
+
+		// Bump allied respawn
+		trigger game_manager level_poomp
+	}
+} 
+
+/////////////////////////////////////////////////////////////////
+level5_gate
+{
+	// When object is created
+	spawn
+	{
+		wait 100
+
+		// Mark as satchel / dyno only
+		constructible_class 2
+		constructible_destructxpbonus 20
+	}
+
+	// When object is destroyed
+	death
+	{
+		// Tell everyone
+		wm_set_round_timelimit 50
+		wm_announce "Axis have blown the level 5 gate and captured the fourth level!"
+		wm_teamvoiceannounce 0 "fbs"
+		wm_teamvoiceannounce 1 "fbl"
+
+		// Allied spawn changes
+		setstate 	alliedhohmarker		default		// Enable next
+		setautospawn	"Houses of Healing"	1		// Use
+		setstate 	level4defencemarker	invisible	// Disable previous
+		alertentity 	level4defencespawns			// Old Allied
+		alertentity 	alliedhohspawns				// New Allied
+
+		// Axis spawn changes
+		setstate	level5attackmarker	default		// Enable next
+		setautospawn	"Level 5"		0		// Use
+		setstate	level4attackmarker	invisible	// Disable previous
+		alertentity	level4attackspawns			// Old Axis
+		alertentity	level5attackspawns			// New Axis
+
+		// Bump allied respawn
+		trigger game_manager level_poomp
+		remove
+
+	}
+} 
+
+/////////////////////////////////////////////////////////////////
+level6_gate
+{
+	// When object is created
+	spawn
+	{
+		wait 100
+
+		// Mark as dynamitable only
+		constructible_class 3
+		constructible_destructxpbonus 20
+	}
+
+	// When object is destroyed
+	death
+	{
+		// Tell everyone
+		wm_set_round_timelimit 55
+		wm_announce "Axis have blown the level 6 gate and gained access to all the City!"
+		wm_teamvoiceannounce 0 "fbs"
+		wm_teamvoiceannounce 1 "fbl"
+
+		// Allied spawn changes
+		setstate 	level7defencemarker	default		// Enable next
+		setautospawn	"Houses of Healing"	1		// Use
+		setstate 	alliedhohmarker		invisible	// Disable previous
+		alertentity 	alliedhohspawns				// Old Allied
+		alertentity 	level7defencespawns			// New Allied
+
+		// Axis spawn changes
+		setstate	axishohmarker		default		// Enable next
+		setautospawn	"Level 6"		0		// Use
+		setstate	level5attackmarker	invisible	// Disable previous
+		alertentity	level5attackspawns			// Old Axis
+		alertentity	axishohspawns				// New Axis
+
+		// Bump allied respawn
+		trigger game_manager level_poomp
+	}
+} 
+
+/////////////////////////////////////////////////////////////////
+level7_gate
+{
+	// When object is created
+	spawn
+	{
+		wait 100
+
+		// Mark as dynamitable only
+		constructible_class 3
+		constructible_destructxpbonus 10
+	}
+
+	// When object is destroyed
+	death
+	{
+		// Tell everyone
+		wm_set_round_timelimit 60
+		wm_announce "Axis have blown the level 7 gate!"
+		wm_teamvoiceannounce 0 "fbs"
+		wm_teamvoiceannounce 1 "fbl"
+
+	}
+} 
+
+/////////////////////////////////////////////////////////////////
+level2cp
+{
+	spawn
+	{
+		accum 1 set 0	// 0 = not captured, 1 = captured
+	}
+
+	trigger allied_capture
+	{
+		wm_announce "Allies have cleared the Level 2 flag!"
+		wm_teamvoiceannounce 0 "fbl"
+		setstate level2attackmarker	default
+		setautospawn	"Level 2"	0
+		setstate level2flagattackmarker	invisible
+		accum 1 set 0
+	}
+
+	trigger axis_capture
+	{
+		trigger self clear
+		wm_announce "Axis have captured the Level 2 flag!"
+		wm_teamvoiceannounce 0 "fbs"
+
+		setstate level2flagattackmarker	default
+		setautospawn	"Level 2 flag"	0
+		setstate level2attackmarker	invisible
+		accum 1 set 1
+	}
+
+	trigger clear
+	{
+		setstate level2flagattackmarker	invisible	// Hide map marker
+		setstate level2cp		invisible	// Hide flag pole
+
+		accum 1 abort_if_equal 0			// Only continue if flag was captured
+
+		alertentity level2flagattackspawns		// Make spawnpoints not active
+	}
+}
+
+/////////////////////////////////////////////////////////////////
+level3cp
+{
+	spawn
+	{
+		accum 1 set 0	// 0 = not captured, 1 = captured
+	}
+
+	trigger allied_capture
+	{
+		wm_announce "Allies have cleared the Level 3 flag!"
+		wm_teamvoiceannounce 0 "fbl"
+
+		setstate level3attackmarker	default
+		setautospawn	"Level 3"	0
+		setstate level3flagattackmarker	invisible
+		accum 1 set 0
+	}
+
+	trigger axis_capture
+	{
+		trigger self clear
+		wm_announce "Axis have captured the Level 3 flag!"
+		wm_teamvoiceannounce 0 "fbs"
+
+		setstate level3flagattackmarker	default
+		setautospawn	"Level 3 flag"	0
+		setstate level3attackmarker	invisible
+		accum 1 set 1
+	}
+
+	trigger clear
+	{
+		setstate level3flagattackmarker	invisible	// Hide map marker
+		setstate level3cp		invisible	// Hide flag pole
+
+		accum 1 abort_if_equal 0			// Only continue if flag was captured
+
+		alertentity level3flagattackspawns		// Make spawnpoints not active
+	}
+}
+
+/////////////////////////////////////////////////////////////////
+events_manager
+{
+	spawn
+	{
+	}
+
+	trigger map_info
+	{
+		wm_announce "This is a FIRST PLAYABLE version."
+	}
+}
+
+/////////////////////////////////////////////////////////////////
+// The Palantir collectible
+palantir
+{
+	spawn
+	{
+	}
+
+	trigger stolen
+	{
+		// Tell everyone
+		wm_announce "Axis have taken the Palantir!"
+
+		// Hide objectivce marker on command map
+		setstate palantir_pickup_toi invisible
+		setstate palantir_pickup_cmm invisible
+	}
+
+	trigger returned
+	{
+		// Tell everyone
+		wm_announce "The Palantir has been returned!"
+
+		// Hide objectivce marker on command map
+		setstate palantir_pickup_toi default
+		setstate palantir_pickup_cmm default
+	}
+
+	// Axis wins by delivering the Palantir
+	trigger captured
+	{
+		// Hide drop point
+		setstate palantir_drop_toi invisible
+		setstate palantir_drop_cmm invisible
+		setstate palantir_drop_zone invisible
+
+		// Current main objectives for each team (0=Axis, 1=Allies)
+		// 0:blank|1:tick|2:cross
+//		wm_objective_status 1 0 0
+//		wm_objective_status 1 1 0
+
+		// Axis win!
+		trigger game_manager axis_won
+	}
+}

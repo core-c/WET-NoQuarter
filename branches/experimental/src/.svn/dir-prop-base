@@ -1,0 +1,16 @@
+K 10
+svn:ignore
+V 166
+cgame_mp_x86.dll
+scons_utils.pyc
+cgame.mp.i386.so
+scons.signatures.dblite
+site.conf
+ui_mp_x86.dll
+build
+build-mingw
+ui.mp.i386.so
+qagame_mp_x86.dll
+qagame.mp.i386.so
+
+END

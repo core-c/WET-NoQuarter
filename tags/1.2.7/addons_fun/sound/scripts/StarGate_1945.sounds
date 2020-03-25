@@ -1,0 +1,236 @@
+fueldump_axis_depotdef_construct
+{
+	sound sound/vo/fueldump/axis/hq_depotcon.wav
+	voice
+	streaming
+}
+
+fueldump_axis_depotdef_constructed
+{
+	sound sound/vo/fueldump/axis/hq_depotconst.wav
+	voice
+	streaming
+}
+
+fueldump_allies_depotdef_destroy
+{
+	sound sound/vo/fueldump/allies/hq_depotdyn.wav
+	voice
+	streaming
+}
+
+fueldump_axis_depotdef_destroyed
+{
+	sound sound/vo/fueldump/axis/hq_depotdest.wav
+	voice
+	streaming
+}
+
+fueldump_allies_depotdef_destroyed
+{
+	sound sound/vo/fueldump/allies/hq_depotdest.wav
+	voice
+	streaming
+}
+
+goldrush_allies_tank_steal
+{
+	sound sound/vo/goldrush/allies/hq_tanksteal.wav
+	voice
+	streaming
+}
+
+goldrush_allies_tank_stolen
+{
+	sound sound/vo/goldrush/allies/hq_tankstolen.wav
+	voice
+	streaming
+}
+
+goldrush_allies_tank_courtyard
+{
+	sound sound/vo/goldrush/allies/hq_tankbank.wav
+	voice
+	streaming
+}
+
+goldrush_allies_bank_courtyard
+{
+	sound sound/vo/goldrush/allies/hq_bankyard.wav
+	voice
+	streaming
+}
+
+goldrush_allies_gold_get
+{
+	sound sound/vo/goldrush/allies/hq_goldget.wav
+	voice
+	streaming
+}
+
+goldrush_allies_truck_steal
+{
+	sound sound/vo/goldrush/allies/hq_trucksteal.wav
+	voice
+	streaming
+}
+
+goldrush_allies_truck_stolen
+{
+	sound sound/vo/goldrush/allies/hq_truckstolen.wav
+	voice
+	streaming
+}
+
+goldrush_allies_truckbar_destroy
+{
+	sound sound/vo/goldrush/allies/hq_truckbardyn.wav
+	voice
+	streaming
+}
+
+goldrush_allies_truckbar_destroyed
+{
+	sound sound/vo/goldrush/allies/hq_truckbardest.wav
+	voice
+	streaming
+}
+
+
+goldrush_allies_truck_barrier1
+{
+	sound sound/vo/goldrush/allies/hq_truckbar1.wav
+	voice
+	streaming
+}
+
+goldrush_allies_truck_barrier2
+{
+	sound sound/vo/goldrush/allies/hq_truckbar2.wav
+	voice
+	streaming
+}
+
+// axis commander
+
+
+goldrush_axis_tank_steal
+{
+	sound sound/vo/goldrush/axis/hq_tanksteal.wav
+	voice
+	streaming
+}
+
+goldrush_axis_tank_stolen
+{
+	sound sound/vo/goldrush/axis/hq_tankstolen.wav
+	voice
+	streaming
+}
+
+goldrush_axis_bank_courtyard
+{
+	sound sound/vo/goldrush/axis/hq_bankyard.wav
+	voice
+	streaming
+}
+
+goldrush_axis_bank_broken
+{
+	sound sound/vo/goldrush/axis/hq_bankbroken.wav
+	voice
+	streaming
+}
+
+goldrush_axis_gold_defend
+{
+	sound sound/vo/goldrush/axis/hq_golddef.wav
+	voice
+	streaming
+}
+
+
+goldrush_axis_truck_steal
+{
+	sound sound/vo/goldrush/axis/hq_trucksteal.wav
+	voice
+	streaming
+}
+
+goldrush_axis_truck_stolen
+{
+	sound sound/vo/goldrush/axis/hq_truckstolen.wav
+	voice
+	streaming
+}
+
+goldrush_axis_truckbars_construct
+{
+	sound sound/vo/goldrush/axis/hq_truckbarscon.wav
+	voice
+	streaming
+}
+
+goldrush_axis_truckbar_construct
+{
+	sound sound/vo/goldrush/axis/hq_truckbarcon.wav
+	voice
+	streaming
+}
+
+goldrush_axis_truckbar_constructed
+{
+	sound sound/vo/goldrush/axis/hq_truckbarconst.wav
+	voice
+	streaming
+}
+
+goldrush_axis_truckbar_destroyed
+{
+	sound sound/vo/goldrush/axis/hq_truckbardest.wav
+	voice
+	streaming
+}
+
+goldrush_axis_truck_barrier1
+{
+	sound sound/vo/goldrush/axis/hq_truckbar1.wav
+	voice
+	streaming
+}
+
+
+fueldump_axis_depotdef_construct
+{
+	sound sound/vo/fueldump/axis/hq_depotcon.wav
+	voice
+	streaming
+}
+
+radar_allies_bunker_captured
+{
+	sound sound/vo/radar/allies/hq_bunkercapd.wav
+	voice
+	streaming
+}
+
+radar_axis_bunker_captured
+{
+	sound sound/vo/radar/axis/hq_bunkercapd.wav
+	voice
+	streaming
+}
+
+wall
+{
+	sound sound\vo\goldrush\allies\hq_elewalldest.wav
+	voice
+	streaming
+}
+
+alarm
+{
+	sound sound\world\alarm_01.wav
+	voice
+	streaming
+}

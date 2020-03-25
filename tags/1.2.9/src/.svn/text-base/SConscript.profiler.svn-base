@@ -1,0 +1,31 @@
+# -*- mode: python -*-
+# NQ Profiler build script
+# snl//lucel <lucel@snl-clan.orig>
+# http://scons.sourceforge.net
+
+import sys, os
+import scons_utils
+
+Import( 'GLOBALS' )
+Import( GLOBALS )
+
+profiler_string = """
+p_main.c
+p_syscalls.c
+p_hook_qagame.c
+p_console_cmds.c
+p_profiler.c
+p_timer.c
+"""
+
+profiler_list = scons_utils.BuildList( 'profiler', profiler_string )
+
+local_env = g_env.Copy()
+
+local_env.Append( CPPDEFINES = [ 'GAMEDLL' ] )
+local_env['LINK'] = local_env['CXX']
+
+source_list = profiler_list
+
+ret = local_env.SharedLibrary( target = 'profiler', source = source_list )
+Return( 'ret' )

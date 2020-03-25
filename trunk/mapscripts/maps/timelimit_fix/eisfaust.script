@@ -1,0 +1,826 @@
+
+
+// phisherman: Fixed popular bug of not passing on to intermission after timelimit hit and round draw
+
+game_manager
+{
+      spawn
+      {
+            wm_axis_respawntime 10
+            wm_allied_respawntime 10
+            wm_number_of_objectives 3
+            wm_set_round_timelimit  0
+ 
+// Turm 1 Status
+            wm_objective_status 1 0 0
+            wm_objective_status 1 1 0
+  
+            wm_set_main_objective 1 0
+            wm_set_main_objective 1 1
+  
+            wm_set_defending_team 0
+ 
+            wm_setwinner 0
+
+	    // rocket blown up?
+	    globalaccum 6 set 0
+      }
+
+	trigger timelimit_hit
+	{
+		wm_setwinner -1
+	}
+}
+
+// ************************************************** 
+// Ufer-MG bauen ************************************
+// **************************************************
+
+construction_script 
+{ 
+   spawn 
+   { 
+      wait 200 
+      constructible_class 2 
+      trigger self startup 
+   } 
+
+   buildstart final 
+   { 
+   } 
+
+   built final 
+   { 
+      setstate construction_extra default 
+      setstate construction_mg42  default 
+      setstate const_tower        invisible 
+      wm_announce   "Die Allies haben das Ufer-MG errichtet!" 
+   } 
+
+   decayed final 
+   { 
+      trigger self startup 
+   } 
+
+   death 
+   { 
+      trigger self startup 
+      wm_announce   "Die Axis haben das Ufer-MG zerstoert!" 
+   } 
+
+   trigger startup 
+   { 
+      setstate construction_extra invisible 
+      setstate construction_mg42  invisible 
+      setstate const_tower        default 
+      repairmg42 construction_mg42 
+   } 
+} 
+
+
+// ************************************************** 
+// Fahne bei Ruine einnehmen    *********************
+// **************************************************
+
+forwardspawn1_flag
+{
+	spawn
+	{
+	wait 200
+	accum 0 set 2			// Wer besitzt Flagge: 0-Axis, 1-Allied
+	accum 9 set 0			// Axis haben die Fahne noch nicht erobert
+	accum 8 set 0			// Allies haben die Fahne noch nicht erobert
+        setstate forwardspawn1_wobj invisible //Entferne Axis flag Command map Marker until capt.
+	}
+	trigger axis_capture			// Berührt von Axis
+	{
+		accum 0 abort_if_equal 0 	// Haben Axis Flag?
+		accum 0 set 0 			// Axis haben Flag!
+		wm_announce "Die Axis haben die Ruine eingenommen!"
+		setstate forwardspawn1_wobj default
+		setautospawn "Ruine"	0	// Set Axis to Ruine
+		alertentity forwardspawn1_wobj	// Switch command map marker
+		accum 8 abort_if_equal 1	// Abort if Allies have captured flag once
+		accum 9 abort_if_equal 1	//Abort if axis have captured flag once
+		alertentity forwardspawn1_wobj
+		accum 9 set 1			//Allies have captured at least once
+	}
+
+	trigger allied_capture			// Touched by an allied player
+	{
+		accum 0 abort_if_equal 1 	// do Allies own flag?
+		accum 0 set 1 			// Allies own the flag
+		wm_announce "Die Allies haben die Ruine eingenommen!"
+		setstate forwardspawn1_wobj default
+		alertentity forwardspawn1_wobj	// Switch command map marker
+		setautospawn "Ruine"	1	// Set Allies to Ruine
+		accum 8 set 1			//Allies have captured flag at least once
+	}
+
+	trigger force_allied
+	{
+		accum 0 abort_if_equal 1 	// Do Allies own the flag?
+		alertentity forwardspawn1_wobj	// Switch command map marker
+		alertentity forwardspawn1_spawns// Switch all spawnpoints
+		setautospawn "Ruine"	1	// Set Allies to Ruine
+	}
+	trigger kill
+	{
+		remove				// Remove self (flag model)
+	}
+}
+
+
+// *********************************************** 
+// Baubare kleine Brücke     *********************
+// ***********************************************
+
+bridge1
+{
+      spawn
+      {
+            wait 200
+            trigger self setup
+ 
+            constructible_class 3
+      }
+ 
+      trigger setup
+      {
+            setstate bruecke invisible
+ 
+            setstate bridge1_material default
+      }
+ 
+      buildstart final
+      {
+            setstate brmat invisible
+
+            setstate bruecke underconstruction
+  
+            setstate bridge1_material default
+      }
+ 
+      built final
+      {
+ 
+            setstate bruecke default
+  
+            setstate bridge1_material invisible
+ 
+            wm_announce "Die Aliierten haben die provisorische Bruecke repariert!."
+  
+            wm_objective_status 1 0 2
+            wm_objective_status 1 1 1
+      }
+ 
+      decayed final
+      {
+            setstate brmat default
+
+            setstate bruecke invisible
+ 
+            setstate bridge1_material default
+      }
+ 
+      death
+      {
+            setstate brmat default
+
+            setstate bruecke invisible
+  
+            setstate bridge1_material default
+ 
+            wm_announce "Die provisorische Bruecke wurde von den Deutschen gesprengt."
+ 
+            wm_objective_status 2 0 1
+            wm_objective_status 2 1 2
+      }
+}
+
+
+// *********************************************** 
+// Baubarer Turm bei Hütte   *********************
+// ***********************************************
+
+turm1
+{
+      spawn
+      {
+            wait 200
+            trigger self setup
+ 
+            constructible_class 3
+      }
+ 
+      trigger setup
+      {
+            setstate turm1 invisible
+ 
+            setstate turm1_material default
+      }
+ 
+      buildstart final
+      {
+            setstate turm1 underconstruction
+  
+            setstate turm1_material default
+      }
+ 
+      built final
+      {
+ 
+            setstate turm1 default
+  
+            setstate turm1_material invisible
+ 
+            wm_announce "Die Aliierten haben den Westturm gebaut!."
+  
+            wm_objective_status 1 0 2
+            wm_objective_status 1 1 1
+      }
+ 
+      decayed final
+      {
+            setstate turm1 invisible
+ 
+            setstate turm1_material default
+      }
+ 
+      death
+      {
+            setstate turm1 invisible
+  
+            setstate turm1_material default
+ 
+            wm_announce "Der Westturm wurde von den Deutschen gesprengt."
+ 
+            wm_objective_status 2 0 1
+            wm_objective_status 2 1 2
+      }
+}
+
+// **************************************************** 
+// Sprengbare Mauer (Bergmauer)   *********************
+// ****************************************************
+
+mauer_sprengen
+{
+spawn
+{
+   wait 200
+   trigger self setup
+
+   constructible_class 3
+}
+
+death
+{
+wm_announce "Die Aliierten haben die Bergmauer gesprengt!"
+wm_objective_status 1 0 2
+wm_objective_status 1 1 1
+}
+}
+
+// Sprengbare Mauer 2
+
+mauer1_sprengen
+{
+spawn
+{
+   wait 200
+   trigger self setup
+
+   constructible_class 3
+}
+
+death
+{
+wm_announce "Die Aliierten haben die Festungsmauer gesprengt!"
+wm_objective_status 1 0 2
+wm_objective_status 1 1 1
+}
+}
+
+// ************************************************************************* 
+// Haupttor öffnen und schließen (Thanx to Dr.Diode)   *********************
+// *************************************************************************
+
+//==============Soundstuff===============
+
+sound_door ///info_not_null für den sound zum "ansprechen"
+{
+	trigger move
+	{
+		trigger haupttor sound_start
+		wait 200
+		trigger haupttor sound_looping
+	}
+		
+	
+	trigger end
+	{
+		trigger haupttor sound_stop
+    }
+}
+
+button_sound 
+{
+	trigger move
+	{
+		trigger button sound_switch
+	}
+	
+	trigger end
+	{
+		trigger button sound_switch_off
+	}
+}
+	
+//=============Schalter==============
+
+haupttor_enabler //Schalter 
+{
+	spawn
+	{
+		accum 1 set 0              ///Variable stellt sicher das die zwei Varianten (hoch, runter) sich nicht gegenseitig stören
+	}
+	
+	trigger move
+	{
+		accum 1 abort_if_not_equal 0
+		trigger haupttor move_up
+		accum 1 set 1              ///Bewegung verriegelt
+	}
+	
+	trigger enable_accum
+	{
+		accum 1 set 0              ///Bewegung entriegelt...Tor kann wieder nach unten gefahren werden
+	}
+}	
+
+haupttor_enabler_down //Schalter
+{
+	spawn
+	{
+		accum 1 set 0
+	}
+	
+	trigger move_down
+	{
+		accum 1 abort_if_not_equal 0
+		trigger haupttor move_down
+		accum 1 set 1              ///Bewegung verriegelt
+	}
+	
+	trigger enable_accum
+	{
+		accum 1 set 0              ///Bewgegung entriegelt...tor kann wieder nach oben gefahren werden
+	}
+}
+
+//==========Button==================
+
+button
+{
+	
+	
+	trigger sound_switch
+	{
+		playsound sound/movers/switches/switch_01.wav
+	}
+	
+	trigger sound_switch_off
+	{
+		playsound sound/movers/switches/switch_01.wav
+	}
+	
+	trigger enable
+	{
+		trigger button_sound enable
+		gotomarker pos_1 20
+	}
+	
+	trigger disable
+	{
+		trigger button_sound disable
+		gotomarker pos_2 20
+	}
+}
+
+//================Haupttor==================	
+
+haupttor       
+{
+	        
+      trigger sound_start
+      {
+	      stopsound
+	      playsound sound/movers/misc/big_gate1.wav
+	  }
+      
+      trigger sound_looping
+      {
+	    playsound sound/movers/misc/big_gate2a.wav looping volume 700
+      }
+      
+      trigger sound_stop
+      {
+	     stopsound
+	     playsound sound/movers/misc/big_gate3.wav 
+      }
+      
+
+      trigger move_up
+      {
+	      trigger button enable
+	      trigger button_sound move 
+	      wait 500
+	      trigger sound_door move
+          gotomarker pos_haupttor_up 10 wait
+          trigger sound_door end
+          wait 500
+          trigger button disable
+          trigger button_sound end
+          trigger haupttor_enabler_down enable_accum
+              
+      }
+      
+      trigger move_down
+      {
+	      
+	      trigger button enable
+	      trigger button_sound move
+	      wait 500
+	      trigger sound_door move
+	      gotomarker pos_haupttor_down 10 wait 
+	      trigger sound_door end
+	      wait 500
+	      trigger button disable
+	      trigger button_sound end
+	      trigger haupttor_enabler enable_accum
+	     
+	  }  
+}
+
+
+// ************************************************************************* 
+// Neutraler Command Post **************************************************
+// *************************************************************************
+
+neutral_cp_toi
+{
+	spawn
+	{
+		wait 50
+		accum 0 set 0	// 0=Neutral Closed, 1=Allied Damaged, 2=Axis Damaged
+
+		trigger self show_previous_cabinet		// Setup teamdoors and correct cabinet
+	}
+
+	trigger set_alliedcabinet
+	{
+		accum 0 set 1			// Allied has been cabinet built
+	}
+
+	trigger set_axiscabinet
+	{
+		accum 0 set 2			// Axis has been cabinet built
+	}
+
+	trigger show_previous_cabinet			// Show correct CP state
+	{
+		accum 0 trigger_if_equal 0 neutral_cp_toi show_neutral_cabinet
+		accum 0 trigger_if_equal 1 neutral_cp_toi show_allied_cabinet
+		accum 0 trigger_if_equal 2 neutral_cp_toi show_axis_cabinet
+	}
+
+	trigger show_neutral_cabinet			// Neutral Closed CP
+	{
+		setstate neutral_cp_closed default
+		setstate neutral_cp_closed_model default
+	}
+
+	trigger show_allied_cabinet			// Allied damaged CP
+	{
+		setstate allied_cp_damaged default
+		setstate allied_cp_damaged_model default
+	}
+
+	trigger show_axis_cabinet			// Axis damaged CP
+	{
+		setstate axis_cp_damaged default
+		setstate axis_cp_damaged_model default
+	}
+
+	trigger hide_all_cabinet			// Hide all previous CP states
+	{
+		setstate neutral_cp_closed invisible
+		setstate neutral_cp_closed_model invisible
+		setstate allied_cp_damaged invisible
+		setstate allied_cp_damaged_model invisible
+		setstate axis_cp_damaged invisible
+		setstate axis_cp_damaged_model invisible
+	}
+}
+
+// ================================================
+allied_cp_open
+{
+	spawn
+	{
+		wait 100
+		constructible_class 2			// Dyno+Satchel
+
+		setstate allied_cp_damaged invisible	// Hide damaged CP model+clip
+		setstate allied_cp_damaged_model invisible
+		trigger self disable_cp_features		// Default charge bar times
+	}
+
+	trigger disable_cp_features
+	{
+		setstate allied_cp_open_model invisible	// Hide Open CP model
+
+		setchargetimefactor 1 soldier 1
+		setchargetimefactor 1 lieutenant 1
+		setchargetimefactor 1 medic 1
+		setchargetimefactor 1 engineer 1
+		setchargetimefactor 1 covertops 1
+
+		sethqstatus 1 0			// Landmines team warning message
+		disablespeaker allied_cp_sound		// Disable morse code sound
+	}
+
+	trigger enable_cp_features
+	{
+		setstate allied_cp_open_model default	// Show open CP model
+
+		setchargetimefactor 1 soldier 0.75
+		setchargetimefactor 1 lieutenant 0.75
+		setchargetimefactor 1 medic 0.75
+		setchargetimefactor 1 engineer 0.75
+		setchargetimefactor 1 covertops 0.75
+
+		sethqstatus 1 1			// Landmines team warning message
+		enablespeaker allied_cp_sound		// Enable morse code sound
+	}
+
+	buildstart final
+	{
+		trigger neutral_cp_toi hide_all_cabinet	// Hide all previous cabinet states
+	}
+
+	built final
+	{
+		trigger neutral_cp_toi set_alliedcabinet	// Allied cabinet has been built
+		trigger self enable_cp_features		// Increase charge bar times
+
+		wm_announce "Allied Command Post constructed. Charge speed increased!"
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "axis_hq_compost_constructed_allies"
+		wm_teamvoiceannounce 1 "allies_hq_compost_constructed"
+		wm_removeteamvoiceannounce 1 "allies_hq_compost_construct"
+		// *----------------------------------- vo ------------------------------------------*
+	}
+
+	decayed final
+	{
+		setstate allied_cp_open_model invisible	// Hide Open CP model
+		trigger neutral_cp_toi show_previous_cabinet	// Show previous cabinet state
+	}
+
+	death
+	{
+		trigger neutral_cp_toi show_previous_cabinet	// Show damaged cabinet state
+		trigger self disable_cp_features		// Default charge bar times
+
+		wm_announce "Axis team has destroyed the Allied Command Post!"
+		// *----------------------------------- vo ------------------------------------------*
+		wm_addteamvoiceannounce 0 "axis_hq_compost_construct"
+		wm_addteamvoiceannounce 1 "allies_hq_compost_construct"
+		wm_teamvoiceannounce 0 "axis_hq_compost_construct"
+		wm_teamvoiceannounce 1 "allies_hq_compost_damaged"
+		// *----------------------------------- vo ------------------------------------------*
+	}
+}
+
+// ================================================
+axis_cp_open
+{
+	spawn
+	{
+		wait 100
+		constructible_class 2			// Dyno+Satchel
+
+		setstate axis_cp_damaged invisible	// Hide damaged CP model+clip
+		setstate axis_cp_damaged_model invisible
+		trigger self disable_cp_features		// Default charge bar times
+	}
+
+	trigger disable_cp_features
+	{
+		setstate axis_cp_open_model invisible	// Hide Open CP model
+
+		setchargetimefactor 0 soldier 1
+		setchargetimefactor 0 lieutenant 1
+		setchargetimefactor 0 medic 1
+		setchargetimefactor 0 engineer 1
+		setchargetimefactor 0 covertops 1
+
+		sethqstatus 0 0			// Landmines team warning message
+		disablespeaker axis_cp_sound		// Disable morse code sound
+	}
+
+	trigger enable_cp_features
+	{
+		setstate axis_cp_open_model default	// Show open CP model
+
+		setchargetimefactor 0 soldier 0.75
+		setchargetimefactor 0 lieutenant 0.75
+		setchargetimefactor 0 medic 0.75
+		setchargetimefactor 0 engineer 0.75
+		setchargetimefactor 0 covertops 0.75
+
+		sethqstatus 0 1			// Landmines team warning message
+		enablespeaker axis_cp_sound		// Enable morse code sound
+	}
+
+	buildstart final
+	{
+		trigger neutral_cp_toi hide_all_cabinet	// Hide all previous cabinet states
+	}
+
+	built final
+	{
+		trigger neutral_cp_toi set_axiscabinet	// Allied cabinet built
+		trigger self enable_cp_features		// Increase charge bar times
+
+		wm_announce "Axis Command Post constructed. Charge speed increased!"
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "axis_hq_compost_constructed"
+		wm_teamvoiceannounce 1 "allies_hq_compost_constructed_axis"
+		wm_removeteamvoiceannounce 0 "axis_hq_compost_construct"
+		// *----------------------------------- vo ------------------------------------------*
+	}
+
+	decayed final
+	{
+		setstate axis_cp_open_model invisible	// Hide Open CP model
+		trigger neutral_cp_toi show_previous_cabinet	// Show previous cabinet state
+	}
+
+	death
+	{
+		trigger neutral_cp_toi show_previous_cabinet	// Show damaged cabinet state
+		trigger self disable_cp_features		// Default charge bar times
+
+		wm_announce "Allied team has destroyed the Axis Command Post!"
+		// *----------------------------------- vo ------------------------------------------*
+		wm_addteamvoiceannounce 0 "axis_hq_compost_construct"
+		wm_addteamvoiceannounce 1 "allies_hq_compost_construct"
+		wm_teamvoiceannounce 0 "axis_hq_compost_damaged"
+		wm_teamvoiceannounce 1 "allies_hq_compost_construct"
+		// *----------------------------------- vo ------------------------------------------*
+	}
+}
+
+
+
+// ************************************************************************* 
+// *** V2 Rakete (Thanx to CooperHawkes)************************************
+// *************************************************************************
+
+v2manual_capture
+{
+    spawn
+    {
+    }
+
+    death
+    {
+	trigger v2_rocket got_manual
+    }
+}
+
+v2_rocket
+{
+    spawn
+    {
+    }
+
+    trigger got_manual
+    {
+	wm_announce "Dokumente wurden uebermittelt. Noch 5 Minuten bis zum Start der V2!"
+	wm_announce "Die V2 startet in 5 Minuten..."
+	wm_addteamvoiceannounce 1 "allies_hq_5minutes"
+	wm_teamvoiceannounce    1 "allies_hq_5minutes"
+	wait 60000
+	globalaccum 6 abort_if_not_equal 0
+	wm_announce "Die V2 startet in 4 Minuten..."
+	alertentity v2_smoke1
+	wait 60000
+	globalaccum 6 abort_if_not_equal 0
+	wm_announce "Die V2 startet in 3 Minuten..."
+	wait 60000
+	globalaccum 6 abort_if_not_equal 0
+	wm_announce "Die V2 startet in 2 Minuten..."
+	wm_addteamvoiceannounce 1 "allies_hq_2minutes"
+	wm_teamvoiceannounce    1 "allies_hq_2minutes"
+	alertentity v2_smoke2
+	wait 60000
+	globalaccum 6 abort_if_not_equal 0
+	wm_announce "Die V2 startet in 1 Minute..."
+	wait 30000
+	globalaccum 6 abort_if_not_equal 0
+	wm_announce "Die V2 startet in 30 Sekunden..."
+	wm_addteamvoiceannounce 1 "allies_hq_30seconds"
+	wm_teamvoiceannounce    1 "allies_hq_30seconds"
+	wait 10000
+	globalaccum 6 abort_if_not_equal 0
+	wm_announce "Die V2 startet in 20 Sekunden..."
+	wait 10000
+	globalaccum 6 abort_if_not_equal 0
+	wm_announce "Die V2 startet in 10 Sekunden..."
+	alertentity v2_smoke3
+	alertentity v2_smoke2
+	alertentity v2_smoke1
+	wait 10000
+	globalaccum 6 abort_if_not_equal 0
+	globalaccum 6 set 2
+	wm_setwinner 0
+	wait 500
+	trigger v2_flying fly
+    }
+}
+
+v2_ok
+{
+    spawn
+    {
+	wait 200
+	constructible_class 3
+    }
+
+    death
+    {
+	trigger v2_boom boom
+    }
+}
+
+v2_boom
+{
+    spawn
+    {
+    }
+
+    trigger boom
+    {
+	globalaccum 6 abort_if_not_equal 0
+	wm_announce "Die Allies haben die V2 rechtzeitig gesprengt!"
+	globalaccum 6 set 1
+	wm_setwinner 1
+	wait 1000
+	wm_endround
+    }
+}
+
+v2_flying
+{
+    spawn
+    {
+	wait 200
+	gotomarker v2_flightpos1 10000 wait
+	setstate v2_flying invisible
+    }
+
+    trigger fly
+    {
+	setstate v2_flying default
+	setstate v2_ok invisible
+	alertentity v2_noise1
+	wait 100
+	alertentity v2_noise2
+	wait 100
+	alertentity v2_smoke4
+	wait 100
+	alertentity v2_noise3
+	wait 100
+	alertentity v2_noise4
+	wait 100
+	alertentity v2_smoke3
+	wait 500
+	gotomarker v2_flightpos2 500 accel wait
+	wm_endround
+	wait 500
+	alertentity v2_smoke4
+	wait 1000
+	alertentity v2_noise1
+	wait 1000
+	alertentity v2_noise2
+	wait 1000
+	alertentity v2_noise3
+	wait 1000
+	alertentity v2_noise4
+    }
+}
+

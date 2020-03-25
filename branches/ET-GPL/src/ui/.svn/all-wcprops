@@ -1,0 +1,89 @@
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ui
+END
+ui.vcproj
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ui/ui.vcproj
+END
+ui_atoms.c
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ui/ui_atoms.c
+END
+ui_public.h
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ui/ui_public.h
+END
+ui_main.c
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ui/ui_main.c
+END
+ui_gameinfo.c
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ui/ui_gameinfo.c
+END
+ui_shared.c
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ui/ui_shared.c
+END
+ui_shared.h
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ui/ui_shared.h
+END
+ui.def
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ui/ui.def
+END
+ui_syscalls.c
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ui/ui_syscalls.c
+END
+ui_util.c
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ui/ui_util.c
+END
+keycodes.h
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ui/keycodes.h
+END
+ui_loadpanel.c
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ui/ui_loadpanel.c
+END
+ui_local.h
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ui/ui_local.h
+END
+ui_players.c
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/ui/ui_players.c
+END

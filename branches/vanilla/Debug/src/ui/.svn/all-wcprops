@@ -1,0 +1,59 @@
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/nq/!svn/ver/3471/branches/vanilla/Debug/src/ui
+END
+ui_atoms.d
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/nq/!svn/ver/3471/branches/vanilla/Debug/src/ui/ui_atoms.d
+END
+ui_main.d
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/nq/!svn/ver/3471/branches/vanilla/Debug/src/ui/ui_main.d
+END
+ui_gameinfo.d
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/nq/!svn/ver/3471/branches/vanilla/Debug/src/ui/ui_gameinfo.d
+END
+ui_shared.d
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/nq/!svn/ver/3471/branches/vanilla/Debug/src/ui/ui_shared.d
+END
+ui_syscalls.d
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/nq/!svn/ver/3471/branches/vanilla/Debug/src/ui/ui_syscalls.d
+END
+ui_util.d
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/nq/!svn/ver/3471/branches/vanilla/Debug/src/ui/ui_util.d
+END
+subdir.mk
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/nq/!svn/ver/3471/branches/vanilla/Debug/src/ui/subdir.mk
+END
+ui_loadpanel.d
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/nq/!svn/ver/3471/branches/vanilla/Debug/src/ui/ui_loadpanel.d
+END
+ui_players.d
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/nq/!svn/ver/3471/branches/vanilla/Debug/src/ui/ui_players.d
+END

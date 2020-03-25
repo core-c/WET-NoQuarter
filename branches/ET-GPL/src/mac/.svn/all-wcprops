@@ -1,0 +1,293 @@
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/mac
+END
+MacPrefs.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/mac/MacPrefs.cpp
+END
+mac_qgl.c
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/mac/mac_qgl.c
+END
+mac_specific.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/mac/mac_specific.cpp
+END
+CGameLib_Release.h
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/mac/CGameLib_Release.h
+END
+deployment.sh
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/mac/deployment.sh
+END
+CDrawSprocket.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/mac/CDrawSprocket.cpp
+END
+ QAGameLibMP.mcp
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/mac/%20QAGameLibMP.mcp
+END
+CGameLib_Debug.h
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/mac/CGameLib_Debug.h
+END
+mac_input.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/mac/mac_input.cpp
+END
+MacPrefix_GameSpecific.h
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/mac/MacPrefix_GameSpecific.h
+END
+CarbonMouse.h
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/mac/CarbonMouse.h
+END
+mac_console.c
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/mac/mac_console.c
+END
+mac_files.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/mac/mac_files.cpp
+END
+mac_snddma.c
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/mac/mac_snddma.c
+END
+Info.plc
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/mac/Info.plc
+END
+QAGameLib_Release.h
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/mac/QAGameLib_Release.h
+END
+AGLUtils.h
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/mac/AGLUtils.h
+END
+mac_dedicated_main.c
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/mac/mac_dedicated_main.c
+END
+QAGameLib_Debug.h
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/mac/QAGameLib_Debug.h
+END
+mac_glimp.h
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/mac/mac_glimp.h
+END
+ UILibMP.mcp
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/mac/%20UILibMP.mcp
+END
+mac_event.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/mac/mac_event.cpp
+END
+Icon.icns
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/mac/Icon.icns
+END
+Info.plist
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/mac/Info.plist
+END
+mac_main.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/mac/mac_main.cpp
+END
+MacPrefs.h
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/mac/MacPrefs.h
+END
+mac_net.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/mac/mac_net.cpp
+END
+pk3.icns
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/mac/pk3.icns
+END
+UILib_Release.h
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/mac/UILib_Release.h
+END
+MacPrefixDedicatedRelease.h
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/mac/MacPrefixDedicatedRelease.h
+END
+MacPrefixMach.h
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/mac/MacPrefixMach.h
+END
+Wolfenstein ET.rsrc
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/mac/Wolfenstein%20ET.rsrc
+END
+CarbonMouse.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/mac/CarbonMouse.cpp
+END
+UILib_Debug.h
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/mac/UILib_Debug.h
+END
+mac_local.h
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/mac/mac_local.h
+END
+CDrawSprocket.h
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/mac/CDrawSprocket.h
+END
+exports.def
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/mac/exports.def
+END
+MacPrefixDedicatedDebug.h
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/mac/MacPrefixDedicatedDebug.h
+END
+MacPrefixDebugMach.h
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/mac/MacPrefixDebugMach.h
+END
+MacPrefix.h
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/mac/MacPrefix.h
+END
+AGLUtils.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/mac/AGLUtils.cpp
+END
+mac_input.h
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/mac/mac_input.h
+END
+glext.h
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/mac/glext.h
+END
+mac_glimp.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/mac/mac_glimp.cpp
+END
+MacPrefixDebug.h
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/mac/MacPrefixDebug.h
+END
+MacPrefixCommon.h
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/mac/MacPrefixCommon.h
+END
+ CGameLibMP.mcp
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/mac/%20CGameLibMP.mcp
+END
+ Wolf ET.mcp
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/mac/%20Wolf%20ET.mcp
+END

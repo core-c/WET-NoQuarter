@@ -1,0 +1,167 @@
+﻿Build started 18.04.2012 09:28:01.
+     1>Project "D:\NQDEV\trunk\src\game\game2010.vcxproj" on node 3 (build target(s)).
+     1>InitializeBuildStatus:
+         Creating ".\Debug\game.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D AUTO_GUID /D SYSTEM_CHECK /D WIN32 /D _DEBUG /D _WINDOWS /D BUILDING_REF_GL /D DEBUG /D GAMEDLL /D OMNIBOTS /D _CRT_SECURE_NO_DEPRECATE /D ET_LUA /D _VC80_UPGRADE=0x0710 /D _WINDLL /Gm- /EHsc /MTd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo".\Debug/" /Fd".\Debug/vc100.pdb" /FR".\Debug\\" /Gd /TC /analyze /errorReport:prompt bg_animation.c bg_animgroup.c bg_campaign.c bg_character.c bg_classes.c bg_misc.c bg_pmove.c bg_profiler_hook.c bg_slidemove.c bg_sscript.c bg_stats.c bg_tracemap.c bg_weapons.c "et-antiwarp.c" etpro_mdx.c g_active.c g_alarm.c g_antilag.c g_buddy_list.c g_character.c g_client.c g_cmds.c g_cmds_ext.c g_combat.c g_config.c g_crash.c g_fireteams.c g_items.c g_lua.c g_main.c g_match.c g_match_tokens.c g_mem.c g_misc.c g_missile.c g_mover.c g_multiview.c g_osfile.c g_props.c g_referee.c g_script.c g_script_actions.c g_session.c g_sha1.c g_shrubbot.c g_spawn.c g_stats.c g_strparse.c g_svcmds.c g_syscalls.c g_systemmsg.c g_target.c g_team.c g_teammapdata.c g_time.c g_trigger.c g_utils.c g_vote.c g_weapon.c g_xpsave.c geoip.c q_math.c q_shared.c "..\sha-1\sha1.c"
+     1>cl : Command line warning D9040: ignoring option '/analyze'; Code Analysis warnings are not available in this edition of the compiler
+         bg_animation.c
+         bg_animgroup.c
+         bg_campaign.c
+         bg_character.c
+         bg_classes.c
+         bg_misc.c
+         bg_pmove.c
+         bg_profiler_hook.c
+         bg_slidemove.c
+         bg_sscript.c
+         bg_stats.c
+         bg_tracemap.c
+         bg_weapons.c
+         et-antiwarp.c
+         etpro_mdx.c
+         g_active.c
+         g_alarm.c
+         g_antilag.c
+         g_buddy_list.c
+         g_character.c
+         Generating Code...
+         Compiling...
+         g_client.c
+         g_cmds.c
+         g_cmds_ext.c
+         g_combat.c
+         g_config.c
+         g_crash.c
+         g_fireteams.c
+         g_items.c
+         g_lua.c
+         g_main.c
+         g_match.c
+         g_match_tokens.c
+         g_mem.c
+         g_misc.c
+         g_missile.c
+         g_mover.c
+         g_multiview.c
+         g_osfile.c
+         g_props.c
+         g_referee.c
+         Generating Code...
+         Compiling...
+         g_script.c
+         g_script_actions.c
+         g_session.c
+         g_sha1.c
+         g_shrubbot.c
+         g_spawn.c
+         g_stats.c
+         g_strparse.c
+         g_svcmds.c
+         g_syscalls.c
+         g_systemmsg.c
+         g_target.c
+         g_team.c
+         g_teammapdata.c
+         g_time.c
+         g_trigger.c
+         g_utils.c
+         g_vote.c
+         g_weapon.c
+         g_xpsave.c
+         Generating Code...
+         Compiling...
+         geoip.c
+         q_math.c
+         q_shared.c
+         sha1.c
+         Generating Code...
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D AUTO_GUID /D SYSTEM_CHECK /D WIN32 /D _DEBUG /D _WINDOWS /D BUILDING_REF_GL /D DEBUG /D GAMEDLL /D OMNIBOTS /D _CRT_SECURE_NO_DEPRECATE /D ET_LUA /D _VC80_UPGRADE=0x0710 /D _WINDLL /Gm- /EHsc /MTd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo".\Debug/" /Fd".\Debug/vc100.pdb" /FR".\Debug\\" /Gd /TP /analyze /errorReport:prompt ..\..\Omnibot\Common\BotLoadLibrary.cpp g_etbot_interface.cpp
+     1>cl : Command line warning D9040: ignoring option '/analyze'; Code Analysis warnings are not available in this edition of the compiler
+         BotLoadLibrary.cpp
+         g_etbot_interface.cpp
+         Generating Code...
+     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\Microsoft.CppBuild.targets(990,5): warning MSB8012: TargetPath(D:\NQDEV\trunk\src\game\.\Debug\game.dll) does not match the Linker's OutputFile property value (D:\NQDEV\trunk\qagame_mp_x86.dll). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Link.OutputFile).
+     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\Microsoft.CppBuild.targets(992,5): warning MSB8012: TargetName(game) does not match the Linker's OutputFile property value (qagame_mp_x86). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Link.OutputFile).
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"../../qagame_mp_x86.dll" /INCREMENTAL:NO /NOLOGO winmm.lib ..\lua\Windows\lua51.lib ..\lua\Windows\lua5.1.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /DEF:".\game.def" /MANIFEST /ManifestFile:".\Debug\game.dll.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:".\Debug/qagame_mp_x86.pdb" /MAP:".\Debug/qagame_mp_x86.map" /SUBSYSTEM:WINDOWS /TLBID:1 /BASE:"0x20000000" /DYNAMICBASE:NO /IMPLIB:".\Debug/qagame_mp_x86.lib" /MACHINE:X86 /DLL .\Debug/bg_animation.obj
+         .\Debug/bg_animgroup.obj
+         .\Debug/bg_campaign.obj
+         .\Debug/bg_character.obj
+         .\Debug/bg_classes.obj
+         .\Debug/bg_misc.obj
+         .\Debug/bg_pmove.obj
+         .\Debug/bg_profiler_hook.obj
+         .\Debug/bg_slidemove.obj
+         .\Debug/bg_sscript.obj
+         .\Debug/bg_stats.obj
+         .\Debug/bg_tracemap.obj
+         .\Debug/bg_weapons.obj
+         .\Debug/BotLoadLibrary.obj
+         ".\Debug/et-antiwarp.obj"
+         .\Debug/etpro_mdx.obj
+         .\Debug/g_active.obj
+         .\Debug/g_alarm.obj
+         .\Debug/g_antilag.obj
+         .\Debug/g_buddy_list.obj
+         .\Debug/g_character.obj
+         .\Debug/g_client.obj
+         .\Debug/g_cmds.obj
+         .\Debug/g_cmds_ext.obj
+         .\Debug/g_combat.obj
+         .\Debug/g_config.obj
+         .\Debug/g_crash.obj
+         .\Debug/g_etbot_interface.obj
+         .\Debug/g_fireteams.obj
+         .\Debug/g_items.obj
+         .\Debug/g_lua.obj
+         .\Debug/g_main.obj
+         .\Debug/g_match.obj
+         .\Debug/g_match_tokens.obj
+         .\Debug/g_mem.obj
+         .\Debug/g_misc.obj
+         .\Debug/g_missile.obj
+         .\Debug/g_mover.obj
+         .\Debug/g_multiview.obj
+         .\Debug/g_osfile.obj
+         .\Debug/g_props.obj
+         .\Debug/g_referee.obj
+         .\Debug/g_script.obj
+         .\Debug/g_script_actions.obj
+         .\Debug/g_session.obj
+         .\Debug/g_sha1.obj
+         .\Debug/g_shrubbot.obj
+         .\Debug/g_spawn.obj
+         .\Debug/g_stats.obj
+         .\Debug/g_strparse.obj
+         .\Debug/g_svcmds.obj
+         .\Debug/g_syscalls.obj
+         .\Debug/g_systemmsg.obj
+         .\Debug/g_target.obj
+         .\Debug/g_team.obj
+         .\Debug/g_teammapdata.obj
+         .\Debug/g_time.obj
+         .\Debug/g_trigger.obj
+         .\Debug/g_utils.obj
+         .\Debug/g_vote.obj
+         .\Debug/g_weapon.obj
+         .\Debug/g_xpsave.obj
+         .\Debug/geoip.obj
+         .\Debug/q_math.obj
+         .\Debug/q_shared.obj
+         .\Debug/sha1.obj /MACHINE:I386 
+     1>bg_animation.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/INCREMENTAL:NO' specification
+            Creating library .\Debug/qagame_mp_x86.lib and object .\Debug/qagame_mp_x86.exp
+         game2010.vcxproj -> D:\NQDEV\trunk\src\game\.\Debug\game.dll
+       Manifest:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"../../qagame_mp_x86.dll;#2" /manifest .\Debug\game.dll.intermediate.manifest
+       BscMake:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\bscmake.exe /nologo /o".\Debug\game.bsc" .\Debug\bg_animation.sbr .\Debug\bg_animgroup.sbr .\Debug\bg_campaign.sbr .\Debug\bg_character.sbr .\Debug\bg_classes.sbr .\Debug\bg_misc.sbr .\Debug\bg_pmove.sbr .\Debug\bg_profiler_hook.sbr .\Debug\bg_slidemove.sbr .\Debug\bg_sscript.sbr .\Debug\bg_stats.sbr .\Debug\bg_tracemap.sbr .\Debug\bg_weapons.sbr .\Debug\BotLoadLibrary.sbr ".\Debug\et-antiwarp.sbr" .\Debug\etpro_mdx.sbr .\Debug\g_active.sbr .\Debug\g_alarm.sbr .\Debug\g_antilag.sbr .\Debug\g_buddy_list.sbr .\Debug\g_character.sbr .\Debug\g_client.sbr .\Debug\g_cmds.sbr .\Debug\g_cmds_ext.sbr .\Debug\g_combat.sbr .\Debug\g_config.sbr .\Debug\g_crash.sbr .\Debug\g_etbot_interface.sbr .\Debug\g_fireteams.sbr .\Debug\g_items.sbr .\Debug\g_lua.sbr .\Debug\g_main.sbr .\Debug\g_match.sbr .\Debug\g_match_tokens.sbr .\Debug\g_mem.sbr .\Debug\g_misc.sbr .\Debug\g_missile.sbr .\Debug\g_mover.sbr .\Debug\g_multiview.sbr .\Debug\g_osfile.sbr .\Debug\g_props.sbr .\Debug\g_referee.sbr .\Debug\g_script.sbr .\Debug\g_script_actions.sbr .\Debug\g_session.sbr .\Debug\g_sha1.sbr .\Debug\g_shrubbot.sbr .\Debug\g_spawn.sbr .\Debug\g_stats.sbr .\Debug\g_strparse.sbr .\Debug\g_svcmds.sbr .\Debug\g_syscalls.sbr .\Debug\g_systemmsg.sbr .\Debug\g_target.sbr .\Debug\g_team.sbr .\Debug\g_teammapdata.sbr .\Debug\g_time.sbr .\Debug\g_trigger.sbr .\Debug\g_utils.sbr .\Debug\g_vote.sbr .\Debug\g_weapon.sbr .\Debug\g_xpsave.sbr .\Debug\geoip.sbr .\Debug\q_math.sbr .\Debug\q_shared.sbr .\Debug\sha1.sbr
+       FinalizeBuildStatus:
+         Deleting file ".\Debug\game.unsuccessfulbuild".
+         Touching ".\Debug\game.lastbuildstate".
+     1>Done Building Project "D:\NQDEV\trunk\src\game\game2010.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:20.71

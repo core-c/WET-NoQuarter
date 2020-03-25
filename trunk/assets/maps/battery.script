@@ -1,0 +1,2839 @@
+//
+// Map: Atlantic Seawall Battery
+// BSP: battery
+game_manager
+{
+    spawn
+    {
+        //bani - bug fixes
+        create
+        {
+            scriptName "bugfix1"
+            classname "func_fakebrush"
+            origin "3632 -4313 881"
+            contents 65536  // CONTENTS_PLAYERCLIP
+            mins "-40 -1 -20"
+            maxs "40 1 10"
+        }
+
+		// mortis - clipping bugfix
+		create
+		{
+			scriptName "bugfix2"
+			classname "func_fakebrush"
+			origin "4495 -4280 1070"
+			contents 1  // CONTENTS_SOLID
+			mins "-50 -80 -50"
+			maxs "50 120 50"
+		}
+
+		// mortis - clipping bugfix 2
+		create
+		{
+			scriptName "bugfix3"
+			classname "func_fakebrush"
+			origin "4490 -4140 1070"
+			contents 1  // CONTENTS_SOLID
+			mins "-50 -5 -50"
+			maxs "35 10 50"
+		}
+
+        //****************************************************************************************************************************
+        // Notes and hints for model cloning: http://bani.anime.net/banimod/forums/viewforum.php?f=17
+        //****************************************************************************************************************************
+
+        // Ragnar begin: Backdoor stuff.
+        create
+        {
+            scriptName "backdoor_toi"
+            targetname "backdoor_toi"
+            classname  "trigger_objective_info"
+            target     "backdoor"
+//            origin     "4608 -4601 1024"
+            origin     "4670 -4680 1024"
+            mins       "-30 -60 0"
+            maxs       "30 60 80"
+            spawnflags "1"    // AXIS_OBJECTIVE(1)
+            track      "the Back Door"
+            shortname  "Back Door"
+            infoAxis   "Keep Backdoor intact"
+            infoAllied "Keep Backdoor down"
+        }
+
+        // Clone func_constructible from the MG42 nest near the generator.
+        // mg42_clip_2 is at (4248, -4864, 1056)
+        create
+        {
+            model      "*11"
+            scriptname "backdoor"
+            targetname "backdoor"
+            classname  "func_constructible"
+            origin     "4550 -4600 1048"
+            spawnflags "5"  // START_BUILT(1) + AXIS_CONSTRUCTIBLE(4)
+        }
+
+
+        // Clone flagpost for backdoor constructible materials.
+        // mg42_materials_clip_2 is at (4180, -4964, 1048)
+        create
+        {
+            model      "*15"
+            scriptname "backdoor_clip"
+            targetname "backdoor_materials_clip"
+            classname  "func_static"
+            origin     "4660 -4700 1048"
+            angles     "0 90 0"
+        }
+
+        // Add a flag
+        // mg42_flag_2 is at (4200, -4926, 1072), flagpole if 2 units wide.
+        create
+        {
+            scriptname "backdoor_flag"
+            targetname "backdoor_flag"
+            classname  "misc_gamemodel"
+            spawnflags "2"
+            origin     "4681 -4664 1072"
+            angle      "270"
+            frames     "190"
+            modelscale "0.4"
+            model      "models/mapobjects/cmarker/cmarker_flag.md3"
+            skin       "models/mapobjects/cmarker/axis_cflag.skin"
+        }
+
+        // Add some crates as materials.
+        create
+        {
+            scriptname "backdoor_materials"
+            targetname "backdoor_materials"
+            classname  "misc_gamemodel"
+            angles     "0 90 0"
+            origin     "4670 -4710 1020"
+            skin       "models/mapobjects/cmarker/axis_crates.skin"
+            model      "models/mapobjects/cmarker/cmarker_crates.md3"
+        }
+
+        // Add a trigger_hurt which kills all who get caught inside the materials when the back door planks is destroyed.
+        create
+        {
+           scriptname "backdoor_material_hurt"
+           targetname "backdoor_material_hurt"
+           spawnflags 24                                       // SLOW+NO_PROTECTION
+           classname  "trigger_hurt"
+           dmg        500                                      // Instant gib.
+           sound      "sound/player/hurt_barbwire.wav"
+           origin     "4670 -4710 1020"                        // Same coordiantes as boxes.
+           mins       "-30 -30 -20"
+           maxs       "30 30 20"
+        }
+        // Ragnar end: Backdoor stuff.
+
+        // Ragnar begin: Create bunker planks stuff.
+        // To create the Bunker Assault Ramp simply clone the Beach Assault Ramp (aka the "beach planks") and translate it by (250, -1135, 160).
+        // Construction stuff is translated by (100, -1545, 424) i.e. inside the bunker
+
+        // Create TOI so that it boxes the construction materials: (1792, -4288, 1152)x(1896, -4420, 1220)
+        create
+        {
+            scriptname "bunkerplanks_toi"
+            targetname "bunkerplanks_toi"
+            target     "bunkerplanks"
+            classname  "trigger_objective_info"
+            infoAllied "Build Bunker Assault Ramp"
+            infoAxis   "Destroy Bunker Assault Ramp"
+            shortname  "Allied Bunker Assault Ramp"
+            track      "the Allied Bunker Assault Ramp"
+            spawnflags "2"
+            origin     "1844 -4354 1186"
+            mins       "-52 -66 -34"
+            maxs       "72 66 34"
+        }
+
+        // Add some crates as materials.
+        create
+        {
+            scriptname "bunkerplanks_materials"
+            targetname "bunkerplanks_materials"
+            classname  "misc_gamemodel"
+            angle      "90"
+            origin     "1850 -4350 1152"                                    // Places on the other side of the flag relativ to the bach materials materials due to available space.
+            skin       "models/mapobjects/cmarker/allied_crates.skin"
+            model      "models/mapobjects/cmarker/cmarker_crates.md3"
+        }
+
+        // Add a trigger_hurt which kills all who get caught inside the materials when the bunker planks are destryed.
+        create
+        {
+           scriptname "bunkerplanks_material_hurt"
+           targetname "bunkerplanks_material_hurt"
+           spawnflags 24                                       // SLOW+NO_PROTECTION
+           classname  "trigger_hurt"
+           dmg        500                                      // Instant gib.
+           sound      "sound/player/hurt_barbwire.wav"
+           origin     "1844 -4354 1186"                        // Same coordiantes as the TOi, but smaller in size.
+           mins       "-30 -30 -20"
+           maxs       "30 30 20"
+        }
+
+        // Clone clipping for material boxes.
+        // Beach planks materials are at  (1780, -2672,  756)
+        // Bunker planks materials are at (1850, -4350, 1152)
+        // Translate by                   (  70, -1678,  396)
+        create
+        {
+            // No faceangles
+            model      "*7"
+            scriptname "bunkerplanks_clip"
+            targetname "bunkerplanks_materials_clip"
+            classname  "func_static"
+            origin     "70 -1678 396"
+        }
+
+        // Add a flag to the materials.
+        create
+        {
+            scriptname "bunkerplanks_flag"
+            targetname "bunkerplanks_flag"
+            classname  "misc_gamemodel"
+            spawnflags "2"
+            origin     "1866 -4389 1202"                                            // Beach Assault Ramp flag is at (1746, -2636, 778), translate by (120, -1755, 424), flag pole is 2 units wide
+            angle      "90"                                                         // Turn around 180°, so it doesn't intersect with the wall.
+            frames     "190"
+            modelscale "0.4"
+            model      "models/mapobjects/cmarker/cmarker_flag.md3"
+            skin       "models/mapobjects/cmarker/allied_cflag.skin"
+        }
+
+        // Clone flag post.
+        // Note: Place it into the corner, because of vis issues.
+        create
+        {
+            // No faceangles
+            model      "*9"
+            scriptname "bunkerplanks_clip"
+            targetname "bunkerplanks_materials_clip"
+            classname  "func_static"
+            origin     "120 -1755 424"
+        }
+
+        // Clone a func_constructible to use it for the bunkerplanks.
+        // Note: This already includes a ramp model but it seems the vis is somehow built in, so the ramp isn't visible from some locations.
+        create
+        {
+          // No faceangles
+            model      "*1"
+            scriptname "bunkerplanks_model"
+            targetname "bunkerplanks_model"
+            classname  "func_static"
+            origin     "230 -1135 160"                                             // Translate by (230, -1135, 160)
+        }
+
+        create
+        {
+            // No faceangles
+            model      "*11"
+            scriptname "bunkerplanks"
+            targetname "bunkerplanks"
+            classname  "func_constructible"
+            origin     "1950 -3850 1200"
+            spawnflags "8"
+        }
+
+        // Create some kind of fundament so the legs of the large bunker planks don't stick into the air.
+        create
+        {
+            scriptname "bunkerplanks_spool"
+            targetname "bunkerplanks_spool"
+            origin "1860 -3895 919"
+            angles "90 0 0"
+            classname "misc_gamemodel"
+            modelscale 0.75
+            mins "-6 -33 -11"
+            maxs "60 33 15"
+            contents 0 // PLAYERCLIP
+            clipmask 0 // PLAYERCLIP
+            model "models/mapobjects/spool_sd/spool.md3"
+        }
+
+        // Add some tires which can players use as step to the bunker ramp.
+        // Lowest tire.
+        create
+        {
+            scriptname "bunkerplanks_step_1"
+            targetname "bunkerplanks_step_1"
+            origin "2025 -3854 900"
+            angles "0 180 90"
+            classname "misc_gamemodel"
+            modelscale 1
+            contents 1
+            mins "-20 -20 -100"
+            maxs "20 20 52"
+            clipmask 1
+            model "models/mapobjects/blitz_sd/blitzwheelsf.md3"
+        }
+
+        // Center tire.
+        create
+        {
+            scriptname "bunkerplanks_step_2"
+            targetname "bunkerplanks_step_2"
+            origin "2025 -3855 913"
+            angles "0 190 90"
+            classname "misc_gamemodel"
+            modelscale 1
+            contents 1
+            mins "-20 -20 -100"
+            maxs "20 20 52"
+            clipmask 1
+            model "models/mapobjects/blitz_sd/blitzwheelsf.md3"
+        }
+
+        // Top tire.
+        create
+        {
+            scriptname "bunkerplanks_step_3"
+            targetname "bunkerplanks_step_3"
+            origin "2024 -3855 926"
+            angles "0 170 90"
+            classname "misc_gamemodel"
+            modelscale 1
+            contents 1
+            mins "-20 -20 -100"
+            maxs "20 20 52"
+            clipmask 1
+            model "models/mapobjects/blitz_sd/blitzwheelsf.md3"
+        }
+
+        // Don't miss to add the 4th tire of the set ;)
+        create
+        {
+            scriptname "bunkerplanks_tire"
+            targetname "bunkerplanks_tire"
+            origin "1880 -3870 901"
+            angles "0 0 31"
+            classname "misc_gamemodel"
+            modelscale 1
+            contents 1
+            mins "-20 -20 -100"
+            maxs "20 20 45"
+            clipmask 1
+            model "models/mapobjects/blitz_sd/blitzwheelsf.md3"
+        }
+        // Ragnar end: Create bunker planks stuff.
+
+        // Ragnar begin: Add Allied forward spawn points
+        // First the lowest spawnpoint.
+        create
+        {
+            classname  "team_CTF_bluespawn"
+            scriptname "forward_spawns_1"
+            targetname "forward_spawns_1"
+            origin     "5136 -1184 488"
+            spawnflags "3" // INVULNERABLE(1) + START_ACTIVE(2)
+            angle      "270"
+        }
+
+        create
+        {
+            classname  "team_CTF_bluespawn"
+            scriptname "forward_spawns_1"
+            targetname "forward_spawns_1"
+            origin     "5200 -1184 504"
+            spawnflags "3" // INVULNERABLE(1) + START_ACTIVE(2)
+            angle      "270"
+        }
+
+        create
+        {
+            classname  "team_CTF_bluespawn"
+            scriptname "forward_spawns_1"
+            targetname "forward_spawns_1"
+            origin     "5200 -1248 528"
+            spawnflags "3" // INVULNERABLE(1) + START_ACTIVE(2)
+            angle      "270"
+        }
+
+        create
+        {
+            classname  "team_CTF_bluespawn"
+            scriptname "forward_spawns_1"
+            targetname "forward_spawns_1"
+            origin     "5136 -1248 520"
+            spawnflags "3" // INVULNERABLE(1) + START_ACTIVE(2)
+            angle      "270"
+        }
+
+        // Middle spawnpoint.
+        create
+        {
+            classname  "team_CTF_bluespawn"
+            scriptname "forward_spawns_2"
+            targetname "forward_spawns_2"
+            origin     "4960 -1904 792"
+            spawnflags "3" // INVULNERABLE(1) + START_ACTIVE(2)
+            angle      "225"
+        }
+
+        create
+        {
+            classname  "team_CTF_bluespawn"
+            scriptname "forward_spawns_2"
+            targetname "forward_spawns_2"
+            origin     "5024 -1904 792"
+            spawnflags "3" // INVULNERABLE(1) + START_ACTIVE(2)
+            angle      "225"
+        }
+
+        create
+        {
+            classname  "team_CTF_bluespawn"
+            scriptname "forward_spawns_2"
+            targetname "forward_spawns_2"
+            origin     "5024 -1968 824"
+            spawnflags "3" // INVULNERABLE(1) + START_ACTIVE(2)
+            angle      "225"
+        }
+
+        create
+        {
+            classname  "team_CTF_bluespawn"
+            scriptname "forward_spawns_2"
+            targetname "forward_spawns_2"
+            origin     "4960 -1968 824"
+            spawnflags "3" // INVULNERABLE(1) + START_ACTIVE(2)
+            angle      "225"
+        }
+
+        // Top spawnpoint.
+        create
+        {
+            classname  "team_CTF_bluespawn"
+            scriptname "forward_spawns_3"
+            targetname "forward_spawns_3"
+            origin     "4120 -2408 1056"
+            spawnflags "3" // INVULNERABLE(1) + START_ACTIVE(2)
+            angle      "270"
+        }
+
+        create
+        {
+            classname  "team_CTF_bluespawn"
+            scriptname "forward_spawns_3"
+            targetname "forward_spawns_3"
+            origin     "4184 -2408 1056"
+            spawnflags "3" // INVULNERABLE(1) + START_ACTIVE(2)
+            angle      "270"
+        }
+
+        create
+        {
+            classname  "team_CTF_bluespawn"
+            scriptname "forward_spawns_3"
+            targetname "forward_spawns_3"
+            origin     "4184 -2472 1080"
+            spawnflags "3" // INVULNERABLE(1) + START_ACTIVE(2)
+            angle      "270"
+        }
+
+        create
+        {
+            classname  "team_CTF_bluespawn"
+            scriptname "forward_spawns_3"
+            targetname "forward_spawns_3"
+            origin     "4120 -2472 1080"
+            spawnflags "3" // INVULNERABLE(1) + START_ACTIVE(2)
+            angle      "270"
+        }
+
+        // Game rules
+        wm_axis_respawntime    25
+        wm_allied_respawntime    15
+        wm_number_of_objectives 6
+        wm_set_round_timelimit    20
+
+        // Objectives
+
+        // Primary:
+        // 1: Destroy Battery Gun / Defend Battery Gun
+        // Secondary:
+        // 2: Construct Beach Assault Ramp / Prevent Beach Assault Ramp
+        // 3: Capture West Bunker / Defend West Bunker
+        // 4: Destroy Door Controls / Protect Door Controls
+        // 5: Allied command post
+        // 6: Axis command post
+
+        wm_objective_status 1 0 0 // <objective team status>
+        wm_objective_status 1 1 0 // status: 0 = default
+        wm_objective_status 2 0 0 //         1 = succeeded
+        wm_objective_status 2 1 0 //         2 = failed
+        wm_objective_status 3 0 0
+        wm_objective_status 3 1 0
+        wm_objective_status 4 0 0
+        wm_objective_status 4 1 0
+        wm_objective_status 5 0 0
+        wm_objective_status 5 1 0
+        wm_objective_status 6 0 0
+        wm_objective_status 6 1 0
+
+        wm_set_main_objective        1    0
+        wm_set_main_objective        1    1
+
+        // rain - 2.56 change
+        wait 100
+        // rain - use proper initial spawns
+        setautospawn    "Allied West Beach" 1
+        setautospawn    "West Bunker"    0
+
+        // Stopwatch mode defending team (0=Axis, 1=Allies)
+        wm_set_defending_team    0
+
+        // If the round timer expires, the Axis have won, so set the current winning team
+        // Set the round winner:  0 == AXIS, 1 == ALLIED
+        wm_setwinner 0
+
+        // Set doors to operable at game start (0 = operable, 1 = disabled)
+        globalaccum 1 set 0
+
+        // Set status of backup generator (0 = built, 1 = destroyed)
+        globalaccum 2 set 0
+
+        wait 450
+
+        // start triggered loops on/off as required (eg: command post radio sounds)
+        disablespeaker allies_compost_sound
+        disablespeaker allies_compost_sound_lms
+        disablespeaker axis_compost_sound
+        disablespeaker axis_compost_sound_lms
+        enablespeaker doorcontrols_sound
+
+        wait 2000
+
+        // Ragnar: Make players aware of changes.
+        //wm_announce "The server is running ^3Ragnars Battery Script^7 (noquarter version)."
+      
+        // *----------------------------------- vo ------------------------------------------*
+        wm_teamvoiceannounce 1 "battery_allies_ramp_construct"
+        wm_teamvoiceannounce 1 "allies_hq_compost_construct"
+
+        wm_teamvoiceannounce 0 "battery_axis_ramp_stop"
+        // wm_teamvoiceannounce 0 "axis_hq_compost_construct" // Ragnar: disabled, since CP is built on map start.
+
+        // *---------------------------------------------------------------------------------*
+
+        enablespeaker axis_compost_sound            // Ragnar: Axis compost built on map start.
+    }
+
+    trigger westbunker_flagblue
+    {
+        // Some kind of UI pop-up to alert players
+        wm_announce    "Allies capture the Forward Bunker!"
+
+        wm_objective_status    3 1 1
+        wm_objective_status    3 0 2
+    }
+
+    trigger westbunker_flagred
+    {
+        // Some kind of UI pop-up to alert players
+        wm_announce    "Axis capture the West Bunker!"
+
+        wm_objective_status    3 1 2
+        wm_objective_status    3 0 1
+    }
+
+    trigger gun_tracking
+    {
+        // UI pop-up to alert players
+        wm_announce    "Allies have destroyed the gun tracking"
+
+        wm_objective_status 1 0 2
+        wm_objective_status 1 1 1
+
+        accum 1 set 1                // End of game completed
+
+        // Call function to check if the round has been won
+        trigger game_manager checkgame
+    }
+
+    trigger timelimit_hit
+    {
+        wait 8000
+
+        alertentity end_explosion
+        togglespeaker end_explosion_speaker
+    }
+
+    trigger checkgame
+    {
+        accum 1 abort_if_not_equal 1
+
+        // Set the round winner:  0 == AXIS, 1 == ALLIED
+        wm_setwinner 1
+
+        // End the round
+        wm_endround
+    }
+
+    trigger opendoors
+    {
+        // Generator is down, but emergency systems haven't kicked in yet
+        globalaccum 1 set 1
+
+        // Horrible messy check to make sure the backup generator
+        // remains destroyed for 5 seconds, in 10 half second lumps
+        wait 500
+        globalaccum 2 abort_if_not_equal 1
+        wait 500
+        globalaccum 2 abort_if_not_equal 1
+        wait 500
+        globalaccum 2 abort_if_not_equal 1
+        wait 500
+        globalaccum 2 abort_if_not_equal 1
+        wait 500
+        globalaccum 2 abort_if_not_equal 1
+        wait 500
+        globalaccum 2 abort_if_not_equal 1
+        wait 500
+        globalaccum 2 abort_if_not_equal 1
+        wait 500
+        globalaccum 2 abort_if_not_equal 1
+        wait 500
+        globalaccum 2 abort_if_not_equal 1
+        wait 500
+        globalaccum 2 abort_if_not_equal 1
+
+        wm_announce "Magnetic seal deactivated - opening emergency bunker doors"
+
+        // trigger doors
+        trigger leftdoor_trigger1 down
+        trigger rightdoor_trigger1 down
+        trigger frontdoor_trigger1 down
+        trigger reardoor_left open
+        trigger reardoor_right open
+    }
+}
+
+// Ragnar begin: Remove commandpost spawn
+// Can't remove this, because limbo camera targets it.
+eastbunker_wobj
+{
+    spawn
+    {
+        wait 100
+        setstate eastbunker_wobj invisible
+    }
+}
+
+eastbunker_spawns
+{
+    spawn
+    {
+        remove
+    }
+}
+// Ragnar end: Remove commandpost spawn
+
+// Ragnar begin: Add scripting for forward spawns.
+// How it works: 3 groups of forward spawn points are added (see above).
+// When a group gets activated/deactivated, the eastbeach_wobj is moved, so players automatically spawn at foremost locations.
+eastbeach_wobj
+{
+    spawn
+    {
+        accum 7 set 0 // Use accum 7 to store the current states of the objectives which influence the forward spawn.
+                      // Used as bitset:
+                      // Bit 0: 0=Axis cp built,       1=Axis cp destroyed
+                      // Bit 1: 0=Allied cp destroyed, 1=Allied cp built
+                      // Bit 2: 0=Backdoor built,      1=Backdoor destroyed
+        trigger self update
+
+        set
+        {
+            origin "4384 -2072 1088"
+        }
+    }
+
+    trigger axis_cp_built
+    {
+        accum 7 abort_if_not_bitset 0
+	    accum 7 bitreset 0
+        trigger self update
+    }
+
+    trigger axis_cp_destroyed
+    {
+        accum 7 abort_if_bitset 0
+	    accum 7 bitset 0
+        trigger self update
+    }
+
+    trigger allied_cp_built
+    {
+        accum 7 abort_if_bitset 1
+	    accum 7 bitset 1
+        trigger self update
+    }
+
+    trigger allied_cp_destroyed
+    {
+        accum 7 abort_if_not_bitset 1
+	    accum 7 bitreset 1
+        trigger self update
+    }
+
+    trigger backdoor_built
+    {
+        accum 7 abort_if_not_bitset 2
+	    accum 7 bitreset 2
+        trigger self update
+    }
+
+    trigger backdoor_destroyed
+    {
+        accum 7 abort_if_bitset 2
+	    accum 7 bitset 2
+        trigger self update
+    }
+
+    trigger update
+    {
+        // The number of set bits indicates the position of the forward spawn.
+        accum 7 trigger_if_equal 0 eastbeach_wobj set_default
+        accum 7 trigger_if_equal 1 eastbeach_wobj set_1     // 1 bit set.
+        accum 7 trigger_if_equal 2 eastbeach_wobj set_1     // 1 bit set.
+        accum 7 trigger_if_equal 3 eastbeach_wobj set_2     // 2 bits set.
+        accum 7 trigger_if_equal 4 eastbeach_wobj set_1     // 1 bit set.
+        accum 7 trigger_if_equal 5 eastbeach_wobj set_2     // 2 bits set.
+        accum 7 trigger_if_equal 6 eastbeach_wobj set_2     // 2 bits set.
+        accum 7 trigger_if_equal 7 eastbeach_wobj set_3     // 3 bits set.
+    }
+
+    // Set back to default position.
+    trigger set_default
+    {
+        wm_announce "Enable default East Beach spawn for Allies."
+
+        setstate forward_spawns_1 invisible
+        setstate forward_spawns_2 invisible
+        setstate forward_spawns_3 invisible
+    }
+
+    // Set to lowest forward spawn.
+    trigger set_1
+    {
+        wm_announce "Enable Allied forward spawn 1."
+
+        setstate forward_spawns_1 default
+        setstate forward_spawns_2 invisible
+        setstate forward_spawns_3 invisible
+    }
+
+    // Set to middle forward spawn.
+    trigger set_2
+    {
+        wm_announce "Enable Allied forward spawn 2."
+
+        setstate forward_spawns_1 default
+        setstate forward_spawns_2 default
+        setstate forward_spawns_3 invisible
+    }
+
+    // Set to top forward spawn.
+    trigger set_3
+    {
+        wm_announce "Enable Allied forward spawn 3."
+
+        setstate forward_spawns_1 default
+        setstate forward_spawns_2 default
+        setstate forward_spawns_3 default
+    }
+}
+// Ragnar end: Add scripting for forward spawns.
+
+// ================================================
+// =========== SPAWN POINT CONTROLS ===============
+// ================================================
+// description            : team_wolf_objectives    : spawns
+// Allied East Beach     : eastbeach_wobj        : eastbeach_spawns
+// Allied West Beach     : westbeach_wobj        : westbeach_spawns
+// Axis Main Bunker        : mainbunker_wobj        : mainbunker_spawns
+// East Bunker            : eastbunker_wobj        : eastbunker_spawns  ---- Removed, Ragnar
+// West Bunker            : westbunker_wobj        : westbunker_spawns
+
+// Ragnar begin: Remove MG nests in East Bunker
+eastbunker_mg42_1
+{
+    spawn
+    {
+        remove
+    }
+}
+
+eastbunker_mg42_mount_1
+{
+    spawn
+    {
+        remove
+    }
+}
+
+eastbunker_mg42_2
+{
+    spawn
+    {
+        remove
+    }
+}
+
+eastbunker_mg42_mount_2
+{
+    spawn
+    {
+        remove
+    }
+}
+// Ragnar end: Remove MG nests in East Bunker
+
+allied_lms_spawns
+{
+    spawn
+    {
+        remove
+    }
+}
+
+allied_lms_wobj
+{
+    spawn
+    {
+        remove
+    }
+}
+
+// Ragnar begin: Axis LMS Spawn
+// Use Axis LMS (located near the backdoor) as Axis backyard spawn, instead of spawning right at the command post.
+axis_lms_spawns
+{
+    trigger enable
+    {
+        set
+        {
+            spawnflags 3    //TEAM_AXIS | ACTIVE
+        }
+
+        setstate axis_lms_wobj default
+    }
+
+    trigger disable
+    {
+        set
+        {
+            spawnflags 1    //TEAM_AXIS
+        }
+
+        setstate axis_lms_wobj invisible
+    }
+}
+
+axis_lms_wobj
+{
+    spawn
+    {
+        wait 100
+
+        set
+        {
+            description "Axis Backyard Spawn"   // Does not work (yet), since the description key is not supported by the "set" command.
+        }
+
+        wait 100
+    }
+}
+// Ragnar end: Axis LMS Spawn
+
+westbunker_spawns
+{
+    spawn
+    {
+//        setstate westbunker_spawns invisible
+    }
+}
+
+westbunker_wobj
+{
+    spawn
+    {
+//        wait 100
+
+//        setstate westbunker_wobj invisible
+    }
+}
+
+// Ragnar: Added message for Allies that there is a bunker ramp to construct.
+//         1st time the flag is taken, Allies get a colored message, else a plain text.
+//         Use accum 7 to distinguish between cases (similar to bunker flags message for Axis).
+westbunker_flag
+{
+    spawn
+    {
+        accum 0 set 0    // Who has the flag: 0-Axis, 1-Allied
+        accum 7 set 1    // Ragnar: accum 7 stores if flag is taken for the first time.
+    }
+
+    // Ragnar begin: add some triggers for message output.
+    trigger ramp_notify
+    {
+        accum 7 trigger_if_equal 0 westbunker_flag write_plain_ramp_note
+        accum 7 trigger_if_equal 1 westbunker_flag write_color_ramp_note
+    }
+
+     trigger write_color_ramp_note
+     {
+        accum 7 set 0                       // 0 indicates that the following flag captures are not capture #1.
+     }
+
+     trigger write_plain_ramp_note
+     {
+       // wm_announce "Allies can construct a Bunker Assault Ramp (check command map)."
+     }
+     // Ragnar end: add some triggers for message output.
+
+    trigger allied_capture
+    {
+        accum 0 abort_if_equal 1 // do Allies own flag?
+
+        trigger game_manager westbunker_flagblue
+
+        setstate westbunker_spawns default
+        setstate westbunker_wobj default
+
+        trigger westbunker_flag setallies
+
+        // *----------------------------------- vo ------------------------------------------*
+        wm_teamvoiceannounce 0 "battery_axis_bunker_lost"
+        wm_teamvoiceannounce 0 "battery_axis_controls_defend"
+
+        wm_teamvoiceannounce 1 "battery_allies_bunker_captured"
+        wm_teamvoiceannounce 1 "battery_allies_controls_destroy"
+
+        // *---------------------------------------------------------------------------------*
+
+        trigger self ramp_notify    // Ragnar: make players aware of the ramp.
+    }
+
+    trigger setallies
+    {
+        accum 0 abort_if_equal 1
+        accum 0 set 1
+
+        alertentity westbunker_wobj
+        alertentity westbunker_spawns
+
+        setautospawn "Axis Main Bunker" 0
+        // bani - set allied spawn
+        setautospawn "West Bunker" 1
+    }
+
+    trigger axis_capture
+    {
+        accum 0 abort_if_equal 0 // do Axis own flag?
+
+        trigger game_manager westbunker_flagred
+
+        setstate westbunker_spawns default
+        setstate westbunker_wobj default
+
+        trigger westbunker_flag setaxis
+
+        // *----------------------------------- vo ------------------------------------------*
+       
+        wm_teamvoiceannounce 0 "battery_axis_bunker_captured"
+
+        wm_teamvoiceannounce 1 "battery_allies_bunker_lost"
+
+        // *---------------------------------------------------------------------------------*
+    }
+
+    trigger setaxis
+    {
+        accum 0 abort_if_equal 0
+        accum 0 set 0
+
+        alertentity westbunker_wobj
+        alertentity westbunker_spawns
+
+        // bani - reset both spawns
+        setautospawn "West Bunker" 0
+        setautospawn "Allied West Beach" 1
+    }
+}
+// ============== end spawn point controls ========
+// ================================================
+
+// Directly below gun casing
+guncontrols
+{
+    spawn
+    {
+        wait 50
+        constructible_class 3
+    }
+
+    death
+    {
+        trigger game_manager gun_tracking
+        setstate guncontrols_smoke1 default
+        setstate guncontrols_smoke2 default
+    }
+}
+
+guncontrols_smoke1
+{
+    spawn
+    {
+        setstate guncontrols_smoke1 invisible
+    }
+}
+
+guncontrols_smoke2
+{
+    spawn
+    {
+        setstate guncontrols_smoke2 invisible
+    }
+}
+
+fan01
+{
+    spawn
+    {
+        wait 50
+        setrotation    0 0 -600
+    }
+}
+
+fan02
+{
+    spawn
+    {
+        wait 50
+        faceangles 0 270 0 1
+        setrotation    0 0 -300
+    }
+}
+
+lighthouse_light
+{
+    spawn
+    {
+        wait 100
+        setrotation    0 30 0
+    }
+}
+
+hatch_controller
+{
+    activate
+    {
+        trigger hatch use
+    }
+}
+
+hatch
+{
+    trigger use
+    {
+        trigger hatch open
+        trigger hatch close
+    }
+
+    trigger open
+    {
+        accum 1 abort_if_equal 1
+        accum 0 abort_if_equal 1
+        accum 1 set 1
+        accum 0 set 1
+
+        wait 50
+        playsound sound/movers/doors/door5_open.wav
+        faceangles 0 0 270 1500
+
+        accum 0 set 0
+    }
+
+    trigger close
+    {
+        accum 1 abort_if_equal 0
+        accum 0 abort_if_equal 1
+        accum 1 set 0
+        accum 0 set 1
+
+        wait 50
+        playsound sound/movers/doors/door5_close.wav
+        faceangles 0 0 0 1500
+        playsound sound/movers/doors/door5_endc.wav
+
+        accum 0 set 0
+    }
+}
+
+// ================================================
+// ========== CONSTRUCTIBLE STUFF =================
+// ================================================
+
+
+
+doorcontrols
+{
+    spawn
+    {
+        wait 200
+        trigger doorcontrols setup
+
+        constructible_class 2
+    }
+
+    trigger setup
+    {
+        setstate doorcontrols default
+
+        setstate doorcontrols_materials invisible
+        setstate doorcontrols_materials_clip invisible
+        setstate doorcontrols_flag invisible
+    }
+
+    buildstart final
+    {
+        setstate doorcontrols underconstruction
+
+        setstate doorcontrols_materials default
+        setstate doorcontrols_materials_clip default
+        setstate doorcontrols_flag default
+    }
+
+    built final
+    {
+        setstate doorcontrols default
+
+        setstate doorcontrols_materials invisible
+        setstate doorcontrols_materials_clip invisible
+        setstate doorcontrols_flag invisible
+
+        // *----------------------------------- vo ------------------------------------------*
+        
+        wm_teamvoiceannounce 0 "battery_axis_generator_constructed"
+
+        wm_teamvoiceannounce 1 "battery_allies_generator_destroy"
+        // *---------------------------------------------------------------------------------*
+
+        // Some kind of UI pop-up to alert players
+        wm_announce    "Axis have constructed the Door Controls Generator!"
+
+        enablespeaker doorcontrols_sound
+
+        wm_objective_status 4 0 1
+        wm_objective_status 4 1 2
+
+        // set status to built
+        globalaccum 2 set 0
+        // allow doors to operate again
+        globalaccum 1 set 0
+        trigger reardoor_left close
+        trigger reardoor_right close
+    }
+
+    decayed final
+    {
+        setstate doorcontrols invisible
+
+        setstate doorcontrols_materials default
+        setstate doorcontrols_materials_clip default
+        setstate doorcontrols_flag default
+    }
+
+    death
+    {
+        setstate doorcontrols invisible
+
+        setstate doorcontrols_materials default
+        setstate doorcontrols_materials_clip default
+        setstate doorcontrols_flag default
+
+        // *----------------------------------- vo ------------------------------------------*
+        
+
+        wm_teamvoiceannounce 0 "battery_axis_generator_destroyed"
+        wm_teamvoiceannounce 0 "battery_axis_controls_defend"
+
+        wm_teamvoiceannounce 1 "battery_allies_generator_destroyed"
+        wm_teamvoiceannounce 1 "battery_allies_controls_destroy"
+
+        // *---------------------------------------------------------------------------------*
+
+        // Some kind of UI pop-up to alert players
+        wm_announce    "Allied team has destroyed the Door Controls Generator!"
+
+        disablespeaker doorcontrols_sound
+
+        wm_objective_status 4 0 2
+        wm_objective_status 4 1 1
+
+        // set status to destroyed
+        globalaccum 2 set 1
+
+        // Call seperate trigger to open doors.
+        // This is necessary to handle cases where a allied player
+        // destroys the generator and an axis player repairs it
+        // before the power to the doors is lost.
+        trigger game_manager opendoors
+    }
+}
+
+// Ragnar begin: Backdoor script block.
+backdoor
+{
+    spawn
+    {
+        wait 200
+        trigger backdoor setup
+
+        constructible_class 3
+
+        accum 7 set 1                       // Use accum 7==1 -> back door destroy for first time, 0 else.
+    }
+
+    trigger show_materials
+    {
+        setstate backdoor_materials      default
+        setstate backdoor_materials_clip default
+        setstate backdoor_flag           default
+    }
+
+    trigger hide_materials
+    {
+        setstate backdoor_materials      invisible
+        setstate backdoor_materials_clip invisible
+        setstate backdoor_flag           invisible
+    }
+
+    trigger show_door
+    {
+        setstate backdoor       default
+        setstate reardoor_left  default
+        setstate reardoor_right default
+    }
+
+    trigger hide_door
+    {
+        setstate backdoor       invisible
+        setstate reardoor_left  invisible
+        setstate reardoor_right invisible
+    }
+
+    trigger building_door
+    {
+        setstate backdoor       underconstruction
+        setstate reardoor_left  underconstruction
+        setstate reardoor_right underconstruction
+    }
+
+    trigger setup
+    {
+        setstate backdoor_material_hurt invisible
+
+        trigger self show_door
+        trigger self hide_materials
+    }
+
+    buildstart final
+    {
+        trigger self building_door
+        trigger self show_materials
+    }
+
+    built final
+    {
+        trigger self show_door
+        trigger self hide_materials
+
+        trigger self backdoor_built_notify
+
+        trigger eastbeach_wobj backdoor_built // Adjust forward spawn location
+    }
+
+    decayed final
+    {
+        trigger self hide_door
+        trigger self show_materials
+    }
+
+    death
+    {
+        trigger self hide_door
+        trigger self show_materials
+
+        // Just "blink" the hurt entity so anyone trapped inside the materials gets killed.
+        setstate backdoor_material_hurt default
+        wait 10
+        setstate backdoor_material_hurt invisible
+
+        trigger self backdoor_death_notify
+
+        trigger eastbeach_wobj backdoor_destroyed // Adjust forward spawn location
+    }
+
+    trigger backdoor_built_notify
+    {
+        accum 7 trigger_if_equal 0 backdoor write_plain_built_note
+        accum 7 trigger_if_equal 1 backdoor write_color_built_note
+    }
+
+     trigger write_color_built_note
+     {
+        //wm_announce "^1Note: ^3Axis have rebuilt the Backdoor. But the rebuilt Backdoor is weaker"
+        //wm_announce "      ^3than the old one - it can be destroyed with satchels."
+
+        constructible_class 3               // Make destroyable by satchel.
+        accum 7 set 0                       // 0 indicates that the following backdoor deaths are not death #1.
+     }
+
+     trigger write_plain_built_note
+     {
+        wm_announce "Axis have rebuilt the Backdoor."
+     }
+
+     trigger backdoor_death_notify
+     {
+        accum 7 trigger_if_equal 0 backdoor write_plain_death_note
+        accum 7 trigger_if_equal 1 backdoor write_color_death_note
+     }
+
+     trigger write_color_death_note
+     {
+        wm_announce "^1Note: ^3Allies have destroyed the Backdoor - Axis need to rebuild it."
+     }
+
+     trigger write_plain_death_note
+     {
+        wm_announce "Allies have destroyed the Backdoor."
+     }
+}
+// Ragnar end: Backdoor script block.
+// Does not work with noquarter, so disable it.
+bunkerplanks_toi
+{
+    trigger show
+    {
+//        set
+//        {
+//            origin "1844 -4354 1186"
+//        }
+    }
+
+    trigger hide
+    {
+//        set
+//        {
+//            origin "1844 -4354 -1186"   // Hide the TOI fakebrush, so players don't see the "You are near ..." message when inside the bunker and the ramp is built.
+//        }
+    }
+}
+
+// Ragnar begin: Bunker Assault Ramp script block.
+// This is mainly the same scripting as for the Beach Assault Ramp.
+// * accum 7 stores if the planks were build for the first time. If so, then a colored info message is written to console, else a simple message in
+//   default color is written.
+//   value == 1 -> planks built for the 1st time.
+//   value == 0 -> 2nd or later build.
+bunkerplanks
+{
+    spawn
+    {
+        wait 200
+        trigger bunkerplanks setup
+
+        constructible_class 2
+
+        accum 7 set 1       // accum 7 stores if the planks were built for the first time.
+		remove
+    }
+
+    trigger show_materials
+    {
+        setstate bunkerplanks_materials      default
+        setstate bunkerplanks_materials_clip default
+        setstate bunkerplanks_flag           default
+
+        trigger bunkerplanks_toi show
+    }
+
+    trigger hide_materials
+    {
+        setstate bunkerplanks_materials      invisible
+        setstate bunkerplanks_materials_clip invisible
+        setstate bunkerplanks_flag           invisible
+
+        trigger bunkerplanks_toi hide
+    }
+
+    trigger show_planks
+    {
+        setstate bunkerplanks           default
+        setstate bunkerplanks_model     default
+        setstate bunkerplanks_spool     default
+        setstate bunkerplanks_step_1    default
+        setstate bunkerplanks_step_2    default
+        setstate bunkerplanks_step_3    default
+        setstate bunkerplanks_tire      default
+    }
+
+    trigger hide_planks
+    {
+        setstate bunkerplanks           invisible
+        setstate bunkerplanks_model     invisible
+        setstate bunkerplanks_spool     invisible
+        setstate bunkerplanks_step_1    invisible
+        setstate bunkerplanks_step_2    invisible
+        setstate bunkerplanks_step_3    invisible
+        setstate bunkerplanks_tire      invisible
+    }
+
+    trigger building_planks
+    {
+        setstate bunkerplanks           underconstruction
+        setstate bunkerplanks_model     underconstruction
+        setstate bunkerplanks_spool     underconstruction
+        setstate bunkerplanks_step_1    underconstruction
+        setstate bunkerplanks_step_2    underconstruction
+        setstate bunkerplanks_step_3    underconstruction
+        setstate bunkerplanks_tire      underconstruction
+    }
+
+    trigger setup
+    {
+        setstate bunkerplanks_material_hurt invisible
+
+        trigger self hide_planks
+        trigger self hide_materials
+    }
+
+    buildstart final
+    {
+        trigger self building_planks
+        trigger self show_materials
+    }
+
+    built final
+    {
+        trigger self show_planks
+        trigger self hide_materials
+
+        trigger self ramp_built_notify
+    }
+
+    decayed final
+    {
+        trigger self hide_planks
+        trigger self show_materials
+    }
+
+    death
+    {
+        trigger self hide_planks
+        trigger self show_materials
+
+        // Just "blink" the hurt entity so anyone trapped inside the materials gets killed.
+        setstate bunkerplanks_material_hurt default
+        wait 10
+        setstate bunkerplanks_material_hurt invisible
+
+        trigger self ramp_death_notify
+     }
+
+     trigger ramp_death_notify
+     {
+         // No special color messages here.
+         wm_announce "The Allied Bunker Assault Ramp has been destroyed."
+     }
+
+     trigger ramp_built_notify
+     {
+        accum 7 trigger_if_equal 0 bunkerplanks write_plain_built_note
+        accum 7 trigger_if_equal 1 bunkerplanks write_color_built_note
+     }
+
+     trigger write_color_built_note
+     {
+        wm_announce "^1Note: ^3The Allied Bunker Assault Ramp has been constructed."
+        wm_announce "      ^3Axis can destroy it with satchel or dynamite."
+        accum 7 set 0                       // 0 indicates that the following ramp builds are not build #1.
+     }
+
+     trigger write_plain_built_note
+     {
+        wm_announce "The Allied Bunker Assault Ramp has been constructed."
+     }
+}
+// Ragnar end: Bunker Assault Ramp script block.
+
+beachplanks
+{
+    spawn
+    {
+        wait 200
+        trigger beachplanks setup
+
+        constructible_class 2
+		constructible_chargebarreq 0.5
+        accum 7 set 0                       // Ragnar: Use accum 7 to count how often the Beachplanks were destroyed, 0 times so far.
+    }
+
+    trigger setup
+    {
+        setstate beachplanks invisible
+
+        setstate beachplanks_materials default
+        setstate beachplanks_materials_clip default
+        setstate beachplanks_flag default
+    }
+
+    buildstart final
+    {
+        setstate beachplanks underconstruction
+
+        setstate beachplanks_materials default
+        setstate beachplanks_materials_clip default
+        setstate beachplanks_flag default
+    }
+
+    built final
+    {
+        setstate beachplanks default
+
+        setstate beachplanks_materials invisible
+        setstate beachplanks_materials_clip invisible
+        setstate beachplanks_flag invisible
+
+        // *----------------------------------- vo ------------------------------------------*
+        
+        wm_teamvoiceannounce 0 "battery_axis_ramp_constructed"
+        wm_teamvoiceannounce 0 "battery_axis_controls_defend"
+        wm_teamvoiceannounce 0 "battery_axis_bunker_defend"
+
+        wm_teamvoiceannounce 1 "battery_allies_ramp_constructed"
+        wm_teamvoiceannounce 1 "battery_allies_bunker_capture"
+
+        
+        // *---------------------------------------------------------------------------------*
+
+        // Some kind of UI pop-up to alert players
+        wm_announce    "The Allied Beach Assault Ramp has been constructed."
+
+        wm_objective_status 2 0 2
+        wm_objective_status 2 1 1
+
+        trigger self built_count_dispatch   // Ragnar: Assault Ramp built one more time, take action accordingly to accum value with the death count.
+    }
+
+    decayed final
+    {
+        setstate beachplanks invisible
+
+        setstate beachplanks_materials default
+        setstate beachplanks_materials_clip default
+        setstate beachplanks_flag default
+    }
+
+    death
+    {
+        setstate beachplanks invisible
+
+        setstate beachplanks_materials default
+        setstate beachplanks_materials_clip default
+        setstate beachplanks_flag default
+
+        // *----------------------------------- vo ------------------------------------------*
+        
+        wm_teamvoiceannounce 0 "battery_axis_ramp_destroyed"
+
+        wm_teamvoiceannounce 1 "battery_allies_ramp_destroyed"
+
+        
+        // *---------------------------------------------------------------------------------*
+
+        // Some kind of UI pop-up to alert players
+        wm_announce    "Axis have destroyed the Allied Beach Assault Ramp."
+
+        wm_objective_status 2 0 1
+        wm_objective_status 2 1 2
+
+        accum 7 inc 1                                                  // Ragnar: Beachplanks are destroyed one more time.
+        trigger self destroyed_count_dispatch                          // Ragnar: Take action accordingly to accum value.
+     }
+
+    // Ragnar begin: Some new triggers to count how often the Assault Ramp was built resp. destroyed and to take actions accordingly.
+    trigger built_count_dispatch
+    {
+        // Only "deaths" are count, the built count is always (death count + 1).
+        // Commented some triggers out to reduce spam.
+        // accum 7 trigger_if_equal 0 beachplanks built_count_1
+        // accum 7 trigger_if_equal 1 beachplanks built_count_2
+        // accum 7 trigger_if_equal 2 beachplanks built_count_3
+        // accum 7 trigger_if_equal 3 beachplanks built_count_4
+        accum 7 trigger_if_equal 4 beachplanks built_count_5
+    }
+
+    trigger destroyed_count_dispatch
+    {
+        // Commented some triggers out to reduce spam.
+        // accum 7 trigger_if_equal 1 beachplanks destroyed_count_1
+        // accum 7 trigger_if_equal 2 beachplanks destroyed_count_2
+        // accum 7 trigger_if_equal 3 beachplanks destroyed_count_3
+        accum 7 trigger_if_equal 4 beachplanks destroyed_count_4
+    }
+
+    trigger built_count_1
+    {
+        //wm_announce "^1Beach Assault Ramp built for the 1st time."
+    }
+
+    trigger built_count_2
+    {
+        //wm_announce "^1Beach Assault Ramp built for the 2nd time."
+    }
+
+    trigger built_count_3
+    {
+        //wm_announce "^1Beach Assault Ramp built for the 3rd time."
+    }
+
+    trigger built_count_4
+    {
+        //wm_announce "^1Beach Assault Ramp built for the 4th time."
+    }
+
+    trigger built_count_5
+    {
+        //constructible_class 3                                   // Beachplanks were built for the 5th time, make Beachplanks destroyable by dyno only.
+        //wm_announce "^1Note: ^3Beach Assault Ramp built for the 5th time. Allies now know how to build"
+        //wm_announce "      ^3a sturdier ramp - Axis can destroy it with dynamite only from now on."
+    }
+
+    trigger destroyed_count_1
+    {
+        //wm_announce "^1Beach Assault Ramp destroyed for the 1st time."
+    }
+
+    trigger destroyed_count_2
+    {
+        //wm_announce "^1Beach Assault Ramp destroyed for the 2nd time."
+    }
+
+    trigger destroyed_count_3
+    {
+        //wm_announce "^1Beach Assault Ramp destroyed for the 3rd time."
+    }
+
+    trigger destroyed_count_4
+    {
+        //wm_announce "^1Note: ^3Beach Assault Ramp destroyed for the 4th time."
+        //wm_announce "      ^3This one looked sturdier than the last ones."
+    }
+    // Ragnar end: New triggers.
+}
+
+// -----------------------------
+// Gun Emplacements
+// -----------------------------
+
+// West Beach
+browning_clip_1
+{
+    spawn
+    {
+        wait 200
+        trigger browning_clip_1 setup
+
+        constructible_class 2
+    }
+
+    trigger setup
+    {
+        setstate browning_1 invisible
+        setstate browning_sbags_1 invisible
+
+        setstate browning_materials_1 default
+        setstate browning_materials_clip_1 default
+        setstate browning_flag_1 default
+    }
+
+    buildstart final
+    {
+        setstate browning_1 underconstruction
+        setstate browning_sbags_1 underconstruction
+
+        setstate browning_materials_1 default
+        setstate browning_materials_clip_1 default
+        setstate browning_flag_1 default
+    }
+
+    built final
+    {
+        setstate browning_1 default
+        setstate browning_sbags_1 default
+
+        setstate browning_materials_1 invisible
+        setstate browning_materials_clip_1 invisible
+        setstate browning_flag_1 invisible
+
+        wm_announce "The Allied West beach MG Nest has been constructed."
+    }
+
+    decayed final
+    {
+        setstate browning_1 invisible
+        setstate browning_sbags_1 invisible
+
+        setstate browning_materials_1 default
+        setstate browning_materials_clip_1 default
+        setstate browning_flag_1 default
+    }
+
+    death
+    {
+        setstate browning_1 invisible
+        setstate browning_sbags_1 invisible
+        repairmg42 browning_1
+        setstate browning_materials_1 default
+        setstate browning_materials_clip_1 default
+        setstate browning_flag_1 default
+
+        wm_announce "The Allied West beach MG Nest has been destroyed."
+    }
+}
+
+// East Beach
+browning_clip_2
+{
+    spawn
+    {
+        wait 200
+        trigger browning_clip_2 setup
+
+        constructible_class 2
+    }
+
+    trigger setup
+    {
+        setstate browning_2 invisible
+        setstate browning_sbags_2 invisible
+
+        setstate browning_materials_2 default
+        setstate browning_materials_clip_2 default
+        setstate browning_flag_1 default
+    }
+
+    buildstart final
+    {
+        setstate browning_2 underconstruction
+        setstate browning_sbags_2 underconstruction
+
+        setstate browning_materials_2 default
+        setstate browning_materials_clip_2 default
+        setstate browning_flag_2 default
+    }
+
+    built final
+    {
+        setstate browning_2 default
+        setstate browning_sbags_2 default
+
+        setstate browning_materials_2 invisible
+        setstate browning_materials_clip_2 invisible
+        setstate browning_flag_2 invisible
+
+        wm_announce "The Allied East beach MG Nest has been constructed."
+    }
+
+    decayed final
+    {
+        setstate browning_2 invisible
+        setstate browning_sbags_2 invisible
+
+        setstate browning_materials_2 default
+        setstate browning_materials_clip_2 default
+        setstate browning_flag_2 default
+    }
+
+    death
+    {
+        setstate browning_2 invisible
+        setstate browning_sbags_2 invisible
+        repairmg42 browning_2
+        setstate browning_materials_2 default
+        setstate browning_materials_clip_2 default
+        setstate browning_flag_2 default
+
+        wm_announce "The Allied East beach MG Nest has been destroyed."
+    }
+}
+
+// Axis Main Bunker interior
+mg42_clip_1
+{
+    spawn
+    {
+        wait 100
+
+        set
+        {
+            spawnflags "5"  // START_BUILT(1) + AXIS_CONSTRUCTIBLE(4), Ragnar: Initially built on map start.
+        }
+
+        wait 100
+
+        trigger mg42_clip_1 setup
+
+        constructible_class 2
+    }
+
+    trigger setup
+    {
+        setstate mg42_1 default                   // Ragnar: Initially built on map start.
+        setstate mg42_clip_1 default              // Ragnar: Initially built on map start.
+
+        setstate mg42_materials_1 invisible       // Ragnar: Initially built on map start.
+        setstate mg42_materials_clip_1 invisible  // Ragnar: Initially built on map start.
+        setstate mg42_flag_1 invisible            // Ragnar: Initially built on map start.
+    }
+
+    buildstart final
+    {
+        setstate mg42_1 underconstruction
+
+        setstate mg42_materials_1 default
+        setstate mg42_materials_clip_1 default
+        setstate mg42_flag_1 default
+    }
+
+    built final
+    {
+        setstate mg42_1 default
+
+        setstate mg42_materials_1 invisible
+        setstate mg42_materials_clip_1 invisible
+        setstate mg42_flag_1 invisible
+
+        wm_announce "The Axis Main Bunker MG Nest has been constructed."
+    }
+
+    decayed final
+    {
+        setstate mg42_1 invisible
+
+        setstate mg42_materials_1 default
+        setstate mg42_materials_clip_1 default
+        setstate mg42_flag_1 default
+    }
+
+    death
+    {
+        setstate mg42_1 invisible
+        repairmg42 mg42_1
+        setstate mg42_materials_1 default
+        setstate mg42_materials_clip_1 default
+        setstate mg42_flag_1 default
+
+        wm_announce "The Axis Main Bunker MG Nest has been destroyed."
+    }
+}
+
+// near the door controls
+mg42_clip_2
+{
+    spawn
+    {
+        wait 100
+
+        set
+        {
+            spawnflags 5  // START_BUILT(1) + AXIS_CONSTRUCTIBLE(4), Ragnar: Initially built on map start.
+        }
+
+        wait 100
+
+        trigger mg42_clip_2 setup
+
+        constructible_class 2
+    }
+
+    trigger setup
+    {
+        setstate mg42_2 default                  // Ragnar: Initially built on map start.
+        setstate mg42_clip_2 default             // Ragnar: Initially built on map start.
+
+        setstate mg42_materials_2 invisible      // Ragnar: Initially built on map start.
+        setstate mg42_materials_clip_2 invisible // Ragnar: Initially built on map start.
+        setstate mg42_flag_2 invisible           // Ragnar: Initially built on map start.
+    }
+
+    buildstart final
+    {
+        setstate mg42_2 underconstruction
+
+        setstate mg42_materials_2 default
+        setstate mg42_materials_clip_2 default
+        setstate mg42_flag_2 default
+    }
+
+    built final
+    {
+        setstate mg42_2 default
+
+        setstate mg42_materials_2 invisible
+        setstate mg42_materials_clip_2 invisible
+        setstate mg42_flag_2 invisible
+
+        wm_announce "The Axis South-East MG Nest has been constructed."
+    }
+
+    decayed final
+    {
+        setstate mg42_2 invisible
+
+        setstate mg42_materials_2 default
+        setstate mg42_materials_clip_2 default
+        setstate mg42_flag_2 default
+    }
+
+    death
+    {
+        setstate mg42_2 invisible
+        repairmg42 mg42_2
+        setstate mg42_materials_2 default
+        setstate mg42_materials_clip_2 default
+        setstate mg42_flag_2 default
+
+        wm_announce "The Axis South-East MG Nest has been destroyed."
+    }
+}
+
+// overlooking West entrance to Axis Main Bunker
+mg42_clip_3
+{
+    spawn
+    {
+        wait 100
+
+        set
+        {
+            spawnflags "5"  // START_BUILT(1) + AXIS_CONSTRUCTIBLE(4), Ragnar: Initially built on map start.
+        }
+
+        wait 100
+
+        trigger mg42_clip_3 setup
+
+        constructible_class 2
+    }
+
+    trigger setup
+    {
+        setstate mg42_3 default                  // Ragnar: Initially built on map start.
+        setstate mg42_sbags_3 default            // Ragnar: Initially built on map start.
+        setstate mg42_clip_3 default             // Ragnar: Initially built on map start.
+
+        setstate mg42_materials_3 invisible      // Ragnar: Initially built on map start.
+        setstate mg42_materials_clip_3 invisible // Ragnar: Initially built on map start.
+        setstate mg42_flag_3 invisible           // Ragnar: Initially built on map start.
+    }
+
+    buildstart final
+    {
+        setstate mg42_3 underconstruction
+        setstate mg42_sbags_3 underconstruction
+
+        setstate mg42_materials_3 default
+        setstate mg42_materials_clip_3 default
+        setstate mg42_flag_3 default
+    }
+
+    built final
+    {
+        setstate mg42_3 default
+        setstate mg42_sbags_3 default
+        setstate mg42_clip_3 default
+
+        setstate mg42_materials_3 invisible
+        setstate mg42_materials_clip_3 invisible
+        setstate mg42_flag_3 invisible
+
+        wm_announce "The Axis North-West MG Nest has been constructed."
+    }
+
+    decayed final
+    {
+        setstate mg42_3 invisible
+        setstate mg42_sbags_3 invisible
+        setstate mg42_clip_3 invisible
+
+        setstate mg42_materials_3 default
+        setstate mg42_materials_clip_3 default
+        setstate mg42_flag_3 default
+    }
+
+    death
+    {
+        setstate mg42_3 invisible
+        setstate mg42_sbags_3 invisible
+        setstate mg42_clip_3 invisible
+        repairmg42 mg42_3
+        setstate mg42_materials_3 default
+        setstate mg42_materials_clip_3 default
+        setstate mg42_flag_3 default
+
+        wm_announce "The Axis North-West MG Nest has been destroyed."
+    }
+}
+
+// --------------------------------------------------------------------
+// Front door of bunker next to the trench/radar/beach forward bunker
+// Single wall switch for operation of door.
+// --------------------------------------------------------------------
+frontdoor_trigger1
+{
+    spawn
+    {
+        accum 5 set 1            // Initial state is down
+        wait 500            // Wait for everything to settle
+        trigger frontdoor_trigger1 main    // Open front door of complex initially
+    }
+    trigger main
+    {
+        globalaccum 1 abort_if_not_equal 0
+        trigger frontdoor_trigger1 up
+        trigger frontdoor_trigger1 down
+
+    }
+    trigger up
+    {
+            accum 5 abort_if_not_equal 1    // Ready to run up routine == 1
+            resetscript            // return to trigger that called it
+
+            trigger frontdoor_lever1 up
+            accum 5 set 0            // Setup accum for up routine
+    }
+    trigger down
+    {
+            accum 5 abort_if_not_equal 0    // Ready to run down routine == 0
+            resetscript            // return to trigger that called it
+
+            trigger frontdoor_lever1 down
+            accum 5 set 1            // Setup accum for up routine
+    }
+}
+
+frontdoor_lever1
+{
+    spawn
+    {
+    }
+    trigger down
+    {
+        gotomarker frontdoor_lever1_downpos 16
+        playsound sound/movers/switches/butn2.wav
+        trigger frontdoor_left open
+        trigger frontdoor_right open
+    }
+    trigger up
+    {
+        gotomarker frontdoor_lever1_uppos 16
+        playsound sound/movers/switches/switch.wav
+        trigger frontdoor_left close
+        trigger frontdoor_right close
+    }
+}
+
+frontdoor_left
+{
+    spawn
+    {
+    }
+
+    trigger open
+    {
+        wait 500
+        playsound sound/movers/misc/big_gate1.wav volume 127
+        wait 350
+        enablespeaker frontdoor_sound
+        gotomarker frontdoor_left_pc2 15 wait
+        disablespeaker frontdoor_sound
+        playsound sound/movers/misc/big_gate3.wav volume 127
+    }
+
+    trigger close
+    {
+        wait 500
+        playsound sound/movers/misc/big_gate1.wav volume 127
+        wait 400
+        enablespeaker frontdoor_sound
+        gotomarker frontdoor_left_pc1 15 wait
+        disablespeaker frontdoor_sound
+        playsound sound/movers/misc/big_gate3.wav volume 127
+    }
+}
+
+frontdoor_right
+{
+    spawn
+    {
+    }
+
+    trigger open
+    {
+        wait 850
+        gotomarker frontdoor_right_pc2 18 wait
+        playsound sound/movers/misc/big_gate3.wav volume 127
+    }
+
+    trigger close
+    {
+        wait 500
+        playsound sound/movers/misc/big_gate1.wav volume 127
+        wait 350
+        gotomarker frontdoor_right_pc1 18 wait
+        playsound sound/movers/misc/big_gate3.wav volume 127
+    }
+}
+
+// --------------------------------------------------------------------
+// Rear door of bunker
+// Non-player operable door.
+// --------------------------------------------------------------------
+reardoor_trigger1
+{
+    spawn
+    {
+        accum 5 set 1
+        wait 500
+    }
+    trigger main
+    {
+        globalaccum 1 abort_if_not_equal 0
+        trigger frontdoor_trigger1 up
+        trigger frontdoor_trigger1 down
+
+    }
+    trigger up
+    {
+            accum 5 abort_if_not_equal 1
+            resetscript
+
+            accum 5 set 0
+    }
+    trigger down
+    {
+            accum 5 abort_if_not_equal 0
+            resetscript
+
+            accum 5 set 1
+    }
+}
+
+reardoor_left
+{
+    spawn
+    {
+    }
+
+    trigger open
+    {
+        // Ragnar begin: Decouple reardoor and generator
+        // wait 500
+        // playsound sound/movers/misc/big_gate1.wav volume 127
+        // wait 350
+        // enablespeaker reardoor_sound
+        // gotomarker reardoor_left_pc2 15 wait
+        // disablespeaker reardoor_sound
+        // playsound sound/movers/misc/big_gate3.wav volume 127
+        // Ragnar end: Decouple reardoor and generator
+    }
+
+    trigger close
+    {
+        // Ragnar begin: Decouple reardoor and generator
+        // wait 500
+        // playsound sound/movers/misc/big_gate1.wav volume 127
+        // wait 350
+        // enablespeaker reardoor_sound
+        // gotomarker reardoor_left_pc1 15 wait
+        // disablespeaker reardoor_sound
+        // playsound sound/movers/misc/big_gate3.wav volume 127
+        // Ragnar end: Decouple reardoor and generator
+    }
+}
+
+reardoor_right
+{
+    spawn
+    {
+    }
+
+    trigger open
+    {
+        // Ragnar begin: Decouple reardoor and generator
+        // wait 850
+        // gotomarker reardoor_right_pc2 18 wait
+        // playsound sound/movers/misc/big_gate3.wav volume 127
+        // Ragnar end: Decouple reardoor and generator
+    }
+
+    trigger close
+    {
+        // Ragnar begin: Decouple reardoor and generator
+        // wait 500
+        // playsound sound/movers/misc/big_gate1.wav volume 127
+        // wait 350
+        // gotomarker reardoor_right_pc1 18 wait
+        // stopsound
+        // playsound sound/movers/misc/big_gate3.wav volume 127
+        // Ragnar end: Decouple reardoor and generator
+    }
+}
+
+// --------------------------------------------------------------------
+// Left door of gun chamber
+// Single wall switch for operation of door.
+// --------------------------------------------------------------------
+leftdoor_trigger1
+{
+    spawn
+    {
+        accum 6 set 1
+        wait 500
+        trigger leftdoor_trigger1 main
+    }
+    trigger main
+    {
+        globalaccum 1 abort_if_not_equal 0
+        trigger leftdoor_trigger1 up
+        trigger leftdoor_trigger1 down
+
+    }
+    trigger up
+    {
+            accum 6 abort_if_not_equal 1
+            resetscript
+
+            trigger leftdoor_lever1 up
+            accum 6 set 0
+    }
+    trigger down
+    {
+            accum 6 abort_if_not_equal 0
+            resetscript
+
+            trigger leftdoor_lever1 down
+            accum 6 set 1
+    }
+}
+
+leftdoor_lever1
+{
+    spawn
+    {
+    }
+    trigger down
+    {
+        gotomarker leftdoor_lever1_downpos 16
+        playsound sound/movers/switches/butn2.wav
+        trigger leftdoor_left open
+        trigger leftdoor_right open
+    }
+    trigger up
+    {
+        gotomarker leftdoor_lever1_uppos 16
+        playsound sound/movers/switches/switch.wav
+        trigger leftdoor_left close
+        trigger leftdoor_right close
+    }
+}
+
+leftdoor_left
+{
+    spawn
+    {
+    }
+
+    trigger open
+    {
+        wait 500
+        playsound sound/movers/misc/big_gate1.wav volume 127
+        wait 350
+        enablespeaker leftdoor_sound
+        gotomarker leftdoor_left_pc2 17 wait
+        disablespeaker leftdoor_sound
+        playsound sound/movers/misc/big_gate3.wav volume 127
+    }
+
+    trigger close
+    {
+        wait 500
+        playsound sound/movers/misc/big_gate1.wav volume 127
+        wait 350
+        enablespeaker leftdoor_sound
+        gotomarker leftdoor_left_pc1 17 wait
+        disablespeaker leftdoor_sound
+        playsound sound/movers/misc/big_gate3.wav volume 127
+    }
+}
+
+leftdoor_right
+{
+    spawn
+    {
+    }
+
+    trigger open
+    {
+        wait 850
+        gotomarker leftdoor_right_pc2 17 wait
+        playsound sound/movers/misc/big_gate3.wav volume 127
+    }
+
+    trigger close
+    {
+        wait 500
+        playsound sound/movers/misc/big_gate1.wav volume 127
+        wait 350
+        gotomarker leftdoor_right_pc1 17 wait
+        playsound sound/movers/misc/big_gate3.wav volume 127
+    }
+}
+
+// --------------------------------------------------------------------
+// right door of gun chamber
+// Single wall switch for operation of door.
+// --------------------------------------------------------------------
+rightdoor_trigger1
+{
+    spawn
+    {
+        accum 6 set 1
+        wait 500
+        trigger rightdoor_trigger1 main
+    }
+    trigger main
+    {
+        globalaccum 1 abort_if_not_equal 0
+        trigger rightdoor_trigger1 up
+        trigger rightdoor_trigger1 down
+
+    }
+    trigger up
+    {
+            accum 6 abort_if_not_equal 1
+            resetscript
+
+            trigger rightdoor_lever1 up
+            accum 6 set 0
+    }
+    trigger down
+    {
+            accum 6 abort_if_not_equal 0
+            resetscript
+
+            trigger rightdoor_lever1 down
+            accum 6 set 1
+    }
+}
+
+rightdoor_lever1
+{
+    spawn
+    {
+    }
+    trigger down
+    {
+        gotomarker rightdoor_lever1_downpos 16
+        playsound sound/movers/switches/butn2.wav
+        trigger rightdoor_left open
+        trigger rightdoor_right open
+    }
+    trigger up
+    {
+        gotomarker rightdoor_lever1_uppos 16
+        playsound sound/movers/switches/switch.wav
+        trigger rightdoor_left close
+        trigger rightdoor_right close
+    }
+}
+
+rightdoor_left
+{
+    spawn
+    {
+    }
+
+    trigger open
+    {
+        wait 500
+        playsound sound/movers/misc/big_gate1.wav volume 127
+        wait 350
+        enablespeaker rightdoor_sound
+        gotomarker rightdoor_left_pc2 17 wait
+        disablespeaker rightdoor_sound
+        playsound sound/movers/misc/big_gate3.wav volume 127
+    }
+
+    trigger close
+    {
+        wait 500
+        playsound sound/movers/misc/big_gate1.wav volume 127
+        wait 350
+        enablespeaker rightdoor_sound
+        gotomarker rightdoor_left_pc1 17 wait
+        disablespeaker rightdoor_sound
+        playsound sound/movers/misc/big_gate3.wav volume 127
+    }
+}
+
+rightdoor_right
+{
+    spawn
+    {
+    }
+
+    trigger open
+    {
+        wait 850
+        gotomarker rightdoor_right_pc2 18 wait
+        playsound sound/movers/misc/big_gate3.wav volume 127
+    }
+
+    trigger close
+    {
+        wait 500
+        playsound sound/movers/misc/big_gate1.wav volume 127
+        wait 350
+        gotomarker rightdoor_right_pc1 18 wait
+        playsound sound/movers/misc/big_gate3.wav volume 127
+    }
+}
+
+// ================================================
+// ============ NEUTRAL COMMAND POST ==============
+// ================================================
+
+allied_compost_built
+{
+    spawn
+    {
+        wait 400
+        trigger allied_compost_built setup
+
+        constructible_class 2
+    }
+
+    trigger setup
+    {
+        setchargetimefactor 1 soldier 1
+        setchargetimefactor 1 lieutenant 1
+        setchargetimefactor 1 medic 1
+        setchargetimefactor 1 engineer 1
+        setchargetimefactor 1 covertops 1
+        sethqstatus 1 0
+    }
+
+    buildstart final
+    {
+        setstate allied_compost_built_model underconstruction
+        setstate neutral_compost_closed_clip invisible
+        setstate neutral_compost_closed_model invisible
+    }
+
+    built final
+    {
+        setstate allied_compost_built_model default
+        setstate neutral_compost_closed_clip invisible
+        setstate neutral_compost_closed_model invisible
+
+        trigger allied_compost_built_model enable_allied_features
+
+        enablespeaker allies_compost_sound
+
+        trigger eastbeach_wobj allied_cp_built // Adjust forward spawn location
+    }
+
+    decayed final
+    {
+        setstate allied_compost_built_model invisible
+        setstate neutral_compost_closed_clip default
+        setstate neutral_compost_closed_model default
+    }
+
+    death
+    {
+        setstate allied_compost_built_model invisible
+        setstate neutral_compost_closed_clip default
+        setstate neutral_compost_closed_model default
+
+        trigger allied_compost_built_model disable_allied_features
+
+        disablespeaker allies_compost_sound
+
+        trigger eastbeach_wobj allied_cp_destroyed // Adjust forward spawn location
+    }
+}
+
+allied_compost_built_model
+{
+    spawn
+    {
+        wait 400
+        setstate allied_compost_built_model invisible
+    }
+
+    trigger enable_allied_features
+    {
+        setchargetimefactor 1 soldier 0.75
+        setchargetimefactor 1 lieutenant 0.75
+        setchargetimefactor 1 medic 0.75
+        setchargetimefactor 1 engineer 0.75
+        setchargetimefactor 1 covertops 0.75
+        sethqstatus 1 1
+
+        trigger axis_lms_spawns disable     // Ragnar: Disable Axis Backyard Spawn
+
+        // *----------------------------------- vo ------------------------------------------*
+        wm_teamvoiceannounce 0 "axis_hq_compost_constructed_allies"
+
+        wm_teamvoiceannounce 1 "allies_hq_compost_constructed"
+
+        
+        // *---------------------------------------------------------------------------------*
+
+        wm_announce    "Allied Command Post constructed. Charge speed increased!"
+
+        wm_objective_status 5 0 2
+        wm_objective_status 5 1 1
+    }
+
+    trigger disable_allied_features
+    {
+        setchargetimefactor 1 soldier 1
+        setchargetimefactor 1 medic 1
+        setchargetimefactor 1 engineer 1
+        setchargetimefactor 1 lieutenant 1
+        setchargetimefactor 1 covertops 1
+        sethqstatus 1 0
+
+        // *----------------------------------- vo ------------------------------------------*
+        
+      	wm_teamvoiceannounce 0 "axis_hq_compost_construct"
+
+		wm_teamvoiceannounce 1 "allies_hq_compost_damaged"
+		wm_teamvoiceannounce 1 "allies_hq_compost_construct"
+
+        // *---------------------------------------------------------------------------------*
+
+        wm_announce    "Axis team has destroyed the Allied Command Post!"
+
+        wm_objective_status 5 0 0
+        wm_objective_status 5 1 0
+    }
+}
+
+axis_compost_built
+{
+    spawn
+    {
+        wait 100
+
+        set
+        {
+            spawnflags "5"  // START_BUILT(1) + AXIS_CONSTRUCTIBLE(4), Ragnar: Compost initially built on map start.
+        }
+
+        wait 300
+
+        trigger axis_compost_built setup
+
+        constructible_class 2
+    }
+
+    trigger setup
+    {
+        setstate axis_compost_built_model default               // Ragnar: Compost initially built on map start.
+        setstate neutral_compost_closed_clip invisible          // Ragnar: Compost initially built on map start.
+        setstate neutral_compost_closed_model invisible         // Ragnar: Compost initially built on map start.
+
+        trigger axis_compost_built_model enable_axis_features   // Ragnar: Compost initially built on map start.
+
+        enablespeaker axis_compost_sound                        // Ragnar: Compost initially built on map start.
+
+        trigger axis_lms_spawns enable
+    }
+
+    buildstart final
+    {
+        setstate axis_compost_built_model underconstruction
+        setstate neutral_compost_closed_clip invisible
+        setstate neutral_compost_closed_model invisible
+    }
+
+    built final
+    {
+        setstate axis_compost_built_model default
+        setstate neutral_compost_closed_clip invisible
+        setstate neutral_compost_closed_model invisible
+
+        trigger axis_compost_built_model enable_axis_features
+
+        enablespeaker axis_compost_sound
+
+        trigger axis_lms_spawns enable
+
+        trigger eastbeach_wobj axis_cp_built // Adjust forward spawn location
+    }
+
+    decayed final
+    {
+        setstate axis_compost_built_model invisible
+        setstate neutral_compost_closed_clip default
+        setstate neutral_compost_closed_model default
+    }
+
+    death
+    {
+        setstate axis_compost_built_model invisible
+        setstate neutral_compost_closed_clip default
+        setstate neutral_compost_closed_model default
+
+        trigger axis_compost_built_model disable_axis_features
+
+        disablespeaker axis_compost_sound
+
+        trigger axis_lms_spawns disable
+
+        trigger eastbeach_wobj axis_cp_destroyed // Adjust forward spawn location
+    }
+}
+
+axis_compost_built_model
+{
+    spawn
+    {
+        wait 400
+        setstate axis_compost_built_model invisible
+    }
+
+    trigger enable_axis_features
+    {
+        setchargetimefactor 0 soldier 0.75
+        setchargetimefactor 0 lieutenant 0.75
+        setchargetimefactor 0 medic 0.75
+        setchargetimefactor 0 engineer 0.75
+        setchargetimefactor 0 covertops 0.75
+        sethqstatus 0 1
+
+        trigger axis_lms_spawns enable  // Ragnar: Enable Axis Backyard spawn
+
+        // *----------------------------------- vo ------------------------------------------*
+        wm_teamvoiceannounce 0 "axis_hq_compost_constructed"
+
+        wm_teamvoiceannounce 1 "allies_hq_compost_constructed_axis"
+
+        
+        // *---------------------------------------------------------------------------------*
+
+        wm_announce    "Axis Command Post constructed. Charge speed increased!"
+
+        wm_objective_status 6 0 1
+        wm_objective_status 6 1 2
+    }
+
+    trigger disable_axis_features
+    {
+        setchargetimefactor 0 soldier 1
+        setchargetimefactor 0 lieutenant 1
+        setchargetimefactor 0 medic 1
+        setchargetimefactor 0 engineer 1
+        setchargetimefactor 0 covertops 1
+        sethqstatus 0 0
+
+        trigger axis_lms_spawns disable     // Ragnar: Disable Axis Backyard spawn
+
+        // *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "axis_hq_compost_damaged"         
+        wm_teamvoiceannounce 0 "axis_hq_compost_construct"
+			
+		wm_teamvoiceannounce 1 "allies_hq_compost_construct"
+        // *---------------------------------------------------------------------------------*
+
+        wm_announce    "Allied team has destroyed the Axis Command Post!"
+
+        wm_objective_status 6 0 0
+        wm_objective_status 6 1 0
+    }
+}
+
+// ================================
+// ======= REMOVE LMS STUFF =======
+// ================================
+beachplanks_lms
+{
+    spawn
+    {
+        wait 400
+        remove
+    }
+}
+
+// Axis Main Bunker Command Post for LMS
+neutral_compost_toi_lms
+{
+    spawn
+    {
+        wait 50
+        setstate neutral_compost_toi_lms invisible
+    }
+}
+
+neutral_compost_clip_lms
+{
+    spawn
+    {
+        wait 400
+        remove
+    }
+}
+
+neutral_compost_closed_clip_lms
+{
+    spawn
+    {
+        wait 400
+        remove
+    }
+}
+
+neutral_compost_closed_model_lms
+{
+    spawn
+    {
+        wait 400
+        remove
+    }
+}
+
+allied_compost_built_lms
+{
+    spawn
+    {
+        wait 400
+        remove
+    }
+}
+
+allied_compost_built_model_lms
+{
+    spawn
+    {
+        wait 400
+        remove
+    }
+}
+
+axis_compost_built_lms
+{
+    spawn
+    {
+        wait 400
+        remove
+    }
+}
+
+axis_compost_built_model_lms
+{
+    spawn
+    {
+        wait 400
+        remove
+    }
+}
+
+
+// Axis Main Bunker Health & Ammo Cabinets
+mainbunker_hacabinet_toi_lms
+{
+    spawn
+    {
+        wait 50
+        remove
+    }
+}
+
+mainbunker_hacabinet_cm_marker_lms
+{
+    spawn
+    {
+        wait 50
+        remove
+    }
+}
+
+mainbunker_trigger_ammo_lms
+{
+    spawn
+    {
+        wait 400
+        remove
+    }
+}
+
+mainbunker_ammocabinet_lms
+{
+    spawn
+    {
+        wait 400
+        remove
+    }
+}
+
+
+mainbunker_ammocabinet_clip_lms
+{
+    spawn
+    {
+        wait 400
+        remove
+    }
+}
+
+mainbunker_trigger_heal_lms
+{
+    spawn
+    {
+        wait 400
+        remove
+    }
+}
+
+mainbunker_healthcabinet_lms
+{
+    spawn
+    {
+        wait 400
+        remove
+    }
+}
+
+mainbunker_healthcabinet_clip_lms
+{
+    spawn
+    {
+        wait 400
+        remove
+    }
+}

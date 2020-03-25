@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/nq/!svn/ver/2210/trunk/Lua-libs/LuaSocket/os-indipendent/socket
+END
+http.lua
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/nq/!svn/ver/2210/trunk/Lua-libs/LuaSocket/os-indipendent/socket/http.lua
+END
+url.lua
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/nq/!svn/ver/2210/trunk/Lua-libs/LuaSocket/os-indipendent/socket/url.lua
+END
+smtp.lua
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/nq/!svn/ver/2210/trunk/Lua-libs/LuaSocket/os-indipendent/socket/smtp.lua
+END
+tp.lua
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/nq/!svn/ver/2210/trunk/Lua-libs/LuaSocket/os-indipendent/socket/tp.lua
+END
+ftp.lua
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/nq/!svn/ver/2210/trunk/Lua-libs/LuaSocket/os-indipendent/socket/ftp.lua
+END

@@ -1,0 +1,130 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head>
+
+
+
+
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-15">
+<title>ETWsk - ETW-FZ Enemy Territory Anti-Spawnkill Mod for ETpro</title>
+
+<style type="text/css">
+/*<![CDATA[*/
+@import url("./mycss.css");
+/*]]>*/
+</style></head><body>
+
+<h1>ETWsk - ETW-FZ Enemy Territory Anti-Spawnkill Mod for ETpro</h1>
+<p>ETWsk is an <a href="http://wolfwiki.anime.net/index.php/ETPro:Lua_Mod_API">etpro lua</a> script that tries to reduce spawnkilling on public funservers.</p>
+
+<ul>
+<li>Script: <a href="http://etw-funzone.eu/etwsk/ETWsk_V08.zip">ETWsk_V08.zip</a></li>
+<li>Current version: 0.8</li>
+<li>Author: <a href="http://etw-funzone.eu/">[ETW-FZ] Mad@Mat, Editor: [ETW-FZ] Schnoog</a></li>
+</ul>
+<h2>Share your map-spawn config files</h2><h2>
+<a href="http://etw-funzone.eu/etwsk/maps/index.php">Map-share-site</a><br>
+
+
+</h2><h2>Description</h2>
+<p>ETWsk aims to reduce spawnkilling (SK) on public funservers. An SK here is if
+someone kills an enemy near a fix spawn point. A fix spawn point means that
+it can not be cleared by the enemy. E.g. on radar map, the allied Side Gate 
+spawn is not fix as the axis can destroy the command post. However, the Main
+Bunker spawn is fix after the Allies have destroyed the Main Gate. ETWsk does
+not prevent but it detects and counts SKs for every player. If a player has
+caused a certain number of SKs, he gets punished (putspec, kick, ban, ...).
+As the detection of fix spawns is difficult especially on custom maps, little
+configuration work has to be done.</p>
+
+<h3>Features:</h3>
+<ul><li>
+circular protection areas around spawn points</li><li>
+two protection radius can be defined: heavy weapons and normal weapons</li><li>
+the spawn protection expires when a player hurts an enemy (can be disabled)</li><li>
+fully configurable for individual maps: fixing radius; adding actions
+that change protected areas during the game; adding new protection
+areas.</li><li>
+client console commands for stats and help for configuration</li><li>
+no RunFrame() -&gt; low server load</li>
+</ul>
+
+<h2>Changelog</h2>
+<ul>
+<li>0.8: Map connfigs outsourced to own files.</li><li>
+</li><li>0.7: Added kill as punishment for the first few SKs.</li>
+<li>0.6: Added kick as punishment. </li>
+<li>0.5: Added additional warning for spawnkiller. </li>
+<li>0.4: Added map customization with transitions, added putspec as punishment. </li>
+<li>0.3: Use origin of WOLF_objective entity as default center of protected area.</li>
+<li>0.2: Compare killer and victim team. Self- and team-kill is not spawnkill. </li>
+</ul>
+
+<h2>Installation</h2>
+<ol>
+<li>Download ETWsk.zip and extract it in the etpro subfolder.</li>
+<li>Edit your server config file and add following cvar:<br>
+<code>set lua_modules "ETWsk.lua"</code><br>
+
+If you already have one or more lua modules you can add them separated by a space like<br>
+<code>"ETWsk.lua otherscript.lua"</code></li>
+<li>Reset the server (<code>reset_match</code> is sufficient).</li>
+</ol>
+
+<h2>Configuration</h2>
+Create a simple text file named as "mapname".lua and copy it to your mapSpawns folder. The general format
+for adding custom map settings is:
+<pre><code>
+local c = {spawns = {}, actions = {}, defaults = true}
+		&lt;spawn definitions&gt;
+		&lt;action definitions&gt;
+return c
+</code></pre>
+
+where:
+<pre><code>
+spawn definitions:
+     c.spawn[&lt;spawn-num&gt;] = {&lt;spawn-fields&gt;}
+spawn-num: spawn index (see /etwsk_spawns command)
+spawn-fields: - comma-separated list of "key = value"
+              - for existing spawns all fields are optional (they overwrite default values).
+              - fields:
+                    name = &lt;String&gt;  : name of spawn point
+                    state = NO_PROTECT|PROTECT_ALLIES|PROTECT_AXIS
+                    pos = {x,y,z}    : map coordinates of spawn point 
+                    radius1 = &lt;Int&gt;  : protection radius for normal weapons
+                    radius2 = &lt;Int&gt;  : protection radius for heavy weapons
+action definitions: actions are definitions of transitions of one state of a spawn point into another one triggered by a message.
+     c.action[&lt;ction-num&gt;] = {&lt;action-fields&gt;}
+action-num: just an increment number
+action-fields: - comma-separated list of "key = value"
+                   - all fields are mandatory
+                   - fields:
+                       spawn = &lt;pawn-num&gt;
+                       newstate = NO_PROTECT|PROTECT_ALLIES|PROTECT_AXIS
+                       trigger = &lt;String&gt;: part of a message that is displayed  by the server on a specific event.
+</code></pre>       
+<h4>adding new protection areas to maps</h4>
+<ol><li>
+enter the map and walk to the location where you want to add the area</li><li>
+type /etwsk_spawns and remember the highest spawn index number</li><li>
+type /etwsk_pos and write down the coordinates</li><li>
+add spawn to config with at least the name,state and pos field</li>
+</ol>
+<h4>default values</h4>
+At mapstart, ETWsk scans for all spawnpoints and sets the state either
+to PROTECT_ALLIES or PROTECT_AXIS. It also scans for capturable flag
+poles and sets the state of a spawnpoint near a flag pole to
+NO_PROTECT. The location of a spawnpoint is taken from the
+WOLF_objective entity, the small spawn flag that can be selected in the
+command map. This entity is usually placed in the center of the
+individual player-spawnpoints. However, on some maps this is not the
+case. Check the positions of the small spawn flags on the command map
+or type /etwsk_pos after you have spawned to check the distance to
+protected areas. If needed, adjust the radius, or the pos or add a new
+protection area to the map. If you wish to set all protection areas
+manually in a map, add:
+<pre><code>
+    c.defaults = false
+</code></pre> 
+ to the definitions for a map.
+</body></html>

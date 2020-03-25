@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="ui" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Release LUA OB">
+				<Option output="../../build/Release_LUA_OB/ui.mp.i386.so" prefix_auto="0" extension_auto="0" />
+				<Option object_output="Release" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Option createStaticLib="1" />
+				<Compiler>
+					<Add option="-march=i386" />
+					<Add option="-O2" />
+					<Add option="-m32" />
+					<Add option="-Wno-unused-value" />
+					<Add option="-ffast-math" />
+					<Add option="-finline-functions" />
+					<Add option="-fschedule-insns2" />
+					<Add option="-D__linux__" />
+					<Add option="-DNDEBUG" />
+					<Add option="-D_USRDLL" />
+					<Add option="-DUI_EXPORTS" />
+					<Add option="-D_CRT_SECURE_NO_DEPRECATE" />
+				</Compiler>
+			</Target>
+			<Target title="Debug">
+				<Option output="../../build/Debug/ui.mp.i386.so" prefix_auto="0" extension_auto="0" />
+				<Option object_output="Debug" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Option createStaticLib="1" />
+				<Compiler>
+					<Add option="-march=i386" />
+					<Add option="-g" />
+					<Add option="-m32" />
+					<Add option="-Wno-unused-value" />
+					<Add option="-ffast-math" />
+					<Add option="-finline-functions" />
+					<Add option="-fschedule-insns2" />
+					<Add option="-O0" />
+					<Add option="-D__linux__" />
+					<Add option="-D_DEBUG" />
+					<Add option="-D_USRDLL" />
+					<Add option="-DUI_EXPORTS" />
+					<Add option="-D_CRT_SECURE_NO_DEPRECATE" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="../../build/Release/ui.mp.i386.so" prefix_auto="0" extension_auto="0" />
+				<Option object_output="Release" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Option createStaticLib="1" />
+				<Compiler>
+					<Add option="-march=i386" />
+					<Add option="-O2" />
+					<Add option="-m32" />
+					<Add option="-Wno-unused-value" />
+					<Add option="-ffast-math" />
+					<Add option="-finline-functions" />
+					<Add option="-fschedule-insns2" />
+					<Add option="-D__linux__" />
+					<Add option="-DNDEBUG" />
+					<Add option="-D_USRDLL" />
+					<Add option="-DUI_EXPORTS" />
+					<Add option="-D_CRT_SECURE_NO_DEPRECATE" />
+				</Compiler>
+			</Target>
+			<Target title="Release OB">
+				<Option output="../../build/Release_OB/ui.mp.i386.so" prefix_auto="0" extension_auto="0" />
+				<Option object_output="Release" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Option createStaticLib="1" />
+				<Compiler>
+					<Add option="-march=i386" />
+					<Add option="-O2" />
+					<Add option="-m32" />
+					<Add option="-Wno-unused-value" />
+					<Add option="-ffast-math" />
+					<Add option="-finline-functions" />
+					<Add option="-fschedule-insns2" />
+					<Add option="-D__linux__" />
+					<Add option="-DNDEBUG" />
+					<Add option="-D_USRDLL" />
+					<Add option="-DUI_EXPORTS" />
+					<Add option="-D_CRT_SECURE_NO_DEPRECATE" />
+				</Compiler>
+			</Target>
+			<Target title="Release LUA">
+				<Option output="../../build/Release_LUA/ui.mp.i386.so" prefix_auto="0" extension_auto="0" />
+				<Option object_output="Release" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Option createStaticLib="1" />
+				<Compiler>
+					<Add option="-march=i386" />
+					<Add option="-O2" />
+					<Add option="-m32" />
+					<Add option="-Wno-unused-value" />
+					<Add option="-ffast-math" />
+					<Add option="-finline-functions" />
+					<Add option="-fschedule-insns2" />
+					<Add option="-D__linux__" />
+					<Add option="-DNDEBUG" />
+					<Add option="-D_USRDLL" />
+					<Add option="-DUI_EXPORTS" />
+					<Add option="-D_CRT_SECURE_NO_DEPRECATE" />
+				</Compiler>
+			</Target>
+			<Target title="Release LUA OB HWGUID">
+				<Option output="../../build/Release_LUA_OB_HWGUID/ui.mp.i386.so" prefix_auto="0" extension_auto="0" />
+				<Option object_output="Release_HWGUID" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Option createStaticLib="1" />
+				<Compiler>
+					<Add option="-march=i386" />
+					<Add option="-O2" />
+					<Add option="-m32" />
+					<Add option="-Wno-unused-value" />
+					<Add option="-ffast-math" />
+					<Add option="-finline-functions" />
+					<Add option="-fschedule-insns2" />
+					<Add option="-D__linux__" />
+					<Add option="-DNDEBUG" />
+					<Add option="-D_USRDLL" />
+					<Add option="-DUI_EXPORTS" />
+					<Add option="-D_CRT_SECURE_NO_DEPRECATE" />
+					<Add option="-DHW_BAN" />
+				</Compiler>
+			</Target>
+		</Build>
+		<Unit filename="../../etmain/ui/menudef.h" />
+		<Unit filename="../../etmain/ui/menumacros.h" />
+		<Unit filename="../cgame/tr_types.h" />
+		<Unit filename="../game/base64.c">
+			<Option compilerVar="CC" />
+			<Option target="Release LUA OB HWGUID" />
+		</Unit>
+		<Unit filename="../game/bg_animation.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../game/bg_animgroup.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../game/bg_campaign.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../game/bg_character.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../game/bg_classes.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../game/bg_hwguid.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../game/bg_hwguid.h">
+			<Option target="Release LUA OB HWGUID" />
+		</Unit>
+		<Unit filename="../game/bg_lib.c">
+			<Option compilerVar="CC" />
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="../game/bg_misc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../game/bg_public.h" />
+		<Unit filename="../game/crc32.c">
+			<Option compilerVar="CC" />
+			<Option target="Release LUA OB HWGUID" />
+		</Unit>
+		<Unit filename="../game/diskId32.cpp">
+			<Option target="Release LUA OB HWGUID" />
+		</Unit>
+		<Unit filename="../game/md5.c">
+			<Option compilerVar="CC" />
+			<Option target="Release LUA OB HWGUID" />
+		</Unit>
+		<Unit filename="../game/q_math.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../game/q_shared.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../game/q_shared.h" />
+		<Unit filename="../game/surfaceflags.h" />
+		<Unit filename="../game/xorcrypt.c">
+			<Option compilerVar="CC" />
+			<Option target="Release LUA OB HWGUID" />
+		</Unit>
+		<Unit filename="keycodes.h" />
+		<Unit filename="ui.def" />
+		<Unit filename="ui_atoms.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="ui_gameinfo.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="ui_loadpanel.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="ui_local.h" />
+		<Unit filename="ui_main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="ui_public.h" />
+		<Unit filename="ui_shared.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="ui_shared.h" />
+		<Unit filename="ui_syscalls.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Extensions>
+			<envvars />
+			<code_completion />
+			<debugger />
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

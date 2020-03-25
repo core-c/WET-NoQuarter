@@ -1,0 +1,206 @@
+//
+// Map: Sniper_lake_b2
+// BSP: Sniper_lake_b2
+
+// phisherman: Fixed popular bug of not passing on to intermission after timelimit hit and round draw
+
+game_manager
+{
+	spawn
+	{
+	// Game rules
+	wm_axis_respawntime	5
+	wm_allied_respawntime	5
+	wm_number_of_objectives 8
+	wm_set_round_timelimit	1000
+
+	// Objectives
+	// 1: 
+	// 2: 
+	// 3: 
+	// 4: 
+	// 5: 
+	// 6: 
+	// 7: 
+	// 8: 
+
+	// Objective overview status indicators
+	//wm_objective_status <objective> <team (0=Axis, 1=Allies)> <status (0=neutral 1=complete 2=failed)>
+	wm_objective_status 1 1 0
+	wm_objective_status 1 0 0
+	wm_objective_status 2 1 0
+	wm_objective_status 2 0 0
+	wm_objective_status 3 1 0
+	wm_objective_status 3 0 0
+	wm_objective_status 4 1 0
+	wm_objective_status 4 0 0
+	wm_objective_status 5 1 0
+	wm_objective_status 5 0 0
+	wm_objective_status 6 1 0
+	wm_objective_status 6 0 0
+	wm_objective_status 7 1 0
+	wm_objective_status 7 0 0
+	wm_objective_status 8 1 0
+	wm_objective_status 8 0 0
+
+	// Stopwatch mode defending team (0=Axis, 1=Allies)
+	wm_set_defending_team	0
+
+	// Winner on expiration of round timer (0=Axis, 1=Allies, -1=no winner at expiration)
+	wm_setwinner	0
+
+	globalaccum 1 set 0
+
+	// wait for everything to settle
+	wait 1000
+
+	}
+
+	trigger timelimit_hit
+	{
+		wm_setwinner -1
+	}
+}
+
+// ================================================
+// =========== SPAWN POINT CONTROLS ===============
+// ================================================
+// description			: team_wolf_objectives	: spawns
+// Allied Cabin 	: eastbeach_wobj		: eastbeach_spawns
+// Allied Bunker 	: westbeach_wobj		: westbeach_spawns
+// Axis Bunker		: mainbunker_wobj		: mainbunker_spawns
+// East Bunker			: eastbunker_wobj		: eastbunker_spawns
+// Axis Cabin			: westbunker_wobj		: westbunker_spawns
+
+allied_lms_spawns
+{
+	spawn
+	{
+		remove
+	}
+}
+
+allied_lms_wobj
+{
+	spawn
+	{
+		remove
+	}
+}
+
+axis_lms_spawns
+{
+	spawn
+	{
+		remove
+	}
+}
+
+axis_lms_wobj
+{
+	spawn
+	{
+		remove
+	}
+}
+
+westbunker_spawns
+{
+	spawn
+	{
+//		setstate westbunker_spawns invisible
+	}
+}
+
+westbunker_wobj
+{
+	spawn
+	{
+//		wait 100
+
+//		setstate westbunker_wobj invisible
+	}
+}
+
+westbunker_flag
+{
+	spawn
+	{
+		accum 0 set 0	// Who has the flag: 0-Axis, 1-Allied
+	}
+
+	trigger allied_capture
+	{
+		accum 0 abort_if_equal 1 // do Allies own flag?
+
+		trigger game_manager westbunker_flagblue
+
+		setstate westbunker_spawns default
+		setstate westbunker_wobj default
+
+		trigger westbunker_flag setallies
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_addteamvoiceannounce 0 "battery_axis_controls_defend"
+		wm_addteamvoiceannounce 0 "battery_axis_bunker_capture"
+
+		wm_addteamvoiceannounce 1 "battery_allies_controls_destroy"
+
+		wm_teamvoiceannounce 0 "battery_axis_bunker_lost"
+		wm_teamvoiceannounce 0 "battery_axis_controls_defend"
+
+		wm_teamvoiceannounce 1 "battery_allies_bunker_captured"
+		wm_teamvoiceannounce 1 "battery_allies_controls_destroy"
+
+		wm_removeteamvoiceannounce 0 "battery_axis_bunker_defend"
+
+		wm_removeteamvoiceannounce 1 "battery_allies_bunker_capture"
+		// *---------------------------------------------------------------------------------*
+	}
+
+	trigger setallies
+	{
+		accum 0 abort_if_equal 1
+		accum 0 set 1
+
+		alertentity westbunker_wobj
+		alertentity westbunker_spawns
+
+		setautospawn "Axis Main Bunker" 0
+	}
+
+	trigger axis_capture
+	{
+		accum 0 abort_if_equal 0 // do Axis own flag?
+
+		trigger game_manager westbunker_flagred
+
+		setstate westbunker_spawns default
+		setstate westbunker_wobj default
+
+		trigger westbunker_flag setaxis
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_addteamvoiceannounce 0 "battery_axis_bunker_defend"
+
+		wm_addteamvoiceannounce 1 "battery_allies_bunker_capture"
+
+		wm_teamvoiceannounce 0 "battery_axis_bunker_captured"
+
+		wm_teamvoiceannounce 1 "battery_allies_bunker_lost"
+
+		wm_removeteamvoiceannounce 0 "battery_axis_bunker_capture"
+
+		wm_removeteamvoiceannounce 1 "battery_allies_controls_destroy"
+		// *---------------------------------------------------------------------------------*
+	}
+
+	trigger setaxis
+	{
+		accum 0 abort_if_equal 0
+		accum 0 set 0
+
+		alertentity westbunker_wobj
+		alertentity westbunker_spawns
+	}
+}

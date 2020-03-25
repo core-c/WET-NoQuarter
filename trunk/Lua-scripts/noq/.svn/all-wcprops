@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 43
+/svn/nq/!svn/ver/4123/trunk/Lua-scripts/noq
+END
+noq_c.lua
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/nq/!svn/ver/3635/trunk/Lua-scripts/noq/noq_c.lua
+END
+noq_config.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/nq/!svn/ver/3703/trunk/Lua-scripts/noq/noq_config.cfg
+END
+noq_i.lua
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/nq/!svn/ver/4123/trunk/Lua-scripts/noq/noq_i.lua
+END
+nqconst.lua
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/nq/!svn/ver/3586/trunk/Lua-scripts/noq/nqconst.lua
+END
+noq_weapons.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/nq/!svn/ver/4028/trunk/Lua-scripts/noq/noq_weapons.cfg
+END
+noq_commands.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/nq/!svn/ver/4100/trunk/Lua-scripts/noq/noq_commands.cfg
+END
+noq.lua
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/nq/!svn/ver/4100/trunk/Lua-scripts/noq/noq.lua
+END
+noq_mods.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/nq/!svn/ver/3635/trunk/Lua-scripts/noq/noq_mods.cfg
+END

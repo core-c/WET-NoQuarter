@@ -1,0 +1,21 @@
+weaponDef
+{
+	both {
+		name					"Foot"
+		statname				"Foot Kick"
+		damage					38
+		selfKillMessage			"does a masterkill."
+		KillMessage				"got his ass kicked by"
+		KillMessage2			"."
+	}
+
+	client {
+		weaponConfig			"models/weapons2/foot/weapon.cfg"
+		
+		firstPerson {
+			model				"models/weapons2/foot/v_foot.md3"
+			axisskin 			"models/weapons2/foot/v_foot_axis.skin"
+			alliedskin 			"models/weapons2/foot/v_foot_allied.skin"
+		}
+	}
+}

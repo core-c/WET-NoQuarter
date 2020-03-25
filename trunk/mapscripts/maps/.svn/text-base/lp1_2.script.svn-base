@@ -1,0 +1,2213 @@
+game_manager
+{
+	spawn
+	{
+create
+		{
+			classname "team_WOLF_objective"
+			scriptname "axis_spawn1"
+			targetname "axis_spawn1"
+			origin "-2498 -717 368"   // z = CC_FILTER_ALLIES(1) | CC_FILTER_SPAWNS(4)
+			spawnflags 3	 // TEAM_AXIS(3)
+			description "Axis Spawn"
+		}
+
+		// spawn1
+		create
+		{
+			classname "team_CTF_redspawn"
+			targetname "axis_spawn1"
+			scriptName "axis_spawn1"
+			origin "-2498 -717 368"
+			spawnflags 3 // TEAM_AXIS
+			angle "-90"
+		}
+
+		// spawn2
+		create
+		{
+			classname "team_CTF_redspawn"
+			targetname "axis_spawn1"
+			scriptName "axis_spawn1"
+			origin "-2670 -743 368"
+			spawnflags 3 // TEAM_AXIS
+			angle "-90"
+		}
+		// spawn3
+		create
+		{
+			classname "team_CTF_redspawn"
+			targetname "axis_spawn1"
+			scriptName "axis_spawn1"
+			origin "-3055 -1195 384"
+			spawnflags 3 // TEAM_AXIS
+			angle "-90"
+		}
+
+
+		create
+		{
+			classname "team_CTF_redspawn"
+			targetname "axis_spawn1"
+			scriptName "axis_spawn1"
+			origin "3080 -1366 384"
+			spawnflags 3 // TEAM_AXIS
+			angle "90"
+		}
+
+		create
+		{
+			classname "team_CTF_redspawn"
+			targetname "axis_spawn1"
+			scriptName "axis_spawn1"
+			origin "-3064 -1578 384"
+			spawnflags 3 // TEAM_AXIS
+			angle "90"
+		}
+
+		create
+		{
+			classname "team_CTF_redspawn"
+			targetname "axis_spawn1"
+			scriptName "axis_spawn1"
+			origin "-3061 -1818 432"
+			spawnflags 3 // TEAM_AXIS
+			angle "90"
+		}
+
+		
+		// Game rules
+		wm_axis_respawntime	20
+		wm_allied_respawntime	10
+		wm_number_of_objectives 4
+		wm_set_round_timelimit	25
+
+		//spawn setup
+		wait 50
+		setautospawn    "Warehouse" 0
+		setautospawn	"Allied Spawn"	1
+		setstate        alliedsecondaryblob invisible
+		alertentity 	axis_secondary
+		
+		//CP Setup
+		wait 500
+		setchargetimefactor 0 soldier 1
+	
+
+		//objective settings
+		// 1: Steal Parts
+		// 2: Build A-Bomb
+		// 3: Escort Handcar
+		// 4: Escape With Bomb
+		// 5: Axis command post
+		// 6: Allied command post
+		
+
+
+		// Current main objectives for each team (0=Axis, 1=Allies)
+		wm_set_main_objective		1	0
+		wm_set_main_objective		1	1
+
+		wm_objective_status 1 0 0
+		wm_objective_status 1 1 0
+		wm_objective_status 2 0 0
+		wm_objective_status 2 1 0
+		wm_objective_status 3 0 0
+		wm_objective_status 3 1 0
+		wm_objective_status 4 0 0
+		wm_objective_status 4 1 0
+
+		wm_set_main_objective		1	0
+		wm_set_main_objective		1	1
+
+		// Stopwatch mode defending team (0=Axis, 1=Allies)
+		wm_set_defending_team	0
+
+		// Winner on expiration of round timer (0=Axis, 1=Allies)
+		wm_setwinner	0
+
+		
+
+		//command map setup
+		setstate bomb_cm_marker invisible
+		setstate handcar_cm_toi invisible
+	
+		
+							// fire at game start.
+		wait 200
+		setstate fuse_box invisible		// fusebox setup
+
+		//handcar script info temporary
+		wait 200
+		globalaccum 5 set 0
+		globalaccum 6 set 0
+		setstate nogo_tm invisible
+		setstate bomb_built invisible
+		setstate gates_cm_marker invisible //turn off gates marker
+		setstate bomb_cm_marker2 invisible //turn off bomb parts marker at LB
+
+	}
+
+	trigger checkgame
+		{
+		// Set the round winner:  0 == AXIS, 1 == ALLIED
+		wm_setwinner 1
+		// End the round
+		wm_announce "Allied team has escaped with the A-Bomb!"
+		wm_endround
+		wait 500
+		// allies have saved the day!
+		}
+
+	trigger timelimit_hit
+		{
+		wm_announce	"Axis have secured the Trainyard."
+		wait 8000
+		// what can we say.. axis pulled it off.. 
+		}
+
+}
+	
+// ================================================
+// ============ Static Script Movers ==============
+// ================================================
+
+	bell_activate
+	{
+		trigger activate
+		{
+			trigger train_bell ring
+		}
+	}
+
+	train_bell
+	{
+		spawn
+		{
+			wait 200
+			faceangles 0 90 0 500
+		}
+
+		trigger ring
+		{
+			wait 60
+			faceangles 0 90 -45 150
+			playsound sound/lp1_1/train_bell.wav
+
+			wait 300
+			faceangles 0 90 45 150
+			wait 200
+			playsound sound/lp1_1/train_bell.wav
+			faceangles 0 90 0 150
+
+		}
+	}
+	
+	
+	fan
+	{
+		spawn
+		{
+			wait 100
+			setrotation	 0 115 0
+		}
+	}
+	fan2
+	{
+		spawn
+		{
+			wait 100
+			setrotation	 0 97 0
+		}
+	}
+	fan3
+	{
+		spawn
+		{
+			wait 100
+			setrotation	 0 62 0
+		}
+	}
+	fan4
+	{
+		spawn
+		{
+			wait 100
+			setrotation	 0 40 0
+		}
+	}
+	static_truck
+	{
+		spawn
+		{
+			wait 100
+			faceangles 0 270 0 10 10
+		}
+	}
+	static_truck2
+	{
+		spawn
+		{
+			wait 100
+			faceangles 0 180 0 10 10
+		}
+	}
+
+
+
+// ================================================
+// ============ Weapons Hold Script  ==============
+// ================================================
+
+
+wh_door_script
+{
+	spawn
+	{
+		wait 200
+		constructible_class 3
+	}
+
+	
+	death
+	{
+		setstate bomb_cm_marker default
+		//wm_announce "The Weapons Hold Door has been breached!"
+		alertentity print_weapons_hold
+		
+	}
+
+}
+
+wires_construct
+{
+	spawn 
+	{ 
+		wait 200 
+		constructible_class 3
+		trigger self startup 
+	} 
+
+	buildstart final
+	{
+		setstate wires_broken invisible
+	} 
+
+	built final
+	{
+		setstate wires_broken invisible 
+		setstate wires_construct invisible
+		setstate wires_repaired default
+		setstate fuse_box invisible
+		setstate slide_doors_print invisible
+		kill sparks_start
+		kill fuse_noise_sparks
+		alertentity fuse_smoke
+		alertentity fuse_noise
+		trigger slide_left open
+	} 
+
+	decayed final
+	{ 
+		trigger self startup 
+	}
+
+	trigger startup 
+	{ 
+		setstate wires_repaired invisible
+		setstate wires_construct invisible 
+		setstate wires_broken default 
+	} 
+}
+
+slide_left
+{
+	spawn
+	{
+	}
+
+	trigger open
+	{
+	wait 500
+	playsound sound/movers/misc/big_gate1.wav volume 127
+	wait 350
+	gotomarker slide_left_stop 25
+	trigger slide_right open
+	}
+}
+slide_right
+{
+	spawn
+	{
+	}
+
+	trigger open
+	{
+	gotomarker slide_right_stop 25 wait
+	playsound sound/movers/misc/big_gate3.wav volume 127
+	}
+}
+
+// just a fuse panel that you open first to get to the fuse box inards. you dont really
+// need this, just thought it would be an addition.
+
+fuse_panel_open
+{
+	activate
+	{
+		setstate fuse_panel_open invisible
+		setstate fuse_box default
+		trigger fuse_panel open
+	}
+}
+
+
+fuse_panel
+{
+	trigger open
+	{
+		wait 60
+		playsound sound/lp1_1/handle_open.wav volume 127
+		alertentity fuse_noise_sparks
+		alertentity sparks_start
+		faceangles 0 -150 0 1500
+	}
+
+}
+
+
+
+
+// ================================================
+// ============   Depot Main Gates   ==============
+// ================================================
+
+gates
+{
+	spawn
+	{
+		wait 400
+		trigger gates setup
+
+		constructible_class 3
+		globalaccum 5 set 0	// built flag
+	}
+
+	trigger setup
+	{
+		setstate gates_materials default
+		setstate gates_materials_clip default
+		setstate gates_flag default
+	}
+
+	buildstart final
+	{
+		setstate gates_materials default
+		setstate gates_materials_clip default
+		setstate gates_flag default
+	}
+
+	built final
+	{
+		setstate gates_materials invisible
+		setstate gates_materials_clip invisible
+		setstate gates_flag invisible
+		globalaccum 6 set 1
+
+		//wm_announce "The Main Gates have been constructed."
+		alertentity print_depot
+		setstate gates_cm_marker default
+
+	}
+
+	decayed final
+	{
+		setstate gates_materials default
+		setstate gates_materials_clip default
+		setstate gates_flag default
+
+
+	}
+
+	death
+	{
+		globalaccum 6 set 0
+		setstate gates_materials default
+		setstate gates_materials_clip default
+		setstate gates_flag default
+
+
+		wm_announce "The Main Gates have been destroyed."
+		alertentity print_depot2
+		setstate gates_cm_marker invisible
+
+	}
+
+	trigger remove
+	{
+		setstate gates_toi invisible
+		setstate gates_materials invisible
+		setstate gates_materials_clip invisible
+		setstate gates_flag invisible
+
+
+		remove
+	}
+}
+
+
+
+	
+
+
+// ================================================
+// ============   Bomb Carry Script  ==============
+// ================================================
+
+bomb_ctf_2
+{
+	spawn
+	{
+	}
+
+	
+	death
+	{
+		//wm_announce "The bomb parts have been secured in the Assemby Area"
+		setstate bomb_cm_marker2 default
+		alertentity print_bomb_loadingbay
+		alertentity static_crates_1		//turn on regular crates
+		setstate lb_crates_clip default		//turn on crates clip
+		setstate trans_crates_1	invisible	//turn off LB crates
+		setstate bomb_cm_marker invisible	//turn off bomb command map marker
+		setstate bombbuild_toi1 default		//turn on bomb TOI
+		setstate alliedsecondaryblob default	//turn on LB blob
+		alertentity allied_secondary		//activate LB spawn
+		setstate axis_primary invisible		//turn off old axis spawn above
+		//alertentity axis_primary_later		//turn on new axis spawn below
+		setstate handcar_cm_toi default		//turn on handcar(bomb) cm marker
+		setstate axisprimaryblob invisible
+		setautospawn "Loading Bay" 1		//set LB as default spawn
+		setautospawn "Axis Spawn" 0		//set LB as default spawn
+	}
+
+}
+
+// ================================================
+// =============== Bomb Assembly ==================
+// ================================================
+
+open_crates
+{
+	spawn
+	{
+		wait 400
+		constructible_class 3
+		setstate opencrates invisible		//set opencrates gamemodel invisible
+		setstate bombbuild_toi1 invisible
+		setstate bombbuild_toi2 invisible	//turn off toi
+		setstate lb_crates_clip invisible	//turn off crates clip
+	}
+
+
+	buildstart final
+	{
+		setstate opencrates underconstruction
+	}
+
+	built final
+	{
+		alertentity static_crates_1
+		setstate opencrates default
+		setstate open_crates invisible
+		//wm_announce "The Allies have opened the crates and are assembling the bomb!"
+		alertentity print_bomb_construct
+		wait 500
+		setstate bombbuild_toi1 invisible
+		setstate bombbuild_toi2 default
+	}
+
+	decayed final
+	{
+		setstate opencrates invisible
+	}
+
+	death
+	{
+		//alertentity static_crates_1
+		//setstate opencrates invisible
+		//setstate open_crates invisible	
+		//setstate bombbuild_toi1 default
+		//setstate bombbuild_toi2 invisible
+	}
+}
+	
+abomb_const
+{
+	spawn
+	{
+		wait 400
+	}
+
+	buildstart final
+	{
+		setstate bomb_built underconstruction
+	}
+
+	built final
+	{
+		kill opencrates
+		setstate open_crates invisible
+		kill bombbuild_toi1
+		setstate bombbuild_toi2 invisible
+		//wm_announce "The Bomb has been assembled"
+		setstate bomb_built default
+		setstate allied_hctrigger default
+		setstate axis_hctrigger default
+		setstate lb_crates_clip invisible	//turn off crates clip
+		setstate bomb_cm_marker2 invisible
+		alertentity print_bomb_built
+	}
+
+	decayed final
+	{
+		setstate bomb_built invisible
+	}
+
+	death
+	{
+	}
+}
+
+
+
+
+
+// ================================================
+// =============   Hand Car Script  ===============
+// ================================================
+
+
+hc_car
+{
+	spawn
+	{
+		wait 200 wait
+		followspline 0 car0 50000 wait
+		accum 3 set 0
+	}
+
+	trigger handcar_pumpon
+	{
+		startanimation 1 19 20 nolerp
+	}
+
+	trigger handcar_pumpoff
+	{
+		startanimation 1 1 1 nolerp
+	}
+
+	trigger end_sequence	// here is the end, the allies have made it all the way.
+	{
+		setstate allied_hctrigger invisible	// remove the triggers no the teams can't
+		setstate axis_hctrigger invisible	// effect the cars in anyway.
+		setstate nogo_tm invisible
+		trigger gates remove
+		trigger self effects_off
+
+		// this should end the round.
+		trigger game_manager checkgame		
+	}
+
+
+	trigger disable
+	{
+		accum 9 set 0
+		accum 1 abort_if_bitset 2
+		accum 1 abort_if_bitset 8
+		accum 1 bitset 8
+
+
+		accum 1 bitreset 6
+		accum 1 bitreset 7
+		accum 1 bitreset 10
+		accum 1 bitreset 11
+		trigger self effects_off
+	}
+
+	trigger effects_off
+	{
+		trigger hc_car stop_sound
+		trigger hc_car handcar_pumpoff
+
+		trigger hc_fwheel stop
+		trigger hc_rwheel stop
+		trigger fb_fwheel stop
+		trigger fb_rwheel stop
+	}
+
+	trigger enable_allies
+	{
+		accum 9 set 2
+		accum 1 abort_if_bitset 6
+		accum 1 abort_if_bitset 2
+		accum 1 bitset 6
+		accum 1 bitreset 8
+
+		trigger hc_car allies_continue		
+	}
+
+	trigger enable_axis
+	{
+
+		accum 9 set 1
+		accum 1 abort_if_bitset 7
+		accum 1 abort_if_bitset 2
+		accum 1 bitset 7
+		accum 1 bitreset 8
+
+		trigger hc_car axis_continue		
+	}
+
+	trigger allies_continue
+	{
+		trigger hc_car allies_sound
+		trigger hc_car update_counter_allies
+		trigger hc_car dispatch_forward
+	}	
+
+	trigger axis_continue
+	{
+		trigger hc_car axis_sound
+		trigger hc_car update_counter_axis
+		trigger hc_car dispatch_backward
+	}
+	
+	trigger run_continue
+	{
+		accum 9 trigger_if_equal 2 hc_car allies_continue
+		accum 9 trigger_if_equal 1 hc_car axis_continue
+	}
+
+	trigger check_gate
+	{
+		globalaccum 6 abort_if_equal 0
+		trigger hc_car nogo2
+	}
+
+	trigger update_counter_allies
+	{
+
+		accum 3 inc 1
+		accum 3 trigger_if_equal 38 hc_car check_gate
+	}
+
+	trigger update_counter_axis
+	{
+		accum 3 inc -1
+		accum 3 abort_if_not_equal -2
+		accum 3 set -1
+	}
+
+	trigger cancel_allies
+	{
+		trigger hc_car disable
+		resetscript
+	}
+
+	trigger nogo1	//axis
+	{
+		// accum 3 set 0
+		trigger self effects_off
+		resetscript
+	}
+
+	trigger nogo2	//allied
+	{
+		accum 3 inc -1
+		trigger self effects_off
+		resetscript
+	}
+
+	trigger allies_sound
+	{
+		accum 1 abort_if_bitset 11
+		accum 1 bitset 11
+		trigger hc_car set_forward
+		trigger hc_car start_sound
+		trigger hc_car handcar_pumpon
+	}
+
+	trigger axis_sound
+	{
+		accum 1 abort_if_bitset 10
+		accum 1 bitset 10
+		trigger hc_car set_backward
+		trigger hc_car start_sound
+		trigger hc_car handcar_pumpon
+	}
+
+	trigger start_sound
+	{
+		playsound sound/vehicles/tug/tug_move.wav looping
+		trigger fb_car start_sound
+	}
+
+	trigger stop_sound
+	{
+		stopsound
+		trigger fb_car stop_sound
+	}
+
+	trigger set_forward
+	{
+
+		trigger hc_fwheel forward
+		trigger hc_rwheel forward
+		trigger fb_fwheel forward
+		trigger fb_rwheel forward
+	}
+
+	trigger set_backward
+	{
+
+		trigger hc_fwheel backward
+		trigger hc_rwheel backward
+		trigger fb_fwheel backward
+		trigger fb_rwheel backward
+	}
+		
+	trigger dispatch_forward
+	{
+		accum 3 trigger_if_equal -1 hc_car run_continue
+		accum 3 trigger_if_equal 0 hc_car run_continue
+	
+		accum 3 trigger_if_equal 1 hc_car runforwards_1
+		accum 3 trigger_if_equal 2 hc_car runforwards_2
+		accum 3 trigger_if_equal 3 hc_car runforwards_3
+		accum 3 trigger_if_equal 4 hc_car runforwards_4
+		accum 3 trigger_if_equal 5 hc_car runforwards_5
+		accum 3 trigger_if_equal 6 hc_car runforwards_6
+		accum 3 trigger_if_equal 7 hc_car runforwards_7
+		accum 3 trigger_if_equal 8 hc_car runforwards_8
+		accum 3 trigger_if_equal 9 hc_car runforwards_9
+		accum 3 trigger_if_equal 10 hc_car runforwards_10
+		accum 3 trigger_if_equal 11 hc_car runforwards_11
+		accum 3 trigger_if_equal 12 hc_car runforwards_12
+		accum 3 trigger_if_equal 13 hc_car runforwards_13
+		accum 3 trigger_if_equal 14 hc_car runforwards_14
+		accum 3 trigger_if_equal 15 hc_car runforwards_15
+		accum 3 trigger_if_equal 16 hc_car runforwards_16
+		accum 3 trigger_if_equal 17 hc_car runforwards_17
+		accum 3 trigger_if_equal 18 hc_car runforwards_18
+		accum 3 trigger_if_equal 19 hc_car runforwards_19
+		accum 3 trigger_if_equal 20 hc_car runforwards_20
+		accum 3 trigger_if_equal 21 hc_car runforwards_21
+		accum 3 trigger_if_equal 22 hc_car runforwards_22
+		accum 3 trigger_if_equal 23 hc_car runforwards_23
+		accum 3 trigger_if_equal 24 hc_car runforwards_24
+		accum 3 trigger_if_equal 25 hc_car runforwards_25
+		accum 3 trigger_if_equal 26 hc_car runforwards_26
+		accum 3 trigger_if_equal 27 hc_car runforwards_27
+		accum 3 trigger_if_equal 28 hc_car runforwards_28
+		accum 3 trigger_if_equal 29 hc_car runforwards_29
+		accum 3 trigger_if_equal 30 hc_car runforwards_30
+		accum 3 trigger_if_equal 31 hc_car runforwards_31
+		accum 3 trigger_if_equal 32 hc_car runforwards_32
+		accum 3 trigger_if_equal 33 hc_car runforwards_33
+		accum 3 trigger_if_equal 34 hc_car runforwards_34
+		accum 3 trigger_if_equal 35 hc_car runforwards_35
+		accum 3 trigger_if_equal 36 hc_car runforwards_36
+		accum 3 trigger_if_equal 37 hc_car runforwards_37
+		accum 3 trigger_if_equal 38 hc_car runforwards_38
+		accum 3 trigger_if_equal 39 hc_car runforwards_39
+		accum 3 trigger_if_equal 40 hc_car runforwards_40
+		accum 3 trigger_if_equal 41 hc_car runforwards_41
+		accum 3 trigger_if_equal 42 hc_car runforwards_42
+		accum 3 trigger_if_equal 43 hc_car runforwards_43
+		accum 3 trigger_if_equal 44 hc_car runforwards_44
+		accum 3 trigger_if_equal 45 hc_car runforwards_45
+
+		accum 3 trigger_if_equal 46 hc_car end_sequence
+
+	}
+	trigger dispatch_backward
+	{
+		accum 3 trigger_if_equal -1 hc_car nogo1
+
+		accum 3 trigger_if_equal 0 hc_car runbackwards_1
+		accum 3 trigger_if_equal 1 hc_car runbackwards_2
+		accum 3 trigger_if_equal 2 hc_car runbackwards_3
+		accum 3 trigger_if_equal 3 hc_car runbackwards_4
+		accum 3 trigger_if_equal 4 hc_car runbackwards_5
+		accum 3 trigger_if_equal 5 hc_car runbackwards_6
+		accum 3 trigger_if_equal 6 hc_car runbackwards_7
+		accum 3 trigger_if_equal 7 hc_car runbackwards_8
+		accum 3 trigger_if_equal 8 hc_car runbackwards_9
+		accum 3 trigger_if_equal 9 hc_car runbackwards_10
+		accum 3 trigger_if_equal 10 hc_car runbackwards_11
+		accum 3 trigger_if_equal 11 hc_car runbackwards_12
+		accum 3 trigger_if_equal 12 hc_car runbackwards_13
+		accum 3 trigger_if_equal 13 hc_car runbackwards_14
+		accum 3 trigger_if_equal 14 hc_car runbackwards_15
+		accum 3 trigger_if_equal 15 hc_car runbackwards_16
+		accum 3 trigger_if_equal 16 hc_car runbackwards_17
+		accum 3 trigger_if_equal 17 hc_car runbackwards_18
+		accum 3 trigger_if_equal 18 hc_car runbackwards_19
+		accum 3 trigger_if_equal 19 hc_car runbackwards_20
+		accum 3 trigger_if_equal 20 hc_car runbackwards_21
+		accum 3 trigger_if_equal 21 hc_car runbackwards_22
+		accum 3 trigger_if_equal 22 hc_car runbackwards_23
+		accum 3 trigger_if_equal 23 hc_car runbackwards_24
+		accum 3 trigger_if_equal 24 hc_car runbackwards_25
+		accum 3 trigger_if_equal 25 hc_car runbackwards_26
+		accum 3 trigger_if_equal 26 hc_car runbackwards_27
+		accum 3 trigger_if_equal 27 hc_car runbackwards_28
+		accum 3 trigger_if_equal 28 hc_car runbackwards_29
+		accum 3 trigger_if_equal 29 hc_car runbackwards_30
+		accum 3 trigger_if_equal 30 hc_car runbackwards_31
+		accum 3 trigger_if_equal 31 hc_car runbackwards_32
+		accum 3 trigger_if_equal 32 hc_car runbackwards_33
+		accum 3 trigger_if_equal 33 hc_car runbackwards_34
+		accum 3 trigger_if_equal 34 hc_car runbackwards_35
+		accum 3 trigger_if_equal 35 hc_car runbackwards_36
+		accum 3 trigger_if_equal 36 hc_car runbackwards_37
+		accum 3 trigger_if_equal 37 hc_car runbackwards_38
+		accum 3 trigger_if_equal 38 hc_car runbackwards_39
+		accum 3 trigger_if_equal 39 hc_car runbackwards_40
+		accum 3 trigger_if_equal 40 hc_car runbackwards_41
+		accum 3 trigger_if_equal 41 hc_car runbackwards_42
+		accum 3 trigger_if_equal 42 hc_car runbackwards_43
+		accum 3 trigger_if_equal 43 hc_car runbackwards_44
+		accum 3 trigger_if_equal 44 hc_car runbackwards_45
+	}
+
+	trigger runforwards_1
+	{
+		accum 1 bitset 2
+		trigger fb_car runforwards_1
+		followspline 0 car1 200 wait
+		accum 1 bitreset 2
+		trigger self run_continue
+	}
+	trigger runforwards_2
+	{
+		accum 1 bitset 2
+		trigger fb_car runforwards_2
+		followspline 0 car2 200 wait
+		accum 1 bitreset 2
+		trigger self run_continue
+	}
+	trigger runforwards_3
+	{
+		accum 1 bitset 2
+		trigger fb_car runforwards_3
+		followspline 0 car3 200 wait
+		accum 1 bitreset 2
+		trigger self run_continue
+	}
+	trigger runforwards_4
+	{
+		accum 1 bitset 2
+		trigger fb_car runforwards_4
+		followspline 0 car4 200 wait
+		accum 1 bitreset 2
+		trigger self run_continue
+	}
+	trigger runforwards_5
+	{
+		accum 1 bitset 2
+		trigger fb_car runforwards_5
+		followspline 0 car5 200 wait
+		accum 1 bitreset 2
+		trigger self run_continue
+	}
+	trigger runforwards_6
+	{
+		accum 1 bitset 2
+		trigger fb_car runforwards_6
+		followspline 0 car6 200 wait
+		accum 1 bitreset 2
+		trigger self run_continue
+	}
+	trigger runforwards_7
+	{
+		accum 1 bitset 2
+		trigger fb_car runforwards_7
+		followspline 0 car7 200 wait
+		accum 1 bitreset 2
+		trigger self run_continue
+	}
+	trigger runforwards_8
+	{
+		accum 1 bitset 2
+		trigger fb_car runforwards_8
+		followspline 0 car8 200 wait
+		accum 1 bitreset 2
+		trigger self run_continue
+	}
+	trigger runforwards_9
+	{
+		accum 1 bitset 2
+		trigger fb_car runforwards_9
+		followspline 0 car9 200 wait
+		accum 1 bitreset 2
+		trigger self run_continue
+	}
+	trigger runforwards_10
+	{
+		accum 1 bitset 2
+		trigger fb_car runforwards_10
+		followspline 0 car10 200 wait
+		accum 1 bitreset 2
+		trigger self run_continue
+	}
+	trigger runforwards_11
+	{
+		accum 1 bitset 2
+		trigger fb_car runforwards_11
+		followspline 0 car11 200 wait
+		accum 1 bitreset 2
+		trigger self run_continue
+	}
+	trigger runforwards_12
+	{
+		accum 1 bitset 2
+		trigger fb_car runforwards_12
+		followspline 0 car12 200 wait
+		accum 1 bitreset 2
+		trigger self run_continue
+	}
+	trigger runforwards_13
+	{
+		accum 1 bitset 2
+		trigger fb_car runforwards_13
+		followspline 0 car13 200 wait
+		accum 1 bitreset 2
+		trigger self run_continue
+	}
+	trigger runforwards_14
+	{
+		accum 1 bitset 2
+		trigger fb_car runforwards_14
+		followspline 0 car14 200 wait
+		accum 1 bitreset 2
+		trigger self run_continue
+	}
+	trigger runforwards_15
+	{
+		accum 1 bitset 2
+		trigger fb_car runforwards_15
+		followspline 0 car15 200 wait
+		accum 1 bitreset 2
+		trigger self run_continue
+	}
+	trigger runforwards_16
+	{
+		accum 1 bitset 2
+		trigger fb_car runforwards_16
+		followspline 0 car16 200 wait
+		accum 1 bitreset 2
+		trigger self run_continue
+	}
+	trigger runforwards_17
+	{
+		accum 1 bitset 2
+		trigger fb_car runforwards_17
+		followspline 0 car17 200 wait
+		accum 1 bitreset 2
+		trigger self run_continue
+	}
+	trigger runforwards_18
+	{
+		accum 1 bitset 2
+		trigger fb_car runforwards_18
+		followspline 0 car18 200 wait
+		accum 1 bitreset 2
+		trigger self run_continue
+	}
+	trigger runforwards_19
+	{
+		accum 1 bitset 2
+		trigger fb_car runforwards_19
+		followspline 0 car19 200 wait
+		accum 1 bitreset 2
+		trigger self run_continue
+	}
+	trigger runforwards_20
+	{
+		accum 1 bitset 2
+		trigger fb_car runforwards_20
+		followspline 0 car20 200 wait
+		accum 1 bitreset 2
+		trigger self run_continue
+	}
+	trigger runforwards_21
+	{
+		accum 1 bitset 2
+		trigger fb_car runforwards_21
+		followspline 0 car21 200 wait
+		accum 1 bitreset 2
+		trigger self run_continue
+	}
+	trigger runforwards_22
+	{
+		accum 1 bitset 2
+		trigger fb_car runforwards_22
+		followspline 0 car22 200 wait
+		accum 1 bitreset 2
+		trigger self run_continue
+	}
+	trigger runforwards_23
+	{
+		accum 1 bitset 2
+		trigger fb_car runforwards_23
+		followspline 0 car23 200 wait
+		accum 1 bitreset 2
+		trigger self run_continue
+	}
+	trigger runforwards_24
+	{
+		accum 1 bitset 2
+		trigger fb_car runforwards_24
+		followspline 0 car24 200 wait
+		accum 1 bitreset 2
+		trigger self run_continue
+	}
+	trigger runforwards_25
+	{
+		accum 1 bitset 2
+		trigger fb_car runforwards_25
+		followspline 0 car25 200 wait
+		accum 1 bitreset 2
+		trigger self run_continue
+	}
+	trigger runforwards_26
+	{
+		accum 1 bitset 2
+		trigger fb_car runforwards_26
+		followspline 0 car26 200 wait
+		accum 1 bitreset 2
+		trigger self run_continue
+	}
+	trigger runforwards_27
+	{
+		accum 1 bitset 2
+		trigger fb_car runforwards_27
+		followspline 0 car27 200 wait
+		accum 1 bitreset 2
+		trigger self run_continue
+	}
+	trigger runforwards_28
+	{
+		accum 1 bitset 2
+		trigger fb_car runforwards_28
+		followspline 0 car28 200 wait
+		accum 1 bitreset 2
+		trigger self run_continue
+	}
+	trigger runforwards_29
+	{
+		accum 1 bitset 2
+		trigger fb_car runforwards_29
+		followspline 0 car29 200 wait
+		accum 1 bitreset 2
+		trigger self run_continue
+	}
+	trigger runforwards_30
+	{
+		accum 1 bitset 2
+		trigger fb_car runforwards_30
+		followspline 0 car30 200 wait
+		accum 1 bitreset 2
+		trigger self run_continue
+	}
+	trigger runforwards_31
+	{
+		accum 1 bitset 2
+		trigger fb_car runforwards_31
+		followspline 0 car31 200 wait
+		accum 1 bitreset 2
+		trigger self run_continue
+	}
+	trigger runforwards_32
+	{
+		accum 1 bitset 2
+		trigger fb_car runforwards_32
+		followspline 0 car32 200 wait
+		accum 1 bitreset 2
+		trigger self run_continue
+	}
+	trigger runforwards_33
+	{
+		accum 1 bitset 2
+		trigger fb_car runforwards_33
+		followspline 0 car33 200 wait
+		accum 1 bitreset 2
+		trigger self run_continue
+	}
+	trigger runforwards_34
+	{
+		accum 1 bitset 2
+		trigger fb_car runforwards_34
+		followspline 0 car34 200 wait
+		accum 1 bitreset 2
+		trigger self run_continue
+	}
+	trigger runforwards_35
+	{
+		accum 1 bitset 2
+		trigger fb_car runforwards_35
+		followspline 0 car35 200 wait
+		accum 1 bitreset 2
+		trigger self run_continue
+	}
+	trigger runforwards_36
+	{
+		accum 1 bitset 2
+		trigger fb_car runforwards_36
+		followspline 0 car36 200 wait
+		accum 1 bitreset 2
+		trigger self run_continue
+	}
+	trigger runforwards_37
+	{
+		accum 1 bitset 2
+		trigger fb_car runforwards_37
+		followspline 0 car37 200 wait
+		accum 1 bitreset 2
+		trigger self run_continue
+	}
+	trigger runforwards_38
+	{
+		accum 1 bitset 2
+		trigger fb_car runforwards_38
+		followspline 0 car38 200 wait
+		accum 1 bitreset 2
+		setstate nogo_tm default
+		setstate gates_toi invisible
+	//	globalaccum 9 set 1
+		trigger self run_continue
+	}
+	trigger runforwards_39
+	{
+		accum 1 bitset 2
+		trigger fb_car runforwards_39
+		followspline 0 car39 200 wait
+		accum 1 bitreset 2
+		trigger self run_continue
+	}
+	trigger runforwards_40
+	{
+		accum 1 bitset 2
+		trigger fb_car runforwards_40
+		followspline 0 car40 200 wait
+		accum 1 bitreset 2
+		trigger self run_continue
+	}
+	trigger runforwards_41
+	{
+		accum 1 bitset 2
+		trigger fb_car runforwards_41
+		followspline 0 car41 200 wait
+		accum 1 bitreset 2
+		trigger self run_continue
+	}
+	trigger runforwards_42
+	{
+		accum 1 bitset 2
+		trigger fb_car runforwards_42
+		followspline 0 car42 200 wait
+		accum 1 bitreset 2
+		trigger self run_continue
+	}
+	trigger runforwards_43
+	{
+		accum 1 bitset 2
+		trigger fb_car runforwards_43
+		followspline 0 car43 200 wait
+		accum 1 bitreset 2
+		trigger self run_continue
+	}
+	trigger runforwards_44
+	{
+		accum 1 bitset 2
+		trigger fb_car runforwards_44
+		followspline 0 car44 200 wait
+		accum 1 bitreset 2
+		trigger self run_continue
+	}
+	trigger runforwards_45
+	{
+		accum 1 bitset 2
+		trigger fb_car runforwards_45
+		followspline 0 car45 200 wait
+		accum 1 bitreset 2
+		trigger self run_continue
+	}
+
+	trigger runforwards_45
+	{
+		accum 1 bitset 2
+		trigger fb_car runforwards_45
+		followspline 0 car45 200 wait
+		accum 1 bitreset 2
+		trigger self run_continue
+	}
+
+//
+//	backwards
+//
+	trigger runbackwards_1
+	{
+		accum 1 bitset 2
+		trigger fb_car runbackwards_1
+		followspline 1 car1 200 wait
+		accum 1 bitreset 2
+		trigger self run_continue
+	}
+	trigger runbackwards_2
+	{
+		accum 1 bitset 2
+		trigger fb_car runbackwards_2
+		followspline 1 car2 200 wait
+		accum 1 bitreset 2
+		trigger self run_continue
+	}
+	trigger runbackwards_3
+	{
+		accum 1 bitset 2
+		trigger fb_car runbackwards_3
+		followspline 1 car3 200 wait
+		accum 1 bitreset 2
+		trigger self run_continue
+	}
+	trigger runbackwards_4
+	{
+		accum 1 bitset 2
+		trigger fb_car runbackwards_4
+		followspline 1 car4 200 wait
+		accum 1 bitreset 2
+		trigger self run_continue
+	}
+	trigger runbackwards_5
+	{
+		accum 1 bitset 2
+		trigger fb_car runbackwards_5
+		followspline 1 car5 200 wait
+		accum 1 bitreset 2
+		trigger self run_continue
+	}
+	trigger runbackwards_6
+	{
+		accum 1 bitset 2
+		trigger fb_car runbackwards_6
+		followspline 1 car6 200 wait
+		accum 1 bitreset 2
+		trigger self run_continue
+	}
+	trigger runbackwards_7
+	{
+		accum 1 bitset 2
+		trigger fb_car runbackwards_7
+		followspline 1 car7 200 wait
+		accum 1 bitreset 2
+		trigger self run_continue
+	}
+	trigger runbackwards_8
+	{
+		accum 1 bitset 2
+		trigger fb_car runbackwards_8
+		followspline 1 car8 200 wait
+		accum 1 bitreset 2
+		trigger self run_continue
+	}
+	trigger runbackwards_9
+	{
+		accum 1 bitset 2
+		trigger fb_car runbackwards_9
+		followspline 1 car9 200 wait
+		accum 1 bitreset 2
+		trigger self run_continue
+	}
+	trigger runbackwards_10
+	{
+		accum 1 bitset 2
+		trigger fb_car runbackwards_10
+		followspline 1 car10 200 wait
+		accum 1 bitreset 2
+		trigger self run_continue
+	}
+	trigger runbackwards_11
+	{
+		accum 1 bitset 2
+		trigger fb_car runbackwards_11
+		followspline 1 car11 200 wait
+		accum 1 bitreset 2
+		trigger self run_continue
+	}
+	trigger runbackwards_12
+	{
+		accum 1 bitset 2
+		trigger fb_car runbackwards_12
+		followspline 1 car12 200 wait
+		accum 1 bitreset 2
+		trigger self run_continue
+	}
+	trigger runbackwards_13
+	{
+		accum 1 bitset 2
+		trigger fb_car runbackwards_13
+		followspline 1 car13 200 wait
+		accum 1 bitreset 2
+		trigger self run_continue
+	}
+	trigger runbackwards_14
+	{
+		accum 1 bitset 2
+		trigger fb_car runbackwards_14
+		followspline 1 car14 200 wait
+		accum 1 bitreset 2
+		trigger self run_continue
+	}
+	trigger runbackwards_15
+	{
+		accum 1 bitset 2
+		trigger fb_car runbackwards_15
+		followspline 1 car15 200 wait
+		accum 1 bitreset 2
+		trigger self run_continue
+	}
+	trigger runbackwards_16
+	{
+		accum 1 bitset 2
+		trigger fb_car runbackwards_16
+		followspline 1 car16 200 wait
+		accum 1 bitreset 2
+		trigger self run_continue
+	}
+	trigger runbackwards_17
+	{
+		accum 1 bitset 2
+		trigger fb_car runbackwards_17
+		followspline 1 car17 200 wait
+		accum 1 bitreset 2
+		trigger self run_continue
+	}
+	trigger runbackwards_18
+	{
+		accum 1 bitset 2
+		trigger fb_car runbackwards_18
+		followspline 1 car18 200 wait
+		accum 1 bitreset 2
+		trigger self run_continue
+	}
+	trigger runbackwards_19
+	{
+		accum 1 bitset 2
+		trigger fb_car runbackwards_19
+		followspline 1 car19 200 wait
+		accum 1 bitreset 2
+		trigger self run_continue
+	}
+	trigger runbackwards_20
+	{
+		accum 1 bitset 2
+		trigger fb_car runbackwards_20
+		followspline 1 car20 200 wait
+		accum 1 bitreset 2
+		trigger self run_continue
+	}
+	trigger runbackwards_21
+	{
+		accum 1 bitset 2
+		trigger fb_car runbackwards_21
+		followspline 1 car21 200 wait
+		accum 1 bitreset 2
+		trigger self run_continue
+	}
+	trigger runbackwards_22
+	{
+		accum 1 bitset 2
+		trigger fb_car runbackwards_22
+		followspline 1 car22 200 wait
+		accum 1 bitreset 2
+		trigger self run_continue
+	}
+	trigger runbackwards_23
+	{
+		accum 1 bitset 2
+		trigger fb_car runbackwards_23
+		followspline 1 car23 200 wait
+		accum 1 bitreset 2
+		trigger self run_continue
+	}
+	trigger runbackwards_24
+	{
+		accum 1 bitset 2
+		trigger fb_car runbackwards_24
+		followspline 1 car24 200 wait
+		accum 1 bitreset 2
+		trigger self run_continue
+	}
+	trigger runbackwards_25
+	{
+		accum 1 bitset 2
+		trigger fb_car runbackwards_25
+		followspline 1 car25 200 wait
+		accum 1 bitreset 2
+		trigger self run_continue
+	}
+	trigger runbackwards_26
+	{
+		accum 1 bitset 2
+		trigger fb_car runbackwards_26
+		followspline 1 car26 200 wait
+		accum 1 bitreset 2
+		trigger self run_continue
+	}
+	trigger runbackwards_27
+	{
+		accum 1 bitset 2
+		trigger fb_car runbackwards_27
+		followspline 1 car27 200 wait
+		accum 1 bitreset 2
+		trigger self run_continue
+	}
+	trigger runbackwards_28
+	{
+		accum 1 bitset 2
+		trigger fb_car runbackwards_28
+		followspline 1 car28 200 wait
+		accum 1 bitreset 2
+		trigger self run_continue
+	}
+	trigger runbackwards_29
+	{
+		accum 1 bitset 2
+		trigger fb_car runbackwards_29
+		followspline 1 car29 200 wait
+		accum 1 bitreset 2
+		trigger self run_continue
+	}
+	trigger runbackwards_30
+	{
+		accum 1 bitset 2
+		trigger fb_car runbackwards_30
+		followspline 1 car30 200 wait
+		accum 1 bitreset 2
+		trigger self run_continue
+	}
+	trigger runbackwards_31
+	{
+		accum 1 bitset 2
+		trigger fb_car runbackwards_31
+		followspline 1 car31 200 wait
+		accum 1 bitreset 2
+		trigger self run_continue
+	}
+	trigger runbackwards_32
+	{
+		accum 1 bitset 2
+		trigger fb_car runbackwards_32
+		followspline 1 car32 200 wait
+		accum 1 bitreset 2
+		trigger self run_continue
+	}
+	trigger runbackwards_33
+	{
+		accum 1 bitset 2
+		trigger fb_car runbackwards_33
+		followspline 1 car33 200 wait
+		accum 1 bitreset 2
+		trigger self run_continue
+	}
+	trigger runbackwards_34
+	{
+		accum 1 bitset 2
+		trigger fb_car runbackwards_34
+		followspline 1 car34 200 wait
+		accum 1 bitreset 2
+		trigger self run_continue
+	}
+	trigger runbackwards_35
+	{
+		accum 1 bitset 2
+		trigger fb_car runbackwards_35
+		followspline 1 car35 200 wait
+		accum 1 bitreset 2
+		trigger self run_continue
+	}
+	trigger runbackwards_36
+	{
+		accum 1 bitset 2
+		trigger fb_car runbackwards_36
+		followspline 1 car36 200 wait
+		accum 1 bitreset 2
+		trigger self run_continue
+	}
+	trigger runbackwards_37
+	{
+		accum 1 bitset 2
+		trigger fb_car runbackwards_37
+		followspline 1 car37 200 wait
+		accum 1 bitreset 2
+		trigger self run_continue
+	}
+	trigger runbackwards_38
+	{
+		accum 1 bitset 2
+		trigger fb_car runbackwards_38
+		followspline 1 car38 200 wait
+		accum 1 bitreset 2
+		setstate nogo_tm invisible
+		setstate gates_toi default
+	//	globalaccum 9 set 0
+		trigger self run_continue
+	}
+	trigger runbackwards_39
+	{
+		accum 1 bitset 2
+		trigger fb_car runbackwards_39
+		followspline 1 car39 200 wait
+		accum 1 bitreset 2
+		trigger self run_continue
+	}
+	trigger runbackwards_40
+	{
+		accum 1 bitset 2
+		trigger fb_car runbackwards_40
+		followspline 1 car40 200 wait
+		accum 1 bitreset 2
+		trigger self run_continue
+	}
+	trigger runbackwards_41
+	{
+		accum 1 bitset 2
+		trigger fb_car runbackwards_41
+		followspline 1 car41 200 wait
+		accum 1 bitreset 2
+		trigger self run_continue
+	}
+	trigger runbackwards_42
+	{
+		accum 1 bitset 2
+		trigger fb_car runbackwards_42
+		followspline 1 car42 200 wait
+		accum 1 bitreset 2
+		trigger self run_continue
+	}
+	trigger runbackwards_43
+	{
+		accum 1 bitset 2
+		trigger fb_car runbackwards_43
+		followspline 1 car43 200 wait
+		accum 1 bitreset 2
+		trigger self run_continue
+	}
+	trigger runbackwards_44
+	{
+		accum 1 bitset 2
+		trigger fb_car runbackwards_44
+		followspline 1 car44 200 wait
+		accum 1 bitreset 2
+		trigger self run_continue
+	}
+	trigger runbackwards_45
+	{
+		accum 1 bitset 2
+		trigger fb_car runbackwards_45
+		followspline 1 car45 200 wait
+		accum 1 bitreset 2
+		trigger self run_continue
+	}
+
+
+}
+
+fb_car
+{
+	spawn
+	{
+	wait 200 wait
+	followspline 0 car_start 50000 wait 
+	}
+
+	trigger start_sound
+	{
+		playsound sound/lp1_1/creak_1.wav looping
+	}
+
+	trigger stop_sound
+	{
+		stopsound
+	}
+
+//
+// flatbed car forwards
+//
+	trigger runforwards_1
+	{
+		followspline 0 car0 200
+	}
+	trigger runforwards_2
+	{
+		followspline 0 car1 200
+	}
+	trigger runforwards_3
+	{
+		followspline 0 car2 200
+	}
+	trigger runforwards_4
+	{
+		followspline 0 car3 200
+	}
+	trigger runforwards_5
+	{
+		followspline 0 car4 200
+	}
+	trigger runforwards_6
+	{
+		followspline 0 car5 200
+	}
+	trigger runforwards_7
+	{
+		followspline 0 car6 200
+	}
+	trigger runforwards_8
+	{
+		followspline 0 car7 200
+	}
+	trigger runforwards_9
+	{
+		followspline 0 car8 200
+	}
+	trigger runforwards_10
+	{
+		followspline 0 car9 200
+	}
+	trigger runforwards_11
+	{
+		followspline 0 car10 200
+	}
+	trigger runforwards_12
+	{
+		followspline 0 car11 200
+	}
+	trigger runforwards_13
+	{
+		followspline 0 car12 200
+	}
+	trigger runforwards_14
+	{
+		followspline 0 car13 200
+	}
+	trigger runforwards_15
+	{
+		followspline 0 car14 200
+	}
+	trigger runforwards_16
+	{
+		followspline 0 car15 200
+	}
+	trigger runforwards_17
+	{
+		followspline 0 car16 200
+	}
+	trigger runforwards_18
+	{
+		followspline 0 car17 200
+	}
+	trigger runforwards_19
+	{
+		followspline 0 car18 200
+	}
+	trigger runforwards_20
+	{
+		followspline 0 car19 200
+	}
+	trigger runforwards_21
+	{
+		followspline 0 car20 200
+	}
+	trigger runforwards_22
+	{
+		followspline 0 car21 200
+	}
+	trigger runforwards_23
+	{
+		followspline 0 car22 200
+	}
+	trigger runforwards_24
+	{
+		followspline 0 car23 200
+	}
+	trigger runforwards_25
+	{
+		followspline 0 car24 200
+	}
+	trigger runforwards_26
+	{
+		followspline 0 car25 200
+	}
+	trigger runforwards_27
+	{
+		followspline 0 car26 200
+	}
+	trigger runforwards_28
+	{
+		followspline 0 car27 200
+	}
+	trigger runforwards_29
+	{
+		followspline 0 car28 200
+	}
+	trigger runforwards_30
+	{
+		followspline 0 car29 200
+	}
+	trigger runforwards_31
+	{
+		followspline 0 car30 200
+	}
+	trigger runforwards_32
+	{
+		followspline 0 car31 200
+	}
+	trigger runforwards_33
+	{
+		followspline 0 car32 200
+	}
+	trigger runforwards_34
+	{
+		followspline 0 car33 200
+	}
+	trigger runforwards_35
+	{
+		followspline 0 car34 200
+	}
+	trigger runforwards_36
+	{
+		followspline 0 car35 200
+	}
+	trigger runforwards_37
+	{
+		followspline 0 car36 200
+	}
+	trigger runforwards_38
+	{
+		followspline 0 car37 200
+	}
+	trigger runforwards_39
+	{
+		followspline 0 car38 200
+	}
+	trigger runforwards_40
+	{
+		followspline 0 car39 200
+	}
+	trigger runforwards_41
+	{
+		followspline 0 car40 200
+	}
+	trigger runforwards_42
+	{
+		followspline 0 car41 200
+	}
+	trigger runforwards_43
+	{
+		followspline 0 car42 200
+	}
+	trigger runforwards_44
+	{
+		followspline 0 car43 200
+	}
+	trigger runforwards_45
+	{
+		followspline 0 car44 200
+	}
+//
+// flatbed car backwards
+//
+	trigger runbackwards_1
+	{
+		followspline 1 car0 200
+	}
+	trigger runbackwards_2
+	{
+		followspline 1 car1 200
+	}
+	trigger runbackwards_3
+	{
+		followspline 1 car2 200
+	}
+	trigger runbackwards_4
+	{
+		followspline 1 car3 200
+	}
+	trigger runbackwards_5
+	{
+		followspline 1 car4 200
+	}
+	trigger runbackwards_6
+	{
+		followspline 1 car5 200
+	}
+	trigger runbackwards_7
+	{
+		followspline 1 car6 200
+	}
+	trigger runbackwards_8
+	{
+		followspline 1 car7 200
+	}
+	trigger runbackwards_9
+	{
+		followspline 1 car8 200
+	}
+	trigger runbackwards_10
+	{
+		followspline 1 car9 200
+	}
+	trigger runbackwards_11
+	{
+		followspline 1 car10 200
+	}
+	trigger runbackwards_12
+	{
+		followspline 1 car11 200
+	}
+	trigger runbackwards_13
+	{
+		followspline 1 car12 200
+	}
+	trigger runbackwards_14
+	{
+		followspline 1 car13 200
+	}
+	trigger runbackwards_15
+	{
+		followspline 1 car14 200
+	}
+	trigger runbackwards_16
+	{
+		followspline 1 car15 200
+	}
+	trigger runbackwards_17
+	{
+		followspline 1 car16 200
+	}
+	trigger runbackwards_18
+	{
+		followspline 1 car17 200
+	}
+	trigger runbackwards_19
+	{
+		followspline 1 car18 200
+	}
+	trigger runbackwards_20
+	{
+		followspline 1 car19 200
+	}
+	trigger runbackwards_21
+	{
+		followspline 1 car20 200
+	}
+	trigger runbackwards_22
+	{
+		followspline 1 car21 200
+	}
+	trigger runbackwards_23
+	{
+		followspline 1 car22 200
+	}
+	trigger runbackwards_24
+	{
+		followspline 1 car23 200
+	}
+	trigger runbackwards_25
+	{
+		followspline 1 car24 200
+	}
+	trigger runbackwards_26
+	{
+		followspline 1 car25 200
+	}
+	trigger runbackwards_27
+	{
+		followspline 1 car26 200
+	}
+	trigger runbackwards_28
+	{
+		followspline 1 car27 200
+	}
+	trigger runbackwards_29
+	{
+		followspline 1 car28 200
+	}
+	trigger runbackwards_30
+	{
+		followspline 1 car29 200
+	}
+	trigger runbackwards_31
+	{
+		followspline 1 car30 200
+	}
+	trigger runbackwards_32
+	{
+		followspline 1 car31 200
+	}
+	trigger runbackwards_33
+	{
+		followspline 1 car32 200
+	}
+	trigger runbackwards_34
+	{
+		followspline 1 car33 200
+	}
+	trigger runbackwards_35
+	{
+		followspline 1 car34 200
+	}
+	trigger runbackwards_36
+	{
+		followspline 1 car35 200
+	}
+	trigger runbackwards_37
+	{
+		followspline 1 car36 200
+	}
+	trigger runbackwards_38
+	{
+		followspline 1 car37 200
+	}
+	trigger runbackwards_39
+	{
+		followspline 1 car38 200
+	}
+	trigger runbackwards_40
+	{
+		followspline 1 car39 200
+	}
+	trigger runbackwards_41
+	{
+		followspline 1 car40 200
+	}
+	trigger runbackwards_42
+	{
+		followspline 1 car41 200
+	}
+	trigger runbackwards_43
+	{
+		followspline 1 car42 200
+	}
+	trigger runbackwards_44
+	{
+		followspline 1 car43 200
+	}
+	trigger runbackwards_45
+	{
+		followspline 1 car44 200
+	}
+}
+
+hc_controller
+{
+	spawn
+	{
+		wait 800
+	}
+
+	trigger allied_request
+	{
+		globalaccum 1 inc 1
+		globalaccum 0 set 0
+		globalaccum 2 set 0
+		globalaccum 1 abort_if_less_than 3
+		globalaccum 5 set 0
+		trigger hc_car enable_allies
+	}
+
+	trigger axis_request
+	{
+		globalaccum 0 inc 1
+		globalaccum 1 set 0
+		globalaccum 2 set 0
+		globalaccum 0 abort_if_less_than 3
+		globalaccum 5 set 0
+		trigger hc_car enable_axis
+	}
+
+	trigger timer_disable
+	{
+		// trigger self allied_request	// test.. force the allied in.
+
+		trigger self dual_disable
+		globalaccum 2 inc 1
+		globalaccum 2 abort_if_less_than 3
+		globalaccum 0 set 0
+		globalaccum 1 set 0
+		trigger self disabler
+	}
+
+	trigger dual_disable
+	{
+		globalaccum 5 inc 1
+		globalaccum 5 abort_if_less_than 3
+		trigger self disabler
+	}
+
+	trigger disabler
+	{
+		trigger hc_car disable
+	}
+}
+
+fb_rwheel
+{
+	spawn
+	{
+		wait 500
+
+		attachtotag fb_car tag_rearwheels
+	}
+
+	trigger forward
+	{
+		setrotation 150 0 0
+	}
+
+	trigger backward
+	{
+		setrotation -150 0 0
+	}
+
+	trigger stop
+	{
+		stoprotation
+	}
+}
+
+fb_fwheel
+{
+	spawn
+	{
+		wait 500
+
+		attachtotag fb_car tag_frontwheels
+	}
+
+	trigger forward
+	{
+		setrotation 150 0 0
+	}
+
+	trigger backward
+	{
+		setrotation -150 0 0
+	}
+
+	trigger stop
+	{
+		stoprotation
+	}
+}
+
+hc_rwheel
+{
+	spawn
+	{
+		wait 500
+
+		attachtotag hc_car tag_rwheel
+	}
+
+	trigger forward
+	{
+		setrotation 150 0 0
+	}
+
+	trigger backward
+	{
+		setrotation -150 0 0
+	}
+
+	trigger stop
+	{
+		stoprotation
+	}
+}
+
+hc_fwheel
+{
+	spawn
+	{
+		wait 500
+
+		attachtotag hc_car tag_fwheel
+	}
+
+	trigger forward
+	{
+		setrotation 150 0 0
+	}
+
+	trigger backward
+	{
+		setrotation -150 0 0
+	}
+
+	trigger stop
+	{
+		stoprotation
+	}
+}
+
+bomb_support
+{
+	spawn
+	{
+	wait 400
+	attachtotag fb_car tag_deckcenter
+	}
+
+}
+
+bomb_built
+{
+	spawn
+	{
+	wait 400
+	attachtotag fb_car tag_deckcenter
+	}
+
+}
+
+axis_hctrigger
+{
+	spawn
+	{
+		wait 400
+		attachtotag hc_car tag_center
+		setstate axis_hctrigger invisible
+	}
+}
+
+allied_hctrigger
+{
+	spawn
+	{
+		wait 400
+		attachtotag hc_car tag_center
+		setstate allied_hctrigger invisible
+	}
+}
+
+handcar_cm_toi	// Handcar TOI
+{
+	spawn
+	{
+		wait 400
+		attachtotag hc_car tag_center
+	}
+}

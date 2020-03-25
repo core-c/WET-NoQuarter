@@ -1,0 +1,83 @@
+K 25
+svn:wc:ra_dav:version-url
+V 42
+/svn/nq/!svn/ver/3471/branches/vanilla/src
+END
+SConscript.game
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/nq/!svn/ver/3471/branches/vanilla/src/SConscript.game
+END
+makebundle.sh
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/nq/!svn/ver/3471/branches/vanilla/src/makebundle.sh
+END
+SConscript.cgame
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/nq/!svn/ver/3471/branches/vanilla/src/SConscript.cgame
+END
+wolf.sln
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/nq/!svn/ver/3471/branches/vanilla/src/wolf.sln
+END
+SConscript.ui
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/nq/!svn/ver/3471/branches/vanilla/src/SConscript.ui
+END
+wolf.dsw
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/nq/!svn/ver/3471/branches/vanilla/src/wolf.dsw
+END
+cross-scons.sh
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/nq/!svn/ver/3471/branches/vanilla/src/cross-scons.sh
+END
+SConstruct
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/nq/!svn/ver/3471/branches/vanilla/src/SConstruct
+END
+wolf.ncb
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/nq/!svn/ver/3471/branches/vanilla/src/wolf.ncb
+END
+wolf.opt
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/nq/!svn/ver/3471/branches/vanilla/src/wolf.opt
+END
+wolf.vcproj
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/nq/!svn/ver/3471/branches/vanilla/src/wolf.vcproj
+END
+scons_utils.py
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/nq/!svn/ver/3471/branches/vanilla/src/scons_utils.py
+END
+wolf.dsp
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/nq/!svn/ver/3471/branches/vanilla/src/wolf.dsp
+END

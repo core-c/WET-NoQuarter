@@ -1,0 +1,7010 @@
+
+
+// phisherman: Fixed popular bug of not passing on to intermission after timelimit hit and round draw
+// Do not use this script in combination with advanced scoreboard modification!
+
+game_manager
+{
+	spawn
+	{
+		remapshader "textures/cptnt_baseracebeta3/flag_axis_spawn1" "textures/cptnt_baseracebeta3/flag_axis_spawn1"
+		remapshader "textures/cptnt_baseracebeta3/flag_allied_spawn1" "textures/cptnt_baseracebeta3/flag_allied_spawn1"
+		remapshaderflush
+
+		wm_axis_respawntime	30
+		wm_allied_respawntime	30
+		wm_number_of_objectives 7
+		wm_set_round_timelimit	30
+
+		wm_set_main_objective	1	0
+		wm_set_main_objective	1	1
+
+		wm_objective_status	1 1 0
+		wm_objective_status 	1 0 0
+		wm_objective_status	2 1 0
+		wm_objective_status	2 0 0		
+		wm_objective_status	3 1 0
+		wm_objective_status 	4 0 0
+
+		// Winner on expiration of round timer (0=Axis, 1=Allies)
+		wm_setwinner	0
+
+		accum 1 set 0
+		accum 2 set 0
+		accum 3 set 0 //keeps track of who is winning in case time expires
+
+	}
+
+	trigger timelimit_hit
+	{
+		wm_setwinner	-1
+	}
+
+	trigger findwinner
+	{
+		wm_setwinner -1
+		accum 3 abort_if_equal 0
+		wm_setwinner 1
+		accum 3 abort_if_greater_than -1
+		wm_setwinner 0
+	}
+
+	trigger allies_win
+	{
+		wm_setwinner 1
+		wm_announce "^NThe Allied Team has completed their Base! Congradulations Allies!"
+		wait 2000
+		wm_endround
+	}
+
+	trigger axis_win
+	{
+		wm_setwinner 0
+		wm_announce "^NThe Axis Team has completed their Base! Congradulations Axis!"
+		wait 2000
+		wm_endround
+	}
+
+	trigger checkgame_axis
+	{
+		accum 2 abort_if_not_equal 40
+		trigger self axis_win
+	}
+
+	trigger checkgame_allies
+	{
+		accum 1 abort_if_not_equal 40
+		trigger self allies_win
+	}
+
+	trigger axis_score
+	{
+		accum 2 inc 1
+		accum 3 inc -1
+		trigger self checkgame_axis
+		trigger self findwinner
+		trigger self announcer
+	}
+
+	trigger allied_score
+	{
+		accum 1 inc 1
+		accum 3 inc 1
+		trigger self checkgame_allies
+		trigger self findwinner
+		trigger self announcer
+	}
+
+	trigger axis_spawn_lv1
+	{
+		wm_axis_respawntime 26
+	}
+
+	trigger axis_spawn_lv2
+	{
+		wm_axis_respawntime 24
+	}
+
+	trigger axis_spawn_lv3
+	{
+		wm_axis_respawntime 20
+	}
+
+	trigger axis_spawn_lv4
+	{
+		wm_axis_respawntime 16
+	}
+
+	trigger allied_spawn_lv1
+	{
+		wm_allied_respawntime 26
+	}
+
+	trigger allied_spawn_lv2
+	{
+		wm_allied_respawntime 24
+	}
+
+	trigger allied_spawn_lv3
+	{
+		wm_allied_respawntime 20
+	}
+
+	trigger allied_spawn_lv4
+	{
+		wm_allied_respawntime 16
+	}
+
+	trigger announcer
+	{
+		accum 3 trigger_if_equal -7 game_manager axis_5
+		accum 3 trigger_if_equal -6 game_manager axis_5
+		accum 3 trigger_if_equal -5 game_manager axis_5
+		accum 3 trigger_if_equal -4 game_manager axis_4
+		accum 3 trigger_if_equal -3 game_manager axis_3
+		accum 3 trigger_if_equal -2 game_manager axis_2
+		accum 3 trigger_if_equal -1 game_manager axis_1
+		accum 3 trigger_if_equal 0 game_manager tie
+		accum 3 trigger_if_equal 1 game_manager allies_1
+		accum 3 trigger_if_equal 2 game_manager allies_2
+		accum 3 trigger_if_equal 3 game_manager allies_3
+		accum 3 trigger_if_equal 4 game_manager allies_4
+		accum 3 trigger_if_equal 5 game_manager allies_5
+		accum 3 trigger_if_equal 6 game_manager allies_5
+		accum 3 trigger_if_equal 7 game_manager allies_5
+
+	}
+
+	trigger axis_5
+	{
+		wait 2000
+		wm_announce "^NThe Axis have a commanding lead!"
+	}
+
+	trigger axis_4
+	{
+		wait 2000
+		wm_announce "^NThe Axis are ahead by 4!"
+	}
+
+	trigger axis_3
+	{
+		wait 2000
+		wm_announce "^NThe Axis are ahead by 3!"
+	}
+
+	trigger axis_2
+	{
+		wait 2000
+		wm_announce "^NThe Axis are ahead by 2!"
+	}
+
+	trigger axis_1
+	{
+		wait 2000
+		wm_announce "^NThe Axis are ahead by 1!"
+	}
+
+	trigger Allies_5
+	{
+		wait 2000
+		wm_announce "^NThe Allies have a commanding lead!"
+	}
+
+	trigger Allies_4
+	{
+		wait 2000
+		wm_announce "^NThe Allies are ahead by 4!"
+	}
+
+	trigger Allies_3
+	{
+		wait 2000
+		wm_announce "^NThe Allies are ahead by 3!"
+	}
+
+	trigger Allies_2
+	{
+		wait 2000
+		wm_announce "^NThe Allies are ahead by 2!"
+	}
+
+	trigger Allies_1
+	{
+		wait 2000
+		wm_announce "^NThe Allies are ahead by 1!"
+	}
+
+	trigger tie
+	{
+		wait 2000
+		wm_announce "^NThe Score is Tied!"
+	}
+}
+
+//======================================================
+//======================================================
+//  RIGHT FENCE - Axis
+//======================================================
+//======================================================
+
+rightfence_axis_chainfence
+{
+	spawn
+	{
+		wait 200
+		setstate rightfence_axis_chainfence invisible
+	}
+}
+
+rightfence_axis_barbedfence
+{
+	spawn
+	{
+		wait 200
+		setstate rightfence_axis_barbedfence invisible
+	}
+}
+
+rightfence_axis_basewall
+{
+	spawn
+	{
+		wait 200
+		setstate rightfence_axis_basewall invisible
+	}
+}
+
+rightfence_axis_fortifiedwall
+{
+	spawn
+	{
+		wait 200
+		setstate rightfence_axis_fortifiedwall invisible
+	}
+}
+
+rightfence_axis_barbedhurt1
+{
+	spawn
+	{
+		wait 200
+		setstate rightfence_axis_barbedhurt1 invisible
+	}
+}
+
+rightfence_axis_barbedhurt2
+{
+	spawn
+	{
+		wait 200
+		accum 1 set 0
+		accum 2 set 0
+		setstate rightfence_axis_barbedhurt2 invisible
+	}
+
+	trigger synergypoint_1
+	{
+		accum 1 set 1
+		trigger self synergy_check
+	}
+
+	trigger synergypoint_kill
+	{
+		accum 1 set 0
+		trigger self synergy_check
+	}
+
+	trigger synergypoint_2
+	{
+		accum 2 set 1
+		trigger self synergy_check
+	}
+
+	trigger synergy_check
+	{
+		accum 1 abort_if_not_equal 1
+		accum 2 abort_if_not_equal 1
+		wm_announce "^2Synergy Bonus! ^gThe Right Axis Barbed Fence deals 15 additional damage!"
+		setstate rightfence_axis_barbedhurt1 invisible
+		setstate rightfence_axis_barbedhurt2 default
+	}
+}
+
+rightfence_axis_barbedhurt3
+{
+	spawn
+	{
+		wait 200
+		accum 1 set 0
+		accum 2 set 0
+	}
+
+	trigger synergypoint_1
+	{
+		accum 1 set 1
+		trigger self synergy_check
+	}
+
+	trigger synergypoint_kill
+	{
+		accum 1 set 0
+		trigger self synergy_check
+	}
+
+	trigger synergypoint_2
+	{
+		accum 2 set 1
+		trigger self synergy_check
+	}
+
+	trigger synergy_check
+	{
+		accum 1 abort_if_not_equal 1
+		accum 2 abort_if_not_equal 1
+		wm_announce "^2Synergy Bonus! ^gThe Right Axis Barbed Fence deals 30 additional damage!"
+		setstate rightfence_axis_barbedhurt1 default
+	}
+}
+
+rightfence_axis_warning
+{
+	spawn
+	{
+		wait 200
+		setstate rightfence_axis_warning invisible
+	}
+}
+
+rightfence_axis_capzone
+{
+	spawn
+	{
+		wait 200
+		accum 0 set 1	//the stage of the construction
+	}
+	
+	trigger hide
+	{
+		setstate rightfence_axis_capzone invisible
+	}
+
+	trigger unhide
+	{
+		setstate rightfence_axis_capzone default
+	}
+
+	death
+	{
+		trigger rightfence_axis_cappad sound
+		accum 0 trigger_if_equal 1 rightfence_axis_capzone reward_1
+		accum 0 trigger_if_equal 2 rightfence_axis_capzone reward_2
+		accum 0 trigger_if_equal 3 rightfence_axis_capzone reward_3
+		accum 0 trigger_if_equal 4 rightfence_axis_capzone reward_4
+	}
+
+	trigger reward_1
+	{
+		setstate rightfence_axis_capzone invisible
+
+		setstate rightfence_axis_warning default
+		wait 5100
+		trigger game_manager axis_score
+
+		wm_announce "^1The Axis have built a Chain Fence."
+		setstate rightfence_axis_chainfence default
+		setstate rightfence_axis_warning invisible
+
+		accum 0 set 2
+		setstate rightfence_axis_capzone default
+	}
+
+	trigger reward_2
+	{
+		setstate rightfence_axis_capzone invisible
+
+		setstate rightfence_axis_warning default
+		wait 5100
+		trigger game_manager axis_score
+
+		setstate rightfence_axis_chainfence invisible
+		wm_announce "^1The Axis have built a Barbed Fence."
+		setstate rightfence_axis_barbedfence default
+		setstate rightfence_axis_barbedhurt1 default
+		trigger rightfence_axis_barbedhurt2 synergypoint_1
+		trigger rightfence_axis_barbedhurt3 synergypoint_1
+		setstate rightfence_axis_warning invisible
+
+		accum 0 set 3
+		setstate rightfence_axis_capzone default
+	}
+
+	trigger reward_3
+	{
+		setstate rightfence_axis_capzone invisible
+
+		setstate rightfence_axis_warning default
+		wait 5100
+		trigger game_manager axis_score
+
+		setstate rightfence_axis_barbedfence invisible
+		setstate rightfence_axis_barbedhurt1 invisible
+		setstate rightfence_axis_barbedhurt2 invisible
+		setstate rightfence_axis_barbedhurt3 invisible
+		trigger rightfence_axis_barbedhurt2 synergypoint_kill
+		trigger rightfence_axis_barbedhurt3 synergypoint_kill
+		wm_announce "^1The Axis have built a Base Wall."
+		setstate rightfence_axis_basewall default
+		setstate rightfence_axis_warning invisible
+
+		accum 0 set 4
+		setstate rightfence_axis_capzone default
+	}
+
+	trigger reward_4
+	{
+		setstate rightfence_axis_capzone invisible
+
+		setstate rightfence_axis_warning default
+		wait 5100
+		trigger game_manager axis_score
+
+		wm_announce "^1The Axis have built a Fortified Wall."
+		setstate rightfence_axis_fortifiedwall default
+		setstate rightfence_axis_warning invisible
+
+		accum 0 set 0
+		trigger rightfence_axis_cappad hide
+		setstate rightfence_axis_info invisible
+	}
+}
+
+rightfence_axis_cappad
+{
+	spawn
+	{
+		wait 200
+	}
+
+	trigger hide
+	{
+		setstate rightfence_axis_cappad invisible
+	}
+
+	trigger sound
+	{
+		playsound "sound/baserace/wohoo_axis.wav"
+		playsound "sound/world/build.wav"
+	}
+}
+
+//======================================================
+//======================================================
+//  LEFT FENCE - Axis
+//======================================================
+//======================================================
+
+leftfence_axis_chainfence
+{
+	spawn
+	{
+		wait 200
+		setstate leftfence_axis_chainfence invisible
+	}
+}
+
+leftfence_axis_barbedfence
+{
+	spawn
+	{
+		wait 200
+		setstate leftfence_axis_barbedfence invisible
+	}
+}
+
+leftfence_axis_basewall
+{
+	spawn
+	{
+		wait 200
+		setstate leftfence_axis_basewall invisible
+	}
+}
+
+leftfence_axis_fortifiedwall
+{
+	spawn
+	{
+		wait 200
+		setstate leftfence_axis_fortifiedwall invisible
+	}
+}
+
+leftfence_axis_barbedhurt1
+{
+	spawn
+	{
+		wait 200
+		setstate leftfence_axis_barbedhurt1 invisible
+	}
+}
+
+leftfence_axis_barbedhurt2
+{
+	spawn
+	{
+		wait 200
+		accum 1 set 0
+		accum 2 set 0
+		setstate leftfence_axis_barbedhurt2 invisible
+	}
+
+	trigger synergypoint_1
+	{
+		accum 1 set 1
+		trigger self synergy_check
+	}
+
+	trigger synergypoint_kill
+	{
+		accum 1 set 0
+		trigger self synergy_check
+	}
+
+	trigger synergypoint_2
+	{
+		accum 2 set 1
+		trigger self synergy_check
+	}
+
+	trigger synergy_check
+	{
+		accum 1 abort_if_not_equal 1
+		accum 2 abort_if_not_equal 1
+		wm_announce "^2Synergy Bonus! ^gThe Left Axis Barbed Fence deals 15 additional damage!"
+		setstate leftfence_axis_barbedhurt1 invisible
+		setstate leftfence_axis_barbedhurt2 default
+	}
+}
+
+leftfence_axis_barbedhurt3
+{
+	spawn
+	{
+		wait 200
+		accum 1 set 0
+		accum 2 set 0
+	}
+
+	trigger synergypoint_1
+	{
+		accum 1 set 1
+		trigger self synergy_check
+	}
+
+	trigger synergypoint_kill
+	{
+		accum 1 set 0
+		trigger self synergy_check
+	}
+
+	trigger synergypoint_2
+	{
+		accum 2 set 1
+		trigger self synergy_check
+	}
+
+	trigger synergy_check
+	{
+		accum 1 abort_if_not_equal 1
+		accum 2 abort_if_not_equal 1
+		wm_announce "^2Synergy Bonus! ^gThe Left Axis Barbed Fence deals 30 additional damage!"
+		setstate leftfence_axis_barbedhurt1 default
+	}
+}
+
+
+
+leftfence_axis_warning
+{
+	spawn
+	{
+		wait 200
+		setstate leftfence_axis_warning invisible
+	}
+}
+
+
+leftfence_axis_capzone
+{
+	spawn
+	{
+		wait 200
+		accum 0 set 1	//the stage of the construction
+	}
+	
+	trigger hide
+	{
+		setstate leftfence_axis_capzone invisible
+	}
+
+	trigger unhide
+	{
+		setstate leftfence_axis_capzone default
+	}
+
+	death
+	{
+		trigger leftfence_axis_cappad sound
+		accum 0 trigger_if_equal 1 leftfence_axis_capzone reward_1
+		accum 0 trigger_if_equal 2 leftfence_axis_capzone reward_2
+		accum 0 trigger_if_equal 3 leftfence_axis_capzone reward_3
+		accum 0 trigger_if_equal 4 leftfence_axis_capzone reward_4
+	}
+
+	trigger reward_1
+	{
+		setstate leftfence_axis_capzone invisible
+
+		setstate leftfence_axis_warning default
+		wait 5100
+		trigger game_manager axis_score
+
+		wm_announce "^1The Axis have built a Chain Fence."
+		setstate leftfence_axis_chainfence default
+		setstate leftfence_axis_warning invisible
+
+		accum 0 set 2
+		setstate leftfence_axis_capzone default
+	}
+
+	trigger reward_2
+	{
+		setstate leftfence_axis_capzone invisible
+
+		setstate leftfence_axis_warning default
+		wait 5100
+		trigger game_manager axis_score
+
+		setstate leftfence_axis_chainfence invisible
+		wm_announce "^1The Axis have built a Barbed Fence."
+		setstate leftfence_axis_barbedfence default
+		setstate leftfence_axis_barbedhurt1 default
+		trigger leftfence_axis_barbedhurt2 synergypoint_1
+		trigger leftfence_axis_barbedhurt3 synergypoint_1
+		setstate leftfence_axis_warning invisible
+
+		accum 0 set 3
+		setstate leftfence_axis_capzone default
+	}
+
+	trigger reward_3
+	{
+		setstate leftfence_axis_capzone invisible
+
+		setstate leftfence_axis_warning default
+		wait 5100
+		trigger game_manager axis_score
+
+		setstate leftfence_axis_barbedfence invisible
+		setstate leftfence_axis_barbedhurt1 invisible
+		setstate leftfence_axis_barbedhurt2 invisible
+		setstate leftfence_axis_barbedhurt3 invisible
+		trigger leftfence_axis_barbedhurt2 synergypoint_kill
+		trigger leftfence_axis_barbedhurt3 synergypoint_kill
+		wm_announce "^1The Axis have built a Base Wall."
+		setstate leftfence_axis_basewall default
+		setstate leftfence_axis_warning invisible
+
+		accum 0 set 4
+		setstate leftfence_axis_capzone default
+	}
+
+	trigger reward_4
+	{
+		setstate leftfence_axis_capzone invisible
+
+		setstate leftfence_axis_warning default
+		wait 5100
+		trigger game_manager axis_score
+
+		wm_announce "^1The Axis have built a Fortified Wall."
+		setstate leftfence_axis_fortifiedwall default
+		setstate leftfence_axis_warning invisible
+
+		accum 0 set 0
+		trigger leftfence_axis_cappad hide
+		setstate leftfence_axis_info invisible
+	}
+}
+
+leftfence_axis_cappad
+{
+	spawn
+	{
+		wait 200
+	}
+
+	trigger hide
+	{
+		setstate leftfence_axis_cappad invisible
+	}
+
+	trigger sound
+	{
+		playsound "sound/baserace/wohoo_axis.wav"
+		playsound "sound/world/build.wav"	
+	}
+}
+
+
+//======================================================
+//======================================================
+//  FORWARD FENCE - Axis
+//======================================================
+//======================================================
+
+forwardfence_axis_chainfence
+{
+	spawn
+	{
+		wait 200
+		setstate forwardfence_axis_chainfence invisible
+	}
+}
+
+forwardfence_axis_barbedfence
+{
+	spawn
+	{
+		wait 200
+		setstate forwardfence_axis_barbedfence invisible
+	}
+}
+
+forwardfence_axis_basewall
+{
+	spawn
+	{
+		wait 200
+		setstate forwardfence_axis_basewall invisible
+	}
+}
+
+forwardfence_axis_fortifiedwall
+{
+	spawn
+	{
+		wait 200
+		setstate forwardfence_axis_fortifiedwall invisible
+	}
+}
+
+forwardfence_axis_barbedhurt1
+{
+	spawn
+	{
+		wait 200
+		setstate forwardfence_axis_barbedhurt1 invisible
+	}
+}
+
+forwardfence_axis_barbedhurt2
+{
+	spawn
+	{
+		wait 200
+		accum 1 set 0
+		accum 2 set 0
+		setstate forwardfence_axis_barbedhurt2 invisible
+	}
+
+	trigger synergypoint_1
+	{
+		accum 1 set 1
+		trigger self synergy_check
+	}
+
+	trigger synergypoint_kill
+	{
+		accum 1 set 0
+		trigger self synergy_check
+	}
+
+	trigger synergypoint_2
+	{
+		accum 2 set 1
+		trigger self synergy_check
+	}
+
+	trigger synergy_check
+	{
+		accum 1 abort_if_not_equal 1
+		accum 2 abort_if_not_equal 1
+		wm_announce "^2Synergy Bonus! ^gThe Forward Axis Barbed Fence deals 15 additional damage!"
+		setstate forwardfence_axis_barbedhurt1 invisible
+		setstate forwardfence_axis_barbedhurt2 default
+	}
+}
+
+forwardfence_axis_barbedhurt3
+{
+	spawn
+	{
+		wait 200
+		accum 1 set 0
+		accum 2 set 0
+	}
+
+	trigger synergypoint_1
+	{
+		accum 1 set 1
+		trigger self synergy_check
+	}
+
+	trigger synergypoint_kill
+	{
+		accum 1 set 0
+		trigger self synergy_check
+	}
+
+	trigger synergypoint_2
+	{
+		accum 2 set 1
+		trigger self synergy_check
+	}
+
+	trigger synergy_check
+	{
+		accum 1 abort_if_not_equal 1
+		accum 2 abort_if_not_equal 1
+		wm_announce "^2Synergy Bonus! ^gThe Forward Axis Barbed Fence deals 30 additional damage!"
+		setstate forwardfence_axis_barbedhurt1 default
+	}
+}
+
+forwardfence_axis_warning
+{
+	spawn
+	{
+		wait 200
+		setstate forwardfence_axis_warning invisible
+	}
+}
+
+
+forwardfence_axis_capzone
+{
+	spawn
+	{
+		wait 200
+		accum 0 set 1	//the stage of the construction
+	}
+	
+	trigger hide
+	{
+		setstate forwardfence_axis_capzone invisible
+	}
+
+	trigger unhide
+	{
+		setstate forwardfence_axis_capzone default
+	}
+
+	death
+	{
+		trigger forwardfence_axis_cappad sound
+		accum 0 trigger_if_equal 1 forwardfence_axis_capzone reward_1
+		accum 0 trigger_if_equal 2 forwardfence_axis_capzone reward_2
+		accum 0 trigger_if_equal 3 forwardfence_axis_capzone reward_3
+		accum 0 trigger_if_equal 4 forwardfence_axis_capzone reward_4
+	}
+
+	trigger reward_1
+	{
+		setstate forwardfence_axis_capzone invisible
+
+		setstate forwardfence_axis_warning default
+		wait 5100
+		trigger game_manager axis_score
+
+		wm_announce "^1The Axis have built a Chain Fence."
+		setstate forwardfence_axis_chainfence default
+		setstate forwardfence_axis_warning invisible
+
+		accum 0 set 2
+		setstate forwardfence_axis_capzone default
+	}
+
+	trigger reward_2
+	{
+		setstate forwardfence_axis_capzone invisible
+
+		setstate forwardfence_axis_warning default
+		wait 5100
+		trigger game_manager axis_score
+
+		setstate forwardfence_axis_chainfence invisible
+		wm_announce "^1The Axis have built a Barbed Fence."
+		setstate forwardfence_axis_barbedfence default
+		setstate forwardfence_axis_barbedhurt1 default
+		trigger forwardfence_axis_barbedhurt2 synergypoint_1
+		trigger forwardfence_axis_barbedhurt3 synergypoint_1
+		setstate forwardfence_axis_warning invisible
+
+		accum 0 set 3
+		setstate forwardfence_axis_capzone default
+	}
+
+	trigger reward_3
+	{
+		setstate forwardfence_axis_capzone invisible
+
+		setstate forwardfence_axis_warning default
+		wait 5100
+		trigger game_manager axis_score
+
+		setstate forwardfence_axis_barbedfence invisible
+		setstate forwardfence_axis_barbedhurt1 invisible
+		setstate forwardfence_axis_barbedhurt2 invisible
+		setstate forwardfence_axis_barbedhurt3 invisible
+		trigger forwardfence_axis_barbedhurt2 synergypoint_kill
+		trigger forwardfence_axis_barbedhurt3 synergypoint_kill
+		wm_announce "^1The Axis have built a Base Wall."
+		setstate forwardfence_axis_basewall default
+		setstate forwardfence_axis_warning invisible
+
+		accum 0 set 4
+		setstate forwardfence_axis_capzone default
+	}
+
+	trigger reward_4
+	{
+		setstate forwardfence_axis_capzone invisible
+
+		setstate forwardfence_axis_warning default
+		wait 5100
+		trigger game_manager axis_score
+
+		wm_announce "^1The Axis have built a Fortified Wall."
+		setstate forwardfence_axis_fortifiedwall default
+		setstate forwardfence_axis_warning invisible
+
+		accum 0 set 0
+		trigger forwardfence_axis_cappad hide
+		setstate forwardfence_axis_info invisible
+	}
+}
+
+forwardfence_axis_cappad
+{
+	spawn
+	{
+		wait 200
+	}
+
+	trigger hide
+	{
+		setstate forwardfence_axis_cappad invisible
+	}
+
+	trigger sound
+	{
+		playsound "sound/baserace/wohoo_axis.wav"
+		playsound "sound/world/build.wav"
+	}
+}
+
+//======================================================
+//======================================================
+//  ASS TOWER - Axis
+//======================================================
+//======================================================
+
+asstower_axis_woodentower
+{
+	spawn
+	{
+		wait 200
+		setstate asstower_axis_woodentower invisible
+	}
+
+	trigger unhide
+	{
+		setstate asstower_axis_woodentower default
+	}
+
+	trigger hide
+	{
+		setstate asstower_axis_woodentower invisible
+	}
+}
+
+asstower_axis_supertower
+{
+	spawn
+	{
+		wait 200
+		setstate asstower_axis_supertower invisible
+	}
+
+	trigger unhide
+	{
+		setstate asstower_axis_supertower default
+	}
+
+	trigger hide
+	{
+		setstate asstower_axis_supertower invisible
+	}
+}
+
+asstower_axis_warning
+{
+	spawn
+	{
+		wait 200
+		setstate asstower_axis_warning invisible
+	}
+}
+
+asstower_axis_capzone
+{
+	spawn
+	{
+		wait 200
+		accum 0 set 1	//the stage of the construction
+		setstate asstower_axis_woodenmg invisible
+		setstate asstower_axis_supermg invisible
+		setstate asstower_axis_ubermg	invisible
+	}
+	
+	trigger hide
+	{
+		setstate asstower_axis_capzone invisible
+	}
+
+	trigger unhide
+	{
+		setstate asstower_axis_capzone default
+	}
+
+	death
+	{
+		trigger asstower_axis_cappad sound
+		accum 0 trigger_if_equal 1 asstower_axis_capzone reward_1
+		accum 0 trigger_if_equal 2 asstower_axis_capzone reward_2
+		accum 0 trigger_if_equal 3 asstower_axis_capzone reward_3
+		accum 0 trigger_if_equal 4 asstower_axis_capzone reward_4
+	}
+
+	trigger reward_1
+	{
+		setstate asstower_axis_capzone invisible
+
+		setstate asstower_axis_warning default
+
+		wait 5100
+		trigger game_manager axis_score
+
+		wm_announce "^1The Axis have built a Wooden Tower."
+
+		trigger asstower_axis_woodentower unhide
+		setstate asstower_axis_woodenmg default
+		trigger medical_axis_towerpacks synergypoint_2
+
+		setstate asstower_axis_warning invisible
+
+		accum 0 set 2
+		setstate asstower_axis_capzone default
+	}
+
+	trigger reward_2
+	{
+		setstate asstower_axis_capzone invisible
+
+		setstate asstower_axis_warning default
+
+		wait 5100
+		trigger game_manager axis_score
+
+		wm_announce "^1The Axis have mounted a Rocketgun."
+
+		trigger towergun_axis_debris geturgun
+
+		setstate asstower_axis_warning invisible
+
+		accum 0 set 3
+		setstate asstower_axis_capzone default
+	}
+
+	trigger reward_3
+	{
+		setstate asstower_axis_capzone invisible
+
+		setstate asstower_axis_warning default
+
+		wait 5100
+		trigger game_manager axis_score
+
+		wm_announce "^1The Axis have built a Super Assault Tower!"
+
+		trigger asstower_axis_woodentower hide
+		trigger asstower_axis_supertower unhide
+		setstate asstower_axis_supermg default
+
+		setstate asstower_axis_warning invisible
+
+		accum 0 set 4
+		setstate asstower_axis_capzone default
+	}
+
+	trigger reward_4
+	{
+		setstate asstower_axis_capzone invisible
+
+		setstate asstower_axis_warning default
+
+		wait 5100
+		trigger game_manager axis_score
+
+		wm_announce "^1The Axis have mounted Upgraded Machine Guns!."
+
+		setstate asstower_axis_woodenmg invisible
+		setstate asstower_axis_supermg invisible
+		setstate asstower_axis_ubermg	default
+
+		setstate asstower_axis_warning invisible
+
+		accum 0 set 0
+		trigger asstower_axis_cappad hide
+		setstate asstower_axis_info invisible
+	}
+}
+
+asstower_axis_cappad
+{
+	spawn
+	{
+		wait 200
+	}
+
+	trigger hide
+	{
+		setstate asstower_axis_cappad invisible
+	}
+
+	trigger sound
+	{
+		playsound "sound/baserace/wohoo_axis.wav"
+		playsound "sound/world/build.wav"
+	}
+}
+
+//===================================================================
+towergun_axis_con
+{
+	spawn
+	{
+		wait 400
+
+		constructible_class 1
+
+		constructible_chargebarreq	0.5
+		constructible_constructxpbonus	7.5
+		constructible_destructxpbonus	5
+		constructible_health	700
+		constructible_weaponclass	1
+		constructible_duration	7000
+	}
+
+	trigger setup
+	{
+		setstate towergun_axis_con invisible
+
+	}
+
+	buildstart final
+	{
+		setstate towergun_axis_con default
+		setstate towergun_axis_debris invisible
+
+	}
+
+	built final
+	{
+		setstate towergun_axis_con default
+		setstate towergun_axis_debris invisible
+		setstate towergun_axis_smoke invisible
+
+		trigger towergun_axis_alert1 awaken
+		trigger towergun_axis_patrolalert fixed
+		wm_announce "^6The Axis have Repaired their Tower Rocketgun."
+
+	}
+
+	decayed final
+	{
+		setstate towergun_axis_con invisible
+		setstate towergun_axis_debris default
+
+		trigger towergun_axis_alert1 sleep
+	}
+
+	death
+	{
+		setstate towergun_axis_con invisible
+		setstate towergun_axis_debris default
+		setstate towergun_axis_smoke default
+
+		trigger towergun_axis_alert1 sleep
+		trigger towergun_axis_patrolalert damaged
+		wm_announce "^6The Axis Tower Rocketgun has been disabled!"
+	}
+}
+
+towergun_axis_debris
+{
+	spawn
+	{
+		wait 500
+		accum 1 set 0	//synergy point 1 - the gun
+		accum 2 set 0	//synergy point 2 - engineering lv3
+		setstate towergun_axis_debris invisible
+		setstate towergun_axis_con invisible
+		setstate towergun_axis_toi invisible
+		setstate towergun_axis_smoke invisible
+	}
+	
+	trigger synergypoint_1
+	{
+		accum 1 set 1
+		trigger self synergy_check
+	}
+
+	trigger synergypoint_2
+	{
+		accum 2 set 1
+		trigger self synergy_check
+	}
+
+	trigger synergy_check
+	{
+		accum 1 abort_if_not_equal 1
+		accum 2 abort_if_not_equal 1
+		wm_announce "^2Synergy Bonus! ^gThe Axis Tower Rocketgun has been given additional range!"
+		trigger towergun_axis_alert1 synergy_bonus
+	}
+
+	trigger geturgun
+	{
+		setstate towergun_axis_con default
+		setstate towergun_axis_toi default
+		trigger self synergypoint_1
+		trigger towergun_axis_patrolalert synergypoint_2
+		trigger towergun_axis_alert1 awaken
+	}
+}
+
+towergun_axis_alert1  // Target Delay that controls the towergun Rocket Gun
+{
+	spawn
+	{
+		wait 200
+		accum 1 set 0 //the gun triggers are sleeping when spawned
+		accum 2 set 0 //synergy bonus for gun
+	}
+
+	trigger sleep
+	{
+		accum 1 set 0 //puts the gun triggers to sleep
+	}
+
+	trigger awaken
+	{
+		accum 1 set 1 //the gun is awake
+	}
+
+	trigger synergy_bonus
+	{
+		accum 2 set 1
+	}
+
+	trigger fireon_1
+	{
+		accum 1 abort_if_not_equal 1
+		alertentity towergun_axis_alert1
+		wait 200
+		alertentity towergun_axis_alert1
+	}
+
+	trigger fireon_2
+	{
+		accum 1 abort_if_not_equal 1
+		alertentity towergun_axis_alert2
+		wait 200
+		alertentity towergun_axis_alert2
+	}
+
+	trigger fireon_3
+	{
+		accum 1 abort_if_not_equal 1
+		alertentity towergun_axis_alert3
+		wait 200
+		alertentity towergun_axis_alert3
+	}
+
+	trigger fireon_4
+	{
+		accum 1 abort_if_not_equal 1
+		accum 2 abort_if_not_equal 1
+		alertentity towergun_axis_alert4
+		wait 200
+		alertentity towergun_axis_alert4
+	}
+
+	trigger fireon_5
+	{
+		accum 1 abort_if_not_equal 1
+		accum 2 abort_if_not_equal 1
+		alertentity towergun_axis_alert5
+		wait 200
+		alertentity towergun_axis_alert5
+	}
+
+	trigger fireon_6
+	{
+		accum 1 abort_if_not_equal 1
+		accum 2 abort_if_not_equal 1
+		alertentity towergun_axis_alert6
+		wait 200
+		alertentity towergun_axis_alert6
+	}
+}
+
+towergun_axis_alert2 //only used as optional alert
+{
+	spawn
+	{
+		wait 200
+	}
+}
+
+towergun_axis_alert3 //only used as optional alert
+{
+	spawn
+	{
+		wait 200
+	}
+}
+
+//======================================================
+towergun_axis_patrolalert
+{
+	spawn
+	{
+		wait 200
+		accum 1 set 0
+		accum 2 set 0
+	}
+
+	trigger synergypoint_1
+	{
+		accum 1 set 1
+		trigger self fireloop
+	}
+
+	trigger synergypoint_2
+	{
+		accum 2 set 1
+		trigger self fireloop
+	}
+
+	trigger damaged
+	{
+		accum 3 set 1
+	}
+
+	trigger fixed
+	{
+		accum 3 set 0
+		trigger self fireloop
+	}
+
+	trigger fireloop
+	{
+		accum 1 abort_if_not_equal 1
+		accum 2 abort_if_not_equal 1
+		accum 3 abort_if_not_equal 0	// abort if the gun is damaged
+		alertentity towergun_axis_patrolshooter
+		wait 200
+		alertentity towergun_axis_patrolshooter
+		wait 200
+		alertentity towergun_axis_patrolshooter
+		wait random 10000 30000
+		trigger self fireloop
+	}
+
+}
+
+//======================================================
+//======================================================
+//  GATE TOWER - Axis
+//======================================================
+//======================================================
+
+gate_axis_bunker
+{
+	spawn
+	{
+		wait 200
+		setstate gate_axis_bunker invisible
+	}
+
+	trigger unhide
+	{
+		setstate gate_axis_bunker default
+	}
+
+	trigger hide
+	{
+		setstate gate_axis_bunker invisible
+	}
+}
+
+gate_axis_warning
+{
+	spawn
+	{
+		wait 200
+		setstate gate_axis_warning invisible
+	}
+}
+
+gate_axis_capzone
+{
+	spawn
+	{
+		wait 200
+		accum 0 set 1	//the stage of the construction
+		setstate gate_axis_mg invisible
+	}
+	
+	trigger hide
+	{
+		setstate gate_axis_capzone invisible
+	}
+
+	trigger unhide
+	{
+		setstate gate_axis_capzone default
+	}
+
+	death
+	{
+		trigger gate_axis_cappad sound
+		accum 0 trigger_if_equal 1 gate_axis_capzone reward_1
+		accum 0 trigger_if_equal 2 gate_axis_capzone reward_2
+		accum 0 trigger_if_equal 3 gate_axis_capzone reward_3
+		accum 0 trigger_if_equal 4 gate_axis_capzone reward_4
+	}
+
+	trigger reward_1
+	{
+		setstate gate_axis_capzone invisible
+
+		setstate gate_axis_warning default
+
+		wait 5100
+		trigger game_manager axis_score
+
+		wm_announce "^1The Axis have built a Bunker."
+
+		trigger gate_axis_bunker unhide
+		trigger medical_axis_gatepacks synergypoint_2
+
+		setstate gate_axis_warning invisible
+
+		accum 0 set 2
+		setstate gate_axis_capzone default
+	}
+
+	trigger reward_2
+	{
+		setstate gate_axis_capzone invisible
+
+		setstate gate_axis_warning default
+
+		wait 5100
+		trigger game_manager axis_score
+
+		wm_announce "^1The Axis have mounted a Rocketgun."
+
+		trigger gate_axis_debris geturgun
+
+		setstate gate_axis_warning invisible
+
+		accum 0 set 3
+		setstate gate_axis_capzone default
+	}
+
+	trigger reward_3
+	{
+		setstate gate_axis_capzone invisible
+
+		setstate gate_axis_warning default
+
+		wait 5100
+		trigger game_manager axis_score
+
+		wm_announce "^1The Axis have mounted an MG!"
+
+		setstate gate_axis_mg default
+
+		setstate gate_axis_warning invisible
+
+		accum 0 set 4
+		setstate gate_axis_capzone default
+	}
+
+	trigger reward_4
+	{
+		setstate gate_axis_capzone invisible
+
+		setstate gate_axis_warning default
+
+		wait 5100
+		trigger game_manager axis_score
+
+		wm_announce "^1The Axis have mounted Upgraded Machine Guns!."
+
+		setstate gate_axis_warning invisible
+
+		accum 0 set 0
+		trigger gate_axis_cappad hide
+		setstate gate_axis_info invisible
+	}
+}
+
+gate_axis_cappad
+{
+	spawn
+	{
+		wait 200
+	}
+
+	trigger hide
+	{
+		setstate gate_axis_cappad invisible
+	}
+
+	trigger sound
+	{
+		playsound "sound/baserace/wohoo_axis.wav"
+		playsound "sound/world/build.wav"
+	}
+}
+
+//===================================================================
+gate_axis_con
+{
+	spawn
+	{
+		wait 400
+
+		constructible_class 1
+
+		constructible_chargebarreq	0.5
+		constructible_constructxpbonus	7.5
+		constructible_destructxpbonus	5
+		constructible_health	700
+		constructible_weaponclass	1
+		constructible_duration	7000
+	}
+
+	trigger setup
+	{
+		setstate gate_axis_con invisible
+
+	}
+
+	buildstart final
+	{
+		setstate gate_axis_con default
+		setstate gate_axis_debris invisible
+
+	}
+
+	built final
+	{
+		setstate gate_axis_con default
+		setstate gate_axis_debris invisible
+		setstate gate_axis_smoke invisible
+
+		trigger gate_axis_alert1 awaken
+		trigger gategun_axis_patrolalert fixed
+		wm_announce "^6The Axis have Repaired their Gate Rocketgun."
+
+	}
+
+	decayed final
+	{
+		setstate gate_axis_con invisible
+		setstate gate_axis_debris default
+
+		trigger gate_axis_alert1 sleep
+	}
+
+	death
+	{
+		setstate gate_axis_con invisible
+		setstate gate_axis_debris default
+		setstate gate_axis_smoke default
+
+		trigger gate_axis_alert1 sleep
+		trigger gategun_axis_patrolalert damaged
+		wm_announce "^6The Axis Gate Rocketgun has been disabled!"
+	}
+}
+
+gate_axis_debris
+{
+	spawn
+	{
+		wait 500
+		accum 1 set 0	//synergy point 1 - the gun
+		accum 2 set 0	//synergy point 2 - engineering lv3
+		setstate gate_axis_debris invisible
+		setstate gate_axis_con invisible
+		setstate gate_axis_toi invisible
+		setstate gate_axis_smoke invisible
+	}
+	
+	trigger synergypoint_1
+	{
+		accum 1 set 1
+		trigger self synergy_check
+	}
+
+	trigger synergypoint_2
+	{
+		accum 2 set 1
+		trigger self synergy_check
+	}
+
+	trigger synergy_check
+	{
+		accum 1 abort_if_not_equal 1
+		accum 2 abort_if_not_equal 1
+		wm_announce "^2Synergy Bonus! ^gThe Axis Gate Rocketgun has been given additional range!"
+		trigger gate_axis_alert1 synergy_bonus
+	}
+
+	trigger geturgun
+	{
+		setstate gate_axis_con default
+		setstate gate_axis_toi default
+		trigger gategun_axis_patrolalert synergypoint_1
+		trigger self synergypoint_1
+		trigger gate_axis_alert1 awaken
+	}
+}
+
+gate_axis_alert1  // Target Delay that controls the towergun Rocket Gun
+{
+	spawn
+	{
+		wait 200
+		accum 1 set 0 //the gun triggers are sleeping when spawned
+		accum 2 set 0 //synergy bonus for gun
+	}
+
+	trigger sleep
+	{
+		accum 1 set 0 //puts the gun triggers to sleep
+	}
+
+	trigger awaken
+	{
+		accum 1 set 1 //the gun is awake
+	}
+
+	trigger synergy_bonus
+	{
+		accum 2 set 1
+	}
+
+	trigger fireon_1
+	{
+		accum 1 abort_if_not_equal 1
+		alertentity gate_axis_alert1
+		wait 200
+		alertentity gate_axis_alert1
+	}
+
+	trigger fireon_2
+	{
+		accum 1 abort_if_not_equal 1
+		alertentity gate_axis_alert2
+		wait 200
+		alertentity gate_axis_alert2
+	}
+
+	trigger fireon_3
+	{
+		accum 1 abort_if_not_equal 1
+		alertentity gate_axis_alert3
+		wait 200
+		alertentity gate_axis_alert3
+	}
+
+	trigger fireon_4
+	{
+		accum 1 abort_if_not_equal 1
+		accum 2 abort_if_not_equal 1
+		alertentity gate_axis_alert4
+		wait 200
+		alertentity gate_axis_alert4
+	}
+
+	trigger fireon_5
+	{
+		accum 1 abort_if_not_equal 1
+		accum 2 abort_if_not_equal 1
+		alertentity gate_axis_alert5
+		wait 200
+		alertentity gate_axis_alert5
+	}
+
+	trigger fireon_6
+	{
+		accum 1 abort_if_not_equal 1
+		accum 2 abort_if_not_equal 1
+		alertentity gate_axis_alert6
+		wait 200
+		alertentity gate_axis_alert6
+	}
+}
+
+gate_axis_alert2 //only used as optional alert
+{
+	spawn
+	{
+		wait 200
+	}
+}
+
+gate_axis_alert3 //only used as optional alert
+{
+	spawn
+	{
+		wait 200
+	}
+}
+
+//======================================================
+gategun_axis_patrolalert
+{
+	spawn
+	{
+		wait 200
+		accum 1 set 0
+		accum 2 set 0
+		accum 3 set 0
+	}
+
+	trigger synergypoint_1
+	{
+		accum 1 set 1
+		trigger self fireloop
+	}
+
+	trigger synergypoint_2
+	{
+		accum 2 set 1
+		trigger self fireloop
+	}
+
+	trigger damaged
+	{
+		accum 3 set 1
+	}
+
+	trigger fixed
+	{
+		accum 3 set 0
+		trigger self fireloop
+	}
+
+	trigger fireloop
+	{
+		accum 1 abort_if_not_equal 1
+		accum 2 abort_if_not_equal 1
+		accum 3 abort_if_not_equal 0	// abort if the gun is damaged
+		alertentity gategun_axis_patrolshooter
+		wait 200
+		alertentity gategun_axis_patrolshooter
+		wait 200
+		alertentity gategun_axis_patrolshooter
+		wait random 10000 30000
+		trigger self fireloop
+	}
+
+}
+
+//======================================================
+//======================================================
+//  MEDICAL OPERATIONS - Axis
+//======================================================
+//======================================================
+
+medical_axis_symbolblack
+{
+	spawn
+	{
+		wait 200
+		setstate medical_axis_symbolblack invisible
+	}
+
+	trigger lv1
+	{
+		wait 200
+	}
+
+	trigger lv2
+	{
+		faceangles 0 270 0 1
+	}
+
+	trigger lv3
+	{
+		faceangles 0 180 0 1
+	}
+
+	trigger lv4
+	{
+		faceangles 0 90 0 1
+	}
+}
+
+medical_axis_shack
+{
+	spawn
+	{
+		wait 200
+		setstate medical_axis_shack invisible
+	}
+}
+
+medical_axis_warning
+{
+	spawn
+	{
+		wait 200
+		setstate medical_axis_warning invisible
+	}
+}
+
+medical_axis_healthpacks
+{
+	spawn
+	{
+		wait 200
+	}
+
+	trigger unhide_healthpacks
+	{
+		alertentity medical_axis_healthpacks
+		trigger self looper
+	}
+
+	trigger looper
+	{
+		wait 60000
+		trigger self unhide_healthpacks
+	}
+}
+
+medical_axis_healthstand
+{
+	spawn
+	{
+		wait 200
+		setstate medical_axis_healthstand invisible
+		setstate medical_axis_healthtrig invisible
+	}
+}
+
+
+medical_axis_capzone
+{
+	spawn
+	{
+		wait 200
+		accum 0 set 1	//the stage of the construction
+	}
+	
+	trigger hide
+	{
+		setstate medical_axis_capzone invisible
+	}
+
+	trigger unhide
+	{
+		setstate medical_axis_capzone default
+	}
+
+	death
+	{
+		trigger medical_axis_cappad sound
+		accum 0 trigger_if_equal 1 medical_axis_capzone reward_1
+		accum 0 trigger_if_equal 2 medical_axis_capzone reward_2
+		accum 0 trigger_if_equal 3 medical_axis_capzone reward_3
+		accum 0 trigger_if_equal 4 medical_axis_capzone reward_4
+	}
+
+	trigger reward_1
+	{
+		setstate medical_axis_capzone invisible
+
+		setstate medical_axis_warning default
+		wait 5100
+		trigger game_manager axis_score
+
+		wm_announce "^1The Axis have built an Infirmary! ^JFirst Aid available!"
+
+		setstate medical_axis_shack default
+		setstate medical_axis_symbolblack default
+
+		setchargetimefactor 0 medic 0.80
+		trigger medical_axis_healthpacks unhide_healthpacks
+
+		setstate medical_axis_warning invisible
+
+		accum 0 set 2
+		setstate medical_axis_capzone default
+	}
+
+	trigger reward_2
+	{
+		setstate medical_axis_capzone invisible
+
+		setstate medical_axis_warning default
+		wait 5100
+		trigger game_manager axis_score
+
+		wm_announce "^1The Axis Infirmary has been upgraded to ^kLevel 2^1! ^JHealth Stand available!"
+
+		trigger medical_axis_symbolblack lv2
+
+		setchargetimefactor 0 medic 0.60
+		setstate medical_axis_healthstand default
+		setstate medical_axis_healthtrig default
+
+		setstate medical_axis_warning invisible
+
+		accum 0 set 3
+		setstate medical_axis_capzone default
+	}
+
+	trigger reward_3
+	{
+		setstate medical_axis_capzone invisible
+
+		setstate medical_axis_warning default
+		wait 5100
+		trigger game_manager axis_score
+
+		wm_announce "^1The Axis Infirmary has been upgraded to ^zLevel 3^1! ^JMedical Chests available!"
+
+		trigger medical_axis_symbolblack lv3
+
+		setchargetimefactor 0 medic 0.40
+		trigger healthbox1_axis_box activate
+		trigger healthbox2_axis_box activate
+		trigger healthbox3_axis_box activate
+
+		setstate medical_axis_warning invisible
+
+		accum 0 set 4
+		setstate medical_axis_capzone default
+	}
+
+	trigger reward_4
+	{
+		setstate medical_axis_capzone invisible
+
+		setstate medical_axis_warning default
+		wait 5100
+		trigger game_manager axis_score
+
+		wm_announce "^1The Axis Infirmary has been upgraded to ^lLevel 4^1! ^JDefensive supplies active!"
+		
+		trigger medical_axis_symbolblack lv4
+		
+		setchargetimefactor 0 medic 0.20
+		trigger medical_axis_towerpacks synergypoint_1
+		trigger medical_axis_gatepacks synergypoint_1
+		setstate medical_axis_warning invisible
+
+		accum 0 set 0
+		trigger medical_axis_cappad hide
+		setstate medical_axis_info invisible
+	}
+}
+
+medical_axis_cappad
+{
+	spawn
+	{
+		wait 200
+	}
+
+	trigger hide
+	{
+		setstate medical_axis_cappad invisible
+	}
+
+	trigger sound
+	{
+		playsound "sound/baserace/wohoo_axis.wav"
+		playsound "sound/world/build.wav"
+	}
+}
+
+medical_axis_towerpacks
+{
+	spawn
+	{
+		wait 200
+		accum 1 set 0
+		accum 2 set 0
+	}
+
+	trigger unhide_healthpacks
+	{
+		accum 1 abort_if_equal 0
+		accum 2 abort_if_equal 0
+		alertentity medical_axis_towerpacks
+		trigger self looper
+	}
+
+	trigger looper
+	{
+		wait 60000
+		trigger self unhide_healthpacks
+	}
+
+	trigger synergypoint_1
+	{
+		accum 1 set 1
+		trigger self unhide_healthpacks
+	}
+
+	trigger synergypoint_2
+	{
+		accum 2 set 1
+		trigger self unhide_healthpacks
+	}
+}
+
+medical_axis_gatepacks
+{
+	spawn
+	{
+		wait 200
+		accum 1 set 0
+		accum 2 set 0
+	}
+
+	trigger unhide_healthpacks
+	{
+		accum 1 abort_if_equal 0
+		accum 2 abort_if_equal 0
+		alertentity medical_axis_gatepacks
+		trigger self looper
+	}
+
+	trigger looper
+	{
+		wait 60000
+		trigger self unhide_healthpacks
+	}
+
+	trigger synergypoint_1
+	{
+		accum 1 set 1
+		trigger self unhide_healthpacks
+	}
+
+	trigger synergypoint_2
+	{
+		accum 2 set 1
+		trigger self unhide_healthpacks
+	}
+}
+
+
+//======================================================
+//======================================================
+//  TACTICAL OPERATIONS - Axis
+//======================================================
+//======================================================
+
+tactical_axis_symbolblack
+{
+	spawn
+	{
+		wait 200
+		accum 0 set 0
+		setstate tactical_axis_symbolblack invisible
+	}
+
+	trigger activate
+	{
+		accum 0 set 1
+	}
+
+	trigger alarm
+	{
+		accum 0 abort_if_not_equal 1
+		wm_announce "^1Alert! ^jAllied Player detected under Axis Base!"
+	}
+
+	trigger lv1
+	{
+		wait 200
+	}
+
+	trigger lv2
+	{
+		faceangles 0 270 0 1
+	}
+
+	trigger lv3
+	{
+		faceangles 0 180 0 1
+	}
+
+	trigger lv4
+	{
+		faceangles 0 90 0 1
+	}
+}
+
+tactical_axis_shack
+{
+	spawn
+	{
+		wait 200
+		setstate tactical_axis_shack invisible
+	}
+}
+
+tactical_axis_warning
+{
+	spawn
+	{
+		wait 200
+		setstate tactical_axis_warning invisible
+	}
+}
+
+tactical_axis_scopedweaponsdelay
+{
+	spawn
+	{
+		accum 1 set 0	//tactical lv1
+		accum 2 set 0	//armory lv1
+		wait 200
+	}
+
+	trigger synergypoint_1
+	{
+		accum 1 set 1
+		trigger self synergy_check
+	}
+
+	trigger synergypoint_2
+	{
+		accum 2 set 1
+		trigger self synergy_check
+	}
+
+	trigger synergy_check
+	{
+		accum 1 abort_if_not_equal 1
+		accum 2 abort_if_not_equal 1
+		wm_announce "^2Synergy Bonus! ^gAxis Tactical now stocks FG42 and Sten weapons!"
+		trigger self unhide_weapons
+	}
+
+	trigger unhide_weapons
+	{
+		alertentity tactical_axis_scopedweaponsdelay
+		trigger self looper
+	}
+
+	trigger looper
+	{
+		wait 60000
+		trigger self unhide_weapons
+	}
+}
+
+tactical_axis_enemyweaponsdelay
+{
+	spawn
+	{
+		accum 1 set 0	//tactical lv1
+		accum 2 set 0	//armory lv3
+		wait 200
+	}
+
+	trigger synergypoint_1
+	{
+		accum 1 set 1
+		trigger self synergy_check
+	}
+
+	trigger synergypoint_2
+	{
+		accum 2 set 1
+		trigger self synergy_check
+	}
+
+	trigger synergy_check
+	{
+		accum 1 abort_if_not_equal 1
+		accum 2 abort_if_not_equal 1
+		wm_announce "^2Synergy Bonus! ^gAxis Tactical now stocks enemy weapons!"
+		trigger self unhide_weapons
+	}
+
+	trigger unhide_weapons
+	{
+		alertentity tactical_axis_enemyweaponsdelay
+		trigger self looper
+	}
+
+	trigger looper
+	{
+		wait 60000
+		trigger self unhide_weapons
+	}
+}
+
+tactical_axis_capzone
+{
+	spawn
+	{
+		wait 200
+		accum 0 set 1	//the stage of the construction
+	}
+	
+	trigger hide
+	{
+		setstate tactical_axis_capzone invisible
+	}
+
+	trigger unhide
+	{
+		setstate tactical_axis_capzone default
+	}
+
+	death
+	{
+		trigger tactical_axis_cappad sound
+		accum 0 trigger_if_equal 1 tactical_axis_capzone reward_1
+		accum 0 trigger_if_equal 2 tactical_axis_capzone reward_2
+		accum 0 trigger_if_equal 3 tactical_axis_capzone reward_3
+		accum 0 trigger_if_equal 4 tactical_axis_capzone reward_4
+	}
+
+	trigger reward_1
+	{
+		setstate tactical_axis_capzone invisible
+
+		setstate tactical_axis_warning default
+		wait 5100
+		trigger game_manager axis_score
+
+		wm_announce "^1The Axis have built an Tactical Shack! ^JLandmine notification active!"
+
+		setstate tactical_axis_symbolblack default
+
+		setstate tactical_axis_shack default
+		setchargetimefactor 0 covertops 0.80
+		sethqstatus 0 1
+		trigger tactical_axis_scopedweaponsdelay synergypoint_1
+		trigger tactical_axis_enemyweaponsdelay synergypoint_1
+
+		setstate tactical_axis_warning invisible
+
+		accum 0 set 2
+		setstate tactical_axis_capzone default
+	}
+
+	trigger reward_2
+	{
+		setstate tactical_axis_capzone invisible
+
+		setstate tactical_axis_warning default
+		wait 5100
+		trigger game_manager axis_score
+
+		wm_announce "^1The Axis Tactical Shack has been upgraded to ^kLevel 2^1! ^JEnemy intrusion notification active!"
+
+		trigger tactical_axis_symbolblack lv2
+		setchargetimefactor 0 covertops 0.60
+		trigger tactical_axis_symbolblack activate
+		trigger sneakpad_axis_mover synergypoint_1
+
+
+		setstate tactical_axis_warning invisible
+
+		accum 0 set 3
+		setstate tactical_axis_capzone default
+	}
+
+	trigger reward_3
+	{
+		setstate tactical_axis_capzone invisible
+
+		setstate tactical_axis_warning default
+		wait 5100
+		trigger game_manager axis_score
+
+		wm_announce "^1The Axis Tactical Shack has been upgraded to ^zLevel 3^1! ^JWall Jump active!"
+
+		trigger tactical_axis_symbolblack lv3
+
+		trigger rightfence_axis_covertclimb synergypoint_1
+		trigger rightfence_axis_covertclimb2 synergypoint_1
+		trigger leftfence_axis_covertclimb synergypoint_1
+		trigger leftfence_axis_covertclimb2 synergypoint_1
+		trigger ruins_axis_covertclimb synergypoint_1
+
+		setchargetimefactor 0 covertops 0.40
+
+		setstate tactical_axis_warning invisible
+
+		accum 0 set 4
+		setstate tactical_axis_capzone default
+	}
+
+	trigger reward_4
+	{
+		setstate tactical_axis_capzone invisible
+
+		setstate tactical_axis_warning default
+		wait 5100
+		trigger game_manager axis_score
+
+		wm_announce "^1The Axis Tactical Shack has been upgraded to ^lLevel 4^1! ^JEnemy team doors unlocked!"
+
+		trigger tactical_axis_symbolblack lv4
+
+		setchargetimefactor 0 covertops 0.20
+		trigger teamdoor_allied unlock		
+
+		setstate tactical_axis_warning invisible
+
+		accum 0 set 0
+		trigger tactical_axis_cappad hide
+		setstate tactical_axis_info invisible
+	}
+}
+
+tactical_axis_cappad
+{
+	spawn
+	{
+		wait 200
+	}
+
+	trigger hide
+	{
+		setstate tactical_axis_cappad invisible
+	}
+
+	trigger sound
+	{
+		playsound "sound/baserace/wohoo_axis.wav"
+		playsound "sound/world/build.wav"
+	}
+}
+
+teamdoor_axis
+{
+	spawn
+	{
+		wait 200
+		setstate teamdoor_axis_unlocked invisible
+	}
+
+	trigger unlock
+	{
+		setstate teamdoor_axis_unlocked default
+		setstate teamdoor_axis invisible
+	}
+}
+
+rightfence_axis_covertclimb
+{
+	spawn
+	{
+		setstate rightfence_axis_covertclimb invisible
+		wait 200
+		accum 1 set 0
+	}
+
+	trigger synergypoint_1
+	{
+		accum 1 set 1
+		trigger self checker
+	}
+
+	trigger checker
+	{
+		accum 1 abort_if_not_equal 1
+		setstate rightfence_axis_covertclimb default
+	}
+}
+
+rightfence_axis_covertclimb2
+{
+	spawn
+	{
+		setstate rightfence_axis_covertclimb2 invisible
+		wait 200
+		accum 1 set 0
+	}
+
+	trigger synergypoint_1
+	{
+		accum 1 set 1
+		trigger self checker
+	}
+
+	trigger checker
+	{
+		accum 1 abort_if_not_equal 1
+		setstate rightfence_axis_covertclimb2 default
+	}
+}
+
+leftfence_axis_covertclimb
+{
+	spawn
+	{
+		setstate leftfence_axis_covertclimb invisible
+		wait 200
+		accum 1 set 0
+	}
+
+	trigger synergypoint_1
+	{
+		accum 1 set 1
+		trigger self checker
+	}
+
+	trigger checker
+	{
+		accum 1 abort_if_not_equal 1
+		setstate leftfence_axis_covertclimb default
+	}
+}
+
+
+
+leftfence_axis_covertclimb2
+{
+	spawn
+	{
+		setstate leftfence_axis_covertclimb2 invisible
+		wait 200
+		accum 1 set 0
+	}
+
+	trigger synergypoint_1
+	{
+		accum 1 set 1
+		trigger self checker
+	}
+
+	trigger checker
+	{
+		accum 1 abort_if_not_equal 1
+		setstate leftfence_axis_covertclimb2 default
+	}
+}
+
+ruins_axis_covertclimb
+{
+	spawn
+	{
+		setstate ruins_axis_covertclimb invisible
+		wait 200
+	}
+
+	trigger synergypoint_1
+	{
+		setstate ruins_axis_covertclimb default
+	}
+}
+
+sneakpad_axis_mover
+{
+	spawn
+	{
+		wait 200
+		accum 1 set 0
+		accum 2 set 0
+		setstate sneakpad_axis_teleporter invisible
+		setstate sneakpad_axis_mover invisible
+	}
+
+	trigger synergypoint_1
+	{
+		accum 1 set 1
+		trigger self synergy_checker
+	}
+
+	trigger synergypoint_2
+	{
+		accum 2 set 1
+		trigger self synergy_checker
+	}
+
+
+	trigger synergy_checker
+	{
+		accum 1 abort_if_not_equal 1
+		accum 2 abort_if_not_equal 1
+		setstate sneakpad_axis_mover default
+		wm_announce "^2Synergy Bonus! ^gCovert Warp Pad Unlocked!"
+	}
+
+	trigger coverttrig
+	{
+		accum 1 abort_if_not_equal 1
+		accum 2 abort_if_not_equal 1
+		setstate sneakpad_axis_teleporter default
+		wait 200
+		setstate sneakpad_axis_teleporter invisible
+	}
+
+}
+
+//======================================================
+//======================================================
+//  ARMORY OPERATIONS - Axis
+//======================================================
+//======================================================
+
+armory_axis_symbolblack
+{
+	spawn
+	{
+		wait 200
+		setstate armory_axis_symbolblack invisible
+	}
+
+	trigger lv1
+	{
+		wait 200
+	}
+
+	trigger lv2
+	{
+		faceangles 0 270 0 1
+	}
+
+	trigger lv3
+	{
+		faceangles 0 180 0 1
+	}
+
+	trigger lv4
+	{
+		faceangles 0 90 0 1
+	}
+}
+
+
+armory_axis_shack
+{
+	spawn
+	{
+		wait 200
+		setstate armory_axis_shack invisible
+	}
+}
+
+armory_axis_weapons
+{
+	spawn
+	{
+		wait 200
+	}
+
+	trigger unhide_weapons
+	{
+		alertentity armory_axis_weapons
+		trigger self looper
+	}
+
+	trigger looper
+	{
+		wait 60000
+		trigger self unhide_weapons
+	}
+}
+
+armory_axis_warning
+{
+	spawn
+	{
+		wait 200
+		setstate armory_axis_warning invisible
+	}
+}
+
+armory_axis_ammostand
+{
+	spawn
+	{
+		wait 200
+		setstate armory_axis_ammostand invisible
+		setstate armory_axis_ammotrig invisible
+	}
+}
+
+
+
+
+armory_axis_capzone
+{
+	spawn
+	{
+		wait 200
+		accum 0 set 1	//the stage of the construction
+	}
+	
+	trigger hide
+	{
+		setstate armory_axis_capzone invisible
+	}
+
+	trigger unhide
+	{
+		setstate armory_axis_capzone default
+	}
+
+	death
+	{
+		trigger armory_axis_cappad sound
+		accum 0 trigger_if_equal 1 armory_axis_capzone reward_1
+		accum 0 trigger_if_equal 2 armory_axis_capzone reward_2
+		accum 0 trigger_if_equal 3 armory_axis_capzone reward_3
+		accum 0 trigger_if_equal 4 armory_axis_capzone reward_4
+	}
+
+	trigger reward_1
+	{
+		setstate armory_axis_capzone invisible
+
+		setstate armory_axis_warning default
+		wait 5100
+		trigger game_manager axis_score
+
+		wm_announce "^1The Axis have built an Armory! ^jHeavy Weapons stocked!"
+
+		setstate armory_axis_symbolblack default
+		setstate armory_axis_shack default
+		setchargetimefactor 0 soldier 0.80
+
+		trigger armory_axis_weapons unhide_weapons
+
+		setstate armory_axis_warning invisible
+
+		accum 0 set 2
+		setstate armory_axis_capzone default
+	}
+
+	trigger reward_2
+	{
+		setstate armory_axis_capzone invisible
+
+		setstate armory_axis_warning default
+		wait 5100
+		trigger game_manager axis_score
+
+		wm_announce "^1The Axis Armory has been upgraded to ^kLevel 2^1! ^jAmmunition stocked!"
+
+		trigger armory_axis_symbolblack lv2
+
+		setchargetimefactor 0 soldier 0.60
+		setstate armory_axis_ammostand default
+		setstate armory_axis_ammotrig default
+		trigger tactical_axis_scopedweaponsdelay synergypoint_2
+
+		setstate armory_axis_warning invisible
+
+		accum 0 set 3
+		setstate armory_axis_capzone default
+	}
+
+	trigger reward_3
+	{
+		setstate armory_axis_capzone invisible
+
+		setstate armory_axis_warning default
+		wait 5100
+		trigger game_manager axis_score
+
+		wm_announce "^1The Axis Armory has been upgraded to ^zLevel 3^1! ^jAmmunition chests available!"
+
+		trigger armory_axis_symbolblack lv3
+
+		setchargetimefactor 0 soldier 0.20
+		trigger ammobox1_axis_box activate
+		trigger ammobox2_axis_box activate
+		trigger ammobox3_axis_box activate
+
+		trigger tactical_axis_enemyweaponsdelay synergypoint_2
+
+		setstate armory_axis_warning invisible
+
+		accum 0 set 4
+		setstate armory_axis_capzone default
+	}
+
+	trigger reward_4
+	{
+		setstate armory_axis_capzone invisible
+
+		setstate armory_axis_warning default
+		wait 5100
+		trigger game_manager axis_score
+
+		wm_announce "^1The Axis Armory has been upgraded to ^lLevel 4^1! ^jRocketguns carry additional ammunition!"
+
+		trigger armory_axis_symbolblack lv4
+
+		setchargetimefactor 0 soldier 0.20
+		trigger towergun_axis_patrolalert synergypoint_1
+		trigger gategun_axis_patrolalert synergypoint_2
+
+		setstate armory_axis_warning invisible
+
+		accum 0 set 0
+		trigger armory_axis_cappad hide
+		setstate armory_axis_info invisible
+	}
+}
+
+armory_axis_cappad
+{
+	spawn
+	{
+		wait 200
+	}
+
+	trigger hide
+	{
+		setstate armory_axis_cappad invisible
+	}
+
+	trigger sound
+	{
+		playsound "sound/baserace/wohoo_axis.wav"
+		playsound "sound/world/build.wav"
+	}
+}
+
+//======================================================
+//======================================================
+//  ENGINEERING OPERATIONS - Axis
+//======================================================
+//======================================================
+
+engineering_axis_symbolblack
+{
+	spawn
+	{
+		wait 200
+	}
+
+	trigger lv1
+	{
+		wait 200
+	}
+
+	trigger lv2
+	{
+		faceangles 0 270 0 1
+	}
+
+	trigger lv3
+	{
+		faceangles 0 180 0 1
+	}
+
+	trigger lv4
+	{
+		faceangles 0 90 0 1
+	}
+}
+
+engineering_axis_shack
+{
+	spawn
+	{
+		wait 200
+		setstate mines_axis_0a invisible
+		setstate mines_axis_1a invisible
+		setstate mines_axis_2a invisible
+		setstate mines_axis_3a invisible
+		setstate mines_axis_4a invisible
+		setstate mines_axis_5a invisible
+		setstate mines_axis_6a invisible
+
+		setstate engineering_axis_shack default
+	}
+
+	trigger landmine_sentry
+	{
+		wait random 20000 30000
+		accum 0 random 7
+		wait 100
+
+		accum 0 trigger_if_equal 0 engineering_axis_shack landmine_0
+		accum 0 trigger_if_equal 1 engineering_axis_shack landmine_1
+		accum 0 trigger_if_equal 2 engineering_axis_shack landmine_2
+		accum 0 trigger_if_equal 3 engineering_axis_shack landmine_3
+		accum 0 trigger_if_equal 4 engineering_axis_shack landmine_4
+		accum 0 trigger_if_equal 5 engineering_axis_shack landmine_5
+		accum 0 trigger_if_equal 6 engineering_axis_shack landmine_6
+	}
+
+	trigger landmine_0
+	{
+		setstate mines_axis_0a default
+		trigger self landmine_sentry
+	}
+
+	trigger landmine_1
+	{
+		setstate mines_axis_1a default
+		trigger self landmine_sentry
+	}
+
+	trigger landmine_2
+	{
+		setstate mines_axis_2a default
+		trigger self landmine_sentry
+	}
+
+	trigger landmine_3
+	{
+		setstate mines_axis_3a default
+		trigger self landmine_sentry
+	}
+
+	trigger landmine_4
+	{
+		setstate mines_axis_4a default
+		trigger self landmine_sentry
+	}
+
+	trigger landmine_5
+	{
+		setstate mines_axis_5a default
+		trigger self landmine_sentry
+	}
+
+	trigger landmine_6
+	{
+		setstate mines_axis_6a default
+		trigger self landmine_sentry
+	}
+}
+
+engineering_axis_warning
+{
+	spawn
+	{
+		wait 200
+		setstate engineering_axis_warning invisible
+	}
+}
+
+
+engineering_axis_capzone
+{
+	spawn
+	{
+		wait 200
+		accum 0 set 1	//the stage of the construction
+	}
+	
+	trigger hide
+	{
+		setstate engineering_axis_capzone invisible
+	}
+
+	trigger unhide
+	{
+		setstate engineering_axis_capzone default
+	}
+
+	death
+	{
+		trigger engineering_axis_cappad sound
+		accum 0 trigger_if_equal 1 engineering_axis_capzone reward_1
+		accum 0 trigger_if_equal 2 engineering_axis_capzone reward_2
+		accum 0 trigger_if_equal 3 engineering_axis_capzone reward_3
+		accum 0 trigger_if_equal 4 engineering_axis_capzone reward_4
+	}
+
+	trigger reward_1
+	{
+		setstate engineering_axis_capzone invisible
+
+		setstate engineering_axis_warning default
+		wait 5100
+		trigger game_manager axis_score
+
+		wm_announce "^1The Axis have built an Engineering Shack! ^jBase defenses improved!"
+
+		trigger engineering_axis_symbolblack lv1
+		setstate engineering_axis_shack invisible
+
+		setchargetimefactor 0 engineer 0.80
+		trigger rightfence_axis_barbedhurt2 synergypoint_2
+		trigger leftfence_axis_barbedhurt2 synergypoint_2
+		trigger forwardfence_axis_barbedhurt2 synergypoint_2
+		
+		setstate engineering_axis_warning invisible
+
+		accum 0 set 2
+		setstate engineering_axis_capzone default
+	}
+
+	trigger reward_2
+	{
+		setstate engineering_axis_capzone invisible
+
+		setstate engineering_axis_warning default
+		wait 5100
+		trigger game_manager axis_score
+
+		wm_announce "^1The Axis Engineering Shack has been upgraded to ^kLevel 2^1! ^jBase defenses improved!"
+
+		trigger engineering_axis_symbolblack lv2
+
+		setchargetimefactor 0 engineer 0.60
+		trigger rightfence_axis_barbedhurt3 synergypoint_2
+		trigger leftfence_axis_barbedhurt3 synergypoint_2
+		trigger forwardfence_axis_barbedhurt3 synergypoint_2
+
+		setstate engineering_axis_warning invisible
+
+		accum 0 set 3
+		setstate engineering_axis_capzone default
+	}
+
+	trigger reward_3
+	{
+		setstate engineering_axis_capzone invisible
+
+		setstate engineering_axis_warning default
+		wait 5100
+		trigger game_manager axis_score
+
+		wm_announce "^1The Axis Engineering Shack has been upgraded to ^zLevel 3^1! ^jRocketguns range improved!"
+
+		trigger engineering_axis_symbolblack lv3
+
+		setchargetimefactor 0 engineer 0.40
+		trigger gate_axis_debris synergypoint_2
+		trigger towergun_axis_debris synergypoint_2
+
+		setstate engineering_axis_warning invisible
+
+		accum 0 set 4
+		setstate engineering_axis_capzone default
+	}
+
+	trigger reward_4
+	{
+		setstate engineering_axis_capzone invisible
+
+		setstate engineering_axis_warning default
+		wait 5100
+		trigger game_manager axis_score
+
+		wm_announce "^1The Axis Engineering Shack has been upgraded to ^lLevel 4^1! ^jLandmine sentry active!"
+
+		setchargetimefactor 0 engineer 0.20
+		trigger engineering_axis_shack landmine_sentry
+		trigger outpost_axis_debris synergypoint_1
+
+		trigger engineering_axis_symbolblack lv4
+
+		setstate engineering_axis_warning invisible
+
+		accum 0 set 0
+		trigger engineering_axis_cappad hide
+		setstate engineering_axis_info invisible
+	}
+}
+
+engineering_axis_cappad
+{
+	spawn
+	{
+		wait 200
+	}
+
+	trigger hide
+	{
+		setstate engineering_axis_cappad invisible
+	}
+
+	trigger sound
+	{
+		playsound "sound/baserace/wohoo_axis.wav"
+		playsound "sound/world/build.wav"
+	}
+}
+
+
+//======================================================
+//======================================================
+//  SPAWN OPERATIONS - Axis
+//======================================================
+//======================================================
+
+spawn_axis_cover
+{
+	spawn
+	{
+		wait 200
+		setstate spawn_axis_cover invisible
+	}
+}
+
+spawn_axis_warning
+{
+	spawn
+	{
+		wait 200
+		setstate spawn_axis_warning invisible
+		setstate spawn_axis_flag invisible
+	}
+}
+
+spawn_axis_capzone
+{
+	spawn
+	{
+		wait 200
+		accum 0 set 1	//the stage of the construction
+	}
+	
+	trigger hide
+	{
+		setstate spawn_axis_capzone invisible
+	}
+
+	trigger unhide
+	{
+		setstate spawn_axis_capzone default
+	}
+
+	death
+	{
+		trigger spawn_axis_cappad sound
+		accum 0 trigger_if_equal 1 spawn_axis_capzone reward_1
+		accum 0 trigger_if_equal 2 spawn_axis_capzone reward_2
+		accum 0 trigger_if_equal 3 spawn_axis_capzone reward_3
+		accum 0 trigger_if_equal 4 spawn_axis_capzone reward_4
+	}
+
+	trigger reward_1
+	{
+		setstate spawn_axis_capzone invisible
+
+		setstate spawn_axis_warning default
+		wait 5100
+		trigger game_manager axis_score
+
+		wm_announce "^1The Axis Spawn has been upgraded to Level 1!"
+
+		trigger game_manager axis_spawn_lv1
+		setstate spawn_axis_cover default
+		setstate spawn_axis_flag default
+
+		setstate spawn_axis_warning invisible
+
+		accum 0 set 2
+		setstate spawn_axis_capzone default
+	}
+
+	trigger reward_2
+	{
+		setstate spawn_axis_capzone invisible
+
+		setstate spawn_axis_warning default
+		wait 5100
+		trigger game_manager axis_score
+
+		wm_announce "^1The Axis Spawn has been upgraded to ^kLevel 2^1!"
+
+		trigger game_manager axis_spawn_lv2
+		trigger outpost_axis_debris synergypoint_2
+		trigger sneakpad_axis_mover synergypoint_2
+		remapshader "textures/cptnt_baseracebeta3/flag_axis_spawn1" "textures/cptnt_baseracebeta3/flag_axis_spawn2"
+		remapshaderflush
+
+		setstate spawn_axis_warning invisible
+
+		accum 0 set 3
+		setstate spawn_axis_capzone default
+	}
+
+	trigger reward_3
+	{
+		setstate spawn_axis_capzone invisible
+
+		setstate spawn_axis_warning default
+		wait 5100
+		trigger game_manager axis_score
+
+		wm_announce "^1The Axis Spawn has been upgraded to ^zLevel 3^1!"
+		trigger game_manager axis_spawn_lv3
+		remapshader "textures/cptnt_baseracebeta3/flag_axis_spawn1" "textures/cptnt_baseracebeta3/flag_axis_spawn3"
+		remapshaderflush
+
+		setstate spawn_axis_warning invisible
+
+		accum 0 set 4
+		setstate spawn_axis_capzone default
+	}
+
+	trigger reward_4
+	{
+		setstate spawn_axis_capzone invisible
+
+		setstate spawn_axis_warning default
+		wait 5100
+		trigger game_manager axis_score
+
+		wm_announce "^1The Axis Spawn has been upgraded to ^lLevel 4^1!"
+		
+		trigger game_manager axis_spawn_lv4
+		remapshader "textures/cptnt_baseracebeta3/flag_axis_spawn1" "textures/cptnt_baseracebeta3/flag_axis_spawn4"
+		remapshaderflush
+
+		setstate spawn_axis_warning invisible
+
+		accum 0 set 0
+		trigger spawn_axis_cappad hide
+		setstate spawn_axis_info invisible
+	}
+}
+
+spawn_axis_cappad
+{
+	spawn
+	{
+		wait 200
+	}
+
+	trigger hide
+	{
+		setstate spawn_axis_cappad invisible
+	}
+
+	trigger sound
+	{
+		playsound "sound/baserace/wohoo_axis.wav"
+		playsound "sound/world/build.wav"
+	}
+}
+
+ammobox1_axis_box
+{
+	spawn
+	{
+		wait 200
+		setstate ammobox1_axis_box invisible
+		setstate ammobox1_axis_door invisible
+	}
+
+	trigger activate
+	{
+		setstate ammobox1_axis_box default
+		setstate ammobox1_axis_door default
+	}
+
+	trigger open
+	{
+		setstate ammobox1_axis_giveammo default
+		wait 1000
+		setstate ammobox1_axis_giveammo invisible
+	}
+
+}
+
+ammobox1_axis_giveammo
+{
+	spawn
+	{
+		wait 200
+		setstate ammobox1_axis_giveammo invisible
+	}
+
+}
+
+ammobox2_axis_box
+{
+	spawn
+	{
+		wait 200
+		setstate ammobox2_axis_box invisible
+		setstate ammobox2_axis_door invisible
+	}
+
+	trigger activate
+	{
+		setstate ammobox2_axis_box default
+		setstate ammobox2_axis_door default
+	}
+
+	trigger open
+	{
+		setstate ammobox2_axis_giveammo default
+		wait 1000
+		setstate ammobox2_axis_giveammo invisible
+	}
+
+}
+
+ammobox2_axis_giveammo
+{
+	spawn
+	{
+		wait 200
+		setstate ammobox2_axis_giveammo invisible
+	}
+
+}
+
+ammobox3_axis_box
+{
+	spawn
+	{
+		wait 200
+		setstate ammobox3_axis_box invisible
+		setstate ammobox3_axis_door invisible
+	}
+
+	trigger activate
+	{
+		setstate ammobox3_axis_box default
+		setstate ammobox3_axis_door default
+	}
+
+	trigger open
+	{
+		setstate ammobox3_axis_giveammo default
+		wait 1000
+		setstate ammobox3_axis_giveammo invisible
+	}
+
+}
+
+ammobox3_axis_giveammo
+{
+	spawn
+	{
+		wait 200
+		setstate ammobox3_axis_giveammo invisible
+	}
+
+}
+
+healthbox1_axis_box
+{
+	spawn
+	{
+		wait 200
+		setstate healthbox1_axis_box invisible
+		setstate healthbox1_axis_door invisible
+	}
+
+	trigger activate
+	{
+		setstate healthbox1_axis_box default
+		setstate healthbox1_axis_door default
+	}
+
+	trigger open
+	{
+		setstate healthbox1_axis_giveammo default
+		wait 1000
+		setstate healthbox1_axis_giveammo invisible
+	}
+
+}
+
+
+healthbox1_axis_giveammo
+{
+	spawn
+	{
+		wait 200
+		setstate healthbox1_axis_giveammo invisible
+	}
+
+}
+
+healthbox2_axis_box
+{
+	spawn
+	{
+		wait 200
+		setstate healthbox2_axis_box invisible
+		setstate healthbox2_axis_door invisible
+	}
+
+	trigger activate
+	{
+		setstate healthbox2_axis_box default
+		setstate healthbox2_axis_door default
+	}
+
+	trigger open
+	{
+		setstate healthbox2_axis_giveammo default
+		wait 1000
+		setstate healthbox2_axis_giveammo invisible
+	}
+
+}
+
+
+healthbox2_axis_giveammo
+{
+	spawn
+	{
+		wait 200
+		setstate healthbox2_axis_giveammo invisible
+	}
+
+}
+
+healthbox3_axis_box
+{
+	spawn
+	{
+		wait 200
+		setstate healthbox3_axis_box invisible
+		setstate healthbox3_axis_door invisible
+	}
+
+	trigger activate
+	{
+		setstate healthbox3_axis_box default
+		setstate healthbox3_axis_door default
+	}
+
+	trigger open
+	{
+		setstate healthbox3_axis_giveammo default
+		wait 1000
+		setstate healthbox3_axis_giveammo invisible
+	}
+}
+
+healthbox3_axis_giveammo
+{
+	spawn
+	{
+		wait 200
+		setstate healthbox3_axis_giveammo invisible
+	}
+
+}
+
+basewall_axis_explosive
+{
+	spawn
+	{
+		wait 200
+		constructible_class 3
+	}
+
+	death
+	{
+		wm_announce "^6The Allies have breached the Axis Underbase Wall!"
+	}
+}
+
+basedoor_axis_explosive
+{
+	spawn
+	{
+		wait 200
+		constructible_class 3
+	}
+
+	death
+	{
+		wm_announce "^6The Allies have breached the Axis Underbase Door!"
+	}
+}
+
+
+//===============================================================
+//  axis Construction Materials
+//===============================================================
+axis_materials
+{
+	spawn
+	{
+		wait 200
+	}
+
+	trigger stolen
+	{
+	}
+
+	trigger secured
+	{
+	}
+
+	trigger returned
+	{
+	}
+}
+
+axis_materialsb
+{
+	spawn
+	{
+		wait 200
+	}
+
+	trigger stolen
+	{
+	}
+
+	trigger secured
+	{
+	}
+
+	trigger returned
+	{
+	}
+}
+
+//===================================================================
+outpost_axis_con
+{
+	spawn
+	{
+		wait 400
+
+		constructible_class 2
+	}
+
+	trigger setup
+	{
+		setstate outpost_axis_con invisible
+
+	}
+
+	buildstart final
+	{
+		setstate outpost_axis_con default
+		setstate outpost_axis_debris invisible
+
+	}
+
+	built final
+	{
+		setstate outpost_axis_con default
+		setstate outpost_axis_debris invisible
+		trigger outpost_axis_wobj unhide
+		wm_announce "^6The Axis have Repaired their Outpost."
+	}
+
+	decayed final
+	{
+		setstate outpost_axis_con invisible
+		setstate outpost_axis_debris default
+	}
+
+	death
+	{
+		setstate outpost_axis_con invisible
+		setstate outpost_axis_debris default
+		trigger outpost_axis_wobj hide
+		wm_announce "^6The Axis Outpost has been destroyed!"
+	}
+}
+
+outpost_axis_debris
+{
+	spawn
+	{
+		wait 500
+		accum 1 set 0	//synergy point 1 - the gun
+		accum 2 set 0	//synergy point 2 - engineering lv3
+		setstate outpost_axis_debris invisible
+		setstate outpost_axis_con invisible
+		setstate outpost_axis_toi invisible
+	}
+	
+	trigger synergypoint_1
+	{
+		accum 1 set 1
+		trigger self synergy_check
+	}
+
+	trigger synergypoint_2
+	{
+		accum 2 set 1
+		trigger self synergy_check
+	}
+
+	trigger synergy_check
+	{
+		accum 1 abort_if_not_equal 1
+		accum 2 abort_if_not_equal 1
+		wm_announce "^2Synergy Bonus! ^gThe Axis have built an Outpost!"
+		setstate outpost_axis_con default
+		setstate outpost_axis_toi default
+		trigger outpost_axis_wobj unhide
+		setstate outpost_axis_rock invisible
+	}
+}
+
+outpost_axis_spawns
+{
+	spawn
+	{
+		wait 200
+		setstate outpost_axis_spawns invisible
+	}
+}
+
+outpost_axis_wobj
+{
+	spawn
+	{
+		wait 200
+		setstate outpost_axis_wobj invisible
+	}
+
+	trigger unhide
+	{
+		setstate outpost_axis_wobj default
+		setstate outpost_axis_spawns default
+	}
+
+	trigger hide
+	{
+		setstate outpost_axis_wobj invisible
+		setstate outpost_axis_spawns invisible
+	}
+}
+
+outpost_axis_rock
+{
+	spawn
+	{
+		wait 200
+	}
+}
+
+
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
+
+
+//======================================================
+//======================================================
+//  RIGHT FENCE - Allied
+//======================================================
+//======================================================
+
+rightfence_Allied_chainfence
+{
+	spawn
+	{
+		wait 200
+		setstate rightfence_Allied_chainfence invisible
+	}
+}
+
+rightfence_Allied_barbedfence
+{
+	spawn
+	{
+		wait 200
+		setstate rightfence_Allied_barbedfence invisible
+	}
+}
+
+rightfence_Allied_basewall
+{
+	spawn
+	{
+		wait 200
+		setstate rightfence_Allied_basewall invisible
+	}
+}
+
+rightfence_Allied_fortifiedwall
+{
+	spawn
+	{
+		wait 200
+		setstate rightfence_Allied_fortifiedwall invisible
+	}
+}
+
+rightfence_Allied_barbedhurt1
+{
+	spawn
+	{
+		wait 200
+		setstate rightfence_Allied_barbedhurt1 invisible
+	}
+}
+
+rightfence_Allied_barbedhurt2
+{
+	spawn
+	{
+		wait 200
+		accum 1 set 0
+		accum 2 set 0
+		setstate rightfence_Allied_barbedhurt2 invisible
+	}
+
+	trigger synergypoint_1
+	{
+		accum 1 set 1
+		trigger self synergy_check
+	}
+
+	trigger synergypoint_kill
+	{
+		accum 1 set 0
+		trigger self synergy_check
+	}
+
+	trigger synergypoint_2
+	{
+		accum 2 set 1
+		trigger self synergy_check
+	}
+
+	trigger synergy_check
+	{
+		accum 1 abort_if_not_equal 1
+		accum 2 abort_if_not_equal 1
+		wm_announce "^2Synergy Bonus! ^gThe Right Allied Barbed Fence deals 15 additional damage!"
+		setstate rightfence_Allied_barbedhurt1 invisible
+		setstate rightfence_Allied_barbedhurt2 default
+	}
+}
+
+rightfence_Allied_barbedhurt3
+{
+	spawn
+	{
+		wait 200
+		accum 1 set 0
+		accum 2 set 0
+	}
+
+	trigger synergypoint_1
+	{
+		accum 1 set 1
+		trigger self synergy_check
+	}
+
+	trigger synergypoint_kill
+	{
+		accum 1 set 0
+		trigger self synergy_check
+	}
+
+	trigger synergypoint_2
+	{
+		accum 2 set 1
+		trigger self synergy_check
+	}
+
+	trigger synergy_check
+	{
+		accum 1 abort_if_not_equal 1
+		accum 2 abort_if_not_equal 1
+		wm_announce "^2Synergy Bonus! ^gThe Right Allied Barbed Fence deals 30 additional damage!"
+		setstate rightfence_Allied_barbedhurt1 default
+	}
+}
+
+rightfence_Allied_warning
+{
+	spawn
+	{
+		wait 200
+		setstate rightfence_Allied_warning invisible
+	}
+}
+
+rightfence_Allied_capzone
+{
+	spawn
+	{
+		wait 200
+		accum 0 set 1	//the stage of the construction
+	}
+	
+	trigger hide
+	{
+		setstate rightfence_Allied_capzone invisible
+	}
+
+	trigger unhide
+	{
+		setstate rightfence_Allied_capzone default
+	}
+
+	death
+	{
+		trigger rightfence_Allied_cappad sound
+		accum 0 trigger_if_equal 1 rightfence_Allied_capzone reward_1
+		accum 0 trigger_if_equal 2 rightfence_Allied_capzone reward_2
+		accum 0 trigger_if_equal 3 rightfence_Allied_capzone reward_3
+		accum 0 trigger_if_equal 4 rightfence_Allied_capzone reward_4
+	}
+
+	trigger reward_1
+	{
+		setstate rightfence_Allied_capzone invisible
+
+		setstate rightfence_Allied_warning default
+		wait 5100
+		trigger game_manager Allied_score
+
+		wm_announce "^DThe Allies have built a Chain Fence."
+		setstate rightfence_Allied_chainfence default
+		setstate rightfence_Allied_warning invisible
+
+		accum 0 set 2
+		setstate rightfence_Allied_capzone default
+	}
+
+	trigger reward_2
+	{
+		setstate rightfence_Allied_capzone invisible
+
+		setstate rightfence_Allied_warning default
+		wait 5100
+		trigger game_manager Allied_score
+
+		setstate rightfence_Allied_chainfence invisible
+		wm_announce "^DThe Allies have built a Barbed Fence."
+		setstate rightfence_Allied_barbedfence default
+		setstate rightfence_Allied_barbedhurt1 default
+		trigger rightfence_Allied_barbedhurt2 synergypoint_1
+		trigger rightfence_Allied_barbedhurt3 synergypoint_1
+		setstate rightfence_Allied_warning invisible
+
+		accum 0 set 3
+		setstate rightfence_Allied_capzone default
+	}
+
+	trigger reward_3
+	{
+		setstate rightfence_Allied_capzone invisible
+
+		setstate rightfence_Allied_warning default
+		wait 5100
+		trigger game_manager Allied_score
+
+		setstate rightfence_Allied_barbedfence invisible
+		setstate rightfence_Allied_barbedhurt1 invisible
+		setstate rightfence_Allied_barbedhurt2 invisible
+		setstate rightfence_Allied_barbedhurt3 invisible
+		trigger rightfence_Allied_barbedhurt2 synergypoint_kill
+		trigger rightfence_Allied_barbedhurt3 synergypoint_kill
+		wm_announce "^DThe Allies have built a Base Wall."
+		setstate rightfence_Allied_basewall default
+		setstate rightfence_Allied_warning invisible
+
+		accum 0 set 4
+		setstate rightfence_Allied_capzone default
+	}
+
+	trigger reward_4
+	{
+		setstate rightfence_Allied_capzone invisible
+
+		setstate rightfence_Allied_warning default
+		wait 5100
+		trigger game_manager Allied_score
+
+		wm_announce "^DThe Allies have built a Fortified Wall."
+		setstate rightfence_Allied_fortifiedwall default
+		setstate rightfence_Allied_warning invisible
+
+		accum 0 set 0
+		trigger rightfence_Allied_cappad hide
+		setstate rightfence_Allied_info invisible
+	}
+}
+
+rightfence_Allied_cappad
+{
+	spawn
+	{
+		wait 200
+	}
+
+	trigger hide
+	{
+		setstate rightfence_Allied_cappad invisible
+	}
+
+	trigger sound
+	{
+		playsound "sound/baserace/wohoo_Allied.wav"
+		playsound "sound/world/build.wav"
+	}
+}
+
+//======================================================
+//======================================================
+//  LEFT FENCE - Allied
+//======================================================
+//======================================================
+
+leftfence_Allied_chainfence
+{
+	spawn
+	{
+		wait 200
+		setstate leftfence_Allied_chainfence invisible
+	}
+}
+
+leftfence_Allied_barbedfence
+{
+	spawn
+	{
+		wait 200
+		setstate leftfence_Allied_barbedfence invisible
+	}
+}
+
+leftfence_Allied_basewall
+{
+	spawn
+	{
+		wait 200
+		setstate leftfence_Allied_basewall invisible
+	}
+}
+
+leftfence_Allied_fortifiedwall
+{
+	spawn
+	{
+		wait 200
+		setstate leftfence_Allied_fortifiedwall invisible
+	}
+}
+
+leftfence_Allied_barbedhurt1
+{
+	spawn
+	{
+		wait 200
+		setstate leftfence_Allied_barbedhurt1 invisible
+	}
+}
+
+leftfence_Allied_barbedhurt2
+{
+	spawn
+	{
+		wait 200
+		accum 1 set 0
+		accum 2 set 0
+		setstate leftfence_Allied_barbedhurt2 invisible
+	}
+
+	trigger synergypoint_1
+	{
+		accum 1 set 1
+		trigger self synergy_check
+	}
+
+	trigger synergypoint_kill
+	{
+		accum 1 set 0
+		trigger self synergy_check
+	}
+
+	trigger synergypoint_2
+	{
+		accum 2 set 1
+		trigger self synergy_check
+	}
+
+	trigger synergy_check
+	{
+		accum 1 abort_if_not_equal 1
+		accum 2 abort_if_not_equal 1
+		wm_announce "^2Synergy Bonus! ^gThe Left Allied Barbed Fence deals 15 additional damage!"
+		setstate leftfence_Allied_barbedhurt1 invisible
+		setstate leftfence_Allied_barbedhurt2 default
+	}
+}
+
+leftfence_Allied_barbedhurt3
+{
+	spawn
+	{
+		wait 200
+		accum 1 set 0
+		accum 2 set 0
+	}
+
+	trigger synergypoint_1
+	{
+		accum 1 set 1
+		trigger self synergy_check
+	}
+
+	trigger synergypoint_kill
+	{
+		accum 1 set 0
+		trigger self synergy_check
+	}
+
+	trigger synergypoint_2
+	{
+		accum 2 set 1
+		trigger self synergy_check
+	}
+
+	trigger synergy_check
+	{
+		accum 1 abort_if_not_equal 1
+		accum 2 abort_if_not_equal 1
+		wm_announce "^2Synergy Bonus! ^gThe Left Allied Barbed Fence deals 30 additional damage!"
+		setstate leftfence_Allied_barbedhurt1 default
+	}
+}
+
+
+
+leftfence_Allied_warning
+{
+	spawn
+	{
+		wait 200
+		setstate leftfence_Allied_warning invisible
+	}
+}
+
+
+leftfence_Allied_capzone
+{
+	spawn
+	{
+		wait 200
+		accum 0 set 1	//the stage of the construction
+	}
+	
+	trigger hide
+	{
+		setstate leftfence_Allied_capzone invisible
+	}
+
+	trigger unhide
+	{
+		setstate leftfence_Allied_capzone default
+	}
+
+	death
+	{
+		trigger leftfence_Allied_cappad sound
+		accum 0 trigger_if_equal 1 leftfence_Allied_capzone reward_1
+		accum 0 trigger_if_equal 2 leftfence_Allied_capzone reward_2
+		accum 0 trigger_if_equal 3 leftfence_Allied_capzone reward_3
+		accum 0 trigger_if_equal 4 leftfence_Allied_capzone reward_4
+	}
+
+	trigger reward_1
+	{
+		setstate leftfence_Allied_capzone invisible
+
+		setstate leftfence_Allied_warning default
+		wait 5100
+		trigger game_manager Allied_score
+
+		wm_announce "^DThe Allies have built a Chain Fence."
+		setstate leftfence_Allied_chainfence default
+		setstate leftfence_Allied_warning invisible
+
+		accum 0 set 2
+		setstate leftfence_Allied_capzone default
+	}
+
+	trigger reward_2
+	{
+		setstate leftfence_Allied_capzone invisible
+
+		setstate leftfence_Allied_warning default
+		wait 5100
+		trigger game_manager Allied_score
+
+		setstate leftfence_Allied_chainfence invisible
+		wm_announce "^DThe Allies have built a Barbed Fence."
+		setstate leftfence_Allied_barbedfence default
+		setstate leftfence_Allied_barbedhurt1 default
+		trigger leftfence_Allied_barbedhurt2 synergypoint_1
+		trigger leftfence_Allied_barbedhurt3 synergypoint_1
+		setstate leftfence_Allied_warning invisible
+
+		accum 0 set 3
+		setstate leftfence_Allied_capzone default
+	}
+
+	trigger reward_3
+	{
+		setstate leftfence_Allied_capzone invisible
+
+		setstate leftfence_Allied_warning default
+		wait 5100
+		trigger game_manager Allied_score
+
+		setstate leftfence_Allied_barbedfence invisible
+		setstate leftfence_Allied_barbedhurt1 invisible
+		setstate leftfence_Allied_barbedhurt2 invisible
+		setstate leftfence_Allied_barbedhurt3 invisible
+		trigger leftfence_Allied_barbedhurt2 synergypoint_kill
+		trigger leftfence_Allied_barbedhurt3 synergypoint_kill
+		wm_announce "^DThe Allies have built a Base Wall."
+		setstate leftfence_Allied_basewall default
+		setstate leftfence_Allied_warning invisible
+
+		accum 0 set 4
+		setstate leftfence_Allied_capzone default
+	}
+
+	trigger reward_4
+	{
+		setstate leftfence_Allied_capzone invisible
+
+		setstate leftfence_Allied_warning default
+		wait 5100
+		trigger game_manager Allied_score
+
+		wm_announce "^DThe Allies have built a Fortified Wall."
+		setstate leftfence_Allied_fortifiedwall default
+		setstate leftfence_Allied_warning invisible
+
+		accum 0 set 0
+		trigger leftfence_Allied_cappad hide
+		setstate leftfence_Allied_info invisible
+	}
+}
+
+leftfence_Allied_cappad
+{
+	spawn
+	{
+		wait 200
+	}
+
+	trigger hide
+	{
+		setstate leftfence_Allied_cappad invisible
+	}
+
+	trigger sound
+	{
+		playsound "sound/baserace/wohoo_Allied.wav"
+		playsound "sound/world/build.wav"	
+	}
+}
+
+
+//======================================================
+//======================================================
+//  FORWARD FENCE - Allied
+//======================================================
+//======================================================
+
+forwardfence_Allied_chainfence
+{
+	spawn
+	{
+		wait 200
+		setstate forwardfence_Allied_chainfence invisible
+	}
+}
+
+forwardfence_Allied_barbedfence
+{
+	spawn
+	{
+		wait 200
+		setstate forwardfence_Allied_barbedfence invisible
+	}
+}
+
+forwardfence_Allied_basewall
+{
+	spawn
+	{
+		wait 200
+		setstate forwardfence_Allied_basewall invisible
+	}
+}
+
+forwardfence_Allied_fortifiedwall
+{
+	spawn
+	{
+		wait 200
+		setstate forwardfence_Allied_fortifiedwall invisible
+	}
+}
+
+forwardfence_Allied_barbedhurt1
+{
+	spawn
+	{
+		wait 200
+		setstate forwardfence_Allied_barbedhurt1 invisible
+	}
+}
+
+forwardfence_Allied_barbedhurt2
+{
+	spawn
+	{
+		wait 200
+		accum 1 set 0
+		accum 2 set 0
+		setstate forwardfence_Allied_barbedhurt2 invisible
+	}
+
+	trigger synergypoint_1
+	{
+		accum 1 set 1
+		trigger self synergy_check
+	}
+
+	trigger synergypoint_kill
+	{
+		accum 1 set 0
+		trigger self synergy_check
+	}
+
+	trigger synergypoint_2
+	{
+		accum 2 set 1
+		trigger self synergy_check
+	}
+
+	trigger synergy_check
+	{
+		accum 1 abort_if_not_equal 1
+		accum 2 abort_if_not_equal 1
+		wm_announce "^2Synergy Bonus! ^gThe Forward Allied Barbed Fence deals 15 additional damage!"
+		setstate forwardfence_Allied_barbedhurt1 invisible
+		setstate forwardfence_Allied_barbedhurt2 default
+	}
+}
+
+forwardfence_Allied_barbedhurt3
+{
+	spawn
+	{
+		wait 200
+		accum 1 set 0
+		accum 2 set 0
+	}
+
+	trigger synergypoint_1
+	{
+		accum 1 set 1
+		trigger self synergy_check
+	}
+
+	trigger synergypoint_kill
+	{
+		accum 1 set 0
+		trigger self synergy_check
+	}
+
+	trigger synergypoint_2
+	{
+		accum 2 set 1
+		trigger self synergy_check
+	}
+
+	trigger synergy_check
+	{
+		accum 1 abort_if_not_equal 1
+		accum 2 abort_if_not_equal 1
+		wm_announce "^2Synergy Bonus! ^gThe Forward Allied Barbed Fence deals 30 additional damage!"
+		setstate forwardfence_Allied_barbedhurt1 default
+	}
+}
+
+forwardfence_Allied_warning
+{
+	spawn
+	{
+		wait 200
+		setstate forwardfence_Allied_warning invisible
+	}
+}
+
+
+forwardfence_Allied_capzone
+{
+	spawn
+	{
+		wait 200
+		accum 0 set 1	//the stage of the construction
+	}
+	
+	trigger hide
+	{
+		setstate forwardfence_Allied_capzone invisible
+	}
+
+	trigger unhide
+	{
+		setstate forwardfence_Allied_capzone default
+	}
+
+	death
+	{
+		trigger forwardfence_Allied_cappad sound
+		accum 0 trigger_if_equal 1 forwardfence_Allied_capzone reward_1
+		accum 0 trigger_if_equal 2 forwardfence_Allied_capzone reward_2
+		accum 0 trigger_if_equal 3 forwardfence_Allied_capzone reward_3
+		accum 0 trigger_if_equal 4 forwardfence_Allied_capzone reward_4
+	}
+
+	trigger reward_1
+	{
+		setstate forwardfence_Allied_capzone invisible
+
+		setstate forwardfence_Allied_warning default
+		wait 5100
+		trigger game_manager Allied_score
+
+		wm_announce "^DThe Allies have built a Chain Fence."
+		setstate forwardfence_Allied_chainfence default
+		setstate forwardfence_Allied_warning invisible
+
+		accum 0 set 2
+		setstate forwardfence_Allied_capzone default
+	}
+
+	trigger reward_2
+	{
+		setstate forwardfence_Allied_capzone invisible
+
+		setstate forwardfence_Allied_warning default
+		wait 5100
+		trigger game_manager Allied_score
+
+		setstate forwardfence_Allied_chainfence invisible
+		wm_announce "^DThe Allies have built a Barbed Fence."
+		setstate forwardfence_Allied_barbedfence default
+		setstate forwardfence_Allied_barbedhurt1 default
+		trigger forwardfence_Allied_barbedhurt2 synergypoint_1
+		trigger forwardfence_Allied_barbedhurt3 synergypoint_1
+		setstate forwardfence_Allied_warning invisible
+
+		accum 0 set 3
+		setstate forwardfence_Allied_capzone default
+	}
+
+	trigger reward_3
+	{
+		setstate forwardfence_Allied_capzone invisible
+
+		setstate forwardfence_Allied_warning default
+		wait 5100
+		trigger game_manager Allied_score
+
+		setstate forwardfence_Allied_barbedfence invisible
+		setstate forwardfence_Allied_barbedhurt1 invisible
+		setstate forwardfence_Allied_barbedhurt2 invisible
+		setstate forwardfence_Allied_barbedhurt3 invisible
+		trigger forwardfence_Allied_barbedhurt2 synergypoint_kill
+		trigger forwardfence_Allied_barbedhurt3 synergypoint_kill
+		wm_announce "^DThe Allies have built a Base Wall."
+		setstate forwardfence_Allied_basewall default
+		setstate forwardfence_Allied_warning invisible
+
+		accum 0 set 4
+		setstate forwardfence_Allied_capzone default
+	}
+
+	trigger reward_4
+	{
+		setstate forwardfence_Allied_capzone invisible
+
+		setstate forwardfence_Allied_warning default
+		wait 5100
+		trigger game_manager Allied_score
+
+		wm_announce "^DThe Allies have built a Fortified Wall."
+		setstate forwardfence_Allied_fortifiedwall default
+		setstate forwardfence_Allied_warning invisible
+
+		accum 0 set 0
+		trigger forwardfence_Allied_cappad hide
+		setstate forwardfence_Allied_info invisible
+	}
+}
+
+forwardfence_Allied_cappad
+{
+	spawn
+	{
+		wait 200
+	}
+
+	trigger hide
+	{
+		setstate forwardfence_Allied_cappad invisible
+	}
+
+	trigger sound
+	{
+		playsound "sound/baserace/wohoo_Allied.wav"
+		playsound "sound/world/build.wav"
+	}
+}
+
+//======================================================
+//======================================================
+//  ASS TOWER - Allied
+//======================================================
+//======================================================
+
+asstower_Allied_woodentower
+{
+	spawn
+	{
+		wait 200
+		setstate asstower_Allied_woodentower invisible
+	}
+
+	trigger unhide
+	{
+		setstate asstower_Allied_woodentower default
+	}
+
+	trigger hide
+	{
+		setstate asstower_Allied_woodentower invisible
+	}
+}
+
+asstower_Allied_supertower
+{
+	spawn
+	{
+		wait 200
+		setstate asstower_Allied_supertower invisible
+	}
+
+	trigger unhide
+	{
+		setstate asstower_Allied_supertower default
+	}
+
+	trigger hide
+	{
+		setstate asstower_Allied_supertower invisible
+	}
+}
+
+asstower_Allied_warning
+{
+	spawn
+	{
+		wait 200
+		setstate asstower_Allied_warning invisible
+	}
+}
+
+asstower_Allied_capzone
+{
+	spawn
+	{
+		wait 200
+		accum 0 set 1	//the stage of the construction
+		setstate asstower_Allied_woodenmg invisible
+		setstate asstower_Allied_supermg invisible
+		setstate asstower_Allied_ubermg	invisible
+	}
+	
+	trigger hide
+	{
+		setstate asstower_Allied_capzone invisible
+	}
+
+	trigger unhide
+	{
+		setstate asstower_Allied_capzone default
+	}
+
+	death
+	{
+		trigger asstower_Allied_cappad sound
+		accum 0 trigger_if_equal 1 asstower_Allied_capzone reward_1
+		accum 0 trigger_if_equal 2 asstower_Allied_capzone reward_2
+		accum 0 trigger_if_equal 3 asstower_Allied_capzone reward_3
+		accum 0 trigger_if_equal 4 asstower_Allied_capzone reward_4
+	}
+
+	trigger reward_1
+	{
+		setstate asstower_Allied_capzone invisible
+
+		setstate asstower_Allied_warning default
+
+		wait 5100
+		trigger game_manager Allied_score
+
+		wm_announce "^DThe Allies have built a Wooden Tower."
+
+		trigger asstower_Allied_woodentower unhide
+		setstate asstower_Allied_woodenmg default
+		trigger medical_Allied_towerpacks synergypoint_2
+
+		setstate asstower_Allied_warning invisible
+
+		accum 0 set 2
+		setstate asstower_Allied_capzone default
+	}
+
+	trigger reward_2
+	{
+		setstate asstower_Allied_capzone invisible
+
+		setstate asstower_Allied_warning default
+
+		wait 5100
+		trigger game_manager Allied_score
+
+		wm_announce "^DThe Allies have mounted a Rocketgun."
+
+		trigger towergun_Allied_debris geturgun
+
+		setstate asstower_Allied_warning invisible
+
+		accum 0 set 3
+		setstate asstower_Allied_capzone default
+	}
+
+	trigger reward_3
+	{
+		setstate asstower_Allied_capzone invisible
+
+		setstate asstower_Allied_warning default
+
+		wait 5100
+		trigger game_manager Allied_score
+
+		wm_announce "^DThe Allies have built a Super Assault Tower!"
+
+		trigger asstower_Allied_woodentower hide
+		trigger asstower_Allied_supertower unhide
+		setstate asstower_Allied_supermg default
+
+		setstate asstower_Allied_warning invisible
+
+		accum 0 set 4
+		setstate asstower_Allied_capzone default
+	}
+
+	trigger reward_4
+	{
+		setstate asstower_Allied_capzone invisible
+
+		setstate asstower_Allied_warning default
+
+		wait 5100
+		trigger game_manager Allied_score
+
+		wm_announce "^DThe Allies have mounted Upgraded Machine Guns!."
+
+		setstate asstower_Allied_woodenmg invisible
+		setstate asstower_Allied_supermg invisible
+		setstate asstower_Allied_ubermg	default
+
+		setstate asstower_Allied_warning invisible
+
+		accum 0 set 0
+		trigger asstower_Allied_cappad hide
+		setstate asstower_Allied_info invisible
+	}
+}
+
+asstower_Allied_cappad
+{
+	spawn
+	{
+		wait 200
+	}
+
+	trigger hide
+	{
+		setstate asstower_Allied_cappad invisible
+	}
+
+	trigger sound
+	{
+		playsound "sound/baserace/wohoo_Allied.wav"
+		playsound "sound/world/build.wav"
+	}
+}
+
+//===================================================================
+towergun_Allied_con
+{
+	spawn
+	{
+		wait 400
+
+		constructible_class 1
+
+		constructible_chargebarreq	0.5
+		constructible_constructxpbonus	7.5
+		constructible_destructxpbonus	5
+		constructible_health	700
+		constructible_weaponclass	1
+		constructible_duration	7000
+	}
+
+	trigger setup
+	{
+		setstate towergun_Allied_con invisible
+
+	}
+
+	buildstart final
+	{
+		setstate towergun_Allied_con default
+		setstate towergun_Allied_debris invisible
+
+	}
+
+	built final
+	{
+		setstate towergun_Allied_con default
+		setstate towergun_Allied_debris invisible
+		setstate towergun_Allied_smoke invisible
+
+		trigger towergun_Allied_alert1 awaken
+		trigger towergun_Allied_patrolalert fixed
+		wm_announce "^5The Allies have Repaired their Tower Rocketgun."
+
+	}
+
+	decayed final
+	{
+		setstate towergun_Allied_con invisible
+		setstate towergun_Allied_debris default
+
+		trigger towergun_Allied_alert1 sleep
+	}
+
+	death
+	{
+		setstate towergun_Allied_con invisible
+		setstate towergun_Allied_debris default
+		setstate towergun_Allied_smoke default
+
+		trigger towergun_Allied_alert1 sleep
+		trigger towergun_Allied_patrolalert damaged
+		wm_announce "^5The Allied Tower Rocketgun has been disabled!"
+	}
+}
+
+towergun_Allied_debris
+{
+	spawn
+	{
+		wait 500
+		accum 1 set 0	//synergy point 1 - the gun
+		accum 2 set 0	//synergy point 2 - engineering lv3
+		setstate towergun_Allied_debris invisible
+		setstate towergun_Allied_con invisible
+		setstate towergun_Allied_toi invisible
+		setstate towergun_Allied_smoke invisible
+	}
+	
+	trigger synergypoint_1
+	{
+		accum 1 set 1
+		trigger self synergy_check
+	}
+
+	trigger synergypoint_2
+	{
+		accum 2 set 1
+		trigger self synergy_check
+	}
+
+	trigger synergy_check
+	{
+		accum 1 abort_if_not_equal 1
+		accum 2 abort_if_not_equal 1
+		wm_announce "^2Synergy Bonus! ^gThe Allied Tower Rocketgun has been given additional range!"
+		trigger towergun_Allied_alert1 synergy_bonus
+	}
+
+	trigger geturgun
+	{
+		setstate towergun_Allied_con default
+		setstate towergun_Allied_toi default
+		trigger self synergypoint_1
+		trigger towergun_Allied_patrolalert synergypoint_2
+		trigger towergun_Allied_alert1 awaken
+	}
+}
+
+towergun_Allied_alert1  // Target Delay that controls the towergun Rocket Gun
+{
+	spawn
+	{
+		wait 200
+		accum 1 set 0 //the gun triggers are sleeping when spawned
+		accum 2 set 0 //synergy bonus for gun
+	}
+
+	trigger sleep
+	{
+		accum 1 set 0 //puts the gun triggers to sleep
+	}
+
+	trigger awaken
+	{
+		accum 1 set 1 //the gun is awake
+	}
+
+	trigger synergy_bonus
+	{
+		accum 2 set 1
+	}
+
+	trigger fireon_1
+	{
+		accum 1 abort_if_not_equal 1
+		alertentity towergun_Allied_alert1
+		wait 200
+		alertentity towergun_Allied_alert1
+	}
+
+	trigger fireon_2
+	{
+		accum 1 abort_if_not_equal 1
+		alertentity towergun_Allied_alert2
+		wait 200
+		alertentity towergun_Allied_alert2
+	}
+
+	trigger fireon_3
+	{
+		accum 1 abort_if_not_equal 1
+		alertentity towergun_Allied_alert3
+		wait 200
+		alertentity towergun_Allied_alert3
+	}
+
+	trigger fireon_4
+	{
+		accum 1 abort_if_not_equal 1
+		accum 2 abort_if_not_equal 1
+		alertentity towergun_Allied_alert4
+		wait 200
+		alertentity towergun_Allied_alert4
+	}
+
+	trigger fireon_5
+	{
+		accum 1 abort_if_not_equal 1
+		accum 2 abort_if_not_equal 1
+		alertentity towergun_Allied_alert5
+		wait 200
+		alertentity towergun_Allied_alert5
+	}
+
+	trigger fireon_6
+	{
+		accum 1 abort_if_not_equal 1
+		accum 2 abort_if_not_equal 1
+		alertentity towergun_Allied_alert6
+		wait 200
+		alertentity towergun_Allied_alert6
+	}
+}
+
+towergun_Allied_alert2 //only used as optional alert
+{
+	spawn
+	{
+		wait 200
+	}
+}
+
+towergun_Allied_alert3 //only used as optional alert
+{
+	spawn
+	{
+		wait 200
+	}
+}
+
+//======================================================
+towergun_Allied_patrolalert
+{
+	spawn
+	{
+		wait 200
+		accum 1 set 0
+		accum 2 set 0
+	}
+
+	trigger synergypoint_1
+	{
+		accum 1 set 1
+		trigger self fireloop
+	}
+
+	trigger synergypoint_2
+	{
+		accum 2 set 1
+		trigger self fireloop
+	}
+
+	trigger damaged
+	{
+		accum 3 set 1
+	}
+
+	trigger fixed
+	{
+		accum 3 set 0
+		trigger self fireloop
+	}
+
+	trigger fireloop
+	{
+		accum 1 abort_if_not_equal 1
+		accum 2 abort_if_not_equal 1
+		accum 3 abort_if_not_equal 0	// abort if the gun is damaged
+		alertentity towergun_Allied_patrolshooter
+		wait 200
+		alertentity towergun_Allied_patrolshooter
+		wait 200
+		alertentity towergun_Allied_patrolshooter
+		wait random 10000 30000
+		trigger self fireloop
+	}
+
+}
+
+//======================================================
+//======================================================
+//  GATE TOWER - Allied
+//======================================================
+//======================================================
+
+gate_Allied_bunker
+{
+	spawn
+	{
+		wait 200
+		setstate gate_Allied_bunker invisible
+	}
+
+	trigger unhide
+	{
+		setstate gate_Allied_bunker default
+	}
+
+	trigger hide
+	{
+		setstate gate_Allied_bunker invisible
+	}
+}
+
+gate_Allied_warning
+{
+	spawn
+	{
+		wait 200
+		setstate gate_Allied_warning invisible
+	}
+}
+
+gate_Allied_capzone
+{
+	spawn
+	{
+		wait 200
+		accum 0 set 1	//the stage of the construction
+		setstate gate_Allied_mg invisible
+	}
+	
+	trigger hide
+	{
+		setstate gate_Allied_capzone invisible
+	}
+
+	trigger unhide
+	{
+		setstate gate_Allied_capzone default
+	}
+
+	death
+	{
+		trigger gate_Allied_cappad sound
+		accum 0 trigger_if_equal 1 gate_Allied_capzone reward_1
+		accum 0 trigger_if_equal 2 gate_Allied_capzone reward_2
+		accum 0 trigger_if_equal 3 gate_Allied_capzone reward_3
+		accum 0 trigger_if_equal 4 gate_Allied_capzone reward_4
+	}
+
+	trigger reward_1
+	{
+		setstate gate_Allied_capzone invisible
+
+		setstate gate_Allied_warning default
+
+		wait 5100
+		trigger game_manager Allied_score
+
+		wm_announce "^DThe Allies have built a Bunker."
+
+		trigger gate_Allied_bunker unhide
+		trigger medical_Allied_gatepacks synergypoint_2
+
+		setstate gate_Allied_warning invisible
+
+		accum 0 set 2
+		setstate gate_Allied_capzone default
+	}
+
+	trigger reward_2
+	{
+		setstate gate_Allied_capzone invisible
+
+		setstate gate_Allied_warning default
+
+		wait 5100
+		trigger game_manager Allied_score
+
+		wm_announce "^DThe Allies have mounted a Rocketgun."
+
+		trigger gate_Allied_debris geturgun
+
+		setstate gate_Allied_warning invisible
+
+		accum 0 set 3
+		setstate gate_Allied_capzone default
+	}
+
+	trigger reward_3
+	{
+		setstate gate_Allied_capzone invisible
+
+		setstate gate_Allied_warning default
+
+		wait 5100
+		trigger game_manager Allied_score
+
+		wm_announce "^DThe Allies have mounted an MG!"
+
+		setstate gate_Allied_mg default
+
+		setstate gate_Allied_warning invisible
+
+		accum 0 set 4
+		setstate gate_Allied_capzone default
+	}
+
+	trigger reward_4
+	{
+		setstate gate_Allied_capzone invisible
+
+		setstate gate_Allied_warning default
+
+		wait 5100
+		trigger game_manager Allied_score
+
+		wm_announce "^DThe Allies have mounted Upgraded Machine Guns!."
+
+		setstate gate_Allied_warning invisible
+
+		accum 0 set 0
+		trigger gate_allied_cappad hide
+		setstate gate_allied_info invisible
+	}
+}
+
+gate_Allied_cappad
+{
+	spawn
+	{
+		wait 200
+	}
+
+	trigger hide
+	{
+		setstate gate_Allied_cappad invisible
+	}
+
+	trigger sound
+	{
+		playsound "sound/baserace/wohoo_Allied.wav"
+		playsound "sound/world/build.wav"
+	}
+}
+
+//===================================================================
+gate_Allied_con
+{
+	spawn
+	{
+		wait 400
+
+		constructible_class 1
+
+		constructible_chargebarreq	0.5
+		constructible_constructxpbonus	7.5
+		constructible_destructxpbonus	5
+		constructible_health	700
+		constructible_weaponclass	1
+		constructible_duration	7000
+	}
+
+	trigger setup
+	{
+		setstate gate_Allied_con invisible
+
+	}
+
+	buildstart final
+	{
+		setstate gate_Allied_con default
+		setstate gate_Allied_debris invisible
+
+	}
+
+	built final
+	{
+		setstate gate_Allied_con default
+		setstate gate_Allied_debris invisible
+		setstate gate_Allied_smoke invisible
+
+		trigger gate_Allied_alert1 awaken
+		trigger gategun_Allied_patrolalert fixed
+		wm_announce "^5The Allies have Repaired their Gate Rocketgun."
+
+	}
+
+	decayed final
+	{
+		setstate gate_Allied_con invisible
+		setstate gate_Allied_debris default
+
+		trigger gate_Allied_alert1 sleep
+	}
+
+	death
+	{
+		setstate gate_Allied_con invisible
+		setstate gate_Allied_debris default
+		setstate gate_Allied_smoke default
+
+		trigger gate_Allied_alert1 sleep
+		trigger gategun_Allied_patrolalert damaged
+		wm_announce "^5The Allied Gate Rocketgun has been disabled!"
+	}
+}
+
+gate_Allied_debris
+{
+	spawn
+	{
+		wait 500
+		accum 1 set 0	//synergy point 1 - the gun
+		accum 2 set 0	//synergy point 2 - engineering lv3
+		setstate gate_Allied_debris invisible
+		setstate gate_Allied_con invisible
+		setstate gate_Allied_toi invisible
+		setstate gate_Allied_smoke invisible
+	}
+	
+	trigger synergypoint_1
+	{
+		accum 1 set 1
+		trigger self synergy_check
+	}
+
+	trigger synergypoint_2
+	{
+		accum 2 set 1
+		trigger self synergy_check
+	}
+
+	trigger synergy_check
+	{
+		accum 1 abort_if_not_equal 1
+		accum 2 abort_if_not_equal 1
+		wm_announce "^2Synergy Bonus! ^gThe Allied Gate Rocketgun has been given additional range!"
+		trigger gate_Allied_alert1 synergy_bonus
+	}
+
+	trigger geturgun
+	{
+		setstate gate_Allied_con default
+		setstate gate_Allied_toi default
+		trigger gategun_Allied_patrolalert synergypoint_1
+		trigger self synergypoint_1
+		trigger gate_Allied_alert1 awaken
+	}
+}
+
+gate_Allied_alert1  // Target Delay that controls the towergun Rocket Gun
+{
+	spawn
+	{
+		wait 200
+		accum 1 set 0 //the gun triggers are sleeping when spawned
+		accum 2 set 0 //synergy bonus for gun
+	}
+
+	trigger sleep
+	{
+		accum 1 set 0 //puts the gun triggers to sleep
+	}
+
+	trigger awaken
+	{
+		accum 1 set 1 //the gun is awake
+	}
+
+	trigger synergy_bonus
+	{
+		accum 2 set 1
+	}
+
+	trigger fireon_1
+	{
+		accum 1 abort_if_not_equal 1
+		alertentity gate_Allied_alert1
+		wait 200
+		alertentity gate_Allied_alert1
+	}
+
+	trigger fireon_2
+	{
+		accum 1 abort_if_not_equal 1
+		alertentity gate_Allied_alert2
+		wait 200
+		alertentity gate_Allied_alert2
+	}
+
+	trigger fireon_3
+	{
+		accum 1 abort_if_not_equal 1
+		alertentity gate_Allied_alert3
+		wait 200
+		alertentity gate_Allied_alert3
+	}
+
+	trigger fireon_4
+	{
+		accum 1 abort_if_not_equal 1
+		accum 2 abort_if_not_equal 1
+		alertentity gate_Allied_alert4
+		wait 200
+		alertentity gate_Allied_alert4
+	}
+
+	trigger fireon_5
+	{
+		accum 1 abort_if_not_equal 1
+		accum 2 abort_if_not_equal 1
+		alertentity gate_Allied_alert5
+		wait 200
+		alertentity gate_Allied_alert5
+	}
+
+	trigger fireon_6
+	{
+		accum 1 abort_if_not_equal 1
+		accum 2 abort_if_not_equal 1
+		alertentity gate_Allied_alert6
+		wait 200
+		alertentity gate_Allied_alert6
+	}
+}
+
+gate_Allied_alert2 //only used as optional alert
+{
+	spawn
+	{
+		wait 200
+	}
+}
+
+gate_Allied_alert3 //only used as optional alert
+{
+	spawn
+	{
+		wait 200
+	}
+}
+
+//======================================================
+gategun_Allied_patrolalert
+{
+	spawn
+	{
+		wait 200
+		accum 1 set 0
+		accum 2 set 0
+		accum 3 set 0
+	}
+
+	trigger synergypoint_1
+	{
+		accum 1 set 1
+		trigger self fireloop
+	}
+
+	trigger synergypoint_2
+	{
+		accum 2 set 1
+		trigger self fireloop
+	}
+
+	trigger damaged
+	{
+		accum 3 set 1
+	}
+
+	trigger fixed
+	{
+		accum 3 set 0
+		trigger self fireloop
+	}
+
+	trigger fireloop
+	{
+		accum 1 abort_if_not_equal 1
+		accum 2 abort_if_not_equal 1
+		accum 3 abort_if_not_equal 0	// abort if the gun is damaged
+		alertentity gategun_Allied_patrolshooter
+		wait 200
+		alertentity gategun_Allied_patrolshooter
+		wait 200
+		alertentity gategun_Allied_patrolshooter
+		wait random 10000 30000
+		trigger self fireloop
+	}
+
+}
+
+//======================================================
+//======================================================
+//  MEDICAL OPERATIONS - Allied
+//======================================================
+//======================================================
+
+medical_Allied_symbolblack
+{
+	spawn
+	{
+		wait 200
+		setstate medical_Allied_symbolblack invisible
+	}
+
+	trigger lv1
+	{
+		wait 200
+	}
+
+	trigger lv2
+	{
+		faceangles 0 270 0 1
+	}
+
+	trigger lv3
+	{
+		faceangles 0 180 0 1
+	}
+
+	trigger lv4
+	{
+		faceangles 0 90 0 1
+	}
+}
+
+medical_Allied_shack
+{
+	spawn
+	{
+		wait 200
+		setstate medical_Allied_shack invisible
+	}
+}
+
+medical_Allied_warning
+{
+	spawn
+	{
+		wait 200
+		setstate medical_Allied_warning invisible
+	}
+}
+
+medical_Allied_healthpacks
+{
+	spawn
+	{
+		wait 200
+	}
+
+	trigger unhide_healthpacks
+	{
+		alertentity medical_Allied_healthpacks
+		trigger self looper
+	}
+
+	trigger looper
+	{
+		wait 60000
+		trigger self unhide_healthpacks
+	}
+}
+
+medical_Allied_healthstand
+{
+	spawn
+	{
+		wait 200
+		setstate medical_Allied_healthstand invisible
+		setstate medical_Allied_healthtrig invisible
+	}
+}
+
+
+medical_Allied_capzone
+{
+	spawn
+	{
+		wait 200
+		accum 0 set 1	//the stage of the construction
+	}
+	
+	trigger hide
+	{
+		setstate medical_Allied_capzone invisible
+	}
+
+	trigger unhide
+	{
+		setstate medical_Allied_capzone default
+	}
+
+	death
+	{
+		trigger medical_Allied_cappad sound
+		accum 0 trigger_if_equal 1 medical_Allied_capzone reward_1
+		accum 0 trigger_if_equal 2 medical_Allied_capzone reward_2
+		accum 0 trigger_if_equal 3 medical_Allied_capzone reward_3
+		accum 0 trigger_if_equal 4 medical_Allied_capzone reward_4
+	}
+
+	trigger reward_1
+	{
+		setstate medical_Allied_capzone invisible
+
+		setstate medical_Allied_warning default
+		wait 5100
+		trigger game_manager Allied_score
+
+		wm_announce "^DThe Allies have built an Infirmary! ^fFirst Aid available!"
+
+		setstate medical_Allied_shack default
+		setstate medical_Allied_symbolblack default
+
+		setchargetimefactor 1 medic 0.80
+		trigger medical_Allied_healthpacks unhide_healthpacks
+
+		setstate medical_Allied_warning invisible
+
+		accum 0 set 2
+		setstate medical_Allied_capzone default
+	}
+
+	trigger reward_2
+	{
+		setstate medical_Allied_capzone invisible
+
+		setstate medical_Allied_warning default
+		wait 5100
+		trigger game_manager Allied_score
+
+		wm_announce "^DThe Allied Infirmary has been upgraded to ^kLevel 2^D! ^fHealth Stand available!"
+
+		trigger medical_Allied_symbolblack lv2
+
+		setchargetimefactor 1 medic 0.60
+		setstate medical_Allied_healthstand default
+		setstate medical_Allied_healthtrig default
+
+		setstate medical_Allied_warning invisible
+
+		accum 0 set 3
+		setstate medical_Allied_capzone default
+	}
+
+	trigger reward_3
+	{
+		setstate medical_Allied_capzone invisible
+
+		setstate medical_Allied_warning default
+		wait 5100
+		trigger game_manager Allied_score
+
+		wm_announce "^DThe Allied Infirmary has been upgraded to ^zLevel 3^D! ^fMedical Chests available!"
+
+		trigger medical_Allied_symbolblack lv3
+
+		setchargetimefactor 1 medic 0.40
+		trigger healthbox1_Allied_box activate
+		trigger healthbox2_Allied_box activate
+		trigger healthbox3_Allied_box activate
+
+		setstate medical_Allied_warning invisible
+
+		accum 0 set 4
+		setstate medical_Allied_capzone default
+	}
+
+	trigger reward_4
+	{
+		setstate medical_Allied_capzone invisible
+
+		setstate medical_Allied_warning default
+		wait 5100
+		trigger game_manager Allied_score
+
+		wm_announce "^DThe Allied Infirmary has been upgraded to ^lLevel 4^D! ^fDefensive supplies active!"
+		
+		trigger medical_Allied_symbolblack lv4
+		
+		setchargetimefactor 1 medic 0.20
+		trigger medical_Allied_towerpacks synergypoint_1
+		trigger medical_Allied_gatepacks synergypoint_1
+		setstate medical_Allied_warning invisible
+
+		accum 0 set 0
+		trigger medical_Allied_cappad hide
+		setstate medical_Allied_info invisible
+	}
+}
+
+medical_Allied_cappad
+{
+	spawn
+	{
+		wait 200
+	}
+
+	trigger hide
+	{
+		setstate medical_Allied_cappad invisible
+	}
+
+	trigger sound
+	{
+		playsound "sound/baserace/wohoo_Allied.wav"
+		playsound "sound/world/build.wav"
+	}
+}
+
+medical_Allied_towerpacks
+{
+	spawn
+	{
+		wait 200
+		accum 1 set 0
+		accum 2 set 0
+	}
+
+	trigger unhide_healthpacks
+	{
+		accum 1 abort_if_equal 0
+		accum 2 abort_if_equal 0
+		alertentity medical_Allied_towerpacks
+		trigger self looper
+	}
+
+	trigger looper
+	{
+		wait 60000
+		trigger self unhide_healthpacks
+	}
+
+	trigger synergypoint_1
+	{
+		accum 1 set 1
+		trigger self unhide_healthpacks
+	}
+
+	trigger synergypoint_2
+	{
+		accum 2 set 1
+		trigger self unhide_healthpacks
+	}
+}
+
+medical_Allied_gatepacks
+{
+	spawn
+	{
+		wait 200
+		accum 1 set 0
+		accum 2 set 0
+	}
+
+	trigger unhide_healthpacks
+	{
+		accum 1 abort_if_equal 0
+		accum 2 abort_if_equal 0
+		alertentity medical_Allied_gatepacks
+		trigger self looper
+	}
+
+	trigger looper
+	{
+		wait 60000
+		trigger self unhide_healthpacks
+	}
+
+	trigger synergypoint_1
+	{
+		accum 1 set 1
+		trigger self unhide_healthpacks
+	}
+
+	trigger synergypoint_2
+	{
+		accum 2 set 1
+		trigger self unhide_healthpacks
+	}
+}
+
+
+//======================================================
+//======================================================
+//  TACTICAL OPERATIONS - Allied
+//======================================================
+//======================================================
+
+tactical_Allied_symbolblack
+{
+	spawn
+	{
+		wait 200
+		accum 0 set 0
+		setstate tactical_Allied_symbolblack invisible
+	}
+
+	trigger activate
+	{
+		accum 0 set 1
+	}
+
+	trigger alarm
+	{
+		accum 0 abort_if_not_equal 1
+		wm_announce "^DAlert! ^fAxis Player detected under Allied Base!"
+	}
+
+	trigger lv1
+	{
+		wait 200
+	}
+
+	trigger lv2
+	{
+		faceangles 0 270 0 1
+	}
+
+	trigger lv3
+	{
+		faceangles 0 180 0 1
+	}
+
+	trigger lv4
+	{
+		faceangles 0 90 0 1
+	}
+}
+
+tactical_Allied_shack
+{
+	spawn
+	{
+		wait 200
+		setstate tactical_Allied_shack invisible
+	}
+}
+
+tactical_Allied_warning
+{
+	spawn
+	{
+		wait 200
+		setstate tactical_Allied_warning invisible
+	}
+}
+
+tactical_Allied_scopedweaponsdelay
+{
+	spawn
+	{
+		accum 1 set 0	//tactical lv1
+		accum 2 set 0	//armory lv1
+		wait 200
+	}
+
+	trigger synergypoint_1
+	{
+		accum 1 set 1
+		trigger self synergy_check
+	}
+
+	trigger synergypoint_2
+	{
+		accum 2 set 1
+		trigger self synergy_check
+	}
+
+	trigger synergy_check
+	{
+		accum 1 abort_if_not_equal 1
+		accum 2 abort_if_not_equal 1
+		wm_announce "^2Synergy Bonus! ^gAllied Tactical now stocks FG42 and Sten weapons!"
+		trigger self unhide_weapons
+	}
+
+	trigger unhide_weapons
+	{
+		alertentity tactical_Allied_scopedweaponsdelay
+		trigger self looper
+	}
+
+	trigger looper
+	{
+		wait 60000
+		trigger self unhide_weapons
+	}
+}
+
+tactical_Allied_enemyweaponsdelay
+{
+	spawn
+	{
+		accum 1 set 0	//tactical lv1
+		accum 2 set 0	//armory lv3
+		wait 200
+	}
+
+	trigger synergypoint_1
+	{
+		accum 1 set 1
+		trigger self synergy_check
+	}
+
+	trigger synergypoint_2
+	{
+		accum 2 set 1
+		trigger self synergy_check
+	}
+
+	trigger synergy_check
+	{
+		accum 1 abort_if_not_equal 1
+		accum 2 abort_if_not_equal 1
+		wm_announce "^2Synergy Bonus! ^gAllied Tactical now stocks enemy weapons!"
+		trigger self unhide_weapons
+	}
+
+	trigger unhide_weapons
+	{
+		alertentity tactical_Allied_enemyweaponsdelay
+		trigger self looper
+	}
+
+	trigger looper
+	{
+		wait 60000
+		trigger self unhide_weapons
+	}
+}
+
+tactical_Allied_capzone
+{
+	spawn
+	{
+		wait 200
+		accum 0 set 1	//the stage of the construction
+	}
+	
+	trigger hide
+	{
+		setstate tactical_Allied_capzone invisible
+	}
+
+	trigger unhide
+	{
+		setstate tactical_Allied_capzone default
+	}
+
+	death
+	{
+		trigger tactical_Allied_cappad sound
+		accum 0 trigger_if_equal 1 tactical_Allied_capzone reward_1
+		accum 0 trigger_if_equal 2 tactical_Allied_capzone reward_2
+		accum 0 trigger_if_equal 3 tactical_Allied_capzone reward_3
+		accum 0 trigger_if_equal 4 tactical_Allied_capzone reward_4
+	}
+
+	trigger reward_1
+	{
+		setstate tactical_Allied_capzone invisible
+
+		setstate tactical_Allied_warning default
+		wait 5100
+		trigger game_manager Allied_score
+
+		wm_announce "^DThe Allies have built an Tactical Shack! ^fLandmine notification active!"
+
+		setstate tactical_Allied_symbolblack default
+
+		setstate tactical_Allied_shack default
+		setchargetimefactor 1 covertops 0.80
+		sethqstatus 1 1
+		trigger tactical_Allied_scopedweaponsdelay synergypoint_1
+		trigger tactical_Allied_enemyweaponsdelay synergypoint_1
+
+		setstate tactical_Allied_warning invisible
+
+		accum 0 set 2
+		setstate tactical_Allied_capzone default
+	}
+
+	trigger reward_2
+	{
+		setstate tactical_Allied_capzone invisible
+
+		setstate tactical_Allied_warning default
+		wait 5100
+		trigger game_manager Allied_score
+
+		wm_announce "^DThe Allied Tactical Shack has been upgraded to ^kLevel 2^D! ^fEnemy intrusion notification active!"
+
+		trigger tactical_Allied_symbolblack lv2
+		setchargetimefactor 1 covertops 0.60
+		trigger tactical_Allied_symbolblack activate
+		trigger sneakpad_Allied_mover synergypoint_1
+
+
+		setstate tactical_Allied_warning invisible
+
+		accum 0 set 3
+		setstate tactical_Allied_capzone default
+	}
+
+	trigger reward_3
+	{
+		setstate tactical_Allied_capzone invisible
+
+		setstate tactical_Allied_warning default
+		wait 5100
+		trigger game_manager Allied_score
+
+		wm_announce "^DThe Allied Tactical Shack has been upgraded to ^zLevel 3^D! ^fWall Jump active!"
+
+		trigger tactical_Allied_symbolblack lv3
+
+		trigger rightfence_Allied_covertclimb synergypoint_1
+		trigger rightfence_Allied_covertclimb2 synergypoint_1
+		trigger leftfence_Allied_covertclimb synergypoint_1
+		trigger leftfence_Allied_covertclimb2 synergypoint_1
+		trigger ruins_Allied_covertclimb synergypoint_1
+
+		setchargetimefactor 1 covertops 0.40
+
+		setstate tactical_Allied_warning invisible
+
+		accum 0 set 4
+		setstate tactical_Allied_capzone default
+	}
+
+	trigger reward_4
+	{
+		setstate tactical_Allied_capzone invisible
+
+		setstate tactical_Allied_warning default
+		wait 5100
+		trigger game_manager Allied_score
+
+		wm_announce "^DThe Allied Tactical Shack has been upgraded to ^lLevel 4^D! ^fEnemy team doors unlocked!"
+
+		trigger tactical_Allied_symbolblack lv4
+
+		setchargetimefactor 1 covertops 0.20
+		trigger teamdoor_axis unlock		
+
+		setstate tactical_Allied_warning invisible
+
+		accum 0 set 0
+		trigger tactical_Allied_cappad hide
+		setstate tactical_Allied_info invisible
+	}
+}
+
+tactical_Allied_cappad
+{
+	spawn
+	{
+		wait 200
+	}
+
+	trigger hide
+	{
+		setstate tactical_Allied_cappad invisible
+	}
+
+	trigger sound
+	{
+		playsound "sound/baserace/wohoo_Allied.wav"
+		playsound "sound/world/build.wav"
+	}
+}
+
+teamdoor_Allied
+{
+	spawn
+	{
+		wait 200
+		setstate teamdoor_Allied_unlocked invisible
+	}
+
+	trigger unlock
+	{
+		setstate teamdoor_Allied_unlocked default
+		setstate teamdoor_Allied invisible
+	}
+}
+
+rightfence_Allied_covertclimb
+{
+	spawn
+	{
+		setstate rightfence_Allied_covertclimb invisible
+		wait 200
+		accum 1 set 0
+	}
+
+	trigger synergypoint_1
+	{
+		accum 1 set 1
+		trigger self checker
+	}
+
+	trigger checker
+	{
+		accum 1 abort_if_not_equal 1
+		setstate rightfence_Allied_covertclimb default
+	}
+}
+
+rightfence_Allied_covertclimb2
+{
+	spawn
+	{
+		setstate rightfence_Allied_covertclimb2 invisible
+		wait 200
+		accum 1 set 0
+	}
+
+	trigger synergypoint_1
+	{
+		accum 1 set 1
+		trigger self checker
+	}
+
+	trigger checker
+	{
+		accum 1 abort_if_not_equal 1
+		setstate rightfence_Allied_covertclimb2 default
+	}
+}
+
+leftfence_Allied_covertclimb
+{
+	spawn
+	{
+		setstate leftfence_Allied_covertclimb invisible
+		wait 200
+		accum 1 set 0
+	}
+
+	trigger synergypoint_1
+	{
+		accum 1 set 1
+		trigger self checker
+	}
+
+	trigger checker
+	{
+		accum 1 abort_if_not_equal 1
+		setstate leftfence_Allied_covertclimb default
+	}
+}
+
+leftfence_Allied_covertclimb2
+{
+	spawn
+	{
+		setstate leftfence_Allied_covertclimb2 invisible
+		wait 200
+		accum 1 set 0
+	}
+
+	trigger synergypoint_1
+	{
+		accum 1 set 1
+		trigger self checker
+	}
+
+	trigger checker
+	{
+		accum 1 abort_if_not_equal 1
+		setstate leftfence_Allied_covertclimb2 default
+	}
+}
+
+ruins_Allied_covertclimb
+{
+	spawn
+	{
+		setstate ruins_Allied_covertclimb invisible
+		wait 200
+	}
+
+	trigger synergypoint_1
+	{
+		setstate ruins_Allied_covertclimb default
+	}
+}
+
+sneakpad_Allied_mover
+{
+	spawn
+	{
+		wait 200
+		accum 1 set 0
+		accum 2 set 0
+		setstate sneakpad_Allied_teleporter invisible
+		setstate sneakpad_Allied_mover invisible
+	}
+
+	trigger synergypoint_1
+	{
+		accum 1 set 1
+		trigger self synergy_checker
+	}
+
+	trigger synergypoint_2
+	{
+		accum 2 set 1
+		trigger self synergy_checker
+	}
+
+
+	trigger synergy_checker
+	{
+		accum 1 abort_if_not_equal 1
+		accum 2 abort_if_not_equal 1
+		setstate sneakpad_Allied_mover default
+		wm_announce "^2Synergy Bonus! ^gCovert Warp Pad Unlocked!"
+	}
+
+	trigger coverttrig
+	{
+		accum 1 abort_if_not_equal 1
+		accum 2 abort_if_not_equal 1
+		setstate sneakpad_Allied_teleporter default
+		wait 200
+		setstate sneakpad_Allied_teleporter invisible
+	}
+
+}
+
+//======================================================
+//======================================================
+//  ARMORY OPERATIONS - Allied
+//======================================================
+//======================================================
+
+armory_Allied_symbolblack
+{
+	spawn
+	{
+		wait 200
+		setstate armory_Allied_symbolblack invisible
+	}
+
+	trigger lv1
+	{
+		wait 200
+	}
+
+	trigger lv2
+	{
+		faceangles 0 270 0 1
+	}
+
+	trigger lv3
+	{
+		faceangles 0 180 0 1
+	}
+
+	trigger lv4
+	{
+		faceangles 0 90 0 1
+	}
+}
+
+
+armory_Allied_shack
+{
+	spawn
+	{
+		wait 200
+		setstate armory_Allied_shack invisible
+	}
+}
+
+armory_Allied_weapons
+{
+	spawn
+	{
+		wait 200
+	}
+
+	trigger unhide_weapons
+	{
+		alertentity armory_Allied_weapons
+		trigger self looper
+	}
+
+	trigger looper
+	{
+		wait 60000
+		trigger self unhide_weapons
+	}
+}
+
+armory_Allied_warning
+{
+	spawn
+	{
+		wait 200
+		setstate armory_Allied_warning invisible
+	}
+}
+
+armory_Allied_ammostand
+{
+	spawn
+	{
+		wait 200
+		setstate armory_Allied_ammostand invisible
+		setstate armory_Allied_ammotrig invisible
+	}
+}
+
+
+
+
+armory_Allied_capzone
+{
+	spawn
+	{
+		wait 200
+		accum 0 set 1	//the stage of the construction
+	}
+	
+	trigger hide
+	{
+		setstate armory_Allied_capzone invisible
+	}
+
+	trigger unhide
+	{
+		setstate armory_Allied_capzone default
+	}
+
+	death
+	{
+		trigger armory_Allied_cappad sound
+		accum 0 trigger_if_equal 1 armory_Allied_capzone reward_1
+		accum 0 trigger_if_equal 2 armory_Allied_capzone reward_2
+		accum 0 trigger_if_equal 3 armory_Allied_capzone reward_3
+		accum 0 trigger_if_equal 4 armory_Allied_capzone reward_4
+	}
+
+	trigger reward_1
+	{
+		setstate armory_Allied_capzone invisible
+
+		setstate armory_Allied_warning default
+		wait 5100
+		trigger game_manager Allied_score
+
+		wm_announce "^DThe Allies have built an Armory! ^fHeavy Weapons stocked!"
+
+		setstate armory_Allied_symbolblack default
+		setstate armory_Allied_shack default
+		setchargetimefactor 1 soldier 0.80
+
+		trigger armory_Allied_weapons unhide_weapons
+
+		setstate armory_Allied_warning invisible
+
+		accum 0 set 2
+		setstate armory_Allied_capzone default
+	}
+
+	trigger reward_2
+	{
+		setstate armory_Allied_capzone invisible
+
+		setstate armory_Allied_warning default
+		wait 5100
+		trigger game_manager Allied_score
+
+		wm_announce "^DThe Allied Armory has been upgraded to ^kLevel 2^D! ^fAmmunition stocked!"
+
+		trigger armory_Allied_symbolblack lv2
+
+		setchargetimefactor 1 soldier 0.60
+		setstate armory_Allied_ammostand default
+		setstate armory_Allied_ammotrig default
+		trigger tactical_Allied_scopedweaponsdelay synergypoint_2
+
+		setstate armory_Allied_warning invisible
+
+		accum 0 set 3
+		setstate armory_Allied_capzone default
+	}
+
+	trigger reward_3
+	{
+		setstate armory_Allied_capzone invisible
+
+		setstate armory_Allied_warning default
+		wait 5100
+		trigger game_manager Allied_score
+
+		wm_announce "^DThe Allied Armory has been upgraded to ^zLevel 3^D! ^fAmmunition chests available!"
+
+		trigger armory_Allied_symbolblack lv3
+
+		setchargetimefactor 1 soldier 0.20
+		trigger ammobox1_Allied_box activate
+		trigger ammobox2_Allied_box activate
+		trigger ammobox3_Allied_box activate
+
+		trigger tactical_Allied_enemyweaponsdelay synergypoint_2
+
+		setstate armory_Allied_warning invisible
+
+		accum 0 set 4
+		setstate armory_Allied_capzone default
+	}
+
+	trigger reward_4
+	{
+		setstate armory_Allied_capzone invisible
+
+		setstate armory_Allied_warning default
+		wait 5100
+		trigger game_manager Allied_score
+
+		wm_announce "^DThe Allied Armory has been upgraded to ^lLevel 4^D! ^fRocketguns carry additional ammunition!"
+
+		trigger armory_Allied_symbolblack lv4
+
+		setchargetimefactor 1 soldier 0.20
+		trigger towergun_Allied_patrolalert synergypoint_1
+		trigger gategun_Allied_patrolalert synergypoint_2
+
+		setstate armory_Allied_warning invisible
+
+		accum 0 set 0
+		trigger armory_Allied_cappad hide
+		setstate armory_Allied_info invisible
+	}
+}
+
+armory_Allied_cappad
+{
+	spawn
+	{
+		wait 200
+	}
+
+	trigger hide
+	{
+		setstate armory_Allied_cappad invisible
+	}
+
+	trigger sound
+	{
+		playsound "sound/baserace/wohoo_Allied.wav"
+		playsound "sound/world/build.wav"
+	}
+}
+
+//======================================================
+//======================================================
+//  ENGINEERING OPERATIONS - Allied
+//======================================================
+//======================================================
+
+engineering_Allied_symbolblack
+{
+	spawn
+	{
+		wait 200
+	}
+
+	trigger lv1
+	{
+		wait 200
+	}
+
+	trigger lv2
+	{
+		faceangles 0 270 0 1
+	}
+
+	trigger lv3
+	{
+		faceangles 0 180 0 1
+	}
+
+	trigger lv4
+	{
+		faceangles 0 90 0 1
+	}
+}
+
+engineering_Allied_shack
+{
+	spawn
+	{
+		wait 200
+		setstate mines_Allied_0a invisible
+		setstate mines_Allied_1a invisible
+		setstate mines_Allied_2a invisible
+		setstate mines_Allied_3a invisible
+		setstate mines_Allied_4a invisible
+		setstate mines_Allied_5a invisible
+		setstate mines_Allied_6a invisible
+
+		setstate engineering_Allied_shack default
+	}
+
+	trigger landmine_sentry
+	{
+		wait random 20000 30000
+		accum 0 random 7
+		wait 100
+
+		accum 0 trigger_if_equal 0 engineering_Allied_shack landmine_0
+		accum 0 trigger_if_equal 1 engineering_Allied_shack landmine_1
+		accum 0 trigger_if_equal 2 engineering_Allied_shack landmine_2
+		accum 0 trigger_if_equal 3 engineering_Allied_shack landmine_3
+		accum 0 trigger_if_equal 4 engineering_Allied_shack landmine_4
+		accum 0 trigger_if_equal 5 engineering_Allied_shack landmine_5
+		accum 0 trigger_if_equal 6 engineering_Allied_shack landmine_6
+	}
+
+
+	trigger landmine_0
+	{
+		setstate mines_Allied_0a default
+		trigger self landmine_sentry
+	}
+
+	trigger landmine_1
+	{
+		setstate mines_Allied_1a default
+		trigger self landmine_sentry
+	}
+
+	trigger landmine_2
+	{
+		setstate mines_Allied_2a default
+		trigger self landmine_sentry
+	}
+
+	trigger landmine_3
+	{
+		setstate mines_Allied_3a default
+		trigger self landmine_sentry
+	}
+
+	trigger landmine_4
+	{
+		setstate mines_Allied_4a default
+		trigger self landmine_sentry
+	}
+
+	trigger landmine_5
+	{
+		setstate mines_Allied_5a default
+		trigger self landmine_sentry
+	}
+
+	trigger landmine_6
+	{
+		setstate mines_Allied_6a default
+		trigger self landmine_sentry
+	}
+}
+
+engineering_Allied_warning
+{
+	spawn
+	{
+		wait 200
+		setstate engineering_Allied_warning invisible
+	}
+}
+
+
+engineering_Allied_capzone
+{
+	spawn
+	{
+		wait 200
+		accum 0 set 1	//the stage of the construction
+	}
+	
+	trigger hide
+	{
+		setstate engineering_Allied_capzone invisible
+	}
+
+	trigger unhide
+	{
+		setstate engineering_Allied_capzone default
+	}
+
+	death
+	{
+		trigger engineering_Allied_cappad sound
+		accum 0 trigger_if_equal 1 engineering_Allied_capzone reward_1
+		accum 0 trigger_if_equal 2 engineering_Allied_capzone reward_2
+		accum 0 trigger_if_equal 3 engineering_Allied_capzone reward_3
+		accum 0 trigger_if_equal 4 engineering_Allied_capzone reward_4
+	}
+
+	trigger reward_1
+	{
+		setstate engineering_Allied_capzone invisible
+
+		setstate engineering_Allied_warning default
+		wait 5100
+		trigger game_manager Allied_score
+
+		wm_announce "^DThe Allies have built an Engineering Shack! ^fBase defenses improved!"
+
+		trigger engineering_Allied_symbolblack lv1
+		setstate engineering_Allied_shack invisible
+
+		setchargetimefactor 1 engineer 0.80
+		trigger rightfence_Allied_barbedhurt2 synergypoint_2
+		trigger leftfence_Allied_barbedhurt2 synergypoint_2
+		trigger forwardfence_Allied_barbedhurt2 synergypoint_2
+		
+		setstate engineering_Allied_warning invisible
+
+		accum 0 set 2
+		setstate engineering_Allied_capzone default
+	}
+
+	trigger reward_2
+	{
+		setstate engineering_Allied_capzone invisible
+
+		setstate engineering_Allied_warning default
+		wait 5100
+		trigger game_manager Allied_score
+
+		wm_announce "^DThe Allied Engineering Shack has been upgraded to ^kLevel 2^D! ^fBase defenses improved!"
+
+		trigger engineering_Allied_symbolblack lv2
+
+		setchargetimefactor 1 engineer 0.60
+		trigger rightfence_Allied_barbedhurt3 synergypoint_2
+		trigger leftfence_Allied_barbedhurt3 synergypoint_2
+		trigger forwardfence_Allied_barbedhurt3 synergypoint_2
+
+		setstate engineering_Allied_warning invisible
+
+		accum 0 set 3
+		setstate engineering_Allied_capzone default
+	}
+
+	trigger reward_3
+	{
+		setstate engineering_Allied_capzone invisible
+
+		setstate engineering_Allied_warning default
+		wait 5100
+		trigger game_manager Allied_score
+
+		wm_announce "^DThe Allied Engineering Shack has been upgraded to ^zLevel 3^D! ^fRocketguns range improved!"
+
+		trigger engineering_Allied_symbolblack lv3
+
+		setchargetimefactor 1 engineer 0.40
+		trigger gate_Allied_debris synergypoint_2
+		trigger towergun_Allied_debris synergypoint_2
+
+		setstate engineering_Allied_warning invisible
+
+		accum 0 set 4
+		setstate engineering_Allied_capzone default
+	}
+
+	trigger reward_4
+	{
+		setstate engineering_Allied_capzone invisible
+
+		setstate engineering_Allied_warning default
+		wait 5100
+		trigger game_manager Allied_score
+
+		wm_announce "^DThe Allied Engineering Shack has been upgraded to ^lLevel 4^D! ^fLandmine sentry active!"
+
+		setchargetimefactor 1 engineer 0.20
+		trigger engineering_Allied_shack landmine_sentry
+		trigger outpost_Allied_debris synergypoint_1
+
+		trigger engineering_Allied_symbolblack lv4
+
+		setstate engineering_Allied_warning invisible
+
+		accum 0 set 0
+		trigger engineering_Allied_cappad hide
+		setstate engineering_Allied_info invisible
+	}
+}
+
+engineering_Allied_cappad
+{
+	spawn
+	{
+		wait 200
+	}
+
+	trigger hide
+	{
+		setstate engineering_Allied_cappad invisible
+	}
+
+	trigger sound
+	{
+		playsound "sound/baserace/wohoo_Allied.wav"
+		playsound "sound/world/build.wav"
+	}
+}
+
+
+//======================================================
+//======================================================
+//  SPAWN OPERATIONS - Allied
+//======================================================
+//======================================================
+
+spawn_Allied_cover
+{
+	spawn
+	{
+		wait 200
+		setstate spawn_Allied_cover invisible
+	}
+}
+
+spawn_Allied_warning
+{
+	spawn
+	{
+		wait 200
+		setstate spawn_Allied_warning invisible
+		setstate spawn_Allied_flag invisible
+	}
+}
+
+spawn_Allied_capzone
+{
+	spawn
+	{
+		wait 200
+		accum 0 set 1	//the stage of the construction
+	}
+	
+	trigger hide
+	{
+		setstate spawn_Allied_capzone invisible
+	}
+
+	trigger unhide
+	{
+		setstate spawn_Allied_capzone default
+	}
+
+	death
+	{
+		trigger spawn_Allied_cappad sound
+		accum 0 trigger_if_equal 1 spawn_Allied_capzone reward_1
+		accum 0 trigger_if_equal 2 spawn_Allied_capzone reward_2
+		accum 0 trigger_if_equal 3 spawn_Allied_capzone reward_3
+		accum 0 trigger_if_equal 4 spawn_Allied_capzone reward_4
+	}
+
+	trigger reward_1
+	{
+		setstate spawn_Allied_capzone invisible
+
+		setstate spawn_Allied_warning default
+		wait 5100
+		trigger game_manager Allied_score
+
+		wm_announce "^DThe Allied Spawn has been upgraded to Level 1!"
+
+		trigger game_manager Allied_spawn_lv1
+		setstate spawn_Allied_cover default
+		setstate spawn_Allied_flag default
+
+		setstate spawn_Allied_warning invisible
+
+		accum 0 set 2
+		setstate spawn_Allied_capzone default
+	}
+
+	trigger reward_2
+	{
+		setstate spawn_Allied_capzone invisible
+
+		setstate spawn_Allied_warning default
+		wait 5100
+		trigger game_manager Allied_score
+
+		wm_announce "^DThe Allied Spawn has been upgraded to ^kLevel 2^D!"
+
+		trigger game_manager Allied_spawn_lv2
+		trigger outpost_Allied_debris synergypoint_2
+		trigger sneakpad_Allied_mover synergypoint_2
+		remapshader "textures/cptnt_baseracebeta3/flag_Allied_spawn1" "textures/cptnt_baseracebeta3/flag_Allied_spawn2"
+		remapshaderflush
+
+		setstate spawn_Allied_warning invisible
+
+		accum 0 set 3
+		setstate spawn_Allied_capzone default
+	}
+
+	trigger reward_3
+	{
+		setstate spawn_Allied_capzone invisible
+
+		setstate spawn_Allied_warning default
+		wait 5100
+		trigger game_manager Allied_score
+
+		wm_announce "^DThe Allied Spawn has been upgraded to ^zLevel 3^D!"
+		trigger game_manager Allied_spawn_lv3
+		remapshader "textures/cptnt_baseracebeta3/flag_Allied_spawn1" "textures/cptnt_baseracebeta3/flag_Allied_spawn3"
+		remapshaderflush
+
+		setstate spawn_Allied_warning invisible
+
+		accum 0 set 4
+		setstate spawn_Allied_capzone default
+	}
+
+	trigger reward_4
+	{
+		setstate spawn_Allied_capzone invisible
+
+		setstate spawn_Allied_warning default
+		wait 5100
+		trigger game_manager Allied_score
+
+		wm_announce "^DThe Allied Spawn has been upgraded to ^lLevel 4^D!"
+		
+		trigger game_manager Allied_spawn_lv4
+		remapshader "textures/cptnt_baseracebeta3/flag_Allied_spawn1" "textures/cptnt_baseracebeta3/flag_Allied_spawn4"
+		remapshaderflush
+
+		setstate spawn_Allied_warning invisible
+
+		accum 0 set 0
+		trigger spawn_Allied_cappad hide
+		setstate spawn_Allied_info invisible
+	}
+}
+
+spawn_Allied_cappad
+{
+	spawn
+	{
+		wait 200
+	}
+
+	trigger hide
+	{
+		setstate spawn_Allied_cappad invisible
+	}
+
+	trigger sound
+	{
+		playsound "sound/baserace/wohoo_Allied.wav"
+		playsound "sound/world/build.wav"
+	}
+}
+
+ammobox1_Allied_box
+{
+	spawn
+	{
+		wait 200
+		setstate ammobox1_Allied_box invisible
+		setstate ammobox1_Allied_door invisible
+	}
+
+	trigger activate
+	{
+		setstate ammobox1_Allied_box default
+		setstate ammobox1_Allied_door default
+	}
+
+	trigger open
+	{
+		setstate ammobox1_Allied_giveammo default
+		wait 1000
+		setstate ammobox1_Allied_giveammo invisible
+	}
+
+}
+
+ammobox1_Allied_giveammo
+{
+	spawn
+	{
+		wait 200
+		setstate ammobox1_Allied_giveammo invisible
+	}
+
+}
+
+ammobox2_Allied_box
+{
+	spawn
+	{
+		wait 200
+		setstate ammobox2_Allied_box invisible
+		setstate ammobox2_Allied_door invisible
+	}
+
+	trigger activate
+	{
+		setstate ammobox2_Allied_box default
+		setstate ammobox2_Allied_door default
+	}
+
+	trigger open
+	{
+		setstate ammobox2_Allied_giveammo default
+		wait 1000
+		setstate ammobox2_Allied_giveammo invisible
+	}
+
+}
+
+ammobox2_Allied_giveammo
+{
+	spawn
+	{
+		wait 200
+		setstate ammobox2_Allied_giveammo invisible
+	}
+
+}
+
+ammobox3_Allied_box
+{
+	spawn
+	{
+		wait 200
+		setstate ammobox3_Allied_box invisible
+		setstate ammobox3_Allied_door invisible
+	}
+
+	trigger activate
+	{
+		setstate ammobox3_Allied_box default
+		setstate ammobox3_Allied_door default
+	}
+
+	trigger open
+	{
+		setstate ammobox3_Allied_giveammo default
+		wait 1000
+		setstate ammobox3_Allied_giveammo invisible
+	}
+
+}
+
+ammobox3_Allied_giveammo
+{
+	spawn
+	{
+		wait 200
+		setstate ammobox3_Allied_giveammo invisible
+	}
+
+}
+
+healthbox1_Allied_box
+{
+	spawn
+	{
+		wait 200
+		setstate healthbox1_Allied_box invisible
+		setstate healthbox1_Allied_door invisible
+	}
+
+	trigger activate
+	{
+		setstate healthbox1_Allied_box default
+		setstate healthbox1_Allied_door default
+	}
+
+	trigger open
+	{
+		setstate healthbox1_Allied_giveammo default
+		wait 1000
+		setstate healthbox1_Allied_giveammo invisible
+	}
+
+}
+
+
+healthbox1_Allied_giveammo
+{
+	spawn
+	{
+		wait 200
+		setstate healthbox1_Allied_giveammo invisible
+	}
+
+}
+
+healthbox2_Allied_box
+{
+	spawn
+	{
+		wait 200
+		setstate healthbox2_Allied_box invisible
+		setstate healthbox2_Allied_door invisible
+	}
+
+	trigger activate
+	{
+		setstate healthbox2_Allied_box default
+		setstate healthbox2_Allied_door default
+	}
+
+	trigger open
+	{
+		setstate healthbox2_Allied_giveammo default
+		wait 1000
+		setstate healthbox2_Allied_giveammo invisible
+	}
+
+}
+
+
+healthbox2_Allied_giveammo
+{
+	spawn
+	{
+		wait 200
+		setstate healthbox2_Allied_giveammo invisible
+	}
+
+}
+
+healthbox3_Allied_box
+{
+	spawn
+	{
+		wait 200
+		setstate healthbox3_Allied_box invisible
+		setstate healthbox3_Allied_door invisible
+	}
+
+	trigger activate
+	{
+		setstate healthbox3_Allied_box default
+		setstate healthbox3_Allied_door default
+	}
+
+	trigger open
+	{
+		setstate healthbox3_Allied_giveammo default
+		wait 1000
+		setstate healthbox3_Allied_giveammo invisible
+	}
+}
+
+healthbox3_Allied_giveammo
+{
+	spawn
+	{
+		wait 200
+		setstate healthbox3_Allied_giveammo invisible
+	}
+
+}
+
+basewall_Allied_explosive
+{
+	spawn
+	{
+		wait 200
+		constructible_class 3
+	}
+
+	death
+	{
+		wm_announce "^5The Axis have breached the Allied Underbase Wall!"
+	}
+}
+
+basedoor_Allied_explosive
+{
+	spawn
+	{
+		wait 200
+		constructible_class 3
+	}
+
+	death
+	{
+		wm_announce "^5The Axis have breached the Allied Underbase Door!"
+	}
+}
+
+
+//===============================================================
+//  Allied Construction Materials
+//===============================================================
+Allied_materials
+{
+	spawn
+	{
+		wait 200
+	}
+
+	trigger stolen
+	{
+	}
+
+	trigger secured
+	{
+	}
+
+	trigger returned
+	{
+	}
+}
+
+Allied_materialsb
+{
+	spawn
+	{
+		wait 200
+	}
+
+	trigger stolen
+	{
+	}
+
+	trigger secured
+	{
+	}
+
+	trigger returned
+	{
+	}
+}
+
+//===================================================================
+outpost_Allied_con
+{
+	spawn
+	{
+		wait 400
+
+		constructible_class 2
+	}
+
+	trigger setup
+	{
+		setstate outpost_Allied_con invisible
+
+	}
+
+	buildstart final
+	{
+		setstate outpost_Allied_con default
+		setstate outpost_Allied_debris invisible
+
+	}
+
+	built final
+	{
+		setstate outpost_Allied_con default
+		setstate outpost_Allied_debris invisible
+		trigger outpost_Allied_wobj unhide
+		wm_announce "^5The Allies have Repaired their Outpost."
+	}
+
+	decayed final
+	{
+		setstate outpost_Allied_con invisible
+		setstate outpost_Allied_debris default
+	}
+
+	death
+	{
+		setstate outpost_Allied_con invisible
+		setstate outpost_Allied_debris default
+		trigger outpost_Allied_wobj hide
+		wm_announce "^5The Allied Outpost has been destroyed!"
+	}
+}
+
+outpost_Allied_debris
+{
+	spawn
+	{
+		wait 500
+		accum 1 set 0	//synergy point 1 - the gun
+		accum 2 set 0	//synergy point 2 - engineering lv3
+		setstate outpost_Allied_debris invisible
+		setstate outpost_Allied_con invisible
+		setstate outpost_Allied_toi invisible
+	}
+	
+	trigger synergypoint_1
+	{
+		accum 1 set 1
+		trigger self synergy_check
+	}
+
+	trigger synergypoint_2
+	{
+		accum 2 set 1
+		trigger self synergy_check
+	}
+
+	trigger synergy_check
+	{
+		accum 1 abort_if_not_equal 1
+		accum 2 abort_if_not_equal 1
+		wm_announce "^2Synergy Bonus! ^gThe Allies have built an Outpost!"
+		setstate outpost_Allied_con default
+		setstate outpost_Allied_toi default
+		trigger outpost_Allied_wobj unhide
+		setstate outpost_Allied_rock invisible
+	}
+}
+
+outpost_Allied_spawns
+{
+	spawn
+	{
+		wait 200
+		setstate outpost_Allied_spawns invisible
+	}
+}
+
+outpost_Allied_wobj
+{
+	spawn
+	{
+		wait 200
+		setstate outpost_Allied_wobj invisible
+	}
+
+	trigger unhide
+	{
+		setstate outpost_Allied_wobj default
+		setstate outpost_Allied_spawns default
+	}
+
+	trigger hide
+	{
+		setstate outpost_Allied_wobj invisible
+		setstate outpost_Allied_spawns invisible
+	}
+}
+
+outpost_Allied_rock
+{
+	spawn
+	{
+		wait 200
+	}
+}
+

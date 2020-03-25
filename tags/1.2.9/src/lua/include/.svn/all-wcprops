@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/nq/!svn/ver/4387/tags/1.2.9/src/lua/include
+END
+lauxlib.h
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/nq/!svn/ver/4387/tags/1.2.9/src/lua/include/lauxlib.h
+END
+lua.h
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/nq/!svn/ver/4387/tags/1.2.9/src/lua/include/lua.h
+END
+lua.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/nq/!svn/ver/4387/tags/1.2.9/src/lua/include/lua.hpp
+END
+luaconf.h
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/nq/!svn/ver/4387/tags/1.2.9/src/lua/include/luaconf.h
+END
+lualib.h
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/nq/!svn/ver/4387/tags/1.2.9/src/lua/include/lualib.h
+END

@@ -1,0 +1,1932 @@
+//December 2008, modified by Molotov, made towngate build from start
+//21 December 2008, modified by peyote, add a 2 new spawns, add barrel ladder and 2 'walls' for modifying gameplay, modified some details related to towngate and tower.
+//22 December 2008, modified by peyote and Molotov removed barrel ladder, fixed some spawn errors, add choosable spawns, and move em a bit
+//22 December 2008, add QMM support.. for advanced fixes
+
+game_manager
+{
+	spawn
+	{
+	//Town Axis spawn
+		//the command map marker
+		create
+		{
+			scriptName "afp_marker"
+			classname "team_WOLF_objective"
+			targetname "afp_marker"
+			description "Town"
+//			origin "2138 -1639 865"  
+			origin "2064 474 864"
+			spawnflags 1   //
+		}
+		create
+		{
+			scriptName "afp_marker1"
+			classname "team_WOLF_objective"
+			targetname "afp_marker1"
+			description "Reeinder"
+			origin "2365 -598 1456"  
+			spawnflags 1   //
+		}
+		//the flagpole
+		create
+		{
+			scriptName "afp_cp"
+			classname "team_WOLF_checkpoint"
+			targetname "afp_cp"
+			angle "240"
+			origin "2138 -1639 802"   
+			spawnflags 8
+		}
+		//3 spawns neer the reeinder vertical jump pad..
+		create
+		{
+			scriptName "afp_spawn1"
+			classname "team_CTF_redspawn"
+			targetname "afp_spawn1"
+			origin "2327 -618 1456"
+			angle "0"
+			spawnflags 3
+		}
+
+		create
+		{
+			scriptName "afp_spawn1"
+			classname "team_CTF_redspawn"
+			targetname "afp_spawn1"
+			origin "2399 -390 1456"
+			angle "-52"
+			spawnflags 3
+		}
+		
+		create
+		{
+			scriptName "afp_spawn1"
+			classname "team_CTF_redspawn"
+			targetname "afp_spawn1"
+			origin "2245 -488 1456"
+			angle "-34"
+			spawnflags 3
+		}	
+	//in the house
+		create
+		{
+			scriptName "afp_spawn4"
+			classname "team_CTF_redspawn"
+			targetname "afp_spawn"
+			origin "2560 192 864"
+			angle "50"
+			spawnflags 3
+		}
+		
+		create
+		{
+			scriptName "afp_spawn5"
+			classname "team_CTF_redspawn"
+			targetname "afp_spawn"
+			origin "2620 192 864"
+			angle "50"
+			spawnflags 3
+		}
+
+		create
+		{
+			scriptName "afp_spawn6"
+			classname "team_CTF_redspawn"
+			targetname "afp_spawn"
+			origin "2680 192 864"
+			angle "50"
+			spawnflags 3
+		}
+
+		create
+		{
+			scriptName "afp_spawn7"
+			classname "team_CTF_redspawn"
+			targetname "afp_spawn"
+			origin "2740 192 864"
+			angle "50"
+			spawnflags 3
+		}
+
+		create
+		{
+			scriptName "afp_spawn8"
+			classname "team_CTF_redspawn"
+			targetname "afp_spawn"
+			origin "2800 192 864"
+			angle "50"
+			spawnflags 3
+		}
+		
+		create
+		{
+			scriptName "afp_spawn9"
+			classname "team_CTF_redspawn"
+			targetname "afp_spawn"
+			origin "2860 192 864"
+			angle "50"
+			spawnflags 3
+		}	
+		
+		create
+		{
+			scriptName "afp_spawn10"
+			classname "team_CTF_redspawn"
+			targetname "afp_spawn"
+			origin "2920 192 864"
+			angle "50"
+			spawnflags 3
+		}
+		
+		create
+		{
+			scriptName "afp_spawn11"
+			classname "team_CTF_redspawn"
+			targetname "afp_spawn"
+			origin "2980 192 864"
+			angle "50"
+			spawnflags 3
+		}
+
+		create
+		{
+			scriptName "afp_spawn12"
+			classname "team_CTF_redspawn"
+			targetname "afp_spawn"
+			origin "2560 260 864"
+			angle "50"
+			spawnflags 3
+		}
+
+		create
+		{
+			scriptName "afp_spawn13"
+			classname "team_CTF_redspawn"
+			targetname "afp_spawn"
+			origin "2620 260 864"
+			angle "0"
+			spawnflags 3
+		}
+
+		create
+		{
+			scriptName "afp_spawn14"
+			classname "team_CTF_redspawn"
+			targetname "afp_spawn"
+			origin "2680 260 864"
+			angle "0"
+			spawnflags 3
+		}	
+		
+		create
+		{
+			scriptName "afp_spawn15"
+			classname "team_CTF_redspawn"
+			targetname "afp_spawn"
+			origin "2740 260 864"
+			angle "0"
+			spawnflags 3
+		}
+		
+		create
+		{
+			scriptName "afp_spawn16"
+			classname "team_CTF_redspawn"
+			targetname "afp_spawn"
+			origin "2800 260 864"
+			angle "0"
+			spawnflags 3
+		}
+
+		create
+		{
+			scriptName "afp_spawn17"
+			classname "team_CTF_redspawn"
+			targetname "afp_spawn"
+			origin "2860 260 864"
+			angle "0"
+			spawnflags 3
+		}
+
+		create
+		{
+			scriptName "afp_spawn18"
+			classname "team_CTF_redspawn"
+			targetname "afp_spawn"
+			origin "2940 260 864"
+			angle "0"
+			spawnflags 3
+		}			
+//New Town Allies Spawn	
+		create
+		{
+			scriptName "rfp_marker"
+			classname "team_WOLF_objective"
+			targetname "rfp_marker"
+			description "Fabric"
+			origin "3152 -2642 1136"  
+			spawnflags 2   //
+		}
+//		create
+	//	{
+		//	scriptName "rfp_marker"
+			//classname "team_WOLF_objective"
+	//		targetname "rfp_marker"
+		//	description "Santa's room"
+		//	origin "3776 -3389 1153"  
+		//	spawnflags 2   //
+	//	}
+	//in santas wish room 3 spawns
+create
+		{
+			scriptName "rfp_marker1"
+			classname "team_WOLF_objective"
+			targetname "santas_wish"
+			description "santas wish"
+			origin "3814 -3168 1152"  
+			spawnflags 2   //
+		}
+
+		create
+		{
+			scriptName "rfp_spawn1"
+			classname "team_CTF_bluespawn"
+			targetname "santas_wish"
+			origin "3937 -3364 1231"
+			angle "-158"
+			spawnflags 3
+		}
+
+		create
+		{
+			scriptName "rfp_spawn2"
+			classname "team_CTF_bluespawn"
+			targetname "santas_wish"
+			origin "3814 -3168 1152"
+			angle "-127"
+			spawnflags 3
+		}
+		
+		create
+		{
+			scriptName "rfp_spawn3"
+			classname "team_CTF_bluespawn"
+			targetname "santas_wish"
+			origin "3871 -3584 1166"
+			angle "174"
+			spawnflags 3
+		}	
+	//rest of spawns in the room with the wine..
+		create
+		{
+			scriptName "rfp_spawn4"
+			classname "team_CTF_bluespawn"
+			targetname "rfp_spawn"
+			origin "3291 -2132 864"
+			angle "-155"
+			spawnflags 3
+		}
+		
+		create
+		{
+			scriptName "rfp_spawn5"
+			classname "team_CTF_bluespawn"
+			targetname "rfp_spawn"
+			origin "3019 -2032 864"
+			angle "-70"
+			spawnflags 3
+		}
+
+		create
+		{
+			scriptName "rfp_spawn6"
+			classname "team_CTF_bluespawn"
+			targetname "rfp_spawn"
+			origin "3149 -2072 864"
+			angle "-101"
+			spawnflags 3
+		}
+
+		create
+		{
+			scriptName "rfp_spawn7"
+			classname "team_CTF_bluespawn"
+			targetname "rfp_spawn"
+			origin "3297 -2048 984"
+			angle "-142"
+			spawnflags 3
+		}
+
+		create
+		{
+			scriptName "rfp_spawn8"
+			classname "team_CTF_bluespawn"
+			targetname "rfp_spawn"
+			origin "2927 -1876 984"
+			angle "-59"
+			spawnflags 3
+		}
+		
+		create
+		{
+			scriptName "rfp_spawn9"
+			classname "team_CTF_bluespawn"
+			targetname "rfp_spawn"
+			origin "3002 -1877 864"
+			angle "-89"
+			spawnflags 3
+		}	
+		
+		create
+		{
+			scriptName "rfp_spawn10"
+			classname "team_CTF_bluespawn"
+			targetname "rfp_spawn"
+			origin "3072 -1873 864"
+			angle "-87"
+			spawnflags 3
+		}
+		
+		create
+		{
+			scriptName "rfp_spawn11"
+			classname "team_CTF_bluespawn"
+			targetname "rfp_spawn"
+			origin "3183 -1869 864"
+			angle "-102"
+			spawnflags 3
+		}
+
+		create
+		{
+			scriptName "rfp_spawn12"
+			classname "team_CTF_bluespawn"
+			targetname "rfp_spawn"
+			origin "3326 -1962 864"
+			angle "-171"
+			spawnflags 3 
+		}
+
+		create
+		{
+			scriptName "rfp_spawn13"
+			classname "team_CTF_bluespawn"
+			targetname "rfp_spawn"
+			origin "3309 -1467 921"
+			angle "-107"
+			spawnflags 3
+		}
+
+		create
+		{
+			scriptName "rfp_spawn14"
+			classname "team_CTF_bluespawn"
+			targetname "rfp_spawn"
+			origin "3152 -1473 921"
+			angle "-88"
+			spawnflags 3  
+		}	
+		
+		create
+		{
+			scriptName "rfp_spawn15"
+			classname "team_CTF_bluespawn"
+			targetname "rfp_spawn"
+			origin "3239 -1464 864"
+			angle "-96"
+			spawnflags 3  
+		}
+		
+		create
+		{
+			scriptName "rfp_spawn16"
+			classname "team_CTF_bluespawn"
+			targetname "rfp_spawn"
+			origin "3001 -1656 864"
+			angle "-70"
+			spawnflags 3  
+		}
+
+		create
+		{
+			scriptName "rfp_spawn17"
+			classname "team_CTF_bluespawn"
+			targetname "rfp_spawn"
+			origin "3092 -1657 864"
+			angle "-86"
+			spawnflags 3  
+		}
+
+		create
+		{
+			scriptName "rfp_spawn18"
+			classname "team_CTF_bluespawn"
+			targetname "rfp_spawn"
+			origin "3099 -1797 864"
+			angle "-88"
+			spawnflags 3  
+		}
+
+
+
+	//Ladder /disabled
+		//create
+		//{
+		// 	scriptname "scrf_barrel"
+		//        classname "misc_gamemodel"
+	        //	origin "2797 -2986 802"
+		//       mins "-24 -24 -60"
+		//        maxs "24 24 60"
+		// 	angle "135"
+		//	modelscale "1"
+		//       contents "1"
+		//	clipmask "1"
+		//        model "models/mapobjects/barrel_sd/barrel.md3"
+		//}
+		//create
+		//{
+	        //	scriptname "scrf_barrel"
+		//       classname "misc_gamemodel"
+		// 	origin "2797 -2986 861"
+		//       mins "-24 -24 -60"
+		//        maxs "24 24 60"
+		// 	angle "135"
+		//	modelscale "1"
+		//       contents "1"
+		//	clipmask "1"
+		//        model "models/mapobjects/barrel_sd/barrel.md3"
+		//}
+		//create
+		//{
+		// 	scriptname "scrf_barrel"
+		//        classname "misc_gamemodel"
+		// 	origin "2797 -2986 920"
+		//       mins "-24 -24 -60"
+		//        maxs "24 24 60"
+		// 	angle "135"
+		//	modelscale "1"
+		//       contents "1"
+		//	clipmask "1"
+		//        model "models/mapobjects/barrel_sd/barrel.md3"
+		//}
+		//create
+		//{
+	        //	scriptname "scrf_barrel"
+		//        classname "misc_gamemodel"
+	        //	origin "2797 -2944 802"
+		//       mins "-24 -24 -60"
+		//        maxs "24 24 60"
+		// 	angle "135"
+		//	modelscale "1"
+		//       contents "1"
+		//	clipmask "1"
+		//        model "models/mapobjects/barrel_sd/barrel.md3"
+		//}
+		//create
+		//{
+	        //	scriptname "scrf_barrel"
+		//        classname "misc_gamemodel"
+	        //	origin "2797 -2944 861"
+		//       mins "-24 -24 -60"
+		//        maxs "24 24 60"
+		// 	angle "135"
+		//	modelscale "1"
+		//       contents "1"
+		//	clipmask "1"
+		//        model "models/mapobjects/barrel_sd/barrel.md3"
+		//}mol
+		//create
+		//{
+		//	scriptname "scrf_barrel"
+		//	classname "misc_gamemodel"
+		//	origin "2758 -2961 802"
+		//      mins "-24 -24 -60"
+		//      maxs "24 24 60"
+		// 	angle "135"
+		//	modelscale "1"
+		//      contents "1"
+		//	clipmask "1"
+		//      s model "models/mapobjects/barrel_sd/barrel.md3"
+		//}
+//Wall
+		create
+		{
+	        	scriptname "scrf_barrel"
+		        classname "misc_gamemodel"
+	        	origin "1752 -3148 802"
+		        mins "-24 -24 -60"
+		        maxs "24 24 60"
+	        	angle "135"
+			modelscale "1"
+		        contents "1"
+	        	clipmask "1"
+		        model "models/mapobjects/barrel_sd/barrel.md3"
+		}
+		create
+		{
+	        	scriptname "scrf_barrel"
+		        classname "misc_gamemodel"
+	        	origin "1752 -3148 861"
+		        mins "-24 -24 -60"
+		        maxs "24 24 60"
+	        	angle "135"
+			modelscale "1"
+		        contents "1"
+	        	clipmask "1"
+		        model "models/mapobjects/barrel_sd/barrel.md3"
+		}
+		create
+		{
+	        	scriptname "scrf_barrel"
+		        classname "misc_gamemodel"
+	        	origin "1752 -3148 920"
+		        mins "-24 -24 -60"
+		        maxs "24 24 60"
+	        	angle "135"
+			modelscale "1"
+		        contents "1"
+	        	clipmask "1"
+		        model "models/mapobjects/barrel_sd/barrel.md3"
+		}
+		create
+		{
+	        	scriptname "scrf_barrel"
+		        classname "misc_gamemodel"
+	        	origin "1752 -3148 979"
+		        mins "-24 -24 -60"
+		        maxs "24 24 60"
+	        	angle "135"
+			modelscale "1"
+		        contents "1"
+	        	clipmask "1"
+		        model "models/mapobjects/barrel_sd/barrel.md3"
+		}
+		create
+		{
+	        	scriptname "scrf_barrel"
+		        classname "misc_gamemodel"
+	        	origin "1752 -3195 802"
+		        mins "-24 -24 -60"
+		        maxs "24 24 60"
+	        	angle "135"
+			modelscale "1"
+		        contents "1"
+	        	clipmask "1"
+		        model "models/mapobjects/barrel_sd/barrel.md3"
+		}
+		create
+		{
+	        	scriptname "scrf_barrel"
+		        classname "misc_gamemodel"
+	        	origin "1752 -3195 861"
+		        mins "-24 -24 -60"
+		        maxs "24 24 60"
+	        	angle "135"
+			modelscale "1"
+		        contents "1"
+	        	clipmask "1"
+		        model "models/mapobjects/barrel_sd/barrel.md3"
+		}
+		create
+		{
+	        	scriptname "scrf_barrel"
+		        classname "misc_gamemodel"
+	        	origin "1752 -3195 920"
+		        mins "-24 -24 -60"
+		        maxs "24 24 60"
+	        	angle "135"
+			modelscale "1"
+		        contents "1"
+	        	clipmask "1"
+		        model "models/mapobjects/barrel_sd/barrel.md3"
+		}
+		create
+		{
+	        	scriptname "scrf_barrel"
+		        classname "misc_gamemodel"
+	        	origin "1752 -3195 979"
+		        mins "-24 -24 -60"
+		        maxs "24 24 60"
+	        	angle "135"
+			modelscale "1"
+		        contents "1"
+	        	clipmask "1"
+		        model "models/mapobjects/barrel_sd/barrel.md3"
+		}	
+
+		create
+		{
+	        	scriptname "scrf_barrel"
+		        classname "misc_gamemodel"
+	        	origin "1752 -3242 802"
+		        mins "-24 -24 -60"
+		        maxs "24 24 60"
+	        	angle "135"
+			modelscale "1"
+		        contents "1"
+	        	clipmask "1"
+		        model "models/mapobjects/barrel_sd/barrel.md3"
+		}
+		create
+		{
+	        	scriptname "scrf_barrel"
+		        classname "misc_gamemodel"
+	        	origin "1752 -3242 861"
+		        mins "-24 -24 -60"
+		        maxs "24 24 60"
+	        	angle "135"
+			modelscale "1"
+		        contents "1"
+	        	clipmask "1"
+		        model "models/mapobjects/barrel_sd/barrel.md3"
+		}
+		create
+		{
+	        	scriptname "scrf_barrel"
+		        classname "misc_gamemodel"
+	        	origin "1752 -3242 920"
+		        mins "-24 -24 -60"
+		        maxs "24 24 60"
+	        	angle "135"
+			modelscale "1"
+		        contents "1"
+	        	clipmask "1"
+		        model "models/mapobjects/barrel_sd/barrel.md3"
+		}
+		create
+		{
+	        	scriptname "scrf_barrel"
+		        classname "misc_gamemodel"
+	        	origin "1752 -3242 979"
+		        mins "-24 -24 -60"
+		        maxs "24 24 60"
+	        	angle "135"
+			modelscale "1"
+		        contents "1"
+	        	clipmask "1"
+		        model "models/mapobjects/barrel_sd/barrel.md3"
+		}
+
+		create
+		{
+	        	scriptname "scrf_barrel"
+		        classname "misc_gamemodel"
+	        	origin "1752 -3309 802"
+		        mins "-24 -24 -60"
+		        maxs "24 24 60"
+	        	angle "135"
+			modelscale "1"
+		        contents "1"
+	        	clipmask "1"
+		        model "models/mapobjects/barrel_sd/barrel.md3"
+		}
+		create
+		{
+	        	scriptname "scrf_barrel"
+		        classname "misc_gamemodel"
+	        	origin "1752 -3309 861"
+		        mins "-24 -24 -60"
+		        maxs "24 24 60"
+	        	angle "135"
+			modelscale "1"
+		        contents "1"
+	        	clipmask "1"
+		        model "models/mapobjects/barrel_sd/barrel.md3"
+		}
+		create
+		{
+	        	scriptname "scrf_barrel"
+		        classname "misc_gamemodel"
+	        	origin "1752 -3309 920"
+		        mins "-24 -24 -60"
+		        maxs "24 24 60"
+	        	angle "135"
+			modelscale "1"
+		        contents "1"
+	        	clipmask "1"
+		        model "models/mapobjects/barrel_sd/barrel.md3"
+		}
+		create
+		{
+	        	scriptname "scrf_barrel"
+		        classname "misc_gamemodel"
+	        	origin "1752 -3309 979"
+		        mins "-24 -24 -60"
+		        maxs "24 24 60"
+	        	angle "135"
+			modelscale "1"
+		        contents "1"
+	        	clipmask "1"
+		        model "models/mapobjects/barrel_sd/barrel.md3"
+		}
+//tree wall
+
+		create
+		{
+			model "models/mapobjects/trees_sd/tree_a.md3"
+			origin "1616 -3043 770"
+			classname "misc_gamemodel"
+			angle "90"
+			modelscale 1
+			contents 1
+			mins "-14 -14 -10"
+			maxs "14 14 400"
+			clipmask 1
+			scriptname "trees"
+		}
+		create
+		{
+			model "models/mapobjects/trees_sd/tree_a.md3"
+			origin "1643 -3081 790"
+			classname "misc_gamemodel"
+			angle "10"
+			modelscale 1
+			contents 1
+			mins "-14 -14 -10"
+			maxs "14 14 400"
+			clipmask 1
+			scriptname "trees"
+		}
+		create
+		{
+			model "models/mapobjects/trees_sd/tree_a.md3"
+			origin "1588 -3011 786"
+			classname "misc_gamemodel"
+			angle "200"
+			modelscale 1
+			contents 1
+			mins "-14 -14 -10"
+			maxs "14 14 400"
+			clipmask 1
+			scriptname "trees"
+		}
+		create
+		{
+			model "models/mapobjects/trees_sd/tree_a.md3"
+			origin "1561 -2978 782"
+			classname "misc_gamemodel"
+			angle "170"
+			modelscale 1
+			contents 1
+			mins "-14 -14 -10"
+			maxs "14 14 400"
+			clipmask 1
+			scriptname "trees"
+		}
+		create
+		{
+			model "models/mapobjects/trees_sd/tree_a.md3"
+			origin "1567 -2945 752"
+			classname "misc_gamemodel"
+			modelscale 1
+			angle "120"
+			contents 1
+			mins "-14 -14 -10"
+			maxs "14 14 400"
+			clipmask 1
+			scriptname "trees"
+		}
+		create
+		{
+			model "models/mapobjects/trees_sd/tree_a.md3"
+			origin "1520 -2834 815"
+			classname "misc_gamemodel"
+			angle "40"
+			modelscale 1
+			contents 1
+			mins "-14 -14 -10"
+			maxs "14 14 400"
+			clipmask 1
+			scriptname "trees"
+		}
+		create
+		{
+			model "models/mapobjects/trees_sd/tree_a.md3"
+			origin "1511 -2866 815"
+			classname "misc_gamemodel"
+			angle "80"
+			modelscale 1
+			contents 1
+			mins "-14 -14 -10"
+			maxs "14 14 400"
+			clipmask 1
+			scriptname "trees"
+		}
+		create
+		{
+			model "models/mapobjects/trees_sd/tree_a.md3"
+			origin "1511 -2866 815"
+			classname "misc_gamemodel"
+			angle "80"
+			modelscale 1
+			contents 1
+			mins "-14 -14 -10"
+			maxs "14 14 400"
+			clipmask 1
+			scriptname "trees"
+		}
+		create
+		{
+			model "models/mapobjects/trees_sd/tree_a.md3"
+			origin "1535 -2911 770"
+			classname "misc_gamemodel"
+			modelscale 1
+			contents 1
+			mins "-14 -14 -10"
+			maxs "14 14 400"
+			clipmask 1
+			scriptname "trees"
+		}
+		create
+		{
+			model "models/mapobjects/trees_sd/tree_a.md3"
+			origin "534 250 800"
+			classname "misc_gamemodel"
+			angle "80"
+			modelscale 1
+			contents 1
+			mins "-14 -14 -10"
+			maxs "14 14 400"
+			clipmask 1
+			scriptname "trees"
+		}
+		create
+		{
+			model "models/mapobjects/trees_sd/tree_a.md3"
+			origin "627 166 800"
+			classname "misc_gamemodel"
+			angle "190"
+			modelscale 1
+			contents 1
+			mins "-14 -14 -10"
+			maxs "14 14 400"
+			clipmask 1
+			scriptname "trees"
+		}
+		create
+		{
+			model "models/mapobjects/trees_sd/tree_a.md3"
+			origin "527 166 810"
+			classname "misc_gamemodel"
+			angle "270"
+			modelscale 1
+			contents 1
+			mins "-14 -14 -10"
+			maxs "14 14 400"
+			clipmask 1
+			scriptname "trees"
+		}
+		create
+		{
+			model "models/mapobjects/trees_sd/tree_a.md3"
+			origin "437 140 840"
+			classname "misc_gamemodel"
+			modelscale 1
+			contents 1
+			mins "-14 -14 -10"
+			maxs "14 14 400"
+			clipmask 1
+			scriptname "trees"
+		}
+	//Wall for allies finall spawn - to prevent sk
+		create
+		{
+			model "models/mapobjects/crate/crate.md3"
+			origin "3456 -1758 864"
+			classname "misc_gamemodel"
+			modelscale 1
+			contents 1
+			mins "-30 -30 -0"
+			maxs "30 30 64"
+			clipmask 1
+			scriptname "crate"
+		}
+		create
+		{
+			model "models/mapobjects/crate/crate.md3"
+			origin "3456 -1758 800"
+			classname "misc_gamemodel"
+			modelscale 1
+			contents 1
+			mins "-30 -30 -0"
+			maxs "30 30 64"
+			clipmask 1
+			scriptname "crate"
+		}
+		create
+		{
+			model "models/mapobjects/crate/crate.md3"
+			origin "3456 -1758 928"
+			classname "misc_gamemodel"
+			modelscale 1
+			contents 1
+			mins "-30 -30 -0"
+			maxs "30 30 64"
+			clipmask 1
+			scriptname "crate"
+		}
+		create
+		{
+			model "models/mapobjects/crate/crate.md3"
+			origin "3456 -1694 864"
+			classname "misc_gamemodel"
+			modelscale 1
+			contents 1
+			mins "-30 -30 -0"
+			maxs "30 30 64"
+			clipmask 1
+			scriptname "crate"
+		}
+		create
+		{
+			model "models/mapobjects/crate/crate.md3"
+			origin "3456 -1694 800"
+			classname "misc_gamemodel"
+			modelscale 1
+			contents 1
+			mins "-30 -30 -0"
+			maxs "30 30 64"
+			clipmask 1
+			scriptname "crate"
+		}
+		create
+		{
+			model "models/mapobjects/crate/crate.md3"
+			origin "3456 -1694 928"
+			classname "misc_gamemodel"
+			modelscale 1
+			contents 1
+			mins "-30 -30 -0"
+			maxs "30 30 64"
+			clipmask 1
+			scriptname "crate"
+		}
+		create
+		{
+			model "models/mapobjects/crate/crate.md3"
+			origin "3456 -1630 864"
+			classname "misc_gamemodel"
+			modelscale 1
+			contents 1
+			mins "-30 -30 -0"
+			maxs "30 30 64"
+			clipmask 1
+			scriptname "crate"
+		}
+		create
+		{
+			model "models/mapobjects/crate/crate.md3"
+			origin "3456 -1630 800"
+			classname "misc_gamemodel"
+			modelscale 1
+			contents 1
+			mins "-30 -30 -0"
+			maxs "30 30 64"
+			clipmask 1
+			scriptname "crate"
+		}
+		create
+		{
+			model "models/mapobjects/crate/crate.md3"
+			origin "3456 -1630 928"
+			classname "misc_gamemodel"
+			modelscale 1
+			contents 1
+			mins "-30 -30 -0"
+			maxs "30 30 64"
+			clipmask 1
+			scriptname "crate"
+		}
+		// Game rules
+		wm_axis_respawntime	10
+		wm_allied_respawntime	20
+		wm_number_of_objectives 6
+		wm_set_round_timelimit	25
+
+		// Objectives
+		// 1: The Tunnel Entrance
+		// 2: 
+		// 3: The Forward Spawn (North Pole)
+		// 4: 
+		// 5: Christmas Star
+		// 6: 
+		// 7: 
+
+		// Current main objectives for each team (0=Axis, 1=Allies)
+		wm_set_main_objective		1	0
+		wm_set_main_objective		1	1
+
+		wm_objective_status 1 1 0
+		wm_objective_status 1 0 0
+		wm_objective_status 2 1 0
+		wm_objective_status 2 0 0
+		wm_objective_status 3 0 0
+		wm_objective_status 3 1 0
+		wm_objective_status 4 0 0
+		wm_objective_status 4 1 0
+		wm_objective_status 5 0 0
+		wm_objective_status 5 1 0
+		wm_objective_status 6 0 0
+		wm_objective_status 6 1 0
+
+		wm_set_main_objective		1	0
+		wm_set_main_objective		1	1
+
+		// Stopwatch mode defending team (0=Axis, 1=Allies)
+		wm_set_defending_team	1
+
+		// Winner on expiration of round timer (0=Axis, 1=Allies)
+		wm_setwinner	1
+
+				//the new spawns in the sewers
+		setstate afp_marker invisible
+		setstate afp_marker1 invisible
+		setstate afp_spawn invisible
+		setstate afp_spawn1 invisible
+		setstate afp_cp invisible
+		setstate rfp_marker invisible
+		setstate rfp_marker1 invisible
+		setstate santas_wish invisible
+
+		setstate rfp_spawn invisible
+		
+
+		// Set start spawnpoints
+		wait 500
+		setautospawn "Forward Spawn" 1
+		setautospawn "Axis Spawn" 0
+		
+		//alertentity t1089
+		//setstate t1089 invisible
+
+	}
+
+	trigger allies_win
+	{
+		wm_setwinner	1
+		wm_announce "Allied team has stopped the Axis from stealing the Christmas Star!"
+
+		wm_objective_status 5 0 2
+		wm_objective_status 5 1 1
+
+		wait 1500
+		wm_endround
+	}
+
+	trigger axis_win
+	{
+		wm_setwinner	0
+		wm_announce "The Axis team have escaped with the Christmas Star!"
+
+		wm_objective_status 5 1 2
+		wm_objective_status 5 0 1
+
+		wait 1500
+		wm_endround
+	}
+
+}
+
+
+
+//--------------------------------------------------------------------------------------------------------//
+// New Spawn
+// On capture , allies spawn in house, and axis in town, on recapture it goes back to previous..
+//--------------------------------------------------------------------------------------------------------//
+afp_cp
+{
+	spawn
+	{
+		set
+		{
+			description "Town"
+			message "Town"
+		}
+		accum 0 set 0
+	}
+	
+	trigger axis_capture
+	{
+		accum 1 set 0
+		accum 0 set 1
+		setstate t1089 invisible
+		setstate afp_marker default
+		setstate afp_spawn default
+		setstate afp_marker1 default
+		setstate afp_spawn1 default
+		setstate rfp_marker default
+		setstate rfp_spawn default
+		setstate rfp_marker1 default
+		setstate santas_wish default
+
+
+		//QMM only start
+		setstate townname invisible
+		//QMM only end
+		setautospawn "Reeinder" 0 // 0 axis
+		setautospawn "Fabric" 1 // 0 allies
+		wm_announce "Axis captured the town flag, allies got 60 seconds to recapture!"
+		wait 30000
+		accum 1 abort_if_equal 1
+		wm_announce "Allies has 30 seconds left to recapture!"
+		wait 30000
+		accum 1 abort_if_equal 1
+		setstate afp_cp invisible
+		wm_announce "Axis spawn now irreversibel in the town!"
+		
+		
+	}
+	
+	trigger allied_capture
+	{
+		accum 1 set 1
+		setstate afp_marker invisible
+		setstate afp_spawn invisible
+		setstate afp_marker1 invisible
+		setstate afp_spawn1 invisible
+		setstate rfp_marker invisible
+		setstate rfp_spawn invisible
+		setstate rfp_marker1 invisible
+		setstate santas_wish invisible
+
+		//QMM only start
+		setstate townname default
+		//QMM only end
+		setstate t1089 default
+		setautospawn "Town Spawn" 1
+		setautospawn "Forward Spawn" 0
+
+		trigger self msg1
+		trigger self msg2
+	}
+	trigger msg1
+	{
+		accum 0 abort_if_equal 1
+		wm_announce "Allies captured the town flag!"
+
+	}
+	trigger msg2
+	{
+		accum 0 abort_if_equal 0
+		wm_announce "Allies recaptured the town flag!"
+	}
+}
+
+//==============================================
+//======        Town Door        =======
+//==============================================
+town_door // The Town Door
+{
+	spawn
+	{
+		set
+		{
+			spawnflags 9
+		}
+		wait 400
+		trigger town_door setup
+
+		constructible_class 3
+	}
+
+	trigger setup
+	{
+		setstate town_door_materials invisible
+		setstate town_door_materials_clip invisible
+		setstate town_door_flag invisible
+
+
+		setstate town_door default
+
+	}
+
+	buildstart final
+	{
+		setstate town_door_materials default
+		setstate town_door_materials_clip default
+		setstate town_door_flag default
+
+
+		setstate town_door underconstruction
+	}
+
+	built final
+	{
+		setstate town_door_materials invisible
+		setstate town_door_materials_clip invisible
+		setstate town_door_flag invisible
+
+
+		setstate town_door default
+
+		wm_announce "The Town Door have been built."
+
+	}
+
+	decayed final
+	{
+		setstate town_door_materials default
+		setstate town_door_materials_clip default
+		setstate town_door_flag default
+
+
+		setstate town_door invisible
+
+	}
+
+	death
+	{
+		//setstate town_door_materials default
+		//setstate town_door_materials_clip default
+		//setstate town_door_flag default
+
+		
+		setstate town_door invisible
+		setstate afp_cp default		
+		trigger roadbunker force_axis
+		trigger roadbunker kill
+		trigger town_barb toremove
+		trigger self remove
+		wm_announce "The Town Door have been destroyed!"
+		
+	}
+
+	trigger remove
+	{
+		setstate town_door_toi invisible
+		setstate town_door_materials invisible
+		setstate town_door_materials_clip invisible
+		setstate town_door_flag invisible
+		setstate town_door invisible
+
+		remove
+	}
+}
+
+//==============================================
+//======        High GuardTower         =======
+//==============================================
+town_barb // The Guard Tower
+{
+	spawn
+	{
+		wait 400
+		trigger town_barb setup
+		accum 0 set 0 // can be built..
+		constructible_class 3
+	}
+
+	trigger setup
+	{
+		setstate town_barb_materials default
+		setstate town_barb_materials_clip default
+		setstate town_barb_flag default
+
+		setstate town_barb invisible
+		setstate hill_shoot_mg invisible
+
+	}
+
+	buildstart final
+	{
+		setstate town_barb_materials default
+		setstate town_barb_materials_clip default
+		setstate town_barb_flag default
+
+
+		setstate town_barb underconstruction
+		setstate hill_shoot_mg underconstruction
+	}
+
+	built final
+	{
+		setstate town_barb_materials invisible
+		setstate town_barb_materials_clip invisible
+		setstate town_barb_flag invisible
+
+
+		setstate town_barb default
+		setstate hill_shoot_mg default
+		accum 0 set 1
+		wm_announce "The high Guardtower have been built."
+
+	}
+
+	decayed final
+	{
+		setstate town_barb_materials default
+		setstate town_barb_materials_clip default
+		setstate town_barb_flag default
+
+
+		setstate town_barb invisible
+		setstate hill_shoot_mg invisible
+
+	}
+
+	death
+	{
+		setstate town_barb_materials default
+		setstate town_barb_materials_clip default
+		setstate town_barb_flag default
+
+
+		setstate town_barb invisible
+		setstate hill_shoot_mg invisible
+		repairmg42 hill_shoot_mg
+		accum 0 set 1
+		wm_announce "The high Guardtower have been destroyed!"
+		accum 1 abort_if_equal 0 //is not to be removed
+		trigger self remove
+
+	}
+
+	trigger remove
+	{
+		setstate town_barb_toi invisible
+		setstate town_barb_materials invisible
+		setstate town_barb_materials_clip invisible
+		setstate town_barb_flag invisible
+		setstate town_barb invisible
+		setstate hill_shoot_mg invisible
+
+		remove
+	}
+	trigger toremove
+	{
+		accum 1 set 1 //to be removed
+		accum 0 abort_if_equal 1 // Is it built?
+		trigger self remove
+
+	}
+}
+
+// ============================================================================
+// Allied MG42 Nest - on Allied side of the map
+// ============================================================================
+alliedbarnmg42nest
+{
+	spawn
+	{
+		wait 200
+
+		constructible_class 2
+
+		setstate alliedbarnmg42 invisible
+		setstate alliedbarnmg42materials default
+	}
+
+	buildstart final
+	{
+		setstate alliedbarnmg42 underconstruction
+	}
+
+	built final
+	{
+		setstate alliedbarnmg42 default
+		setstate alliedbarnmg42materials invisible
+
+		// Some kind of UI pop-up to alert players
+		wm_announce	"Allied team has constructed the Road MG Nest!"
+	}
+
+	decayed final
+	{
+		setstate alliedbarnmg42 invisible
+		setstate alliedbarnmg42materials default
+	}
+
+	death
+	{
+		setstate alliedbarnmg42 invisible
+		setstate alliedbarnmg42materials default
+		repairmg42 alliedbarnmg42
+
+		// Some kind of UI pop-up to alert players
+		wm_announce	"Axis team has destroyed the Road MG Nest!"
+	}
+}
+
+// ============================================================================
+// Tunnel Entrance - The snow that has to be blasted
+// ============================================================================
+the_wall
+{	
+	spawn
+	{
+	}
+
+	trigger remove
+	{
+		remove
+	}
+}
+
+wall // The Concrete Wall
+{
+	spawn
+	{
+		wait 50
+		constructible_class	3
+	}
+
+	death
+	{
+		// *----------------------------------- vo ------------------------------------------*
+		wm_announce	"Axis team have breached the Tunnel Entrance!"
+
+		
+		wait 1000
+		trigger the_wall remove
+		// *---------------------------------------------------------------------------------*
+	}
+}
+
+// ============================================================================
+// Forward Spawn - The North Pole
+// ============================================================================
+
+roadbunker
+{
+	spawn
+	{
+		wait 200
+		accum 1 set 0
+		accum 0 set 1	// 0-Axis, 1-Allied
+		//set
+		//{
+		//	spawnflags AXIS_ONLY //axis only, instead of removing
+		//}
+	}
+
+	trigger axis_capture	// Flag has been claimed by an axis player
+	{
+		accum 0 abort_if_equal 0 // Do Axis already own the flag?
+
+		accum 0 set 0 // Axis own the flag
+		wm_announce	"Axis capture the North Pole!"
+
+
+		wm_objective_status 3 1 2
+		wm_objective_status 3 0 1
+
+		// spawns:
+		// Trucks
+		// Forward Bunker
+		// Town
+		setautospawn "Town Spawn" 1
+		setautospawn "Forward Spawn" 0
+		alertentity forward_spawn
+
+	}
+
+	trigger allied_capture	// Flag has been claimed by an allied player
+	{
+		accum 1 abort_if_equal 1
+		accum 0 abort_if_equal 1 // Do Allies already own flag?
+
+		accum 0 set 1 // Allied own the flag
+		wm_announce	"Allies capture the North Pole!"
+
+		wm_objective_status 3 1 1
+		wm_objective_status 3 0 2
+
+		// spawns:
+		// Trucks (Axis Spawn
+		// North Pole ( Forward Spawn )
+		// Town ( Town Spawn)
+		setautospawn "Forward Spawn" 1
+		setautospawn "Axis Spawn" 0
+
+		alertentity forward_spawn
+
+	}
+
+	trigger kill
+	{
+		setstate roadbunker invisible
+
+
+		wm_removeteamvoiceannounce 0 "radar_axis_bunker_stop"
+		wm_removeteamvoiceannounce 1 "radar_allies_bunker_capture"
+	}
+
+	trigger force_axis
+	{
+	wm_announce	"Axis capture the North Pole permanent!"
+		accum 0 abort_if_equal 0 // Do Axis already own flag?
+		accum 0 set 0 // Axis own the flag
+		alertentity forward_spawn
+		alertentity forward_spawn_spawn
+		setautospawn "Town Spawn" 1
+		setautospawn "Forward Spawn" 0
+		wm_announce	"Axis capture the North Pole permanent!"
+		wm_objective_status 3 1 2
+		wm_objective_status 3 0 1
+
+		// spawns:
+		// Trucks
+		// Forward Bunker
+		// Town
+		
+	}
+}
+
+// ============================================
+// The Christmas Star
+// ============================================
+
+star_toi
+{
+	spawn
+	{
+		wait 200
+		setstate star_toi default
+	}
+
+	trigger invisible
+	{
+		setstate star_toi invisible
+		wait 100
+	}
+
+	trigger visible
+	{
+		setstate star_toi default
+		wait 100
+	}
+}
+
+star_dropoff
+{
+	spawn
+	{
+		wait 200
+		setstate star_dropoff invisible
+	}
+
+	trigger invisible
+	{
+		setstate star_dropoff invisible
+		wait 100
+	}
+
+	trigger visible
+	{
+		setstate star_dropoff default
+		wait 100
+	}
+}
+
+star
+{
+	spawn
+	{
+	}
+
+	trigger stolen
+	{
+		trigger star_toi invisible
+		trigger star_dropoff visible
+
+		wait 1000
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_announce	"Axis has stolen the Christmas Star!"
+		// *---------------------------------------------------------------------------------*
+	}
+
+	trigger returned
+	{	accum 0 abort_if_equal 0 // Do Axis already own the flag?
+
+		accum 0 set 0 // Axis own the flag
+		trigger star_toi visible
+		trigger star_dropoff invisible
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_announce	"Allies has secured the Christmas Star!"
+
+		wm_teamvoiceannounce 0 "axis_hq_objective_secured"
+		wm_teamvoiceannounce 1 "allies_hq_objective_secured"
+		// *---------------------------------------------------------------------------------*
+	}
+
+	trigger captured
+	{
+		wait 1000
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_announce	"Axis have escaped with the Christmas Star!"
+
+		wm_teamvoiceannounce 0 "axis_hq_objective_captured"
+		wm_teamvoiceannounce 1 "allies_hq_objective_captured"
+		// *---------------------------------------------------------------------------------*
+
+		trigger game_manager axis_win
+	}
+}
+
+// ================================================
+// ============ NEUTRAL COMMAND POST ==============
+// ================================================
+
+allied_compost_built
+{
+	spawn
+	{
+		wait 400
+		trigger allied_compost_built setup
+
+		constructible_class 2
+	}
+
+	trigger setup
+	{
+		setchargetimefactor 1 soldier 1
+		setchargetimefactor 1 lieutenant 1
+		setchargetimefactor 1 medic 1
+		setchargetimefactor 1 engineer 1
+		setchargetimefactor 1 covertops 1
+		sethqstatus 1 0
+	}
+
+	buildstart final
+	{
+		setstate allied_compost_built_model underconstruction
+		setstate neutral_compost_closed_clip invisible
+		setstate neutral_compost_closed_model invisible
+	}
+
+	built final
+	{
+		setstate allied_compost_built_model default
+		setstate neutral_compost_closed_clip invisible
+		setstate neutral_compost_closed_model invisible
+
+		trigger allied_compost_built_model enable_allied_features
+
+		enablespeaker allies_compost_sound
+	}
+
+	decayed final
+	{
+		setstate allied_compost_built_model invisible
+		setstate neutral_compost_closed_clip default
+		setstate neutral_compost_closed_model default
+	}
+
+	death
+	{
+		setstate allied_compost_built_model invisible
+		setstate neutral_compost_closed_clip default
+		setstate neutral_compost_closed_model default
+
+		trigger allied_compost_built_model disable_allied_features
+
+		disablespeaker allies_compost_sound
+	}
+}
+
+allied_compost_built_model
+{
+	spawn
+	{
+		wait 400
+		setstate allied_compost_built_model invisible
+	}
+
+	trigger enable_allied_features
+	{
+		setchargetimefactor 1 soldier 0.75
+		setchargetimefactor 1 lieutenant 0.75
+		setchargetimefactor 1 medic 0.75
+		setchargetimefactor 1 engineer 0.75
+		setchargetimefactor 1 covertops 0.75
+		sethqstatus 1 1
+
+		wm_announce	"Allied Command Post constructed. Charge speed increased!"
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "axis_hq_compost_constructed_allies"
+
+		wm_teamvoiceannounce 1 "allies_hq_compost_constructed"
+
+		wm_removeteamvoiceannounce 1 "allies_hq_compost_construct"
+		// *---------------------------------------------------------------------------------*
+
+		wm_objective_status 3 0 2
+		wm_objective_status 3 1 1
+	}
+
+	trigger disable_allied_features
+	{
+		setchargetimefactor 1 soldier 1
+		setchargetimefactor 1 lieutenant 1
+		setchargetimefactor 1 medic 1
+		setchargetimefactor 1 engineer 1
+		setchargetimefactor 1 covertops 1
+		sethqstatus 1 0
+
+		wm_announce	"Axis team has destroyed the Allied Command Post!"
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_addteamvoiceannounce 0 "axis_hq_compost_construct"
+
+		wm_addteamvoiceannounce 1 "allies_hq_compost_construct"
+
+		wm_teamvoiceannounce 0 "axis_hq_compost_construct"
+
+		wm_teamvoiceannounce 1 "allies_hq_compost_damaged"
+		// *---------------------------------------------------------------------------------*
+
+		wm_objective_status 3 0 0
+		wm_objective_status 3 1 0
+	}
+}
+
+axis_compost_built
+{
+	spawn
+	{
+		wait 400
+		trigger axis_compost_built setup
+
+		constructible_class 2
+	}
+
+	trigger setup
+	{
+		setchargetimefactor 0 soldier 1
+		setchargetimefactor 0 lieutenant 1
+		setchargetimefactor 0 medic 1
+		setchargetimefactor 0 engineer 1
+		setchargetimefactor 0 covertops 1
+		sethqstatus 0 0
+	}
+
+	buildstart final
+	{
+		setstate axis_compost_built_model underconstruction
+		setstate neutral_compost_closed_clip invisible
+		setstate neutral_compost_closed_model invisible
+	}
+
+	built final
+	{
+		setstate axis_compost_built_model default
+		setstate neutral_compost_closed_clip invisible
+		setstate neutral_compost_closed_model invisible
+
+		trigger axis_compost_built_model enable_axis_features
+
+		enablespeaker axis_compost_sound
+	}
+
+	decayed final
+	{
+		setstate axis_compost_built_model invisible
+		setstate neutral_compost_closed_clip default
+		setstate neutral_compost_closed_model default
+	}
+
+	death
+	{
+		setstate axis_compost_built_model invisible
+		setstate neutral_compost_closed_clip default
+		setstate neutral_compost_closed_model default
+
+		trigger axis_compost_built_model disable_axis_features
+
+		disablespeaker axis_compost_sound
+	}
+}
+
+axis_compost_built_model
+{
+	spawn
+	{
+		wait 400
+		setstate axis_compost_built_model invisible
+	}
+
+	trigger enable_axis_features
+	{
+		setchargetimefactor 0 soldier 0.75
+		setchargetimefactor 0 lieutenant 0.75
+		setchargetimefactor 0 medic 0.75
+		setchargetimefactor 0 engineer 0.75
+		setchargetimefactor 0 covertops 0.75
+		sethqstatus 0 1
+
+		wm_announce	"Axis Command Post constructed. Charge speed increased!"
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "axis_hq_compost_constructed"
+
+		wm_teamvoiceannounce 1 "allies_hq_compost_constructed_axis"
+
+		wm_removeteamvoiceannounce 0 "axis_hq_compost_construct"
+		// *---------------------------------------------------------------------------------*
+
+		wm_objective_status 3 0 1
+		wm_objective_status 3 1 2
+	}
+
+	trigger disable_axis_features
+	{
+		setchargetimefactor 0 soldier 1
+		setchargetimefactor 0 lieutenant 1
+		setchargetimefactor 0 medic 1
+		setchargetimefactor 0 engineer 1
+		setchargetimefactor 0 covertops 1
+		sethqstatus 0 0
+
+		wm_announce	"Allied team has destroyed the Axis Command Post!"
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_addteamvoiceannounce 0 "axis_hq_compost_construct"
+
+		wm_addteamvoiceannounce 1 "allies_hq_compost_construct"
+
+		wm_teamvoiceannounce 0 "axis_hq_compost_damaged"
+
+		wm_teamvoiceannounce 1 "allies_hq_compost_construct"
+		// *---------------------------------------------------------------------------------*
+
+		wm_objective_status 3 0 0
+		wm_objective_status 3 1 0
+	}
+}
+// ================================================
+// ============ 	    CABLE CAR   	 ==============
+// ================================================
+
+cable_trigger
+{
+	spawn
+	{
+	}
+
+	trigger cable_move
+	{
+	trigger cablecar move
+	}
+
+}
+
+cablecar
+{
+	spawn
+		{
+		accum 1 set 0
+		}
+
+	trigger move
+		{
+		accum 1 abort_if_not_equal 0
+		accum 1 set 1
+		stopsound
+		playsound sound/movers/misc/garage_door_start_01.wav volume 96
+		wait 50
+		playsound sound/movers/misc/garage_door_loop_01.wav looping volume 512
+		gotomarker corner1 100 wait
+		gotomarker corner2 110 wait
+		gotomarker corner3 120 wait
+		gotomarker corner4 130 wait
+		gotomarker corner5 140 wait
+		gotomarker corner6 150 wait
+		faceangles 0 90 0 1500
+		gotomarker corner7 140 wait
+		gotomarker corner8 130 wait
+		gotomarker corner9 120 wait
+		gotomarker corner10 110 wait
+		gotomarker corner11 100 wait
+		stopsound
+		playsound sound/movers/misc/garage_door_end_01.wav volume 96
+		wait 5000
+		trigger cablecar return
+		}
+
+	trigger return
+		{
+		stopsound
+		playsound sound/movers/misc/garage_door_start_01.wav volume 96
+		wait 50
+		playsound sound/movers/misc/garage_door_loop_01.wav looping volume 512
+		gotomarker corner10 110 wait
+		gotomarker corner9 120 wait
+		gotomarker corner8 130 wait
+		gotomarker corner7 140 wait
+		gotomarker corner6 150 wait
+		faceangles 0 0 0 1500
+		gotomarker corner5 140 wait
+		gotomarker corner4 130 wait
+		gotomarker corner3 120 wait
+		gotomarker corner2 110 wait
+		gotomarker corner1 100
+		stopsound
+		playsound sound/movers/misc/garage_door_end_01.wav volume 96
+		accum 1 set 0
+		}
+}

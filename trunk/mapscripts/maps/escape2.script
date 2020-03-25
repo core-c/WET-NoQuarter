@@ -1,0 +1,1103 @@
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// Escape2 script by LowLife
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// 220604-2126
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// Do not alter !!!
+//////////////////////////////////////////////////////////////////////////////////////////////////
+game_manager
+{
+	spawn
+	{
+create
+		{
+			classname "team_WOLF_objective"
+			scriptname "axis_command_spawn"
+			targetname "axis_command_spawn"
+			origin "-1420 1213 -140"   // z = CC_FILTER_ALLIES(1) | CC_FILTER_SPAWNS(4)
+			spawnflags 3	 // TEAM_AXIS(3)
+			description "Stairs"
+		}
+
+		// spawn1
+		create
+		{
+			classname "team_CTF_redspawn"
+			targetname "cpspawn"
+			scriptName "cpspawn1"
+			origin "-1538 1225 -140"
+			spawnflags 3 // TEAM_AXIS
+			angle "180"
+		}
+		
+		// spawn2
+		create
+		{
+			classname "team_CTF_redspawn"
+			targetname "cpspawn"
+			scriptName "cpspawn2"
+			origin "-1420 1213 -140"
+			spawnflags 3 // TEAM_AXIS
+			angle "180"
+		}
+		// spawn3
+		create
+		{
+			classname "team_CTF_redspawn"
+			targetname "cpspawn"
+			scriptName "cpspawn3"
+			origin "-1339 1215 -140"
+			spawnflags 3 // TEAM_AXIS
+			angle "180"
+		} 
+//roof door
+create
+		{
+			scriptName "objdoor1"
+			targetname "objdoor1"
+			classname "func_door_rotating"
+			allowteams "axis"
+			type "5"
+			origin "-1624 1153 -153"
+			angle "270"	
+			model "*3"
+			modelscale 1.00
+		}
+
+
+//roof door2
+//create
+//		{
+//			scriptName "objdoor1"
+//			targetname "objdoor1"
+//			classname "func_static"
+//			allowteams "axis"
+//			type "2"
+//			origin "-1624 1165 -70"
+//			angle "270"	
+//			model "*17"
+//			modelscale 1.00
+//		}
+
+
+
+//under door jobb
+create
+		{
+			scriptName "objdoor"
+			targetname "objdoor"
+			classname "func_door"
+			allowteams "axis"
+			type "5"
+			origin "-1790 1655 -300"
+			model "*16"
+			modelscale 1.00
+		}
+//bal
+create
+		{
+			scriptName "objdoor"
+			targetname "objdoor"
+			classname "func_door"
+			allowteams "axis"
+			type "5"
+			angle "180"
+			origin "-1855 1655 -300"
+			model "*28"
+			modelscale 1
+}
+
+		// Scenario information
+
+		wm_axis_respawntime 20
+		wm_allied_respawntime 15
+		wm_number_of_objectives 8
+		wm_set_round_timelimit 30
+
+		// Objectives
+		wm_objective_status 1 0 0  // Assault ramp
+		wm_objective_status 1 1 0
+		wm_objective_status 2 0 0  // Fences
+		wm_objective_status 2 1 0
+		wm_objective_status 3 0 0  // Main gate
+		wm_objective_status 3 1 0
+		wm_objective_status 4 0 0  // Command post
+		wm_objective_status 4 1 0
+		wm_objective_status 5 0 0  // Pile of crates
+		wm_objective_status 5 1 0
+		wm_objective_status 6 0 0  // Ammo cache
+		wm_objective_status 6 1 0
+		wm_objective_status 7 0 0  // The wall
+		wm_objective_status 7 1 0
+		wm_objective_status 8 0 0  // Gate control
+		wm_objective_status 8 1 0
+
+
+		wm_set_defending_team 0
+		wm_setwinner 0
+		globalaccum 1 set 0  // spawn ammo AND wall
+		globalaccum 2 set 0  // gate blown ?
+		globalaccum 3 set 0  // lookout belongs to
+		globalaccum 4 set 0  // fence counter
+		globalaccum 5 set 0
+		globalaccum 6 set 0
+		accum 1 set 0
+		globalaccum 0 set 0
+		wait 100
+		alertentity abaxis
+		setstate abobj invisible
+		setstate gatespawn invisible
+		setautospawn	"Allied barrack"	1
+		setautospawn	"Lookout"	0
+		wait 2000
+		setautospawn	"Allied barrack"	1
+		setautospawn	"Lookout"	0
+	}
+
+	trigger fence_count
+	{
+		globalaccum 4 abort_if_not_equal 3
+		wm_objective_status 2 0 2  // Fences
+		wm_objective_status 2 1 1
+	}
+
+
+
+	trigger objective1
+	{
+		accum 1 set 1
+		trigger game_manager checkgame
+	}
+
+	trigger forwardflagblue
+	{
+		wm_announce	"Allies capture the forward spawn!"
+
+	}
+
+	trigger forwardflagred
+	{
+		wm_announce	"Axis capture the forward spawn!"
+
+	}
+	trigger check
+	{
+		globalaccum 5 abort_if_not_equal 0
+		wm_setwinner 0
+		wait 2000
+		setautospawn	"Allied barrack"	1
+		setautospawn	"Lookout"	0
+		wm_endround
+	}
+
+
+	trigger checkgame
+	{
+		accum 1 abort_if_not_equal 1
+		wm_setwinner 1
+		wm_objective_status 8 0 2  // Gate control
+		wm_objective_status 8 1 1
+		wm_announce "The allies have escaped with the codebook !!!"
+		wait 2000
+		setautospawn	"Allied barrack"	1
+		setautospawn	"Lookout"	0
+		wm_endround
+	}
+}
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// Roof
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+roof
+{
+	spawn
+	{
+	}
+	trigger fallroof
+	{
+		faceangles 0 0 10 500
+		faceangles 0 0 21 200
+		faceangles 0 0 33 100
+	}
+
+
+}
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// Forward spawn
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+forward_spawn
+{
+	spawn
+	{
+		wait 200
+		setstate forwardflag_wobj invisible
+		accum 0 set 0
+	}
+
+	trigger axis_capture
+	{
+		trigger game_manager forwardflagred
+		trigger forward_spawn setaxis
+		globalaccum 0 abort_if_equal 0
+		setautospawn	"Feldkommandantur"	0
+	}
+
+	trigger allied_capture
+	{
+		trigger game_manager forwardflagblue
+		trigger forward_spawn setallies
+		setautospawn	"Feldkommandantur"	1
+	}
+
+	trigger setaxis
+	{
+		setstate forwardflag_wobj default
+		accum 0 abort_if_equal 0
+		accum 0 set 0
+		alertentity forwardflag_wobj
+	}
+
+	trigger setallies
+	{
+		setstate forwardflag_wobj default
+		accum 0 abort_if_equal 1
+		accum 0 set 1
+		alertentity forwardflag_wobj
+	}
+	trigger force_allied
+	{
+		//setstate forwardflag_wobj default
+		setautospawn	"Stairs"	0
+		setautospawn	"Ammo bunker"	1
+	}
+	trigger kill
+	{
+		remove
+	}
+}
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// Book pole
+//////////////////////////////////////////////////////////////////////////////////////////////////
+tfm2_script
+{
+	spawn
+	{
+	}
+
+	death
+	{
+		globalaccum 6 set 1
+		trigger game_manager check
+		globalaccum 5 abort_if_not_equal 1
+		wm_announce "Allies got away with the codebook"
+		trigger game_manager objective1
+	}
+}
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// Book flag
+//////////////////////////////////////////////////////////////////////////////////////////////////
+ctf2_script
+{
+	trigger stolen
+	{
+	wm_announce	"They have stolen codebook"
+	globalaccum 5 set 1
+	setstate ccmm invisible
+	}
+
+	trigger returned
+	{
+	wm_announce	"The codebook has been returned"
+	globalaccum 5 set 0
+	setstate ccmm default
+	}
+
+	trigger captured
+	{
+	globalaccum 6 set 1
+	trigger game_manager check
+	globalaccum 5 abort_if_not_equal 1
+	setstate ccmm invisible
+	}
+}
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// Shell pole
+//////////////////////////////////////////////////////////////////////////////////////////////////
+tfm1_script
+{
+	spawn
+	{
+		setstate shellpoletrigger invisible
+	}
+
+	death
+	{
+		setstate hide invisible
+
+	}
+}
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// Shell flag
+//////////////////////////////////////////////////////////////////////////////////////////////////
+ctf1_script
+{
+	trigger stolen
+	{
+	wm_announce	"The allies has stolen the big shell"
+	setstate shellpoletrigger default
+	setstate shellclip invisible
+	setstate scmm invisible
+	setstate shellinfo invisible
+	}
+
+	trigger returned
+	{
+	wm_announce	"The big shell has been returned"
+	setstate shellpoletrigger invisible
+	setstate shellclip default
+	setstate scmm default
+	setstate shellinfo default
+	}
+
+	trigger captured
+	{
+	setstate scmm invisible
+	globalaccum 6 abort_if_not_equal 0
+	wm_announce	"The big shell has been loaded"
+	}
+}
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// Wall explosion
+//////////////////////////////////////////////////////////////////////////////////////////////////
+blow
+{
+	spawn
+	{
+		wait 500
+		constructible_class 3
+	}
+
+	death
+	{
+		wm_announce "The allies have blown the wall"
+		wm_objective_status 7 0 2  // The wall
+		wm_objective_status 7 1 1
+		globalaccum 0 set 1
+		trigger gatefall fall
+		setstate gcmm invisible
+		setstate hide default
+		setstate shellpoletrigger invisible
+		setstate wallclip invisible
+		globalaccum 1 inc 1
+		globalaccum 1 abort_if_not_equal 2
+		trigger forward_spawn force_allied
+		trigger forward_spawn kill
+		alertentity abally
+		alertentity abobj
+		setautospawn	"Ammo bunker"	1
+		setautospawn	"Stairs"	0
+		setstate forward invisible
+		setstate forward_spawn invisible
+		wm_allied_respawntime 15
+
+	
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// Wallgate
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+gatefall
+{
+	spawn
+	{
+	}
+	trigger fall
+	{
+		faceangles 25 0 0 1500
+		faceangles 50 0 0 1000
+		faceangles 75 0 0 500
+		faceangles 100 0 0 200
+	}
+
+
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// Gate explosion
+//////////////////////////////////////////////////////////////////////////////////////////////////
+exp3_script
+{
+	spawn
+	{
+		wait 500
+		constructible_class 3
+	}
+
+	death
+	{
+
+		wm_announce   "The allies have destroyed the main gate!"
+		wm_objective_status 3 0 2  // Main gate
+		wm_objective_status 3 1 1
+		trigger blowgateright fallr
+		trigger blowgateleft falll
+		globalaccum 2 set 1
+		globalaccum 3 abort_if_equal 1
+		alertentity allylookout
+		alertentity axislookout
+		alertentity objlookout
+		setautospawn	"Feldkommandantur"	1
+		globalaccum 3 set 1
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// Gateblowleft
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+blowgateleft
+{
+	spawn
+	{
+	}
+	trigger falll
+	{
+		faceangles 11 359 0 400
+		faceangles 22 358 0 200
+		faceangles 33 357 0 100
+	}
+
+
+}
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// Gateblowright
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+blowgateright
+{
+	spawn
+	{
+	}
+	trigger fallr
+	{
+		faceangles 353 0 0 500
+		faceangles 345 0 30 250
+		faceangles 337 1 95 100
+	}
+
+
+}
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// Grate explosion
+//////////////////////////////////////////////////////////////////////////////////////////////////
+grate
+{
+	spawn
+	{
+		wait 500
+		constructible_class 2
+	}
+
+	death
+	{
+		wm_announce   "The allies have destroyed the cellar grate!"
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// Electric fence explosion
+//////////////////////////////////////////////////////////////////////////////////////////////////
+exp4_script
+{
+	spawn
+	{
+		wait 500
+		constructible_class 3
+	}
+
+	death
+	{
+		wm_announce   "The allies have destroyed the electric fence!"
+		globalaccum 4 inc 1
+		trigger game_manager fence_count
+		setstate elclip invisible
+
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// Vent explosion
+//////////////////////////////////////////////////////////////////////////////////////////////////
+vent
+{
+	spawn
+	{
+		wait 500
+		constructible_class 3
+	}
+
+	death
+	{
+		wm_announce   "The allies have destroyed the ventilator!"
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// Ammo cache explosion
+//////////////////////////////////////////////////////////////////////////////////////////////////
+exp5_script
+{
+	spawn
+	{
+		wait 500
+		constructible_class 3
+		setstate snowclip default
+		setstate snowammo invisible
+	}
+
+	death
+	{
+		wm_announce   "The allies have destroyed the ammo cache!"
+		wm_objective_status 6 0 2  // Ammo cache
+		wm_objective_status 6 1 1
+		trigger roof fallroof
+		alertentity ammodelay
+		setstate abobj default
+		setstate snowclip invisible
+		setstate snowammo default
+		globalaccum 1 inc 1
+		globalaccum 1 abort_if_not_equal 2
+		trigger forward_spawn force_allied
+		trigger forward_spawn kill
+		alertentity abally
+		alertentity abobj
+		setautospawn	"Ammo bunker"	1
+		setautospawn	"Stairs"	0
+		setstate forward invisible
+		setstate forward_spawn invisible
+		wm_allied_respawntime 15
+	}
+}
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// East fence explosion
+//////////////////////////////////////////////////////////////////////////////////////////////////
+eastfence
+{
+	spawn
+	{
+    	wait 200
+    	constructible_class 2
+    	setstate mat_eastfence invisible
+   	}
+
+	buildstart final
+	{
+	}
+
+	built final
+	{
+	    setstate con_eastfence default
+    	setstate mat_eastfence invisible
+    	globalaccum 4 inc -1
+    	wm_announce   "Axis team has rebuilt the east fence !!!!"
+	}
+
+	decayed final
+	{
+	}
+
+	death
+	{
+		setstate con_eastfence invisible
+    	setstate mat_eastfence default
+    	globalaccum 4 inc 1
+		trigger game_manager fence_count
+		wm_announce   "The allies have destroyed the east fence !!!!"
+	}
+
+
+}
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// West fence explosion
+//////////////////////////////////////////////////////////////////////////////////////////////////
+westfence
+{
+	spawn
+	{
+    	wait 200
+    	constructible_class 3
+    	setstate mat_westfence invisible
+   	}
+
+	buildstart final
+	{
+	}
+
+	built final
+	{
+	    setstate con_westfence default
+    	setstate mat_westfence invisible
+    	setstate spear default
+    	globalaccum 4 inc -1
+    	wm_announce   "Axis team has rebuilt the west fence !!!!"
+	}
+
+	decayed final
+	{
+	}
+
+	death
+	{
+		setstate con_westfence invisible
+    	setstate mat_westfence default
+    	setstate spear invisible
+		globalaccum 4 inc 1
+		trigger game_manager fence_count
+		wm_announce   "The allies have destroyed the west fence !!!!"
+	}
+
+
+}
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// Wooden barrier
+//////////////////////////////////////////////////////////////////////////////////////////////////
+con1_script
+{
+	spawn
+	{
+    	wait 200
+    	constructible_class 2    	
+    	trigger self startup
+	}
+
+	buildstart final
+	{
+	}
+
+	built final
+	{
+	    setstate con1 default
+    	setstate mat1 invisible
+    	wm_announce   "Axis team has built the wooden barrier!"
+	}
+
+	decayed final
+	{
+		trigger self startup
+	}
+
+	death
+	{
+		trigger self startup
+		wm_announce   "Allied team has destroyed the wooden barrier!"
+	}
+
+	trigger startup
+	{
+		setstate con1 invisible
+		setstate mat1 default
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// Exit
+//////////////////////////////////////////////////////////////////////////////////////////////////
+fake
+{
+	spawn
+	{
+    	wait 500
+    	constructible_class 2
+    	setstate red default
+		setstate green invisible
+		setstate dummypole default
+		setstate fake invisible
+   	}
+
+	buildstart final
+	{
+	}
+
+	built final
+	{
+	    setstate red invisible
+		setstate green default
+		setstate dummypole invisible
+		setstate fake default
+		alertentity timer
+    	wm_announce   "Allied team has opened the main entrance"
+    	trigger left open
+		trigger right open
+	}
+
+	decayed final
+	{
+	}
+
+	death
+	{
+		setstate red default
+		setstate green invisible
+		setstate dummypole default
+		setstate fake invisible
+		wm_announce   "Axis team has closed the main entrance"
+		alertentity timer
+		wm_objective_status 8 0 0  // Gate control
+		wm_objective_status 8 1 0
+		trigger left close
+		trigger right close
+	}
+
+}
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// Right door
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+right
+{
+	spawn
+	{
+	}
+	trigger open
+	{
+		faceangles 0 270 0 3000
+	}
+	trigger close
+	{
+		faceangles 0 0 0 10000
+	}
+}
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// Left door
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+left
+{
+	spawn
+	{
+	}
+	trigger open
+	{
+		faceangles 0 90 0 4000
+	}
+	trigger close
+	{
+		faceangles 0 360 0 12000
+	}
+}
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// Assault ramp
+//////////////////////////////////////////////////////////////////////////////////////////////////
+con2_script
+{
+	spawn
+	{
+    	wait 200
+    	constructible_class 3
+    	constructible_chargebarreq 1.3
+    	trigger self startup
+	}
+
+	buildstart final
+	{
+	}
+
+	built final
+	{
+	    setstate con2 default
+    	setstate mat2 invisible
+    	wm_announce   "Allied team has built the assault ramp!"
+    	wm_objective_status 1 0 0  // Assault ramp
+		wm_objective_status 1 1 1
+		globalaccum 3 abort_if_equal 1
+    	alertentity allylookout
+		alertentity axislookout
+		alertentity objlookout
+		setautospawn	"Feldkommandantur"	1
+		globalaccum 3 set 1
+		globalaccum 0 set 1
+	}
+
+	decayed final
+	{
+		trigger self startup
+	}
+
+	death
+	{
+		trigger self startup
+		wm_announce   "Axis team has destroyed the assault ramp!"
+		wm_objective_status 1 0 1  // Assault ramp
+		wm_objective_status 1 1 0
+		globalaccum 2 abort_if_equal 1
+		alertentity allylookout
+		alertentity axislookout
+		alertentity objlookout
+		setautospawn	"Lookout"	0
+		globalaccum 3 set 0
+		globalaccum 0 set 0
+	}
+
+	trigger startup
+	{
+		setstate con2 invisible
+		setstate mat2 default
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// Pile of crates
+//////////////////////////////////////////////////////////////////////////////////////////////////
+con3_script
+{
+	spawn
+	{
+    	wait 500
+    	constructible_class 2
+    	trigger self startup
+	}
+
+	buildstart final
+	{
+	}
+
+	built final
+	{
+	    setstate con3 default
+    	setstate mat3 invisible
+    	wm_announce   "Allied team has stacked the pile of crates!"
+    	wm_objective_status 5 0 0  // Pile of crates
+		wm_objective_status 5 1 1
+	}
+
+	decayed final
+	{
+		trigger self startup
+	}
+
+	death
+	{
+		trigger self startup
+		wm_announce   "Axis team has destroyed the pile of crates!"
+		wm_objective_status 5 0 1  // Pile of crates
+		wm_objective_status 5 1 0
+	}
+
+	trigger startup
+	{
+		setstate con3 invisible
+		setstate mat3 default
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// Neutral command post
+//////////////////////////////////////////////////////////////////////////////////////////////////
+allied_compost_built
+{
+	spawn
+	{
+		wait 200
+		trigger allied_compost_built setup
+		constructible_class 2
+	}
+
+	trigger setup
+	{
+		setchargetimefactor 1 soldier 1
+		setchargetimefactor 1 lieutenant 1
+		setchargetimefactor 1 medic 1
+		setchargetimefactor 1 engineer 1
+		setchargetimefactor 1 covertops 1
+		sethqstatus 1 0
+	}
+
+	buildstart final
+	{
+		setstate allied_compost_built_model underconstruction
+		setstate neutral_compost_closed_clip invisible
+		setstate neutral_compost_closed_model invisible
+	}
+
+	built final
+	{
+		setstate allied_compost_built_model default
+		setstate neutral_compost_closed_clip invisible
+		setstate neutral_compost_closed_model invisible
+		trigger allied_compost_built_model enable_allied_features
+		enablespeaker allies_compost_sound
+	}
+
+	decayed final
+	{
+		setstate allied_compost_built_model invisible
+		setstate neutral_compost_closed_clip default
+		setstate neutral_compost_closed_model default
+	}
+
+	death
+	{
+		setstate allied_compost_built_model invisible
+		setstate neutral_compost_closed_clip default
+		setstate neutral_compost_closed_model default
+		trigger allied_compost_built_model disable_allied_features
+		disablespeaker allies_compost_sound
+	}
+}
+
+allied_compost_built_model
+{
+	spawn
+	{
+		wait 200
+		setstate allied_compost_built_model invisible
+		accum 0 set 0
+	}
+
+	trigger enable_allied_features
+	{
+		setchargetimefactor 1 soldier 0.75
+		setchargetimefactor 1 lieutenant 0.75
+		setchargetimefactor 1 medic 0.75
+		setchargetimefactor 1 engineer 0.75
+		setchargetimefactor 1 covertops 0.75
+		sethqstatus 1 1
+		wm_announce	"Allied Command Post constructed. Charge speed increased!"
+		wm_teamvoiceannounce 0 "axis_hq_compost_constructed_allies"
+		wm_teamvoiceannounce 1 "allies_hq_compost_constructed"
+		wm_removeteamvoiceannounce 1 "allies_hq_compost_construct"
+		wm_objective_status 4 0 2
+		wm_objective_status 4 1 1
+	
+	}
+
+	trigger disable_allied_features
+	{
+		setchargetimefactor 1 soldier 1
+		setchargetimefactor 1 lieutenant 1
+		setchargetimefactor 1 medic 1
+		setchargetimefactor 1 engineer 1
+		setchargetimefactor 1 covertops 1
+		sethqstatus 1 0
+		wm_announce	"Axis team has destroyed the Allied Command Post!"
+		wm_addteamvoiceannounce 0 "axis_hq_compost_construct"
+		wm_addteamvoiceannounce 1 "allies_hq_compost_construct"
+		wm_teamvoiceannounce 0 "axis_hq_compost_construct"
+		wm_teamvoiceannounce 1 "allies_hq_compost_damaged"
+		wm_objective_status 4 0 0
+		wm_objective_status 4 1 0
+	}
+}
+
+axis_compost_built
+{
+	spawn
+	{
+		wait 200
+		trigger axis_compost_built setup
+		constructible_class 2
+	}
+
+	trigger setup
+	{
+		setchargetimefactor 0 soldier 1
+		setchargetimefactor 0 lieutenant 1
+		setchargetimefactor 0 medic 1
+		setchargetimefactor 0 engineer 1
+		setchargetimefactor 0 covertops 1
+		sethqstatus 0 0
+	}
+
+	buildstart final
+	{
+		setstate axis_compost_built_model underconstruction
+		setstate neutral_compost_closed_clip invisible
+		setstate neutral_compost_closed_model invisible
+	}
+
+	built final
+	{
+		setstate axis_compost_built_model default
+		setstate neutral_compost_closed_clip invisible
+		setstate neutral_compost_closed_model invisible
+		trigger axis_compost_built_model enable_axis_features
+		enablespeaker axis_compost_sound
+	}
+
+	decayed final
+	{
+		setstate axis_compost_built_model invisible
+		setstate neutral_compost_closed_clip default
+		setstate neutral_compost_closed_model default
+	}
+
+	death
+	{
+		setstate axis_compost_built_model invisible
+		setstate neutral_compost_closed_clip default
+		setstate neutral_compost_closed_model default
+		trigger axis_compost_built_model disable_axis_features
+		disablespeaker axis_compost_sound
+	}
+}
+
+axis_compost_built_model
+{
+	spawn
+	{
+		wait 200
+		setstate axis_compost_built_model invisible
+	}
+
+	trigger enable_axis_features
+	{
+		setchargetimefactor 0 soldier 0.75
+		setchargetimefactor 0 lieutenant 1
+		setchargetimefactor 0 medic 0.75
+		setchargetimefactor 0 engineer 0.75
+		setchargetimefactor 0 covertops 0.75
+		sethqstatus 0 1
+		wm_announce	"Axis Command Post constructed. Charge speed increased!"
+		wm_teamvoiceannounce 0 "axis_hq_compost_constructed"
+		wm_teamvoiceannounce 1 "allies_hq_compost_constructed_axis"
+		wm_removeteamvoiceannounce 0 "axis_hq_compost_construct"
+		wm_objective_status 4 0 1
+		wm_objective_status 4 1 2
+	}
+
+	trigger disable_axis_features
+	{
+		setchargetimefactor 0 soldier 1
+		setchargetimefactor 0 lieutenant 1
+		setchargetimefactor 0 medic 1
+		setchargetimefactor 0 engineer 1
+		setchargetimefactor 0 covertops 1
+		sethqstatus 0 0
+		wm_announce	"Allied team has destroyed the Axis Command Post!"
+		wm_addteamvoiceannounce 0 "axis_hq_compost_construct"
+		wm_addteamvoiceannounce 1 "allies_hq_compost_construct"
+		wm_teamvoiceannounce 0 "axis_hq_compost_damaged"
+		wm_teamvoiceannounce 1 "allies_hq_compost_construct"
+		wm_objective_status 4 0 0
+		wm_objective_status 4 1 0
+	}
+}
+

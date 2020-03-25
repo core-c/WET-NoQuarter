@@ -1,0 +1,130 @@
+#ifdef NQUI
+
+#include "ui/menudef2.h"
+
+// Defines //
+#define WINDOW_X		16
+#define WINDOW_Y		16
+#define WINDOW_WIDTH		305
+#define WINDOW_HEIGHT		387
+#define GROUP_NAME		"grpOptionsNQDisplay"
+
+#else	// NQUI
+
+#include "ui/menudef.h"
+
+// Defines //
+#define WINDOW_X		16
+#define WINDOW_Y		16
+//#define WINDOW_WIDTH	608
+#define WINDOW_WIDTH	305
+#define WINDOW_HEIGHT	356
+#define GROUP_NAME		"grpOptionsNQDisplay"
+
+#endif	// NQUI
+
+
+// Macros //
+#ifdef NQUI
+#include "ui/menumacros2.h"
+#else
+#include "ui/menumacros.h"
+#endif
+
+// Customise Game Menu //
+
+menuDef {
+	name		"options_nq_display"
+	visible		0
+	fullscreen	0
+	rect		WINDOW_X WINDOW_Y WINDOW_WIDTH WINDOW_HEIGHT
+	style		WINDOW_STYLE_FILLED
+
+	onESC {
+		close options_nq_display ;
+		open options_nq;
+		}
+
+// Window //
+
+	WINDOW( "^?NO QUARTER DISPLAY^7", 94 )
+
+// Display Options //
+
+#ifdef NQUI
+
+// Subwindows //
+#define SUBWINDOW_WIDTH		WINDOW_WIDTH-12
+#define DISP_Y			32
+#define DISP_HEIGHT		168
+#define SKILL_Y			DISP_Y+DISP_HEIGHT+4
+#define SKILL_HEIGHT		74
+#define FONT_Y			SKILL_Y+SKILL_HEIGHT+4
+#define FONT_HEIGHT		36
+#define SPEC_Y			FONT_Y+FONT_HEIGHT+4
+#define SPEC_HEIGHT		36
+
+	SUBWINDOW( 6, (DISP_Y), (SUBWINDOW_WIDTH), DISP_HEIGHT, "^1DRAW" )
+	MULTI( 8, (DISP_Y)+18, (SUBWINDOW_WIDTH)-4, 10, "Muzzle Flash:", .2, 8, "cg_drawMuzzleFlash", cvarFloatList { "Off" 0 "On" 1 "Draw Only Smoke" 2  "Smoke And Flash" 3 }, "Toggle Muzzle Flash" )
+	YESNO( 8, (DISP_Y)+30, (SUBWINDOW_WIDTH)-4, 10, "Bullet Tracers:", .2, 8, "cg_drawTracers", "Toggle Bullet Tracers" )
+	YESNO( 8, (DISP_Y)+42, (SUBWINDOW_WIDTH)-4, 10, "Gibs:", .2, 8, "cg_gibs", "Toggle Giblets" ) 
+	YESNO( 8, (DISP_Y)+54, (SUBWINDOW_WIDTH)-4, 10, "Explosions:", .2, 8, "cg_wolfParticles", "Toggle Explosions" )
+	YESNO( 8, (DISP_Y)+66, (SUBWINDOW_WIDTH)-4, 10, "Smoke:", .2, 8, "cg_smokeparticles", "Toggle Smoke Particles" )
+	YESNO( 8, (DISP_Y)+78, (SUBWINDOW_WIDTH)-4, 10, "Impact Particles:", .2, 8, "cg_impactparticles", "Toggle Impact Particles" ) 
+	YESNO( 8, (DISP_Y)+90, (SUBWINDOW_WIDTH)-4, 10, "Trails:", .2, 8, "cg_trailparticles", "Toggle Grenade, Panzer, And Mortar Trails" )
+	YESNO( 8, (DISP_Y)+102, (SUBWINDOW_WIDTH)-4, 10, "RTCW Shakes:", .2, 8, "cg_rtcwShake", "Use Shaking Style From RTCW" )
+	MULTI( 8, (DISP_Y+114), (SUBWINDOW_WIDTH)-4, 10, "Player Shadows:", .2, 8, "cg_shadows", cvarFloatList { "On" 1 "Off" 0 }, "Toggle Player Shadows" )
+	MULTI( 8, (DISP_Y+126), (SUBWINDOW_WIDTH)-4, 10, "Announcements:", .2, 8, "cg_announcer", cvarFloatList { "On" 1 "Off" 0 }, "Toggle Announcer Texts" )
+	MULTI( 8, (DISP_Y+138), (SUBWINDOW_WIDTH)-4, 10, "Kill Announcements:", .2, 8, "cg_killAnnouncer", cvarFloatList { "Off" 0 "Spree + Multikill" 1 "Own Kills" 2 "All" 3 }, "Name Drawing For Spree, Multikill & Own Kills" )
+	MULTI( 8, (DISP_Y+150), (SUBWINDOW_WIDTH)-4, 10, "Graphic Obituaries:", .2, 8, "cg_graphicObituaries", cvarStrList { "Off"; "0"; "Killer Weapon Victim"; "1"; "Victim Weapon Killer"; "2" }, "Draw Obituary Icons Instead Of Texts" )
+
+	SUBWINDOW( 6, (SKILL_Y), (SUBWINDOW_WIDTH), SKILL_HEIGHT, "^1SKILL VISUALISATION" )
+	CHECKBOXACTIONBITFLAG( 0.5*(SUBWINDOW_WIDTH-4), (SKILL_Y+18), (SUBWINDOW_WIDTH)-4, 10, "Ammo Sensory (Signals lvl 6)", .2, 0.5*(SUBWINDOW_WIDTH-47), 8, "cg_skillViewOptions", 2, togglecvarbit cg_skillViewOptions 2, "" )
+	CHECKBOXACTIONBITFLAG( 0.5*(SUBWINDOW_WIDTH-4), (SKILL_Y+30), (SUBWINDOW_WIDTH)-4, 10, "Dynamite Prediction (Battle Sense lvl 7)", .2, 0.5*(SUBWINDOW_WIDTH-47), 8, "cg_skillViewOptions", 4, togglecvarbit cg_skillViewOptions 4, "" )
+	CHECKBOXACTIONBITFLAG( 0.5*(SUBWINDOW_WIDTH-4), (SKILL_Y+42), (SUBWINDOW_WIDTH)-4, 10, "Danger Awareness (Battle Sense lvl 8)", .2, 0.5*(SUBWINDOW_WIDTH-47), 8, "cg_skillViewOptions", 8, togglecvarbit cg_skillViewOptions 8, "" )
+	CHECKBOXACTIONBITFLAG( 0.5*(SUBWINDOW_WIDTH-4), (SKILL_Y+54), (SUBWINDOW_WIDTH)-4, 10, "Battlefield Briefing (Battle Sense lvl 9)", .2, 0.5*(SUBWINDOW_WIDTH-47), 8, "cg_skillViewOptions", 16, togglecvarbit cg_skillViewOptions 16, "" )
+
+	SUBWINDOW( 6, (FONT_Y), (SUBWINDOW_WIDTH), FONT_HEIGHT, "^1SMALL FONT" )
+	CHECKBOXACTIONBITFLAG( 14, (FONT_Y+18), 60, 10, "Chats", .2, 2, 8, "cg_smallFont", 1, togglecvarbit cg_smallFont 1, "" )
+	CHECKBOXACTIONBITFLAG( 116, (FONT_Y+18), 70, 10, "Popups", .2, 8, 8, "cg_smallFont", 2, togglecvarbit cg_smallFont 2, "" )
+	CHECKBOXACTIONBITFLAG( 191, (FONT_Y+18), 74, 10, "Mission", .2, 12, 8, "cg_smallFont", 4, togglecvarbit cg_smallFont 4, "" )
+	CHECKBOXACTIONBITFLAG( 264, (FONT_Y+18), 60, 10, "Limbo", .2, 8, 8, "cg_smallFont", 8, togglecvarbit cg_smallFont 8, "" )
+
+	SUBWINDOW( 6, (SPEC_Y), (SUBWINDOW_WIDTH), SPEC_HEIGHT, "^1SPECTATOR" )
+	CHECKBOXACTIONBITFLAG( 14, (SPEC_Y+18), 60, 10, "Glow", .2, 2, 8, "cg_spectator", 1, togglecvarbit cg_spectator 1, "If The Server Has It Enabled, You Can Choose To Use It" )
+	CHECKBOXACTIONBITFLAG( 132, (SPEC_Y+18), 90, 10, "Playernames", .2, 22, 8, "cg_spectator", 2, togglecvarbit cg_spectator 2, "If The Server Has It Enabled, You Can Choose To Use It" )
+
+#else	// NQUI
+
+// Subwindows //
+//#define SUBWINDOW_WIDTH	.5*(WINDOW_WIDTH-22)
+#define SUBWINDOW_WIDTH		WINDOW_WIDTH-12
+#define CONTROLS_HEIGHT 	WINDOW_HEIGHT-64
+#define DISP_HEIGHT		CONTROLS_HEIGHT
+#define CONTROLS_Y 		32
+#define DISP_Y			CONTROLS_Y
+		
+	SUBWINDOW( 6, (DISP_Y), (SUBWINDOW_WIDTH), 120, "^1DISPLAY" )
+	MULTI( 8, (DISP_Y)+18, (SUBWINDOW_WIDTH)-4, 10, "Draw Muzzle Flash:", .2, 8, "cg_drawMuzzleFlash", cvarFloatList { "Off" 0 "On" 1 "Draw Only Smoke" 2  "Smoke And Flash" 3 }, "Toggle Muzzle Flash" )
+	YESNO( 8, (DISP_Y)+30, (SUBWINDOW_WIDTH)-4, 10, "Draw Bullet Tracers:", .2, 8, "cg_drawTracers", "Toggle Bullet Tracers" )
+	YESNO( 8, (DISP_Y)+42, (SUBWINDOW_WIDTH)-4, 10, "Draw Gibs:", .2, 8, "cg_gibs", "Toggle Giblets" ) 
+	YESNO( 8, (DISP_Y)+54, (SUBWINDOW_WIDTH)-4, 10, "Draw Explosions:", .2, 8, "cg_wolfParticles", "Toggle Explosions" )
+	YESNO( 8, (DISP_Y)+66, (SUBWINDOW_WIDTH)-4, 10, "Draw Smoke:", .2, 8, "cg_smokeparticles", "Toggle Smoke Particles" )
+	YESNO( 8, (DISP_Y)+78, (SUBWINDOW_WIDTH)-4, 10, "Draw Impact Particles:", .2, 8, "cg_impactparticles", "Toggle Impact Particles" ) 
+	YESNO( 8, (DISP_Y)+90, (SUBWINDOW_WIDTH)-4, 10, "Draw Trails:", .2, 8, "cg_trailparticles", "Toggle Grenade, Panzer, and Mortar Trails" )
+	YESNO( 8, (DISP_Y)+102, (SUBWINDOW_WIDTH)-4, 10, "Draw RTCW Shakes:", .2, 8, "cg_rtcwShake", "Use Shaking Style from RTCW" )
+	
+	SUBWINDOW( 6, (DISP_Y+124), (SUBWINDOW_WIDTH), 168, "^1SKILL VISUALISATION" )
+	MULTI( 8, (DISP_Y)+142, (SUBWINDOW_WIDTH)-4, 10, "Skill View:", .2, 8, "cg_skillViewOptions", cvarFloatList { "All Visible" 31 "28" 29 "26" 27 "24" 25 "22" 23 "20" 21 "18" 19 "16" 17 "14" 15 "12" 13 "10" 11 "8" 9 "6" 7 "4" 5 "2" 3 "All Disabled" 1 }, "Specify the view of several skills" )	
+	LABEL( .0*(WINDOW_WIDTH)+12, 190, .9*(WINDOW_WIDTH-1), 10, "^72^9*Ammo Sensory (Signals lvl 6)", .2, ITEM_ALIGN_LEFT, 0, 8 ) 	
+	LABEL( .0*(WINDOW_WIDTH)+12, 202, .9*(WINDOW_WIDTH-1), 10, "^74^9*Dynamite Prediction (Battle Sense lvl 7)", .2, ITEM_ALIGN_LEFT, 0, 8 ) 	
+	LABEL( .0*(WINDOW_WIDTH)+12, 214, .9*(WINDOW_WIDTH-1), 10, "^78^9*Danger Awareness (Battle Sense lvl 8)", .2, ITEM_ALIGN_LEFT, 0, 8 ) 	
+	LABEL( .0*(WINDOW_WIDTH)+12, 226, .9*(WINDOW_WIDTH-1), 10, "^716^9*Battlefield Briefing (Battle Sense lvl 9)", .2, ITEM_ALIGN_LEFT, 0, 8 ) 	
+	LABELWHITE( .0*(WINDOW_WIDTH)+12, 248, .9*(WINDOW_WIDTH-1), 10, "Select your prefered view in the field above. By default filter is disabled.", .2, ITEM_ALIGN_LEFT, 0, 8 ) 
+	LABELWHITE( .0*(WINDOW_WIDTH)+12, 284, .9*(WINDOW_WIDTH-1), 10, "For example if you only want to use the Ammo Sensory(2) and Danger Awareness(8) skill you need to set the cvar to 10 (2+8).", .2, ITEM_ALIGN_LEFT, 0, 8 )
+
+#endif	// NQUI
+
+	BUTTON( 6, WINDOW_HEIGHT-24, SUBWINDOW_WIDTH, 18, "BACK", .3, 14, close options_nq_display ; open options_nq )
+
+}

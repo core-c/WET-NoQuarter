@@ -1,0 +1,252 @@
+// news reel
+
+news_battery
+{
+	sound sound/vo/battery/news_battery.wav
+	voice
+	streaming
+}
+
+
+// allied commander
+
+radardest
+{
+	sound sound/extra/radardest.wav
+	voice
+	streaming
+}
+
+radardyn
+{
+	sound sound/extra/radardyn.wav
+	voice
+	streaming
+}
+
+radardef
+{
+	sound sound/extra/radardef.wav
+	voice
+	streaming
+}
+
+
+battery_allies_ramp_construct
+{
+	sound sound/vo/battery/allies/hq_rampcon.wav
+	voice
+	streaming
+}
+
+battery_allies_ramp_constructed
+{
+	sound sound/vo/battery/allies/hq_rampconst.wav
+	voice
+	streaming
+}
+
+battery_allies_ramp_destroyed
+{
+	sound sound/vo/battery/allies/hq_rampdest.wav
+	voice
+	streaming
+}
+
+battery_allies_generator_destroy
+{
+	sound sound/vo/battery/allies/hq_gendyn.wav
+	voice
+	streaming
+}
+
+battery_allies_generator_destroyed
+{
+	sound sound/vo/battery/allies/hq_gendest.wav
+	voice
+	streaming
+}
+
+battery_allies_controls_destroy
+{
+	sound sound/vo/battery/allies/hq_gunctrldyn.wav
+	voice
+	streaming
+}
+
+battery_allies_bunker_capture
+{
+	sound sound/vo/battery/allies/hq_bunkercap.wav
+	voice
+	streaming
+}
+
+battery_allies_bunker_captured
+{
+	sound sound/vo/battery/allies/hq_bunkercapd.wav
+	voice
+	streaming
+}
+
+battery_allies_bunker_lost
+{
+	sound sound/vo/battery/allies/hq_bunkerrecl.wav
+	voice
+	streaming
+}
+
+allies_objective_destroyed
+{
+	sound sound/vo/general/allies/hq_objdest.wav
+	voice
+	streaming
+}
+
+// axis commander
+
+battery_axis_ramp_stop
+{
+	sound sound/vo/battery/axis/hq_rampstop.wav
+	voice
+	streaming
+}
+
+battery_axis_ramp_constructed
+{
+	sound sound/vo/battery/axis/hq_rampconst.wav
+	voice
+	streaming
+}
+
+battery_axis_ramp_destroyed
+{
+	sound sound/vo/battery/axis/hq_rampdest.wav
+	voice
+	streaming
+}
+
+battery_axis_advance_east
+{
+	sound sound/vo/battery/axis/hq_beacheadv.wav
+	voice
+	streaming
+}
+
+battery_axis_advance_west
+{
+	sound sound/vo/battery/axis/hq_beachwadv.wav
+	voice
+	streaming
+}
+
+battery_axis_generator_defend
+{
+	sound sound/vo/battery/axis/hq_gendef.wav
+	voice
+	streaming
+}
+
+battery_axis_generator_constructed
+{
+	sound sound/vo/battery/axis/hq_genconst.wav
+	voice
+	streaming
+}
+
+battery_axis_generator_destroyed
+{
+	sound sound/vo/battery/axis/hq_gendest.wav
+	voice
+	streaming
+}
+
+battery_axis_controls_defend
+{
+	sound sound/vo/battery/axis/hq_gunctrldef.wav
+	voice
+	streaming
+}
+
+battery_axis_bunker_defend
+{
+	sound sound/vo/battery/axis/hq_bunkerdef.wav
+	voice
+	streaming
+}
+
+battery_axis_bunker_captured
+{
+	sound sound/vo/battery/axis/hq_bunkerrecl.wav
+	voice
+	streaming
+}
+
+battery_axis_bunker_lost
+{
+	sound sound/vo/battery/axis/hq_bunkercap.wav
+	voice
+	streaming
+}
+
+axis_objective_destroyed
+{
+	sound sound/vo/general/axis/hq_objdest.wav
+	voice
+	streaming
+}
+
+desgun
+{
+	sound sound\extra\desgun.wav
+	voice
+	streaming
+}
+
+defgun
+{
+	sound sound\extra\defgun.wav
+	voice
+	streaming
+}
+
+desgunc
+{
+	sound sound\extra\desgunc.wav
+	voice
+	streaming
+}
+
+defgunc
+{
+	sound sound\extra\defgunc.wav
+	voice
+	streaming
+}
+
+gundesed
+{
+	sound sound\extra\gundesed.wav
+	voice
+	streaming
+}
+
+guncdesed
+{
+	sound sound\extra\guncdesed.wav
+	voice
+	streaming
+}
+
+battery_allies_controls_destroy
+{
+	sound sound/vo/battery/allies/hq_gunctrldyn.wav
+	voice
+	streaming
+}
+
+battery_axis_controls_defend
+{
+	sound sound/vo/battery/axis/hq_gunctrldef.wav
+	voice
+	streaming
+}

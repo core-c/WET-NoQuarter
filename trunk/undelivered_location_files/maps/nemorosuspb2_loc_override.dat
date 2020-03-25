@@ -1,0 +1,83 @@
+/////////////////////////////////////////////////////////
+// Map name       NemorosusPB2                         //
+// Locations by   antman                               //
+// Modified by    antman                               //
+// Recommended    b_locationMaxChars 25                //
+// Last edited    28-05-2006                           //
+// http://www.antman.info/wolf/etpro/locations/        //
+/////////////////////////////////////////////////////////
+-2023 -2436 -29 "Allied Drop Point"
+1363 3089 156 "Bunker Spawn"
+-1112 1420 0 "Command Post"
+-948 -903 0 "Don't do it man!"
+-1355 38 0 @
+-932 143 0 @
+440 1593 0 "East Bunker Corridor"
+1277 2189 156 @
+1538 2930 156 @
+1052 2763 276 "Gun Controls"
+1004 2458 276 "Gun Controls Platform"
+727 2739 276 @
+594 2872 228 "Gun Controls Stairs"
+1160 2312 216 @
+3 -440 48 "Jumping Across"
+330 56 0 @
+-277 -512 48 @
+657 49 0 @
+12 1738 0 "Main Entrance"
+-1365 1510 0 "North-West Command Post"
+-1920 1193 0 @
+-662 289 0 "North-West Woods"
+-929 660 0 @
+-1048 363 0 @
+-1502 263 0 @
+-1858 999 0 @
+-167 1547 0 "Outside The Bunker"
+-20 1037 0 @
+-885 1437 0 @
+-304 2016 0 @
+248 1450 0 @
+-16 418 0 @
+-587 596 0 @
+-698 1086 0 @
+-12 -628 48 "Short Cut Cave"
+-131 -1010 0 @
+397 247 0 @
+439 418 0 @
+1142 753 -7 "Side Entrance"
+1132 743 -603 "Side Entrance Cave"
+488 1543 -575 @
+78 1268 -477 @
+234 1367 -555 @
+-81 1344 -479 "Side Entrance Door Switch"
+81 1386 -477 "Side Entrance Hallways"
+492 1655 -575 @
+323 2932 -359 @
+221 2315 -477 @
+211 3042 -359 "Side Entrance Stairwell"
+243 3242 130 @
+-1143 -1691 0 "Tank Path"
+298 -1516 0 @
+-160 -1178 0 @
+-904 -1109 -5 @
+-846 -2023 0 @
+-1319 -2087 0 @
+-524 -1030 0 @
+1573 282 0 @
+1164 383 0 @
+807 528 0 @
+491 611 0 @
+299 737 0 @
+519 -1566 0 "Tank Path Cave"
+1707 -1521 0 @
+2283 -646 0 @
+1653 199 0 @
+-1267 -2213 162 "Upper Tank Path"
+-849 -2151 192 @
+1278 3272 156 "West Bunker Corridor"
+454 3008 156 @
+-201 2265 12 @
+-993 -786 -607 "^1Dead!"
+5 -471 -607 @
+289 224 -607 @
+-949 25 -607 @

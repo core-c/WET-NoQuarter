@@ -1,0 +1,39 @@
+weaponDef
+{
+	both {
+		name					"Flamethrower"
+		statname				"F.Thrower"	
+		damage					5
+		selfKillMessage			"tried to tame fire."
+		KillMessage				"was incinerated by"
+		KillMessage2			"'s flamethrower."
+		movementSpeedScale		0.7
+		limboKill
+	}
+
+	client {
+		pickupModel				"models/weapons2/flamethrower/pu_flamethrower.md3"
+		bounceSound				"sound/weapons/weaponbounce.wav"
+		clipBounceSound			"sound/weapons/clipbounce.wav"
+
+		weaponConfig			"models/weapons2/flamethrower/weapon.cfg"
+		handsModel				"models/weapons2/flamethrower/v_flamethrower_hand.mdc"
+
+		deathBySound			"sound/weapons/flamethrower/flame_scream1.wav"
+		deathBySound			"sound/weapons/flamethrower/flame_scream2.wav"
+		deathBySound			"sound/weapons/flamethrower/flame_scream3.wav"
+		deathBySound			"sound/weapons/flamethrower/flame_scream4.wav"
+
+		weaponIcon				"icons/iconw_flamethrower"
+		weaponSelectedIcon		"icons/iconw_flamethrower_1_select"
+
+		firstPerson {
+			model				"models/weapons2/flamethrower/v_flamethrower.md3"
+		}
+
+		thirdPerson {
+			model				"models/weapons2/flamethrower/ss_flamethrower.mdc"
+			flashmodel			"models/weapons2/flamethrower/flamethrower_flash.mdc"
+		}
+	}
+}

@@ -1,0 +1,365 @@
+K 25
+svn:wc:ra_dav:version-url
+V 37
+/svn/nq/!svn/ver/5760/trunk/src/cgame
+END
+cg_osfile.h
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/nq/!svn/ver/5589/trunk/src/cgame/cg_osfile.h
+END
+cg_missionbriefing.c
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/nq/!svn/ver/3759/trunk/src/cgame/cg_missionbriefing.c
+END
+cg_sound.c
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/nq/!svn/ver/5648/trunk/src/cgame/cg_sound.c
+END
+cg_spawn.c
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/nq/!svn/ver/5602/trunk/src/cgame/cg_spawn.c
+END
+cg_predict.c
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/nq/!svn/ver/5682/trunk/src/cgame/cg_predict.c
+END
+cg_popupmessages.c
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/nq/!svn/ver/5124/trunk/src/cgame/cg_popupmessages.c
+END
+cg_playerstate.c
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/nq/!svn/ver/5579/trunk/src/cgame/cg_playerstate.c
+END
+cg_debriefing.c
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/nq/!svn/ver/5671/trunk/src/cgame/cg_debriefing.c
+END
+cg_trails.c
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/nq/!svn/ver/5460/trunk/src/cgame/cg_trails.c
+END
+cg_local.h
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/nq/!svn/ver/5745/trunk/src/cgame/cg_local.h
+END
+cg_loadpanel.c
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/nq/!svn/ver/5598/trunk/src/cgame/cg_loadpanel.c
+END
+cg_snapshot.c
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/nq/!svn/ver/5498/trunk/src/cgame/cg_snapshot.c
+END
+cg_panelhandling.c
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/nq/!svn/ver/4445/trunk/src/cgame/cg_panelhandling.c
+END
+cg_newDraw.c
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/nq/!svn/ver/5611/trunk/src/cgame/cg_newDraw.c
+END
+cgame.dsp
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/nq/!svn/ver/2397/trunk/src/cgame/cgame.dsp
+END
+md5.c
+K 25
+svn:wc:ra_dav:version-url
+V 43
+/svn/nq/!svn/ver/5736/trunk/src/cgame/md5.c
+END
+cg_weapons.c
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/nq/!svn/ver/5753/trunk/src/cgame/cg_weapons.c
+END
+cg_marks.c
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/nq/!svn/ver/5609/trunk/src/cgame/cg_marks.c
+END
+cg_drawtools.c
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/nq/!svn/ver/5496/trunk/src/cgame/cg_drawtools.c
+END
+cg_players.c
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/nq/!svn/ver/5682/trunk/src/cgame/cg_players.c
+END
+cgame2010.vcxproj
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/nq/!svn/ver/5760/trunk/src/cgame/cgame2010.vcxproj
+END
+nq_client_help.h
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/nq/!svn/ver/5740/trunk/src/cgame/nq_client_help.h
+END
+cg_uid.c
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/nq/!svn/ver/5749/trunk/src/cgame/cg_uid.c
+END
+md5.h
+K 25
+svn:wc:ra_dav:version-url
+V 43
+/svn/nq/!svn/ver/5752/trunk/src/cgame/md5.h
+END
+cg_event.c
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/nq/!svn/ver/5682/trunk/src/cgame/cg_event.c
+END
+nq_help.h
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/nq/!svn/ver/5043/trunk/src/cgame/nq_help.h
+END
+cg_statsranksmedals.c
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/nq/!svn/ver/2110/trunk/src/cgame/cg_statsranksmedals.c
+END
+cg_localents.c
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/nq/!svn/ver/5492/trunk/src/cgame/cg_localents.c
+END
+cg_multiview.c
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/nq/!svn/ver/4447/trunk/src/cgame/cg_multiview.c
+END
+cgame.cbp
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/nq/!svn/ver/5063/trunk/src/cgame/cgame.cbp
+END
+cg_particles.c
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/nq/!svn/ver/5606/trunk/src/cgame/cg_particles.c
+END
+cgame2005.vcproj
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/nq/!svn/ver/5759/trunk/src/cgame/cgame2005.vcproj
+END
+cg_info.c
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/nq/!svn/ver/5321/trunk/src/cgame/cg_info.c
+END
+cg_character.c
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/nq/!svn/ver/5369/trunk/src/cgame/cg_character.c
+END
+cg_polybus.c
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/nq/!svn/ver/5162/trunk/src/cgame/cg_polybus.c
+END
+cg_draw.c
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/nq/!svn/ver/5716/trunk/src/cgame/cg_draw.c
+END
+cg_syscalls.c
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/nq/!svn/ver/5708/trunk/src/cgame/cg_syscalls.c
+END
+cg_fireteamoverlay.c
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/nq/!svn/ver/5446/trunk/src/cgame/cg_fireteamoverlay.c
+END
+cg_flamethrower.c
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/nq/!svn/ver/5160/trunk/src/cgame/cg_flamethrower.c
+END
+cg_crash.c
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/nq/!svn/ver/5653/trunk/src/cgame/cg_crash.c
+END
+tr_types.h
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/nq/!svn/ver/4869/trunk/src/cgame/tr_types.h
+END
+cg_window.c
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/nq/!svn/ver/4808/trunk/src/cgame/cg_window.c
+END
+cgame2008EE.vcproj
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/nq/!svn/ver/5760/trunk/src/cgame/cgame2008EE.vcproj
+END
+nq_server_help.h
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/nq/!svn/ver/5740/trunk/src/cgame/nq_server_help.h
+END
+cg_missionmessages.c
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/nq/!svn/ver/4445/trunk/src/cgame/cg_missionmessages.c
+END
+cg_consolecmds.c
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/nq/!svn/ver/5643/trunk/src/cgame/cg_consolecmds.c
+END
+cg_ents.c
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/nq/!svn/ver/5684/trunk/src/cgame/cg_ents.c
+END
+cg_view.c
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/nq/!svn/ver/5710/trunk/src/cgame/cg_view.c
+END
+cg_commandmap.c
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/nq/!svn/ver/5619/trunk/src/cgame/cg_commandmap.c
+END
+cg_servercmds.c
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/nq/!svn/ver/5712/trunk/src/cgame/cg_servercmds.c
+END
+cg_atmospheric.c
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/nq/!svn/ver/4445/trunk/src/cgame/cg_atmospheric.c
+END
+cg_effects.c
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/nq/!svn/ver/4835/trunk/src/cgame/cg_effects.c
+END
+cg_fireteams.c
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/nq/!svn/ver/4175/trunk/src/cgame/cg_fireteams.c
+END
+cgame.def
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/nq/!svn/ver/411/trunk/src/cgame/cgame.def
+END
+cg_osfile.c
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/nq/!svn/ver/5589/trunk/src/cgame/cg_osfile.c
+END
+cg_limbopanel.c
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/nq/!svn/ver/5727/trunk/src/cgame/cg_limbopanel.c
+END
+cg_public.h
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/nq/!svn/ver/5574/trunk/src/cgame/cg_public.h
+END
+cg_scoreboard.c
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/nq/!svn/ver/5614/trunk/src/cgame/cg_scoreboard.c
+END
+cg_main.c
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/nq/!svn/ver/5760/trunk/src/cgame/cg_main.c
+END
+cgame.vcproj
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/nq/!svn/ver/5759/trunk/src/cgame/cgame.vcproj
+END

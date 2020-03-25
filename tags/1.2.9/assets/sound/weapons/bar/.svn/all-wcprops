@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/nq/!svn/ver/4387/tags/1.2.9/assets/sound/weapons/bar
+END
+bar_reload_fast.wav
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/nq/!svn/ver/4387/tags/1.2.9/assets/sound/weapons/bar/bar_reload_fast.wav
+END
+bar_fire.wav
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/nq/!svn/ver/4387/tags/1.2.9/assets/sound/weapons/bar/bar_fire.wav
+END
+bar_reload.wav
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/nq/!svn/ver/4387/tags/1.2.9/assets/sound/weapons/bar/bar_reload.wav
+END
+bar_far.wav
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/nq/!svn/ver/4387/tags/1.2.9/assets/sound/weapons/bar/bar_far.wav
+END

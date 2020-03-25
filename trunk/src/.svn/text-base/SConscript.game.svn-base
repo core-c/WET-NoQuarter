@@ -1,0 +1,144 @@
+# -*- mode: python -*-
+# Enemy Territory build script
+# TTimo <ttimo@idsoftware.com>
+# http://scons.sourceforge.net
+
+import sys, os
+import scons_utils
+
+Import( 'GLOBALS' )
+Import( GLOBALS )
+
+qagame_string = """
+bg_animation.c
+bg_animgroup.c
+bg_campaign.c
+bg_character.c
+bg_classes.c
+bg_misc.c
+bg_pmove.c
+bg_slidemove.c
+bg_sscript.c
+bg_stats.c
+bg_tracemap.c
+bg_weapons.c
+bg_profiler_hook.c
+etpro_mdx.c
+et-antiwarp.c
+g_active.c
+g_alarm.c
+g_antilag.c
+g_buddy_list.c
+g_character.c
+g_client.c
+g_cmds.c
+g_cmds_ext.c
+g_combat.c
+g_config.c
+g_fireteams.c
+g_items.c
+g_main.c
+g_match.c
+g_match_tokens.c
+g_mem.c
+g_misc.c
+g_missile.c
+g_mover.c
+g_multiview.c
+g_osfile.c
+g_props.c
+g_referee.c
+g_script.c
+g_script_actions.c
+g_session.c
+g_shrubbot.c
+g_spawn.c
+g_stats.c
+g_strparse.c
+g_svcmds.c
+g_syscalls.c
+g_systemmsg.c
+g_target.c
+g_team.c
+g_teammapdata.c
+g_time.c
+g_trigger.c
+g_utils.c
+g_vote.c
+g_weapon.c
+q_math.c
+q_shared.c
+g_xpsave.c
+g_crash.c
+geoip.c
+"""
+
+lua_string = """
+g_lua.c
+../sha-1/sha1.c
+g_sha1.c
+"""
+
+local_env = g_env.Copy()
+
+local_env.Append( CPPDEFINES = [ 'GAMEDLL' ] )
+
+# redeye - optionally build w/o omnibot support, regardless whether compiling for Linux or Windows
+if (WITH_OMNIBOT == '1'):
+	local_env.Append( CPPDEFINES = [ 'OMNIBOTS' ] )
+	qagame_string += """g_etbot_interface.cpp ../../../../../Omnibot/Common/BotLoadLibrary.cpp"""
+
+if (WITH_AUTOGUID == '1'):
+	local_env.Append( CPPDEFINES = [ 'AUTO_GUID' ] )
+
+if (WITH_SYSTEMCHECK == '1'):
+	local_env.Append( CPPDEFINES = [ 'SYSTEM_CHECK' ] )
+
+if (WITH_HWBAN == '1'):
+	qagame_string += """bg_hwguid.c base64.c crc32.c md5.c xorcrypt.c"""
+	local_env.Append( CPPDEFINES = [ 'HW_BAN' ] )
+	
+	# for cross-compiling
+	if (g_os == 'win32'):
+		qagame_string += """diskId32.cpp"""
+
+# IRATA - optionally build w/o LUA support
+# IlDuca - Link LUA from external .so
+if (WITH_LUA == '1'):
+
+	local_env.Append( CPPDEFINES 	= [ 'ET_LUA' ] )
+
+	if (g_os == 'win32'):
+		lua_lib_dir = 'Windows'
+	elif (g_os == 'Darwin'):
+		lua_lib_dir = 'Mac'
+	elif (g_os == 'Linux'):
+		if ( g_plat == 'x86_64' ):
+			lua_lib_dir = 'Linux/64bit'
+		else:
+			lua_lib_dir = 'Linux/32bit'
+
+	local_env.Append( CPPPATH 		= [ '../../../lua/include', '../../../sha-1' ] )
+	local_env.Append( LIBPATH 		= [ '%s/lua/%s' % (GetLaunchDir(), lua_lib_dir) ] )
+	local_env.Append( LIBS 			= [ 'liblua5.1.a' ] )
+	qagame_string += lua_string
+
+# IlDuca - Compile with plpa support
+#if ( g_os == 'Linux' ):
+#	local_env.Append( CPPPATH 		= [ '../../../plpa-1.3/include' ] )
+#	local_env.Append( LIBPATH 		= [ '%s/plpa-1.3/lib' % (GetLaunchDir()) ] )
+#	local_env.Append( LIBS 			= [ 'libplpa.a' ] )
+
+# Jaybird - these lines are used to statically-link c++'s dependencies
+# redeye - but only if we not are using gcc4
+if (g_os == 'Linux' and gcc_major_ver != '4'):
+	local_env.Append( LINKFLAGS = [ 'misc/libstdc++.a', '-static-libgcc', '-L./misc/' ] )
+
+local_env['LINK'] = local_env['CXX']
+
+qagame_list = scons_utils.BuildList( 'game', qagame_string )
+source_list = qagame_list
+
+#ret = local_env.Program( target = 'et', source = source_list )
+ret = local_env.SharedLibrary( target = 'qagame', source = source_list )
+Return( 'ret' )

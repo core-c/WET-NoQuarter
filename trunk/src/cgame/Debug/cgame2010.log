@@ -1,0 +1,21 @@
+﻿Build started 18.04.2012 09:28:01.
+     1>Project "D:\NQDEV\trunk\src\cgame\cgame2010.vcxproj" on node 4 (build target(s)).
+     1>InitializeBuildStatus:
+         Creating ".\Debug\cgame.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         All outputs are up-to-date.
+     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\Microsoft.CppBuild.targets(990,5): warning MSB8012: TargetPath(D:\NQDEV\trunk\src\cgame\.\Debug\cgame.dll) does not match the Linker's OutputFile property value (D:\NQDEV\trunk\cgame_mp_x86.dll). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Link.OutputFile).
+     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\Microsoft.CppBuild.targets(992,5): warning MSB8012: TargetName(cgame) does not match the Linker's OutputFile property value (cgame_mp_x86). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Link.OutputFile).
+       Link:
+         All outputs are up-to-date.
+         cgame2010.vcxproj -> D:\NQDEV\trunk\src\cgame\.\Debug\cgame.dll
+       BscMake:
+         All outputs are up-to-date.
+       FinalizeBuildStatus:
+         Deleting file ".\Debug\cgame.unsuccessfulbuild".
+         Touching ".\Debug\cgame.lastbuildstate".
+     1>Done Building Project "D:\NQDEV\trunk\src\cgame\cgame2010.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:00.23

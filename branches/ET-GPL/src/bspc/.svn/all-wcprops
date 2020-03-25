@@ -1,0 +1,437 @@
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/bspc
+END
+l_bsp_q1.c
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/bspc/l_bsp_q1.c
+END
+aas_map.c
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/bspc/aas_map.c
+END
+l_bsp_q3.c
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/bspc/l_bsp_q3.c
+END
+aas_file.c
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/bspc/aas_file.c
+END
+prtfile.c
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/bspc/prtfile.c
+END
+l_bsp_q1.h
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/bspc/l_bsp_q1.h
+END
+aas_map.h
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/bspc/aas_map.h
+END
+l_bsp_q3.h
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/bspc/l_bsp_q3.h
+END
+aas_file.h
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/bspc/aas_file.h
+END
+bspc.vcproj
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/bspc/bspc.vcproj
+END
+q2files.h
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/bspc/q2files.h
+END
+l_cmd.c
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/bspc/l_cmd.c
+END
+map_q2.c
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/bspc/map_q2.c
+END
+faces.c
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/bspc/faces.c
+END
+sinfiles.h
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/bspc/sinfiles.h
+END
+l_cmd.h
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/bspc/l_cmd.h
+END
+aas_cfg.c
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/bspc/aas_cfg.c
+END
+textures.c
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/bspc/textures.c
+END
+aas_cfg.h
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/bspc/aas_cfg.h
+END
+l_log.c
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/bspc/l_log.c
+END
+tree.c
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/bspc/tree.c
+END
+l_log.h
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/bspc/l_log.h
+END
+_files.c
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/bspc/_files.c
+END
+l_math.c
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/bspc/l_math.c
+END
+l_bsp_ent.c
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/bspc/l_bsp_ent.c
+END
+aas_prunenodes.c
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/bspc/aas_prunenodes.c
+END
+aas_edgemelting.c
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/bspc/aas_edgemelting.c
+END
+l_math.h
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/bspc/l_math.h
+END
+l_bsp_ent.h
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/bspc/l_bsp_ent.h
+END
+aas_prunenodes.h
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/bspc/aas_prunenodes.h
+END
+leakfile.c
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/bspc/leakfile.c
+END
+aas_edgemelting.h
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/bspc/aas_edgemelting.h
+END
+portals.c
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/bspc/portals.c
+END
+brushbsp.c
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/bspc/brushbsp.c
+END
+l_qfiles.c
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/bspc/l_qfiles.c
+END
+writebsp.c
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/bspc/writebsp.c
+END
+l_bsp_q2.c
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/bspc/l_bsp_q2.c
+END
+l_qfiles.h
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/bspc/l_qfiles.h
+END
+l_threads.c
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/bspc/l_threads.c
+END
+aas_areamerging.c
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/bspc/aas_areamerging.c
+END
+l_bsp_q2.h
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/bspc/l_bsp_q2.h
+END
+l_bsp_sin.c
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/bspc/l_bsp_sin.c
+END
+l_threads.h
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/bspc/l_threads.h
+END
+aas_areamerging.h
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/bspc/aas_areamerging.h
+END
+qbsp.h
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/bspc/qbsp.h
+END
+l_bsp_sin.h
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/bspc/l_bsp_sin.h
+END
+map_q1.c
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/bspc/map_q1.c
+END
+map_q3.c
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/bspc/map_q3.c
+END
+aas_store.c
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/bspc/aas_store.c
+END
+be_aas_bspc.c
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/bspc/be_aas_bspc.c
+END
+aas_store.h
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/bspc/aas_store.h
+END
+map_sin.c
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/bspc/map_sin.c
+END
+be_aas_bspc.h
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/bspc/be_aas_bspc.h
+END
+aas_gsubdiv.c
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/bspc/aas_gsubdiv.c
+END
+aas_create.c
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/bspc/aas_create.c
+END
+l_mem.c
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/bspc/l_mem.c
+END
+aas_facemerging.c
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/bspc/aas_facemerging.c
+END
+aas_gsubdiv.h
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/bspc/aas_gsubdiv.h
+END
+aas_create.h
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/bspc/aas_create.h
+END
+l_poly.c
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/bspc/l_poly.c
+END
+l_mem.h
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/bspc/l_mem.h
+END
+aas_facemerging.h
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/bspc/aas_facemerging.h
+END
+glfile.c
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/bspc/glfile.c
+END
+l_poly.h
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/bspc/l_poly.h
+END
+l_utils.c
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/bspc/l_utils.c
+END
+q3files.h
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/bspc/q3files.h
+END
+csg.c
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/bspc/csg.c
+END
+map.c
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/bspc/map.c
+END
+l_utils.h
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/bspc/l_utils.h
+END
+bspc.c
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/bspc/bspc.c
+END
+qfiles.h
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/bspc/qfiles.h
+END
+nodraw.c
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/bspc/nodraw.c
+END

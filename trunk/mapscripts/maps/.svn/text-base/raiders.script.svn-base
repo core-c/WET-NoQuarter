@@ -1,0 +1,3326 @@
+// Raiders Script
+// Last edited by: Hummer
+
+game_manager
+{
+	spawn
+	{
+		// mortis - oil tank exploit fix 1
+		create
+		{
+			scriptName "bugfix1"
+			classname "func_fakebrush"
+			origin "7384 1884 -320"
+			contents 65536  // CONTENTS_PLAYERCLIP
+			mins "-160 -70 -50"
+			maxs "160 70 50"
+		}
+
+		// mortis - oil tank exploit fix 2
+		create
+		{
+			scriptName "bugfix2"
+			classname "func_fakebrush"
+			origin "7384 2150 -320"
+			contents 65536  // CONTENTS_PLAYERCLIP
+			mins "-160 -70 -50"
+			maxs "160 70 50"
+		}
+
+		
+		// Game rules
+		wm_axis_respawntime	25
+		wm_allied_respawntime	15
+		wm_number_of_objectives 6
+		wm_set_round_timelimit	30
+
+		// Objectives
+		// 1: Escort Truck
+		// 2: Steal Staff
+		// 3: Steal Idol
+		// 4: Capture Ark
+		// 5: Allied Command Post
+		// 6: Axis Command Post
+
+		// Current main objectives for each team (0=Axis, 1=Allies)
+		wm_set_main_objective		2	0
+		wm_set_main_objective		2	1
+
+		wm_objective_status 1 0 0
+		wm_objective_status 1 1 0
+		wm_objective_status 2 0 0
+		wm_objective_status 2 1 0
+		wm_objective_status 3 0 0
+		wm_objective_status 3 1 0
+		wm_objective_status 4 0 0
+		wm_objective_status 4 1 0
+		wm_objective_status 5 0 0
+		wm_objective_status 5 1 0
+		wm_objective_status 6 0 0
+		wm_objective_status 6 1 0
+
+		// Stopwatch mode defending team (0=Axis, 1=Allies)
+		wm_set_defending_team	0
+
+		// Winner on expiration of round timer (0=Axis, 1=Allies)
+		wm_setwinner	0
+
+
+		wait 200
+		globalaccum 1 set 0
+		globalaccum 2 set 0
+	
+		setautospawn "Sub Pen Storage" 0
+		setautospawn "H'Ummer" 1
+
+
+	}
+
+	trigger allies_win
+	{
+		wm_setwinner	1
+		wm_announce "Allied team escaped with the Ark!"
+		wm_teamvoiceannounce 1 "end_game"
+		wm_teamvoiceannounce 0 "end_game"
+		wm_objective_status 4 0 2
+		wm_objective_status 4 1 1
+
+		wait 10000
+		wm_endround
+	}
+}
+
+
+// ============================================================================
+// Allied MG42 Nest - on Allied side of the map
+// ============================================================================
+alliedmg42
+{
+	spawn
+	{
+		wait 200
+
+		constructible_class 2
+		
+		setstate alliedmg42gun invisible
+		setstate alliedmg42crates default
+	}
+
+	buildstart final
+	{
+		setstate alliedmg42gun  underconstruction
+	}
+
+	built final
+	{
+		setstate alliedmg42gun default
+		setstate alliedmg42crates invisible
+
+		// Some kind of UI pop-up to alert players
+		wm_announce	"Allied team has constructed the Ridge MG Nest!"
+		alertentity flag2
+	}
+
+	decayed final
+	{
+		setstate alliedmg42gun  invisible
+		setstate alliedmg42crates default
+	}
+
+	death
+	{
+		setstate alliedmg42gun  invisible
+		setstate alliedmg42crates default
+		repairmg42 alliedmg42gun
+
+		// Some kind of UI pop-up to alert players
+		wm_announce	"Axis team has destroyed the Ridge MG Nest!"
+		alertentity flag2
+	}
+}
+
+axismg42
+{
+	spawn
+	{
+		wait 200
+
+		constructible_class 2
+		
+		setstate axismg42gun invisible
+		setstate axismg42crates default
+	}
+
+	buildstart final
+	{
+		setstate axismg42gun  underconstruction
+	}
+
+	built final
+	{
+		setstate axismg42gun default
+		setstate axismg42crates invisible
+
+		// Some kind of UI pop-up to alert players
+		wm_announce	"Axis team has constructed the Cliff MG Nest!"
+		alertentity flag1
+	}
+
+	decayed final
+	{
+		setstate axismg42gun  invisible
+		setstate axismg42crates default
+	}
+
+	death
+	{
+		setstate axismg42gun  invisible
+		setstate axismg42crates default
+		repairmg42 axismg42gun
+
+		// Some kind of UI pop-up to alert players
+		wm_announce	"Allied team has destroyed the Cliff MG Nest!"
+		alertentity flag1
+	}
+}
+
+axismg42crates
+{
+	spawn
+	{
+		wait 50
+	}
+	death
+	{
+	}
+}
+
+alliedmg42crates
+{
+	spawn
+	{
+		wait 50
+	}
+	death
+	{
+	}
+}
+
+axisrockcrates
+{
+	spawn
+	{
+		wait 50
+	}
+	death
+	{
+	}
+}
+
+axisrockcrates2
+{
+	spawn
+	{
+		wait 50
+	}
+	death
+	{
+	}
+}
+
+// ============================================================================
+// Rock Barrier
+// ============================================================================
+rocks
+{
+	spawn
+	{
+		wait 200
+
+		constructible_class 2
+		
+		setstate rock1 default
+		setstate rock2 default
+		setstate rock3 default
+		setstate rock4 default
+		setstate rock5 default
+		setstate axisrockcrates invisible
+		setstate rock1a invisible
+		setstate rock2a invisible
+		setstate rock5a invisible
+		alertentity flag4
+		
+	}
+
+	buildstart final
+	{
+		setstate rock1 underconstruction
+		setstate rock2 underconstruction
+		setstate rock3 underconstruction
+		setstate rock4 underconstruction
+		setstate rock5 underconstruction
+	}
+
+	built final
+	{
+		setstate rock1 default
+		setstate rock2 default
+		setstate rock3 default
+		setstate rock4 default
+		setstate rock5 default
+		setstate rock1a invisible
+		setstate rock2a invisible
+		setstate rock5a invisible
+		setstate axisrockcrates invisible
+		// Some kind of UI pop-up to alert players
+		wm_announce	"Axis team has constructed the Temple Rock Barrier!"
+		alertentity flag4
+	}
+
+	decayed final
+	{
+		setstate rock1 invisible
+		setstate rock2 invisible
+		setstate rock3 invisible
+		setstate rock4 invisible
+		setstate rock5 invisible
+		setstate rock1a default
+		setstate rock2a default
+		setstate rock5a default
+		setstate axisrockcrates default
+	}
+
+	death
+	{
+		setstate rock1 invisible
+		setstate rock2 invisible
+		setstate rock3 invisible
+		setstate rock4 invisible
+		setstate rock5 invisible
+		setstate rock1a default
+		setstate rock2a default
+		setstate rock5a default
+		setstate axisrockcrates default
+		// Some kind of UI pop-up to alert players
+		wm_announce	"Allied team has destroyed the Temple Rock Barrier!"
+		alertentity flag4
+	}
+}
+
+// ============================================================================
+// Outer Rock Barrier
+// ============================================================================
+rocks2
+{
+	spawn
+	{
+		wait 200
+
+		constructible_class 2
+		
+		setstate rocks11 default
+		setstate rocks12 default
+		setstate rocks13 default
+		setstate rocks14 default
+		setstate rocks15 default
+		setstate axisrockcrates2 invisible
+		setstate rocks11a invisible
+		setstate rocks12a invisible
+		setstate rocks15a invisible
+		alertentity flag3
+		
+	}
+
+	buildstart final
+	{
+		setstate rocks11 underconstruction
+		setstate rocks12 underconstruction
+		setstate rocks13 underconstruction
+		setstate rocks14 underconstruction
+		setstate rocks15 underconstruction
+	}
+
+	built final
+	{
+		setstate rocks11 default
+		setstate rocks12 default
+		setstate rocks13 default
+		setstate rocks14 default
+		setstate rocks15 default
+		setstate rocks11a invisible
+		setstate rocks12a invisible
+		setstate rocks15a invisible
+		setstate axisrockcrates2 invisible
+		// Some kind of UI pop-up to alert players
+		wm_announce	"Axis team has constructed the Outer Rock Barrier!"
+		alertentity flag3
+	}
+
+	decayed final
+	{
+		setstate rocks11 invisible
+		setstate rocks12 invisible
+		setstate rocks13 invisible
+		setstate rocks14 invisible
+		setstate rocks15 invisible
+		setstate rocks11a default
+		setstate rocks12a default
+		setstate rocks15a default
+		setstate axisrockcrates2 default
+	}
+
+	death
+	{
+		setstate rocks11 invisible
+		setstate rocks12 invisible
+		setstate rocks13 invisible
+		setstate rocks14 invisible
+		setstate rocks15 invisible
+		setstate rocks11a default
+		setstate rocks12a default
+		setstate rocks15a default
+		setstate axisrockcrates2 default
+		// Some kind of UI pop-up to alert players
+		wm_announce	"Allied team has destroyed the Outer Rock Barrier!"
+		alertentity flag3
+	}
+}
+
+staff
+{
+	spawn
+	{
+		wait 200
+		accum 0 set 0 // staff counter
+		attachtotag truck tag_obj2
+	}
+
+	trigger stolen
+	{
+		accum 0 inc 1
+		accum 0 trigger_if_equal 1 staff stolen1
+		accum 0 trigger_if_equal 2 staff stolen2
+	}
+
+	trigger secured
+	{
+		accum 0 trigger_if_equal 1 staff secured1
+		accum 0 trigger_if_equal 2 staff secured2
+	}
+
+	trigger returned
+	{
+		accum 0 inc -1
+		accum 0 trigger_if_equal 0 staff returned1
+		accum 0 trigger_if_equal 1 staff returned2
+	}
+
+	trigger stolen1
+	{
+		wm_announce	"Allied team taken the Staff of Ra!"
+	}
+
+	trigger secured1
+	{
+		wm_announce 	"Allied team has planted the Staff of Ra!"
+	}
+
+	trigger returned1
+	{
+		wm_announce	"Axis team has returned the Staff of Ra!"
+	}
+
+}
+
+staff_holder
+{
+	spawn
+	{
+		wait 50
+	}
+
+	death
+	{
+		wm_objective_status 2 0 2
+		wm_objective_status 2 1 1
+
+		wm_set_main_objective		3	0
+		wm_set_main_objective		3	1
+
+		wm_teamvoiceannounce 1 "riff52"
+		wm_teamvoiceannounce 0 "riff52"
+
+		trigger allied_compost_built accum_off		// Turns off Compost Spawning
+
+		trigger staff_full show
+		trigger staff_trans hide
+		trigger door1 open
+		trigger door2 open
+		trigger idol_holder show
+
+		trigger staff_holder hide
+
+		trigger allied_spawnblob2 show
+		trigger axis_spawnblob2 show
+		trigger alliedblob1 hide
+		alertentity axisblob1
+		trigger axisblob1 hide
+
+
+		alertentity allied_spawn2		
+		alertentity axis_spawn2
+		alertentity allied_begin		
+		alertentity axis_begin
+
+		setautospawn "Tomb" 0
+		setautospawn "Outer Temple" 1
+		trigger alliedblob1_a off
+	}
+
+
+	trigger hide
+	{
+		setstate staff_holder invisible
+	}
+}
+
+staff_full
+{
+	spawn
+	{
+		wait 500
+		setstate staff_full invisible
+	}
+
+	trigger show
+	{
+		setstate staff_full default
+	}
+}
+
+staff_trans
+{
+	spawn
+	{
+		wait 500
+	}
+
+	trigger hide
+	{
+		setstate staff_trans invisible
+	}
+}
+
+staff_toi
+{
+	spawn
+	{
+		wait 20
+		//attachtotag truck tag_obj2
+	}
+
+	trigger hide
+	{
+		setstate staff_toi invisible
+	}
+}
+
+idol
+{
+	spawn
+	{
+	}
+
+	trigger stolen
+	{
+		trigger idol stolen1
+		globalaccum 2 abort_if_equal 2
+		globalaccum 2 set 1
+	}
+
+	trigger secured
+	{
+		trigger idol secured1
+	}
+
+	trigger returned
+	{
+		trigger idol returned1
+	}
+
+	trigger stolen1
+	{
+		wm_announce "Allied team has stolen the Idol!"
+	}
+
+	trigger secured1
+	{
+		wm_announce "Allied team has secured the Idol!"
+	}
+
+	trigger returned1
+	{
+		wm_announce "Axis team has returned the Idol!"
+	}
+
+}
+
+idol_holder
+{
+	spawn
+	{
+		wait 500
+		attachtotag truck tag_obj1
+		setstate idol_holder invisible
+	}
+
+	trigger show
+	{
+		setstate idol_holder default
+	}
+
+	death
+	{
+		wm_objective_status 3 0 2
+		wm_objective_status 3 1 1
+
+		wm_set_main_objective		1	0
+		wm_set_main_objective		1	1
+
+		wm_teamvoiceannounce 1 "riff72"
+		wm_teamvoiceannounce 0 "riff72"
+		trigger truck enable_stage1   // ENABLE_TRUCK
+		trigger idol_full show
+		trigger idol_trans hide
+
+		alertentity axis_spawn3
+		alertentity axis_spawn2
+
+		trigger axis_spawnblob3 show
+		trigger axis_spawnblob2 hide
+
+		setautospawn "Inner Sub Pen" 0
+
+	}
+}
+
+idol_full
+{
+	spawn
+	{
+		wait 500
+		attachtotag truck tag_obj1
+		setstate idol_full invisible
+	}
+
+	trigger show
+	{
+		setstate idol_full default
+	}
+}
+
+idol_trans
+{
+	spawn
+	{
+		wait 500
+		attachtotag truck tag_obj1
+	}
+
+	trigger hide
+	{
+		setstate idol_trans invisible
+	}
+}
+
+///////////// SPAWNS ////////////////////////////////////////
+/////////////////////////////////////////////////////////////
+
+alliedblob1
+{
+	spawn
+	{
+		wait 50
+	}
+
+	trigger hide
+	{
+		setstate alliedblob1 invisible
+	}
+}
+
+alliedblob1_a
+{
+	spawn
+	{
+		wait 50
+		trigger alliedblob1_a off
+	}
+
+	trigger on
+	{
+		setstate alliedblob1_a default
+		setstate allied_begin_a default
+	}
+
+	trigger off
+	{
+		setstate allied_begin_a invisible
+		setstate alliedblob1_a invisible
+	}
+} 
+
+axisblob1
+{
+	spawn
+	{
+		wait 50
+	}
+
+	trigger hide
+	{
+		setstate axisblob1 invisible
+	}
+
+	trigger show
+	{
+		setstate axisblob1 default
+	}
+}
+
+axis_spawnblob2
+{
+	spawn
+	{
+		wait 50
+		trigger axis_spawnblob2 hide
+	}
+	
+	trigger hide
+	{
+		setstate axis_spawnblob2 invisible
+	}
+
+	trigger show
+	{
+		setstate axis_spawnblob2 default
+	}
+}
+
+axis_spawnblob3
+{
+	spawn
+	{
+		wait 50
+		trigger axis_spawnblob3 hide
+	}
+	
+	trigger hide
+	{
+		setstate axis_spawnblob3 invisible
+	}
+
+	trigger show
+	{
+		setstate axis_spawnblob3 default
+	}
+}
+
+allied_spawnblob2
+{
+	spawn
+	{
+		wait 50
+		trigger allied_spawnblob2 hide
+	}
+	
+	trigger hide
+	{
+		setstate allied_spawnblob2 invisible
+	}
+
+	trigger show
+	{
+		setstate allied_spawnblob2 default
+	}
+}
+
+
+allied_spawnblob2a
+{
+	spawn
+	{
+		wait 50
+		trigger allied_spawnblob2a hide
+	}
+	
+	trigger hide
+	{
+		setstate allied_spawnblob2a invisible
+	}
+
+	trigger show
+	{
+		setstate allied_spawnblob2a default
+	}
+}
+
+door1
+{
+	spawn
+	{
+		wait 500
+	}
+
+	trigger open
+	{
+		playsound sound/raiders/temple/door_stone_slide.wav volume 50
+		gotomarker door_1 16
+	}
+
+	death
+	{
+
+	}
+}
+
+door2
+{
+	spawn
+	{
+		wait 500
+	}
+
+	trigger open
+	{
+		playsound sound/raiders/temple/door_stone_slide.wav volume 50
+		gotomarker door_2 16
+	}
+
+	death
+	{
+
+	}
+}
+
+boulder
+{
+	spawn
+	{
+		wait 50
+	}
+
+	trigger go
+	{
+		globalaccum 2 abort_if_equal 0
+		globalaccum 2 abort_if_equal 2
+		globalaccum 2 abort_if_equal 3
+		globalaccum 2 abort_if_equal 4
+		globalaccum 2 abort_if_equal 5
+		globalaccum 2 abort_if_equal 6
+		globalaccum 2 abort_if_equal 7
+		globalaccum 2 abort_if_equal 8
+		playsound sound/raiders/temple/boulder_smash_rolling.wav volume 255
+		gotomarker boulder_sp1 1000 accel wait
+			globalaccum 2 set 3
+		setrotation 0 0 230
+			globalaccum 2 set 4
+		
+		trigger boulder_hurt show
+		trigger boulder_hurt go
+		playsound sound/raiders/temple/boulder_smash_rolling.wav volume 255
+		playsound sound/raiders/temple/boulder02.wav looping volume 255
+		gotomarker boulder_sp2 230 wait
+			globalaccum 2 set 5
+		setrotation 0 0 230
+			globalaccum 2 set 6
+		gotomarker boulder_sp3 230 wait
+			globalaccum 2 set 7
+		setrotation 0 0 230
+			globalaccum 2 set 8
+		gotomarker boulder_sp4 230 wait
+		globalaccum 2 set 2
+		stopsound
+	}
+
+	death
+	{
+
+	}
+}
+
+haxor
+{
+	spawn
+	{
+		wait 50
+	}
+
+	trigger go
+	{
+		globalaccum 2 abort_if_equal 0
+		globalaccum 2 abort_if_equal 2
+		globalaccum 2 abort_if_equal 3
+		globalaccum 2 abort_if_equal 4
+		globalaccum 2 abort_if_equal 5
+		globalaccum 2 abort_if_equal 6
+		globalaccum 2 abort_if_equal 7
+		globalaccum 2 abort_if_equal 8
+
+		gotomarker boulder_sp1 1000 accel wait
+		gotomarker boulder_sp2 230 wait
+		gotomarker boulder_sp3 230 wait
+		gotomarker boulder_sp4 230 wait
+		//globalaccum 2 set 2
+	}
+
+	death
+	{
+
+	}
+}
+
+boulder_hurt
+{
+	spawn
+	{
+		wait 50
+		setstate boulder_hurt invisible
+	}
+
+	trigger go
+	{
+		gotomarker boulder_sp4 230 wait
+	}
+
+	trigger show
+	{
+		setstate boulder_hurt default
+	}
+
+	death
+	{
+		
+	}
+}
+
+boulder_launch
+{
+	spawn
+	{
+	}
+	
+	trigger go	
+	{
+		trigger boulder_hatch go
+		trigger boulder go
+		trigger haxor go
+	}	
+
+	death
+	{
+
+	}
+
+}
+
+boulder_trigger
+{
+	spawn
+	{
+	}
+	death
+	{
+
+	}
+}
+
+boulder_hatch
+{
+	spawn
+	{
+	}
+
+	trigger go
+	{
+		globalaccum 2 abort_if_equal 0
+		globalaccum 2 abort_if_equal 2
+		globalaccum 2 abort_if_equal 3
+		globalaccum 2 abort_if_equal 4
+		globalaccum 2 abort_if_equal 5
+		globalaccum 2 abort_if_equal 6
+		globalaccum 2 abort_if_equal 7
+		globalaccum 2 abort_if_equal 8
+		faceangles 0 0 80 500
+	}
+
+	death
+	{
+	}
+}
+
+// ================================================
+// ============ ALLIED COMMAND POST ==============
+// ================================================
+
+allied_compost_built
+{
+	spawn
+	{
+		accum 1 set 1
+		wait 400
+		trigger allied_compost_built setup
+
+		constructible_class 2
+	}
+
+	trigger setup
+	{
+		setchargetimefactor 1 soldier 1
+		setchargetimefactor 1 lieutenant 1
+		setchargetimefactor 1 medic 1
+		setchargetimefactor 1 engineer 1
+		setchargetimefactor 1 covertops 1
+		sethqstatus 1 0
+	}
+
+	trigger accum_off
+	{
+		accum 1 set 0
+	}
+
+	trigger spawner_on
+	{
+		accum 1 abort_if_equal 0
+		trigger alliedblob1_a on
+	}
+
+	trigger spawner_off
+	{
+		accum 1 abort_if_equal 0
+		trigger alliedblob1_a off
+	}
+
+	buildstart final
+	{
+		setstate allied_compost_built_model underconstruction
+		setstate neutral_compost_closed_clip invisible
+		setstate neutral_compost_closed_model invisible
+	}
+
+	built final
+	{
+		setstate allied_compost_built_model default
+		setstate neutral_compost_closed_clip invisible
+		setstate neutral_compost_closed_model invisible
+
+		trigger allied_compost_built_model enable_allied_features
+
+		enablespeaker allies_compost_sound
+
+		trigger allied_compost_built spawner_on
+	}
+
+	decayed final
+	{
+		setstate allied_compost_built_model invisible
+		setstate neutral_compost_closed_clip default
+		setstate neutral_compost_closed_model default
+	}
+
+	death
+	{
+		setstate allied_compost_built_model invisible
+		setstate neutral_compost_closed_clip default
+		setstate neutral_compost_closed_model default
+
+		trigger allied_compost_built_model disable_allied_features
+
+		disablespeaker allies_compost_sound
+		trigger allied_compost_built spawner_off
+	}
+}
+
+allied_compost_built_model
+{
+	spawn
+	{
+		wait 400
+		setstate allied_compost_built_model invisible
+	}
+
+	trigger enable_allied_features
+	{
+		setchargetimefactor 1 soldier 0.75
+		setchargetimefactor 1 lieutenant 0.75
+		setchargetimefactor 1 medic 0.75
+		setchargetimefactor 1 engineer 0.75
+		setchargetimefactor 1 covertops 0.75
+		sethqstatus 1 1
+
+		wm_announce	"Allied Command Post constructed. Charge speed increased!"
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "axis_hq_compost_constructed_allies"
+
+		wm_teamvoiceannounce 1 "allies_hq_compost_constructed"
+
+		wm_removeteamvoiceannounce 1 "allies_hq_compost_construct"
+		// *---------------------------------------------------------------------------------*
+
+		wm_objective_status 5 0 2
+		wm_objective_status 5 1 1
+	}
+
+	trigger disable_allied_features
+	{
+		setchargetimefactor 1 soldier 1
+		setchargetimefactor 1 lieutenant 1
+		setchargetimefactor 1 medic 1
+		setchargetimefactor 1 engineer 1
+		setchargetimefactor 1 covertops 1
+		sethqstatus 1 0
+
+		wm_announce	"Axis team has destroyed the Allied Command Post!"
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 1 "allies_hq_compost_damaged"
+
+		wm_addteamvoiceannounce 1 "allies_hq_compost_construct"
+		// *---------------------------------------------------------------------------------*
+
+		wm_objective_status 5 0 0
+		wm_objective_status 5 1 0
+	}
+}
+
+// **********************************************
+// ****************** TRUCK STUFF ***************
+// **********************************************
+
+
+truck_smoke
+{
+	spawn
+	{
+		wait 300
+		attachtotag truck tag_wfront
+		setstate truck_smoke invisible
+	}
+}
+
+// sound "thread"
+truck_engine
+{
+	spawn
+	{
+		wait 200
+		attachtotag truck tag_wfront
+
+		trigger truck_engine sound_idle
+	}
+
+	trigger start
+	{
+		trigger truck_engine sound_start
+		wait 950
+		trigger truck_engine sound_move
+	}
+
+	trigger stop
+	{
+		trigger truck_engine sound_stop
+		wait 950
+		trigger truck_engine sound_idle
+	}
+
+	// ========================================
+	// sound events
+	trigger sound_idle
+	{
+		playsound sound/raiders/truck/truck_idle.wav looping
+	}
+
+	trigger sound_start
+	{
+		stopsound
+		playsound sound/raiders/truck/truck_revup.wav volume 96
+	}
+
+	trigger sound_move
+	{
+		playsound sound/raiders/truck/truck_move.wav looping
+	}
+
+	trigger sound_stop
+	{
+		stopsound
+		playsound sound/raiders/truck/truck_revdown.wav volume 96
+	}
+
+	trigger sound_death
+	{
+		stopsound
+		playsound sound/raiders/truck/truck_stop.wav volume 96
+	}
+
+	// ========================================
+	// ========================================
+}
+
+truck_build
+{
+	spawn
+	{
+		wait 500
+
+		attachtotag truck tag_wback
+	}
+}
+
+truck_construct
+{
+	spawn
+	{
+		constructible_class 2
+		constructible_health 1050
+		constructible_constructxpbonus 10
+		constructible_destructxpbonus 10
+	}
+
+	built final
+	{
+		alertentity truck
+
+		wm_announce "The Truck has been repaired!"
+	}
+}
+
+// digibob: ok, for once i'm gonna PLAN this one, so NOTHING WILL BREAK EVAR
+// ============================================================================
+// accum 0, gold bars collected
+// accum 1
+//  - bit 0: barrier 1 status 	( 0 = destroyed, 	1 = built 		)
+//  - bit 1: barrier 2 status 	( 0 = destroyed, 	1 = built 		)
+//  - bit 2: spline status 		( 0 = not moving, 	1 = moving 		)
+//  - bit 3: stuck check flag 	( 0 = not stuck, 	1 = stuck 		)
+//  - bit 4: script lockout 	( 0 = no lockout, 	1 = lockout		)
+//  - bit 5: blank 				( 									)
+//  - bit 6: temp register 		(XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX)
+//  - bit 7: death status 		( 0 = alive, 		1 = dead		)
+//  - bit 8: player check 		( 0 = players, 		1 = no players	)
+//  - bit 9: visible state		( 0 = alive, 		1 = dead		)
+// accum 2, blank
+// accum 3, current movement loop position
+// accum 4, stop counter
+// accum 5, blank
+// accum 6, blank
+// accum 7, blank
+// ============================================================================
+// spline points are tspln_X with X = 1 to 23
+// ============================================================================
+// wheel events:
+//  - wheels_forward
+//  - wheels_backward
+//  - wheels_stop
+
+truck
+{
+	spawn
+	{
+		faceangles 0 83 0 50
+//accum 3 set 58 // teleport truck to some other starting point
+	}
+
+	// ========================================
+	// wheeeeeeeeeeeeeeels. eeels. ls.
+	trigger wheels_forward
+	{
+		trigger truck_bwheel2 forward
+		trigger truck_fwheel forward
+	}
+
+	trigger wheels_backward
+	{
+		trigger truck_bwheel2 backward
+		trigger truck_fwheel backward
+	}
+
+	trigger wheels_stop
+	{
+		trigger truck_bwheel2 stop
+		trigger truck_fwheel stop
+	}
+
+	// ========================================
+	// ========================================
+
+
+	trigger truck_escape_msg
+	{
+		// *----------------------------------- vo ------------------------------------------*
+		wm_addteamvoiceannounce 0 "axis_hq_truck_stop"
+
+		wm_addteamvoiceannounce 1 "allies_hq_truck_escort"
+
+		wm_teamvoiceannounce 0 "goldrush_axis_truck_stolen"
+
+		wm_teamvoiceannounce 1 "goldrush_allies_truck_stolen"
+
+		wm_removeteamvoiceannounce 0 "goldrush_axis_bank_courtyard"
+		wm_removeteamvoiceannounce 0 "goldrush_axis_gold_defend"
+
+		wm_removeteamvoiceannounce 1 "goldrush_allies_bank_courtyard"
+		wm_removeteamvoiceannounce 1 "goldrush_allies_gold_get"
+		// *---------------------------------------------------------------------------------*
+	}
+
+	// ========================================
+	// movement
+
+	trigger move_check
+	{
+		trigger truck stuck_check
+		accum 1 abort_if_bitset 3
+
+		trigger truck dispatch
+	}
+
+	trigger move
+	{
+		trigger truck move_check
+
+		wait 500
+
+		trigger truck move
+	}
+
+	// ========================================
+	// ========================================
+
+
+	trigger run_continue
+	{
+		trigger truck deathcheck
+		trigger truck stopcheck
+		trigger truck move
+	}
+
+	trigger run_1
+	{
+		trigger truck disable_stage1
+
+		accum 1 bitset 2
+		followspline 0 tspln_1 125 wait length 304
+		accum 1 bitreset 2
+
+		accum 3 set 1
+		trigger truck run_continue
+	}
+
+	trigger run_2
+	{
+		accum 1 bitset 2
+		followspline 0 tspln_2 125 wait length 304
+		accum 1 bitreset 2
+
+		accum 3 set 2
+		trigger truck run_continue
+	}
+
+	trigger run_3
+	{
+		accum 1 bitset 2
+		followspline 0 tspln_3 125 wait length 304
+		accum 1 bitreset 2
+
+		accum 3 set 3
+		trigger truck run_continue
+	}
+
+	trigger run_4
+	{
+		accum 1 bitset 2
+		followspline 0 tspln_4 125 wait roll 0 +1 length 304
+		accum 1 bitreset 2
+
+		accum 3 set 4
+		trigger truck run_continue
+	}
+
+	trigger run_5
+	{
+		accum 1 bitset 2
+		followspline 0 tspln_5 125 wait roll 1 0 length 304
+		accum 1 bitreset 2
+
+		accum 3 set 5
+		trigger truck run_continue
+	}
+
+	trigger run_6
+	{
+		accum 1 bitset 2
+		followspline 0 tspln_6 125 wait roll 1 0 length 304
+		accum 1 bitreset 2
+
+		accum 3 set 6
+		trigger truck run_continue
+	}
+
+	trigger run_7
+	{
+		accum 1 bitset 2
+		followspline 0 tspln_7 125 wait roll 1 0 length 304 
+		accum 1 bitreset 2
+
+		accum 3 set 7
+		trigger truck run_continue
+	}
+
+	trigger run_8
+	{
+		accum 1 bitset 2
+		followspline 0 tspln_8 125 wait roll 1 - 1 length 304
+		accum 1 bitreset 2
+
+		accum 3 set 8
+		trigger truck run_continue
+	}
+
+	trigger run_9
+	{
+		accum 1 bitset 2
+		followspline 0 tspln_9 125 wait length 304 roll 0 +1
+		accum 1 bitreset 2
+
+		accum 3 set 9
+		trigger truck run_continue
+	}
+
+	trigger run_10
+	{
+		accum 1 bitset 2
+		followspline 0 tspln_10 125 wait length 304 roll 1 +0
+		accum 1 bitreset 2
+
+		accum 3 set 10
+		trigger truck run_continue
+	}
+
+	trigger run_11
+	{
+		accum 1 bitset 2
+		followspline 0 tspln_11 125 wait length 304 roll 1 +0
+		accum 1 bitreset 2
+
+		accum 3 set 11
+		trigger truck run_continue
+	}
+
+	trigger run_12
+	{
+		accum 1 bitset 2
+		followspline 0 tspln_12 125 wait length 304 roll 1 -1
+		accum 1 bitreset 2
+
+		accum 3 set 12
+		trigger truck run_continue
+	}
+
+	trigger run_13
+	{
+		accum 1 bitset 2
+		followspline 0 tspln_13 125 wait length 304 roll 0 0
+		accum 1 bitreset 2
+
+		accum 3 set 13
+		trigger truck run_continue
+	}
+
+	trigger run_14
+	{
+		accum 1 bitset 2
+		followspline 0 tspln_14 125 wait length 304 roll 0 +1
+		accum 1 bitreset 2
+
+		accum 3 set 14
+		trigger truck run_continue
+	}
+
+	trigger run_15
+	{
+		accum 1 bitset 2
+		followspline 0 tspln_15 125 wait length 304 roll 1 -2
+		accum 1 bitreset 2
+
+		accum 3 set 15
+		trigger truck run_continue
+	}
+
+	trigger run_16
+	{
+
+		accum 1 bitset 2
+		followspline 0 tspln_16 125 wait length 304 roll -1 +1
+		accum 1 bitreset 2
+
+		accum 3 set 16
+		trigger truck run_continue
+	}
+
+	trigger run_17
+	{
+		accum 1 bitset 2
+		followspline 0 tspln_17 125 wait length 304 roll 0 -1
+		accum 1 bitreset 2
+
+		accum 3 set 17
+
+		trigger truck run_continue
+	}
+
+	trigger run_18
+	{
+
+		accum 1 bitset 2
+		followspline 0 tspln_18 125 wait length 304 roll -1 0
+		accum 1 bitreset 2
+
+		accum 3 set 18
+		trigger truck run_continue
+	}
+
+	trigger run_19
+	{
+
+		accum 1 bitset 2
+		followspline 0 tspln_19 125 wait length 304
+		accum 1 bitreset 2
+
+		accum 3 set 19
+		trigger truck run_continue
+	}
+
+	trigger run_20
+	{
+
+		accum 1 bitset 2
+		followspline 0 tspln_20 125 wait length 304
+		accum 1 bitreset 2
+
+		accum 3 set 20
+		trigger truck run_continue
+	}
+
+	trigger run_21
+	{
+		accum 1 bitset 2
+		followspline 0 tspln_21 125 wait length 304
+		accum 1 bitreset 2
+
+		accum 3 set 21
+		trigger truck run_continue
+	}
+
+	trigger run_22
+	{
+		accum 1 bitset 2
+		followspline 0 tspln_22 125 wait length 304
+		accum 1 bitreset 2
+
+		accum 3 set 22
+		trigger truck run_continue
+	}
+
+	trigger run_23
+	{
+		accum 1 bitset 2
+		followspline 0 tspln_23 125 wait length 304
+		accum 1 bitreset 2
+
+		accum 3 set 23
+		trigger truck run_continue
+	}
+
+	trigger run_24
+	{
+		accum 1 bitset 2
+		followspline 0 tspln_24 125 wait length 304 roll 0 -1
+		accum 1 bitreset 2
+
+		accum 3 set 24
+		trigger truck run_continue
+
+	}
+
+	trigger run_25
+	{
+		accum 1 bitset 2
+		followspline 0 tspln_25 125 wait length 304 roll -1 +1 dampin
+		accum 1 bitreset 2
+
+		accum 3 set 25
+		trigger truck run_continue
+	}
+
+	trigger run_26
+	{
+		accum 1 bitset 2
+		followspline 0 tspln_26 125 wait length 304
+		accum 1 bitreset 2
+
+		accum 3 set 26
+		trigger truck run_continue
+	}
+
+	trigger run_27
+	{
+		accum 1 bitset 2
+		followspline 0 tspln_27 125 wait length 304
+		accum 1 bitreset 2
+
+		accum 3 set 27
+		trigger truck run_continue
+
+	}
+
+	trigger run_28
+	{
+		accum 1 bitset 2
+		followspline 0 tspln_28 125 wait length 304
+		accum 1 bitreset 2
+
+		accum 3 set 28
+		trigger truck run_continue
+	}
+
+	trigger run_29
+	{
+		accum 1 bitset 2
+		followspline 0 tspln_29 125 wait length 304
+		accum 1 bitreset 2
+
+		accum 3 set 29
+		trigger truck run_continue
+	}
+
+	trigger run_30
+	{
+		accum 1 bitset 2
+		followspline 0 tspln_30 125 wait length 304 roll 0 0 
+		accum 1 bitreset 2
+
+		accum 3 set 30
+		trigger truck run_continue
+	}
+
+	trigger run_31
+	{
+		accum 1 bitset 2
+		followspline 0 tspln_31 125 wait length 304 roll 0 +2
+		accum 1 bitreset 2
+
+		accum 3 set 31
+		trigger truck run_continue
+	}
+
+	trigger run_32
+	{
+		accum 1 bitset 2
+		followspline 0 tspln_32 125 wait length 304 roll 2 -1 dampin
+		accum 1 bitreset 2
+
+		accum 3 set 32
+		trigger truck run_continue
+	}
+
+	trigger run_33
+	{
+		accum 1 bitset 2
+		followspline 0 tspln_33 125 wait length 304 roll 1 -1 dampout
+		accum 1 bitreset 2
+
+		accum 3 set 33
+		trigger truck run_continue
+	}
+
+	trigger run_34
+	{
+		trigger truck disable_stage1
+
+		accum 1 bitset 2
+		followspline 0 tspln_34 125 wait length 304 roll 0 +0
+		accum 1 bitreset 2
+
+		accum 3 set 34
+		trigger truck run_continue
+	}
+
+	
+	trigger run_35
+	{
+		accum 1 bitset 2
+		followspline 0 tspln_35 125 wait length 304 roll 0 +0
+		accum 1 bitreset 2
+
+		accum 3 set 35
+		trigger truck run_continue
+	}
+
+	
+	trigger run_36
+	{
+		accum 1 bitset 2
+		followspline 0 tspln_36 125 wait length 304
+		accum 1 bitreset 2
+
+		accum 3 set 36
+		trigger truck run_continue
+	}
+
+	
+	trigger run_37
+	{
+		accum 1 bitset 2
+		followspline 0 tspln_37 125 wait length 304 roll 0 +3 dampin
+		accum 1 bitreset 2
+
+		accum 3 set 37
+		trigger truck run_continue
+	}
+
+	trigger run_38
+	{
+		accum 1 bitset 2
+		followspline 0 tspln_38 125 wait length 304 roll 3 -3 dampout
+		accum 1 bitreset 2
+
+		accum 3 set 38
+		trigger truck run_continue
+	}
+
+	trigger run_39
+	{
+		accum 1 bitset 2
+		followspline 0 tspln_39 125 wait length 304
+		accum 1 bitreset 2
+
+		accum 3 set 39
+		trigger truck run_continue
+	}
+
+	trigger run_40
+	{
+		accum 1 bitset 2
+		followspline 0 tspln_40 125 wait length 304
+		accum 1 bitreset 2
+
+		accum 3 set 40
+		trigger truck run_continue
+	}
+
+	trigger run_41
+	{
+		accum 1 bitset 2
+		followspline 0 tspln_41 125 wait length 304
+		accum 1 bitreset 2
+
+		accum 3 set 41
+		trigger truck run_continue
+	}
+
+	trigger run_42
+	{
+		accum 1 bitset 2
+		followspline 0 tspln_42 125 wait length 304
+		accum 1 bitreset 2
+
+		accum 3 set 42
+		trigger truck run_continue
+	}
+
+	trigger run_43
+	{
+		accum 1 bitset 2
+		followspline 0 tspln_43 125 wait length 304
+		accum 1 bitreset 2
+
+		accum 3 set 43
+		trigger truck run_continue
+	}
+
+
+	trigger run_44
+	{
+		accum 1 bitset 2
+		followspline 0 tspln_44 125 wait length 304
+		accum 1 bitreset 2
+
+		accum 3 set 44
+		trigger truck run_continue
+	}
+
+	trigger run_45
+	{
+		accum 1 bitset 2
+		followspline 0 tspln_45 125 wait length 304
+		accum 1 bitreset 2
+
+		accum 3 set 45
+		trigger truck run_continue
+	}
+
+	trigger run_46
+	{
+		accum 1 bitset 2
+		followspline 0 tspln_46 125 wait length 304
+		accum 1 bitreset 2
+
+		accum 3 set 46
+		trigger truck run_continue
+	}
+
+	trigger run_47
+	{
+		accum 1 bitset 2
+		followspline 0 tspln_47 125 wait length 304
+		accum 1 bitreset 2
+
+		accum 3 set 47
+		trigger truck run_continue
+	}
+
+	trigger run_48
+	{
+		accum 1 bitset 2
+		followspline 0 tspln_48 125 wait length 304
+		accum 1 bitreset 2
+
+		accum 3 set 48
+		trigger truck run_continue
+	}
+
+	trigger run_49
+	{
+		accum 1 bitset 2
+		followspline 0 tspln_49 125 wait length 304 roll 0 +1
+		accum 1 bitreset 2
+
+		accum 3 set 49
+		trigger truck run_continue
+	}
+
+	trigger run_50
+	{
+		accum 1 bitset 2
+		followspline 0 tspln_50 125 wait length 304 roll 1 +0
+		accum 1 bitreset 2
+
+		accum 3 set 50
+		trigger truck run_continue
+	}
+
+	trigger run_51
+	{
+		accum 1 bitset 2
+		followspline 0 tspln_51 125 wait length 304 roll 1 +1 
+		accum 1 bitreset 2
+
+		accum 3 set 51
+		trigger truck run_continue
+	}
+
+	trigger run_52
+	{
+		accum 1 bitset 2
+		followspline 0 tspln_52 125 wait length 304 roll 2 -2
+		accum 1 bitreset 2
+
+		accum 3 set 52
+		trigger truck run_continue
+	}
+
+	trigger run_53
+	{
+		accum 1 bitset 2
+		followspline 0 tspln_53 125 wait length 304
+		accum 1 bitreset 2
+
+		accum 3 set 53
+		trigger truck run_continue
+	}
+
+	trigger run_54
+	{
+		accum 1 bitset 2
+		followspline 0 tspln_54 125 wait length 304
+		accum 1 bitreset 2
+
+		accum 3 set 54
+		trigger truck run_continue
+	}
+
+	trigger run_55
+	{	
+		alertentity allied_spawn2a
+		alertentity allied_spawn2
+		trigger allied_spawnblob2a show
+		trigger allied_spawnblob2 hide
+
+		accum 1 bitset 2
+		followspline 0 tspln_55 125 wait length 304
+		accum 1 bitreset 2
+
+		accum 3 set 55
+		trigger truck run_continue
+	}
+
+	trigger run_56
+	{
+		accum 1 bitset 2
+		followspline 0 tspln_56 125 wait length 304
+		accum 1 bitreset 2
+
+		accum 3 set 56
+		trigger truck run_continue
+	}
+
+	trigger run_57
+	{
+		accum 1 bitset 2
+		followspline 0 tspln_57 125 wait length 304
+		accum 1 bitreset 2
+
+		accum 3 set 57
+		trigger truck run_continue
+	}
+
+	trigger run_58
+	{
+		accum 1 bitset 2
+		followspline 0 tspln_58 125 wait length 304
+		accum 1 bitreset 2
+
+		accum 3 set 58
+		trigger truck run_continue
+	}
+
+	trigger run_59
+	{
+		accum 1 bitset 2
+		followspline 0 tspln_59 125 wait length 304
+		accum 1 bitreset 2
+
+		accum 3 set 59
+		trigger truck run_continue
+	}
+
+	trigger run_60
+	{
+		accum 1 bitset 2
+		followspline 0 tspln_60 125 wait length 304
+		accum 1 bitreset 2
+
+		accum 3 set 60
+		trigger truck run_continue
+	}
+
+	trigger run_61
+	{
+		accum 1 bitset 2
+		followspline 0 tspln_61 125 wait length 304
+		accum 1 bitreset 2
+
+		accum 3 set 61
+		trigger truck run_continue
+	}
+
+	trigger run_62
+	{
+		accum 1 bitset 2
+		followspline 0 tspln_62 125 wait length 304
+		accum 1 bitreset 2
+
+		accum 3 set 62
+		trigger truck run_continue
+	}
+
+	trigger run_63
+	{
+		accum 1 bitset 2
+		followspline 0 tspln_63 125 wait length 304
+		accum 1 bitreset 2
+
+		accum 3 set 63
+		trigger truck run_continue
+	}
+
+	trigger run_64
+	{
+		accum 1 bitset 2
+		followspline 0 tspln_64 125 wait length 304
+		accum 1 bitreset 2
+
+		accum 3 set 64
+		trigger truck run_continue
+	}
+
+	trigger run_65
+	{
+		accum 1 bitset 2
+		followspline 0 tspln_65 125 wait length 304
+		accum 1 bitreset 2
+
+		accum 3 set 65
+		trigger truck run_continue
+	}
+
+	trigger run_66
+	{
+		alertentity allied_spawn3
+		alertentity allied_spawn2a
+		trigger axisblob1 show
+		trigger allied_spawnblob2a hide
+
+		setautospawn "Sub Pen Storage" 1
+
+		accum 1 bitset 2
+		followspline 0 tspln_66 125 wait length 304
+		accum 1 bitreset 2
+
+		accum 3 set 66
+		trigger truck run_continue
+	}
+
+	trigger run_67
+	{
+		accum 1 bitset 2
+		followspline 0 tspln_67 125 wait length 304
+		accum 1 bitreset 2
+
+		accum 3 set 67
+
+		trigger lift accum_2_on
+		trigger truck run_continue
+
+		wm_objective_status 1 0 2
+		wm_objective_status 1 1 1
+
+		wm_set_main_objective		4	0
+		wm_set_main_objective		4	1
+
+	}
+
+	trigger dispatch
+	{
+		accum 3 trigger_if_equal 0 	truck run_1
+		accum 3 trigger_if_equal 1 	truck run_2
+		accum 3 trigger_if_equal 2	truck run_3
+		accum 3 trigger_if_equal 3 	truck run_4
+		accum 3 trigger_if_equal 4 	truck run_5
+		accum 3 trigger_if_equal 5 	truck run_6
+		accum 3 trigger_if_equal 6 	truck run_7
+		accum 3 trigger_if_equal 7 	truck run_8
+		accum 3 trigger_if_equal 8 	truck run_9
+		accum 3 trigger_if_equal 9 	truck run_10
+		accum 3 trigger_if_equal 10	truck run_11
+		accum 3 trigger_if_equal 11	truck run_12
+		accum 3 trigger_if_equal 12	truck run_13
+		accum 3 trigger_if_equal 13	truck run_14
+		accum 3 trigger_if_equal 14	truck run_15
+		accum 3 trigger_if_equal 15	truck run_16
+		accum 3 trigger_if_equal 16	truck run_17
+		accum 3 trigger_if_equal 17	truck run_18
+		accum 3 trigger_if_equal 18	truck run_19
+		accum 3 trigger_if_equal 19	truck run_20
+		accum 3 trigger_if_equal 20	truck run_21
+		accum 3 trigger_if_equal 21	truck run_22
+		accum 3 trigger_if_equal 22	truck run_23
+		accum 3 trigger_if_equal 23	truck run_24
+		accum 3 trigger_if_equal 24	truck run_25
+		accum 3 trigger_if_equal 25	truck run_26
+		accum 3 trigger_if_equal 26	truck run_27
+		accum 3 trigger_if_equal 27	truck run_28
+		accum 3 trigger_if_equal 28	truck run_29
+		accum 3 trigger_if_equal 29	truck run_30
+		accum 3 trigger_if_equal 30	truck run_31
+		accum 3 trigger_if_equal 31	truck run_32
+		accum 3 trigger_if_equal 32	truck run_33
+		accum 3 trigger_if_equal 33	truck run_34
+		accum 3 trigger_if_equal 34	truck run_35
+		accum 3 trigger_if_equal 35	truck run_36
+		accum 3 trigger_if_equal 36	truck run_37
+		accum 3 trigger_if_equal 37	truck run_38
+		accum 3 trigger_if_equal 38	truck run_39
+		accum 3 trigger_if_equal 39	truck run_40
+		accum 3 trigger_if_equal 40	truck run_41
+		accum 3 trigger_if_equal 41	truck run_42
+		accum 3 trigger_if_equal 42	truck run_43
+		accum 3 trigger_if_equal 43	truck run_44
+		accum 3 trigger_if_equal 44	truck run_45
+		accum 3 trigger_if_equal 45	truck run_46
+		accum 3 trigger_if_equal 46	truck run_47
+		accum 3 trigger_if_equal 47	truck run_48
+		accum 3 trigger_if_equal 48	truck run_49
+		accum 3 trigger_if_equal 49	truck run_50
+		accum 3 trigger_if_equal 50	truck run_51
+		accum 3 trigger_if_equal 51	truck run_52
+		accum 3 trigger_if_equal 52	truck run_53
+		accum 3 trigger_if_equal 53	truck run_54
+		accum 3 trigger_if_equal 54	truck run_55
+		accum 3 trigger_if_equal 55	truck run_56
+		accum 3 trigger_if_equal 56	truck run_57
+		accum 3 trigger_if_equal 57	truck run_58
+		accum 3 trigger_if_equal 58	truck run_59
+		accum 3 trigger_if_equal 59	truck run_60
+		accum 3 trigger_if_equal 60	truck run_61
+		accum 3 trigger_if_equal 61	truck run_62
+		accum 3 trigger_if_equal 62	truck run_63
+		accum 3 trigger_if_equal 63	truck run_64
+		accum 3 trigger_if_equal 64	truck run_65
+		accum 3 trigger_if_equal 65	truck run_66
+		accum 3 trigger_if_equal 66	truck run_67
+		accum 3 trigger_if_equal 67	truck run_68
+	}
+
+	// ========================================
+	// barrier checking
+	// digibob: since we cant return variables, just use bit 3 of accum 1 as a register... mmmm assembly......
+
+	trigger stuck_check
+	{
+		accum 1 bitreset 3
+		trigger truck stuck_check_temple
+		trigger truck stuck_check_scriptlockout
+		trigger truck stuck_check_finished
+	}
+
+	trigger stuck_check_finished
+	{
+		accum 3 abort_if_not_equal 67
+
+		accum 1 bitset 3
+	}
+
+	trigger stuck_check_scriptlockout
+	{
+		accum 1 abort_if_not_bitset 4
+
+		accum 1 bitset 3
+	}
+
+	trigger stuck_check_temple
+	{
+		accum 3 abort_if_not_equal 33
+
+		accum 1 abort_if_not_bitset 0
+
+		accum 1 bitset 3
+	}
+
+	// ========================================
+	//STOPS
+	// ========================================
+
+	trigger enable_stage1
+	{
+		accum 1 bitreset 0
+	}
+
+	trigger disable_stage1
+	{
+		accum 1 bitset 0
+	}
+	
+
+	// ========================================
+	// stop check
+
+	trigger stopcheck_setup
+	{
+		accum 1 bitset 6			// stop if we're stuck/no-one's pushing :)
+
+		accum 1 abort_if_bitset 8		// no one in the trigger, abort
+
+		trigger truck stuck_check		// call the stop check function
+		accum 1 abort_if_bitset 3		// we're stuck so break out
+
+		accum 1 bitreset 6			// we're free to keep going
+	}
+
+	trigger stopcheck
+	{
+		trigger truck stopcheck_setup
+		accum 1 abort_if_not_bitset 6
+
+		trigger truck script_lockout
+
+		// Any just stopped moving stuff goes here
+		trigger truck_engine stop
+		trigger truck 		wheels_stop
+		// <<<<< stop animation goes here
+
+		trigger truck script_lockout_stop
+		resetscript
+	}
+
+	// ========================================
+	// ========================================
+
+
+
+
+	// ========================================
+	// script lockouts
+
+	trigger script_lockout
+	{
+		accum 1 bitset 4
+	}
+
+	trigger script_lockout_stop
+	{
+		accum 1 bitreset 4
+	}
+
+	// ========================================
+	// ========================================
+
+
+	// ========================================
+	// enable/disable
+
+	trigger truck_enable
+	{
+		trigger truck stuck_check
+		accum 1 abort_if_bitset 3 	// stuck check
+
+		accum 4 set 0			// reset stop counter
+		accum 1 bitreset 8		// reset stop check
+
+		accum 1 abort_if_bitset 2 	// already following spline
+		accum 1 abort_if_bitset 4 	// script lockout
+
+		accum 1 abort_if_bitset 7 	// death check
+
+		// Any just started moving stuff goes here
+		trigger truck_engine start
+		trigger truck wheels_forward
+		// <<<<< start animation goes here
+		trigger truck move
+	}
+
+	trigger truck_disable
+	{
+		accum 4 inc 1				// up the stop counter
+		accum 4 abort_if_less_than 4
+
+		accum 1 bitset 8			// set stop check
+
+		trigger truck deathcheck
+	}
+
+	// ========================================
+	// ========================================
+
+	// ========================================
+	// death / rebirth
+
+	rebirth
+	{
+		accum 1 bitreset 7 // we're alive again
+		accum 1 bitreset 9 // we're visibly alive
+
+		changemodel models/mapobjects/blitz_sd/blitzbody.md3
+
+		setstate truck_smoke invisible
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "axis_hq_truck_repaired_allies"
+
+		wm_teamvoiceannounce 1 "allies_hq_truck_repaired"
+		// *---------------------------------------------------------------------------------*
+
+		trigger truck move
+	}
+
+	death
+	{
+		accum 1 bitset 7
+	}
+
+	trigger deathcheck
+	{
+		accum 1 abort_if_not_bitset 7	// are we dead?
+		accum 1 abort_if_bitset 9		// are we not already visibly dead?
+		accum 1 abort_if_bitset 2		// are we not following a spline?
+		accum 1 abort_if_bitset 4		// are we not in a script lockout?
+
+		accum 1 bitset 9				// we're now visibly dead
+
+		wm_announce "The Truck has been damaged!"
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "axis_hq_truck_damaged"
+
+		wm_teamvoiceannounce 1 "allies_hq_truck_damaged_axis"
+		// *---------------------------------------------------------------------------------*
+
+		setstate truck_smoke default
+		kill truck_construct
+
+		trigger truck_engine sound_death
+		//trigger truck tracks_stop		// truck with tracks? i don't think so
+		trigger truck wheels_stop
+		// <<<< stop anim goes here
+
+		changemodel models/mapobjects/blitz_sd/blitzbody_damaged.md3
+
+		resetscript
+	}
+
+	// ========================================
+	// ========================================
+
+
+
+
+
+}
+
+truck_bwheel2
+{
+	spawn
+	{
+		wait 500
+
+		attachtotag truck tag_wback
+	}
+
+	trigger forward
+	{
+		setrotation 220 0 0
+	}
+
+	trigger backward
+	{
+		setrotation -220 0 0
+	}
+
+	trigger stop
+	{
+		stoprotation
+	}
+}
+
+truck_fwheel
+{
+	spawn
+	{
+		wait 500
+
+		attachtotag truck tag_wfront
+	}
+
+	trigger forward
+	{
+		setrotation 220 0 0
+	}
+
+	trigger backward
+	{
+		setrotation -220 0 0
+	}
+
+	trigger stop
+	{
+		stoprotation
+	}
+}
+
+truck_trigger
+{
+	spawn
+	{
+		wait 500
+
+		attachtotag truck tag_wback
+	}
+}
+
+truck_disabler
+{
+	trigger run
+	{
+		trigger truck truck_disable
+	}
+}
+
+truck_enabler
+{
+	trigger run
+	{
+		trigger truck truck_enable
+	}
+}
+
+// ================================================
+// ================= GARAGE DOOR==================
+// ================================================
+// Shield: This is a copy and plaste from your script.
+// I was using global accum 1 for another part of the script.
+// I changed mine to 2, and left yours at 1. Let me know
+// if there are any conflicts.
+
+doortrigger
+{
+	spawn
+	{
+		wait 50				// Wait for everything to settle
+		accum 1 set 0			//
+		accum 5 set 1			// Initial state is down
+		trigger self main
+
+	}
+	trigger main
+	{
+		trigger doortrigger up
+		trigger doortrigger down
+
+	}
+	trigger up
+	{
+			accum 1 abort_if_equal 1
+			accum 5 abort_if_not_equal 1	// Ready to run up routine == 1
+			accum 5 set 0			// Setup accum for up routine
+			accum 1 set 1
+			trigger lever up
+	}
+	trigger down
+	{
+			accum 1 abort_if_equal 1
+			accum 5 abort_if_not_equal 0	// Ready to run down routine == 0
+			accum 5 set 1			// Setup accum for up routine
+			accum 1 set 1
+			trigger lever down
+	}
+
+	trigger accum1_off
+	{
+		accum 1 set 0
+	}
+
+}
+
+lever
+{
+	spawn
+	{
+		wait 50
+	}
+	trigger down
+	{
+		playsound sound/movers/switches/butn2.wav
+		gotomarker leverdown 40
+		trigger sub_door open
+	}
+	trigger up
+	{
+		playsound sound/movers/switches/switch.wav
+		gotomarker leverup 40
+		trigger sub_door close
+	}
+}
+
+
+sub_door
+{
+	spawn
+	{
+		wait 50
+		gotomarker door_down 100
+		alertentity klax
+	}
+
+	trigger open
+	{
+		wm_announce "Sub Access door has been opened!"
+		playsound sound/movers/misc/big_gate3.wav volume 127
+		playsound sound/movers/doors/door6_loopo.wav looping
+		gotomarker door_up 20 wait
+		trigger doortrigger accum1_off
+		stopsound
+		alertentity klax
+	}
+
+	trigger close
+	{
+		wm_announce "Sub Access door has been closed!"
+		playsound sound/movers/misc/big_gate1.wav volume 127
+		playsound sound/movers/doors/door6_loopo.wav looping
+		gotomarker door_down 20 wait
+		trigger doortrigger accum1_off
+		stopsound
+		alertentity klax
+	}
+}
+
+// ================================================
+// ================= LIFT/CRANE ====================
+// ================================================
+
+lift2
+{
+	spawn
+	{
+		wait 200
+	}
+	
+	trigger main_ax
+	{
+		trigger lift main_ax
+	}
+}
+
+lift
+{
+	spawn
+	{
+		wait 200			// Wait for everything to settle
+		accum 1 set 0			// State of Hook - beginning or end states
+		accum 2 set 0			// Lock for crane. Set to 1 when truck in place.
+		accum 3 set 0			// Dispatch accum
+		accum 4 set 0
+		accum 5 set 1			// Initial state is down
+		trigger self main_ax
+	}
+
+	trigger main_al
+	{
+		trigger lift down
+	}
+
+	trigger main_ax
+	{
+		trigger lift up
+	}
+
+	trigger up
+	{
+			accum 4 abort_if_equal 1
+			accum 5 abort_if_equal 0
+			trigger lift_switch up
+			accum 4 set 1
+	}
+
+	trigger down
+	{
+			accum 4 abort_if_equal 1
+			accum 5 abort_if_equal 1
+			accum 2 abort_if_equal 0
+			trigger lift_switch down
+			accum 4 set 1
+	}
+
+	trigger accum_5_on
+	{
+		accum 5 set 1
+	}
+	
+	trigger accum_5_off
+	{
+		accum 5 set 0
+	}
+
+
+	trigger accum_4_on
+	{
+		accum 4 set 1
+	}
+	
+	trigger accum_4_off
+	{
+		accum 4 set 0
+	}
+
+	trigger accum_2_on
+	{
+		accum 2 set 1
+	}
+
+	trigger dispatch
+	{
+		accum 3 trigger_if_equal 0 lifthook run_start
+		accum 3 trigger_if_equal 1 lifthook run_0
+		accum 3 trigger_if_equal 2 lifthook run_1
+		accum 3 trigger_if_equal 3 lifthook run_2
+		accum 3 trigger_if_equal 4 lifthook run_3
+		accum 3 trigger_if_equal 5 lifthook run_4
+		accum 3 trigger_if_equal 6 lifthook run_5
+		accum 3 trigger_if_equal 7 lifthook run_6
+		accum 3 trigger_if_equal 8 lifthook run_7
+		accum 3 trigger_if_equal 9 lifthook run_8
+		accum 3 trigger_if_equal 10 lifthook run_9
+		accum 3 trigger_if_equal 11 lifthook run_10
+		accum 3 trigger_if_equal 12 lifthook run_11
+		accum 3 trigger_if_equal 13 lifthook run_12
+		accum 3 trigger_if_equal 14 lifthook run_13
+		accum 3 trigger_if_equal 15 lifthook run_14
+		accum 3 trigger_if_equal 16 lifthook run_15
+		accum 3 trigger_if_equal 17 lifthook run_16
+		accum 3 trigger_if_equal 18 lifthook run_17
+		accum 3 trigger_if_equal 19 lifthook run_18
+		accum 3 trigger_if_equal 20 lifthook run_19
+		accum 3 trigger_if_equal 21 lifthook run_20
+		accum 3 trigger_if_equal 22 lifthook run_21
+		accum 3 trigger_if_equal 23 lifthook run_22
+		accum 3 trigger_if_equal 24 lifthook run_23
+		accum 3 trigger_if_equal 25 lifthook run_ending
+		accum 3 trigger_if_equal 26 game_manager allies_win
+	}
+
+	trigger run_inc
+	{
+		accum 3 inc 1
+		trigger lift dispatch
+	}
+
+	trigger run_dec
+	{
+		accum 3 inc -1
+		trigger lift dispatch
+	}
+
+	trigger run_continue
+	{
+		accum 5 trigger_if_equal 1 lift run_inc
+		accum 5 trigger_if_equal 0 lift run_dec
+	}
+}
+
+lift_switch
+{
+	spawn
+	{
+		wait 100			// Wait for everything to settle
+		accum 1 set 0			// First time hax
+	}
+
+	trigger down
+	{
+		trigger self riff1
+		playsound sound/movers/switches/butn2.wav
+		gotomarker switch_2 20 wait
+		playsound sound/movers/switches/butn2.wav
+		gotomarker switch_3 20 wait
+		playsound sound/movers/switches/butn2.wav
+		gotomarker switch_4 20 wait
+		trigger lift run_inc
+		trigger lift accum_5_on
+		trigger lift accum_4_off
+	}
+	trigger up
+	{
+		trigger self riff2
+		playsound sound/movers/switches/switch.wav
+		gotomarker switch_3 20 wait
+		playsound sound/movers/switches/switch.wav
+		gotomarker switch_2 20 wait
+		playsound sound/movers/switches/switch.wav
+		gotomarker switch_1 20 wait
+		trigger lift run_dec
+		trigger lift accum_5_off
+		trigger lift accum_4_off
+	}
+	
+	trigger riff1
+	{
+		wm_announce "Allies have activated the crane!"
+		wm_teamvoiceannounce 1 "riff12"
+		wm_teamvoiceannounce 0 "riff12"
+		accum 1 set 1
+		remapshader "textures/raiders/lightred" "textures/raiders/lightgreen"
+		remapshaderflush
+	}
+
+	trigger riff2
+	{
+		accum 1 abort_if_equal 0
+		wm_announce "Axis have deactivated the crane!"
+		wm_teamvoiceannounce 1 "riff22"
+		wm_teamvoiceannounce 0 "riff22"
+		remapshader "textures/raiders/lightred" "textures/raiders/lightred"
+		remapshaderflush
+	}
+}
+
+lifthook
+{
+	spawn
+	{
+		wait 200			// Wait for everything to settle
+		accum 1 set 0			// hook beg / end states (special cases)
+		accum 2 set 0			// turning on lift_7 path corner
+	}
+
+	trigger stopsound
+	{
+		stopsound
+	}
+
+	trigger run_start
+	{
+		trigger liftunit stopsound
+		trigger lifthook_toi run_start
+		playsound sound/movers/motors/motor_start_02.wav volume 100
+		playsound sound/movers/motors/motor_loop_02.wav looping
+		gotomarker lift_beg 70 wait
+		stopsound
+		playsound sound/movers/motors/motor_end_02.wav volume 100
+		trigger lift run_continue
+	}
+
+	trigger run_0
+	{
+		accum 1 trigger_if_equal 0 lifthook run_0_1
+		accum 1 trigger_if_equal 1 lifthook run_0_2
+	}
+
+	trigger run_0_1
+	{
+		trigger lifthook_toi run_0_1
+		playsound sound/movers/motors/motor_start_02.wav volume 100
+		playsound sound/movers/motors/motor_loop_02.wav looping
+		gotomarker lift_0 70 wait
+		stopsound
+		playsound sound/movers/motors/motor_end_02.wav volume 100
+		trigger liftunit run_0
+		accum 1 set 1
+	}
+
+	trigger run_0_2
+	{
+		
+		gotomarker lift_0 70
+		trigger liftunit run_0
+		trigger lifthook_toi run_0_2
+		accum 1 set 0
+	}
+
+	trigger run_1
+	{
+		gotomarker lift_1 70
+		trigger liftunit run_1
+		trigger lifthook_toi run_1
+		accum 1 set 1
+	}
+
+	trigger run_2
+	{
+		gotomarker lift_2 70
+		trigger liftunit run_2
+		trigger lifthook_toi run_2
+		accum 1 set 1
+	}
+
+	trigger run_3
+	{
+		gotomarker lift_3 70
+		trigger liftunit run_3
+		trigger lifthook_toi run_3
+		accum 1 set 1
+	}
+
+	trigger run_4
+	{
+		gotomarker lift_4 70
+		trigger liftunit run_4
+		trigger lifthook_toi run_4
+		accum 1 set 1
+	}
+
+	trigger run_5
+	{
+		gotomarker lift_5 70
+		trigger liftunit run_5
+		trigger lifthook_toi run_5
+	}
+
+	trigger run_6
+	{
+		gotomarker lift_6 70
+		trigger liftunit run_6
+		trigger lifthook_toi run_6
+	}
+
+	trigger run_7
+	{
+		gotomarker lift_7 70
+		trigger liftunit run_7
+		trigger lifthook_toi run_7
+	}
+
+	trigger run_8
+	{
+		gotomarker lift_8 70
+		trigger liftunit run_8
+		trigger lifthook_toi run_8
+	}
+
+	trigger run_9
+	{
+		gotomarker lift_9 70
+		trigger liftunit run_9
+		trigger lifthook_toi run_9
+	}
+
+	trigger run_10
+	{
+		gotomarker lift_10 70
+		trigger liftunit run_10
+		trigger lifthook_toi run_10
+	}
+
+	trigger run_11
+	{
+		gotomarker lift_11 70
+		trigger liftunit run_11
+		trigger lifthook_toi run_11
+	}
+
+	trigger run_12
+	{
+		gotomarker lift_12 70
+		trigger liftunit run_12
+		trigger lifthook_toi run_12
+	}
+
+	trigger run_13
+	{
+		gotomarker lift_13 70
+		trigger liftunit run_13
+		trigger lifthook_toi run_13
+	}
+
+	trigger run_14
+	{
+		gotomarker lift_14 70
+		trigger liftunit run_14
+		trigger lifthook_toi run_14
+	}
+
+	trigger run_15
+	{
+		gotomarker lift_15 70
+		trigger liftunit run_15
+		trigger lifthook_toi run_25
+	}
+
+	trigger run_16
+	{
+		gotomarker lift_16 70
+		trigger liftunit run_16
+		trigger lifthook_toi run_16
+	}
+
+	trigger run_17
+	{
+		gotomarker lift_17 70
+		trigger liftunit run_17
+		trigger lifthook_toi run_17
+	}
+
+	trigger run_18
+	{
+		gotomarker lift_18 70
+		trigger liftunit run_18
+		trigger lifthook_toi run_18
+		accum 1 set 1
+	}
+
+	trigger run_19
+	{
+		gotomarker lift_19 70
+		trigger liftunit run_19
+		trigger lifthook_toi run_19
+		accum 1 set 1
+	}
+	trigger run_20
+	{
+		gotomarker lift_20 70
+		trigger liftunit run_20
+		trigger lifthook_toi run_20
+		accum 1 set 1
+	}
+	trigger run_21
+	{
+		gotomarker lift_21 70
+		trigger liftunit run_21
+		trigger lifthook_toi run_21
+		accum 1 set 1
+	}
+	trigger run_22
+	{
+		gotomarker lift_22 70
+		trigger liftunit run_22
+		trigger lifthook_toi run_22
+		accum 1 set 1
+	}
+	trigger run_23
+	{
+		accum 1 trigger_if_equal 1 lifthook run_23_1
+		accum 1 trigger_if_equal 0 lifthook run_23_2
+	}
+
+	trigger run_23_1
+	{
+		gotomarker lift_23 70
+		trigger liftunit run_23
+		trigger lifthook_toi run_23_1
+		accum 1 set 0
+	}
+
+	trigger run_23_2
+	{
+		playsound sound/movers/motors/motor_start_02.wav volume 100
+		playsound sound/movers/motors/motor_loop_02.wav looping
+		trigger lifthook_toi run_22_2
+		gotomarker lift_23 70 wait
+		stopsound
+		playsound sound/movers/motors/motor_end_02.wav volume 100
+		trigger liftunit run_23
+		accum 1 set 1
+	}
+
+	trigger run_ending
+	{
+		trigger liftunit stopsound
+		trigger lifthook_toi run_ending
+		playsound sound/movers/motors/motor_start_02.wav volume 100
+		playsound sound/movers/motors/motor_loop_02.wav looping
+		gotomarker lift_end 70 wait
+		stopsound
+		playsound sound/movers/motors/motor_end_02.wav volume 100
+		trigger lift run_continue
+	}
+
+}
+
+lifthook_toi
+{
+	spawn
+	{
+		wait 200			// Wait for everything to settle
+	}
+
+	trigger run_start
+	{
+		gotomarker lift_beg 70 wait
+	}
+
+	trigger run_0_1
+	{
+		gotomarker lift_0 70 wait
+	}
+
+	trigger run_0_2
+	{
+		gotomarker lift_0 70 wait
+	}
+
+	trigger run_1
+	{
+		gotomarker lift_1 70 wait
+	}
+
+	trigger run_2
+	{
+		gotomarker lift_2 70 wait
+	}
+
+	trigger run_3
+	{	
+		gotomarker lift_3 70 wait
+	}
+
+	trigger run_4
+	{
+		gotomarker lift_4 70 wait
+	}
+
+	trigger run_5
+	{
+		gotomarker lift_5 70 wait
+	}
+
+	trigger run_6
+	{
+		gotomarker lift_6 70 wait
+	}
+
+	trigger run_7
+	{
+		gotomarker lift_7 70 wait
+	}
+
+	trigger run_8
+	{
+		gotomarker lift_8 70 wait
+	}
+
+	trigger run_9
+	{
+		gotomarker lift_9 70 wait
+	}
+
+	trigger run_10
+	{
+		gotomarker lift_10 70 wait
+	}
+
+	trigger run_11
+	{
+		gotomarker lift_11 70 wait
+	}
+
+	trigger run_12
+	{
+		gotomarker lift_12 70 wait
+	}
+
+	trigger run_13
+	{
+		gotomarker lift_13 70 wait
+	}
+
+	trigger run_14
+	{
+		gotomarker lift_14 70 wait
+	}
+
+	trigger run_15
+	{
+		gotomarker lift_15 70 wait
+	}
+
+	trigger run_16
+	{
+		gotomarker lift_16 70 wait
+	}
+
+	trigger run_17
+	{
+		gotomarker lift_17 70 wait
+	}
+
+	trigger run_18
+	{
+		gotomarker lift_18 70 wait
+	}
+
+	trigger run_19
+	{
+		gotomarker lift_19 70 wait
+	}
+	trigger run_20
+	{
+		gotomarker lift_20 70 wait
+	}
+	trigger run_21
+	{
+		gotomarker lift_21 70 wait
+	}
+	trigger run_22
+	{
+		gotomarker lift_22 70 wait
+	}
+
+	trigger run_23_1
+	{
+		gotomarker lift_23 70 wait
+	}
+
+	trigger run_23_2
+	{
+		gotomarker lift_23 70 wait
+	}
+
+	trigger run_ending
+	{
+		gotomarker lift_end 70 wait
+	}
+
+}
+
+
+liftunit
+{
+	spawn
+	{
+		accum 2 set 0
+	}
+	
+	trigger stopsound
+	{
+		stopsound
+	}
+
+	trigger run_0
+	{
+		playsound sound/movers/motors/motor_loop_01.wav looping
+		gotomarker lift_0 70 wait
+		trigger lift run_continue
+	}
+
+	trigger run_1
+	{
+		gotomarker lift_1 70 wait
+		trigger lift run_continue
+	}
+
+	trigger run_2
+	{
+		gotomarker lift_2 70 wait
+		trigger lift run_continue
+	}
+
+	trigger run_3
+	{
+		gotomarker lift_3 70 wait
+		trigger lift run_continue
+	}
+
+	trigger run_4
+	{
+		gotomarker lift_4 70 wait
+		trigger lift run_continue
+	}
+
+	trigger run_5
+	{
+		gotomarker lift_5 70 wait
+		trigger lift run_continue
+	}
+
+	trigger run_6
+	{
+		gotomarker lift_6 70 wait
+		trigger lift run_continue
+	}
+
+	trigger run_7
+	{
+		gotomarker lift_7 70 wait
+		trigger lift run_continue
+	}
+
+	trigger run_8
+	{
+		gotomarker lift_8 70 wait
+		trigger lift run_continue
+	}
+
+	trigger run_9
+	{
+		gotomarker lift_9 70 wait
+		trigger lift run_continue
+	}
+
+	trigger run_10
+	{
+		gotomarker lift_10 70 wait
+		trigger lift run_continue
+	}
+
+	trigger run_11
+	{
+		gotomarker lift_11 70 wait
+		trigger lift run_continue
+	}
+
+	trigger run_12
+	{
+		gotomarker lift_12 70 wait
+		trigger lift run_continue
+	}
+
+	trigger run_13
+	{
+		gotomarker lift_13 70 wait
+		trigger lift run_continue
+	}
+
+	trigger run_14
+	{
+		gotomarker lift_14 70 wait
+		trigger lift run_continue
+	}
+
+	trigger run_15
+	{
+		gotomarker lift_15 70 wait
+		trigger lift run_continue
+	}
+
+	trigger run_16
+	{
+		gotomarker lift_16 70 wait
+		trigger lift run_continue
+	}
+
+	trigger run_17
+	{
+		gotomarker lift_17 70 wait
+		trigger lift run_continue
+	}
+
+	trigger run_18
+	{
+		gotomarker lift_18 70 wait
+		trigger lift run_continue
+	}
+
+	trigger run_19
+	{
+		gotomarker lift_19 70 wait
+		trigger lift run_continue
+	}
+	trigger run_20
+	{
+		gotomarker lift_20 70 wait
+		trigger lift run_continue
+	}
+	trigger run_21
+	{
+		gotomarker lift_21 70 wait
+		trigger lift run_continue
+	}
+	trigger run_22
+	{
+		gotomarker lift_22 70 wait
+		trigger lift run_continue
+	}
+	trigger run_23
+	{
+		gotomarker lift_23 70 wait
+		trigger lift run_continue
+	}
+}
+
+
+// ================================================
+// ============ AXISCOMMAND POST ============
+// ================================================
+// Shield: Remove Allied Part in Entity
+
+axis_compost_built
+{
+	spawn
+	{
+		wait 400
+		trigger axis_compost_built setup
+
+		constructible_class 2
+	}
+
+	trigger setup
+	{
+		setchargetimefactor 0 soldier 1
+		setchargetimefactor 0 lieutenant 1
+		setchargetimefactor 0 medic 1
+		setchargetimefactor 0 engineer 1
+		setchargetimefactor 0 covertops 1
+		sethqstatus 0 0
+	}
+
+	buildstart final
+	{
+		setstate axis_compost_built_model underconstruction
+		setstate neutral2_compost_closed_clip invisible
+		setstate neutral2_compost_closed_model invisible
+	}
+
+	built final
+	{
+		setstate axis_compost_built_model default
+		setstate neutral2_compost_closed_clip invisible
+		setstate neutral2_compost_closed_model invisible
+
+		trigger axis_compost_built_model enable_axis_features
+
+		enablespeaker axis_compost_sound
+	}
+
+	decayed final
+	{
+		setstate axis_compost_built_model invisible
+		setstate neutral2_compost_closed_clip default
+		setstate neutral2_compost_closed_model default
+	}
+
+	death
+	{
+		setstate axis_compost_built_model invisible
+		setstate neutral2_compost_closed_clip default
+		setstate neutral2_compost_closed_model default
+
+		trigger axis_compost_built_model disable_axis_features
+
+		disablespeaker axis_compost_sound
+	}
+}
+
+axis_compost_built_model
+{
+	spawn
+	{
+		wait 400
+		setstate axis_compost_built_model invisible
+	}
+
+	trigger enable_axis_features
+	{
+		setchargetimefactor 0 soldier 0.75
+		setchargetimefactor 0 lieutenant 0.75
+		setchargetimefactor 0 medic 0.75
+		setchargetimefactor 0 engineer 0.75
+		setchargetimefactor 0 covertops 0.75
+		sethqstatus 0 1
+
+		wm_announce	"Axis Command Post constructed. Charge speed increased!"
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "axis_hq_compost_constructed"
+
+		wm_teamvoiceannounce 1 "allies_hq_compost_constructed_axis"
+
+		wm_removeteamvoiceannounce 0 "axis_hq_compost_construct"
+		// *---------------------------------------------------------------------------------*
+
+		wm_objective_status 6 0 1
+		wm_objective_status 6 1 2
+	}
+
+	trigger disable_axis_features
+	{
+		setchargetimefactor 0 soldier 1
+		setchargetimefactor 0 lieutenant 1
+		setchargetimefactor 0 medic 1
+		setchargetimefactor 0 engineer 1
+		setchargetimefactor 0 covertops 1
+		sethqstatus 0 0
+
+		wm_announce	"Allied team has destroyed the Axis Command Post!"
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_addteamvoiceannounce 0 "axis_hq_compost_construct"
+
+		wm_teamvoiceannounce 0 "axis_hq_compost_damaged"
+		// *---------------------------------------------------------------------------------*
+
+		wm_objective_status 6 0 0
+		wm_objective_status 6 1 0
+	}
+}
+

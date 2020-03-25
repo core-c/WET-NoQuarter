@@ -1,0 +1,75 @@
+weaponDef
+{
+	both {
+		name					"MP40"
+		statname				"MP-40"
+		damage					18
+		spread					600
+		spreadRatio				0.6
+		SpreadScaleAdd			15
+		SpreadScaleAddRand		10
+		viewchange2spread
+		CrouchSpreadRatio		0.6
+		ProneSpreadRatio		0.6
+		selfKillMessage			"found a way to shoot himself!"
+		KillMessage				"was killed by"
+		KillMessage2			"'s MP40."
+		headshotWeapon
+		bulletReflection
+		DistanceFalloff
+	}
+
+	client {
+		standModel				"models/weapons2/mp40/mp40_stand.mdc"
+		pickupModel				"models/weapons2/mp40/mp40_3rd.md3"
+		bounceSound				"sound/weapons/weaponbounce.wav"
+		clipBounceSound			"sound/weapons/clipbounce.wav"
+
+		weaponConfig			"models/weapons2/mp40/weapon.cfg"
+		handsModel				"models/weapons2/mp40/v_mp40_hand.mdc"
+
+		flashDlightColor		1.0 0.6 0.23
+		flashSound				"sound/weapons/mp40/mp40_fire.wav"
+		flashEchoSound			"sound/weapons/mp40/mp40_far.wav"
+
+		reloadSound				"sound/weapons/mp40/mp40_reload.wav"
+		reloadFastSound			"sound/weapons/mp40/mp40_reload_fast.wav"
+
+		weaponIcon				"icons/iconw_mp40"
+		weaponSelectedIcon		"icons/iconw_mp40_1_select"
+
+		ejectBrassFunc			"MachineGunEjectBrass"
+		brassmodel				"models/weapons2/shells/9mmshell.md3"
+
+		firstPerson {
+			model				"models/weapons2/mp40/v_mp40.md3"
+			flashModel			"models/weapons2/mp40/v_mp40_flash.mdc"
+
+			weaponLink
+			{
+				part 0
+				{
+					tag			"tag_barrel"
+					model		"models/weapons2/mp40/v_mp40_barrel.mdc"
+				}
+				part 1
+				{
+					tag			"tag_barrel2"
+					model		"models/weapons2/mp40/v_mp40_barrel2.mdc"
+				}
+				part 2
+				{
+					tag			"tag_barrel3"
+					model		"models/weapons2/mp40/v_mp40_barrel3.mdc"
+					axisskin	"models/weapons2/mp40/mp40_axis.skin"
+					alliedskin	"models/weapons2/mp40/mp40_allied.skin"
+				}
+			}
+		}
+
+		thirdPerson {
+			model				"models/weapons2/mp40/mp40_3rd.md3"
+			flashmodel			"models/weapons2/mp40/mp40_flash.mdc"
+		}
+	}
+}

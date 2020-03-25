@@ -1,0 +1,83 @@
+weaponDef
+{
+	both {
+		name					"Deployed Mortar"
+		statname				"Mortar"
+		damage					400
+		splashdamage			400
+		splashdamage_radius		250
+		selfKillMessage			"never saw his own mortar round coming."
+		KillMessage				"never saw"
+		KillMessage2			"s mortar round coming."
+		movementSpeedScale		0.5
+		GibbingWeapon
+	}
+
+	client {
+		weaponConfig			"models/multiplayer/mortar/weapon.cfg"
+		handsModel				"models/multiplayer/mortar/v_mortar_hand.md3"
+
+		spinupSound				"sound/weapons/mortar/mortar_fire.wav"
+		switchSound				"sound/weapons/mortar/mortar_on.wav"
+
+		weaponIcon				"icons/iconw_mortar"
+		weaponSelectedIcon		"icons/iconw_mortar_1_select"
+
+		missileModel			"models/multiplayer/mortar/mortar_shell.md3"
+		missileSound			"sound/weapons/mortar/mortar_fly.wav"
+		missileTrailFunc		"RocketTrail"
+		missileDlight			600
+		missileDlightColor		1 0.7 0.5
+
+		firstPerson {
+			model				"models/multiplayer/mortar/v_mortar.md3"
+
+			weaponLink
+			{
+				part 0
+				{
+					tag			"tag_barrel"
+					model		"models/multiplayer/mortar/v_mortar_barrel.md3"
+				}
+				part 1
+				{
+					tag			"tag_barrel2"
+					model		"models/multiplayer/mortar/v_mortar_barrel2.md3"
+					axisskin	"models/multiplayer/mortar/mortar_axis.skin"
+					alliedskin	"models/multiplayer/mortar/mortar_allied.skin"
+				}
+				part 2
+				{
+					tag			"tag_barrel3"
+					model		"models/multiplayer/mortar/v_mortar_barrel3.md3"
+				}
+				part 3
+				{
+					tag			"tag_barrel4"
+					model		"models/multiplayer/mortar/v_mortar_barrel4.md3"
+				}
+				part 4
+				{
+					tag			"tag_barrel5"
+					model		"models/multiplayer/mortar/v_mortar_barrel5.md3"
+				}
+				part 5
+				{
+					tag			"tag_barrel6"
+					model		"models/multiplayer/mortar/v_mortar_barrel6.md3"
+				}
+				part 6
+				{
+					tag			"tag_barrel7"
+					model		"models/multiplayer/mortar/v_mortar_barrel7.md3"
+				}				
+			}
+		}
+
+		thirdPerson {
+			model				"models/multiplayer/mortar/mortar_3rd.md3"
+			axisskin			"models/multiplayer/mortar/mortar_3rd_allied.skin"
+			alliedskin			"models/multiplayer/mortar/mortar_3rd_allied.skin"
+		}
+	}
+}

@@ -1,0 +1,46 @@
+weaponDef
+{
+	both {
+		name					"Poison Needle"
+		statname				"Poison"
+		damage					1
+		selfKillMessage			"tasted his own poison."
+		KillMessage				"was lethally injected by"
+		KillMessage2			"'s poison needle."
+	}
+
+	client {
+		weaponConfig			"models/multiplayer/syringe/weapon.cfg"
+		handsModel				"models/multiplayer/syringe/v_syringe_hand.md3"
+
+		flashSound				"sound/weapons/poison/poison_slash1.wav"
+		flashSound				"sound/weapons/poison/poison_slash2.wav"
+
+		weaponIcon				"icons/iconw_syringe"
+		weaponSelectedIcon		"icons/iconw_syringe_1_select"
+
+		firstPerson {
+			model				"models/multiplayer/syringe/v_syringe.md3"
+			axisskin			"models/multiplayer/syringe/poison_axis.skin"
+			alliedskin			"models/multiplayer/syringe/poison_allied.skin"
+
+			weaponLink
+			{
+				part 0
+				{
+					tag			"tag_weapon"
+					model		"models/multiplayer/syringe/v_syringe_barrel.md3"
+					axisskin	"models/multiplayer/syringe/poison_axis.skin"
+					alliedskin	"models/multiplayer/syringe/poison_allied.skin"
+				}
+
+			}
+		}
+
+		thirdPerson {
+			model				"models/multiplayer/syringe/syringe.md3"
+			axisskin			"models/multiplayer/syringe/poison_axis.skin"
+			alliedskin			"models/multiplayer/syringe/poison_allied.skin"
+		}
+	}
+}

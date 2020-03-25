@@ -1,0 +1,119 @@
+weaponDef
+{
+	both {
+		name					"Browning Autom. Rifle"
+		statname				"BAR"
+		damage					19
+		spread					600
+		spreadRatio				0.9
+		SpreadScaleAdd			15
+	 	SpreadScaleAddRand		20
+		viewchange2spread
+		CrouchSpreadRatio		0.6
+		ProneSpreadRatio		0.6
+		recoilDuration			25
+		recoilPitch				0.1
+		recoilYaw				0.0
+		selfKillMessage			"found a way to shoot himself!"
+		KillMessage				"was gunned down by"
+		KillMessage2			"'s BAR."
+		movementSpeedScale		0.75
+		headshotWeapon
+		bulletReflection
+		DistanceFalloff	
+	}
+
+	both_altweap {
+		name					"Deployed Browning Automatic"
+		damage					19
+		spread					400
+		spreadRatio				0.8
+		SpreadScaleAdd			20
+		SpreadScaleAddRand		20
+		viewchange2spread
+		velocity2spread
+		recoilDuration			10
+		recoilPitch				0.05
+		recoilYaw				0.0
+		movementSpeedScale		0.75
+		headshotWeapon
+		bulletReflection
+		DistanceFalloff
+	}
+
+	client {
+		offset 0 0 -2
+		foreShorten	.8
+		droppedAnglesHack
+		pickupModel				"models/weapons2/bar/bar_pickup.md3"
+		bounceSound				"sound/weapons/weaponbounce.wav"
+		clipBounceSound			"sound/weapons/clipbounce.wav"
+		
+		weaponConfig			"models/weapons2/bar/weapon.cfg"
+		handsModel				"models/weapons2/bar/v_bar_hand.md3"
+		
+		flashDlightColor		1.0 0.6 0.23
+		flashSound				"sound/weapons/bar/bar_fire.wav"
+		flashEchoSound			"sound/weapons/bar/bar_far.wav"
+		
+		overheatSound			"sound/weapons/sten/sten_heat.wav"
+		reloadSound				"sound/weapons/bar/bar_reload.wav"
+		reloadFastSound			"sound/weapons/bar/bar_reload_fast.wav"
+		
+		weaponIcon				"icons/iconw_bar"
+		weaponSelectedIcon		"icons/iconw_bar_1_select"
+		
+		ejectBrassFunc			"MachineGunEjectBrass"
+		brassmodel				"models/weapons2/shells/3006shell.md3"
+		
+		modModel 0				"models/weapons2/bar/bar3rd_bipod.md3"
+		
+		firstPerson {
+			model				"models/weapons2/bar/v_bar.md3"
+			axisskin			"models/weapons2/bar/bar_axis.skin"
+			alliedskin			"models/weapons2/bar/bar_allied.skin"
+			flashModel			"models/multiplayer/mg42/v_mg42_flash.mdc"
+
+			weaponLink
+			{
+				part 0
+				{
+					tag			"tag_barrel"
+					model		"models/weapons2/bar/v_bar_barrel.md3"
+				}
+				part 1
+				{
+					tag			"tag_barrel2"
+					model		"models/weapons2/bar/v_bar_barrel2.md3"
+				}
+				part 2
+				{
+					tag			"tag_barrel3"
+					model		"models/weapons2/bar/v_bar_barrel3.md3"
+					axisskin	"models/weapons2/bar/bar_axis.skin"
+					alliedskin	"models/weapons2/bar/bar_allied.skin"
+				}
+				part 3
+				{
+					tag			"tag_barrel4"
+					model		"models/weapons2/bar/v_bar_barrel4.md3"
+				}
+				part 4
+				{
+					tag			"tag_barrel5"
+					model		"models/weapons2/bar/v_bar_barrel5.md3"
+				}
+				part 5
+				{
+					tag			"tag_barrel6"
+					model		"models/weapons2/bar/v_bar_barrel6.md3"
+				}
+			}
+		}
+		
+		thirdPerson {
+			model				"models/weapons2/bar/bar3rd.md3"
+			flashmodel			"models/weapons2/fg42/fg42_flash.mdc"
+		}
+	}
+}

@@ -1,0 +1,437 @@
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/game
+END
+bg_sscript.c
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/game/bg_sscript.c
+END
+be_ea.h
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/game/be_ea.h
+END
+be_ai_char.h
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/game/be_ai_char.h
+END
+g_alarm.c
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/game/g_alarm.c
+END
+g_syscalls.c
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/game/g_syscalls.c
+END
+bg_misc.c
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/game/bg_misc.c
+END
+be_ai_chat.h
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/game/be_ai_chat.h
+END
+g_save.c
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/game/g_save.c
+END
+bg_character.c
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/game/bg_character.c
+END
+g_local.h
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/game/g_local.h
+END
+bg_classes.c
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/game/bg_classes.c
+END
+be_ai_goal.h
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/game/be_ai_goal.h
+END
+bg_stats.c
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/game/bg_stats.c
+END
+q_math.c
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/game/q_math.c
+END
+be_ai_weap.h
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/game/be_ai_weap.h
+END
+g_active.c
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/game/g_active.c
+END
+g_teammapdata.c
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/game/g_teammapdata.c
+END
+g_mem.c
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/game/g_mem.c
+END
+g_antilag.c
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/game/g_antilag.c
+END
+bg_campaign.c
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/game/bg_campaign.c
+END
+g_public.h
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/game/g_public.h
+END
+g_script_actions.c
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/game/g_script_actions.c
+END
+g_main.c
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/game/g_main.c
+END
+g_bot.c
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/game/g_bot.c
+END
+g_multiview.c
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/game/g_multiview.c
+END
+bg_pmove.c
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/game/bg_pmove.c
+END
+g_weapon.c
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/game/g_weapon.c
+END
+g_misc.c
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/game/g_misc.c
+END
+bg_local.h
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/game/bg_local.h
+END
+g_script.c
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/game/g_script.c
+END
+g_config.c
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/game/g_config.c
+END
+be_aas.h
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/game/be_aas.h
+END
+botlib.h
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/game/botlib.h
+END
+g_referee.c
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/game/g_referee.c
+END
+g_vote.c
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/game/g_vote.c
+END
+g_fireteams.c
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/game/g_fireteams.c
+END
+g_items.c
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/game/g_items.c
+END
+game.vcproj
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/game/game.vcproj
+END
+g_team.c
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/game/g_team.c
+END
+g_cmds.c
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/game/g_cmds.c
+END
+g_spawn.c
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/game/g_spawn.c
+END
+bg_slidemove.c
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/game/bg_slidemove.c
+END
+g_team.h
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/game/g_team.h
+END
+g_systemmsg.c
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/game/g_systemmsg.c
+END
+g_match.c
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/game/g_match.c
+END
+g_func_decs.h
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/game/g_func_decs.h
+END
+bg_tracemap.c
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/game/bg_tracemap.c
+END
+g_svcmds.c
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/game/g_svcmds.c
+END
+surfaceflags.h
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/game/surfaceflags.h
+END
+g_combat.c
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/game/g_combat.c
+END
+g_cmds_ext.c
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/game/g_cmds_ext.c
+END
+game.def
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/game/game.def
+END
+q_shared.c
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/game/q_shared.c
+END
+bg_animation.c
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/game/bg_animation.c
+END
+g_session.c
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/game/g_session.c
+END
+g_funcs.h
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/game/g_funcs.h
+END
+q_shared.h
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/game/q_shared.h
+END
+g_target.c
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/game/g_target.c
+END
+be_ai_gen.h
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/game/be_ai_gen.h
+END
+g_mover.c
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/game/g_mover.c
+END
+g_sv_entities.c
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/game/g_sv_entities.c
+END
+g_character.c
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/game/g_character.c
+END
+g_stats.c
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/game/g_stats.c
+END
+g_utils.c
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/game/g_utils.c
+END
+g_buddy_list.c
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/game/g_buddy_list.c
+END
+g_trigger.c
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/game/g_trigger.c
+END
+g_props.c
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/game/g_props.c
+END
+bg_animgroup.c
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/game/bg_animgroup.c
+END
+g_missile.c
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/game/g_missile.c
+END
+g_client.c
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/game/g_client.c
+END
+be_ai_move.h
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/game/be_ai_move.h
+END
+bg_public.h
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/game/bg_public.h
+END

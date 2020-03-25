@@ -1,0 +1,131 @@
+# <PARAMETER>						= text followed by the command. (Can be used to enter multiple values.  
+#								  For example: pb_sv_kick <PARAMETER> can be used to enter slot number, length of kick, and reason.)
+# <CLIENT_ID>						= the client id of the calling player.
+# <PLAYER_LAST_VICTIM_(ID|NAME|CNAME|WEAPON)> 	= last player, you killed
+# <PLAYER_LAST_KILLER_(ID|NAME|CNAME|WEAPON)> 	= last player, that killed you
+# <PLAYER_CLASS> 						= class of calling player
+# <PLAYER_TEAM> 						= side / team of calling player 
+# <PLAYER>							= Name of the calling player (without color codes)
+# <COLOR_PLAYER>						= Name of the calling player (with color codes)
+# <GUID>							= Guid of the calling player (without color codes)
+# <ADMINLEVEL>						= Adminlevel of the calling player
+# <PNAME2ID>						= Get client ID using partial name or client ID directly
+# <PBPNAME2ID>						= Same as <PNAME_ID> accept it gets their punkbuster slot number.
+# <PB_ID>							= Same as <CLIENT_ID> accept it gets your punkbuster clot number.
+# <RANDOM_(ID|CNAME|NAME|CLASS|TEAM>)		= Gets random players ID, Color name, white name, Class, or Team.
+
+
+#Level - command = rcon command
+#command Examples:
+#0 - ref 	= ref referee <CLIENT_ID>
+#2 - vkick 	= clientkick <PLAYER_LAST_KILLER_ID>
+
+
+#A bad example would be 
+#0 - kick player = clientkick <PARAMETER>
+#This is a bad example because you cannot have spaces in your command.  But you can have underscores.
+
+# Rcon Shortcuts (Work with all mods / etmain)
+2 - start                   	= start_match
+2 - swap                    	= swap_teams
+2 - reset                   	= reset_match
+2 - ref	   			= ref referee <CLIENT_ID>
+2 - unref                   	= ref unReferee <CLIENT_ID>
+2 - shuffle                 	= shuffle_teams
+2 - map_restart               = map_restart
+2 - pbkick				= pb_sv_kick <PARAMETER>
+3 - cancelvote			= cancelvote
+3 - passvote			= passvote
+3 - cp				= cp <PARAMETER>
+3 - qsay				= qsay <PARAMETER>
+3 - devmap                    = devmap <PARAMETER>
+3 - exec				= exec <PARAMETER>
+
+# Referee Commands (only ETPRO)
+2 - putallies               	= ref putallies <PNAME2ID>
+2 - putspec                 	= ref remove <PNAME2ID>
+2 - putaxis                 	= ref putaxis <PNAME2ID>
+3 - pause                   	= ref pause
+3 - unpause                 	= ref unpause
+2 - allready                	= ref allready
+2 - lock                    	= ref lock
+2 - unlock                  	= ref unlock
+2 - speclock                	= ref speclock
+2 - specunlock              	= ref specunlock
+2 - nextmap                 	= ref nextmap
+2 - mutespecs               	= ref mutespecs
+2 - unmutespecs             	= ref unmutespecs
+3 - map                     	= ref map <PARAMETER>
+3 - campaign                	= ref campaign <PARAMETER>
+3 - gametype                	= ref gametype <PARAMETER>
+3 - config				= ref config <PARAMETER>
+3 - pub                     	= ref pub
+3 - comp                    	= ref comp
+1 - cointoss			= ref cointoss
+
+# Shuffle without restart
+2 - shuffle_norestart       	= ref shuffleteamsxp_norestart
+2 - shuffleteamsxp_norestart	= ref shuffleteamsxp_norestart
+
+# campaign functions
+3 - campaign                	= campaign <PARAMETER>
+
+# To kick a player without temporary ban. Change the message, if you like.
+2 - fkick                	= pb_sv_kick <PBPNAME2ID> 0 Come back in, if you want
+
+# Shortcut to make the called a shoutcaster / remove his statua
+3 - ms                      	= makeShoutcaster <CLIENT_ID>
+0 - rs                      	= removeShoutcaster <CLIENT_ID>
+
+# Moves the calling person into the specific team
+2 - putmeaxis               	= ref putaxis <CLIENT_ID>
+2 - putmeallies             	= ref putallies <CLIENT_ID>
+2 - putmespec               	= ref remove <CLIENT_ID>
+
+#FUN
+#0 - moo				= qsay ^1MOO!!!!!!!!!!!!!! ; qsay ^2MOO 2!!!!!!!!!!!!!!!!
+0 - drunk				= qsay ^3DONT TELL ME ^1WHEN I'VE HAD ENOUGH!
+0 - stup				= qsay ^2It's better to lose than to win
+0 - croyt				= qsay ^2HOW DO YOU NOT DIE!!!!
+0 - aim				= qsay ^2*Get some glasses for pete's sake*
+0 - beer                    	= qsay A nice sexy waitress brings ^7<COLOR_PLAYER>^7 a nice cup of beer!
+0 - pizza                   	= qsay Someone calls Mario, and he brings ^7<COLOR_PLAYER>^7 a hot pepperoni pizza!
+0 - coke                    	= qsay ^3Ah... A delicious glass of cold Coca Cola[tm] (*thinks ^7<COLOR_PLAYER>^3 while he drinks*)
+0 - pfstinkt                	= qsay ^3Uh, that smell of the panzer is pretty strong today ... ^3(^7<COLOR_PLAYER>^3's opinion)
+0 - bye                     	= qsay ^7<COLOR_PLAYER>^3 waves his hand to say ^1GOOD BYE^3. We surely meet later! ; playsound -1 sound/misc/bye.wav
+0 - backrage		      = qsay ^3Wow, <PLAYER_LAST_KILLER_CNAME> ^3has backrage skills with his uber ^1<PLAYER_LAST_KILLER_WEAPON>
+0 - porn			      = qsay ^3Press F7 to download!
+0 - aimbot				= qsay ^3!execute aimbot.cfg
+0 - dean			      = qsay ^1Warning, med pile sited!
+0 - pack			      = qsay ^3Run and heal! Come back when you're ready to get pwnd!
+0 - tk                      	= qsay Wait! Don't shoot! My teammates will kill me for you!
+1 - holyshit			= playsound -1 sound/misc/holyshit.wav
+1 - denied				= playsound -1 sound/misc/Denied.wav
+1 - headshot1			= playsound -1 sound/misc/boomheadshot.wav
+1 - headshot2			= playsound -1 sound/misc/Headshot.wav
+1 - prick				= playsound -1 sound/misc/prick.wav
+2 - respect				= playsound -1 sound/misc/respect_x.wav
+1 - victory				= playsound -1 sound/misc/victory.wav
+1 - jackass				= playsound -1 sound/misc/DONKEY.wav
+1 - looser				= playsound -1 sound/misc/ae821.wav
+1 - goodnews			= playsound -1 sound/misc/goodnews.wav
+1 - nogodno				= playsound -1 sound/misc/nogodno.wav
+0 - random				= qsay <RANDOM_CNAME> ^3is on the <RANDOM_TEAM> team as a <RANDOM_CLASS>!
+
+#Password
+3 - password                	= g_password <PARAMETER>
+
+#for spamming
+0 - owned                   	= qsay ^1Ha^3ha^5ha^3, i owned ^7<PLAYER_LAST_VICTIM_CNAME>^3 with my ^7<PLAYER_LAST_VICTIM_WEAPON>^7!!!
+0 - pants                   	= qsay ^1No^3no^5noooo^7, i was killed by ^3<PLAYER_LAST_KILLER_CNAME>^7 with a ^3<PLAYER_LAST_KILLER_WEAPON>^7!!!
+0 - whoami                  	= qsay I am <COLOR_PLAYER>^7. I play ^3<PLAYER_CLASS>^7 on the ^3<PLAYER_TEAM>^7 side.
+0 - victimized		      = qsay <PLAYER_LAST_VICTIM_CNAME>^1, You've just been victimized by <COLOR_PLAYER>^1's <PLAYER_LAST_VICTIM_WEAPON>!!!
+
+#other
+2 - vkick                   	= clientkick <PLAYER_LAST_KILLER_ID>
+2 - vmute                   	= ref mute <PLAYER_LAST_KILLER_ID>
+3 - bluerespawn			= forcecvar g_bluelimbotime <PARAMETER>
+3 - redrespawn			= forcecvar g_redlimbotime <PARAMETER>
+
+9 - goto			= goto <CLIENT_ID> <PARAMETER>
+9 - iwant			= iwant <CLIENT_ID> <PARAMETER>

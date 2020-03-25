@@ -1,0 +1,75 @@
+/////////////////////////////////////////////////////////
+// Map name       Field HQ B2                          //
+// Locations by   antman                               //
+// Modified by    antman                               //
+// Recommended    b_locationMaxChars 20                //
+// Last edited    17-03-2007                           //
+// http://www.antman.info/wolf/etpro/locations/        //
+/////////////////////////////////////////////////////////
+1368 -1846 320 "Allied Barracks"
+3006 2947 344 "Axis Barracks"
+3601 2621 350 @
+1959 657 110 "Bunker Corridor"
+2630 -88 192 @
+2525 2002 52 "Bunker Courtyard"
+2816 1163 40 @
+3289 749 107 @
+3431 -94 240 @
+3997 839 153 @
+3344 1827 116 @
+2942 2002 131 @
+2699 2428 64 "Bunker Equipment"
+2852 2947 344 "Bunker Stairwell"
+2523 3029 64 @
+-514 -1312 336 "Command Center Field"
+-938 -1958 336 @
+-1074 -896 336 @
+-170 964 8 "Command Post"
+1199 742 96 "Forward Bunker"
+1572 1393 32 @
+1828 830 96 @
+2550 1137 48 @
+2131 1183 48 @
+1579 1604 6 "Forward Bunker Path"
+1752 2386 42 @
+1563 1996 8 @
+2325 973 48 "Health and Ammo"
+2634 -74 388 "Keycard"
+2861 813 76 "Large Generators"
+2307 -986 400 "Main Bunker"
+2325 -654 400 @
+2686 -374 400 @
+2308 -1033 192 @
+3061 -199 400 @
+2904 -129 240 @
+3272 -98 240 @
+2197 -671 192 "Main Entrance"
+2129 -1033 192 @
+1371 -1666 306 "Main Entrance Path"
+1824 -679 193 @
+935 -646 127 @
+3601 2621 160 "Rear Bunker"
+3347 2000 128 @
+1891 2537 64 @
+2358 3024 64 @
+2526 2214 64 @
+2549 2682 64 @
+4277 1628 200 @
+4442 1163 184 "Secret Documents"
+373 950 8 "Side Bunker"
+-21 620 8 @
+111 1312 8 @
+1018 737 96 @
+111 1694 4 "Side Bunker Path"
+730 1977 4 @
+383 555 2 "Side Entrance"
+350 222 12 "Side Entrance Path"
+-108 -1159 253 @
+721 -534 105 @
+103 105 16 @
+-1044 -1394 336 "Transmitter"
+1157 1957 10 "Truck"
+4175 834 160 "War Room"
+4438 982 160 @
+4699 1410 200 @
+4279 1460 200 @

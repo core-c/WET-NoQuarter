@@ -1,0 +1,164 @@
+fueldump_axis_bridge_stop
+{
+	sound sound/vo/fueldump/axis/hq_bridgestop.wav
+	voice
+	streaming
+}
+
+
+fueldump_allies_bridge_construct
+{
+	sound sound/vo/fueldump/allies/hq_bridgecon.wav
+	voice
+	streaming
+}
+
+fueldump_allies_bridge_constructed
+{
+	sound sound/vo/fueldump/allies/hq_bridgeconst.wav
+	voice
+	streaming
+}
+
+fueldump_axis_bridge_destroy
+{
+	sound sound/vo/fueldump/axis/hq_bridgeconst.wav
+	voice
+	streaming
+}
+
+radar_allies_entrance1_destroyed
+{
+	sound sound/vo/radar/allies/hq_entrance1dest.wav
+	voice
+	streaming
+}
+
+radar_axis_entrance1_destroyed
+{
+	sound sound/vo/radar/axis/hq_entrance1dest.wav
+	voice
+	streaming
+}
+
+fueldump_allies_bridge_destroyed
+{
+	sound sound/vo/fueldump/allies/hq_bridgedest.wav
+	voice
+	streaming
+}
+
+fueldump_axis_bridge_destroyed
+{
+	sound sound/vo/fueldump/axis/hq_bridgedest.wav
+	voice
+	streaming
+}
+
+radar_allies_entrances_destroy
+{
+	sound sound/vo/radar/allies/hq_entrancesdyn.wav
+	voice
+	streaming
+}
+
+
+radar_allies_entrance1_destroyed
+{
+	sound sound/vo/radar/allies/hq_entrance1dest.wav
+	voice
+	streaming
+}
+
+radar_allies_entrance2_destroyed
+{
+	sound sound/vo/radar/allies/hq_entrance2dest.wav
+	voice
+	streaming
+}
+
+radar_axis_entrances_defend
+{
+	sound sound/vo/radar/axis/hq_entrancesdef.wav
+	voice
+	streaming
+}
+
+radar_axis_entrance1_destroyed
+{
+	sound sound/vo/radar/axis/hq_entrance1dest.wav
+	voice
+	streaming
+}
+
+
+radar_axis_entrance2_destroyed
+{
+	sound sound/vo/radar/axis/hq_entrance2dest.wav
+	voice
+	streaming
+}
+
+
+conbar
+{
+	sound sound/extra/conbar.wav
+	voice
+	streaming
+}
+
+
+mainbar
+{
+	sound sound/extra/mainbar.wav
+	voice
+	streaming
+}
+
+sidebar
+{
+	sound sound/extra/sidebar.wav
+	voice
+	streaming
+}
+
+sbardesed
+{
+	sound sound/extra/sbardesed.wav
+	voice
+	streaming
+}
+
+mbardesed
+{
+	sound sound/extra/mbardesed.wav
+	voice
+	streaming
+}
+
+gatedes
+{
+	sound sound/extra/gatedest.wav
+	voice
+	streaming
+}
+
+gatecon
+{
+	sound sound/extra/gatecon.wav
+	voice
+	streaming
+}
+fbl
+{
+	sound sound/extra/fbl.wav
+	voice
+	streaming
+}
+
+fbs
+{
+	sound sound/extra/fbs.wav
+	voice
+	streaming
+}

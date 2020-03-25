@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/nq/!svn/ver/4189/branches/experimental/src/sha-1
+END
+license.txt
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/nq/!svn/ver/4189/branches/experimental/src/sha-1/license.txt
+END
+sha1.h
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/nq/!svn/ver/4189/branches/experimental/src/sha-1/sha1.h
+END
+sha.c
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/nq/!svn/ver/4189/branches/experimental/src/sha-1/sha.c
+END
+shatest.c
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/nq/!svn/ver/4189/branches/experimental/src/sha-1/shatest.c
+END
+sha1.c
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/nq/!svn/ver/4189/branches/experimental/src/sha-1/sha1.c
+END

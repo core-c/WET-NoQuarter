@@ -1,0 +1,101 @@
+K 25
+svn:wc:ra_dav:version-url
+V 36
+/svn/nq/!svn/ver/4387/tags/1.2.9/src
+END
+makebundle.sh
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/nq/!svn/ver/4387/tags/1.2.9/src/makebundle.sh
+END
+cross-scons.sh
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/nq/!svn/ver/4387/tags/1.2.9/src/cross-scons.sh
+END
+build_mac.sh
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/nq/!svn/ver/4387/tags/1.2.9/src/build_mac.sh
+END
+NoQuarter (VC2005).sln
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/nq/!svn/ver/4387/tags/1.2.9/src/NoQuarter%20(VC2005).sln
+END
+scons_utils.py
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/nq/!svn/ver/4387/tags/1.2.9/src/scons_utils.py
+END
+SConscript.game
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/nq/!svn/ver/4387/tags/1.2.9/src/SConscript.game
+END
+NoQuarter (VC++2008EE).sln
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/nq/!svn/ver/4387/tags/1.2.9/src/NoQuarter%20(VC++2008EE).sln
+END
+SConscript.cgame
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/nq/!svn/ver/4387/tags/1.2.9/src/SConscript.cgame
+END
+ETNQ.sln
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn/nq/!svn/ver/4387/tags/1.2.9/src/ETNQ.sln
+END
+SConscript.ui
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/nq/!svn/ver/4387/tags/1.2.9/src/SConscript.ui
+END
+ETNQ.dsw
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn/nq/!svn/ver/4387/tags/1.2.9/src/ETNQ.dsw
+END
+package.sh
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/nq/!svn/ver/4387/tags/1.2.9/src/package.sh
+END
+NoQuarter (VC2005).slnenv
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/nq/!svn/ver/4387/tags/1.2.9/src/NoQuarter%20(VC2005).slnenv
+END
+SConstruct
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/nq/!svn/ver/4387/tags/1.2.9/src/SConstruct
+END
+SConscript.profiler
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/nq/!svn/ver/4387/tags/1.2.9/src/SConscript.profiler
+END
+scons.signatures.dblite
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/nq/!svn/ver/4387/tags/1.2.9/src/scons.signatures.dblite
+END

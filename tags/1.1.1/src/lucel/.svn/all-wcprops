@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 41
+/svn/nq/!svn/ver/711/tags/1.1.1/src/lucel
+END
+nq_make_client.sh
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/nq/!svn/ver/711/tags/1.1.1/src/lucel/nq_make_client.sh
+END
+nq_constants.sh
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/nq/!svn/ver/711/tags/1.1.1/src/lucel/nq_constants.sh
+END
+nq_make_release.sh
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/nq/!svn/ver/711/tags/1.1.1/src/lucel/nq_make_release.sh
+END
+nq_make_assets.sh
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/nq/!svn/ver/711/tags/1.1.1/src/lucel/nq_make_assets.sh
+END
+nq_make_profiler.sh
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/nq/!svn/ver/711/tags/1.1.1/src/lucel/nq_make_profiler.sh
+END
+nq_make_server.sh
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/nq/!svn/ver/711/tags/1.1.1/src/lucel/nq_make_server.sh
+END

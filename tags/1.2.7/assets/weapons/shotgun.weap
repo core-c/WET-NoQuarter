@@ -1,0 +1,108 @@
+weaponDef
+{
+	both {
+		name					"Shotgun"
+		statname				"Shotgun"
+		damage					11
+		spread					1000
+		spreadRatio				0.8
+		viewchange2spread
+		recoilDuration			250
+		recoilPitch				0.6
+		recoilYaw				0.0
+		selfKillMessage			"found a way to shoot himself!"
+		KillMessage				"was blown away by"
+		KillMessage2			"'s Winchester M97."
+		headshotWeapon
+		bulletReflection
+		DistanceFalloff
+	}
+
+	client {
+		foreShorten .85
+		standModel				"models/weapons2/winchester/winchester_3rd.md3"
+		pickupModel				"models/weapons2/winchester/winchester_pickup.md3"
+		bounceSound				"sound/weapons/weaponbounce.wav"
+		clipBounceSound			"sound/weapons/clipbounce.wav"
+		
+		weaponConfig			"models/weapons2/winchester/weapon.cfg"
+		handsModel				"models/weapons2/winchester/v_winchester_hand.md3"
+		
+		flashDlightColor		1.0 0.6 0.23
+		flashSound				"sound/weapons/shotgun/shotgun_fire.wav"
+		flashEchoSound			"sound/weapons/shotgun/shotgun_far.wav"
+		lastShotSound			"sound/weapons/shotgun/shotgun_lastshot.wav"
+		
+		reloadSound				"sound/weapons/shotgun/shotgun_addshell.wav"
+		reloadFastSound			"sound/weapons/shotgun/shotgun_reloadpump.wav"
+		
+		weaponIcon				"icons/iconw_shotgun"
+		weaponSelectedIcon		"icons/iconw_shotgun_1_select"
+		
+		ejectBrassFunc			"MachineGunEjectBrass"
+		brassmodel				"models/weapons2/shells/sgshell.md3"
+
+		firstPerson {
+			model				"models/weapons2/winchester/v_winchester.md3"
+			flashModel			"models/weapons2/mp40/v_mp40_flash.mdc"
+
+			weaponLink
+			{				
+				part 0
+				{
+					tag			"tag_slide"
+					model		"models/weapons2/winchester/v_winchester_slide.md3"			
+				}
+				part 1
+				{
+					tag			"tag_carrier"
+					model		"models/weapons2/winchester/v_winchester_carrier.md3"
+				}
+				part 2
+				{
+					tag			"tag_rarm"
+					model		"models/weapons2/winchester/v_winchester_rarm.md3"
+					axisskin	"models/weapons2/winchester/winchester_rarm_axis.skin"
+					alliedskin	"models/weapons2/winchester/winchester_rarm_allied.skin"
+				}
+				part 3
+				{
+					tag			"tag_shell"
+					model		"models/weapons2/winchester/v_winchester_shell.md3"
+				}
+				part 4
+				{
+					tag			"tag_bolt"
+					model		"models/weapons2/winchester/v_winchester_bolt.md3"
+				}
+				part 5
+				{
+					tag			"tag_hammer"
+					model		"models/weapons2/winchester/v_winchester_hammer.md3"
+				}
+				part 6
+				{
+					tag			"tag_sleeve"
+					model		"models/weapons2/winchester/v_winchester_sleeve.md3"
+				}
+				part 7
+				{
+					tag			"tag_shell2"
+					model		"models/weapons2/winchester/v_winchester_shell2.md3"
+				}
+				part 8
+				{
+					tag			"tag_arm"
+					model		"models/weapons2/winchester/v_winchester_larm.md3"			
+					axisskin	"models/weapons2/winchester/winchester_slide_axis.skin"
+					alliedskin	"models/weapons2/winchester/winchester_slide_allied.skin"
+				}
+			}
+		}
+		
+		thirdPerson {
+			model				"models/weapons2/winchester/winchester_3rd.md3"
+			flashmodel			"models/weapons2/mp40/v_mp40_flash.mdc"
+		}
+	}
+}

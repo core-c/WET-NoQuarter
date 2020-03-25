@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 43
+/svn/nq/!svn/ver/2844/trunk/src/lua/include
+END
+lauxlib.h
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/nq/!svn/ver/2844/trunk/src/lua/include/lauxlib.h
+END
+lua.h
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/nq/!svn/ver/1892/trunk/src/lua/include/lua.h
+END
+lua.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/nq/!svn/ver/1892/trunk/src/lua/include/lua.hpp
+END
+luaconf.h
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/nq/!svn/ver/1892/trunk/src/lua/include/luaconf.h
+END
+lualib.h
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/nq/!svn/ver/1892/trunk/src/lua/include/lualib.h
+END

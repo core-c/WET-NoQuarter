@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/nq/!svn/ver/4387/tags/1.2.9/src/lua/Windows
+END
+lua5.1.lib
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/nq/!svn/ver/4387/tags/1.2.9/src/lua/Windows/lua5.1.lib
+END
+lua51.lib
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/nq/!svn/ver/4387/tags/1.2.9/src/lua/Windows/lua51.lib
+END

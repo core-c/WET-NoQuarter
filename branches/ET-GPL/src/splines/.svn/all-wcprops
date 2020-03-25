@@ -1,0 +1,107 @@
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/splines
+END
+math_quaternion.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/splines/math_quaternion.cpp
+END
+Splines.vcproj
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/splines/Splines.vcproj
+END
+math_quaternion.h
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/splines/math_quaternion.h
+END
+util_str.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/splines/util_str.cpp
+END
+q_splineshared.h
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/splines/q_splineshared.h
+END
+util_str.h
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/splines/util_str.h
+END
+math_vector.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/splines/math_vector.cpp
+END
+util_list.h
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/splines/util_list.h
+END
+splines.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/splines/splines.cpp
+END
+math_matrix.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/splines/math_matrix.cpp
+END
+math_vector.h
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/splines/math_vector.h
+END
+splines.h
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/splines/splines.h
+END
+math_matrix.h
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/splines/math_matrix.h
+END
+math_angles.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/splines/math_angles.cpp
+END
+q_shared.c
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/splines/q_shared.c
+END
+math_angles.h
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/splines/math_angles.h
+END
+q_parse.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/splines/q_parse.cpp
+END

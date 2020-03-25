@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/src/macos/src
+END
+curl_GUSIConfig.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/src/macos/src/curl_GUSIConfig.cpp
+END
+macos_main.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/src/macos/src/macos_main.cpp
+END

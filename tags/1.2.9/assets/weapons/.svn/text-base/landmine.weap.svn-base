@@ -1,0 +1,39 @@
+weaponDef
+{
+	both {
+		name					"Landmine"
+		statname				"Landmine"
+		damage					275
+		splashdamage			275
+		splashdamage_radius		275
+		selfKillMessage			"forgot where he planted his landmine."
+		KillMessage				"failed to spot"
+		KillMessage2			"'s Landmine."
+		GibbingWeapon
+	}
+
+	client {
+		weaponConfig			"models/multiplayer/landmine/weapon.cfg"
+		handsModel				"models/multiplayer/landmine/v_landmine_hand.md3"
+
+		weaponIcon				"icons/iconw_landmine"
+		weaponSelectedIcon		"icons/iconw_landmine_1_select"
+
+		alliedMissileModel		"models/multiplayer/landmine/landmine.md3"
+		axisMissileModel		"models/weapons2/smine/smine.md3"
+		missileTrailFunc		"PyroSmokeTrail"
+
+		modModel 0				"models/multiplayer/mine_marker/allied_marker.md3"
+		modModel 1				"models/multiplayer/mine_marker/axis_marker.md3"
+
+		firstPerson {			
+			alliedModel			"models/multiplayer/landmine/v_landmine.md3"
+			axisModel			"models/weapons2/smine/v_smine.md3"	
+		}
+
+		thirdPerson {
+			alliedModel			"models/multiplayer/landmine/landmine.md3"
+			axisModel			"models/weapons2/smine/smine.md3"
+		}
+	}
+}

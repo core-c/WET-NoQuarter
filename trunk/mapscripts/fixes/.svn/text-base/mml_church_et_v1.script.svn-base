@@ -1,0 +1,1456 @@
+// 2009.oct.03 - peyote aka ailmanki , fixed destroyable roof..
+// 2010 Mai, ailmanki, commited to NQ
+/////////////////////////////////////////////////////////////////
+// Game manager object
+game_manager
+{
+	////////////////////////////////////////////////
+	// Initialising
+	// When game starts
+	spawn
+	{
+	
+		//removes the roof at left entry from church
+		//which out of some reason can be destroyed
+		delete
+		{
+		        model "*1"
+		}
+		
+		//adds it again, but its not destroyable
+		create
+		{
+		        type "wood"
+		        health "0" 
+		        spawnflags "76"
+		        classname "func_explosive"
+		        model "*1"
+		}
+
+		// Level initialisation
+		wm_set_round_timelimit 12
+		wm_setwinner 1
+
+		// Set Defending Team for SW Mode
+		wm_set_defending_team 1
+
+		// Set objectives
+		// 0:blank|1:tick|2:cross
+		// Allies = 1, Axis = 0
+
+		wm_number_of_objectives 4
+
+		wm_objective_status 1 1 0
+		wm_objective_status 1 0 0
+		wm_objective_status 2 1 0
+		wm_objective_status 2 0 0
+		wm_objective_status 3 1 0
+		wm_objective_status 3 0 0
+		wm_objective_status 4 1 2
+		wm_objective_status 4 0 1
+
+		// Initial respawn times
+		wm_axis_respawntime 20
+		wm_allied_respawntime 25
+
+		// Initialise alarm variable
+		globalaccum 1 set 0		// 0 = off, 1 = on
+
+		wait 200
+
+		setstate alarm_off_toi default	
+		setstate alarm_on_toi invisible
+	}
+
+	////////////////////////////////////////////////
+	// Alarm is switched off
+	trigger alarm_off
+	{
+		// Stop if alarm is already off
+		globalaccum 1 abort_if_equal 0
+
+		// Mark alarm as off
+		globalaccum 1 set 0
+
+		wm_objective_status 4 1 2
+		wm_objective_status 4 0 1
+
+		// Toggle effects
+		alertentity alarm_light_relay
+
+		setstate alarm_on_brushes invisible
+		setstate alarm_off_brushes default
+		setstate alarm_off_toi default	
+		setstate alarm_off_cmm default	
+		setstate alarm_on_toi invisible
+		setstate alarm_on_cmm invisible
+
+		// Set respawn time
+		wm_allied_respawntime 25
+
+		// Tell everyone
+		wm_announce "The Allied Alarm is off"
+	}
+
+	// Alarm is switched on
+	trigger alarm_on
+	{
+		// Stop if alarm is already on
+		globalaccum 1 abort_if_equal 1
+
+		// Mark alarm as on
+		globalaccum 1 set 1
+
+		wm_objective_status 4 1 1
+		wm_objective_status 4 0 2
+
+		// Play global alarm sound
+		togglespeaker global_speaker_alarm
+
+		// Toggle effects
+		alertentity alarm_light_relay
+
+		setstate alarm_on_brushes default
+		setstate alarm_off_brushes invisible
+		setstate alarm_off_toi invisible
+		setstate alarm_off_cmm invisible
+		setstate alarm_on_toi default
+		setstate alarm_on_cmm default
+
+		// Set respawn time
+		wm_allied_respawntime 15
+
+		// Tell everyone
+		wm_announce "The Allied Alarm is on"
+	}
+
+	////////////////////////////////////////////////
+	// Playing global music
+	trigger play_music_1
+	{
+		togglespeaker global_speaker_1
+	}
+
+	trigger play_music_2
+	{
+		togglespeaker global_speaker_2
+	}
+
+	trigger play_music_3
+	{
+		togglespeaker global_speaker_3
+	}
+}
+
+/////////////////////////////////////////////////////////////////
+// The actual relic
+relic
+{
+	spawn
+	{
+	}
+
+	// Axis capture the relic
+	trigger stolen
+	{
+		// Hide objectivce marker on command map
+		setstate relic_toi invisible
+		setstate relic_map_marker invisible
+
+		// Mark objective as in Axis control
+		wm_objective_status 1 1 2
+		wm_objective_status 1 0 1
+	}
+
+	// Allies return the relic
+	trigger returned
+	{
+		// Show objectivce marker on command map
+		setstate relic_toi default
+		setstate relic_map_marker default
+
+		// Mark objective as in Allied control
+		wm_objective_status 1 1 0
+		wm_objective_status 1 0 0
+	}
+
+	// Axis escape with the relic
+	trigger captured
+	{
+		// Mark objective as completed
+
+		// Mark axis as the winners
+		wm_setwinner 0
+
+		wm_objective_status 2 1 2
+		wm_objective_status 2 0 1
+
+		// Tell everyone
+		wm_announce "Axis have escaped with the Relic"
+
+		// Wait a few seconds
+		wait 3000
+
+		// End the round
+		wm_endround
+	}
+}
+
+/////////////////////////////////////////////////////////////////
+// Truck
+truck
+{
+	// When object is created
+	spawn
+	{
+		faceangles 0 135 0 50
+	}
+}
+
+relic_drop_zone
+{
+	// When object is created
+	spawn
+	{
+	}
+}
+
+alarm_on_brushes
+{
+	spawn
+	{
+		wait 200
+		setstate alarm_on_brushes invisible
+	}
+}
+
+alarm_off_brushes
+{
+	spawn
+	{
+		wait 200
+		setstate alarm_off_brushes default
+	}
+}
+
+/////////////////////////////////////////////////////////////////
+// Side door object
+side_door
+{
+	// When object is created
+	spawn
+	{
+		wait 100
+
+		// Mark as dynamitable only
+		constructible_class 3
+		constructible_destructxpbonus 10
+	}
+
+	// When object is destroyed
+	death
+	{
+		// Mark objective as destroyed
+		wm_objective_status 3 1 2
+		wm_objective_status 3 0 1
+
+		// Tell everyone
+		wm_announce "Axis have blown open the Side Door!"
+	}
+} 
+
+/////////////////////////////////////////////////////////////////
+// Ghost
+ghost
+{
+	spawn
+	{
+	}
+
+	trigger show
+	{
+		// Play music
+		alertentity start_music_playing
+
+		// Move ghost to middle point at speed
+		gotomarker ghost_visible 15 wait
+
+		// Pause for 10 seconds
+		wait 10000
+		
+		// Hide ghost
+		gotomarker ghost_invisible 15
+	}
+}
+
+/////////////////////////////////////////////////////////////////
+// Prisoner ghost
+prisoner
+{
+	spawn
+	{
+	}
+
+	trigger release
+	{
+		// Play music
+		alertentity start_music_playing
+
+		// Move ghost to middle point at speed
+		gotomarker prisoner_visible 25 wait
+
+		// Pause for 10 seconds
+		wait 10000
+		
+		// Hide ghost
+		gotomarker prisoner_invisible 25
+	}
+}
+
+/////////////////////////////////////////////////////////////////
+// Prisoner ghost's wall
+prisoner_wall
+{
+	spawn
+	{
+		// Mark as explosives only
+		constructible_class 1
+		constructible_health 50
+		constructible_destructxpbonus 0
+	}
+}
+
+/////////////////////////////////////////////////////////////////
+// Prisoner ghost's vase
+prisoner_trigger
+{
+	spawn
+	{
+		// Mark as explosives only
+		constructible_class 1
+		constructible_health 50
+		constructible_destructxpbonus 0
+	}
+
+	death
+	{
+		alertentity prisoner_rubble
+		trigger prisoner release
+	}
+}
+
+/////////////////////////////////////////////////////////////////
+// relay
+relay
+{
+	spawn
+	{
+	}
+
+	trigger show_ghost
+	{
+		trigger ghost show
+	}
+}
+
+/////////////////////////////////////////////////////////////////
+// Lights controller
+lights_controller
+{
+	// When object is created
+	spawn
+	{		
+	}
+
+	// Start lights_1 swinging first to the north
+	trigger lights_1_start_swing_north
+	{
+		alertentity lights_1_kill_relay
+		trigger lights_1_rope swing_north
+		trigger lights_1_body swing_north
+	}
+
+	// Start lights_1 swinging first to the south
+	trigger lights_1_start_swing_south
+	{
+		alertentity lights_1_kill_relay
+		trigger lights_1_rope swing_south
+		trigger lights_1_body swing_south
+	}
+
+	// Start lights_2 swinging first to the north
+	trigger lights_2_start_swing_north
+	{
+		alertentity lights_2_kill_relay
+		trigger lights_2_rope swing_north
+		trigger lights_2_body swing_north
+	}
+
+	// Start lights_2 swinging first to the south
+	trigger lights_2_start_swing_south
+	{
+		alertentity lights_2_kill_relay
+		trigger lights_2_rope swing_south
+		trigger lights_2_body swing_south
+	}
+
+	// Start lights_3 swinging first to the north
+	trigger lights_3_start_swing_north
+	{
+		alertentity lights_3_kill_relay
+		trigger lights_3_rope swing_north
+		trigger lights_3_body swing_north
+	}
+
+	// Start lights_3 swinging first to the south
+	trigger lights_3_start_swing_south
+	{
+		alertentity lights_3_kill_relay
+		trigger lights_3_rope swing_south
+		trigger lights_3_body swing_south
+	}
+
+	// Start lights_4 swinging first to the north
+	trigger lights_4_start_swing_north
+	{
+		alertentity lights_4_kill_relay
+		trigger lights_4_rope swing_north
+		trigger lights_4_body swing_north
+	}
+
+	// Start lights_4 swinging first to the south
+	trigger lights_4_start_swing_south
+	{
+		alertentity lights_4_kill_relay
+		trigger lights_4_rope swing_south
+		trigger lights_4_body swing_south
+	}
+
+	// Start lights_5 swinging first to the east
+	trigger lights_5_start_swing_east
+	{
+		alertentity lights_5_kill_relay
+		trigger lights_5_rope swing_east
+		trigger lights_5_body swing_east
+	}
+
+	// Start lights_5 swinging first to the west
+	trigger lights_5_start_swing_west
+	{
+		alertentity lights_5_kill_relay
+		trigger lights_5_rope swing_west
+		trigger lights_5_body swing_west
+	}
+
+	// Start lights_6 swinging first to the east
+	trigger lights_6_start_swing_east
+	{
+		alertentity lights_6_kill_relay
+		trigger lights_6_rope swing_east
+		trigger lights_6_body swing_east
+	}
+
+	// Start lights_6 swinging first to the west
+	trigger lights_6_start_swing_west
+	{
+		alertentity lights_6_kill_relay
+		trigger lights_6_rope swing_west
+		trigger lights_6_body swing_west
+	}
+}
+
+/////////////////////////////////////////////////////////////////
+// Lights 1 rope
+lights_1_rope
+{
+	// When object is created
+	spawn
+	{	
+	}
+
+	// When object is killed
+	death
+	{
+		trigger lights_1_body drop
+	}
+
+	// Swing rope
+	trigger swing
+	{
+		// Swing rope
+		faceangles 0 0 -25 350
+		faceangles 0 0 -22 600
+		faceangles 0 0 -15 600
+		faceangles 0 0 15 1800
+		faceangles 0 0 22 600
+		faceangles 0 0 25 600
+		faceangles 0 0 26 350
+		wait 250
+
+		faceangles 0 0 25 350
+		faceangles 0 0 22 600
+		faceangles 0 0 15 600
+		faceangles 0 0 -15 1800
+		faceangles 0 0 -22 600
+		faceangles 0 0 -25 600
+		faceangles 0 0 -26 350
+		wait 250
+
+		// Loop
+		trigger lights_1_rope swing
+	}
+
+	// Swing rope to north
+	trigger swing_north
+	{
+		// Swing rope
+		faceangles 0 0 15 900
+		faceangles 0 0 22 600
+		faceangles 0 0 25 600
+		faceangles 0 0 26 350
+		wait 250
+
+		faceangles 0 0 25 350
+		faceangles 0 0 22 600
+		faceangles 0 0 15 600
+		faceangles 0 0 -15 1800
+		faceangles 0 0 -22 600
+		faceangles 0 0 -25 600
+		faceangles 0 0 -26 350
+		wait 250
+
+		// Loop
+		trigger lights_1_rope swing
+	}
+
+	// Swing rope to south
+	trigger swing_south
+	{
+		// Swing rope
+		faceangles 0 0 -15 900
+		faceangles 0 0 -22 600
+		faceangles 0 0 -25 600
+		faceangles 0 0 -26 350
+		wait 250
+
+		// Loop
+		trigger lights_1_rope swing
+	}
+}
+
+/////////////////////////////////////////////////////////////////
+// Lights 1 body
+lights_1_body
+{
+	// When object is created
+	spawn
+	{
+	}
+
+	// When supporting rope is destroyed
+	trigger drop
+	{
+		// Rotate and drop lights
+		gotomarker lights_1_drop 750 accel
+		faceangles 0 0 0 gototime
+
+		// Smashing effect
+		alertentity lights_1_smash_relay
+
+		// rest of drop
+		gotomarker lights_1_bottom 750
+	}
+
+	// Swing body
+	trigger swing
+	{
+		// Swing body
+		faceangles 0 0 -25 350
+		faceangles 0 0 -22 600
+		faceangles 0 0 -15 600
+		faceangles 0 0 15 1800
+		faceangles 0 0 22 600
+		faceangles 0 0 25 600
+		faceangles 0 0 26 350
+		wait 250
+
+		faceangles 0 0 25 350
+		faceangles 0 0 22 600
+		faceangles 0 0 15 600
+		faceangles 0 0 -15 1800
+		faceangles 0 0 -22 600
+		faceangles 0 0 -25 600
+		faceangles 0 0 -26 350
+		wait 250
+
+		// Loop
+		trigger lights_1_body swing
+	}
+
+	// Swing body to north
+	trigger swing_north
+	{
+		// Swing rope
+		faceangles 0 0 15 900
+		faceangles 0 0 22 600
+		faceangles 0 0 25 600
+		faceangles 0 0 26 350
+		wait 250
+
+		faceangles 0 0 25 350
+		faceangles 0 0 22 600
+		faceangles 0 0 15 600
+		faceangles 0 0 -15 1800
+		faceangles 0 0 -22 600
+		faceangles 0 0 -25 600
+		faceangles 0 0 -26 350
+		wait 250
+
+		// Loop
+		trigger lights_1_body swing
+	}
+
+	// Swing body to south
+	trigger swing_south
+	{
+		// Swing rope
+		faceangles 0 0 -15 900
+		faceangles 0 0 -22 600
+		faceangles 0 0 -25 600
+		faceangles 0 0 -26 350
+		wait 250
+
+		// Loop
+		trigger lights_1_body swing
+	}
+}
+
+/////////////////////////////////////////////////////////////////
+// Lights 2 rope
+lights_2_rope
+{
+	// When object is created
+	spawn
+	{		
+	}
+
+	// When object is killed
+	death
+	{
+		trigger lights_2_body drop
+	}
+
+	// Swing rope
+	trigger swing
+	{
+		// Swing rope
+		faceangles 0 0 -25 350
+		faceangles 0 0 -22 600
+		faceangles 0 0 -15 600
+		faceangles 0 0 15 1800
+		faceangles 0 0 22 600
+		faceangles 0 0 25 600
+		faceangles 0 0 26 350
+		wait 250
+
+		faceangles 0 0 25 350
+		faceangles 0 0 22 600
+		faceangles 0 0 15 600
+		faceangles 0 0 -15 1800
+		faceangles 0 0 -22 600
+		faceangles 0 0 -25 600
+		faceangles 0 0 -26 350
+		wait 250
+
+		// Loop
+		trigger lights_2_rope swing
+	}
+
+	// Swing rope to north
+	trigger swing_north
+	{
+		// Swing rope
+		faceangles 0 0 15 900
+		faceangles 0 0 22 600
+		faceangles 0 0 25 600
+		faceangles 0 0 26 350
+		wait 250
+
+		faceangles 0 0 25 350
+		faceangles 0 0 22 600
+		faceangles 0 0 15 600
+		faceangles 0 0 -15 1800
+		faceangles 0 0 -22 600
+		faceangles 0 0 -25 600
+		faceangles 0 0 -26 350
+		wait 250
+
+		// Loop
+		trigger lights_2_rope swing
+	}
+
+	// Swing rope to south
+	trigger swing_south
+	{
+		// Swing rope
+		faceangles 0 0 -15 900
+		faceangles 0 0 -22 600
+		faceangles 0 0 -25 600
+		faceangles 0 0 -26 350
+		wait 250
+
+		// Loop
+		trigger lights_2_rope swing
+	}
+}
+
+/////////////////////////////////////////////////////////////////
+// Lights 2 body
+lights_2_body
+{
+	// When object is created
+	spawn
+	{
+	}
+
+	// When supporting rope is destroyed
+	trigger drop
+	{
+		// Rotate and drop lights
+		gotomarker lights_2_drop 750 accel
+		faceangles 0 0 0 gototime
+
+		// Smashing effect
+		alertentity lights_2_smash_relay
+
+		// rest of drop
+		gotomarker lights_2_bottom 750
+	}
+
+	// Swing body
+	trigger swing
+	{
+		// Swing body
+		faceangles 0 0 -25 350
+		faceangles 0 0 -22 600
+		faceangles 0 0 -15 600
+		faceangles 0 0 15 1800
+		faceangles 0 0 22 600
+		faceangles 0 0 25 600
+		faceangles 0 0 26 350
+		wait 250
+
+		faceangles 0 0 25 350
+		faceangles 0 0 22 600
+		faceangles 0 0 15 600
+		faceangles 0 0 -15 1800
+		faceangles 0 0 -22 600
+		faceangles 0 0 -25 600
+		faceangles 0 0 -26 350
+		wait 250
+
+		// Loop
+		trigger lights_2_body swing
+	}
+
+	// Swing body to north
+	trigger swing_north
+	{
+		// Swing rope
+		faceangles 0 0 15 900
+		faceangles 0 0 22 600
+		faceangles 0 0 25 600
+		faceangles 0 0 26 350
+		wait 250
+
+		faceangles 0 0 25 350
+		faceangles 0 0 22 600
+		faceangles 0 0 15 600
+		faceangles 0 0 -15 1800
+		faceangles 0 0 -22 600
+		faceangles 0 0 -25 600
+		faceangles 0 0 -26 350
+		wait 250
+
+		// Loop
+		trigger lights_2_body swing
+	}
+
+	// Swing body to south
+	trigger swing_south
+	{
+		// Swing rope
+		faceangles 0 0 -15 900
+		faceangles 0 0 -22 600
+		faceangles 0 0 -25 600
+		faceangles 0 0 -26 350
+		wait 250
+
+		// Loop
+		trigger lights_2_body swing
+	}
+}
+
+/////////////////////////////////////////////////////////////////
+// Lights 3 rope
+lights_3_rope
+{
+	// When object is created
+	spawn
+	{		
+	}
+
+	// When object is killed
+	death
+	{
+		trigger lights_3_body drop
+	}
+
+	// Swing rope
+	trigger swing
+	{
+		// Swing rope
+		faceangles 0 0 -25 350
+		faceangles 0 0 -22 600
+		faceangles 0 0 -15 600
+		faceangles 0 0 15 1800
+		faceangles 0 0 22 600
+		faceangles 0 0 25 600
+		faceangles 0 0 26 350
+		wait 250
+
+		faceangles 0 0 25 350
+		faceangles 0 0 22 600
+		faceangles 0 0 15 600
+		faceangles 0 0 -15 1800
+		faceangles 0 0 -22 600
+		faceangles 0 0 -25 600
+		faceangles 0 0 -26 350
+		wait 250
+
+		// Loop
+		trigger lights_3_rope swing
+	}
+
+	// Swing rope to north
+	trigger swing_north
+	{
+		// Swing rope
+		faceangles 0 0 15 900
+		faceangles 0 0 22 600
+		faceangles 0 0 25 600
+		faceangles 0 0 26 350
+		wait 250
+
+		faceangles 0 0 25 350
+		faceangles 0 0 22 600
+		faceangles 0 0 15 600
+		faceangles 0 0 -15 1800
+		faceangles 0 0 -22 600
+		faceangles 0 0 -25 600
+		faceangles 0 0 -26 350
+		wait 250
+
+		// Loop
+		trigger lights_3_rope swing
+	}
+
+	// Swing rope to south
+	trigger swing_south
+	{
+		// Swing rope
+		faceangles 0 0 -15 900
+		faceangles 0 0 -22 600
+		faceangles 0 0 -25 600
+		faceangles 0 0 -26 350
+		wait 250
+
+		// Loop
+		trigger lights_3_rope swing
+	}
+}
+
+/////////////////////////////////////////////////////////////////
+// Lights 3 body
+lights_3_body
+{
+	// When object is created
+	spawn
+	{
+	}
+
+	// When supporting rope is destroyed
+	trigger drop
+	{
+		// Rotate and drop lights
+		gotomarker lights_3_drop 750 accel
+		faceangles 0 0 0 gototime
+
+		// Smashing effect
+		alertentity lights_3_smash_relay
+
+		// rest of drop
+		gotomarker lights_3_bottom 750
+	}
+
+	// Swing body
+	trigger swing
+	{
+		// Swing body
+		faceangles 0 0 -25 350
+		faceangles 0 0 -22 600
+		faceangles 0 0 -15 600
+		faceangles 0 0 15 1800
+		faceangles 0 0 22 600
+		faceangles 0 0 25 600
+		faceangles 0 0 26 350
+		wait 250
+
+		faceangles 0 0 25 350
+		faceangles 0 0 22 600
+		faceangles 0 0 15 600
+		faceangles 0 0 -15 1800
+		faceangles 0 0 -22 600
+		faceangles 0 0 -25 600
+		faceangles 0 0 -26 350
+		wait 250
+
+		// Loop
+		trigger lights_3_body swing
+	}
+
+	// Swing body to north
+	trigger swing_north
+	{
+		// Swing rope
+		faceangles 0 0 15 900
+		faceangles 0 0 22 600
+		faceangles 0 0 25 600
+		faceangles 0 0 26 350
+		wait 250
+
+		faceangles 0 0 25 350
+		faceangles 0 0 22 600
+		faceangles 0 0 15 600
+		faceangles 0 0 -15 1800
+		faceangles 0 0 -22 600
+		faceangles 0 0 -25 600
+		faceangles 0 0 -26 350
+		wait 250
+
+		// Loop
+		trigger lights_3_body swing
+	}
+
+	// Swing body to south
+	trigger swing_south
+	{
+		// Swing rope
+		faceangles 0 0 -15 900
+		faceangles 0 0 -22 600
+		faceangles 0 0 -25 600
+		faceangles 0 0 -26 350
+		wait 250
+
+		// Loop
+		trigger lights_3_body swing
+	}
+}
+
+/////////////////////////////////////////////////////////////////
+// Lights 4 rope
+lights_4_rope
+{
+	// When object is created
+	spawn
+	{		
+	}
+
+	// When object is killed
+	death
+	{
+		trigger lights_4_body drop
+	}
+
+	// Swing rope
+	trigger swing
+	{
+		// Swing rope
+		faceangles 0 0 -25 350
+		faceangles 0 0 -22 600
+		faceangles 0 0 -15 600
+		faceangles 0 0 15 1800
+		faceangles 0 0 22 600
+		faceangles 0 0 25 600
+		faceangles 0 0 26 350
+		wait 250
+
+		faceangles 0 0 25 350
+		faceangles 0 0 22 600
+		faceangles 0 0 15 600
+		faceangles 0 0 -15 1800
+		faceangles 0 0 -22 600
+		faceangles 0 0 -25 600
+		faceangles 0 0 -26 350
+		wait 250
+
+		// Loop
+		trigger lights_4_rope swing
+	}
+
+	// Swing rope to north
+	trigger swing_north
+	{
+		// Swing rope
+		faceangles 0 0 15 900
+		faceangles 0 0 22 600
+		faceangles 0 0 25 600
+		faceangles 0 0 26 350
+		wait 250
+
+		faceangles 0 0 25 350
+		faceangles 0 0 22 600
+		faceangles 0 0 15 600
+		faceangles 0 0 -15 1800
+		faceangles 0 0 -22 600
+		faceangles 0 0 -25 600
+		faceangles 0 0 -26 350
+		wait 250
+
+		// Loop
+		trigger lights_4_rope swing
+	}
+
+	// Swing rope to south
+	trigger swing_south
+	{
+		// Swing rope
+		faceangles 0 0 -15 900
+		faceangles 0 0 -22 600
+		faceangles 0 0 -25 600
+		faceangles 0 0 -26 350
+		wait 250
+
+		// Loop
+		trigger lights_4_rope swing
+	}
+}
+
+/////////////////////////////////////////////////////////////////
+// Lights 4 body
+lights_4_body
+{
+	// When object is created
+	spawn
+	{
+	}
+
+	// When supporting rope is destroyed
+	trigger drop
+	{
+		// Rotate and drop lights
+		gotomarker lights_4_drop 750 accel
+		faceangles 0 0 0 gototime
+
+		// Smashing effect
+		alertentity lights_4_smash_relay
+
+		// rest of drop
+		gotomarker lights_4_bottom 750
+	}
+
+	// Swing body
+	trigger swing
+	{
+		// Swing body
+		faceangles 0 0 -25 350
+		faceangles 0 0 -22 600
+		faceangles 0 0 -15 600
+		faceangles 0 0 15 1800
+		faceangles 0 0 22 600
+		faceangles 0 0 25 600
+		faceangles 0 0 26 350
+		wait 250
+
+		faceangles 0 0 25 350
+		faceangles 0 0 22 600
+		faceangles 0 0 15 600
+		faceangles 0 0 -15 1800
+		faceangles 0 0 -22 600
+		faceangles 0 0 -25 600
+		faceangles 0 0 -26 350
+		wait 250
+
+		// Loop
+		trigger lights_4_body swing
+	}
+
+	// Swing body to north
+	trigger swing_north
+	{
+		// Swing rope
+		faceangles 0 0 15 900
+		faceangles 0 0 22 600
+		faceangles 0 0 25 600
+		faceangles 0 0 26 350
+		wait 250
+
+		faceangles 0 0 25 350
+		faceangles 0 0 22 600
+		faceangles 0 0 15 600
+		faceangles 0 0 -15 1800
+		faceangles 0 0 -22 600
+		faceangles 0 0 -25 600
+		faceangles 0 0 -26 350
+		wait 250
+
+		// Loop
+		trigger lights_4_body swing
+	}
+
+	// Swing body to south
+	trigger swing_south
+	{
+		// Swing rope
+		faceangles 0 0 -15 900
+		faceangles 0 0 -22 600
+		faceangles 0 0 -25 600
+		faceangles 0 0 -26 350
+		wait 250
+
+		// Loop
+		trigger lights_4_body swing
+	}
+}
+
+/////////////////////////////////////////////////////////////////
+// Lights 5 rope
+lights_5_rope
+{
+	// When object is created
+	spawn
+	{		
+	}
+
+	// When object is killed
+	death
+	{
+		trigger lights_5_body drop
+	}
+
+	// Swing rope
+	trigger swing
+	{
+		// Swing rope
+		faceangles -25 0 0 350
+		faceangles -22 0 0 600
+		faceangles -15 0 0 600
+		faceangles 15 0 0 1800
+		faceangles 22 0 0 600
+		faceangles 25 0 0 600
+		faceangles 26 0 0 350
+		wait 250
+
+		faceangles 25 0 0 350
+		faceangles 22 0 0 600
+		faceangles 15 0 0 600
+		faceangles -15 0 0 1800
+		faceangles -22 0 0 600
+		faceangles -25 0 0 600
+		faceangles -26 0 0 350
+		wait 250
+
+		// Loop
+		trigger lights_5_rope swing
+	}
+
+	// Swing rope to east
+	trigger swing_east
+	{
+		// Swing rope
+		faceangles -15 0 0 900
+		faceangles -22 0 0 600
+		faceangles -25 0 0 600
+		faceangles -26 0 0 350
+		wait 250
+
+		// Loop
+		trigger lights_5_rope swing
+	}
+
+	// Swing rope to west
+	trigger swing_west
+	{
+		// Swing rope
+		faceangles 15 0 0 900
+		faceangles 22 0 0 600
+		faceangles 25 0 0 600
+		faceangles 26 0 0 350
+		wait 250
+
+		faceangles 25 0 0 350
+		faceangles 22 0 0 600
+		faceangles 15 0 0 600
+		faceangles -15 0 0 1800
+		faceangles -22 0 0 600
+		faceangles -25 0 0 600
+		faceangles -26 0 0 350
+		wait 250
+
+		// Loop
+		trigger lights_5_rope swing
+	}
+}
+
+/////////////////////////////////////////////////////////////////
+// Lights 5 body
+lights_5_body
+{
+	// When object is created
+	spawn
+	{
+	}
+
+	// When supporting rope is destroyed
+	trigger drop
+	{
+		// Rotate and drop lights
+		gotomarker lights_5_drop 750 accel
+		faceangles 0 0 0 gototime
+
+		// Smashing effect
+		alertentity lights_5_smash_relay
+
+		// rest of drop
+		gotomarker lights_5_bottom 750
+	}
+
+	// Swing body
+	trigger swing
+	{
+		// Swing body
+		faceangles -25 0 0 350
+		faceangles -22 0 0 600
+		faceangles -15 0 0 600
+		faceangles 15 0 0 1800
+		faceangles 22 0 0 600
+		faceangles 25 0 0 600
+		faceangles 26 0 0 350
+		wait 250
+
+		faceangles 25 0 0 350
+		faceangles 22 0 0 600
+		faceangles 15 0 0 600
+		faceangles -15 0 0 1800
+		faceangles -22 0 0 600
+		faceangles -25 0 0 600
+		faceangles -26 0 0 350
+		wait 250
+
+		// Loop
+		trigger lights_5_body swing
+	}
+
+	// Swing body to east
+	trigger swing_east
+	{
+		// Swing rope
+		faceangles -15 0 0 900
+		faceangles -22 0 0 600
+		faceangles -25 0 0 600
+		faceangles -26 0 0 350
+		wait 250
+
+		// Loop
+		trigger lights_5_body swing
+	}
+
+	// Swing body to west
+	trigger swing_west
+	{
+		// Swing rope
+		faceangles 15 0 0 900
+		faceangles 22 0 0 600
+		faceangles 25 0 0 600
+		faceangles 26 0 0 350
+		wait 250
+
+		faceangles 25 0 0 350
+		faceangles 22 0 0 600
+		faceangles 15 0 0 600
+		faceangles -15 0 0 1800
+		faceangles -22 0 0 600
+		faceangles -25 0 0 600
+		faceangles -26 0 0 350
+		wait 250
+
+		// Loop
+		trigger lights_5_body swing
+	}
+}
+
+/////////////////////////////////////////////////////////////////
+// Lights 6 rope
+lights_6_rope
+{
+	// When object is created
+	spawn
+	{		
+	}
+
+	// When object is killed
+	death
+	{
+		trigger lights_6_body drop
+	}
+
+	// Swing rope
+	trigger swing
+	{
+		// Swing rope
+		faceangles -25 0 0 350
+		faceangles -22 0 0 600
+		faceangles -15 0 0 600
+		faceangles 15 0 0 1800
+		faceangles 22 0 0 600
+		faceangles 25 0 0 600
+		faceangles 26 0 0 350
+		wait 250
+
+		faceangles 25 0 0 350
+		faceangles 22 0 0 600
+		faceangles 15 0 0 600
+		faceangles -15 0 0 1800
+		faceangles -22 0 0 600
+		faceangles -25 0 0 600
+		faceangles -26 0 0 350
+		wait 250
+
+		// Loop
+		trigger lights_6_rope swing
+	}
+
+	// Swing rope to east
+	trigger swing_east
+	{
+		// Swing rope
+		faceangles -15 0 0 900
+		faceangles -22 0 0 600
+		faceangles -25 0 0 600
+		faceangles -26 0 0 350
+		wait 250
+
+		// Loop
+		trigger lights_6_rope swing
+	}
+
+	// Swing rope to west
+	trigger swing_west
+	{
+		// Swing rope
+		faceangles 15 0 0 900
+		faceangles 22 0 0 600
+		faceangles 25 0 0 600
+		faceangles 26 0 0 350
+		wait 250
+
+		faceangles 25 0 0 350
+		faceangles 22 0 0 600
+		faceangles 15 0 0 600
+		faceangles -15 0 0 1800
+		faceangles -22 0 0 600
+		faceangles -25 0 0 600
+		faceangles -26 0 0 350
+		wait 250
+
+		// Loop
+		trigger lights_6_rope swing
+	}
+}
+
+/////////////////////////////////////////////////////////////////
+// Lights 6 body
+lights_6_body
+{
+	// When object is created
+	spawn
+	{
+	}
+
+	// When supporting rope is destroyed
+	trigger drop
+	{
+		// Rotate and drop lights
+		gotomarker lights_6_drop 750 accel
+		faceangles 0 0 0 gototime
+
+		// Smashing effect
+		alertentity lights_6_smash_relay
+
+		// rest of drop
+		gotomarker lights_6_bottom 750
+	}
+
+	// Swing body
+	trigger swing
+	{
+		// Swing body
+		faceangles -25 0 0 350
+		faceangles -22 0 0 600
+		faceangles -15 0 0 600
+		faceangles 15 0 0 1800
+		faceangles 22 0 0 600
+		faceangles 25 0 0 600
+		faceangles 26 0 0 350
+		wait 250
+
+		faceangles 25 0 0 350
+		faceangles 22 0 0 600
+		faceangles 15 0 0 600
+		faceangles -15 0 0 1800
+		faceangles -22 0 0 600
+		faceangles -25 0 0 600
+		faceangles -26 0 0 350
+		wait 250
+
+		// Loop
+		trigger lights_6_body swing
+	}
+
+	// Swing body to east
+	trigger swing_east
+	{
+		// Swing rope
+		faceangles -15 0 0 900
+		faceangles -22 0 0 600
+		faceangles -25 0 0 600
+		faceangles -26 0 0 350
+		wait 250
+
+		// Loop
+		trigger lights_6_body swing
+	}
+
+	// Swing body to west
+	trigger swing_west
+	{
+		// Swing rope
+		faceangles 15 0 0 900
+		faceangles 22 0 0 600
+		faceangles 25 0 0 600
+		faceangles 26 0 0 350
+		wait 250
+
+		faceangles 25 0 0 350
+		faceangles 22 0 0 600
+		faceangles 15 0 0 600
+		faceangles -15 0 0 1800
+		faceangles -22 0 0 600
+		faceangles -25 0 0 600
+		faceangles -26 0 0 350
+		wait 250
+
+		// Loop
+		trigger lights_6_body swing
+	}
+}

@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/nq/!svn/ver/2210/trunk/Lua-libs/LuaSQL/Linux
+END
+sqlite3.so
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/nq/!svn/ver/2210/trunk/Lua-libs/LuaSQL/Linux/sqlite3.so
+END
+mysql.so
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/nq/!svn/ver/2210/trunk/Lua-libs/LuaSQL/Linux/mysql.so
+END

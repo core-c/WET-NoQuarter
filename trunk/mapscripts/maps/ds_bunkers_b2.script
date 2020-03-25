@@ -1,0 +1,1030 @@
+//
+//Brush Scripting
+//Map:ds_bunkers
+//Last edited by: sam "[DeaD]-SLOTH-" mcgregor
+//
+
+game_manager
+{
+	spawn
+	{
+		accum 1 set 0		// axis win both stashes destroyed -- if 2
+		accum 2 set 0		// allies win both weapons destroyed -- if 2
+		accum 3 set 0		// Current number of Allied supply stashes destroyed
+		accum 4 set 0		// Current number of Axis secret weapons destroyed
+		accum 5 set 0		// axis comm post
+		accum 6 set 0		// allied comm post
+                accum 7 set 0		// flag, 0 none, 1 axis, 2 allies
+
+		globalaccum 3 set 0
+		globalaccum 4 set 0
+
+		// Game rules
+		wm_axis_respawntime	25
+		wm_allied_respawntime	25
+		wm_number_of_objectives 8
+		wm_set_round_timelimit 30
+
+		// Current main objectives for each team (0=Axis, 1=Allies) <obj> <team>
+		wm_set_main_objective		1	0
+		wm_set_main_objective		3	1
+
+		// Objective overview status indicators
+		//obj 1=ally stash 1
+		//obj 2=ally stash 2
+		//obj 3=axis weapon 1
+		//obj 4=axis weapon 2
+		//obj 5=forward spawn
+		//obj 6=axis hatch
+		//obj 7=allied hatch
+		//obj 8=comm posts
+		//wm_objective_status <objective> <team (0=Axis, 1=Allies)> <status (0=neutral 1=complete 2=failed)>
+		wm_objective_status 1 1 0
+		wm_objective_status 1 0 0
+		wm_objective_status 2 1 0
+		wm_objective_status 2 0 0
+		wm_objective_status 3 1 0
+		wm_objective_status 3 0 0
+		wm_objective_status 4 1 0
+		wm_objective_status 4 0 0
+		wm_objective_status 5 1 0
+		wm_objective_status 5 0 0
+		wm_objective_status 6 1 0
+		wm_objective_status 6 0 0
+		wm_objective_status 7 1 0
+		wm_objective_status 7 0 0
+		wm_objective_status 8 1 0
+		wm_objective_status 8 0 0
+
+		wait 200
+
+		// Stopwatch mode defending team (0=Axis, 1=Allies)
+		wm_set_defending_team	0
+
+		// If the round timer expires, the Axis have won, so set the current winning team
+		// Set the round winner:  0 == AXIS, 1 == ALLIED -1 = neither
+		wm_setwinner 0
+
+		wait 200
+
+		disablespeaker forwardspawn_sound1			//forwardspawn sounds
+		disablespeaker forwardspawn_sound2
+		disablespeaker forwardspawn_sound3
+		disablespeaker forwardspawn_sound4
+
+		disablespeaker allied1_commpost_sound		//allied cp sound
+		disablespeaker axis1_commpost_sound			//axis cp sound
+
+
+	}
+	
+	trigger timelimit_hit
+	{
+		wm_setwinner -1
+		trigger self axis_flag
+		trigger self allied_flag 
+		wait 100
+		wm_endround
+	}
+	trigger axis_flag
+	{
+		accum 7 abort_if_not_equal 1
+		wm_setwinner 0
+	}
+
+	trigger allied_flag
+	{
+		accum 7 abort_if_not_equal 2
+		wm_setwinner 1
+	}
+
+	trigger allied_stash_counter
+	{
+		accum 3 inc 1						// Increase game counter
+		accum 3 abort_if_not_equal 2		// All stashes destroyed ?
+
+		wm_announce	"Axis have destroyed both Allied Supply Stashes!"
+
+		wait 2000
+
+		accum 1 set 1				// Both stashes destroyed
+
+		// Call function to check if the round has been won
+		trigger game_manager checkgame_stashes
+	}
+
+	trigger checkgame_stashes
+	{
+		accum 1 abort_if_not_equal 1
+
+		// Set the round winner:  0 == AXIS, 1 == ALLIED
+		wm_setwinner 0
+
+		// End the round
+		wm_endround
+
+	}
+
+	trigger axis_secretweapon_counter
+	{
+		accum 4 inc 1						// Increase game counter
+		accum 4 abort_if_not_equal 2		// All weapons destroyed ?
+
+		wm_announce	"Allies have destroyed both Axis Secret Weapons!"
+
+		wait 2000
+
+		accum 2 set 1				// Both weapons destroyed
+
+		// Call function to check if the round has been won
+		trigger game_manager checkgame_secretweapons
+	}
+
+	trigger checkgame_secretweapons
+	{
+		accum 2 abort_if_not_equal 1
+
+		// Set the round winner:  0 == AXIS, 1 == ALLIED
+		wm_setwinner 1
+
+		// End the round
+		wm_endround
+
+	}
+
+	   trigger forwardspawn_flagblue
+   {
+      // Some kind of UI pop-up to alert players
+      wm_announce   "Allies have captured the Forward Spawn!"
+
+      wm_objective_status   5 1 1
+      wm_objective_status   5 0 2
+
+      wait 150
+      accum 7 set 2
+      //wm_axis_respawntime	25
+	  //wm_allied_respawntime	20
+
+	  wait 150
+
+	  enablespeaker forwardspawn_sound1
+	  enablespeaker forwardspawn_sound2
+	  enablespeaker forwardspawn_sound3
+	  enablespeaker forwardspawn_sound4
+
+	  wait 150
+
+	  wm_setwinner 1
+
+   }
+
+   trigger forwardspawn_flagred
+   {
+      // Some kind of UI pop-up to alert players
+      wm_announce   "Axis have captured the Forward Spawn!"
+
+      wm_objective_status   5 1 2
+      wm_objective_status   5 0 1
+
+      wait 150
+      accum 7 set 1
+      //wm_axis_respawntime	20
+	  //wm_allied_respawntime	25
+
+	  wait 150
+
+	  enablespeaker forwardspawn_sound1
+	  enablespeaker forwardspawn_sound2
+	  enablespeaker forwardspawn_sound3
+	  enablespeaker forwardspawn_sound4
+
+	  wait 150
+
+	  wm_setwinner 0
+
+   }
+}
+
+//FORWARD SPAWN OBJ 5***************************************
+//**********************************************************
+
+forwardspawns
+{
+   spawn
+   {
+   }
+}
+
+forwardspawn_wobj
+{
+   spawn
+   {
+   }
+}
+
+forwardflag
+{
+   spawn
+   {
+      accum 0 set -1   // Who has the flag: 0-Axis, 1-Allied
+   }
+
+   trigger allied_capture
+   {
+      accum 0 abort_if_equal 1 // do Allies own flag?
+
+      trigger game_manager forwardspawn_flagblue
+
+      setstate forwardspawns default
+      setstate forwardspawn_wobj default
+
+      trigger forwardflag setallies
+
+      // *----------------------------------- vo ------------------------------------------*
+      //wm_addteamvoiceannounce 0 "battery_axis_controls_defend"
+      //wm_addteamvoiceannounce 0 "battery_axis_bunker_capture"
+
+      //wm_addteamvoiceannounce 1 "battery_allies_controls_destroy"
+
+      //wm_teamvoiceannounce 0 "battery_axis_bunker_lost"
+      //wm_teamvoiceannounce 0 "battery_axis_controls_defend"
+
+      //wm_teamvoiceannounce 1 "battery_allies_bunker_captured"
+     // wm_teamvoiceannounce 1 "battery_allies_controls_destroy"
+
+      //wm_removeteamvoiceannounce 0 "battery_axis_bunker_defend"
+
+     // wm_removeteamvoiceannounce 1 "battery_allies_bunker_capture"
+      // *---------------------------------------------------------------------------------*
+   }
+
+   trigger setallies
+   {
+      accum 0 abort_if_equal 1
+      accum 0 set 1
+
+      alertentity forwardspawn_wobj
+      alertentity forwardspawns
+
+      setautospawn "Axis Spawn" 0
+      setautospawn "Forward Spawn" 1
+   }
+
+   trigger axis_capture
+   {
+      accum 0 abort_if_equal 0 // do Axis own flag?
+
+      trigger game_manager forwardspawn_flagred
+
+      setstate forwardspawns default
+      setstate forwardspawn_wobj default
+
+      trigger forwardflag setaxis
+
+      // *----------------------------------- vo ------------------------------------------*
+            //wm_addteamvoiceannounce 0 "battery_axis_bunker_defend"
+
+      //wm_addteamvoiceannounce 1 "battery_allies_bunker_capture"
+
+      //wm_teamvoiceannounce 0 "battery_axis_bunker_captured"
+
+      //wm_teamvoiceannounce 1 "battery_allies_bunker_lost"
+
+      //wm_removeteamvoiceannounce 0 "battery_axis_bunker_capture"
+
+      //wm_removeteamvoiceannounce 1 "battery_allies_controls_destroy"
+      // *---------------------------------------------------------------------------------*
+   }
+
+   trigger setaxis
+   {
+      accum 0 abort_if_equal 0
+      accum 0 set 0
+
+      alertentity forwardspawn_wobj
+      alertentity forwardspawns
+
+      wait 150
+
+      setautospawn "Allied Spawn" 1
+      setautospawn "Forward Spawn" 0
+
+   }
+}
+
+//AXIS COMMAND POST ********************************************
+//**************************************************************
+
+axis_radio_destroyed
+{
+   spawn
+   {
+      wait 400
+      setstate axis_radio_destroyed invisible
+      setstate axis_radio_destroyed_model invisible
+   }
+
+   trigger hide
+   {
+      setstate axis_radio_destroyed invisible
+      setstate axis_radio_destroyed_model invisible
+   }
+
+   trigger show
+   {
+      accum 5 abort_if_equal 0
+      setstate axis_radio_destroyed default
+      setstate axis_radio_destroyed_model default
+   }
+
+   trigger enable
+   {
+      accum 5 set 1
+   }
+}
+
+axis_radio_closed
+{
+   trigger hide
+   {
+      setstate axis_radio_closed invisible
+      setstate axis_radio_closed_model invisible
+   }
+
+   trigger show
+   {
+      accum 5 abort_if_equal 1
+      setstate axis_radio_closed default
+      setstate axis_radio_closed_model default
+   }
+
+   trigger disable
+   {
+      accum 5 set 1
+   }
+}
+
+axis_radio_built
+{
+   spawn
+   {
+      wait 400
+
+      constructible_class 2
+
+      trigger axis_radio_built setup
+   }
+
+   trigger setup
+   {
+      setchargetimefactor 0 soldier 1
+      setchargetimefactor 0 lieutenant 1
+      setchargetimefactor 0 medic 1
+      setchargetimefactor 0 engineer 1
+      setchargetimefactor 0 covertops 1
+      sethqstatus 0 0
+   }
+
+   buildstart final
+   {
+      trigger axis_radio_built_model trans
+
+      trigger axis_radio_destroyed hide
+      trigger axis_radio_closed    hide
+   }
+
+   built final
+   {
+      trigger axis_radio_built_model show
+
+      trigger axis_radio_destroyed enable
+      trigger axis_radio_closed    disable
+
+      trigger axis_radio_built_model enable_axis_features
+
+      enablespeaker axis1_commpost_sound
+   }
+
+   decayed final
+   {
+      trigger axis_radio_built_model hide
+
+      trigger axis_radio_destroyed show
+      trigger axis_radio_closed    show
+   }
+
+   death
+   {
+      trigger axis_radio_built_model hide
+
+      trigger axis_radio_destroyed show
+
+      trigger axis_radio_built_model disable_axis_features
+
+      disablespeaker axis1_commpost_sound
+   }
+}
+
+axis_radio_built_model
+{
+   spawn
+   {
+      wait 400
+      setstate axis_radio_built_model invisible
+   }
+
+   trigger show
+   {
+      setstate axis_radio_built_model default
+   }
+
+   trigger hide
+   {
+      setstate axis_radio_built_model invisible
+   }
+
+   trigger trans
+   {
+      setstate axis_radio_built_model underconstruction
+   }
+
+   trigger enable_axis_features
+   {
+      setchargetimefactor 0 soldier 0.75
+      setchargetimefactor 0 lieutenant 0.75
+      setchargetimefactor 0 medic 0.75
+      setchargetimefactor 0 engineer 0.75
+      setchargetimefactor 0 covertops 0.75
+      sethqstatus 0 1
+
+      wm_announce   "Axis Command Post constructed. Charge speed increased!"
+
+      // *----------------------------------- vo ------------------------------------------*
+      wm_teamvoiceannounce 0 "axis_hq_compost_constructed"
+
+      wm_teamvoiceannounce 1 "allies_hq_compost_constructed_axis"
+
+      wm_removeteamvoiceannounce 0 "axis_hq_compost_construct"
+      // *----------------------------------- vo ------------------------------------------*
+
+     	wm_objective_status 8 0 1
+
+   }
+
+   trigger disable_axis_features
+   {
+      // Some kind of UI pop-up to alert players
+      wm_announce   "Allied team has destroyed the Axis Command Post!"
+
+      // *----------------------------------- vo ------------------------------------------*
+      wm_addteamvoiceannounce 0 "axis_hq_compost_construct"
+
+      wm_teamvoiceannounce 0 "axis_hq_compost_damaged"
+      // *----------------------------------- vo ------------------------------------------*
+
+      setchargetimefactor 0 soldier 1
+      setchargetimefactor 0 lieutenant 1
+      setchargetimefactor 0 medic 1
+      setchargetimefactor 0 engineer 1
+      setchargetimefactor 0 covertops 1
+      sethqstatus 0 0
+
+		wm_objective_status 8 0 2
+
+   }
+}
+
+//ALLIED COMMAND POST ********************************************
+//**************************************************************
+
+allied_radio_destroyed
+{
+   spawn
+   {
+      wait 400
+      setstate allied_radio_destroyed invisible
+      setstate allied_radio_destroyed_model invisible
+   }
+
+   trigger hide
+   {
+      setstate allied_radio_destroyed invisible
+      setstate allied_radio_destroyed_model invisible
+   }
+
+   trigger show
+   {
+      accum 6 abort_if_equal 0
+      setstate allied_radio_destroyed default
+      setstate allied_radio_destroyed_model default
+   }
+
+   trigger enable
+   {
+      accum 6 set 1
+   }
+}
+
+allied_radio_closed
+{
+   trigger hide
+   {
+      setstate allied_radio_closed invisible
+      setstate allied_radio_closed_model invisible
+   }
+
+   trigger show
+   {
+      accum 6 abort_if_equal 1
+      setstate allied_radio_closed default
+      setstate allied_radio_closed_model default
+   }
+
+   trigger disable
+   {
+      accum 6 set 1
+   }
+}
+
+allied_radio_built
+{
+   spawn
+   {
+      wait 400
+
+      constructible_class 2
+
+      trigger allied_radio_built setup
+   }
+
+   trigger setup
+   {
+      setchargetimefactor 1 soldier 1
+      setchargetimefactor 1 lieutenant 1
+      setchargetimefactor 1 medic 1
+      setchargetimefactor 1 engineer 1
+      setchargetimefactor 1 covertops 1
+      sethqstatus 1 0
+   }
+
+   buildstart final
+   {
+      trigger allied_radio_built_model trans
+
+      trigger allied_radio_destroyed hide
+      trigger allied_radio_closed    hide
+   }
+
+   built final
+   {
+      trigger allied_radio_built_model show
+
+      trigger allied_radio_destroyed enable
+      trigger allied_radio_closed    disable
+
+      trigger allied_radio_built_model enable_allied_features
+
+      enablespeaker allied1_commpost_sound
+   }
+
+   decayed final
+   {
+      trigger allied_radio_built_model hide
+
+      trigger allied_radio_destroyed show
+      trigger allied_radio_closed    show
+   }
+
+   death
+   {
+      trigger allied_radio_built_model hide
+
+      trigger allied_radio_destroyed show
+
+      trigger allied_radio_built_model disable_allied_features
+
+      disablespeaker allied1_commpost_sound
+   }
+}
+
+allied_radio_built_model
+{
+   spawn
+   {
+      wait 400
+      setstate allied_radio_built_model invisible
+   }
+
+   trigger show
+   {
+      setstate allied_radio_built_model default
+   }
+
+   trigger hide
+   {
+      setstate allied_radio_built_model invisible
+   }
+
+   trigger trans
+   {
+      setstate allied_radio_built_model underconstruction
+   }
+
+   trigger enable_allied_features
+   {
+      setchargetimefactor 1 soldier 0.75
+      setchargetimefactor 1 lieutenant 0.75
+      setchargetimefactor 1 medic 0.75
+      setchargetimefactor 1 engineer 0.75
+      setchargetimefactor 1 covertops 0.75
+      sethqstatus 1 1
+
+      wm_announce   "Allied Command Post constructed. Charge speed increased!"
+
+      // *----------------------------------- vo ------------------------------------------*
+      wm_teamvoiceannounce 1 "allies_hq_compost_constructed"
+
+      wm_teamvoiceannounce 0 "axis_hq_compost_constructed_allies"
+
+      wm_removeteamvoiceannounce 1 "allies_hq_compost_construct"
+      // *----------------------------------- vo ------------------------------------------*
+
+
+           	wm_objective_status 8 1 1
+   }
+
+   trigger disable_allied_features
+   {
+      // Some kind of UI pop-up to alert players
+      wm_announce   "Axis team has destroyed the Allied Command Post!"
+
+      // *----------------------------------- vo ------------------------------------------*
+      wm_addteamvoiceannounce 1 "allies_hq_compost_construct"
+
+      wm_teamvoiceannounce 1 "allies_hq_compost_damaged"
+      // *----------------------------------- vo ------------------------------------------*
+
+      setchargetimefactor 1 soldier 1
+      setchargetimefactor 1 lieutenant 1
+      setchargetimefactor 1 medic 1
+      setchargetimefactor 1 engineer 1
+      setchargetimefactor 1 covertops 1
+      sethqstatus 1 0
+
+      		wm_objective_status 8 1 2
+
+   }
+}
+
+
+//allied mg42 ***************************************************
+//***************************************************************
+allied1_mg42_script
+{
+   spawn
+   {
+      wait 200
+      constructible_class 2
+      trigger self startup
+   }
+
+   buildstart final
+   {
+   }
+
+   built final
+   {
+      setstate allied1_mg42_extra default
+      setstate allied1_mg42_object default
+      setstate allied1_mg42 invisible
+
+      // Some kind of UI pop-up to alert players
+      wm_announce   "The Allied team has built the Allied MG-42!"
+   }
+
+   decayed final
+   {
+      trigger self startup
+   }
+
+   death
+   {
+      trigger self startup
+      // Some kind of UI pop-up to alert players
+      wm_announce   "The Axis team has destroyed the Allied MG-42!"
+   }
+
+   trigger startup
+   {
+      setstate allied1_mg42_extra invisible
+      setstate allied1_mg42_object invisible
+      setstate allied1_mg42 default
+      repairmg42 allied1_mg42_object
+   }
+}
+
+//axis mg 42*****************************************
+//***************************************************
+axis1_mg42_script
+{
+   spawn
+   {
+      wait 200
+      constructible_class 2
+      trigger self startup
+   }
+
+   buildstart final
+   {
+   }
+
+   built final
+   {
+      setstate axis1_mg42_extra default
+      setstate axis1_mg42_object default
+      setstate axis1_mg42 invisible
+
+      // Some kind of UI pop-up to alert players
+      wm_announce   "The Axis team has built the Axis MG-42!"
+   }
+
+   decayed final
+   {
+      trigger self startup
+   }
+
+   death
+   {
+      trigger self startup
+      // Some kind of UI pop-up to alert players
+      wm_announce   "The Allied team has destroyed the Axis MG-42!"
+   }
+
+   trigger startup
+   {
+      setstate axis1_mg42_extra invisible
+      setstate axis1_mg42_object invisible
+      setstate axis1_mg42 default
+      repairmg42 axis1_mg42_object
+   }
+}
+
+//axis defensive barrier**********************
+//********************************************
+axis1_backgate_script // scriptname in func_constructible
+{
+   spawn
+   {
+      wait 200
+      constructible_class 2
+      trigger self startup
+   }
+
+   buildstart final
+   {
+   }
+
+   built final
+   {
+      setstate axis1_backgate default
+      setstate axis1_backgate invisible
+
+      // Some kind of UI pop-up to alert players
+      wm_announce   "Axis team has built the Axis Defensive Barrier!"
+   }
+
+   decayed final
+   {
+      trigger self startup
+   }
+
+   death
+   {
+      trigger self startup
+      // Some kind of UI pop-up to alert players
+      wm_announce   "Allied team has destroyed the Axis Defensive Barrier!"
+   }
+
+   trigger startup
+   {
+      setstate axis1_backgate invisible
+      setstate axis1_backgate default
+   }
+}
+
+//allied defensive barrier********************
+//********************************************
+allied1_backgate_script // scriptname in func_constructible
+{
+   spawn
+   {
+      wait 200
+      constructible_class 2
+      trigger self startup
+   }
+
+   buildstart final
+   {
+   }
+
+   built final
+   {
+      setstate allied1_backgate default
+      setstate allied1_backgate invisible
+
+      // Some kind of UI pop-up to alert players
+      wm_announce   "Allied team has built the Allied Defensive Barrier!"
+   }
+
+   decayed final
+   {
+      trigger self startup
+   }
+
+   death
+   {
+      trigger self startup
+      // Some kind of UI pop-up to alert players
+      wm_announce   "Axis team has destroyed the Allied Defensive Barrier!"
+   }
+
+   trigger startup
+   {
+      setstate allied1_backgate invisible
+      setstate allied1_backgate default
+   }
+}
+
+//allied supply stash 1******************************
+//***************************************************
+
+game_manager
+{
+   spawn
+   {
+   }
+}
+
+allied1_stash
+{
+   spawn
+   {
+      wait 200
+      constructible_class 3
+   }
+   death
+   {
+      wm_announce "Axis have destroyed the First Allied Supply Stash!"
+
+      	wm_objective_status 		1 0 1
+		wm_objective_status 		1 1 2
+
+		wm_set_main_objective	2 0
+		wm_set_main_objective	2 1
+
+		// Update game manager counter for objectives
+		trigger game_manager allied_stash_counter
+   }
+}
+
+//allied supply stash 2********************************
+//*****************************************************
+
+game_manager
+{
+   spawn
+   {
+   }
+}
+
+allied2_stash
+{
+   spawn
+   {
+      wait 200
+      constructible_class 3
+   }
+   death
+   {
+      wm_announce "Axis have destroyed the Second Allied Supply Stash!"
+
+      	wm_objective_status 		2 0 1
+		wm_objective_status 		2 1 2
+
+		// Update game manager counter for objectives
+		trigger game_manager allied_stash_counter
+   }
+}
+
+//axis secret weapon 1******************************
+//***************************************************
+
+game_manager
+{
+   spawn
+   {
+   }
+}
+
+axis1_secretweapon
+{
+   spawn
+   {
+      wait 200
+      constructible_class 3
+   }
+   death
+   {
+      wm_announce "Allies have destroyed the First Axis Secret Weapon!"
+
+      	wm_objective_status 		3 1 1
+		wm_objective_status 		3 0 2
+
+		wm_set_main_objective	4 0
+		wm_set_main_objective	4 1
+
+		// Update game manager counter for objectives
+		trigger game_manager axis_secretweapon_counter
+   }
+}
+
+//axis secret weapon 2********************************
+//*****************************************************
+
+game_manager
+{
+   spawn
+   {
+   }
+}
+
+axis2_secretweapon
+{
+   spawn
+   {
+      wait 200
+      constructible_class 3
+   }
+   death
+   {
+      wm_announce "Allies have destroyed the Second Axis Secret Weapon!"
+
+      	wm_objective_status 		4 1 1
+		wm_objective_status 		4 0 2
+
+		// Update game manager counter for objectives
+		trigger game_manager axis_secretweapon_counter
+   }
+}
+
+//axis main hatch********************************
+//*****************************************************
+
+game_manager
+{
+   spawn
+   {
+   }
+}
+
+axis1_mainhatch
+{
+   spawn
+   {
+      wait 200
+      constructible_class 3
+   }
+   death
+   {
+      wm_announce "Allies have destroyed the Axis Main Hatch!"
+
+      	wm_objective_status 		6 1 1
+		wm_objective_status 		6 0 2
+   }
+}
+
+//allied main hatch********************************
+//*****************************************************
+
+game_manager
+{
+   spawn
+   {
+   }
+}
+
+allied1_mainhatch
+{
+   spawn
+   {
+      wait 200
+      constructible_class 3
+   }
+   death
+   {
+      wm_announce "Axis have destroyed the Allied Main Hatch!"
+
+      	wm_objective_status 		7 1 2
+		wm_objective_status 		7 0 1
+   }
+}

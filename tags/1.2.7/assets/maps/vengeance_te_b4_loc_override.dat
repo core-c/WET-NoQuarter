@@ -1,0 +1,89 @@
+/////////////////////////////////////////////////////////
+// Map name       Vengeance TE (B4)                    //
+// Locations by   Ifurita                              //
+// Modified by    antman                               //
+// Recommended    b_locationMaxChars 25                //
+// Last edited    28-05-2006                           //
+// http://www.antman.info/wolf/etpro/locations/        //
+/////////////////////////////////////////////////////////
+2303 -589 209 "Ammo Bunker 1"
+2831 -1517 209 "Ammo Bunker 2"
+2735 -2269 209 "Ammo Bunker 3"
+1345 -838 168 "Ammo Depot"
+1027 -850 168 @
+783 -141 -127 "Ammo Depot Hallway"
+1567 -221 -127 @
+2820 1584 96 "Command Post"
+2389 940 96 "Control Console"
+1951 -1389 209 "Depot Yard"
+2321 -2241 223 @
+2332 -1647 221 @
+2229 -1053 207 @
+1439 -1198 185 @
+1557 -1774 206 @
+399 -2669 257 "East Lower Base"
+93 -211 244 "Guard Booth"
+639 419 -111 "Junction Room"
+-481 -2141 257 "Lower Base"
+-2234 -2238 368 @
+207 -1245 209 "Main Gate"
+232 -1610 160 @
+-745 1019 241 "Mapping Supplies"
+975 -1037 209 "North Depot"
+846 -1298 168 @
+959 -1469 168 "North Depot Hallway"
+462 -1615 168 @
+-2513 2675 129 "North Hanger"
+-3041 2579 129 @
+-769 2659 129 "North Launch Tower"
+-209 1267 433 "North MG Bunker"
+1279 1763 369 "North Pass"
+-1633 2675 129 "North Ramp"
+-1430 2940 80 @
+-1430 3250 170 "North Ramp Bunker"
+-817 1779 241 "North Upper Base"
+495 2067 225 "Pump Room"
+2255 771 81 "Radar Station"
+2687 1315 81 @
+2175 1827 81 @
+1871 1347 81 @
+2335 1711 96 @
+2824 1342 105 @
+2773 1933 96 @
+2641 1627 96 @
+2028 998 96 @
+2693 905 96 @
+1263 755 -127 "Radar Station Hallway"
+1119 -3021 209 "Side Passage"
+1567 -3245 209 @
+1823 -2989 209 @
+1599 -2493 209 "South Depot"
+1569 -2109 232 @
+-3361 -221 177 "South Hanger"
+-2977 -237 177 @
+-2561 -237 177 @
+-849 -253 177 "South Launch Tower"
+255 403 433 "South MG Bunker"
+-1617 -253 177 "South Ramp"
+-1660 182 80 @
+-1300 452 301 @
+-1643 497 184 "South Ramp Bunker"
+-1153 -3181 -15 "South Tunnel"
+-417 -3181 -15 @
+287 -3197 49 @
+-1025 675 241 "South Upper Base"
+-209 931 241 @
+-769 1235 241 "Upper Base"
+15 499 -127 "Upper Base Hallway"
+-593 499 -31 @
+-1057 835 65 @
+543 211 241 "Upper Tunnel"
+703 387 241 @
+1183 403 241 @
+1359 531 241 @
+1327 883 241 @
+-1857 -3005 209 "West Lower Base"
+-3281 2003 -95 "West Tunnel"
+-3153 1587 -95 @
+-3393 1075 -95 @
+-3393 419 -95 @

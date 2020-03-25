@@ -1,0 +1,1503 @@
+//
+// bba0 beta2 - Castle CTF
+//
+//
+// map made for bba clan ( www.buffalobadass.com )
+// raybanb@gmail.com
+//
+// ** script updated 03/25/2008 - fixed bug where a flag would dissapear when taked into a secret place, and not return.
+
+game_manager
+{
+	spawn
+	{
+		wait 750			// need this wait, or a wait here.
+		//
+		//
+
+		wm_set_round_timelimit	25	// 25 minutes on the clock
+
+		wm_axis_respawntime 	2	// 2 second respawns
+		wm_allied_respawntime	2	// for both teams
+		wm_number_of_objectives 6
+
+		wm_set_main_objective		1	0
+		wm_set_main_objective		2	1
+
+		// Objective overview status indicators
+		// wm_objective_status <objective> <team (0=Axis, 1=Allies)> <status (0=neutral 1=complete 2=failed)>
+
+		//
+		// 
+
+		wm_objective_status 1 1 0	//capture the Allied Flag 
+		wm_objective_status 1 0 0
+		wm_objective_status 2 1 0	//defend the Allied Flag 
+		wm_objective_status 2 0 0
+		wm_objective_status 3 1 0
+		wm_objective_status 3 0 0
+		wm_objective_status 4 1 0
+		wm_objective_status 4 0 0
+		wm_objective_status 5 1 0
+		wm_objective_status 5 0 0
+		wm_objective_status 6 1 0
+		wm_objective_status 6 0 0
+
+		wm_setwinner 0		// axis win for now.
+
+		alertentity allied_flag	// reveal the flags to start with, setstate invisble and default
+		alertentity axis_flag	// will work from here on.
+
+		accum 0 set 0		// who has captured more.... or not at all/even
+		accum 1 set 0		// allied flag captured counter.
+		accum 2 set 0		// axis flag captured counter.
+		accum 3 set 0		// this will control who has touched the flag last
+		accum 4 set 0		// for check lead
+		accum 5 set 0		// various registers...
+						// bits 0,1 for checking which team has announced leading..
+
+		accum 7 set 0		// for updates, 0 - tied game, 1 - axis lead, 2 - allies lead
+
+
+        	remapshader "gfx/limbo/cm_flagallied.tga" "gfx/limbo/allied_spawn_rb.tga"
+        	remapshader "gfx/limbo/cm_flagaxis.tga" "gfx/limbo/axis_spawn_rb.tga"
+       	remapshader "gfx/hud/ic_stamina.tga" "gfx/2d/scoreboard/allies0.tga"
+        	remapshader "gfx/hud/ic_health.tga" "gfx/2d/scoreboard/axis0.tga"
+		remapshaderflush
+
+		// the misc health and ammo powerups need to be started
+		alertentity hb1_trigger
+		alertentity hb2_trigger
+		alertentity hb3_trigger
+		alertentity hb4_trigger
+		alertentity hb5_trigger
+		alertentity hb6_trigger
+		alertentity ab2_trigger
+		alertentity ab4_trigger
+		alertentity ab5_trigger
+		alertentity ab6_trigger
+
+		setautospawn "Axis Base" 0
+		setautospawn "Allied Base" 1
+
+		disablespeaker allied_compost_sound		// allies command post
+		disablespeaker axis_compost_sound		// axis command post
+		enablespeaker allied_flag_sound
+		enablespeaker axis_flag_sound
+		wait 250
+	}
+
+	//- flag status and tie breaker ---------------------------------------
+	trigger allied_grab
+	{
+		accum 3 set 1
+	}
+
+	trigger axis_grab
+	{
+		accum 3 set 2
+	}
+
+	trigger allied_captd		// update allied capturing flag...
+	{
+		accum 0 inc 1
+		accum 2 inc 1
+
+		accum 2 trigger_if_equal 9 game_manager allied_win
+
+		accum 2 trigger_if_equal 1 game_manager allies_score1
+		accum 2 trigger_if_equal 2 game_manager allies_score2
+		accum 2 trigger_if_equal 3 game_manager allies_score3
+		accum 2 trigger_if_equal 4 game_manager allies_score4
+		accum 2 trigger_if_equal 5 game_manager allies_score5
+		accum 2 trigger_if_equal 6 game_manager allies_score6
+		accum 2 trigger_if_equal 7 game_manager allies_score7
+		accum 2 trigger_if_equal 8 game_manager allies_score8
+
+		trigger game_manager check_lead_allied
+		trigger game_manager teams_tied
+
+		wm_teamvoiceannounce 0 allies_score
+		wm_teamvoiceannounce 1 allies_score
+	}
+
+	trigger axis_captd
+	{
+		accum 0 inc -1
+		accum 1 inc 1
+
+		accum 1 trigger_if_equal 9 game_manager axis_win
+
+		accum 1 trigger_if_equal 1 game_manager axis_score1
+		accum 1 trigger_if_equal 2 game_manager axis_score2
+		accum 1 trigger_if_equal 3 game_manager axis_score3
+		accum 1 trigger_if_equal 4 game_manager axis_score4
+		accum 1 trigger_if_equal 5 game_manager axis_score5
+		accum 1 trigger_if_equal 6 game_manager axis_score6
+		accum 1 trigger_if_equal 7 game_manager axis_score7
+		accum 1 trigger_if_equal 8 game_manager axis_score8
+
+		trigger game_manager check_lead_axis
+		trigger game_manager teams_tied
+
+		wm_teamvoiceannounce 0 axis_score
+		wm_teamvoiceannounce 1 axis_score
+	}
+
+	trigger parse_allied	// see if the allied have captured more.
+	{
+		accum 0 abort_if_less_than 1 // allied captured more.
+		trigger game_manager allied_win
+	}
+
+	trigger parse_axis	// see if the axis have captured more.
+	{
+		accum 0 abort_if_greater_than -1 // axis captured more.
+		trigger game_manager axis_win
+	}
+
+	trigger last_touch
+	{
+		accum 3 trigger_if_equal 1 game_manager allied_win
+		accum 3 trigger_if_equal 2 game_manager axis_win
+	}
+
+	trigger allied_win
+	{
+		resetscript
+
+		wm_objective_status 1 1 2
+		wm_objective_status 1 0 1
+		wm_objective_status 2 1 2
+		wm_objective_status 2 0 1
+
+		wm_announce "^4The Allies Win!"
+		wm_setwinner 1	// allied win.
+       	remapshader "gfx/limbo/cm_flagallied.tga" "gfx/limbo/cm_flagallied.tga"
+        	remapshader "gfx/limbo/cm_flagaxis.tga" "gfx/limbo/cm_flagaxis.tga"
+		remapshaderflush
+		wait 250
+		wm_endround		// end game.
+	}
+
+	trigger axis_win
+	{
+		resetscript
+
+		wm_objective_status 1 1 1
+		wm_objective_status 1 0 2
+		wm_objective_status 2 1 1	
+		wm_objective_status 2 0 2
+
+		wm_announce "^1The Axis Win!"
+		wm_setwinner 0	// axis win.
+       	remapshader "gfx/limbo/cm_flagallied.tga" "gfx/limbo/cm_flagallied.tga"
+        	remapshader "gfx/limbo/cm_flagaxis.tga" "gfx/limbo/cm_flagaxis.tga"
+		remapshaderflush
+		wait 250
+		wm_endround		// end game.
+	}
+
+	trigger timelimit_hit	// who has more captures or if they broke even
+	{
+		wm_setwinner -1
+		trigger game_manager parse_allied
+		trigger game_manager parse_axis
+		trigger game_manager last_touch
+       	remapshader "gfx/limbo/cm_flagallied.tga" "gfx/limbo/cm_flagallied.tga"
+        	remapshader "gfx/limbo/cm_flagaxis.tga" "gfx/limbo/cm_flagaxis.tga"
+		remapshaderflush
+		wait 250
+		wm_setwinner 0
+		wm_endround
+	}
+
+	trigger check_lead_allied	// see if the allied are in the lead...
+	{
+		accum 0 abort_if_less_than 1 	// have the allies captured more?
+							// yes.. so we check if we announced
+		accum 5 abort_if_bitset 1	// the allies lead already
+		accum 5 bitset 1			// we have not, so set the allied flag to leading and...
+		accum 5 bitreset 0			// set the axis flag to not leading..
+		resetscript
+
+		accum 7 set 2	// allies lead
+
+		alertentity print_allies_lead
+ 
+		wm_teamvoiceannounce 0 allies_lead
+		wm_teamvoiceannounce 1 allies_lead
+	}
+
+	trigger check_lead_axis	// see if the axis are in the lead...
+	{
+		accum 0 abort_if_greater_than -1 	// have the axis captured more?
+								// yes.. so we check if we announced
+		accum 5 abort_if_bitset 0		// the axis lead already
+		accum 5 bitset 0				// we have not, so set the axis flag to leading and...
+		accum 5 bitreset 1				// set the allied flag to not leading..
+		resetscript
+		accum 7 set 1	// axis lead
+
+		alertentity print_axis_lead
+ 
+		wm_teamvoiceannounce 0 axis_lead
+		wm_teamvoiceannounce 1 axis_lead
+	}
+
+	trigger teams_tied
+	{
+		accum 0 abort_if_not_equal 0
+		resetscript
+		accum 5 bitreset 0
+		accum 5 bitreset 1
+
+		accum 7 set 0	// teams tied
+
+		alertentity print_teams_tied
+ 
+		wm_teamvoiceannounce 0 teams_are_tied
+		wm_teamvoiceannounce 1 teams_are_tied
+	}
+
+	//- end flag status and tie breaker -----------------------------------
+
+
+	//- the crypt spawnpoints ---------------------------------------------
+	trigger eastcryptallied
+	{
+		// Allied takes control of west crypt
+		wm_announce	"^4Allies capture the East Crypt Spawn!"
+		wm_objective_status	3 1 1
+		wm_objective_status	3 0 2
+	}
+
+	trigger eastcryptaxis
+	{
+		// Axis takes control of west crypt
+		wm_announce	"^1Axis capture the East Crypt Spawn!"
+		wm_objective_status	3 1 2
+		wm_objective_status	3 0 1
+	}
+	trigger westcryptallied
+	{
+		// Allied takes control of west crypt
+		wm_announce	"^4Allies capture the West Crypt Spawn!"
+		wm_objective_status	4 1 1
+		wm_objective_status	4 0 2
+	}
+
+	trigger westcryptaxis
+	{
+		// Axis takes control of west crypt
+		wm_announce	"^1Axis capture the West Crypt Spawn!"
+		wm_objective_status	4 1 2
+		wm_objective_status	4 0 1
+	}
+	//- end crypt spawnpoints -----------------------------------------
+
+
+	// scoreboard remap shader stuff, just 7 per team for now.
+	trigger allies_score1
+	{
+        	remapshader "gfx/hud/ic_stamina.tga" "gfx/2d/scoreboard/allies1.tga"
+         	remapshaderflush
+	}
+	trigger allies_score2
+	{
+        	remapshader "gfx/hud/ic_stamina.tga" "gfx/2d/scoreboard/allies2.tga"
+         	remapshaderflush
+	}
+	trigger allies_score3
+	{
+        	remapshader "gfx/hud/ic_stamina.tga" "gfx/2d/scoreboard/allies3.tga"
+         	remapshaderflush
+	}
+	trigger allies_score4
+	{
+        	remapshader "gfx/hud/ic_stamina.tga" "gfx/2d/scoreboard/allies4.tga"
+         	remapshaderflush
+	}
+	trigger allies_score5
+	{
+        	remapshader "gfx/hud/ic_stamina.tga" "gfx/2d/scoreboard/allies5.tga"
+         	remapshaderflush
+	}
+	trigger allies_score6
+	{
+        	remapshader "gfx/hud/ic_stamina.tga" "gfx/2d/scoreboard/allies6.tga"
+         	remapshaderflush
+	}
+	trigger allies_score7
+	{
+        	remapshader "gfx/hud/ic_stamina.tga" "gfx/2d/scoreboard/allies7.tga"
+         	remapshaderflush
+	}
+	trigger allies_score8
+	{
+        	remapshader "gfx/hud/ic_stamina.tga" "gfx/2d/scoreboard/allies8.tga"
+         	remapshaderflush
+	}
+
+	trigger axis_score1
+	{
+        	remapshader "gfx/hud/ic_health.tga" "gfx/2d/scoreboard/axis1.tga"
+         	remapshaderflush
+	}
+	trigger axis_score2
+	{
+        	remapshader "gfx/hud/ic_health.tga" "gfx/2d/scoreboard/axis2.tga"
+         	remapshaderflush
+	}
+	trigger axis_score3
+	{
+        	remapshader "gfx/hud/ic_health.tga" "gfx/2d/scoreboard/axis3.tga"
+         	remapshaderflush
+	}
+	trigger axis_score4
+	{
+        	remapshader "gfx/hud/ic_health.tga" "gfx/2d/scoreboard/axis4.tga"
+         	remapshaderflush
+	}
+	trigger axis_score5
+	{
+        	remapshader "gfx/hud/ic_health.tga" "gfx/2d/scoreboard/axis5.tga"
+         	remapshaderflush
+	}
+	trigger axis_score6
+	{
+        	remapshader "gfx/hud/ic_health.tga" "gfx/2d/scoreboard/axis6.tga"
+         	remapshaderflush
+	}
+	trigger axis_score7
+	{
+        	remapshader "gfx/hud/ic_health.tga" "gfx/2d/scoreboard/axis7.tga"
+         	remapshaderflush
+	}
+	trigger axis_score8
+	{
+        	remapshader "gfx/hud/ic_health.tga" "gfx/2d/scoreboard/axis8.tga"
+         	remapshaderflush
+	}
+	
+}
+
+
+// the following control's all the flag's
+allied_flag
+{
+	trigger stolen	// a flag was taken by the axis horde....
+	{
+		setstate allied_flag invisible		// hide the team_CTF_blueflag entity
+		setstate allied_cap_flag invisible		// hide the allied trigger_flagonly_multiple in case the allied
+		setstate allied_flag_icon invisible		// have the axis flag, they can't cap it.
+		trigger game_manager axis_grab
+		disablespeaker allied_flag_sound
+
+		//wait 2000
+
+		wm_teamvoiceannounce 0 flag_team_steals
+		wm_teamvoiceannounce 1 flag_enemy_steals
+	}
+
+	trigger returned	// flag was dropped and timed out or an allied player touched it....
+	{
+		setstate allied_flag default			// axis lost the flag, so setstate the team_CTF_blueflag and
+		setstate allied_cap_flag default		// their trigger_flagonly_multiple back.
+		setstate allied_flag_icon default
+		enablespeaker allied_flag_sound
+
+		wm_teamvoiceannounce 0 flag_returned
+		wm_teamvoiceannounce 1 flag_returned
+
+		wm_teamvoiceannounce 0 flag_allied_returned
+		wm_teamvoiceannounce 1 flag_allied_returned
+	}
+}
+
+allied_kill_flag	// this gets called when someone takes the flag where they shouldnt...
+{
+	death
+	{
+		setstate allied_flag default		//  flag comes back minus 1 count,
+		setstate allied_cap_flag default	// trigger_flagonly_multiple back also.
+		setstate allied_flag_icon default	// we don't count scores here, since the
+								// flag was not cap'd.
+
+		wm_announce "^7The Enemy Flag cannot be carried into Secret Places! - ^4Allied Flag Returned!"
+
+		wm_teamvoiceannounce 0 flag_returned
+		wm_teamvoiceannounce 1 flag_returned
+
+		wm_teamvoiceannounce 0 flag_allied_returned
+		wm_teamvoiceannounce 1 flag_allied_returned
+	
+	}
+}
+
+axis_flag
+{
+	trigger stolen	
+	{
+		setstate axis_flag invisible
+		setstate axis_cap_flag invisible
+		setstate axis_flag_icon invisible
+		trigger game_manager allied_grab
+		disablespeaker axis_flag_sound
+
+		//wait 2000
+
+		wm_teamvoiceannounce 0 flag_enemy_steals
+		wm_teamvoiceannounce 1 flag_team_steals
+	}
+
+	trigger returned
+	{
+		setstate axis_flag default
+		setstate axis_cap_flag default
+		setstate axis_flag_icon default
+		enablespeaker axis_flag_sound
+		wm_teamvoiceannounce 0 flag_returned
+		wm_teamvoiceannounce 1 flag_returned
+
+		wm_teamvoiceannounce 0 flag_axis_returned
+		wm_teamvoiceannounce 1 flag_axis_returned
+	}
+}
+
+axis_kill_flag	//
+{
+	death
+	{
+		setstate axis_flag default		//  flag comes back minus 1 count,
+		setstate axis_cap_flag default	// trigger_flagonly_multiple back also.
+		setstate axis_flag_icon default	// we don't count scores here, since the
+								// flag was not cap'd.
+
+		wm_announce "^7The Enemy Flag cannot be carried into Secret Places! - ^1Axis Flag Returned!"
+	
+		wm_teamvoiceannounce 0 flag_returned
+		wm_teamvoiceannounce 1 flag_returned
+
+		wm_teamvoiceannounce 0 flag_axis_returned
+		wm_teamvoiceannounce 1 flag_axis_returned	
+	}
+}
+
+allied_cap_flag   // allied have transported the axis flag back to their flagpole.
+
+{
+   death
+   {
+		setstate axis_flag default		//  flag comes back minus 1 count,
+		setstate axis_cap_flag default	// trigger_flagonly_multiple back also.
+		setstate axis_flag_icon default
+		enablespeaker axis_flag_sound
+		wm_announce "^4the Allies have Captured a Flag!!!"
+	    	trigger game_manager allied_captd  // go update the allied flag captured counter.
+   }
+} 
+
+axis_cap_flag	// axis have transported the allied flag back to their flagpole.
+
+{
+   death
+   {
+		setstate allied_flag default
+		setstate allied_cap_flag default
+		setstate allied_flag_icon default
+		enablespeaker allied_flag_sound
+		wm_announce "^1the Axis have Captured a Flag!!!"
+		trigger game_manager axis_captd	// go update the axis flag captured counter.
+   }
+}
+
+// end ctf control
+
+//----------------------------------------------------------------------------------
+
+// ================================================
+// =============== COMMAND POSTS ==================
+// ================================================
+// taken from oasis
+
+allied_radio_destroyed
+{
+	spawn
+	{
+		wait 400
+		setstate allied_radio_destroyed invisible
+		setstate allied_radio_destroyed_model invisible
+	}
+
+	trigger hide
+	{
+		setstate allied_radio_destroyed invisible
+		setstate allied_radio_destroyed_model invisible
+	}
+
+	trigger show
+	{
+		accum 0 abort_if_equal 0
+		setstate allied_radio_destroyed default
+		setstate allied_radio_destroyed_model default
+	}
+
+	trigger enable
+	{
+		accum 0 set 1
+	}
+}
+
+allied_radio_closed
+{
+	trigger hide
+	{
+		setstate allied_radio_closed invisible
+		setstate allied_radio_closed_model invisible
+	}
+
+	trigger show
+	{
+		accum 0 abort_if_equal 1
+		setstate allied_radio_closed default
+		setstate allied_radio_closed_model default
+	}
+
+	trigger disable
+	{
+		accum 0 set 1
+	}
+}
+
+allied_radio_built
+{
+	spawn
+	{
+		wait 400
+
+		constructible_class 2
+
+		trigger allied_radio_built setup
+	}
+
+	trigger setup
+	{
+		setchargetimefactor 1 soldier 1
+		setchargetimefactor 1 lieutenant 1
+		setchargetimefactor 1 medic 1
+		setchargetimefactor 1 engineer 1
+		setchargetimefactor 1 covertops 1
+		sethqstatus 1 0
+	}
+
+	buildstart final
+	{
+		trigger allied_radio_built_model trans
+
+		trigger allied_radio_destroyed hide
+		trigger allied_radio_closed 	hide
+	}
+
+	built final
+	{
+		trigger allied_radio_built_model show
+
+		trigger allied_radio_destroyed enable
+		trigger allied_radio_closed 	disable
+
+		trigger allied_radio_built_model enable_allied_features
+
+		enablespeaker allied_compost_sound
+	}
+
+	decayed final
+	{
+		trigger allied_radio_built_model hide
+
+		trigger allied_radio_destroyed show
+		trigger allied_radio_closed 	show
+	}
+
+	death
+	{
+		trigger allied_radio_built_model hide
+
+		trigger allied_radio_destroyed show
+
+		trigger allied_radio_built_model disable_allied_features
+
+		disablespeaker allied_compost_sound
+	}
+}
+
+allied_radio_built_model
+{
+	spawn
+	{
+		wait 400
+		setstate allied_radio_built_model invisible
+	}
+
+	trigger show
+	{
+		setstate allied_radio_built_model default
+	}
+
+	trigger hide
+	{
+		setstate allied_radio_built_model invisible
+	}
+
+	trigger trans
+	{
+		setstate allied_radio_built_model underconstruction
+	}
+
+	trigger enable_allied_features
+	{
+		setchargetimefactor 1 soldier 0.50
+		setchargetimefactor 1 lieutenant 0.50
+		setchargetimefactor 1 medic 0.50
+		setchargetimefactor 1 engineer 0.50
+		setchargetimefactor 1 covertops 0.50
+		sethqstatus 1 1
+
+		wm_announce	"^4Allies Command Post constructed. Charge speed increased!"
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "axis_hq_compost_constructed_allies"
+
+		wm_teamvoiceannounce 1 "allies_hq_compost_constructed"
+
+		wm_removeteamvoiceannounce 1 "allies_hq_compost_construct"
+		// *---------------------------------------------------------------------------------*
+
+		wm_objective_status 6 1 1
+		wm_objective_status 6 0 2
+	}
+
+	trigger disable_allied_features
+	{
+		// Some kind of UI pop-up to alert players
+		wm_announce	"^1Axis team has destroyed the Allied Command Post!"
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_addteamvoiceannounce 1 "allies_hq_compost_construct"
+
+		wm_teamvoiceannounce 1 "allies_hq_compost_damaged"
+		// *----------------------------------- vo ------------------------------------------*
+
+		setchargetimefactor 1 soldier 1
+		setchargetimefactor 1 lieutenant 1
+		setchargetimefactor 1 medic 1
+		setchargetimefactor 1 engineer 1
+		setchargetimefactor 1 covertops 1
+		sethqstatus 1 0
+
+		wm_objective_status 6 1 0
+		wm_objective_status 6 0 0
+	}
+}
+
+axis_radio_destroyed
+{
+	spawn
+	{
+		wait 400
+		setstate axis_radio_destroyed invisible
+		setstate axis_radio_destroyed_model invisible
+	}
+
+	trigger hide
+	{
+		setstate axis_radio_destroyed invisible
+		setstate axis_radio_destroyed_model invisible
+	}
+
+	trigger show
+	{
+		accum 0 abort_if_equal 0
+		setstate axis_radio_destroyed default
+		setstate axis_radio_destroyed_model default
+	}
+
+	trigger enable
+	{
+		accum 0 set 1
+	}
+}
+
+axis_radio_closed
+{
+	trigger hide
+	{
+		setstate axis_radio_closed invisible
+		setstate axis_radio_closed_model invisible
+	}
+
+	trigger show
+	{
+		accum 0 abort_if_equal 1
+		setstate axis_radio_closed default
+		setstate axis_radio_closed_model default
+	}
+
+	trigger disable
+	{
+		accum 0 set 1
+	}
+}
+
+axis_radio_built
+{
+	spawn
+	{
+		wait 400
+
+		constructible_class 2
+
+		trigger axis_radio_built setup
+	}
+
+	trigger setup
+	{
+		setchargetimefactor 0 soldier 1
+		setchargetimefactor 0 lieutenant 1
+		setchargetimefactor 0 medic 1
+		setchargetimefactor 0 engineer 1
+		setchargetimefactor 0 covertops 1
+		sethqstatus 0 0
+	}
+
+	buildstart final
+	{
+		trigger axis_radio_built_model trans
+
+		trigger axis_radio_destroyed hide
+		trigger axis_radio_closed 	hide
+	}
+
+	built final
+	{
+		trigger axis_radio_built_model show
+
+		trigger axis_radio_destroyed enable
+		trigger axis_radio_closed 	disable
+
+		trigger axis_radio_built_model enable_axis_features
+
+		enablespeaker axis_compost_sound
+	}
+
+	decayed final
+	{
+		trigger axis_radio_built_model hide
+
+		trigger axis_radio_destroyed show
+		trigger axis_radio_closed 	show
+	}
+
+	death
+	{
+		trigger axis_radio_built_model hide
+
+		trigger axis_radio_destroyed show
+
+		trigger axis_radio_built_model disable_axis_features
+
+		disablespeaker axis_compost_sound
+	}
+}
+
+axis_radio_built_model
+{
+	spawn
+	{
+		wait 400
+		setstate axis_radio_built_model invisible
+	}
+
+	trigger show
+	{
+		setstate axis_radio_built_model default
+	}
+
+	trigger hide
+	{
+		setstate axis_radio_built_model invisible
+	}
+
+	trigger trans
+	{
+		setstate axis_radio_built_model underconstruction
+	}
+
+	trigger enable_axis_features
+	{
+		setchargetimefactor 0 soldier 0.50
+		setchargetimefactor 0 lieutenant 0.50
+		setchargetimefactor 0 medic 0.50
+		setchargetimefactor 0 engineer 0.50
+		setchargetimefactor 0 covertops 0.50
+		sethqstatus 0 1
+
+		wm_announce	"^1Axis Command Post constructed. Charge speed increased!"
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "axis_hq_compost_constructed"
+
+		wm_teamvoiceannounce 1 "allies_hq_compost_constructed_axis"
+
+		wm_removeteamvoiceannounce 0 "axis_hq_compost_construct"
+		// *----------------------------------- vo ------------------------------------------*
+
+		wm_objective_status 5 1 2
+		wm_objective_status 5 0 1
+
+	}
+
+	trigger disable_axis_features
+	{
+		// Some kind of UI pop-up to alert players
+		wm_announce	"^4Allied team has destroyed the Axis Command Post!"
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_addteamvoiceannounce 0 "axis_hq_compost_construct"
+
+		wm_teamvoiceannounce 0 "axis_hq_compost_damaged"
+		// *----------------------------------- vo ------------------------------------------*
+
+		setchargetimefactor 0 soldier 1
+		setchargetimefactor 0 lieutenant 1
+		setchargetimefactor 0 medic 1
+		setchargetimefactor 0 engineer 1
+		setchargetimefactor 0 covertops 1
+		sethqstatus 0 0
+
+		wm_objective_status 5 1 0
+		wm_objective_status 5 0 0
+	}
+}
+// end command post stuff
+
+
+///////////////////////////////////////////////////////
+// crypt spawnpoints
+east_crypt
+{
+	spawn
+	{
+		wait 200
+		setstate east_crypt_wobj invisible
+		accum 0 set 0
+	}
+
+	trigger axis_capture
+	{
+		trigger game_manager eastcryptaxis
+		trigger east_crypt setaxis
+	}
+
+	trigger allied_capture
+	{
+		trigger game_manager eastcryptallied
+		trigger east_crypt setallies
+	}
+
+	trigger setaxis
+	{
+		setstate east_crypt_wobj default
+		accum 0 abort_if_equal 0
+		accum 0 set 0
+		alertentity east_crypt_wobj
+	}
+
+	trigger setallies
+	{
+		setstate east_crypt_wobj default
+		accum 0 abort_if_equal 1
+		accum 0 set 1
+		alertentity east_crypt_wobj
+	}
+}
+
+west_crypt
+{
+	spawn
+	{
+		wait 200
+		setstate west_crypt_wobj invisible
+		accum 0 set 0
+	}
+
+	trigger axis_capture
+	{
+		trigger game_manager westcryptaxis
+		trigger west_crypt setaxis
+	}
+
+	trigger allied_capture
+	{
+		trigger game_manager westcryptallied
+		trigger west_crypt setallies
+	}
+
+	trigger setaxis
+	{
+		setstate west_crypt_wobj default
+		accum 0 abort_if_equal 0
+		accum 0 set 0
+		alertentity west_crypt_wobj
+	}
+
+	trigger setallies
+	{
+		setstate west_crypt_wobj default
+		accum 0 abort_if_equal 1
+		accum 0 set 1
+		alertentity west_crypt_wobj
+	}
+}
+
+// end crypt spawnpoints
+
+
+
+// the bunker doors on the lowest level
+al_east_bdoor
+{
+	spawn
+	{
+	}
+
+	trigger destroyed
+	{
+		remove
+	}
+}
+
+al_west_bdoor
+{
+	spawn
+	{
+	}
+
+	trigger destroyed
+	{
+		remove
+	}
+}
+
+ax_east_bdoor
+{
+	spawn
+	{
+	}
+
+	trigger destroyed
+	{
+		remove
+	}
+}
+
+ax_west_bdoor
+{
+	spawn
+	{
+	}
+
+	trigger destroyed
+	{
+		remove
+	}
+}
+
+al_east_bgate
+{
+	spawn
+	{
+		wait 50
+		constructible_class 3
+	}
+
+	death
+	{
+		wm_announce "Allied East Bunker door Destoyed!"
+		trigger al_east_bdoor destroyed
+	}
+}
+
+al_west_bgate
+{
+	spawn
+	{
+		wait 50
+		constructible_class 3
+	}
+
+	death
+	{
+		wm_announce "Allied West Bunker door Destoyed!"
+		trigger al_west_bdoor destroyed
+	}
+}
+
+ax_east_bgate
+{
+	spawn
+	{
+		wait 50
+		constructible_class 3
+	}
+
+	death
+	{
+		wm_announce "Axis East Bunker door Destoyed!"
+		trigger ax_east_bdoor destroyed
+	}
+}
+
+ax_west_bgate
+{
+	spawn
+	{
+		wait 50
+		constructible_class 3
+	}
+
+	death
+	{
+		wm_announce "Axis West Bunker door Destoyed!"
+		trigger ax_west_bdoor destroyed
+	}
+}
+
+
+// the powerups scattered here and there...
+
+hb1_bbr
+{
+	spawn
+	{
+		wait 25
+		setrotation 0 125 0
+	}
+
+	trigger activate
+	{
+		setstate hb1_bbr invisible
+		wait 30000
+		setstate hb1_bbr default
+		alertentity hb1_trigger
+	}
+}
+
+hb2_bbr
+{
+	spawn
+	{
+		wait 25
+		setrotation 0 125 0
+	}
+
+	trigger activate
+	{
+		setstate hb2_bbr invisible
+		wait 30000
+		setstate hb2_bbr default
+		alertentity hb2_trigger
+	}
+}
+
+hb3_bbr
+{
+	spawn
+	{
+		wait 25
+		setrotation 0 125 0
+	}
+
+	trigger activate
+	{
+		setstate hb3_bbr invisible
+		wait 30000
+		setstate hb3_bbr default
+		alertentity hb3_trigger
+	}
+}
+
+
+ab2_bbr
+{
+	spawn
+	{
+		wait 25
+		setrotation 0 125 0
+	}
+
+	trigger activate
+	{
+		setstate ab2_bbr invisible
+		wait 30000
+		setstate ab2_bbr default
+		alertentity ab2_trigger
+	}
+}
+
+hb4_bbr
+{
+	spawn
+	{
+		wait 25
+		setrotation 0 125 0
+	}
+
+	trigger activate
+	{
+		setstate hb4_bbr invisible
+		wait 30000
+		setstate hb4_bbr default
+		alertentity hb4_trigger
+	}
+}
+
+hb5_bbr
+{
+	spawn
+	{
+		wait 25
+		setrotation 0 125 0
+	}
+
+	trigger activate
+	{
+		setstate hb5_bbr invisible
+		wait 30000
+		setstate hb5_bbr default
+		alertentity hb5_trigger
+	}
+}
+
+hb6_bbr
+{
+	spawn
+	{
+		wait 25
+		setrotation 0 125 0
+	}
+
+	trigger activate
+	{
+		setstate hb6_bbr invisible
+		wait 30000
+		setstate hb6_bbr default
+		alertentity hb6_trigger
+	}
+}
+
+ab4_bbr
+{
+	spawn
+	{
+		wait 25
+		setrotation 0 125 0
+	}
+
+	trigger activate
+	{
+		setstate ab4_bbr invisible
+		wait 30000
+		setstate ab4_bbr default
+		alertentity ab4_trigger
+	}
+}
+
+ab5_bbr
+{
+	spawn
+	{
+		wait 25
+		setrotation 0 125 0
+	}
+
+	trigger activate
+	{
+		setstate ab5_bbr invisible
+		wait 30000
+		setstate ab5_bbr default
+		alertentity ab5_trigger
+	}
+}
+
+ab6_bbr
+{
+	spawn
+	{
+		wait 25
+		setrotation 0 125 0
+	}
+
+	trigger activate
+	{
+		setstate ab6_bbr invisible
+		wait 30000
+		setstate ab6_bbr default
+		alertentity ab6_trigger
+	}
+}
+
+// gear rooms
+al_shaft1
+{
+	spawn
+	{
+		wait 50
+		setrotation 0 50 0
+	}
+}
+
+al_shaft1_gear1
+{
+	spawn
+	{
+		wait 50
+		setrotation 0 50 0
+	}
+}
+
+al_shaft1_gear2
+{
+	spawn
+	{
+		wait 50
+		setrotation 0 50 0
+	}
+}
+
+al_shaft1_gear3
+{
+	spawn
+	{
+		wait 50
+		setrotation 0 50 0
+	}
+}
+
+al_wall_shaft2
+{
+	spawn
+	{
+		wait 50
+		setrotation 50 0 0
+	}
+}
+
+
+al_wall_shaft2_gear
+{
+	spawn
+	{
+		wait 50
+		setrotation 0 0 50
+	}
+}
+
+al_floor_gear1_clip
+{
+	spawn
+	{
+		wait 50
+		setrotation 0 0 -50
+	}
+}
+
+
+al_floor_gear1
+{
+	spawn
+	{
+		wait 50
+		setrotation 0 0 -50
+	}
+}
+
+////////////////////////
+
+
+ax_shaft1
+{
+	spawn
+	{
+		wait 50
+		setrotation 0 50 0
+	}
+}
+
+ax_shaft1_gear1
+{
+	spawn
+	{
+		wait 50
+		setrotation 0 50 0
+	}
+}
+
+ax_shaft1_gear2
+{
+	spawn
+	{
+		wait 50
+		setrotation 0 50 0
+	}
+}
+
+ax_shaft1_gear3
+{
+	spawn
+	{
+		wait 50
+		setrotation 0 50 0
+	}
+}
+
+ax_wall_shaft2
+{
+	spawn
+	{
+		wait 50
+		setrotation -50 0 0
+	}
+}
+
+
+ax_wall_shaft2_gear
+{
+	spawn
+	{
+		wait 50
+		setrotation 0 0 -50
+	}
+}
+
+ax_floor_gear1_clip
+{
+	spawn
+	{
+		wait 50
+		setrotation 0 0 50
+	}
+}
+
+
+ax_floor_gear1
+{
+	spawn
+	{
+		wait 50
+		setrotation 0 0 50
+	}
+}
+
+gfc_control
+{
+	spawn
+	{
+	}
+	
+	activate
+	{
+		trigger gfc reveal
+	}
+}
+
+gfc
+{
+	spawn
+	{
+		wait 50
+		startanimation 0 1 8 nolerp norandom
+	}
+
+	trigger reveal
+	{
+		startanimation 1 13 8 nolerp norandom
+		playsound sound/effects/moanlaugh2.wav volume 128 looping
+
+		wait 20000
+
+		startanimation 0 1 8 nolerp norandom
+		stopsound
+
+	}
+}
+
+sec_door1_control
+{
+	activate
+	{
+		trigger sec_door1 reveal
+	}
+}
+
+sec_door1
+{
+	spawn
+	{
+	}
+
+	trigger reveal
+	{
+		stopsound
+		playsound sound/movers/rayban/pt1slow_start.wav
+		gotomarker sec_door1_open 140
+		wait 1500
+		stopsound
+		playsound sound/movers/rayban/pt1slow_end.wav
+
+		wait 5000
+
+		stopsound
+		playsound sound/movers/rayban/pt1slow_start.wav
+		gotomarker sec_door1_close 140
+		wait 1500
+		stopsound
+		playsound sound/movers/rayban/pt1slow_end.wav
+	}
+}
+
+
+sec_door2_control
+{
+	activate
+	{
+		trigger sec_door2 reveal
+	}
+}
+
+
+sec_door2
+{
+	spawn
+	{
+	}
+
+	trigger reveal
+	{
+		stopsound
+		playsound sound/movers/rayban/pt1slow_start.wav
+		gotomarker sec_door2_open 140
+		wait 1500
+		stopsound
+		playsound sound/movers/rayban/pt1slow_end.wav
+
+		wait 5000
+
+		stopsound
+		playsound sound/movers/rayban/pt1slow_start.wav
+		gotomarker sec_door2_close 140
+		wait 1500
+		stopsound
+		playsound sound/movers/rayban/pt1slow_end.wav
+	}
+}

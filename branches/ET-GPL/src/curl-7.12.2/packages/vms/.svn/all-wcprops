@@ -1,0 +1,95 @@
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/packages/vms
+END
+Makefile.in
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/packages/vms/Makefile.in
+END
+curlmsg_vms.h
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/packages/vms/curlmsg_vms.h
+END
+defines.com
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/packages/vms/defines.com
+END
+curlmsg.sdl
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/packages/vms/curlmsg.sdl
+END
+readme
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/packages/vms/readme
+END
+hpssl_alpha.opt
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/packages/vms/hpssl_alpha.opt
+END
+curlmsg.msg
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/packages/vms/curlmsg.msg
+END
+build_vms.com
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/packages/vms/build_vms.com
+END
+curlmsg.h
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/packages/vms/curlmsg.h
+END
+config-vms.h_without_ssl
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/packages/vms/config-vms.h_without_ssl
+END
+batch_compile.com
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/packages/vms/batch_compile.com
+END
+hpssl_vax.opt
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/packages/vms/hpssl_vax.opt
+END
+Makefile.am
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/packages/vms/Makefile.am
+END
+config-vms.h_with_ssl
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/packages/vms/config-vms.h_with_ssl
+END
+hpssl_ia64.opt
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/packages/vms/hpssl_ia64.opt
+END

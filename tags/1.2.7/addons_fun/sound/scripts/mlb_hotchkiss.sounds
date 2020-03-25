@@ -1,0 +1,179 @@
+radar_allies_entrances_destroy
+{
+	sound sound/vo/radar/allies/hq_entrancesdyn.wav
+	voice
+	streaming
+}
+
+radar_axis_entrances_defend
+{
+	sound sound/vo/radar/axis/hq_entrancesdef.wav
+	voice
+	streaming
+}
+
+battery_allies_generator_destroy
+{
+	sound sound/vo/battery/allies/hq_gendyn.wav
+	voice
+	streaming
+}
+
+battery_allies_generator_destroyed
+{
+	sound sound/vo/battery/allies/hq_gendest.wav
+	voice
+	streaming
+}
+
+battery_axis_generator_defend
+{
+	sound sound/vo/battery/axis/hq_gendef.wav
+	voice
+	streaming
+}
+
+battery_axis_generator_constructed
+{
+	sound sound/vo/battery/axis/hq_genconst.wav
+	voice
+	streaming
+}
+
+battery_axis_generator_destroyed
+{
+	sound sound/vo/battery/axis/hq_gendest.wav
+	voice
+	streaming
+}
+
+ally-proex2
+{
+	sound sound/vo_mlb/mlb_sound_allies1/Hotchkiss/ally-proex2.wav
+	voice
+	streaming
+}
+ally-progate5
+{
+	sound sound/vo_mlb/mlb_sound_allies1/Hotchkiss/ally-progate5.wav
+	voice
+	streaming
+}
+ally-facwal1
+{
+	sound sound/vo_mlb/mlb_sound_allies1/Hotchkiss/ally-facwal1.wav
+	voice
+	streaming
+}
+ally-conbar1
+{
+	sound sound/vo_mlb/mlb_sound_allies1/Hotchkiss/ally-conbar1.wav
+	voice
+	streaming
+}
+ally-defmis2
+{
+	sound sound/vo_mlb/mlb_sound_allies1/Hotchkiss/ally-defmis2.wav
+	voice
+	streaming
+}
+ally-desbar1
+{
+	sound sound/vo_mlb/mlb_sound_allies1/Hotchkiss/ally-desbar1.wav
+	voice
+	streaming
+}
+ally-facgat1
+{
+	sound sound/vo_mlb/mlb_sound_allies1/Hotchkiss/ally-desbar1.wav
+	voice
+	streaming
+}
+axis-desgate1
+{
+	sound sound/vo_mlb/mlb_sound_axis1/Hotchkiss/axis-desgate1.wav
+	voice
+	streaming
+}
+axis-takexp4
+{
+	sound sound/vo_mlb/mlb_sound_axis1/Hotchkiss/axis-takexp4.wav
+	voice
+	streaming
+}
+axis-facmain1
+{
+	sound sound/vo_mlb/mlb_sound_axis1/Hotchkiss/axis-facmain1.wav
+	voice
+	streaming
+}
+axis-bardes1
+{
+	sound sound/vo_mlb/mlb_sound_axis1/Hotchkiss/axis-bardes1.wav
+	voice
+	streaming
+}
+axis-facdes3
+{
+	sound sound/vo_mlb/mlb_sound_axis1/Hotchkiss/axis-facdes3.wav
+	voice
+	streaming
+}
+
+
+ally-countoff3
+{
+	sound sound/vo_mlb/mlb_sound_allies1/daybreak/ally-countoff3.wav
+	voice
+	streaming
+}
+
+ally-counton2
+{
+	sound sound/vo_mlb/mlb_sound_allies1/daybreak/ally-counton2.wav
+	voice
+	streaming
+}
+
+
+ally-defrock3
+{
+	sound sound/vo_mlb/mlb_sound_allies1/daybreak/ally-defrock3.wav
+	voice
+	streaming
+}
+
+axis-countoff1
+{
+	sound sound/vo_mlb/mlb_sound_axis1/daybreak/axis-countoff1.wav
+	voice
+	streaming
+}
+
+axis-counton1
+{
+	sound sound/vo_mlb/mlb_sound_axis1/daybreak/axis-counton1.wav
+	voice
+	streaming
+}
+
+axis-armbomb1
+{
+	sound sound/vo_mlb/mlb_sound_axis1/daybreak/axis-armbomb1.wav
+	voice
+	streaming
+}
+
+axis-dynorgate2
+{
+	sound sound/vo_mlb/mlb_sound_axis1/daybreak/axis-dynorgate2.wav
+	voice
+	streaming
+}
+
+axis-desbar1
+{
+	sound sound/vo_mlb/mlb_sound_axis1/daybreak/axis-desbar1.wav
+	voice
+	streaming
+}

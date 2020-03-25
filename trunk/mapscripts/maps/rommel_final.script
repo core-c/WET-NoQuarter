@@ -1,0 +1,680 @@
+// ============================================================================ 
+// Map: Rommel_final
+// Author:  Mean Mr. Mustard, Cptn Triscuit, Ifurita
+// Credits:  CP prefab - Seven DC, Buildings Cptn Triscuit and Mean Mr. Mustard, Terrain-Mean Mr. Mustard, Crates and Marketing - Ifurita  
+// ============================================================================ 
+
+game_manager
+{
+	spawn 
+   	{
+		remapshader "gfx/rommel/flag_axis" "gfx/rommel/flag_axis"
+		remapshaderflush
+
+		
+		// Game rules
+		wm_axis_respawntime	25
+		wm_allied_respawntime	15
+		wm_number_of_objectives 7
+		wm_set_round_timelimit	15
+
+		//Objective 1:  Breach West Gate
+		//Objective 2:  Breach East Gate
+		//Objective 3:  Steal Access Card
+		//Objective 4:  Deliver Access Card to Cistern Gates
+		//Objective 5:  Destroy Cistern Controls
+		//Objective 6:  Capture Forward Spawn
+		//Objective 7:  Construct Command Post
+
+		// Current main objectives for each team (0=Axis, 1=Allies)
+		wm_objective_status 1 0 0
+		wm_objective_status 1 1 0
+		wm_objective_status 2 0 0
+		wm_objective_status 2 1 0
+		wm_objective_status 3 0 0
+		wm_objective_status 3 1 0
+		wm_objective_status 4 0 0
+		wm_objective_status 4 1 0
+		wm_objective_status 5 0 0
+		wm_objective_status 5 1 0
+		wm_objective_status 6 0 0
+		wm_objective_status 6 1 0
+		wm_objective_status 7 0 0
+		wm_objective_status 7 1 0
+
+		// Stopwatch mode defending team (0=Axis, 1=Allies)
+		wm_set_defending_team	0
+
+		// Winner on expiration of round timer (0=Axis, 1=Allies, -1=Overtime)
+		wm_setwinner	0 //Assumes allies defending
+
+		wait 2000
+
+		setautospawn	"Allied CP"	1 
+		setautospawn	"Forward Spawn"	0
+
+		disablespeaker allies_compost_sound
+		disablespeaker axis_compost_sound
+		
+   	}
+
+//Objective counter and game win check scripts
+
+	trigger alliedobjectivecounter  //Completion of Allied objectives
+        {
+                //Set accum to increase by 1 so we know that the objective has been completed
+                accum 1 inc 1
+
+   		//Call function called checkgame in game_manager to check if the round has been won
+        	trigger game_manager alliedcheckgame
+     	}
+
+	trigger alliedcheckgame // checks to see if Axis win requirements have been met
+	{
+                accum 1 abort_if_not_equal 1
+                wm_setwinner 1
+		wait 1500
+                wm_endround
+ 	}
+} 
+
+//End of Game_manager section
+
+// ============================================================================ 
+// FORWARD SPAWN POINT ========================================================
+// ============================================================================ 
+
+forward_spawn
+{
+	spawn
+	{
+		wait 200
+		accum 0 set 0 // Who has the flag: 0-Axis, 1-Allied
+	}
+
+	trigger axis_capture
+	{
+		accum 0 abort_if_equal 0
+		accum 0 set 0
+
+		// Change the objective state internally, so UI can update, etc.
+		// Axis takes control of forward flag
+
+		// Some kind of UI pop-up to alert players
+		wm_announce	"Axis capture the Forward spawn!"
+
+		wm_objective_status	8 1 2
+		wm_objective_status	8 0 1
+
+		alertentity forwardflag_wobj
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "rommel_axis_bunker_reclaimed"
+
+		wm_teamvoiceannounce 1 "rommel_allies_bunker_reclaimed"
+		// *---------------------------------------------------------------------------------*
+	}
+
+	trigger allied_capture
+	{
+		accum 0 abort_if_equal 1
+		accum 0 set 1
+
+		// Change the objective state internally, so UI can update, etc.
+		// Allied takes control of forward flag
+
+		// Some kind of UI pop-up to alert players
+		wm_announce	"Allies capture the Forward spawn!"
+
+		wm_objective_status	8 1 1
+		wm_objective_status	8 0 2
+
+		alertentity forwardflag_wobj
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "rommel_axis_bunker_captured"
+
+		wm_teamvoiceannounce 1 "rommel_allies_bunker_captured"
+		// *---------------------------------------------------------------------------------*
+	}
+
+	trigger allied_keep
+	{
+		setstate axis_forward_spawnblob invisible
+		setautospawn "Head Quarters" 0
+		setautospawn "Allied CP" 1
+		remove
+
+		accum 0 abort_if_equal 1
+		alertentity forwardflag_wobj
+		alertentity forward_spawnblob
+
+	}
+}
+
+// ============================================================================ 
+// DESTRUCTIBLE OBJECTIVES ===================================================
+// ============================================================================ 
+
+//West Gate
+west_gate
+{
+	spawn 
+	{
+		wait 200
+		constructible_class 3
+
+		setstate obj_westgate invisible
+		setstate obj_westgate_toi invisible
+	}
+
+	death 
+	{
+		wm_announce "Allies have breached the West Gate"
+		wm_objective_status 1 0 2
+		wm_objective_status 1 1 1
+
+		// set forward spawn as allies and remove flag
+		trigger forward_spawn allied_keep
+
+		// display completion markers
+		setstate obj_westgate default
+		setstate obj_westgate_toi default
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "rommel_axis_west_gate_destroyed"
+
+		wm_teamvoiceannounce 1 "rommel_allies_west_gate_destroyed"
+		// *---------------------------------------------------------------------------------*		
+	}
+}
+
+//East Gate
+east_gate
+{
+	spawn 
+	{
+		wait 200
+		constructible_class 3
+
+		setstate obj_eastgate invisible
+		setstate obj_eastgate_toi invisible
+	}
+
+	death 
+	{
+		wm_announce "Allies have breached the East Gate"
+
+		wm_objective_status 2 0 2
+		wm_objective_status 2 1 1
+
+		// display completion markers
+		setstate obj_eastgate default
+		setstate obj_eastgate_toi default
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "rommel_axis_east_gate_destroyed"
+
+		wm_teamvoiceannounce 1 "rommel_allies_east_gate_destroyed"
+		// *---------------------------------------------------------------------------------*	
+	}
+}
+
+//Water Cisterns
+cistern_controls
+{
+	spawn 
+	{
+		wait 200
+		constructible_class 3
+
+		setstate cistern_controls_toi invisible
+	}
+
+	death 
+	{
+		wm_announce "Allies have destroyed the water cisterns"
+
+		wm_objective_status 5 0 2
+		wm_objective_status 5 1 1
+
+		trigger game_manager alliedobjectivecounter // Inc counter game counter 
+	}
+}
+
+// ============================================================================ 
+// Axis Constructibles ========================================================
+// ============================================================================
+
+
+// ============================================================================ 
+// Returnable Objective =======================================================
+// ============================================================================ 
+
+//Access Codes 
+access_codes 
+{ 
+	spawn 
+	{ 
+		wait 200 
+		setstate access_codes_captured invisible 
+		setstate access_codes_red default
+		setstate obj_keycard invisible
+		setstate obj_keycard_toi invisible
+		setstate obj_keycontrol_toi invisible
+	} 
+
+	trigger stolen 
+	{ 
+		wm_announce "The Allies have stolen the Access Card" 
+		setstate access_codes_target invisible 		
+		setstate obj_keycard default
+		setstate obj_keycard_toi default
+
+		wm_objective_status 3 0 2
+		wm_objective_status 3 1 1
+
+	} 
+
+
+	trigger returned 
+	{ 
+		wm_announce "The Axis have retrieved the Access Card" 
+		setstate access_codes_target default 
+		setstate obj_keycard invisible
+		setstate obj_keycard_toi invisible
+
+		wm_objective_status 3 0 1
+		wm_objective_status 3 1 2
+
+	} 
+
+	trigger captured 
+	{ 
+		wm_announce "The Allies have gained access to the Cistern" 
+		setstate access_codes_red invisible 
+		setstate access_codes_captured default 
+	} 
+} 
+
+
+allied_objective //enter this as the scriptname value for the single trigger_flagonly_multiples entity 
+{ 
+	death 
+	{ 
+		wm_objective_status 4 0 2
+		wm_objective_status 4 1 1
+
+		trigger cistern_door open
+		trigger cistern_door_spinner open
+
+		// *----------------------------------- vo ----*
+		wm_teamvoiceannounce 0 "rommel_axis_obj_captured"
+		wm_teamvoiceannounce 1 "rommel_allied_obj_secured"
+		// *----------------------------------- vo ----*
+		
+		setstate access_control_cm_marker invisible
+		setstate cistern_controls_toi default
+		setstate obj_keycontrol default
+		setstate obj_keycontrol_toi default
+	} 
+} 
+
+// ============================================================================ 
+// Cistern Doors ==============================================================
+// ============================================================================ 
+cistern_door_spinner
+{
+	spawn
+	{
+		wait 200
+	}
+
+	trigger open
+	{
+		playsound "sound/movers/doors/door6_loopc.wav" looping
+		setrotation	0 0 100
+		wait 3000
+		setrotation	0 0 0
+		stopsound
+		playsound "sound/movers/doors/door2_locked.wav"
+		wait 900
+		stopsound
+		gotomarker cistern_door_down 50
+	}
+}
+
+cistern_door
+{
+	spawn
+	{
+		wait 200
+	}
+
+	trigger open      // Move left 
+   	{ 
+		wait 3900
+		playsound "sound/movers/motors/motor_loop_03.wav" looping
+      		gotomarker cistern_door_down 50 
+		stopsound
+		playsound "sound/movers/misc/big_gate3.wav"
+   	} 
+}
+
+// ============================================================================ 
+// Tank Depot Doors ===========================================================
+// ============================================================================ 
+
+depot_door_axis
+{ 
+	spawn
+	{
+		wait 200 
+		setstate depot_door_axis default 
+	}
+} 
+
+depot_door_all
+{ 
+	spawn
+	{
+		wait 200 
+		setstate depot_door_all invisible 
+	}
+} 
+
+// NEUTRAL COMMAND POST ================================================
+// FROM Goldrush Thx SD!!! prefab by seven 2003 
+
+allied_compost_built
+{
+	spawn
+	{
+		wait 400
+		trigger allied_compost_built setup
+
+		constructible_class 2
+	}
+
+	trigger setup
+	{
+		setchargetimefactor 1 soldier 1
+		setchargetimefactor 1 lieutenant 1
+		setchargetimefactor 1 medic 1
+		setchargetimefactor 1 engineer 1
+		setchargetimefactor 1 covertops 1
+		sethqstatus 1 0
+	}
+
+	buildstart final
+	{
+		setstate allied_compost_built_model underconstruction
+		setstate neutral_compost_closed_clip invisible
+		setstate neutral_compost_closed_model invisible
+	}
+
+	built final
+	{
+		setstate allied_compost_built_model default
+		setstate neutral_compost_closed_clip invisible
+		setstate neutral_compost_closed_model invisible
+
+		trigger allied_compost_built_model enable_allied_features
+
+		enablespeaker allies_compost_sound
+		setstate allied_cp_two	default
+		alertentity allied_cp_blob
+		setautospawn	"Allied CP"	1
+	
+	}
+
+	decayed final
+	{
+		setstate allied_compost_built_model invisible
+		setstate neutral_compost_closed_clip default
+		setstate neutral_compost_closed_model default
+	}
+
+	death
+	{
+		setstate allied_compost_built_model invisible
+		setstate neutral_compost_closed_clip default
+		setstate neutral_compost_closed_model default
+
+		trigger allied_compost_built_model disable_allied_features
+
+		disablespeaker allies_compost_sound
+		alertentity allied_cp_blob
+		setstate allied_cp_two	invisible
+		setautospawn	"Allied CP"	1
+		
+	}
+}
+
+allied_compost_built_model
+{
+	spawn
+	{
+		wait 400
+		setstate allied_compost_built_model invisible
+	}
+
+	trigger enable_allied_features
+	{
+		setchargetimefactor 1 soldier 0.75
+		setchargetimefactor 1 lieutenant 0.75
+		setchargetimefactor 1 medic 0.75
+		setchargetimefactor 1 engineer 0.75
+		setchargetimefactor 1 covertops 0.75
+		sethqstatus 1 1
+
+		wm_announce	"Allied Command Post constructed. Charge speed increased!"
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "axis_hq_compost_constructed_allies"
+
+		wm_teamvoiceannounce 1 "allies_hq_compost_constructed"
+
+		wm_removeteamvoiceannounce 1 "allies_hq_compost_construct"
+		// *---------------------------------------------------------------------------------*
+
+		setstate depot_door_axis invisible //Changes team door ================
+		setstate depot_door_all default //Changes team door ================
+
+		wm_announce	"Allied passage thru Tank Depot doors ^2ENABLED"
+
+		remapshader "gfx/rommel/flag_axis" "gfx/rommel/flag_contested"
+		remapshaderflush 
+
+		wm_objective_status 7 0 2
+		wm_objective_status 7 1 1
+
+	}
+
+	trigger disable_allied_features
+	{
+		setchargetimefactor 1 soldier 1
+		setchargetimefactor 1 lieutenant 1
+		setchargetimefactor 1 medic 1
+		setchargetimefactor 1 engineer 1
+		setchargetimefactor 1 covertops 1
+		sethqstatus 1 0
+
+		wm_announce	"Axis team has destroyed the Allied Command Post!"
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_addteamvoiceannounce 0 "axis_hq_compost_construct"
+
+		wm_addteamvoiceannounce 1 "allies_hq_compost_construct"
+
+		wm_teamvoiceannounce 0 "axis_hq_compost_construct"
+
+		wm_teamvoiceannounce 1 "allies_hq_compost_damaged"
+		wm_axis_respawntime	25
+		wm_allied_respawntime	15
+		// *---------------------------------------------------------------------------------*
+
+		wm_objective_status 7 0 0
+		wm_objective_status 7 1 0
+
+		setstate depot_door_axis default //Changes team door ================
+		setstate depot_door_all invisible //Changes team door ================
+
+		wm_announce	"Allied passage thru Tank Depot doors ^1DENIED"
+
+		remapshader "gfx/rommel/flag_axis" "gfx/rommel/flag_axis"
+		remapshaderflush 
+	}
+}
+
+axis_compost_built
+{
+	spawn
+	{
+		wait 400
+		trigger axis_compost_built setup
+
+		constructible_class 2
+	}
+
+	trigger setup
+	{
+		setchargetimefactor 0 soldier 1
+		setchargetimefactor 0 lieutenant 1
+		setchargetimefactor 0 medic 1
+		setchargetimefactor 0 engineer 1
+		setchargetimefactor 0 covertops 1
+		sethqstatus 0 0
+	}
+
+	buildstart final
+	{
+		setstate axis_compost_built_model underconstruction
+		setstate neutral_compost_closed_clip invisible
+		setstate neutral_compost_closed_model invisible
+	}
+
+	built final
+	{
+		setstate axis_compost_built_model default
+		setstate neutral_compost_closed_clip invisible
+		setstate neutral_compost_closed_model invisible
+
+		trigger axis_compost_built_model enable_axis_features
+
+		enablespeaker axis_compost_sound
+	}
+
+	decayed final
+	{
+		setstate axis_compost_built_model invisible
+		setstate neutral_compost_closed_clip default
+		setstate neutral_compost_closed_model default
+	}
+
+	death
+	{
+		setstate axis_compost_built_model invisible
+		setstate neutral_compost_closed_clip default
+		setstate neutral_compost_closed_model default
+
+		trigger axis_compost_built_model disable_axis_features
+
+		disablespeaker axis_compost_sound
+	}
+}
+
+axis_compost_built_model
+{
+	spawn
+	{
+		wait 400
+		setstate axis_compost_built_model invisible
+	}
+
+	trigger enable_axis_features
+	{
+		setchargetimefactor 0 soldier 0.75
+		setchargetimefactor 0 lieutenant 0.75
+		setchargetimefactor 0 medic 0.75
+		setchargetimefactor 0 engineer 0.75
+		setchargetimefactor 0 covertops 0.75
+		sethqstatus 0 1
+
+		wm_announce	"Axis Command Post constructed. Charge speed increased!"
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "axis_hq_compost_constructed"
+
+		wm_teamvoiceannounce 1 "allies_hq_compost_constructed_axis"
+
+		wm_removeteamvoiceannounce 0 "axis_hq_compost_construct"
+		wm_axis_respawntime	25
+		wm_allied_respawntime	15
+		// *---------------------------------------------------------------------------------*
+
+		wm_objective_status 7 0 1
+		wm_objective_status 7 1 2
+	}
+
+	trigger disable_axis_features
+	{
+		setchargetimefactor 0 soldier 1
+		setchargetimefactor 0 lieutenant 1
+		setchargetimefactor 0 medic 1
+		setchargetimefactor 0 engineer 1
+		setchargetimefactor 0 covertops 1
+		sethqstatus 0 0
+
+		wm_announce	"Allied team has destroyed the Axis Command Post!"
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_addteamvoiceannounce 0 "axis_hq_compost_construct"
+
+		wm_addteamvoiceannounce 1 "allies_hq_compost_construct"
+
+		wm_teamvoiceannounce 0 "axis_hq_compost_damaged"
+
+		wm_teamvoiceannounce 1 "allies_hq_compost_construct"
+		// *---------------------------------------------------------------------------------*
+
+		wm_objective_status 7 0 0
+		wm_objective_status 7 1 0
+	}
+}
+
+//=================================================================
+//
+//	Tanks
+//
+//=================================================================
+
+tank2
+{
+	spawn
+	{
+		wait 100
+		faceangles 0 270 0 50
+	}
+}
+
+tank3
+{
+	spawn
+	{
+		wait 100
+	}
+}
+
+// ============================================================================ 
+// Command Post Spawns ========================================================
+// ============================================================================ 
+
+allied_cp_two
+{
+	spawn
+	{
+		wait 100
+		setstate allied_cp_two invisible
+	}
+}

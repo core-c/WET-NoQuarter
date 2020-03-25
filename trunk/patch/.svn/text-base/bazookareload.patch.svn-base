@@ -1,0 +1,197 @@
+Index: assets/models/weapons2/bazooka/weapon.cfg
+===================================================================
+--- assets/models/weapons2/bazooka/weapon.cfg	(revision 896)
++++ assets/models/weapons2/bazooka/weapon.cfg	(working copy)
+@@ -24,8 +24,8 @@
+ 
+ 5	9	20	0	0	0	0	// DROP
+ 15	9	24	0	0	0	0	// RAISE
+-15	9	15	0	0	0	0	// RELOAD1
+-0	1	20	1	0	0	0	// RELOAD2
++5	9	5	0	0	0	0	// RELOAD1
++15	9	15	0	0	0	0	// RELOAD2
+ 0	1	20	1	0	0	0	// RELOAD3
+ 
+ 0	1	20	1	0	0	0	// ALTSWITCH	(SA) new alt-mode switching anim
+Index: assets/weapons/bazooka.weap
+===================================================================
+--- assets/weapons/bazooka.weap	(revision 896)
++++ assets/weapons/bazooka.weap	(working copy)
+@@ -21,7 +21,7 @@
+ 		//readySound		""
+ 		//firingSound		""									// no weapons seem to use this, basically it's a replacement hum for readysound, but then when firing
+ 		//overheatSound		""
+-		//reloadSound		""
++		reloadSound		      "sound/weapons/bazooka/bazooka_reload.wav"
+ 		//reloadFastSound	""									// some weapons have fast reloads due to the skill system
+ 		spinupSound			"sound/weapons/bazooka/bazooka_rocket_charge.wav"		// sound started when fire button goes down, and stepped on when the first fire event happens
+ 		//spindownSound		""									// sound called if the above is running but player doesn't follow through and fire
+Index: src/cgame/cg_draw.c
+===================================================================
+--- src/cgame/cg_draw.c	(revision 896)
++++ src/cgame/cg_draw.c	(working copy)
+@@ -4612,7 +4612,7 @@
+ 		case WP_MORTAR2:
+ 		case WP_MORTAR2_SET:
+ 		case WP_PANZERFAUST:	
+-		case WP_BAZOOKA:	// jet Pilot - use clips?
++		//case WP_BAZOOKA:	// jet Pilot - use clips?
+ 			skipammo = qtrue;
+ 			break;
+ 
+@@ -4646,7 +4646,7 @@
+ 				*ammo = cgs.gameManager->currentState.otherEntityNum2;
+ 			}
+ 		}
+-	} else if( weap == WP_MORTAR2 || weap == WP_MORTAR2_SET || weap == WP_MORTAR || weap == WP_MORTAR_SET || weap == WP_PANZERFAUST || weap == WP_BAZOOKA) {
++	} else if( weap == WP_MORTAR2 || weap == WP_MORTAR2_SET || weap == WP_MORTAR || weap == WP_MORTAR_SET || weap == WP_PANZERFAUST /*|| weap == WP_BAZOOKA*/) {
+ 		*ammo += *clips;
+ 	}
+ 	
+Index: src/game/bg_misc.c
+===================================================================
+--- src/game/bg_misc.c	(revision 896)
++++ src/game/bg_misc.c	(working copy)
+@@ -428,7 +428,7 @@
+ 	{	80,		1,		20,		60,		20,		2000,	DELAY_LOW,		165,	0,		0,		MOD_BAR 				},	// WP_BAR_SET				// 54		Browning Automatic Rifle (Set)
+ 	{	90,		1,		30,		30,		30,		2400,	DELAY_LOW,		180,	0,		0,		MOD_STG44				},	// WP_STG44					// 55		StG44 Assault Rifle
+ 	{	96,		1,		32,		64,		32,		3100,	DELAY_LOW,		150,	0,		0,		MOD_STEN_MKII			},	// WP_STEN_MKII				// 56		Sten MkII Unsilenced SMG
+-	{	5,		1,		1,		0,		5,		900,	750	,			2000,	0,		0,		MOD_BAZOOKA				},	// WP_BAZOOKA				// 57		M1 Bazooka Anti-Tank Weapon
++	{	5,		1,		1,		5,		1,		900,	750	,			2000,	0,		0,		MOD_BAZOOKA				},	// WP_BAZOOKA				// 57		M1 Bazooka Anti-Tank Weapon
+ 	{	96,		1,		32,		64,		32,		3100,	DELAY_LOW,		150,	1100,	550,	MOD_MP34				},	// WP_MP34					// 56		Solothurn S1-100 SMG
+ //	{	999,	0,		999,	0,		0,		0,		DELAY_THROW,	1200,	0,		0,		MOD_FIREBOLT			},	// WP_FIREBOLT				// 60		Insanity weapon
+ 	{	15,		1,		1,		0,		0,		0,		750,			1600,	0,		0,		MOD_MORTAR				},	// WP_MORTAR2				// 61
+@@ -3862,7 +3862,7 @@
+ 					ps->ammoclip[clip] = maxammo;
+ 				}
+ 			}
+-			else if( weapon == WP_PANZERFAUST || weapon == WP_BAZOOKA )
++			else if( weapon == WP_PANZERFAUST /*|| weapon == WP_BAZOOKA */)
+ 			{
+ 				clip = BG_FindAmmoForWeapon( weapon );
+ 				if( ps->ammoclip[clip] < maxammo )
+Index: src/game/bg_pmove.c
+===================================================================
+--- src/game/bg_pmove.c	(revision 896)
++++ src/game/bg_pmove.c	(working copy)
+@@ -2779,6 +2779,49 @@
+ 
+ /*
+ =================
++PM_BeginBazookaReload - jaquboss - special function for bazooka ( breaking into two stages )
++=================
++*/
++static void PM_BeginBazookaReload( void )
++{
++		int anim;
++
++	// start reload animation
++	if ( pm->ps->eFlags & EF_PRONE ) {
++		BG_AnimScriptEvent( pm->ps, pm->character->animModelInfo, ANIM_ET_RELOADPRONE, qfalse, qtrue );
++	} else {
++		BG_AnimScriptEvent( pm->ps, pm->character->animModelInfo, ANIM_ET_RELOAD, qfalse, qtrue );
++	}
++
++	anim = WEAP_RELOAD1; // first stage
++
++	PM_StartWeaponAnim(anim); // this is putdown anim
++
++	if (  BG_Weapons[pm->ps->weapon].weapAnimations[anim].time )
++		pm->ps->weaponTime += BG_Weapons[pm->ps->weapon].weapAnimations[anim].time;
++	else
++		pm->ps->weaponTime += 300;
++
++	pm->ps->weaponstate = WEAPON_RELOADING;
++}
++
++static void PM_FinishBazookaReload( void )
++{
++	PM_StartWeaponAnim(WEAP_RELOAD2);
++
++	if ( BG_Weapons[pm->ps->weapon].weapAnimations[WEAP_RELOAD2].time )
++		pm->ps->weaponTime += BG_Weapons[pm->ps->weapon].weapAnimations[WEAP_RELOAD2].time;
++		else
++	pm->ps->weaponTime += 400;
++
++	pm->ps->holdable[0] = 0;
++	PM_AddEvent( EV_FILL_CLIP );	// play reload sound
++	pm->ps->weaponstate = WEAPON_RAISING; // now can be changed
++
++}
++
++/*
++=================
+ PM_BeginShotgunReload - jaquboss - special function for shotgun
+ =================
+ */
+@@ -2974,6 +3017,11 @@
+ 		PM_BeginShotgunReload();
+ 		return;
+ 	}
++	else if ( weapon == WP_BAZOOKA)
++	{
++		PM_BeginBazookaReload();
++		return;
++	}
+     else if( weapon != WP_MORTAR && weapon != WP_MORTAR_SET && weapon != WP_MORTAR2 && weapon != WP_MORTAR2_SET )
+ 	{
+ 		PM_ContinueWeaponAnim(PM_ReloadAnimForWeapon(pm->ps->weapon));
+@@ -4667,6 +4715,10 @@
+ 				PM_StartWeaponAnim(PM_IdleAnimForWeapon(pm->ps->weapon));
+ 			}
+ 			// end
++		// bazooka does have two staged reload
++		} else if (pm->ps->weapon == WP_BAZOOKA) {
++			PM_ReloadClip(pm->ps->weapon);
++			PM_FinishBazookaReload();
+ 		} else {
+ 			PM_FinishWeaponReload();
+ 		}
+Index: src/game/g_active.c
+===================================================================
+--- src/game/g_active.c	(revision 896)
++++ src/game/g_active.c	(working copy)
+@@ -1247,7 +1247,7 @@
+ 			case WP_MORTAR2:
+ 			case WP_MORTAR2_SET:
+ 			case WP_PANZERFAUST:	
+-			case WP_BAZOOKA:	
++			//case WP_BAZOOKA:	
+ 				clipOnly = qtrue;
+ 				break;
+ 			default:
+Index: src/game/g_cmds.c
+===================================================================
+--- src/game/g_cmds.c	(revision 896)
++++ src/game/g_cmds.c	(working copy)
+@@ -947,7 +947,7 @@
+ 			if ( ent->client->ps.ammo[BG_FindAmmoForWeapon(primary)] ){
+ 				G_DropClip( ent, primary );
+ 				BG_AnimScriptEvent( &ent->client->ps, ent->client->pers.character->animModelInfo,  ANIM_ET_DROPWEAPON, qfalse, qtrue ); 
+-			} else if ( primary == WP_BAZOOKA || primary == WP_PANZERFAUST) { // bazooka/panzerfaust use only clip
++			} else if (/* primary == WP_BAZOOKA ||*/ primary == WP_PANZERFAUST) { // bazooka/panzerfaust use only clip
+ 				if ( ent->client->ps.ammoclip[BG_FindClipForWeapon(primary)] > 1){
+ 					G_DropClip( ent, primary );
+ 					BG_AnimScriptEvent( &ent->client->ps, ent->client->pers.character->animModelInfo,  ANIM_ET_DROPWEAPON, qfalse, qtrue ); 
+Index: src/game/g_items.c
+===================================================================
+--- src/game/g_items.c	(revision 896)
++++ src/game/g_items.c	(working copy)
+@@ -334,7 +334,7 @@
+ 		Fill_Clip(&ent->client->ps, weapon);
+ 	}
+ 
+-	if( ammoweap == WP_PANZERFAUST || ammoweap == WP_FLAMETHROWER || ammoweap == WP_BAZOOKA || ammoweap == WP_KNIFE || ammoweap == WP_KNIFE_KABAR ) {
++	if( ammoweap == WP_PANZERFAUST || ammoweap == WP_FLAMETHROWER || /*ammoweap == WP_BAZOOKA ||*/ ammoweap == WP_KNIFE || ammoweap == WP_KNIFE_KABAR ) {
+ 		ent->client->ps.ammoclip[ammoweap] += count;
+ 
+ 		if( ent->client->ps.ammoclip[ammoweap] > maxammo ) {
+@@ -719,7 +719,7 @@
+ 	qboolean	clipOnly=qfalse;
+ 
+ 	// get ammount of dropped ammo
+-	if ( weapon == WP_PANZERFAUST || weapon == WP_BAZOOKA )
++	if ( weapon == WP_PANZERFAUST /*|| weapon == WP_BAZOOKA*/ )
+ 		clipOnly = qtrue; 
+ 
+ 	dropAmnt = clipOnly ? 1 :GetAmmoTableData(BG_FindAmmoForWeapon(weapon))->maxclip;

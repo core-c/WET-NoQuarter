@@ -1,0 +1,53 @@
+﻿Build started 18.04.2012 09:28:00.
+     1>Project "D:\NQDEV\trunk\src\ui\ui2010.vcxproj" on node 2 (build target(s)).
+     1>InitializeBuildStatus:
+         Creating ".\Debug\ui.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _USRDLL /D UI_EXPORTS /D _CRT_SECURE_NO_DEPRECATE /D _VC80_UPGRADE=0x0710 /D _WINDLL /D _MBCS /Gm- /EHsc /RTC1 /MTd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo".\Debug/" /Fd".\Debug/vc100.pdb" /FR".\Debug\\" /Gd /TC /analyze /errorReport:prompt ..\game\bg_animation.c ..\game\bg_animgroup.c ..\game\bg_campaign.c ..\game\bg_character.c ..\game\bg_classes.c ..\game\bg_misc.c ..\game\q_math.c ..\game\q_shared.c ui_atoms.c ui_gameinfo.c ui_loadpanel.c ui_main.c ui_shared.c ui_syscalls.c
+     1>cl : Command line warning D9040: ignoring option '/analyze'; Code Analysis warnings are not available in this edition of the compiler
+         bg_animation.c
+         bg_animgroup.c
+         bg_campaign.c
+         bg_character.c
+         bg_classes.c
+         bg_misc.c
+         q_math.c
+         q_shared.c
+         ui_atoms.c
+         ui_gameinfo.c
+         ui_loadpanel.c
+         ui_main.c
+         ui_shared.c
+         ui_syscalls.c
+         Generating Code...
+     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\Microsoft.CppBuild.targets(990,5): warning MSB8012: TargetPath(D:\NQDEV\trunk\src\ui\.\Debug\ui_mp_x86.dll) does not match the Linker's OutputFile property value (D:\NQDEV\trunk\ui_mp_x86.dll). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Link.OutputFile).
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"../../ui_mp_x86.dll" /INCREMENTAL:NO /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /DEF:".\ui.def" /MANIFEST /ManifestFile:".\Debug\ui_mp_x86.dll.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"../Debug/ui.pdb" /MAP:".\Debug/ui_mp_x86.map" /TLBID:1 /BASE:"0x40000000" /DYNAMICBASE:NO /IMPLIB:".\Debug/ui_mp_x86.lib" /MACHINE:X86 /DLL .\Debug/bg_animation.obj
+         .\Debug/bg_animgroup.obj
+         .\Debug/bg_campaign.obj
+         .\Debug/bg_character.obj
+         .\Debug/bg_classes.obj
+         .\Debug/bg_misc.obj
+         .\Debug/q_math.obj
+         .\Debug/q_shared.obj
+         .\Debug/ui_atoms.obj
+         .\Debug/ui_gameinfo.obj
+         .\Debug/ui_loadpanel.obj
+         .\Debug/ui_main.obj
+         .\Debug/ui_shared.obj
+         .\Debug/ui_syscalls.obj /MACHINE:I386 
+     1>bg_animation.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/INCREMENTAL:NO' specification
+            Creating library .\Debug/ui_mp_x86.lib and object .\Debug/ui_mp_x86.exp
+         ui2010.vcxproj -> D:\NQDEV\trunk\src\ui\.\Debug\ui_mp_x86.dll
+       Manifest:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"../../ui_mp_x86.dll;#2" /manifest .\Debug\ui_mp_x86.dll.intermediate.manifest
+       BscMake:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\bscmake.exe /nologo /o".\Debug\ui_mp_x86.bsc" .\Debug\bg_animation.sbr .\Debug\bg_animgroup.sbr .\Debug\bg_campaign.sbr .\Debug\bg_character.sbr .\Debug\bg_classes.sbr .\Debug\bg_misc.sbr .\Debug\q_math.sbr .\Debug\q_shared.sbr .\Debug\ui_atoms.sbr .\Debug\ui_gameinfo.sbr .\Debug\ui_loadpanel.sbr .\Debug\ui_main.sbr .\Debug\ui_shared.sbr .\Debug\ui_syscalls.sbr
+       FinalizeBuildStatus:
+         Deleting file ".\Debug\ui.unsuccessfulbuild".
+         Touching ".\Debug\ui.lastbuildstate".
+     1>Done Building Project "D:\NQDEV\trunk\src\ui\ui2010.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:03.15

@@ -1,0 +1,281 @@
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/nq/!svn/ver/3471/branches/vanilla/src/cgame
+END
+cg_missionbriefing.c
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/nq/!svn/ver/3471/branches/vanilla/src/cgame/cg_missionbriefing.c
+END
+cg_sound.c
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/nq/!svn/ver/3471/branches/vanilla/src/cgame/cg_sound.c
+END
+cg_spawn.c
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/nq/!svn/ver/3471/branches/vanilla/src/cgame/cg_spawn.c
+END
+cg_predict.c
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/nq/!svn/ver/3471/branches/vanilla/src/cgame/cg_predict.c
+END
+cg_popupmessages.c
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/nq/!svn/ver/3471/branches/vanilla/src/cgame/cg_popupmessages.c
+END
+cg_playerstate.c
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/nq/!svn/ver/3471/branches/vanilla/src/cgame/cg_playerstate.c
+END
+cg_debriefing.c
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/nq/!svn/ver/3471/branches/vanilla/src/cgame/cg_debriefing.c
+END
+cg_trails.c
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/nq/!svn/ver/3471/branches/vanilla/src/cgame/cg_trails.c
+END
+cg_local.h
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/nq/!svn/ver/3471/branches/vanilla/src/cgame/cg_local.h
+END
+cg_loadpanel.c
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/nq/!svn/ver/3471/branches/vanilla/src/cgame/cg_loadpanel.c
+END
+cg_snapshot.c
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/nq/!svn/ver/3471/branches/vanilla/src/cgame/cg_snapshot.c
+END
+cg_panelhandling.c
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/nq/!svn/ver/3471/branches/vanilla/src/cgame/cg_panelhandling.c
+END
+cg_newDraw.c
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/nq/!svn/ver/3471/branches/vanilla/src/cgame/cg_newDraw.c
+END
+cgame.dsp
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/nq/!svn/ver/3471/branches/vanilla/src/cgame/cgame.dsp
+END
+cg_weapons.c
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/nq/!svn/ver/3471/branches/vanilla/src/cgame/cg_weapons.c
+END
+cg_marks.c
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/nq/!svn/ver/3471/branches/vanilla/src/cgame/cg_marks.c
+END
+cg_drawtools.c
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/nq/!svn/ver/3471/branches/vanilla/src/cgame/cg_drawtools.c
+END
+cg_players.c
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/nq/!svn/ver/3471/branches/vanilla/src/cgame/cg_players.c
+END
+cg_event.c
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/nq/!svn/ver/3471/branches/vanilla/src/cgame/cg_event.c
+END
+cg_statsranksmedals.c
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/nq/!svn/ver/3471/branches/vanilla/src/cgame/cg_statsranksmedals.c
+END
+cg_localents.c
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/nq/!svn/ver/3471/branches/vanilla/src/cgame/cg_localents.c
+END
+cg_multiview.c
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/nq/!svn/ver/3471/branches/vanilla/src/cgame/cg_multiview.c
+END
+cg_particles.c
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/nq/!svn/ver/3471/branches/vanilla/src/cgame/cg_particles.c
+END
+cg_info.c
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/nq/!svn/ver/3471/branches/vanilla/src/cgame/cg_info.c
+END
+cg_character.c
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/nq/!svn/ver/3471/branches/vanilla/src/cgame/cg_character.c
+END
+cg_polybus.c
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/nq/!svn/ver/3471/branches/vanilla/src/cgame/cg_polybus.c
+END
+cg_draw.c
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/nq/!svn/ver/3471/branches/vanilla/src/cgame/cg_draw.c
+END
+cg_syscalls.c
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/nq/!svn/ver/3471/branches/vanilla/src/cgame/cg_syscalls.c
+END
+cg_fireteamoverlay.c
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/nq/!svn/ver/3471/branches/vanilla/src/cgame/cg_fireteamoverlay.c
+END
+cg_flamethrower.c
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/nq/!svn/ver/3471/branches/vanilla/src/cgame/cg_flamethrower.c
+END
+tr_types.h
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/nq/!svn/ver/3471/branches/vanilla/src/cgame/tr_types.h
+END
+cg_window.c
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/nq/!svn/ver/3471/branches/vanilla/src/cgame/cg_window.c
+END
+cg_consolecmds.c
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/nq/!svn/ver/3471/branches/vanilla/src/cgame/cg_consolecmds.c
+END
+cg_ents.c
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/nq/!svn/ver/3471/branches/vanilla/src/cgame/cg_ents.c
+END
+cg_view.c
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/nq/!svn/ver/3471/branches/vanilla/src/cgame/cg_view.c
+END
+cg_commandmap.c
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/nq/!svn/ver/3471/branches/vanilla/src/cgame/cg_commandmap.c
+END
+cg_servercmds.c
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/nq/!svn/ver/3471/branches/vanilla/src/cgame/cg_servercmds.c
+END
+cg_atmospheric.c
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/nq/!svn/ver/3471/branches/vanilla/src/cgame/cg_atmospheric.c
+END
+cg_effects.c
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/nq/!svn/ver/3471/branches/vanilla/src/cgame/cg_effects.c
+END
+cg_fireteams.c
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/nq/!svn/ver/3471/branches/vanilla/src/cgame/cg_fireteams.c
+END
+cgame.def
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/nq/!svn/ver/3471/branches/vanilla/src/cgame/cgame.def
+END
+cg_limbopanel.c
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/nq/!svn/ver/3471/branches/vanilla/src/cgame/cg_limbopanel.c
+END
+cg_scoreboard.c
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/nq/!svn/ver/3471/branches/vanilla/src/cgame/cg_scoreboard.c
+END
+cg_public.h
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/nq/!svn/ver/3471/branches/vanilla/src/cgame/cg_public.h
+END
+cg_main.c
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/nq/!svn/ver/3471/branches/vanilla/src/cgame/cg_main.c
+END
+cgame.vcproj
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/nq/!svn/ver/3471/branches/vanilla/src/cgame/cgame.vcproj
+END

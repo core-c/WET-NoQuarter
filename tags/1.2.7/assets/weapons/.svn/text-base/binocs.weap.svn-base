@@ -1,0 +1,23 @@
+weaponDef
+{
+	both {
+		name					"Binoculars"
+		statname				"Binoculars"
+	}
+
+	client {
+		weaponConfig			"models/multiplayer/binocs/weapon.cfg"
+		handsModel				"models/multiplayer/binocs/v_binocs_hand.md3"
+
+		weaponIcon				"icons/iconw_binoculars"
+		weaponSelectedIcon		"icons/iconw_binoculars_1_select"
+		
+		firstPerson {
+			model				"models/multiplayer/binocs/v_binocs.md3"
+		}
+
+		thirdPerson {
+			model				"models/multiplayer/binocs/binocs.md3"
+		}
+	}
+}

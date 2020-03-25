@@ -1,0 +1,80 @@
+weaponDef
+{
+	both {
+		name					"Panzerfaust"
+		statname				"Panzer"
+		damage					400
+		splashdamage			400
+		splashdamage_radius		300
+		selfKillMessage			"panzernoobed himself."
+		KillMessage				"was blasted by"
+		KillMessage2			"'s Panzerfaust."
+		movementSpeedScale		0.5
+		GibbingWeapon
+	}
+
+	client {
+		standModel				"models/weapons2/panzerfaust/pf_stand.mdc"
+		pickupModel				"models/weapons2/panzerfaust/pf.md3"
+		bounceSound				"sound/weapons/weaponbounce.wav"
+		clipBounceSound			"sound/weapons/weaponbounce.wav"
+
+		weaponConfig			"models/weapons2/panzerfaust/weapon.cfg"
+		handsModel				"models/weapons2/panzerfaust/v_pf_hand.mdc"
+
+		flashDlightColor		0.75 0.3 0.0
+		flashSound				"sound/weapons/rocket/rocket_fire.wav"
+
+		spinupSound				"sound/weapons/rocket/rocket_charge.wav"
+
+		weaponIcon				"icons/iconw_panzerfaust"
+		weaponSelectedIcon		"icons/iconw_panzerfaust_1_select"
+
+		missileModel			"models/ammo/rocket/rocket.md3"
+		missileSound			"sound/weapons/rocket/rocket_fly.wav"
+		missileTrailFunc		"RocketTrail"
+		missileDlight			200
+		missileDlightColor		0.75 0.3 0.0
+
+		ejectBrassFunc			"PanzerFaustEjectBrass"
+
+		firstPerson {
+			model				"models/weapons2/panzerfaust/v_pf.md3"
+			flashModel			"models/weapons2/panzerfaust/v_pf_flash.mdc"
+
+			weaponLink
+			{
+				part 0
+				{
+					tag			"tag_barrel"
+					model		"models/weapons2/panzerfaust/v_pf_barrel.mdc"
+				}
+				part 1
+				{
+					tag			"tag_barrel2"
+					model		"models/weapons2/panzerfaust/v_pf_barrel2.mdc"
+				}
+				part 2
+				{
+					tag			"tag_barrel3"
+					model		"models/weapons2/panzerfaust/v_pf_barrel3.mdc"
+				}
+				part 3
+				{
+					tag			"tag_barrel4"
+					model		"models/weapons2/panzerfaust/v_pf_barrel4.mdc"
+				}
+				part 4
+				{
+					tag			"tag_barrel5"
+					model		"models/weapons2/panzerfaust/v_pf_barrel5.mdc"
+				}
+			}
+		}
+
+		thirdPerson {
+			model				"models/multiplayer/panzerfaust/multi_pf.md3"
+			flashmodel			"models/weapons2/panzerfaust/pf_flash.mdc"
+		}
+	}
+}

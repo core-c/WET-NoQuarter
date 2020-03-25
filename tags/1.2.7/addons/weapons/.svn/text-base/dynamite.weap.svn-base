@@ -1,0 +1,34 @@
+weaponDef
+{
+	client {
+
+		weaponConfig		"models/weapons2/dynamite/weapon.cfg"
+		handsModel		"models/weapons2/dynamite/v_dynamite_hand.mdc"
+
+		spindownSound		"sound/weapons/dynamite/dynamite_timer.wav"
+
+		weaponSelectedIcon	"icons/iconw_dynamite_1_select"
+
+		missileModel		"models/multiplayer/dynamite/dynamite.md3"
+		missileTrailFunc	"DynamiteTrail"
+
+		firstPerson {
+			model		"models/weapons2/dynamite/v_dynamite.md3"
+
+			weaponLink
+			{
+				part 0
+				{
+					tag		"tag_barrel"
+					model		"models/weapons2/dynamite/v_dynamite_barrel.mdc"
+					alliedskin	"models/weapons2/c4_dynamite/dynamite_allied.skin"
+				}
+			}
+		}
+
+		thirdPerson {
+			model		"models/multiplayer/dynamite/dynamite_3rd.md3"
+			alliedskin	"models/weapons2/c4_dynamite/dynamite_allied.skin"
+		}
+	}
+}

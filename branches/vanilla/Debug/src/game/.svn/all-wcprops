@@ -1,0 +1,59 @@
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/nq/!svn/ver/3471/branches/vanilla/Debug/src/game
+END
+bg_lib.d
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/nq/!svn/ver/3471/branches/vanilla/Debug/src/game/bg_lib.d
+END
+bg_pmove.d
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/nq/!svn/ver/3471/branches/vanilla/Debug/src/game/bg_pmove.d
+END
+bg_misc.d
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/nq/!svn/ver/3471/branches/vanilla/Debug/src/game/bg_misc.d
+END
+bg_character.d
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/nq/!svn/ver/3471/branches/vanilla/Debug/src/game/bg_character.d
+END
+bg_classes.d
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/nq/!svn/ver/3471/branches/vanilla/Debug/src/game/bg_classes.d
+END
+bg_animation.d
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/nq/!svn/ver/3471/branches/vanilla/Debug/src/game/bg_animation.d
+END
+bg_campaign.d
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/nq/!svn/ver/3471/branches/vanilla/Debug/src/game/bg_campaign.d
+END
+bg_animgroup.d
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/nq/!svn/ver/3471/branches/vanilla/Debug/src/game/bg_animgroup.d
+END
+subdir.mk
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/nq/!svn/ver/3471/branches/vanilla/Debug/src/game/subdir.mk
+END

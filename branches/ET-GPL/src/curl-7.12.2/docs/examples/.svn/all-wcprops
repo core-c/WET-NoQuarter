@@ -1,0 +1,197 @@
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/docs/examples
+END
+simplepost.c
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/docs/examples/simplepost.c
+END
+getinmemory.c
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/docs/examples/getinmemory.c
+END
+Makefile.in
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/docs/examples/Makefile.in
+END
+multi-double.c
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/docs/examples/multi-double.c
+END
+https.c
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/docs/examples/https.c
+END
+postit2.c
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/docs/examples/postit2.c
+END
+httpput.c
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/docs/examples/httpput.c
+END
+multi-single.c
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/docs/examples/multi-single.c
+END
+simplessl.c
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/docs/examples/simplessl.c
+END
+multi-post.c
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/docs/examples/multi-post.c
+END
+post-callback.c
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/docs/examples/post-callback.c
+END
+ftp3rdparty.c
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/docs/examples/ftp3rdparty.c
+END
+ftpgetresp.c
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/docs/examples/ftpgetresp.c
+END
+Makefile.example
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/docs/examples/Makefile.example
+END
+debug.c
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/docs/examples/debug.c
+END
+simple.c
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/docs/examples/simple.c
+END
+multi-debugcallback.c
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/docs/examples/multi-debugcallback.c
+END
+curlx.c
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/docs/examples/curlx.c
+END
+ftpupload.c
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/docs/examples/ftpupload.c
+END
+http-post.c
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/docs/examples/http-post.c
+END
+fopen.c
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/docs/examples/fopen.c
+END
+multi-app.c
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/docs/examples/multi-app.c
+END
+curlgtk.c
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/docs/examples/curlgtk.c
+END
+README
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/docs/examples/README
+END
+multithread.c
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/docs/examples/multithread.c
+END
+sepheaders.c
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/docs/examples/sepheaders.c
+END
+fileupload.c
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/docs/examples/fileupload.c
+END
+makefile.dj
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/docs/examples/makefile.dj
+END
+Makefile.am
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/docs/examples/Makefile.am
+END
+ftpget.c
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/docs/examples/ftpget.c
+END
+getinfo.c
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/docs/examples/getinfo.c
+END
+persistant.c
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/docs/examples/persistant.c
+END

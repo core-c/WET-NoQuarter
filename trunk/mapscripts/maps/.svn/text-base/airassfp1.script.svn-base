@@ -1,0 +1,1784 @@
+// Airfield Assault Script November 12/03
+// i'll post the updates in the script as i do em!
+//
+// last updated feb 17/04
+// ============================================================================
+// The Game Manager and objectives.
+// ============================================================================
+//
+// 30.10.2008 peyote add spawns in the sewers, add a ammo&health cabine near that spawn, removed the ramp after allies advances
+
+game_manager
+{
+   spawn
+   {
+   		//Sewers spawn
+		create
+		{
+			scriptName "afp_marker"
+			classname "team_WOLF_objective"
+			targetname "afp_marker"
+			description "Sewers"
+			origin "-2048 -1411 -104"   // z = CC_FILTER_ALLIES(2) | CC_FILTER_SPAWNS(4)
+			spawnflags 2   // TEAM_ALLIES(2)
+		}
+		
+		create
+		{
+			scriptName "afp_cp"
+			classname "team_WOLF_checkpoint"
+			targetname "afp_cp"
+			origin "-2048 -1411 -189"   // z = CC_FILTER_ALLIES(2) | CC_FILTER_SPAWNS(4)
+			spawnflags 9   // TEAM_ALLIES(2)
+		}
+
+		//row 1
+		create
+		{
+			scriptName "afp_spawn1"
+			classname "team_CTF_bluespawn"
+			targetname "afp_spawn"
+			origin "-2274 -1530 -100"
+			angle "90"
+			spawnflags 2   // TEAM_ALLIES
+		}
+
+		create
+		{
+			scriptName "afp_spawn2"
+			classname "team_CTF_bluespawn"
+			targetname "afp_spawn"
+			origin "-2274 -1430 -100"
+			angle "90"
+			spawnflags 2   // TEAM_ALLIES
+		}
+		
+		create
+		{
+			scriptName "afp_spawn3"
+			classname "team_CTF_bluespawn"
+			targetname "afp_spawn"
+			origin "-2274 -1330 -150"
+			angle "90"
+			spawnflags 2   // TEAM_ALLIES
+		}	
+		
+		create
+		{
+			scriptName "afp_spawn4"
+			classname "team_CTF_bluespawn"
+			targetname "afp_spawn"
+			origin "-2274 -1230 -150"
+			angle "90"
+			spawnflags 2   // TEAM_ALLIES
+		}
+		
+		create
+		{
+			scriptName "afp_spawn5"
+			classname "team_CTF_bluespawn"
+			targetname "afp_spawn"
+			origin "-2274 -1130 -150"
+			angle "90"
+			spawnflags 2   // TEAM_ALLIES
+		}
+
+		create
+		{
+			scriptName "afp_spawn6"
+			classname "team_CTF_bluespawn"
+			targetname "afp_spawn"
+			origin "-2274 -1630 -150"
+			angle "90"
+			spawnflags 2   // TEAM_ALLIES
+		}
+
+		//row 2
+		create
+		{
+			scriptName "afp_spawn7"
+			classname "team_CTF_bluespawn"
+			targetname "afp_spawn"
+			origin "-2174 -1530 -100"
+			angle "90"
+			spawnflags 2   // TEAM_ALLIES
+		}
+
+		create
+		{
+			scriptName "afp_spawn8"
+			classname "team_CTF_bluespawn"
+			targetname "afp_spawn"
+			origin "-2174 -1430 -100"
+			angle "90"
+			spawnflags 2   // TEAM_ALLIES
+		}
+		
+		create
+		{
+			scriptName "afp_spawn9"
+			classname "team_CTF_bluespawn"
+			targetname "afp_spawn"
+			origin "-2174 -1330 -150"
+			angle "90"
+			spawnflags 2   // TEAM_ALLIES
+		}	
+		
+		create
+		{
+			scriptName "afp_spawn10"
+			classname "team_CTF_bluespawn"
+			targetname "afp_spawn"
+			origin "-2174 -1230 -150"
+			angle "90"
+			spawnflags 2   // TEAM_ALLIES
+		}
+		
+		create
+		{
+			scriptName "afp_spawn11"
+			classname "team_CTF_bluespawn"
+			targetname "afp_spawn"
+			origin "-2174 -1130 -150"
+			angle "90"
+			spawnflags 2   // TEAM_ALLIES
+		}
+
+		create
+		{
+			scriptName "afp_spawn12"
+			classname "team_CTF_bluespawn"
+			targetname "afp_spawn"
+			origin "-2174 -1630 -150"
+			angle "90"
+			spawnflags 2   // TEAM_ALLIES
+		}
+		//row 3
+		create
+		{
+			scriptName "afp_spawn13"
+			classname "team_CTF_bluespawn"
+			targetname "afp_spawn"
+			origin "-2074 -1530 -100"
+			angle "90"
+			spawnflags 2   // TEAM_ALLIES
+		}
+
+		create
+		{
+			scriptName "afp_spawn14"
+			classname "team_CTF_bluespawn"
+			targetname "afp_spawn"
+			origin "-2074 -1430 -100"
+			angle "90"
+			spawnflags 2   // TEAM_ALLIES
+		}
+		
+		create
+		{
+			scriptName "afp_spawn15"
+			classname "team_CTF_bluespawn"
+			targetname "afp_spawn"
+			origin "-2074 -1330 -150"
+			angle "90"
+			spawnflags 2   // TEAM_ALLIES
+		}	
+		
+		create
+		{
+			scriptName "afp_spawn16"
+			classname "team_CTF_bluespawn"
+			targetname "afp_spawn"
+			origin "-2074 -1230 -150"
+			angle "90"
+			spawnflags 2   // TEAM_ALLIES
+		}
+		
+		create
+		{
+			scriptName "afp_spawn17"
+			classname "team_CTF_bluespawn"
+			targetname "afp_spawn"
+			origin "-2074 -1130 -150"
+			angle "90"
+			spawnflags 2   // TEAM_ALLIES
+		}
+
+		create
+		{
+			scriptName "afp_spawn18"
+			classname "team_CTF_bluespawn"
+			targetname "afp_spawn"
+			origin "-2074 -1630 -150"
+			angle "90"
+			spawnflags 2   // TEAM_ALLIES
+		}		
+	//row 4
+		create
+		{
+			scriptName "afp_spawn19"
+			classname "team_CTF_bluespawn"
+			targetname "afp_spawn"
+			origin "-1974 -1530 -100"
+			angle "90"
+			spawnflags 2   // TEAM_ALLIES
+		}
+
+		create
+		{
+			scriptName "afp_spawn20"
+			classname "team_CTF_bluespawn"
+			targetname "afp_spawn"
+			origin "-1974 -1430 -100"
+			angle "90"
+			spawnflags 2   // TEAM_ALLIES
+		}
+		
+		create
+		{
+			scriptName "afp_spawn21"
+			classname "team_CTF_bluespawn"
+			targetname "afp_spawn"
+			origin "-1974 -1330 -150"
+			angle "90"
+			spawnflags 2   // TEAM_ALLIES
+		}	
+		
+		create
+		{
+			scriptName "afp_spawn22"
+			classname "team_CTF_bluespawn"
+			targetname "afp_spawn"
+			origin "-1974 -1230 -150"
+			angle "90"
+			spawnflags 2   // TEAM_ALLIES
+		}
+		
+		create
+		{
+			scriptName "afp_spawn23"
+			classname "team_CTF_bluespawn"
+			targetname "afp_spawn"
+			origin "-1974 -1130 -150"
+			angle "90"
+			spawnflags 2   // TEAM_ALLIES
+		}
+
+		create
+		{
+			scriptName "afp_spawn24"
+			classname "team_CTF_bluespawn"
+			targetname "afp_spawn"
+			origin "-1974 -1630 -150"
+			angle "90"
+			spawnflags 2   // TEAM_ALLIES
+		}
+		
+		//row 5 
+		create
+		{
+			scriptName "afp_spawn25"
+			classname "team_CTF_bluespawn"
+			targetname "afp_spawn"
+			origin "-1874 -1530 -100"
+			angle "90"
+			spawnflags 2   // TEAM_ALLIES
+		}
+
+		create
+		{
+			scriptName "afp_spawn26"
+			classname "team_CTF_bluespawn"
+			targetname "afp_spawn"
+			origin "-1874 -1430 -100"
+			angle "90"
+			spawnflags 2   // TEAM_ALLIES
+		}
+		
+		create
+		{
+			scriptName "afp_spawn27"
+			classname "team_CTF_bluespawn"
+			targetname "afp_spawn"
+			origin "-1874 -1330 -150"
+			angle "90"
+			spawnflags 2   // TEAM_ALLIES
+		}	
+		
+		create
+		{
+			scriptName "afp_spawn28"
+			classname "team_CTF_bluespawn"
+			targetname "afp_spawn"
+			origin "-1874 -1230 -150"
+			angle "90"
+			spawnflags 2   // TEAM_ALLIES
+		}
+		
+		create
+		{
+			scriptName "afp_spawn29"
+			classname "team_CTF_bluespawn"
+			targetname "afp_spawn"
+			origin "-1874 -1130 -150"
+			angle "90"
+			spawnflags 2   // TEAM_ALLIES
+		}
+
+		create
+		{
+			scriptName "afp_spawn30"
+			classname "team_CTF_bluespawn"
+			targetname "afp_spawn"
+			origin "-1874 -1630 -150"
+			angle "90"
+			spawnflags 2   // TEAM_ALLIES
+		}		
+			
+		//row 6 32 spawns..
+		create
+		{
+			scriptName "afp_spawn31"
+			classname "team_CTF_bluespawn"
+			targetname "afp_spawn"
+			origin "-1774 -1330 -150"
+			angle "90"
+			spawnflags 2   // TEAM_ALLIES
+		}	
+		
+		create
+		{
+			scriptName "afp_spawn32"
+			classname "team_CTF_bluespawn"
+			targetname "afp_spawn"
+			origin "-1774 -1230 -150"
+			angle "90"
+			spawnflags 2   // TEAM_ALLIES
+		}
+		
+		//the ammo/health stand in the sewers
+		//done based on the examples from the etpro wiki, thanks!
+		create
+		{
+			classname "misc_cabinet_supply"
+			scriptname "ammo"
+			targetname "ammo"			
+			origin "646 -2101 -180"
+			angle "90"
+			ammototal "100"
+			model "models/mapobjects/supplystands/stand_ammo.md3"
+			mins "-45 -45 -25"
+			maxs "45 45 25"     
+			modelscale "1"
+			contents "1"
+			clipmask "1"
+		}
+		
+		create
+		{
+			classname "trigger_ammo"
+			targetname "ammosewers"
+			scriptname "ammosewers"		
+			target "ammo"
+			origin "646 -2101 -180"
+			ammototal "40"
+			ammorate "1"
+			mins "-45 -45 -25"
+			maxs "45 45 25"     
+			modelscale "1"
+			contents "1"
+			clipmask "1"			
+		}
+		
+		create
+		{
+			classname "misc_cabinet_health"
+			scriptname "health"
+			targetname "health"
+			origin "596 -2101 -180"		wait 2000
+			angle "90"
+			model "models/mapobjects/supplystands/stand_ammo.md3"
+			mins "-45 -45 -25"
+			maxs "45 45 25"     
+			modelscale "1"
+			contents "1"
+			clipmask "1"			
+		}
+		
+		create
+		{
+			classname "trigger_heal"
+			scriptname "healthsewers"
+			targetname "healthsewers"
+			target "health"
+			origin "596 -2101 -180"
+			healtotal "400"
+			healrate "10"
+			mins "-45 -45 -25"
+			maxs "45 45 25"     
+			modelscale "1"
+			contents "1"
+			clipmask "1"			
+		}
+		
+		//unfortunately throws error: Exceeded maximum number of 'trigger_objective_info' entities
+		//yet who cares about that symbol..
+		//create
+		//{
+		//	classname "trigger_objective_info"
+		//	customimage "gfx/limbo/cm_healthammo"
+		//	target "sewers_ahcab_cm_marker"
+		//	track "the Health and Ammo Cabinets"
+		//	shortname "Health and Ammo Cabinets"
+		//	spawnflags "35"
+		//	origin "596 -2101 -180"	
+		//}
+		//create
+		//{
+		//	classname "misc_commandmap_marker"
+		//	origin "596 -2101 -180"
+		//	targetname "sewers_ahcab_cm_marker"
+		//}
+        
+
+		accum 0 set 0		// accum 0 and 1 are being used by our
+		accum 1 set 0		// switch state on the fuse box... so...
+		accum 2 set 0		// accum 2 will be the truck counter for the trucks destroyed and
+		accum 3 set 0		// accum 3 will keep track of the sewer gates destroyed, only when both
+		accum 4 set 0		// gates are destroyed do we count objective 4 as done.
+						// and we will use accum 4 to check if the allies won.
+						// even though these are not global accum's... i get so confused sometimes...
+		globalaccum 3 bitset 3	// blimp stuffs
+		globalaccum 6 set 0
+		globalaccum 9 set 0		// our position counter.
+
+		globalaccum 5 set 0		// going to try using bit settings to monitor our sounds.
+								// no need to announce 'build the defences' if they are built
+
+		// Game rules, no hitting below the belt.. i want a good clean fight..
+		wm_axis_respawntime	25
+		wm_allied_respawntime 15
+		wm_number_of_objectives 8
+		wm_set_round_timelimit	30
+
+		// Objectives    <allied> / <axis>
+		// 1: Primary1 : Destroy the Main Gate / Defend the Main Gate
+		// 2: Primary2 : Build Assulat Ramp / Prevent, destroy Assault Ramp
+		// 3: Primary2 : Destroy Side Door / Defend Side Door
+		// 4: Primary2 : Destroy the West Truck / Defend the West Truck
+		// 5: Primary3 : Destroy the East Truck / Defend the East Truck
+		// 6: Secondary1 : Destroy the Sewer Gates / Defend the Sewer Gates
+		// 7: Secondary2 : Build the Command post / Prevent the Axis Building a Command Post
+		// 8: Secondary3 : Prevent the Allies from Building a Command Post / Build the Command Post
+
+		// Objective overview status indicators
+		// wm_objective_status <objective> <team (0=Axis, 1=Allies)> <status (0=neutral 1=complete 2=failed)>.
+		// gonna be adding more as i go...
+		// ** updated objectives FEB 14/04 SEE? WHAT DID I SAY?
+		wm_objective_status 1 1 0
+		wm_objective_status 1 0 0
+		wm_objective_status 2 1 0
+		wm_objective_status 2 0 0
+		wm_objective_status 3 1 0
+		wm_objective_status 3 0 0
+		wm_objective_status 4 1 0
+		wm_objective_status 4 0 0
+		wm_objective_status 5 1 0
+		wm_objective_status 5 0 0
+		wm_objective_status 6 1 0
+		wm_objective_status 6 0 0
+		wm_objective_status 7 1 0	// added 2 more objectives...
+		wm_objective_status 7 0 0
+		wm_objective_status 8 1 0
+		wm_objective_status 8 0 0
+
+		// Stopwatch mode defending team (0=Axis, 1=Allies)
+		wm_set_defending_team	0
+
+		// If the round timer expires, the Axis have won, so set the current winning team
+		// Set the round winner:  0 == AXIS, 1 == ALLIED
+		wm_setwinner 0
+
+		wait 150
+
+		// Current main objectives for each team (0=Axis, 1=Allies)
+		setautospawn "Allied Train Entrance" 1	// allies spawn at train at startup.
+		setautospawn "Base Barracks" 0		// axis spawn at the 1st base, and also own the airfield base spawn.
+
+		setstate hydro_pole default  			// setup the hydro power box stuff
+		enablespeaker power_hum 				// power on sound and command marker
+		setstate hydro_cm_off invisible 		// defaults.
+		setstate hydro_cm_on default 			//
+		setstate light_white default			// some fancy light switching to show status ingame.
+		setstate light_red invisible 			// ends the hydro power box stuff setup.
+		disablespeaker allies_compost_sound		// disable compost sounds
+		disablespeaker axis_compost_sound		//
+		disablespeaker west_truck_fire
+		disablespeaker east_truck_fire
+		setstate east_truck_smoke invisible		// just tossed this is for a quick test
+		setstate west_truck_smoke invisible		//
+		setstate eastgate_door default			// make shure these doors are present
+		setstate westgate_door default			// and in good order til the gates are dynamited.
+		setstate ramp_marker invisible			// the city ramp.
+		
+		//the new spawns in the sewers
+		setstate afp_marker invisible
+		setstate afp_spawn invisible
+		setstate afp_cp invisible
+		wait 500
+
+		// *----------------------------------- vo ------------------------------------------*
+		//wm_addteamvoiceannounce 0 "aa_axis_main_entrance_stop"
+		//wm_addteamvoiceannounce 0 "aa_axis_ramp_stop"
+		//wm_addteamvoiceannounce 0 "axis_hq_compost_construct"
+
+		//wm_addteamvoiceannounce 1 "aa_allies_main_entrance_destroy"
+		//wm_addteamvoiceannounce 1 "aa_allies_ramp_construct"
+		//wm_addteamvoiceannounce 1 "allies_hq_compost_construct"
+
+		wm_teamvoiceannounce 0 "aa_axis_main_entrance_stop"
+		wm_teamvoiceannounce 0 "aa_axis_ramp_stop"
+		wm_teamvoiceannounce 0 "axis_hq_compost_construct"
+
+		wm_teamvoiceannounce 1 "aa_allies_main_entrance_destroy"
+		wm_teamvoiceannounce 1 "aa_allies_ramp_construct"
+		wm_teamvoiceannounce 1 "allies_hq_compost_construct"
+		// *---------------------------------------------------------------------------------*
+		//trigger axis_compost_built_model neworigin
+		//trigger axis_compost_built neworigin
+		//trigger allied_compost_built_model neworigin
+		//trigger allied_compost_built neworigin
+
+	}
+	trigger truck_counter
+		{
+		accum 2 inc 1					// Increase the counter since a truck blew up!
+		accum 2 abort_if_not_equal 2			// All trucks destroyed? there's only 2...
+		wm_announce	"Allies have destroyed both Trucks!"
+		wait 8000
+		accum 4 set 1
+		// Call function to check if the round has been won
+		trigger game_manager checkgame
+		}
+	trigger checkgame
+		{
+		accum 4 abort_if_not_equal 1
+		// Set the round winner:  0 == AXIS, 1 == ALLIED
+		wm_setwinner 1
+		// End the round
+		wm_endround
+		wait 500
+		// allies have saved the day!
+		}
+	trigger timelimit_hit
+		{
+		wm_announce	"Axis have successfuly defended both Trucks!"
+		wait 8000
+		// what can we say.. axis pulled it off.. =P
+		// thought of having an airplane taxi down the runway here as an ending if the axis win... hmmmzzz
+		}
+	trigger sewer_counter
+		// since both sewer gates act as 1 objective in the limbo window.. both need to be blown up in
+		// order for the allied team to have it checked in their limbo windowz....
+		{
+		accum 3 inc 1			// Increase the counter since a sewer gate blew up!
+		accum 3 abort_if_not_equal 2	// both sewer gates go boom boom?
+		// no more sewer gates left, so give the winning objective to the allied team.
+		wm_objective_status 6 1 1
+		wm_objective_status 6 0 2
+		}
+}
+//--------------------------------------------------------------------------------------------------------//
+// New Spawn in sewers :D
+//--------------------------------------------------------------------------------------------------------//
+afp_cp
+{
+	spawn
+	{
+		set
+		{
+			description "Sewers"
+			message "Sewers"
+		}
+	}
+	
+	trigger allied_capture
+	{
+		accum 1 set 0
+		wm_announce "Allies captured the sewers flag, axis got 40 seconds to recapture!"
+		wait 20000
+		wm_announce "Axis has 20 seconds left to recapture!"
+		wait 20000
+		accum 1 abort_if_equal 1
+		wm_announce "Allies spawn now in the sewers!"
+		setstate afp_marker default
+		setstate afp_spawn default
+		setstate afp_cp invisible
+		setautospawn "Sewers" 1
+	}
+	
+	trigger axis_capture
+	{
+		accum 1 set 1
+		wm_announce "Axis recaptured the sewers flag!"
+	}
+}
+
+
+//--------------------------------------------------------------------------------------------------------//
+// The Main Entrance destruction, Axis will lose their spawn to the allies, and fall back to the airfield defence.
+//--------------------------------------------------------------------------------------------------------//
+Mgate
+{
+	spawn
+   	{
+     	wait 200
+      	constructible_class 3
+   	}
+
+	trigger side_door_check
+	{
+		globalaccum 5 abort_if_bitset 3
+
+		// *----------------------------------- vo ------------------------------------------*
+		//wm_addteamvoiceannounce 0 "aa_axis_side_entrance_stop"
+		//wm_addteamvoiceannounce 1 "aa_allies_side_entrance_destroy"
+
+		wm_teamvoiceannounce 0 "aa_axis_side_entrance_stop"
+		wm_teamvoiceannounce 1 "aa_allies_side_entrance_destroy"
+		// *---------------------------------------------------------------------------------*
+	}
+
+	trigger west_truck_check
+	{
+		globalaccum 5 abort_if_bitset 4
+
+		// *----------------------------------- vo ------------------------------------------*
+		//wm_addteamvoiceannounce 0 "aa_axis_protect_west"
+		//wm_addteamvoiceannounce 1 "aa_allies_destroy_west"
+
+		wm_teamvoiceannounce 0 "aa_axis_protect_west"
+		wm_teamvoiceannounce 1 "aa_allies_destroy_west"
+		// *---------------------------------------------------------------------------------*
+	}
+
+	trigger east_truck_check
+	{
+		globalaccum 5 abort_if_bitset 5
+
+		// *----------------------------------- vo ------------------------------------------*
+		//wm_addteamvoiceannounce 0 "aa_axis_protect_east"
+		//wm_addteamvoiceannounce 1 "aa_allies_destroy_east"
+
+		wm_teamvoiceannounce 0 "aa_axis_protect_east"
+		wm_teamvoiceannounce 1 "aa_allies_destroy_east"
+		// *---------------------------------------------------------------------------------*
+	}
+
+	trigger truck_defences_check	// we call this after the main gate is blown, and when a truck is destroyed.
+	{
+		globalaccum 5 bitreset 6	// clear this flag
+		trigger self west_def_check
+		trigger self east_def_check
+		globalaccum 5 abort_if_not_bitset 6
+
+		// *----------------------------------- vo ------------------------------------------*
+		//wm_addteamvoiceannounce 0 "aa_axis_construct_def"
+		wm_teamvoiceannounce 0 "aa_axis_construct_def"
+		// *---------------------------------------------------------------------------------*
+	}
+
+	trigger west_def_check
+	{
+		globalaccum 5 abort_if_bitset 4	// abort if west truck destroyed.
+		globalaccum 5 abort_if_bitset 7 // abort if west truck defences are built already.
+		globalaccum 5 bitset 6			// they are not, so trigger the sounds upon return.
+	}
+
+	trigger east_def_check
+	{
+		globalaccum 5 abort_if_bitset 5	// abort if east truck destroyed.
+		globalaccum 5 abort_if_bitset 8 // abort if west truck defences are built already.
+		globalaccum 5 bitset 6			// they are not, so trigger the sounds upon return.
+	}
+
+   	death
+   	{
+      	wm_announce "Allies have blown up the Main Entrance!"
+
+		alertentity axisstart_wobj
+		setautospawn "Base Barracks" 1	// axis lose the base spawn, allies now spawn there,
+		setautospawn "Airfield Base" 0	// axis now spawn at the airfield base.
+		alertentity switch
+		trigger ramp disable
+		//trigger axis_compost_built_model neworigin
+		//trigger axis_compost_built neworigin
+		//trigger allied_compost_built_model neworigin
+		//trigger allied_compost_built neworigin
+		// update the objective status screen in the limbo window hia...
+		wm_objective_status 1 0 2
+		wm_objective_status 1 1 1
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "aa_axis_main_entrance_destroyed"
+
+		wm_removeteamvoiceannounce 0 "aa_axis_main_entrance_stop"
+		wm_removeteamvoiceannounce 1 "aa_allies_main_entrance_destroy"
+		// *---------------------------------------------------------------------------------*
+
+		trigger self side_door_check		// "don't let them dynamite the side entrance!"
+		trigger self truck_defences_check	// "build the truck defences!"
+		trigger self west_truck_check		// "protect the west truck!"
+		trigger self east_truck_check		// "protect the east truck!"
+		//wm_announce "Sewers spawn will be capturable in 60 seconds...."
+		//wait 6000
+		//not working to wait 6 seconds.. anyway..
+		//the new spawns in the sewers
+		setstate afp_cp default
+   }
+}
+
+//--------------------------------------------------------------------------------------------------------//
+// Here's the truck defence parts for west and east.
+//--------------------------------------------------------------------------------------------------------//
+//
+// the West defences
+//
+w_def
+{
+	spawn
+	{
+		wait 200
+		constructible_class 2
+		setstate w_defmaterials1 default
+		setstate w_defmaterials2 default
+		setstate w_trighurt1 invisible
+		setstate w_trighurt2 invisible
+	}
+
+
+	// Stage 1 is BUILT
+	built stage1
+	{
+		setstate w_defmaterials1 invisible
+		setstate w_trighurt1 default
+	}
+
+
+	// Stage 1 is DESTROYED
+	death
+	{
+		setstate w_defmaterials1 default
+		setstate w_trighurt1 invisible
+		// Some kind of UI pop-up to alert players
+		wm_announce	"Allied team has destroyed the West Truck Defences!"
+
+		// *----------------------------------- vo ------------------------------------------*
+		//wm_addteamvoiceannounce 0 "aa_axis_construct_def
+		wm_teamvoiceannounce 0 "aa_axis_def_destroyed"
+		wm_teamvoiceannounce 1 "aa_allies_destroyed_defences"
+		// *---------------------------------------------------------------------------------*
+	}
+	// Stage 2 is BUILT
+	built final
+	{
+		setstate w_defmaterials2 invisible
+		setstate w_trighurt2 default
+		globalaccum 5 bitset 7
+		// Some kind of UI pop-up to alert players
+		wm_announce	"Axis team has constructed the West Truck Defences!"
+
+		// *----------------------------------- vo ------------------------------------------*
+		//wm_addteamvoiceannounce 1 "aa_allies_destroy_defences"
+		wm_teamvoiceannounce 0 "aa_axis_def_constructed"
+		wm_teamvoiceannounce 1 "aa_allies_destroy_defences"
+		wm_removeteamvoiceannounce 0 "aa_axis_construct_def"
+		// *---------------------------------------------------------------------------------*
+	}
+	// Stage 2 is DESTROYED, go back to stage 1
+	destroyed final
+	{
+		
+		setstate w_defmaterials2 default
+		setstate w_trighurt2 invisible
+		globalaccum 5 bitreset 7
+		// Some kind of UI pop-up to alert players
+		wm_announce	"Allied team has damaged the West Truck Defences!"
+
+		// *----------------------------------- vo ------------------------------------------*
+		//wm_addteamvoiceannounce 0 "aa_axis_construct_def"
+		wm_teamvoiceannounce 0 "aa_axis_def_breached"
+		wm_teamvoiceannounce 1 "aa_allies_breached_defences"
+		wm_removeteamvoiceannounce 1 "aa_allies_destroy_defences"
+		// *---------------------------------------------------------------------------------*
+	}
+}
+//
+// the East defences
+//
+e_def
+{
+	spawn
+	{
+		wait 200
+		constructible_class 2
+		setstate e_defmaterials1 default
+		setstate e_defmaterials2 default
+		setstate e_trighurt1 invisible
+		setstate e_trighurt2 invisible
+	}
+	// Stage 1 is BUILT
+	built stage1
+	{
+		setstate e_defmaterials1 invisible
+		setstate e_trighurt1 default
+	}
+	// Stage 1 is DESTROYED
+	death
+	{
+		setstate e_defmaterials1 default
+		setstate e_trighurt1 invisible
+		// Some kind of UI pop-up to alert players
+		wm_announce	"Allied team has destroyed the East Truck Defences!"
+		// *----------------------------------- vo ------------------------------------------*
+		//wm_addteamvoiceannounce 0 "aa_axis_construct_def
+		wm_teamvoiceannounce 0 "aa_axis_def_destroyed"
+		wm_teamvoiceannounce 1 "aa_allies_destroyed_defences"
+		// *---------------------------------------------------------------------------------*
+
+	}
+	// Stage 2 is BUILT
+	built final
+	{
+		setstate e_defmaterials2 invisible
+		setstate e_trighurt2 default
+		globalaccum 5 bitset 8
+		// Some kind of UI pop-up to alert players
+		wm_announce	"Axis team has constructed the East Truck Defences!"
+
+		// *----------------------------------- vo ------------------------------------------*
+		//wm_addteamvoiceannounce 1 "aa_allies_destroy_defences"
+		wm_teamvoiceannounce 0 "aa_axis_def_constructed"
+		wm_teamvoiceannounce 1 "aa_allies_destroy_defences"
+		//wm_removeteamvoiceannounce 0 "aa_axis_construct_def"
+		// *---------------------------------------------------------------------------------*
+
+	}
+	// Stage 2 is DESTROYED, go back to stage 1
+	destroyed final
+	{
+		setstate e_defmaterials2 default
+		setstate e_trighurt2 invisible
+		globalaccum 5 bitreset 8
+		// Some kind of UI pop-up to alert players
+		wm_announce	"Allied team has damaged the East Truck Defences!"
+
+		// *----------------------------------- vo ------------------------------------------*
+		//wm_addteamvoiceannounce 0 "aa_axis_construct_def"
+		wm_teamvoiceannounce 0 "aa_axis_def_breached"
+		wm_teamvoiceannounce 1 "aa_allies_breached_defences"
+		//wm_removeteamvoiceannounce 1 "aa_allies_destroy_defences"
+		// *---------------------------------------------------------------------------------*
+
+	}
+}
+
+//--------------------------------------------------------------------------------------------------------//
+// The Trucks that get destroyed.
+//--------------------------------------------------------------------------------------------------------//
+//
+// west truck that gets destroyed.
+//
+west_truck_clip
+{
+	spawn
+	{
+		wait 200
+		constructible_class 3
+		trigger west_truck_clip setup
+	}
+	trigger setup
+	{
+		setstate west_truck_smoke invisible
+		setstate west_truck_model default
+		setstate west_truck_plot default
+		setstate west_truck_crater invisible
+	}
+	death
+	{
+		wm_announce "Allies have blown up the West Truck!"
+		setstate west_truck_model invisible
+		setstate west_truck_crater default
+		setstate west_truck_plot invisible
+		setstate west_truck_smoke default
+		enablespeaker west_truck_fire
+
+		// get rid of the gate and construct materials, don't want the axis engy getting xp for
+		// building defences to an already destroyed objective....
+		setstate w_def invisible
+		setstate w_def_toi invisible
+		setstate w_trighurt2 invisible
+		setstate w_defmaterials1 invisible
+		setstate w_defmaterials2 invisible
+
+		wm_objective_status 4 1 1
+		wm_objective_status 4 0 2
+
+		// *----------------------------------- vo ------------------------------------------*
+		//wm_removeteamvoiceannounce 0 "aa_axis_protect_west"
+		//wm_removeteamvoiceannounce 1 "aa_allies_destroy_west"
+		wm_teamvoiceannounce 0 "aa_axis_west_truck_destroyed"
+		wm_teamvoiceannounce 1 "aa_allies_west_destroyed"
+		// *---------------------------------------------------------------------------------*
+
+		globalaccum 5 bitset 4	// truck gone.. don't announce to destroy it when main entrance is blown.
+
+		trigger game_manager truck_counter
+	}
+}
+
+//
+// East Truck that get's destroyed.
+//
+east_truck_clip
+{
+	spawn
+	{
+		wait 200
+		constructible_class 3
+		trigger east_truck_clip setup
+	}
+	trigger setup
+	{
+		setstate east_truck_smoke invisible
+		setstate east_truck_model default
+		setstate east_truck_plot default
+		setstate east_truck_crater invisible
+	}
+	death
+	{
+		wm_announce "Allies have blown up the East Truck!"
+		setstate east_truck_model invisible	// lose the truck, and just for fun, let's slap a crater in it's place...
+		setstate east_truck_crater default	// brushwork... more brushwork... =/
+		setstate east_truck_plot invisible
+		setstate east_truck_smoke default	// let's smoke the crater for this test.... something cheap...
+		enablespeaker east_truck_fire
+
+		// get rid of the gate and construct materials, don't want the axis engy getting xp for
+		// building defences to an already destroyed objective....
+		setstate e_def invisible
+		setstate e_def_toi invisible
+		setstate e_trighurt2 invisible
+		setstate e_defmaterials1 invisible
+		setstate e_defmaterials2 invisible
+
+		wm_objective_status 5 1 1
+		wm_objective_status 5 0 2
+
+		// *----------------------------------- vo ------------------------------------------*
+		//wm_removeteamvoiceannounce 0 "aa_axis_protect_east"
+		//wm_removeteamvoiceannounce 1 "aa_allies_destroy_east"
+		wm_teamvoiceannounce 0 "aa_axis_east_truck_destroyed"
+		wm_teamvoiceannounce 1 "aa_allies_east_destroyed"
+		// *---------------------------------------------------------------------------------*
+
+		globalaccum 5 bitset 5
+
+		trigger game_manager truck_counter
+	}
+}
+
+//--------------------------------------------------------------------------------------------------------//
+// What's next... what's next.... oh, the sewer gates.
+// these have no vo sounds, they are secondary..
+//--------------------------------------------------------------------------------------------------------//
+eastgate
+{
+	spawn
+	{
+      wait 200
+      constructible_class 3
+	}
+	death
+ 	{
+	setstate eastgate_door invisible	// remove the door.
+      wm_announce "Allies have blown up the East Sewer Gate!"
+      trigger game_manager sewer_counter	// update the sewer gates that have been destroyed so far.
+	}
+}
+westgate
+{
+	spawn
+	{
+      wait 200
+      constructible_class 3
+	}
+	death
+ 	{
+	setstate westgate_door invisible	// remove the door.
+      wm_announce "Allies have blown up the West Sewer Gate!"
+      trigger game_manager sewer_counter
+	}
+}
+
+//--------------------------------------------------------------------------------------------------------//
+// Neutral Command Post from GOLDRUSH. edited the objective_status for my obj layout... thanks SD =)
+//--------------------------------------------------------------------------------------------------------//
+
+allied_compost_built
+{
+	spawn
+	{
+		wait 400
+		trigger allied_compost_built setup
+
+		constructible_class 2
+	}
+
+	trigger setup
+	{
+		setchargetimefactor 1 soldier 1
+		setchargetimefactor 1 lieutenant 1
+		setchargetimefactor 1 medic 1
+		setchargetimefactor 1 engineer 1
+		setchargetimefactor 1 covertops 1
+		sethqstatus 1 0
+	}
+
+	buildstart final
+	{
+		setstate allied_compost_built_model underconstruction
+		setstate neutral_compost_closed_clip invisible
+		setstate neutral_compost_closed_model invisible
+	}
+
+	built final
+	{
+		setstate allied_compost_built_model default
+		setstate neutral_compost_closed_clip invisible
+		setstate neutral_compost_closed_model invisible
+
+		trigger allied_compost_built_model enable_allied_features
+
+		enablespeaker allies_compost_sound
+	}
+
+	decayed final
+	{
+		setstate allied_compost_built_model invisible
+		setstate neutral_compost_closed_clip default
+		setstate neutral_compost_closed_model default
+	}
+
+	death
+	{
+		setstate allied_compost_built_model invisible
+		setstate neutral_compost_closed_clip default
+		setstate neutral_compost_closed_model default
+
+		trigger allied_compost_built_model disable_allied_features
+
+		disablespeaker allies_compost_sound
+	}
+	//trigger neworigin
+	//{
+	//	set
+	//	{
+	//		origin "510 -2097 -115"
+	//	}
+	//}
+}
+
+allied_compost_built_model
+{
+	spawn
+	{
+		wait 400
+		setstate allied_compost_built_model invisible
+	}
+
+	trigger enable_allied_features
+	{
+		setchargetimefactor 1 soldier 0.75
+		setchargetimefactor 1 lieutenant 0.75
+		setchargetimefactor 1 medic 0.75
+		setchargetimefactor 1 engineer 0.75
+		setchargetimefactor 1 covertops 0.75
+		sethqstatus 1 1
+
+		wm_announce	"Allied Command Post constructed. Charge speed increased!"
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "axis_hq_compost_constructed_allies"
+
+		wm_teamvoiceannounce 1 "allies_hq_compost_constructed"
+
+		//wm_removeteamvoiceannounce 1 "allies_hq_compost_construct"
+		// *---------------------------------------------------------------------------------*
+
+		wm_objective_status 7 0 2
+		wm_objective_status 7 1 1
+	}
+
+	trigger disable_allied_features
+	{
+		setchargetimefactor 1 soldier 1
+		setchargetimefactor 1 lieutenant 1
+		setchargetimefactor 1 medic 1
+		setchargetimefactor 1 engineer 1
+		setchargetimefactor 1 covertops 1
+		sethqstatus 1 0
+
+		wm_announce	"Axis team has destroyed the Allied Command Post!"
+
+		// *----------------------------------- vo ------------------------------------------*
+		//wm_addteamvoiceannounce 0 "axis_hq_compost_construct"
+
+		//wm_addteamvoiceannounce 1 "allies_hq_compost_construct"
+
+		wm_teamvoiceannounce 0 "axis_hq_compost_construct"
+
+		wm_teamvoiceannounce 1 "allies_hq_compost_damaged"
+		// *---------------------------------------------------------------------------------*
+
+		wm_objective_status 7 0 0
+		wm_objective_status 7 1 0
+	}
+	//trigger neworigin
+	//{
+	//	set
+	//	{
+	//		origin "510 -2097 -115"
+	//	}
+	//}	
+}
+
+axis_compost_built
+{
+	spawn
+	{
+		wait 400
+		trigger axis_compost_built setup
+
+		constructible_class 2
+	}
+
+	trigger setup
+	{
+		setchargetimefactor 0 soldier 1
+		setchargetimefactor 0 lieutenant 1
+		setchargetimefactor 0 medic 1
+		setchargetimefactor 0 engineer 1
+		setchargetimefactor 0 covertops 1
+		sethqstatus 0 0
+	}
+
+	buildstart final
+	{
+		setstate axis_compost_built_model underconstruction
+		setstate neutral_compost_closed_clip invisible
+		setstate neutral_compost_closed_model invisible
+	}
+
+	built final
+	{
+		setstate axis_compost_built_model default
+		setstate neutral_compost_closed_clip invisible
+		setstate neutral_compost_closed_model invisible
+
+		trigger axis_compost_built_model enable_axis_features
+
+		enablespeaker axis_compost_sound
+	}
+
+	decayed final
+	{
+		setstate axis_compost_built_model invisible
+		setstate neutral_compost_closed_clip default
+		setstate neutral_compost_closed_model default
+	}
+
+	death
+	{
+		setstate axis_compost_built_model invisible
+		setstate neutral_compost_closed_clip default
+		setstate neutral_compost_closed_model default
+
+		trigger axis_compost_built_model disable_axis_features
+
+		disablespeaker axis_compost_sound
+	}
+	///trigger neworigin
+	//{
+	//	set
+	//	{
+	//		origin "510 -2097 -115"
+	//	}
+	//}
+}
+
+axis_compost_built_model
+{
+	spawn
+	{
+		wait 400
+		setstate axis_compost_built_model invisible
+	}
+
+	trigger enable_axis_features
+	{
+		setchargetimefactor 0 soldier 0.75
+		setchargetimefactor 0 lieutenant 0.75
+		setchargetimefactor 0 medic 0.75
+		setchargetimefactor 0 engineer 0.75
+		setchargetimefactor 0 covertops 0.75
+		sethqstatus 0 1
+
+		wm_announce	"Axis Command Post constructed. Charge speed increased!"
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "axis_hq_compost_constructed"
+
+		wm_teamvoiceannounce 1 "allies_hq_compost_constructed_axis"
+
+		wm_removeteamvoiceannounce 0 "axis_hq_compost_construct"
+		// *---------------------------------------------------------------------------------*
+
+		wm_objective_status 8 0 1
+		wm_objective_status 8 1 2
+	}
+
+	trigger disable_axis_features
+	{
+		setchargetimefactor 0 soldier 1
+		setchargetimefactor 0 lieutenant 1
+		setchargetimefactor 0 medic 1
+		setchargetimefactor 0 engineer 1
+		setchargetimefactor 0 covertops 1
+		sethqstatus 0 0
+
+		wm_announce	"Allied team has destroyed the Axis Command Post!"
+
+		// *----------------------------------- vo ------------------------------------------*
+		//wm_addteamvoiceannounce 0 "axis_hq_compost_construct"
+
+		//wm_addteamvoiceannounce 1 "allies_hq_compost_construct"
+
+		wm_teamvoiceannounce 0 "axis_hq_compost_damaged"
+
+		wm_teamvoiceannounce 1 "allies_hq_compost_construct"
+		// *---------------------------------------------------------------------------------*
+
+		wm_objective_status 8 0 0
+		wm_objective_status 8 1 0
+	}
+	//trigger neworigin
+	//{
+	//	set
+	//	{
+	//		origin "510 -2097 -115"
+	//	}
+	//}
+}
+
+//
+// city assault ramp to get to 2nd entrance through the old decrepid building
+//
+ramp
+{
+	spawn
+	{
+		wait 200
+		trigger ramp setup
+		constructible_class 2
+		setstate ramp_marker invisible
+	}
+	trigger setup
+	{
+		setstate ramp invisible
+		setstate ramp_materials default
+		setstate ramp_materials_clip default
+	}
+	built final
+	{
+		accum 2 set 1
+		setstate ramp default
+		setstate ramp_materials invisible
+		setstate ramp_materials_clip invisible
+		setstate ramp_marker default
+		wm_announce "The Allies have constructed the Assault Ramp!"
+		wm_objective_status 2 1 1
+		wm_objective_status 2 0 2
+
+		// *----------------------------------- vo ------------------------------------------*
+
+		wm_teamvoiceannounce 0 "aa_axis_ramp_constructed"
+		wm_teamvoiceannounce 1 "aa_allies_ramp_constructed"
+
+		//wm_removeteamvoiceannounce 0 "aa_axis_ramp_stop"
+		//wm_removeteamvoiceannounce 1 "aa_allies_ramp_construct"
+		// *---------------------------------------------------------------------------------*
+	}
+	decayed final
+	{
+		setstate ramp invisible
+		setstate ramp_materials default
+		setstate ramp_materials_clip default
+	}
+	// add so that the ramp is not buildable when its not anymore needed
+	trigger disable
+	{
+		accum 1 set 1
+		accum 2 abort_if_equal 1
+		setstate ramp invisible
+		setstate ramp_marker invisible
+		setstate ramp_toi invisible
+		setstate ramp_marker_toi invisible
+		setstate ramp_materials invisible
+		setstate ramp_materials_clip invisible
+	}
+	death
+	{
+		accum 2 set 0
+		setstate ramp invisible
+		setstate ramp_marker invisible
+		setstate ramp_toi invisible
+		setstate ramp_marker_toi invisible
+		accum 1 abort_if_equal 1
+		setstate ramp_toi default
+		setstate ramp_marker_toi default
+		setstate ramp_materials default
+		setstate ramp_materials_clip default
+
+		wm_announce "The Axis have destroyed the Assault Ramp!"
+		wm_objective_status 2 1 2
+		wm_objective_status 2 1 1
+		// *----------------------------------- vo ------------------------------------------*
+		//wm_addteamvoiceannounce 0 "aa_axis_ramp_stop"
+		//wm_addteamvoiceannounce 1 "aa_allies_ramp_construct"
+
+		//wm_teamvoiceannounce 0 "aa_axis_ramp_destroyed"
+		//wm_teamvoiceannounce 1 "aa_allies_ramp_destroyed"
+		// *---------------------------------------------------------------------------------*
+	}
+}
+
+//
+// a few constructible mg_nests
+//
+
+// Axis MG nest at the base, east. Aiming at the east tunnel exit to the base... 'DUCK YOU BASTIDS!!!'
+// ( lame allies will probably look up, tryin to see the 'duck' =P )
+mg42_mat_de
+{
+	spawn
+	{
+		wait 200
+		trigger mg42_mat_de setup
+		constructible_class 2
+	}
+	trigger setup
+	{
+		setstate mg42_de invisible
+		setstate mg42_materials_de default
+		setstate mg42_materials_declip default
+	}
+	buildstart final
+	{
+		setstate mg42_de underconstruction
+		setstate mg42_materials_de default
+		setstate mg42_materials_declip default
+	}
+	built final
+	{
+		setstate mg42_de default
+		setstate mg42_materials_de invisible
+		setstate mg42_materials_declip invisible
+		wm_announce "The Axis East Depot MG Nest has been constructed."
+	}
+	decayed final
+	{
+		setstate mg42_de invisible
+		setstate mg42_materials_de default
+		setstate mg42_materials_declip default
+	}
+	death
+	{
+		setstate mg42_de invisible
+		repairmg42 mg42_de
+		setstate mg42_materials_de default
+		setstate mg42_materials_declip default
+		wm_announce "The Axis East Depot MG Nest has been destroyed."
+	}
+}
+
+// Allies MG nest at the base, south above the bunker. Aiming north at the axis depot.
+mg42_mat_ds
+{
+	spawn
+	{
+		wait 200
+		trigger mg42_mat_ds setup
+		constructible_class 2
+	}
+	trigger setup
+	{
+		setstate mg42_ds invisible
+		setstate mg42_materials_ds default
+		setstate mg42_materials_dscip default
+	}
+	buildstart final
+	{
+		setstate mg42_ds underconstruction
+		setstate mg42_materials_ds default
+		setstate mg42_materials_dsclip default
+	}
+	built final
+	{
+		setstate mg42_ds default
+		setstate mg42_materials_ds invisible
+		setstate mg42_materials_dsclip invisible
+		wm_announce "The Allies South Depot MG Nest has been constructed."
+	}
+	decayed final
+	{
+		setstate mg42_ds invisible
+		setstate mg42_materials_ds default
+		setstate mg42_materials_dsclip default
+	}
+	death
+	{
+		setstate mg42_ds invisible
+		repairmg42 mg42_ds
+		setstate mg42_materials_ds default
+		setstate mg42_materials_dsclip default
+		wm_announce "The Allies South Depot MG Nest has been destroyed."
+	}
+}
+
+//
+// the depot side door... seriously thinking about removing this... maybe to many easy access points to the base..
+// 'let the ring bearer decide..' er.. 'ahem' i mean i will let the 1st playable people decide.. if it's to
+// easy for allies to win, then maybe chop this, and 'sigh' redo the map some mo' *sniff* 'i don't wanna map NO MO!'
+// =P
+// ** updated FEB 4/04
+
+depot_sidedoor // have to add some stuff to this, vo's and um... objectivestatus...
+{
+   spawn
+   {
+		wait 200
+		constructible_class 3
+   }
+   death
+   {
+    	wm_announce "Allies have blown up the Side Entrance!"
+		wm_objective_status 3 1 1
+		wm_objective_status 3 0 2
+		// *----------------------------------- vo ------------------------------------------*
+		//wm_teamvoiceannounce 0 "aa_axis_side_entrance_destroyed"
+		//wm_teamvoiceannounce 1 "aa_allies_side_entrance_destroyed"
+
+		//wm_removeteamvoiceannounce 0 "aa_axis_side_entrance_stop"
+		//wm_removeteamvoiceannounce 1 "aa_allies_side_entrance_destroy"
+		// *---------------------------------------------------------------------------------*
+		globalaccum 5 bitset 3	//
+   }
+}
+
+//--------------------------------------------------------------------------------------------------------//
+// and now for something completely different... the Hydro Pole's..
+// once the switch is thrown, the power will shut off to the wires above fo access to the objectives,
+// on the command map, a lightbulb will show status, either power on ( bulb lit ) or power off ( bulb off )
+//--------------------------------------------------------------------------------------------------------//
+hydro_switch_controller
+{
+	activate
+	{
+		trigger hydro_switch use
+	}
+}
+hydro_switch
+{
+	trigger use
+	{
+		trigger hydro_switch open
+		trigger hydro_switch close
+	}
+	trigger open  // turn the power wires OFF!
+	{
+		accum 1 abort_if_equal 1
+		accum 0 abort_if_equal 1
+		accum 1 set 1
+		accum 0 set 1
+		wait 60
+		setstate hydro_cm_off default
+		setstate hydro_cm_on invisible
+		setstate light_white invisible
+		setstate light_red default
+		playsound sound/airfield_assault/power_off.wav
+		disablespeaker power_hum  // power_hum off
+		faceangles 90 0 0 500 // box facing the west
+		accum 0 set 0
+    		// Some kind of UI pop-up to alert players
+		wm_announce   "The Hydro Pole Power is Disabled!"
+		setstate hydro_pole invisible  // disable the trigger_hurt on the hydro wires...
+	}
+	trigger close  // turn the power wires ON!
+	{
+		accum 1 abort_if_equal 0
+		accum 0 abort_if_equal 1
+		accum 1 set 0
+		accum 0 set 1
+     		// Some kind of UI pop-up to alert players
+		wm_announce   "The Hydro Pole Power is Enabled!"
+		setstate hydro_pole default // enable the trigger_hurt on the hydro wires...
+		setstate hydro_cm_on default
+		setstate hydro_cm_off invisible
+		setstate light_white default
+		setstate light_red invisible
+		wait 50
+		faceangles 0 0 0 500
+		enablespeaker power_hum  // power_hum on sound
+		playsound sound/airfield_assault/power_on.wav
+		accum 0 set 0
+	}
+}
+
+//
+// and now for sumpin' special..
+// a bootiful' ride in my bootiful' baaaaaaaaaaa-LIMP!
+// blimp script... maybe chop this also.. when your up there, hints don't mean much, so fps can drag u down..
+// please fasten your seatbelts and ride at your own discretion, if your driving a p4-2000 then boogie on, but
+// for those poor saps who still use a p3-800 ( like me ) then it can wear you down... even though i still ride it!
+// =)
+//
+// easy panzer target coming up... =P
+// ** updated FEB 14/04
+blimp
+{
+	spawn
+	{
+		wait 400
+		followspline 0 start_ground 50000	// put the blimp into start position 1st of all.
+	}
+	trigger blimp_enable
+	{
+		globalaccum 8 set 1
+		globalaccum 4 set 0
+		globalaccum 3 bitreset 3
+		globalaccum 3 abort_if_bitset 2
+		globalaccum 3 bitset 2
+		wait 3500				// add a wait here, in case more people are loading up.... 'all aboard...'
+		trigger self move
+	}
+	trigger blimp_disable
+	{
+		globalaccum 4 inc 1
+		globalaccum 4 abort_if_less_than 2
+		globalaccum 3 bitreset 2
+		globalaccum 3 abort_if_bitset 3
+		globalaccum 3 bitset 3
+		globalaccum 8 set 0	// no one in trigger
+		globalaccum 3 bitreset 6
+	}
+
+	trigger move
+	{
+		globalaccum 3 abort_if_bitset 6		// have we already lifted off?
+		trigger self blimp_run
+	}
+	trigger death_check	// we check at key points if we need to return the blimp empty of passengers here.
+	{
+		globalaccum 8 abort_if_equal 1	// no death here! someone is still in the blimp trigger so we return.
+		resetscript	// hope im using this right... i want to quit looping after this is done, meaning don't return.
+		globalaccum 9 trigger_if_equal 0 blimp turnback0
+		globalaccum 9 trigger_if_equal 1 blimp turnback1
+		globalaccum 9 trigger_if_equal 2 blimp turnback2
+		globalaccum 9 trigger_if_equal 3 blimp turnback3
+		globalaccum 9 trigger_if_equal 4 blimp turnback4
+		globalaccum 9 trigger_if_equal 5 blimp turnback5
+		globalaccum 9 set 0	// just safe to reset this now... dunno why.. better safe than sorry.
+	}
+//
+//
+// our fly routines are next
+//
+	trigger blimp_run
+	{
+		globalaccum 3 bitset 6	// going to add this to clear a bug, if it's flying and someone jumps in
+								// which they shouldn't be able to, the blimp starts off at it's pad again,
+								// no matter where it is, it starts there... so.. we prevent it from being
+								// triggered again to 'take off' until it has landed... you can still make
+								// that jump that get's you in the trigger, but it will not (hopefully)
+								// dissapear on you to reappear on it's landing pad.
+		trigger self start_sound_blimp
+		followspline 0 start_pos 100	// take off and wait  ( idle ) a bit before flying west.
+		faceangles 0 180 0 50000
+		wait 1500
+		followspline 0 bas0_1 250 wait
+		followspline 0 bas0_2 250 wait
+		followspline 0 bas0_3 250 wait
+		globalaccum 9 set 0							// our current position for deathchecks.
+		trigger self death_check					// see if we are dead..
+		followspline 0 bas1_1 250 wait 	// fly to the base to start looping.
+		globalaccum 9 set 1							// update our current position.
+		trigger self death_check
+		trigger self blimp_loop
+	}
+
+	// the following will make up our loop, just a circle unless our trigger area becomes vacant.
+	trigger blimp_loop
+	{
+		followspline 0 bas2_1 250 wait
+		followspline 0 bas2_2 250 wait
+		globalaccum 9 set 2
+		trigger self death_check
+
+		followspline 0 bas3_1 250 wait
+		followspline 0 bas3_2 250 wait
+		globalaccum 9 set 3
+		trigger self death_check
+
+		followspline 0 bas4_1 250 wait
+		followspline 0 bas4_2 250 wait
+		globalaccum 9 set 4
+		trigger self death_check
+
+		followspline 0 bas5_1 250 wait
+		globalaccum 9 set 5
+		trigger self death_check
+
+		followspline 0 bas6_1 250 wait
+		globalaccum 9 set 1
+		trigger self death_check
+
+		trigger self blimp_loop	// hopefully we loop now.
+	}
+// our turn back routines, we check at 6 different points to see if the trigger area is empty meaning
+// either that whoever was in the blimp jumped out or was fragged, if that has happened we call the proper
+// turnback routine listed below to bring the blimp back at an increased speed since it's empty.
+//
+	trigger turnback0	// before leaving airfield.
+	{
+		followspline 0 turnback0_1 400 wait
+		trigger self return
+	}
+	trigger turnback1	// before entering main base
+	{
+		followspline 0 turnback1_1 400 wait
+		followspline 0 turnback1_2 400 wait
+		followspline 0 turnback1_3 400 wait
+		followspline 0 turnback1_4 400 wait
+		followspline 0 turnback1_5 400 wait
+		trigger self returncorner
+	}
+
+	trigger turnback2	// just after the west entrance south
+	{
+		followspline 0 turnback2_1 400 wait
+		followspline 0 turnback2_2 400 wait
+		followspline 0 turnback2_3 400 wait
+		followspline 0 turnback2_4 400 wait
+		trigger self returncorner
+	}
+	trigger turnback3	// around the east entrance south-east
+	{
+		followspline 0 turnback3_1 400 wait
+		followspline 0 turnback3_2 400 wait
+		followspline 0 turnback2_3 400 wait 	// hijack this
+		followspline 0 turnback2_4 400 wait 	// this also
+		trigger self returncorner
+	}
+	trigger turnback4	// still in axis base near the side door
+	{		// were going to hi-jack spline bas5 here, since it's already there and along our return route.
+		followspline 0 bas5_1 400 wait
+		followspline 0 turnback5_1 400 wait 	// hi-jack this also.. =P
+		trigger self returncorner
+	}
+	trigger turnback5	// before turning back south just east of the main entrance
+	{
+		followspline 0 turnback5_1 400 wait
+		trigger self returncorner
+	}
+	trigger returncorner	// a needed corner routine, majority of turnbacks come here 1st before trigger return
+	{
+		followspline 0 returncorner1 400 wait
+		followspline 0 returncorner2 400 wait
+		trigger self return
+	}
+	trigger return	// fly back from the base.. standard for all turnback routines to end up here one way or another
+	{
+		followspline 0 return1 400 wait 	// the return and land.
+		followspline 0 return2 400 wait 	// we move back at a faster speed when empty.
+		followspline 0 return3 400 wait
+		followspline 0 return4 400 wait
+		followspline 0 return5 400 wait
+		followspline 0 return6 400		// we land here
+		globalaccum 3 bitreset 6		// we are clear for a takeoff again.
+		faceangles 0 180 0 50000
+		wait 1000
+		trigger self stop_sound_blimp
+	}
+	trigger start_sound_blimp
+	{
+		stopsound
+		playsound sound/airfield_assault/blimp1.wav looping volume 200
+	}
+	trigger stop_sound_blimp
+	{
+		stopsound
+	}
+}
+// since the blimp clip brushes now have the model2, we just tag all the other script mover stuff to the
+// blimp.
+//
+blimp_toi
+{
+	spawn
+	{
+		wait  400
+		attachtotag blimp tag_x0y0z0
+	}
+}
+blimp_gondola	// gondola, non solid.
+{
+	spawn
+	{
+		wait  400
+		attachtotag blimp tag_x0y0z0
+	}
+}
+blimp_body	// body plus fins, solid.
+{
+	spawn
+	{
+		wait  400
+		attachtotag blimp tag_x0y0z0
+	}
+}
+blimp_trigger	// we tag the blimp_trigger to the center ( origin ) of the tag model.
+{
+	spawn
+	{
+		wait 500
+		attachtotag blimp tag_x0y0z0
+	}
+}
+blimp_disabler
+{
+	trigger run
+	{
+		trigger blimp blimp_disable
+	}
+}
+
+blimp_enabler
+{
+	trigger run
+	{
+		trigger blimp blimp_enable
+	}
+}
+
+

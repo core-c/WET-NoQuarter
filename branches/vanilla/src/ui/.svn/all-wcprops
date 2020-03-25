@@ -1,0 +1,95 @@
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn/nq/!svn/ver/3471/branches/vanilla/src/ui
+END
+ui.vcproj
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/nq/!svn/ver/3471/branches/vanilla/src/ui/ui.vcproj
+END
+ui_shared.c
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/nq/!svn/ver/3471/branches/vanilla/src/ui/ui_shared.c
+END
+ui_shared.h
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/nq/!svn/ver/3471/branches/vanilla/src/ui/ui_shared.h
+END
+ui_util.c
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/nq/!svn/ver/3471/branches/vanilla/src/ui/ui_util.c
+END
+keycodes.h
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/nq/!svn/ver/3471/branches/vanilla/src/ui/keycodes.h
+END
+ui_players.c
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/nq/!svn/ver/3471/branches/vanilla/src/ui/ui_players.c
+END
+ui_public.h
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/nq/!svn/ver/3471/branches/vanilla/src/ui/ui_public.h
+END
+ui_atoms.c
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/nq/!svn/ver/3471/branches/vanilla/src/ui/ui_atoms.c
+END
+ui_main.c
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/nq/!svn/ver/3471/branches/vanilla/src/ui/ui_main.c
+END
+ui.dsp
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/nq/!svn/ver/3471/branches/vanilla/src/ui/ui.dsp
+END
+ui_gameinfo.c
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/nq/!svn/ver/3471/branches/vanilla/src/ui/ui_gameinfo.c
+END
+ui.def
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/nq/!svn/ver/3471/branches/vanilla/src/ui/ui.def
+END
+ui_syscalls.c
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/nq/!svn/ver/3471/branches/vanilla/src/ui/ui_syscalls.c
+END
+ui_local.h
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/nq/!svn/ver/3471/branches/vanilla/src/ui/ui_local.h
+END
+ui_loadpanel.c
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/nq/!svn/ver/3471/branches/vanilla/src/ui/ui_loadpanel.c
+END

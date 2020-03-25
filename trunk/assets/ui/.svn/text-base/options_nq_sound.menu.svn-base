@@ -1,0 +1,99 @@
+#ifdef NQUI
+
+#include "ui/menudef2.h"
+
+// Defines //
+#define WINDOW_X	16
+#define WINDOW_Y	16
+#define WINDOW_WIDTH	392
+#define WINDOW_HEIGHT	222
+#define GROUP_NAME		"grpOptionsNQSound"
+
+#else	// NQUI
+
+#include "ui/menudef.h"
+
+// Defines //
+#define WINDOW_X	16
+#define WINDOW_Y	16
+#define WINDOW_WIDTH	324
+#define WINDOW_HEIGHT	154
+#define GROUP_NAME		"grpOptionsNQSound"
+
+#endif	// NQUI
+
+
+// Macros //
+
+#ifdef NQUI
+#include "ui/menumacros2.h"
+#else
+#include "ui/menumacros.h"
+#endif
+
+// Customise Game Menu //
+	
+menuDef {
+	name		"options_nq_sound"
+	visible		0
+	fullscreen	0
+	rect		WINDOW_X WINDOW_Y WINDOW_WIDTH WINDOW_HEIGHT
+	style		WINDOW_STYLE_FILLED
+	
+	onESC {
+		close options_nq_sound ;
+		open options_nq;
+		}
+
+// Window //
+
+	WINDOW( "^?NO QUARTER SOUND^7", 94 )
+
+// Sound //
+
+#ifdef NQUI
+
+// Subwindows //
+#define SUBWINDOW_WIDTH		WINDOW_WIDTH-12
+#define SOUND_Y			32
+		
+	SUBWINDOW( 6, (SOUND_Y), (SUBWINDOW_WIDTH), 92, "^1SOUNDS" )
+	MULTI( 8, (SOUND_Y)+18, (SUBWINDOW_WIDTH)-160, 10, "Game Sound:", .2, 8, "s_mute", cvarFloatList { "On" 0 "Off" 1  }, "Sounds Of Silence..." )
+	LABEL( 47, (SOUND_Y)+30, (SUBWINDOW_WIDTH)-4, 10, "Hitsounds:", .2, ITEM_ALIGN_LEFT, 8, 8 )
+	CHECKBOXACTIONBITFLAG( 160, (SOUND_Y)+30, 60, 10, "Enable", .2, 10, 8, "cg_hitsounds", 1, togglecvarbit cg_hitsounds 1, "Enable Hitsounds" )
+	CHECKBOXACTIONBITFLAG( 216, (SOUND_Y)+30, 50, 10, "^KTeam", .2, 6, 8, "cg_hitsounds", 2, togglecvarbit cg_hitsounds 2, "Do Not Play Teamshots" )
+	CHECKBOXACTIONBITFLAG( 276, (SOUND_Y)+30, 50, 10, "^KHead", .2, 6, 8, "cg_hitsounds", 4, togglecvarbit cg_hitsounds 4, "Do Not Play Headshots" )
+	CHECKBOXACTIONBITFLAG( 327, (SOUND_Y)+30, 50, 10, "^KBody", .2, 8, 8, "cg_hitsounds", 8, togglecvarbit cg_hitsounds 8, "Do Not Play Bodyshots" )
+	LABEL( 41, (SOUND_Y)+42, (SUBWINDOW_WIDTH)-4, 10, "Knife Goat:", .2, ITEM_ALIGN_LEFT, 8, 8 )
+	CHECKBOXACTIONBITFLAG( 160, (SOUND_Y)+42, 68, 10, "Frontal", .2, 10, 8, "cg_goatSound", 1, togglecvarbit cg_goatSound 1, "Play For Frontal Stabs" )
+	CHECKBOXACTIONBITFLAG( 222, (SOUND_Y)+42, 50, 10, "Back", .2, 0, 8, "cg_goatSound", 2, togglecvarbit cg_goatSound 2, "Play For Backstabs" )
+	CHECKBOXACTIONBITFLAG( 272, (SOUND_Y)+42, 60, 10, "Throw", .2, 10, 8, "cg_goatSound", 4, togglecvarbit cg_goatSound 4, "Play For Throwing" )
+	YESNO( 8, (SOUND_Y)+54, (SUBWINDOW_WIDTH)-160, 10, "Weapon Bounce:", .2, 8, "cg_weaponBounceSound", "Play Weapon Bounce Sound" )
+	MULTI( 8, (SOUND_Y)+66, (SUBWINDOW_WIDTH)-160, 10, "Bullet Whizz:", .2, 8, "cg_whizzSounds", cvarFloatList { "Off" 0 "Not For MG" 1 "For All Bullets" 2  }, "Play Bullet Whizz Sounds" )
+	YESNO( 8, (SOUND_Y)+78, (SUBWINDOW_WIDTH)-160, 10, "Shove Sound:", .2, 8, "cg_shoveSounds", "Play Shove Sound" )
+
+	SUBWINDOW( 6, (SOUND_Y)+98, (SUBWINDOW_WIDTH), 60, "^1VOICES" )
+	YESNO( 8, (SOUND_Y)+118, (SUBWINDOW_WIDTH)-160, 10, "Alt HQ Voice:", .2, 8, "cg_altHQVoice", "Play Alternate Commander Voice" )
+	MULTI( 8, (SOUND_Y)+130, (SUBWINDOW_WIDTH)-160, 10, "Chat Voice:", .2, 8, "cg_noVoiceChats", cvarFloatList { "On" 0 "Off" 1  }, "voice chats on/off" )
+	MULTI( 8, (SOUND_Y)+142, (SUBWINDOW_WIDTH)-160, 10, "Chat Text:", .2, 8, "cg_noVoiceText", cvarFloatList { "On" 0 "Off" 1  }, "voice text on/off" )
+
+#else	// NQUI
+
+// Subwindows //
+//#define SUBWINDOW_WIDTH		.5*(WINDOW_WIDTH-22)
+#define SUBWINDOW_WIDTH		WINDOW_WIDTH-12
+#define CONTROLS_HEIGHT 	WINDOW_HEIGHT-64
+#define SOUND_HEIGHT		CONTROLS_HEIGHT
+#define CONTROLS_Y 		32
+#define SOUND_Y			CONTROLS_Y
+		
+	SUBWINDOW( 6, (SOUND_Y), (SUBWINDOW_WIDTH), SOUND_HEIGHT, "^1SOUND" )
+	MULTI( 8, (SOUND_Y)+18, (SUBWINDOW_WIDTH)-4, 10, "Hitsounds:", .2, 8, "cg_hitsounds", cvarFloatList { "Off" 0 "Play All Hitsounds" 1 "No Teammate Hitsounds" 3 "No Headshot Hitsounds" 5 "No Body Hitsounds" 9 "Body Shots Only" 7  "Teammate Hits Only" 13  "Headshots Only" 11  }, "Hitsound Flags" )
+	MULTI( 8, (SOUND_Y)+30, (SUBWINDOW_WIDTH)-4, 10, "Knife Goat:", .2, 8, "cg_goatSound", cvarFloatList { "Off" 0 "Play For Frontal Stabs" 1 "Play For Backstabs" 2 "Play for All Stabs" 3 }, "Play Goat Sound When Stabbed" )
+	YESNO( 8, (SOUND_Y)+42, (SUBWINDOW_WIDTH)-4, 10, "Play Alt HQ Voice:", .2, 8, "cg_altHQVoice", "Play Alternate Commander Voice" )
+	YESNO( 8, (SOUND_Y)+54, (SUBWINDOW_WIDTH)-4, 10, "Play Weapon Bounce:", .2, 8, "cg_weaponBounceSound", "Play Weapon Bounce Sound" )
+
+#endif	// NQUI
+
+	BUTTON( 6, WINDOW_HEIGHT-24, SUBWINDOW_WIDTH, 18, "BACK", .3, 14, close options_nq_sound ; open options_nq )
+}

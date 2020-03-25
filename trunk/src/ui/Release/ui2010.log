@@ -1,0 +1,36 @@
+﻿Build started 18.04.2012 09:30:49.
+     1>Project "D:\NQDEV\trunk\src\ui\ui2010.vcxproj" on node 2 (build target(s)).
+     1>InitializeBuildStatus:
+         Creating ".\Release\ui.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         All outputs are up-to-date.
+     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\Microsoft.CppBuild.targets(990,5): warning MSB8012: TargetPath(D:\NQDEV\trunk\src\ui\.\Release\ui.dll) does not match the Linker's OutputFile property value (D:\NQDEV\trunk\ui_mp_x86.dll). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Link.OutputFile).
+     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\Microsoft.CppBuild.targets(992,5): warning MSB8012: TargetName(ui) does not match the Linker's OutputFile property value (ui_mp_x86). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Link.OutputFile).
+       Link:
+         All outputs are up-to-date.
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"../../ui_mp_x86.dll" /INCREMENTAL:NO /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /DEF:".\ui.def" /MANIFEST /ManifestFile:".\Release\ui.dll.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /PDB:".\Release/ui_mp_x86.pdb" /MAP:".\Release/ui_mp_x86.map" /TLBID:1 /BASE:"0x40000000" /DYNAMICBASE:NO /IMPLIB:".\Release/ui_mp_x86.lib" /MACHINE:X86 /DLL .\Release/bg_animation.obj
+         .\Release/bg_animgroup.obj
+         .\Release/bg_campaign.obj
+         .\Release/bg_character.obj
+         .\Release/bg_classes.obj
+         .\Release/bg_misc.obj
+         .\Release/q_math.obj
+         .\Release/q_shared.obj
+         .\Release/ui_atoms.obj
+         .\Release/ui_gameinfo.obj
+         .\Release/ui_loadpanel.obj
+         .\Release/ui_main.obj
+         .\Release/ui_shared.obj
+         .\Release/ui_syscalls.obj /MACHINE:I386 
+            Creating library .\Release/ui_mp_x86.lib and object .\Release/ui_mp_x86.exp
+         ui2010.vcxproj -> D:\NQDEV\trunk\src\ui\.\Release\ui.dll
+       Manifest:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"../../ui_mp_x86.dll;#2" /manifest .\Release\ui.dll.intermediate.manifest
+       FinalizeBuildStatus:
+         Deleting file ".\Release\ui.unsuccessfulbuild".
+         Touching ".\Release\ui.lastbuildstate".
+     1>Done Building Project "D:\NQDEV\trunk\src\ui\ui2010.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:00.74

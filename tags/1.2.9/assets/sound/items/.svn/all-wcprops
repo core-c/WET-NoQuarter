@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/nq/!svn/ver/4387/tags/1.2.9/assets/sound/items
+END
+hot_pickup.wav
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/nq/!svn/ver/4387/tags/1.2.9/assets/sound/items/hot_pickup.wav
+END
+cold_pickup.wav
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/nq/!svn/ver/4387/tags/1.2.9/assets/sound/items/cold_pickup.wav
+END
+n_health.wav
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/nq/!svn/ver/4387/tags/1.2.9/assets/sound/items/n_health.wav
+END

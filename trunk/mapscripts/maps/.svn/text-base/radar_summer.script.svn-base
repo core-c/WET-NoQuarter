@@ -1,0 +1,2216 @@
+// All 4 objs needed
+
+game_manager
+{
+// accum 1		: count of objs destroyed
+// globalaccum 7	: 2=both side doors destroyed
+	spawn
+	{
+		// Game rules
+		wm_axis_respawntime	22
+		wm_allied_respawntime	20
+		wm_number_of_objectives 8
+		wm_set_round_timelimit	20
+
+		// Objectives
+		// 1: Get into radar installation
+		// 2: Steal West radar
+		// 3: Steal East radar
+		// 4: North Radar Station
+		// 5: South Radar Station
+		// 6: Forward Bunker
+		// 7: Axis Field Command
+		// 8: Allies Base of Operations
+
+		wm_set_main_objective		1	0
+		wm_set_main_objective		1	1
+
+		wm_objective_status 1 1 0
+		wm_objective_status 1 0 0
+		wm_objective_status 2 1 0
+		wm_objective_status 2 0 0
+		wm_objective_status 3 1 0
+		wm_objective_status 3 0 0
+		wm_objective_status 4 1 0
+		wm_objective_status 4 0 0
+		wm_objective_status 5 1 0
+		wm_objective_status 5 0 0
+		wm_objective_status 6 1 0
+		wm_objective_status 6 0 0
+		wm_objective_status 7 1 0
+		wm_objective_status 7 0 0
+		wm_objective_status 8 1 0
+		wm_objective_status 8 0 0
+
+		// Stopwatch mode defending team (0=Axis, 1=Allies)
+		wm_set_defending_team	0
+
+		// Winner on expiration of round timer (0=Axis, 1=Allies)
+		wm_setwinner	0
+
+		accum 1 set 0		// Set counter for radar equipment
+
+		wait 500
+		// spawns:
+		// Abandoned Villa
+		// Forward Bunker
+		// Lower Warehouse
+		setautospawn "Forward Bunker" 1
+		setautospawn "Forward Bunker" 0
+
+		disablespeaker allies_compost_sound
+		disablespeaker axis_compost_sound
+
+		setstate radar_north_smoke invisible
+		setstate radar_south_smoke invisible
+
+		// wait for everything to settle
+		wait 500
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_addteamvoiceannounce 0 "radar_axis_entrances_defend"
+		wm_addteamvoiceannounce 0 "radar_axis_bunker_stop"
+		wm_addteamvoiceannounce 0 "axis_hq_compost_construct"
+
+		wm_addteamvoiceannounce 1 "radar_allies_entrances_destroy"
+		wm_addteamvoiceannounce 1 "radar_allies_bunker_capture"
+
+		wm_teamvoiceannounce 0 "radar_axis_entrances_defend"
+		wm_teamvoiceannounce 0 "radar_axis_bunker_stop"
+		wm_teamvoiceannounce 0 "axis_hq_compost_construct"
+
+		wm_teamvoiceannounce 1 "radar_allies_entrances_destroy"
+		wm_teamvoiceannounce 1 "radar_allies_bunker_capture"
+		// *---------------------------------------------------------------------------------*
+		setstate roadhut_wobj invisible
+		alertentity roadhutspawns
+		wait 3000
+		setstate tank_smoke invisible
+		setstate generator_destroyed_smoke invisible
+	}
+
+	trigger objective_accomplished
+	{
+		accum 1 inc 1				// Inc obj count
+		trigger game_manager checkgame		// Check for end of game
+	}
+
+	trigger maindoor1_destroyed
+	{
+		wm_objective_status 1 1 1
+		wm_objective_status 1 0 2
+
+		wm_set_main_objective		2	0
+		wm_set_main_objective		2	1
+
+		// spawns:
+		// Abandoned Villa
+		// Forward Bunker
+		// Lower Warehouse
+		setautospawn "Forward Bunker" 1
+		setautospawn "Lower Warehouse" 0
+
+		trigger roadbunker kill // Switch forward spawn to Allied ONLY
+		wm_announce	"Allies have breached the Main Entrance and secured the Forward Bunker!"
+
+		wait 1000
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_addteamvoiceannounce 0 "radar_axis_radars_defend"
+
+		wm_addteamvoiceannounce 1 "radar_allies_radars_steal"
+		wm_addteamvoiceannounce 1 "allies_destroy_radar"
+
+		wm_teamvoiceannounce 0 "radar_axis_entrance1_destroyed"
+		wm_teamvoiceannounce 0 "radar_axis_radars_defend"
+
+		wm_teamvoiceannounce 1 "radar_allies_entrance1_destroyed"
+		wm_teamvoiceannounce 1 "radar_allies_radars_steal"
+		wm_teamvoiceannounce 1 "allies_destroy_radar"
+
+		wm_removeteamvoiceannounce 0 "radar_axis_entrances_defend"
+		wm_removeteamvoiceannounce 0 "radar_axis_entrance1_defend"
+		wm_removeteamvoiceannounce 0 "radar_axis_bunker_stop"
+
+		wm_removeteamvoiceannounce 1 "radar_allies_entrances_destroy"
+		wm_removeteamvoiceannounce 1 "radar_allies_entrance1_destroy"
+		wm_removeteamvoiceannounce 1 "radar_allies_bunker_capture"
+		// *---------------------------------------------------------------------------------*
+	}
+
+	trigger first_side_destroyed
+	{
+		wm_teamvoiceannounce 0 "axis_first_side_dest"
+		wm_teamvoiceannounce 1 "allies_first_side_dest"
+	}
+
+	trigger second_side_destroyed
+	{
+		wm_teamvoiceannounce 0 "axis_second_side_dest"
+		wm_teamvoiceannounce 1 "allies_second_side_dest"
+	}
+
+	trigger sidedoor1_destroyed
+	{
+	//	wm_teamvoiceannounce 0 "radar_axis_entrance2_destroyed"
+	//	wm_teamvoiceannounce 1 "radar_allies_entrance2_destroyed"
+
+		wm_announce	"Allies have breached the Outer Side Entrance!"
+		globalaccum 7 inc 1 // 2bit
+		globalaccum 7 trigger_if_equal 1 game_manager first_side_destroyed
+		globalaccum 7 trigger_if_equal 2 game_manager second_side_destroyed
+		globalaccum 7 abort_if_not_equal 2
+
+		wm_objective_status 1 1 1
+		wm_objective_status 1 0 2
+
+		wm_set_main_objective		2	0
+		wm_set_main_objective		2	1
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_addteamvoiceannounce 1 "allies_hq_compost_construct"
+
+		trigger allied_radio_built_model alliedcompostvo
+
+		wm_removeteamvoiceannounce 0 "radar_axis_entrances_defend"
+		wm_removeteamvoiceannounce 0 "radar_axis_entrance2_defend"
+
+		wm_removeteamvoiceannounce 1 "radar_allies_entrances_destroy"
+		wm_removeteamvoiceannounce 1 "radar_allies_entrance2_destroy"
+		// *---------------------------------------------------------------------------------*
+	}
+
+	trigger sidedoor2_destroyed
+	{
+	//	wm_teamvoiceannounce 0 "radar_axis_entrance2_destroyed"
+	//	wm_teamvoiceannounce 1 "radar_allies_entrance2_destroyed"
+
+		wm_announce	"Allies have breached the Inner Side Entrance!"
+		globalaccum 7 inc 1 // 2bit
+		globalaccum 7 trigger_if_equal 1 game_manager first_side_destroyed
+		globalaccum 7 trigger_if_equal 2 game_manager second_side_destroyed
+		globalaccum 7 abort_if_not_equal 2
+
+		wm_objective_status 1 1 1
+		wm_objective_status 1 0 2
+
+		wm_set_main_objective		2	0
+		wm_set_main_objective		2	1
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_addteamvoiceannounce 1 "allies_hq_compost_construct"
+
+		trigger allied_radio_built_model alliedcompostvo
+
+		wm_removeteamvoiceannounce 0 "radar_axis_entrances_defend"
+		wm_removeteamvoiceannounce 0 "radar_axis_entrance2_defend"
+
+		wm_removeteamvoiceannounce 1 "radar_allies_entrances_destroy"
+		wm_removeteamvoiceannounce 1 "radar_allies_entrance2_destroy"
+		// *---------------------------------------------------------------------------------*
+	}
+
+	trigger checkgame
+	{
+		accum 1 abort_if_not_equal 4
+		wm_setwinner 1
+		wait 1500
+		wm_endround
+	}
+}
+
+// =================================================
+generator
+{
+	spawn
+	{
+		wait 300
+		constructible_class 2 // 2=satchel  3=dyna
+	}
+
+	death
+	{
+		trigger self destroyed
+	}
+
+	trigger destroyed
+	{
+		trigger generator_toi remove
+
+		wm_announce "The Allies have destroyed the generator, the bunker security doors are opening!"
+
+		alertentity security_door
+		alertentity generator_destroyed
+		setstate generator_destroyed_smoke default
+		disablespeaker speaker_generator
+	}
+}
+
+generator_toi
+{
+	trigger remove
+	{
+		remove
+	}
+}
+
+truckbox1
+{
+	spawn
+	{
+		wait 50
+		setstate truckbox1 invisible
+		accum 1 set 0
+	}
+
+	trigger visible
+	{
+		setstate truckbox1 default
+		accum 1 abort_if_not_equal 0
+		wm_announce	"Allies have secured the West Radar Parts!"
+		wm_objective_status 2 0 2
+		wm_objective_status 2 1 1
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "radar_axis_radarw_secured"
+
+		wm_teamvoiceannounce 1 "radar_allies_radarw_secured"
+
+		wm_removeteamvoiceannounce 0 "radar_axis_radarw_defend"
+		// *---------------------------------------------------------------------------------*
+
+		accum 1 set 1
+	}
+
+	trigger invisible
+	{
+		setstate truckbox1 invisible
+	}
+}
+
+truckbox2
+{
+	spawn
+	{
+		wait 50
+		setstate truckbox2 invisible
+		accum 1 set 0
+	}
+
+	trigger visible
+	{
+		setstate truckbox2 default
+		accum 1 abort_if_not_equal 0
+		wm_announce "Allies have secured the East Radar Parts!"
+		wm_objective_status 3 0 2
+		wm_objective_status 3 1 1
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "radar_axis_radare_secured"
+
+		wm_teamvoiceannounce 1 "radar_allies_radare_secured"
+
+		wm_removeteamvoiceannounce 0 "radar_axis_radare_defend"
+		// *---------------------------------------------------------------------------------*
+
+		accum 1 set 1
+	}
+
+	trigger invisible
+	{
+		setstate truckbox2 invisible
+	}
+}
+
+truckboxtrans1
+{
+	trigger visible
+	{
+		setstate truckboxtrans1 default
+	}
+
+	trigger invisible
+	{
+		setstate truckboxtrans1 invisible
+	}
+}
+
+truckboxtrans2
+{
+	trigger visible
+	{
+		setstate truckboxtrans2 default
+	}
+
+	trigger invisible
+	{
+		setstate truckboxtrans2 invisible
+	}
+}
+
+thunderstuff
+{
+//	spawn
+//	{
+//		accum 0 set 0 //randomiser to play different lightnings and thunders
+//		trigger self random
+//	}
+
+	trigger random
+	{
+		accum 0 random 5
+		accum 0 trigger_if_equal 0 thunderstuff thunder01
+		accum 0 trigger_if_equal 1 thunderstuff thunder02
+		accum 0 trigger_if_equal 2 thunderstuff thunder03
+		accum 0 trigger_if_equal 3 thunderstuff thunder04
+		accum 0 trigger_if_equal 4 thunderstuff thunder05
+		wait 25000
+		trigger self random
+	}
+
+	trigger thunder01
+	{
+		alertentity lightning01
+		togglespeaker thunderspeaker01
+	}
+
+	trigger thunder02
+	{
+		alertentity lightning02
+		togglespeaker thunderspeaker02
+	}
+
+	trigger thunder03
+	{
+		alertentity lightning03
+		togglespeaker thunderspeaker03
+	}
+
+	trigger thunder04
+	{
+		alertentity lightning04
+		togglespeaker thunderspeaker04
+	}
+
+	trigger thunder05
+	{
+		alertentity lightning05
+		togglespeaker thunderspeaker05
+	}
+}
+
+truck_exitpoint // Exit point of map
+{
+	death
+	{
+		trigger game_manager objective_accomplished
+	}
+}
+
+// ================================================
+// ============== RADAR DISH MISC =================
+// ================================================
+
+radarbox1
+{
+	spawn
+	{
+	}
+
+	trigger stolen
+	{
+		setstate circuit1 invisible
+		trigger circuit1_radartop down
+
+		wait 1000
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "radar_axis_radarw_taken"
+
+		wm_teamvoiceannounce 1 "radar_allies_radarw_taken"
+		// *---------------------------------------------------------------------------------*
+	}
+
+	trigger returned
+	{
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "radar_axis_radarw_returned"
+
+		wm_teamvoiceannounce 1 "radar_allies_radarw_returned"
+		// *---------------------------------------------------------------------------------*
+
+		setstate circuit1 default
+		trigger circuit1_radartop up
+	}
+
+	trigger captured
+	{
+		trigger truckbox1 visible
+		trigger truckboxtrans1 invisible
+	}
+}
+
+circuit1_radartop
+{
+	spawn
+	{
+		accum 1 set 0	// 0:Down 1:Up
+		accum 2 set 0	// 0:Stationary 1:Moving
+		accum 3 set 0	// requested direction
+		wait 50
+		trigger circuit1_radartop up
+	}
+
+	trigger up
+	{
+		accum 3 set 1
+
+		accum 1 abort_if_equal 1		// Abort if UP already
+		accum 2 abort_if_equal 1		// Abort if moving already
+
+		stopsound
+		playsound sound/vehicles/misc/radar_start.wav volume 64	// radar start sound
+
+		accum 2 set 1				// Moving, DND
+		startanimation 0 35 15 nolerp norandom noloop
+		wait 2500
+		startanimation 34 1 15 norandom noloop	// Client PVS issue
+		setrotation 0 30 0
+		accum 2 set 0				// Finished
+		accum 1 set 1				// Now in UP status
+
+		enablespeaker radar1_sound	// radar spinning sound
+
+		accum 3 abort_if_equal 1
+
+		trigger self down
+	}
+
+	trigger down
+	{
+		accum 3 set 0
+
+		accum 1 abort_if_equal 0		// Abort if DOWN already
+		accum 2 abort_if_equal 1		// Abort if moving already
+
+		disablespeaker radar1_sound		// radar spinning sound
+		playsound sound/vehicles/misc/radar_end.wav volume 64	// radar stop sound
+
+		accum 2 set 1				// Moving, DND
+		stoprotation
+		startanimation 34 29 15 nolerp norandom noloop
+		wait 2500
+		startanimation 0 1 15 norandom noloop	// Client PVS issue
+		accum 2 set 0				// Finished
+		accum 1 set 0				// Now in DOWN status
+
+		accum 3 abort_if_equal 0
+
+		trigger self up
+	}
+}
+
+radarbox2
+{
+	spawn
+	{
+	}
+
+	trigger stolen
+	{
+		setstate circuit2 invisible
+		trigger circuit2_radartop down
+
+		wait 1000
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "radar_axis_radare_taken"
+
+		wm_teamvoiceannounce 1 "radar_allies_radare_taken"
+		// *---------------------------------------------------------------------------------*
+	}
+
+	trigger returned
+	{
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "radar_axis_radare_returned"
+
+		wm_teamvoiceannounce 1 "radar_allies_radare_returned"
+		// *---------------------------------------------------------------------------------*
+
+		setstate circuit2 default
+		trigger circuit2_radartop up
+	}
+
+	trigger captured
+	{
+		trigger truckbox2 visible
+		trigger truckboxtrans2 invisible
+	}
+}
+
+circuit2_radartop
+{
+	spawn
+	{
+		accum 1 set 0	// 0:Down 1:Up
+		accum 2 set 0	// 0:Stationary 1:Moving
+		accum 3 set 0	// requested direction
+		wait 2500	// Offset so both radar's don't start at the same time
+		trigger circuit2_radartop up
+	}
+
+	trigger up
+	{
+		accum 3 set 1
+
+		accum 1 abort_if_equal 1		// Abort if UP already
+		accum 2 abort_if_equal 1		// Abort if moving already
+
+		stopsound
+		playsound sound/vehicles/misc/radar_start.wav volume 64	// radar start sound
+
+		accum 2 set 1				// Moving, DND
+		startanimation 0 35 15 nolerp norandom noloop
+		wait 2500
+		startanimation 34 1 15 norandom noloop	// Client PVS issue
+		setrotation 0 30 0
+		accum 2 set 0				// Finished
+		accum 1 set 1				// Now in UP status
+
+		enablespeaker radar2_sound	// radar spinning sound
+
+		accum 3 abort_if_equal 1
+
+		trigger self down
+	}
+
+	trigger down
+	{
+		accum 3 set 0
+
+		accum 1 abort_if_equal 0		// Abort if DOWN already
+		accum 2 abort_if_equal 1		// Abort if moving already
+
+		disablespeaker radar2_sound	// radar spinning sound
+		playsound sound/vehicles/misc/radar_end.wav volume 64	// radar stop sound
+
+		accum 2 set 1				// Moving, DND
+		stoprotation
+		startanimation 34 29 15 nolerp norandom noloop
+		wait 2500
+		startanimation 0 1 15 norandom noloop	// Client PVS issue
+		accum 2 set 0				// Finished
+		accum 1 set 0				// Now in DOWN status
+
+		accum 3 abort_if_equal 0
+
+		trigger self up
+	}
+}
+
+// ================================================
+// =============== BASE ENTRANCES =================
+// ================================================
+
+maindoor1 // Front door of complex
+{
+	spawn
+	{
+		wait 50
+		constructible_class	3
+	}
+
+	death
+	{
+		trigger game_manager maindoor1_destroyed
+	}
+}
+
+sidedoor1 // Outer Side door of complex
+{
+	spawn
+	{
+		wait 50
+		constructible_class	3
+	}
+
+	death
+	{
+		trigger game_manager sidedoor1_destroyed
+	}
+}
+
+sidedoor2 // iiner Side door of complex
+{
+	spawn
+	{
+		wait 50
+		constructible_class	3
+	}
+
+	death
+	{
+		trigger game_manager sidedoor2_destroyed
+	}
+}
+
+// ================================================
+// =========== SPAWN POINT CONTROLS ===============
+// ================================================
+roadbunker
+{
+	spawn
+	{
+		accum 0 set 0	// 0-Axis, 1-Allied
+	}
+
+	trigger axis_capture	// Flag has been claimed by an axis player
+	{
+		accum 0 abort_if_equal 0 // Do Axis already own the flag?
+
+		accum 0 set 0 // Axis own the flag
+		wm_announce	"Axis reclaim the Forward Bunker!"
+
+
+		wm_objective_status 6 1 2
+		wm_objective_status 6 0 1
+
+		// spawns:
+		// Abandoned Villa
+		// Forward Bunker
+		// Lower Warehouse
+		setautospawn "Abandoned Villa" 1
+		setautospawn "Forward Bunker" 0
+
+		alertentity roadbunker_wobj
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_addteamvoiceannounce 0 "radar_axis_bunker_stop"
+
+		wm_addteamvoiceannounce 1 "radar_allies_bunker_capture"
+
+		wm_teamvoiceannounce 0 "radar_axis_bunker_reclaimed"
+
+		wm_teamvoiceannounce 1 "radar_allies_bunker_reclaimed"
+		// *---------------------------------------------------------------------------------*
+	}
+
+	trigger allied_capture	// Flag has been claimed by an allied player
+	{
+		accum 0 abort_if_equal 1 // Do Allies already own flag?
+
+		accum 0 set 1 // Allied own the flag
+		wm_announce	"Allies capture the Forward Bunker!"
+
+		wm_objective_status 6 1 1
+		wm_objective_status 6 0 2
+
+		// spawns:
+		// Abandoned Villa
+		// Forward Bunker
+		// Lower Warehouse
+		setautospawn "Forward Bunker" 1
+		setautospawn "Lower Warehouse" 0
+
+		alertentity roadbunker_wobj
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "radar_axis_bunker_captured"
+
+		wm_teamvoiceannounce 1 "radar_allies_bunker_captured"
+
+		wm_removeteamvoiceannounce 0 "radar_axis_bunker_stop"
+
+		wm_removeteamvoiceannounce 1 "radar_allies_bunker_capture"
+		// *---------------------------------------------------------------------------------*
+
+	}
+
+	trigger kill
+	{
+		trigger roadbunker force_allied
+		remove
+	}
+
+	trigger force_allied
+	{
+		accum 0 abort_if_equal 1 // Do Allies already own flag?
+
+		wm_objective_status 6 1 1
+		wm_objective_status 6 0 2
+
+		// spawns:
+		// Abandoned Villa
+		// Forward Bunker
+		// Lower Warehouse
+		setautospawn "Forward Bunker" 1
+		setautospawn "Lower Warehouse" 0
+
+		alertentity roadbunker_wobj
+		alertentity roadbunkerspawns
+	}
+
+}
+
+// *********************************************
+// ************** COMMAND POST *****************
+// *********************************************
+axis_radio_destroyed
+{
+	spawn
+	{
+		wait 200
+		accum 0 set 0
+		setstate axis_radio_destroyed invisible
+		setstate axis_radio_destroyed_model invisible
+	}
+
+	trigger hide
+	{
+		setstate axis_radio_destroyed invisible
+		setstate axis_radio_destroyed_model invisible
+	}
+
+	trigger show
+	{
+		accum 0 abort_if_equal 0
+		setstate axis_radio_destroyed default
+		setstate axis_radio_destroyed_model default
+	}
+
+	trigger enable
+	{
+		accum 0 set 1
+	}
+
+	trigger disable
+	{
+		accum 0 set 0
+	}
+}
+
+allied_radio_destroyed
+{
+	spawn
+	{
+		wait 200
+		accum 0 set 0
+		setstate allied_radio_destroyed invisible
+		setstate allied_radio_destroyed_model invisible
+	}
+
+	trigger hide
+	{
+		setstate allied_radio_destroyed invisible
+		setstate allied_radio_destroyed_model invisible
+	}
+
+	trigger show
+	{
+		accum 0 abort_if_equal 0
+		setstate allied_radio_destroyed default
+		setstate allied_radio_destroyed_model default
+	}
+
+	trigger enable
+	{
+		accum 0 set 1
+	}
+
+	trigger disable
+	{
+		accum 0 set 0
+	}
+}
+
+neutral_radio_closed
+{
+	spawn
+	{
+		accum 0 set 0
+	}
+
+	trigger hide
+	{
+		setstate neutral_radio_closed invisible
+		setstate neutral_radio_closed_model invisible
+	}
+
+	trigger show
+	{
+		accum 0 abort_if_equal 1
+		setstate neutral_radio_closed default
+		setstate neutral_radio_closed_model default
+	}
+
+	trigger disable
+	{
+		accum 0 set 1
+	}
+}
+
+allied_radio_built
+{
+	spawn
+	{
+		wait 50
+		constructible_class	2
+		trigger allied_radio_built setup
+	}
+
+	trigger setup
+	{
+		setchargetimefactor 1 soldier 1
+		setchargetimefactor 1 lieutenant 1
+		setchargetimefactor 1 medic 1
+		setchargetimefactor 1 engineer 1
+		setchargetimefactor 1 covertops 1
+		sethqstatus 1 0
+	}
+
+	buildstart final
+	{
+		trigger allied_radio_built_model trans
+		trigger axis_radio_destroyed hide
+		trigger allied_radio_destroyed hide
+		trigger neutral_radio_closed 	hide
+	}
+
+	built final
+	{
+		trigger allied_radio_built_model show
+		trigger allied_radio_destroyed enable
+		trigger axis_radio_destroyed disable
+		trigger neutral_radio_closed 	disable
+		trigger allied_radio_built_model enable_allied_features
+		trigger alliedcpspawns_obj on
+
+		enablespeaker allies_compost_sound
+		wm_objective_status 7 0 2
+		wm_objective_status 8 0 2
+		wm_objective_status 8 1 1
+	}
+
+	decayed final
+	{
+		trigger allied_radio_built_model hide
+		trigger allied_radio_destroyed show
+		trigger axis_radio_destroyed show
+		trigger neutral_radio_closed 	show
+	}
+
+	death
+	{
+		trigger allied_radio_built_model hide
+		trigger allied_radio_destroyed show
+		trigger allied_radio_built_model disable_allied_features
+		trigger alliedcpspawns_obj off
+
+		disablespeaker allies_compost_sound
+		wm_objective_status 8 0 1
+		wm_objective_status 8 1 2
+	}
+}
+
+axis_radio_built
+{
+	spawn
+	{
+		wait 50
+		constructible_class	2
+
+		wait 150
+		trigger axis_radio_built setup
+	}
+
+	trigger setup
+	{
+		setchargetimefactor 0 soldier 1
+		setchargetimefactor 0 lieutenant 1
+		setchargetimefactor 0 medic 1
+		setchargetimefactor 0 engineer 1
+		setchargetimefactor 0 covertops 1
+		sethqstatus 0 0
+	}
+
+	buildstart final
+	{
+		trigger axis_radio_built_model trans
+		trigger axis_radio_destroyed hide
+		trigger allied_radio_destroyed hide
+		trigger neutral_radio_closed 	hide
+	}
+
+	built final
+	{
+		trigger axis_radio_built_model show
+		trigger axis_radio_destroyed enable
+		trigger allied_radio_destroyed enable
+		trigger neutral_radio_closed 	disable
+		trigger axis_radio_built_model enable_axis_features
+
+		enablespeaker axis_compost_sound
+		wm_objective_status 8 1 2
+		wm_objective_status 7 0 1
+		wm_objective_status 7 1 2
+	}
+
+	decayed final
+	{
+		trigger axis_radio_built_model hide
+		trigger axis_radio_destroyed show
+		trigger allied_radio_destroyed show
+		trigger neutral_radio_closed 	show
+	}
+
+	death
+	{
+		trigger axis_radio_built_model hide
+		trigger axis_radio_destroyed show
+		trigger axis_radio_built_model disable_axis_features
+
+		disablespeaker axis_compost_sound
+		wm_objective_status 7 0 2
+		wm_objective_status 7 1 1
+	}
+}
+
+axis_radio_built_model
+{
+	spawn
+	{
+		accum 1 set 0
+		wait 200
+		setstate axis_radio_built_model invisible
+	}
+
+	trigger show
+	{
+		setstate axis_radio_built_model default
+	}
+
+	trigger hide
+	{
+		setstate axis_radio_built_model invisible
+	}
+
+	trigger trans
+	{
+		setstate axis_radio_built_model underconstruction
+	}
+
+	trigger enable_axis_features
+	{
+		// axis built it
+		setchargetimefactor 0 soldier 0.75
+		setchargetimefactor 0 lieutenant 0.75
+		setchargetimefactor 0 medic 0.75
+		setchargetimefactor 0 engineer 0.75
+		setchargetimefactor 0 covertops 0.75
+		sethqstatus 0 1
+
+		wm_objective_status	4 1 2
+		wm_objective_status	4 0 1
+		wm_objective_status	5 1 2
+		wm_objective_status	5 0 1
+
+		wm_announce	"Axis Command Post constructed. Charge speed increased!"
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "axis_hq_compost_constructed"
+
+		wm_teamvoiceannounce 1 "allies_hq_compost_constructed_axis"
+
+		wm_removeteamvoiceannounce 0 "axis_hq_compost_construct"
+		// *---------------------------------------------------------------------------------*
+	}
+
+	trigger disable_axis_features
+	{
+		// axis lost it
+		setchargetimefactor 0 soldier 1
+		setchargetimefactor 0 lieutenant 1
+		setchargetimefactor 0 medic 1
+		setchargetimefactor 0 engineer 1
+		setchargetimefactor 0 covertops 1
+		sethqstatus 0 0
+
+		wm_objective_status	4 1 0
+		wm_objective_status	4 0 0
+		wm_objective_status	5 1 0
+		wm_objective_status	5 0 0
+
+		wm_announce	"Allied team has destroyed the Axis Command Post!"
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_addteamvoiceannounce 0 "axis_hq_compost_construct"
+
+		wm_addteamvoiceannounce 1 "allies_hq_compost_construct"
+
+		wm_teamvoiceannounce 0 "axis_hq_compost_damaged"
+
+		wm_teamvoiceannounce 1 "allies_hq_compost_construct"
+		// *---------------------------------------------------------------------------------*
+	}
+}
+
+allied_radio_built_model
+{
+	spawn
+	{
+		accum 1 set 0
+		accum 2 set 0 // state of command post as far as the VO is concerned (0=not built, 1=built) - Wils
+		wait 200
+		setstate allied_radio_built_model invisible
+	}
+
+	trigger show
+	{
+		setstate allied_radio_built_model default
+		enablespeaker neutral_radio_sound
+	}
+
+	trigger hide
+	{
+		setstate allied_radio_built_model invisible
+		disablespeaker neutral_radio_sound
+	}
+
+	trigger trans
+	{
+		setstate allied_radio_built_model underconstruction
+	}
+
+	trigger alliedcompostvo
+	{
+		accum 2 abort_if_equal 1
+		wm_teamvoiceannounce 1 "allies_hq_compost_construct"
+	}
+		
+	trigger enable_allied_features
+	{
+		// allies built it
+		accum 1 set 1 // Is this ever used? - Wils
+		accum 2 set 1 // State of com post as far as VO is concerned (1=built)
+		setchargetimefactor 1 soldier 0.75
+		setchargetimefactor 1 lieutenant 0.75
+		setchargetimefactor 1 medic 0.75
+		setchargetimefactor 1 engineer 0.75
+		setchargetimefactor 1 covertops 0.75
+		sethqstatus 0 1
+
+		wm_objective_status	4 1 1
+		wm_objective_status	4 0 2
+		wm_objective_status	5 1 1
+		wm_objective_status	5 0 2
+
+		wm_announce	"Allied Command Post constructed. Charge speed increased!"
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "axis_hq_compost_constructed_allies"
+
+		wm_teamvoiceannounce 1 "allies_hq_compost_constructed"
+
+		wm_removeteamvoiceannounce 1 "allies_hq_compost_construct"
+		// *---------------------------------------------------------------------------------*
+	}
+
+	trigger disable_allied_features
+	{
+		// allies lost it
+		accum 2 set 0 // state of com post as far as VO is concerned (0=destroyed)
+		wm_announce	"Axis team has destroyed the Allied Command Post!"
+
+		setchargetimefactor 1 soldier 1
+		setchargetimefactor 1 lieutenant 1
+		setchargetimefactor 1 medic 1
+		setchargetimefactor 1 engineer 1
+		setchargetimefactor 1 covertops 1
+		sethqstatus 0 0
+
+		wm_objective_status	4 1 0
+		wm_objective_status	4 0 0
+		wm_objective_status	5 1 0
+		wm_objective_status	5 0 0
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_addteamvoiceannounce 0 "axis_hq_compost_construct"
+
+		wm_addteamvoiceannounce 1 "allies_hq_compost_construct"
+
+		wm_teamvoiceannounce 0 "axis_hq_compost_construct"
+
+		wm_teamvoiceannounce 1 "allies_hq_compost_damaged"
+		// *---------------------------------------------------------------------------------*
+	}
+}
+
+alliedcpspawns_obj
+{
+	spawn
+	{
+		wait 50
+		setstate alliedcpspawns_obj invisible
+		setstate alliedcpspawns invisible
+	}
+
+	trigger on
+	{
+		setstate alliedcpspawns_obj default
+		setstate alliedcpspawns default
+	}
+
+	trigger off
+	{
+		setstate alliedcpspawns_obj invisible
+		setstate alliedcpspawns invisible
+	}
+}
+
+alliedcpspawns
+{
+	spawn
+	{
+		wait 50
+		setstate alliedcpspawns invisible
+	}
+}
+
+// ================================================
+// ========== CONSTRUCTIBLE STUFF =================
+// ================================================
+
+// Axis ONLY - old house on main road
+mg42_clip_1
+{
+	spawn
+	{
+		wait 50
+		constructible_class	2
+		trigger mg42_clip_1 setup
+	}
+
+	trigger setup
+	{
+		setstate mg42_1 invisible
+
+		setstate mg42_materials_1 default
+		setstate mg42_materials_clip_1 default
+		setstate mg42_flag_1 default
+	}
+
+	buildstart final
+	{
+		setstate mg42_1 underconstruction
+
+		setstate mg42_materials_1 default
+		setstate mg42_materials_clip_1 default
+		setstate mg42_flag_1 default
+	}
+
+	built final
+	{
+		setstate mg42_1 default
+
+		setstate mg42_materials_1 invisible
+		setstate mg42_materials_clip_1 invisible
+		setstate mg42_flag_1 invisible
+		wm_announce "The Axis Road MG Nest has been constructed."
+	}
+
+	decayed final
+	{
+		setstate mg42_1 invisible
+
+		setstate mg42_materials_1 default
+		setstate mg42_materials_clip_1 default
+		setstate mg42_flag_1 default
+	}
+
+	death
+	{
+		setstate mg42_1 invisible
+		repairmg42 mg42_1
+		setstate mg42_materials_1 default
+		setstate mg42_materials_clip_1 default
+		setstate mg42_flag_1 default
+		wm_announce "The Axis Road MG Nest has been destroyed."
+	}
+}
+
+// Axis ONLY
+mg42_clip_2
+{
+	spawn
+	{
+		wait 50
+		constructible_class	2
+		trigger mg42_clip_2 setup
+	}
+
+	trigger setup
+	{
+		setstate mg42_2 invisible
+
+		setstate mg42_materials_2 default
+		setstate mg42_materials_clip_2 default
+		setstate mg42_flag_2 default
+	}
+
+	buildstart final
+	{
+		setstate mg42_2 underconstruction
+
+		setstate mg42_materials_2 default
+		setstate mg42_materials_clip_2 default
+		setstate mg42_flag_2 default
+	}
+
+	built final
+	{
+		setstate mg42_2 default
+
+		setstate mg42_materials_2 invisible
+		setstate mg42_materials_clip_2 invisible
+		setstate mg42_flag_2 invisible
+		wm_announce "The Axis Watchtower MG Nest has been constructed."
+	}
+
+	decayed final
+	{
+		setstate mg42_2 invisible
+
+		setstate mg42_materials_2 default
+		setstate mg42_materials_clip_2 default
+		setstate mg42_flag_2 default
+	}
+
+	death
+	{
+		setstate mg42_2 invisible
+		repairmg42 mg42_2
+		setstate mg42_materials_2 default
+		setstate mg42_materials_clip_2 default
+		setstate mg42_flag_2 default
+		wm_announce "The Axis Watchtower MG Nest has been destroyed."
+	}
+}
+
+// Axis ONLY - in forward bunker pointing towards villa
+mg42_clip_3
+{
+	spawn
+	{
+		wait 50
+		constructible_class	2
+		trigger mg42_clip_3 setup
+	}
+
+	trigger setup
+	{
+		setstate mg42_3 invisible
+		setstate mg42_materials_3 default
+		setstate mg42_materials_clip_3 default
+		setstate mg42_flag_3 default
+		setstate mg42_clip_3_pillar invisible
+	}
+
+	buildstart final
+	{
+		setstate mg42_3 underconstruction
+		setstate mg42_materials_3 default
+		setstate mg42_materials_clip_3 default
+		setstate mg42_flag_3 default
+		setstate mg42_clip_3_pillar underconstruction
+	}
+
+	built final
+	{
+		setstate mg42_3 default
+		setstate mg42_materials_3 invisible
+		setstate mg42_materials_clip_3 invisible
+		setstate mg42_flag_3 invisible
+		setstate mg42_clip_3_pillar default
+		wm_announce "The Bunker MG Nest has been constructed."
+	}
+
+	decayed final
+	{
+		setstate mg42_3 invisible
+		setstate mg42_materials_3 default
+		setstate mg42_materials_clip_3 default
+		setstate mg42_flag_3 default
+		setstate mg42_clip_3_pillar invisible
+	}
+
+	death
+	{
+		setstate mg42_3 invisible
+		repairmg42 mg42_3
+		setstate mg42_materials_3 default
+		setstate mg42_materials_clip_3 default
+		setstate mg42_flag_3 default
+		setstate mg42_clip_3_pillar invisible
+		wm_announce "The Bunker MG Nest has been destroyed."
+	}
+}
+
+// Allied version - in forward bunker pointing towards villa
+mg42_clip_3_allied
+{
+	spawn
+	{
+		wait 50
+		constructible_class	2
+		trigger mg42_clip_3_allied setup
+	}
+
+	trigger setup
+	{
+		setstate mg42_3 invisible
+		setstate mg42_materials_3 default
+		setstate mg42_materials_clip_3 default
+		setstate mg42_flag_3 default
+		setstate mg42_clip_3_pillar invisible
+	}
+
+	buildstart final
+	{
+		setstate mg42_3 underconstruction
+		setstate mg42_materials_3 default
+		setstate mg42_materials_clip_3 default
+		setstate mg42_flag_3 default
+		setstate mg42_clip_3_pillar underconstruction
+	}
+
+	built final
+	{
+		setstate mg42_3 default
+		setstate mg42_materials_3 invisible
+		setstate mg42_materials_clip_3 invisible
+		setstate mg42_flag_3 invisible
+		setstate mg42_clip_3_pillar default
+		wm_announce "The Bunker MG Nest has been constructed."
+	}
+
+	decayed final
+	{
+		setstate mg42_3 invisible
+		setstate mg42_materials_3 default
+		setstate mg42_materials_clip_3 default
+		setstate mg42_flag_3 default
+		setstate mg42_clip_3_pillar invisible
+	}
+
+	death
+	{
+		setstate mg42_3 invisible
+		repairmg42 mg42_3
+		setstate mg42_materials_3 default
+		setstate mg42_materials_clip_3 default
+		setstate mg42_flag_3 default
+		setstate mg42_clip_3_pillar invisible
+		wm_announce "The Bunker MG Nest has been destroyed."
+	}
+}
+
+// ================================================
+// ======== END CONSTRUCTIBLE STUFF ===============
+// ================================================
+
+lmscab_toi
+{
+	spawn
+	{
+		wait 50
+		remove
+	}
+}
+
+axis_hacabinet_lms
+{
+	spawn
+	{
+		wait 50
+		remove
+	}
+}
+
+lmshacab1
+{
+	spawn
+	{
+		wait 50
+		remove
+	}
+}
+
+lmshacab2
+{
+	spawn
+	{
+		wait 50
+		remove
+	}
+}
+
+////////////////////////////////////////////////////////
+tank
+{
+// accum 0, track state
+// accum 1
+//  - bit 0: barrier1 state		( 0 = not built,	1 = built		)
+//  - bit 1: barrier2 state		( 0 = not built,	1 = built		)
+//  - bit 2: spline status 		( 0 = not moving, 	1 = moving 		)
+//  - bit 3: stuck check flag 	( 0 = not stuck, 	1 = stuck 		)
+//  - bit 4: flag for message	( 0 = dont display, 1= display		)
+//  - bit 5: blank
+//  - bit 6: temp register 		(XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX)
+//  - bit 7: death status 		( 0 = alive, 		1 = dead		)
+//  - bit 8: player check 		( 0 = players, 		1 = no players	)
+//  - bit 9: visible state		( 0 = alive, 		1 = dead		)
+// accum 2, blank
+// accum 3, current movement loop position
+// accum 4, stop counter
+// accum 5, lockout ref counter
+// accum 6, blank
+// accum 7, blank
+	spawn
+	{
+		wait 400
+		followspline 0 spln0 50000 length 32 wait
+		followspline 1 spln0 50000 length 32 wait
+
+		trigger tank sound_idle
+		trigger tank tracks_stop
+
+		remapshader models/mapobjects/tanks_sd/jagdpanther_full models/mapobjects/tanks_sd/jagdpanther_full_temperate
+		remapshader models/mapobjects/tanks_sd/mg42turret models/mapobjects/tanks_sd/mg42turret_2
+		remapshaderflush
+	}
+
+	death
+	{
+		accum 1 bitset 7
+	}
+
+	rebirth
+	{
+		accum 1 bitreset 9 // we're visibly alive
+		accum 1 bitreset 7 // we're alive again
+
+		trigger self script_lockout
+
+		changemodel models/mapobjects/tanks_sd/jagdpanther_africa_tracks.md3
+
+		setstate tank_smoke invisible
+
+		wm_teamvoiceannounce 0 "axis_our_tank_repaired"
+		wm_teamvoiceannounce 1 "allies_their_tank_repaired"
+
+		trigger tank_sound rebirth
+		wait 500
+
+		trigger self script_lockout_stop
+	}
+
+	trigger barrier_built
+	{
+		accum 1 bitset 1
+	}
+
+	trigger barrier_destroyed
+	{
+		accum 1 bitreset 1
+	}
+
+	trigger deathcheck
+	{
+		accum 1 abort_if_not_bitset 7	// abort if tank not damaged
+		accum 1 abort_if_bitset 9	// abort if tank already visibly dead
+		accum 1 abort_if_bitset 2	// abort if we are following a spline
+		accum 5 abort_if_not_equal 0	// abort if we are in a script lockout
+
+		accum 1 bitset 9				// we're now visibly dead
+
+		trigger self deathcheck_message
+		accum 1 bitset 4
+
+		changemodel models/mapobjects/tanks_sd/jagdpanther_africa_tracks2.md3
+		setstate tank_smoke default
+
+		kill tank_construct
+
+		trigger self sound_death
+		trigger self tracks_stop
+
+		trigger self script_lockout
+
+		trigger self tracks_stop
+		startanimation 45 10 15 nolerp norandom
+		wait 666
+		startanimation 0 1 15 nolerp norandom
+
+		trigger self script_lockout_stop
+
+		resetscript
+	}
+
+	trigger deathcheck_message
+	{
+		accum 1 abort_if_not_bitset 4
+
+		wm_announce "The tank has been damaged!"
+
+		wm_teamvoiceannounce 0 "axis_our_tank_damaged"
+		wm_teamvoiceannounce 1 "allies_their_tank_damaged"
+	}
+
+	// ========================
+	// movement
+
+	trigger dispatch
+	{
+		accum 3 trigger_if_equal 0 tank run_0
+		accum 3 trigger_if_equal 1 tank run_1
+		accum 3 trigger_if_equal 2 tank run_2
+		accum 3 trigger_if_equal 3 tank run_3
+		accum 3 trigger_if_equal 4 tank run_4
+		accum 3 trigger_if_equal 5 tank run_5
+		accum 3 trigger_if_equal 6 tank run_6
+		accum 3 trigger_if_equal 7 tank run_7
+		accum 3 trigger_if_equal 8 tank run_8
+		accum 3 trigger_if_equal 9 tank run_9
+		accum 3 trigger_if_equal 10 tank run_10
+		accum 3 trigger_if_equal 11 tank run_11
+		accum 3 trigger_if_equal 12 tank run_12
+		accum 3 trigger_if_equal 13 tank run_13
+		accum 3 trigger_if_equal 14 tank run_14
+		accum 3 trigger_if_equal 15 tank run_15
+		accum 3 trigger_if_equal 16 tank run_16
+		accum 3 trigger_if_equal 17 tank run_17
+	}
+
+	trigger move
+	{
+		trigger self move_check
+		wait 500
+		trigger self move
+	}
+
+	trigger move_check
+	{
+		trigger self stuck_check
+		accum 1 abort_if_bitset 3
+
+		trigger self dispatch
+	}
+
+	trigger run_continue
+	{
+		accum 3 inc 1
+
+		trigger self deathcheck
+		trigger self stopcheck
+		trigger self move
+	}
+
+	trigger run_0
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 spln0 20 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_1
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 spln1 30 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_2
+	{
+		trigger self tracks_turn_left
+		accum 1 bitset 2
+		followspline 0 spln2 40 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_3
+	{
+		trigger self tracks_turn_left
+		accum 1 bitset 2
+		followspline 0 spln3 50 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_4
+	{
+		trigger self tracks_turn_left
+		accum 1 bitset 2
+		followspline 0 spln4 60 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_5
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 spln5 70 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_6
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 spln6 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_7
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 spln7 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_8
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 spln8 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_9
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 spln9 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_10
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 spln10 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_11
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 spln11 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_12
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 spln12 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_13
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 spln13 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_14
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 spln14 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_15
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 spln15 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_16
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 spln16 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_17
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 spln17 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self script_lockout
+
+		accum 3 inc 1
+
+		trigger tank_sound stop
+		trigger self tracks_stop		
+		startanimation 5 10 15 nolerp norandom	// stopping
+		wait 666
+		startanimation 0 1 15 nolerp norandom	// stopped
+
+		trigger tank sound_death
+		trigger tank script_lockout_stop
+	}
+
+	// =========================
+	// script lockouts
+
+	trigger script_lockout
+	{
+		accum 5 inc 1
+	}
+
+	trigger script_lockout_stop
+	{
+		accum 5 inc -1
+	}
+
+	trigger sound_idle
+	{
+		stopsound
+		playsound sound/vehicles/tank/tank_idle.wav looping volume 512
+	}
+
+	trigger sound_start
+	{
+		stopsound
+		playsound sound/vehicles/tank/tank_revup.wav volume 196
+	}
+
+	trigger sound_move
+	{
+		stopsound
+		playsound sound/vehicles/tank/tank_move.wav looping volume 512
+	}
+
+	trigger sound_stop
+	{
+		stopsound
+		playsound sound/vehicles/tank/tank_revdown.wav volume 196
+	}
+
+	trigger sound_death
+	{
+		stopsound
+		playsound sound/vehicles/tank/tank_stop.wav volume 256
+	}
+
+	trigger sound_rebirth
+	{
+		stopsound
+		playsound sound/vehicles/tank/tank_start.wav volume 196
+	}
+
+	// ================================
+	// stop check
+	trigger stopcheck
+	{
+		trigger self stopcheck_setup
+		accum 1 abort_if_not_bitset 6
+
+		trigger self script_lockout
+
+		trigger tank_sound 	stop
+		trigger self 		tracks_stop
+		startanimation 45 	10 	15 nolerp norandom
+		wait 666
+		startanimation 0 	1 	15 nolerp norandom
+		wait 900
+
+		trigger self script_lockout_stop
+		resetscript
+	}
+
+	trigger stopcheck_setup
+	{
+		accum 1 bitset 6				// stop if we're stuck/no-one's pushing :)
+
+		accum 1 abort_if_bitset 8		// no one in the trigger, abort
+
+		trigger self stuck_check		// call the stop check function
+		accum 1 abort_if_bitset 3		// we're stuck so break out
+
+		accum 1 bitreset 6			// we're free to move
+	}
+
+	// ======================================
+	// stuck checking
+
+	trigger stuck_check
+	{
+		accum 1 bitreset 3
+
+	//	trigger self stuck_check_barrier
+		trigger self stuck_check_scriptlockout
+		trigger self stuck_check_finished
+	}
+
+	trigger stuck_check_finished
+	{
+	//	The check should be the final spln nbr + 1
+		accum 3 abort_if_less_than 18
+		accum 1 bitset 3
+	}
+
+	trigger stuck_check_scriptlockout
+	{
+		accum 5 abort_if_equal 0
+		accum 1 bitset 3
+	}
+
+	//trigger stuck_check_barrier
+	//{
+	//	accum 3 abort_if_not_equal 3
+	//	globalaccum 0 abort_if_not_bitset 0	// abort if barrier not built
+	//	accum 1 bitset 3
+	//}
+
+	trigger tank_disable
+	{
+		accum 4 inc 1				// up the stop counter
+		accum 4 abort_if_less_than 4
+
+		accum 1 bitset 8				// set stop check
+
+		trigger self deathcheck
+	}
+
+	trigger tank_enable
+	{
+		trigger self stuck_check
+		accum 1 abort_if_bitset 3 	// stuck check
+
+		accum 4 set 0			// reset stop counter
+		accum 1 bitreset 8		// reset stop check
+
+		accum 1 abort_if_bitset 2 	// already following spline
+		accum 5 abort_if_not_equal 0	// are we not in a script lockout?
+
+		accum 1 abort_if_bitset 7 	// death check
+
+		trigger self script_lockout
+
+		trigger tank_sound start
+
+		startanimation 55 10 15 nolerp norandom
+		wait 666
+		startanimation 5 40 15 nolerp norandom
+		wait 500
+		trigger self tracks_forward
+
+		trigger self script_lockout_stop
+
+		trigger self move
+	}
+
+	trigger tracks_forward
+	{
+		accum 0 abort_if_equal 1
+		accum 0 set 1
+
+		remapshader models/mapobjects/tanks_sd/jag_tracks_left 	models/mapobjects/tanks_sd/jag_tracks_alt_forward
+		remapshader models/mapobjects/tanks_sd/jag_tracks_right models/mapobjects/tanks_sd/jag_tracks_alt_forward
+		remapshader models/mapobjects/tanks_sd/jag_wheels_left 	models/mapobjects/tanks_sd/jag_wheels_alt_forward
+		remapshader models/mapobjects/tanks_sd/jag_wheels_right models/mapobjects/tanks_sd/jag_wheels_alt_forward
+		remapshader models/mapobjects/tanks_sd/jag_cogs_left 	models/mapobjects/tanks_sd/jag_cogs_alt_forward
+		remapshader models/mapobjects/tanks_sd/jag_cogs_right 	models/mapobjects/tanks_sd/jag_cogs_alt_forward
+
+		remapshaderflush
+	}
+
+	trigger tracks_stop
+	{
+		accum 0 abort_if_equal 0
+		accum 0 set 0
+
+		remapshader models/mapobjects/tanks_sd/jag_tracks_left 	models/mapobjects/tanks_sd/jag_tracks_left
+		remapshader models/mapobjects/tanks_sd/jag_tracks_right models/mapobjects/tanks_sd/jag_tracks_right
+		remapshader models/mapobjects/tanks_sd/jag_wheels_left 	models/mapobjects/tanks_sd/jag_wheels_left
+		remapshader models/mapobjects/tanks_sd/jag_wheels_right models/mapobjects/tanks_sd/jag_wheels_right
+		remapshader models/mapobjects/tanks_sd/jag_cogs_left 	models/mapobjects/tanks_sd/jag_cogs_left
+		remapshader models/mapobjects/tanks_sd/jag_cogs_right 	models/mapobjects/tanks_sd/jag_cogs_right
+
+		remapshaderflush
+	}
+
+	trigger tracks_turn_left
+	{
+		accum 0 abort_if_equal 2
+		accum 0 set 2
+
+		remapshader models/mapobjects/tanks_sd/jag_tracks_left 	models/mapobjects/tanks_sd/jag_tracks_alt_backward
+		remapshader models/mapobjects/tanks_sd/jag_tracks_right models/mapobjects/tanks_sd/jag_tracks_alt_forward
+		remapshader models/mapobjects/tanks_sd/jag_wheels_left 	models/mapobjects/tanks_sd/jag_wheels_alt_backward
+		remapshader models/mapobjects/tanks_sd/jag_wheels_right models/mapobjects/tanks_sd/jag_wheels_alt_forward
+		remapshader models/mapobjects/tanks_sd/jag_cogs_left 	models/mapobjects/tanks_sd/jag_cogs_alt_backward
+		remapshader models/mapobjects/tanks_sd/jag_cogs_right 	models/mapobjects/tanks_sd/jag_cogs_alt_forward
+
+		remapshaderflush
+	}
+
+	trigger tracks_turn_right
+	{
+		accum 0 abort_if_equal 3
+		accum 0 set 3
+
+		remapshader models/mapobjects/tanks_sd/jag_tracks_left 	models/mapobjects/tanks_sd/jag_tracks_alt_forward
+		remapshader models/mapobjects/tanks_sd/jag_tracks_right models/mapobjects/tanks_sd/jag_tracks_alt_backward
+		remapshader models/mapobjects/tanks_sd/jag_wheels_left 	models/mapobjects/tanks_sd/jag_wheels_alt_forward
+		remapshader models/mapobjects/tanks_sd/jag_wheels_right models/mapobjects/tanks_sd/jag_wheels_alt_backward
+		remapshader models/mapobjects/tanks_sd/jag_cogs_left 	models/mapobjects/tanks_sd/jag_cogs_alt_forward
+		remapshader models/mapobjects/tanks_sd/jag_cogs_right 	models/mapobjects/tanks_sd/jag_cogs_alt_backward
+
+		remapshaderflush
+	}
+
+	//trigger startfire
+	//{
+	//	startanimation 67 8 10 nolerp norandom noloop
+	//}
+
+	//trigger stopfire
+	//{
+	//	startanimation 0 1 15 nolerp norandom
+	//}
+}
+
+tank_build
+{
+	spawn
+	{
+		wait 500
+		attachtotag tank_shell tag_turret
+	}
+}
+
+tank_construct
+{
+	spawn
+	{
+		wait 1000
+
+		kill tank
+
+		constructible_class 2
+		constructible_health 1200
+		constructible_constructxpbonus 10
+		constructible_destructxpbonus 10
+	}
+
+	built final
+	{
+		alertentity tank
+	//	wm_announce "The tank has been repaired!"
+	}
+}
+
+tank_disabler
+{
+	trigger run
+	{
+		trigger tank tank_disable
+	}
+}
+
+tank_enabler
+{
+	trigger run
+	{
+		trigger tank tank_enable
+	}
+}
+
+tank_shell
+{
+	spawn
+	{
+		wait 400
+		attachtotag tank tag_tank
+	}
+}
+
+tank_smoke
+{
+	spawn
+	{
+		wait 300
+		attachtotag tank_shell tag_smoke
+		setstate tank_smoke invisible
+	}
+}
+
+tank_sound
+{
+	trigger start
+	{
+		trigger tank sound_start
+		wait 3400
+		trigger tank sound_move
+	}
+
+	trigger stop
+	{
+		trigger tank sound_stop
+		wait 1400
+		trigger tank sound_idle
+	}
+
+	trigger rebirth
+	{
+		trigger tank sound_rebirth
+		wait 1400
+		trigger tank sound_idle
+	}
+}
+
+tank_trigger
+{
+	spawn
+	{
+		wait 500
+		attachtotag tank_shell tag_turret
+	}
+}
+
+tank_turret
+{
+	spawn
+	{
+		wait 500
+		attachtotag tank_shell tag_turret
+	}
+}
+
+///////////////////////////////////////////////////////
+radar_north_fe
+{
+	spawn
+	{
+		wait 300
+		constructible_class 3
+	}
+
+	death
+	{
+		trigger radar_north_toi remove
+		setstate radar_north_smoke default
+		setstate radar_north_fr invisible
+		disablespeaker speaker_radar_north
+
+		wm_announce "The Allies have destroyed the North Radar Station!"
+		wm_teamvoiceannounce 0 "axis_objective_destroyed"
+		wm_teamvoiceannounce 1 "allies_objective_destroyed"
+
+		wm_objective_status 4 0 2
+		wm_objective_status 4 1 1
+
+		trigger game_manager objective_accomplished
+	}
+}
+
+radar_north_toi
+{
+	trigger remove
+	{
+		remove
+	}
+}
+
+///////////////////////////////////////////////////////
+radar_south_fe
+{
+	spawn
+	{
+		wait 300
+		constructible_class 3
+	}
+
+	death
+	{
+		trigger radar_south_toi remove
+		setstate radar_south_smoke default
+		setstate radar_south_fr invisible
+		disablespeaker speaker_radar_south
+
+		wm_announce "The Allies have destroyed the South Radar!"
+		wm_teamvoiceannounce 0 "axis_objective_destroyed"
+		wm_teamvoiceannounce 1 "allies_objective_destroyed"
+
+		wm_objective_status 5 0 2
+		wm_objective_status 5 1 1
+
+		trigger game_manager objective_accomplished
+	}
+}
+
+radar_south_toi
+{
+	trigger remove
+	{
+		remove
+	}
+}
+
+roadhutspawns
+{
+spawn
+{
+wait 100
+remove
+}
+}

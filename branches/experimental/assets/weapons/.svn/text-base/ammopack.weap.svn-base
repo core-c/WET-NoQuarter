@@ -1,0 +1,30 @@
+weaponDef
+{
+	both {
+		name					"Ammunition Pack"
+		statname				"Ammunition"
+	}
+
+	client {
+		pickupModel				"models/multiplayer/ammopack/ammopack_pickup.md3"
+
+		weaponConfig			"models/multiplayer/ammopack/weapon.cfg"
+		handsModel				"models/multiplayer/ammopack/v_ammopack_hand.md3"
+
+		flashSound				"sound/misc/bag_toss.wav"
+
+		weaponIcon				"icons/iconw_ammopack"
+		weaponSelectedIcon		"icons/iconw_ammopack_1_select"
+
+		modModel 0				"models/multiplayer/supplies/ammobox_2"
+		modModel 1				"models/multiplayer/supplies/ammobox_3"
+
+		firstPerson {
+			model				"models/multiplayer/ammopack/v_ammopack.md3"
+		}
+
+		thirdPerson {
+			model				"models/multiplayer/ammopack/ammopack.md3"
+		}
+	}
+}

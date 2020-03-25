@@ -1,0 +1,75 @@
+weaponDef
+{
+	both {
+		name					"Thompson"
+		statname				"Thompson"
+		damage					18
+		spread					400
+		spreadRatio				0.6
+		SpreadScaleAdd			15
+		SpreadScaleAddRand		10
+		viewchange2spread
+		CrouchSpreadRatio		0.6
+		ProneSpreadRatio		0.6
+		selfKillMessage			"found a way to shoot himself!"
+		KillMessage				"was killed by"
+		KillMessage2			"'s Thompson."
+		headshotWeapon
+	 	bulletReflection
+		DistanceFalloff
+	}
+
+	client {
+		standModel				"models/weapons2/thompson/thompson_stand.mdc"
+		pickupModel				"models/weapons2/thompson/thompson_3rd.md3"
+		bounceSound				"sound/weapons/weaponbounce.wav"
+		clipBounceSound			"sound/weapons/clipbounce.wav"
+
+		weaponConfig			"models/weapons2/thompson/weapon.cfg"
+		handsModel				"models/weapons2/thompson/v_thompson_hand.mdc"
+
+		flashDlightColor		1.0 0.6 0.23
+		flashSound				"sound/weapons/thompson/thompson_fire.wav"
+		flashEchoSound			"sound/weapons/thompson/thompson_far.wav"
+
+		reloadSound				"sound/weapons/thompson/thompson_reload.wav"
+		reloadFastSound			"sound/weapons/thompson/thompson_reload_fast.wav"
+
+		weaponIcon				"icons/iconw_thompson"
+		weaponSelectedIcon		"icons/iconw_thompson_1_select"
+
+		ejectBrassFunc			"MachineGunEjectBrass"
+		brassmodel				"models/weapons2/shells/45ACPshell.md3"
+
+		firstPerson {
+			model				"models/weapons2/thompson/v_thompson.mdc"
+			flashModel			"models/weapons2/thompson/v_thompson_flash.mdc"
+
+			weaponLink
+			{
+				part 0
+				{
+					tag			"tag_barrel"
+					model		"models/weapons2/thompson/v_thompson_barrel.mdc"
+				}
+				part 1
+				{
+					tag			"tag_barrel2"
+					model		"models/weapons2/thompson/v_thompson_barrel2.mdc"
+				}
+				part 2
+				{
+					tag			"tag_barrel3"
+					model		"models/weapons2/thompson/v_thompson_barrel3.mdc"
+					axisskin	"models/weapons2/thompson/thompson_axis.skin"
+					alliedskin	"models/weapons2/thompson/thompson_allied.skin"
+				}
+			}
+		}
+
+		thirdPerson {
+			model				"models/weapons2/thompson/thompson_3rd.md3"
+			flashmodel			"models/weapons2/thompson/thompson_flash.mdc"
+		}
+	}
+}

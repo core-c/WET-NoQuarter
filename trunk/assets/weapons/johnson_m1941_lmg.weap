@@ -1,0 +1,101 @@
+weaponDef
+{
+	both {
+		name					"Johnson M41 LMG"
+		statname				"Johnson"
+		damage					15
+		spread					500
+		spreadRatio				0.9
+		SpreadScaleAdd			100
+		viewchange2spread
+		CrouchSpreadRatio		0.6
+		ProneSpreadRatio		0.6
+		selfKillMessage			"found a way to shoot himself!"
+		KillMessage				"was killed by"
+		KillMessage2			"'s Johnson M41 LMG."
+		headshotWeapon
+	 	bulletReflection
+		DistanceFalloff
+	}
+
+	both_altweap {
+		name					"johnson"
+		damage					30
+		spread					200
+		spreadRatio				7.0
+		SpreadScaleAdd			100
+		velocity2spread
+		recoilDuration			100
+		recoilPitch				0.45
+		recoilYaw				0.0
+		selfKillMessage			"found a way to shoot himself!"
+		KillMessage				"was sniped by"
+		KillMessage2			"'s Johnson M41 LMG."
+		headshotWeapon
+		bulletReflection
+	}
+	
+	client {
+		foreShorten				0.75
+			
+		pickupModel				"models/weapons2/johnson/johnson.md3"
+		droppedAnglesHack
+		bounceSound				"sound/weapons/weaponbounce.wav"
+		clipBounceSound			"sound/weapons/clipbounce.wav"
+		
+		weaponConfig			"models/weapons2/johnson/weapon.cfg"
+		handsModel				"models/weapons2/johnson/v_johnson_hand.md3"
+		
+		flashDlightColor		1.0 0.6 0.23
+		flashSound				"sound/weapons/johnson/johnson_fire.wav"
+		flashEchoSound			"sound/weapons/johnson/johnson_far.wav"
+		
+		reloadSound				"sound/weapons/bar/bar_reload.wav"
+		
+		weaponIcon				"icons/iconw_johnson"
+		weaponSelectedIcon		"icons/iconw_johnson_1_select"
+		
+		ejectBrassFunc			"MachineGunEjectBrass"
+		brassmodel				"models/weapons2/shells/792shell.md3"
+		
+		firstPerson {
+			model				"models/weapons2/johnson/v_johnson.mdc"
+			flashModel			"models/weapons2/johnson/v_johnson_flash.mdc"
+
+			weaponLink
+			{
+				part 0
+				{
+					tag			"tag_barrel2"
+					model		"models/weapons2/johnson/v_johnson_barrel2.md3"
+				}
+				part 1
+				{
+					tag			"tag_barrel3"
+					model		"models/weapons2/johnson/v_johnson_barrel3.md3"
+					axisskin	"models/weapons2/johnson/johnson_axis.skin"
+					alliedskin	"models/weapons2/johnson/johnson_allied.skin"
+				}
+				part 2
+				{
+					tag			"tag_barrel4"
+					model		"models/weapons2/johnson/v_johnson_barrel4.mdc"
+				}
+			}
+		}
+		
+		thirdPerson {
+			model				"models/weapons2/johnson/johnson.md3"
+			flashmodel			"models/weapons2/johnson/johnson_flash.mdc"
+			
+			weaponLink
+			{
+				part 0
+				{
+					tag			"tag_barrel"
+					model		"models/weapons2/johnson/johnson_barrel.mdc"
+				}
+			}
+		}
+	}
+}

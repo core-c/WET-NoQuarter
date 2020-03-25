@@ -1,0 +1,54 @@
+weaponDef
+{
+	both {
+		name					"KA-BAR"
+		statname				"Knife"
+		damage					10
+		splashdamage			0
+		splashdamage_radius		0
+		selfKillMessage			"played with knives!"
+		KillMessage				"was stabbed by"
+		KillMessage2			"'s KA-BAR."
+		headshotWeapon
+	}
+
+	client {
+		droppedangleshack
+		pickupModel				"models/weapons2/knife_kbar/knife_throw.md3"
+
+		weaponConfig			"models/multiplayer/knife/weapon.cfg"
+		handsModel				"models/multiplayer/knife/v_knife_hand.md3"
+
+		flashSound				"sound/weapons/knife/knife_slash1.wav"
+		flashSound				"sound/weapons/knife/knife_slash2.wav"
+		flashSound				"sound/weapons/knife/knife_slash3.wav"
+
+		weaponIcon				"icons/iconw_knife_kbar"
+		weaponSelectedIcon		"icons/iconw_knife_kbar_1_select"
+
+		modModel 0				"models/weapons2/knife_kbar/knife_yd_blood"
+		modModel 1				"models/weapons2/knife_kbar/knife_yd_blood50"
+		modModel 2				"models/weapons2/knife_kbar/knife_yd_blood100"
+		modModel 3				"models/weapons2/knife_kbar/knife_yd_blood150"
+		modModel 4				"models/weapons2/knife_kbar/knife_yd_blood200"
+
+		firstPerson {
+			model				"models/multiplayer/knife/v_knife.md3"
+			axisskin			"models/weapons2/knife_kbar/knife_axis.skin"
+			alliedskin			"models/weapons2/knife_kbar/knife_allied.skin"
+
+			weaponLink
+			{
+				part 0
+				{
+					tag			"tag_barrel"
+					model		"models/weapons2/knife_kbar/v_knife_barrel.md3"
+				}
+			}
+		}
+
+		thirdPerson {
+			model				"models/weapons2/knife_kbar/knife.md3"
+		}
+	}
+}

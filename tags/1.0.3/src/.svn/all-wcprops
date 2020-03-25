@@ -1,0 +1,77 @@
+K 25
+svn:wc:ra_dav:version-url
+V 35
+/svn/nq/!svn/ver/438/tags/1.0.3/src
+END
+FrankenMod.sln
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/nq/!svn/ver/438/tags/1.0.3/src/FrankenMod.sln
+END
+SConscript.game
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/nq/!svn/ver/438/tags/1.0.3/src/SConscript.game
+END
+makebundle.sh
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/nq/!svn/ver/438/tags/1.0.3/src/makebundle.sh
+END
+ETNQ.sln
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/svn/nq/!svn/ver/438/tags/1.0.3/src/ETNQ.sln
+END
+SConscript.cgame
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/nq/!svn/ver/438/tags/1.0.3/src/SConscript.cgame
+END
+ETNQ.dsw
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/svn/nq/!svn/ver/438/tags/1.0.3/src/ETNQ.dsw
+END
+SConscript.ui
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/nq/!svn/ver/438/tags/1.0.3/src/SConscript.ui
+END
+package.sh
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/nq/!svn/ver/438/tags/1.0.3/src/package.sh
+END
+cross-scons.sh
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/nq/!svn/ver/438/tags/1.0.3/src/cross-scons.sh
+END
+SConstruct
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/nq/!svn/ver/438/tags/1.0.3/src/SConstruct
+END
+NoQuarter (VC2005).sln
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/nq/!svn/ver/438/tags/1.0.3/src/NoQuarter%20(VC2005).sln
+END
+scons_utils.py
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/nq/!svn/ver/438/tags/1.0.3/src/scons_utils.py
+END

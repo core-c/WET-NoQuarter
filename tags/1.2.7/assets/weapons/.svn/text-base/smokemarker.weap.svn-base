@@ -1,0 +1,29 @@
+weaponDef
+{
+	both {
+		name					"Smoke Marker"
+		statname				"Airstrike"
+	}
+
+	client {
+		weaponConfig			"models/multiplayer/smokegrenade/weapon.cfg"
+		handsModel				"models/multiplayer/smokegrenade/v_smokegrenade_hand.md3"
+
+		flashEchoSound			"sound/weapons/grenade/gren_expl.wav"
+
+		weaponIcon				"icons/iconw_smokegrenade"
+		weaponSelectedIcon		"icons/iconw_smokegrenade_1_select"
+
+		missileModel			"models/multiplayer/smokegrenade/smokegrenade.md3"
+		missileTrailFunc		"PyroSmokeTrail"
+		missileDlight			200
+
+		firstPerson {
+			model				"models/multiplayer/smokegrenade/v_smokegrenade.md3"
+		}
+
+		thirdPerson {
+			model				"models/multiplayer/smokegrenade/smokegrenade.md3"
+		}
+	}
+}

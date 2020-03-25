@@ -1,0 +1,51 @@
+weaponDef
+{
+	both {
+		name					"Satchel Charge Detonator"
+		statname				"Satchel"
+		selfKillMessage			"embraced his own satchel explosion."
+		KillMessage				"was blasted by"
+		KillMessage2			"'s Satchel Charge."
+		GibbingWeapon
+	}
+
+	client {
+		weaponConfig			"models/multiplayer/satchel/weapon.cfg"
+		handsModel				"models/multiplayer/satchel/v_satchel_hand.md3"
+
+		readySound				"sound/weapons/satchel/remote_hum.wav"
+		spinupSound				"sound/weapons/satchel/remote_fire.wav"
+
+		weaponIcon				"icons/iconw_radio"
+		weaponSelectedIcon		"icons/iconw_radio_1_select"
+
+		modModel 0				"models/multiplayer/satchel/light.md3"
+		modModel 1				"models/multiplayer/satchel/needle.md3"
+		modModel 2				"models/multiplayer/satchel/lightred_off"
+		modModel 3				"models/multiplayer/satchel/lightred_on"
+		modModel 4				"models/multiplayer/satchel/lightgreen_off"
+		modModel 5				"models/multiplayer/satchel/lightgreen_on"
+
+		firstPerson {
+			model				"models/multiplayer/satchel/v_satchel.md3"
+
+			weaponLink
+			{
+				part 0
+				{
+					tag			"tag_barrel"
+					model		"models/multiplayer/satchel/v_satchel_barrel.md3"
+				}
+				part 1
+				{
+					tag			"tag_barrel2"
+					model		"models/multiplayer/satchel/v_satchel_barrel2.md3"
+				}
+			}
+		}
+
+		thirdPerson {
+			model				"models/multiplayer/satchel/radio.md3"
+		}
+	}
+}

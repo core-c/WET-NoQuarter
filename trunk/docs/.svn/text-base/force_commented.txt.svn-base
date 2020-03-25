@@ -1,0 +1,11 @@
+// force.cfg file forces some client cvars to current default values.
+// Client CVARs are NOT re-set if clients download a new mod version
+// and the mod is already installed.
+// We don't want to rename CVARs which is as alternative
+// instead just set g_ForceCvarFile "force.cfg" in your NQ config. 
+
+// Feel free to add any other forcecvar commands in force.cfg but keep in mind they are 
+// part of the configstring! (MAX_GAMECHARS). If you run into trouble you know why.
+
+// Fixes SMG/dual preselection issue
+forcecvar cg_limbo_secondary "2"

@@ -1,0 +1,197 @@
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/src
+END
+Makefile.netware
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/src/Makefile.netware
+END
+Makefile.in
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/src/Makefile.in
+END
+Makefile.inc
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/src/Makefile.inc
+END
+setup.h
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/src/setup.h
+END
+urlglob.c
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/src/urlglob.c
+END
+hugehelp.h
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/src/hugehelp.h
+END
+getpass.c
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/src/getpass.c
+END
+mkhelp.pl
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/src/mkhelp.pl
+END
+config-riscos.h
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/src/config-riscos.h
+END
+config-win32.h
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/src/config-win32.h
+END
+urlglob.h
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/src/urlglob.h
+END
+getpass.h
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/src/getpass.h
+END
+config-vms.h
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/src/config-vms.h
+END
+writeout.c
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/src/writeout.c
+END
+homedir.c
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/src/homedir.c
+END
+writeout.h
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/src/writeout.h
+END
+curl.rc
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/src/curl.rc
+END
+config-amigaos.h
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/src/config-amigaos.h
+END
+homedir.h
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/src/homedir.h
+END
+Makefile.riscos
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/src/Makefile.riscos
+END
+writeenv.c
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/src/writeenv.c
+END
+writeenv.h
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/src/writeenv.h
+END
+config-mac.h
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/src/config-mac.h
+END
+makefile.amiga
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/src/makefile.amiga
+END
+config.h.in
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/src/config.h.in
+END
+Makefile.b32
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/src/Makefile.b32
+END
+main.c
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/src/main.c
+END
+makefile.dj
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/src/makefile.dj
+END
+Makefile.am
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/src/Makefile.am
+END
+Makefile.vc6
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/src/Makefile.vc6
+END
+version.h
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/src/version.h
+END
+Makefile.m32
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/src/Makefile.m32
+END

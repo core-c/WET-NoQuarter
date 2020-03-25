@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/packages
+END
+Makefile.in
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/packages/Makefile.in
+END
+Makefile.am
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/packages/Makefile.am
+END
+README
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/packages/README
+END

@@ -1,0 +1,403 @@
+//Kmod version 1.5 beta
+//By Clutch152
+//This file is required for use!!! Otherwise all values will default blank and nothing will work and could possibly crash!!!!!!!
+
+//**************************************************************************************
+//Auto Panzer Disable
+set k_autopanzerdisable "0"
+set k_panzerplayerlimit "2" //Minimum Players to Activate Panzers
+set k_panzersperteam "1" // Maximum Panzers per team
+
+
+//**************************************************************************************
+//Cursefilter
+
+set k_cursemode "34"
+
+//Set Cursemod (bitflag)
+// 1  - mute           (can be unmuted if they reconnect *OVERRIDEABLE BY NEXT TWO OPTIONS)
+// 2  - timed mute     (See mute time *OVERRIDEABLE BY NEXT OPTION)
+// 4  - Permanent mute (Permanently mutes by IP address *OVERRIDES TIMED AND REGULAR MUTE)
+// 8  - slap player    (like removes a small amount of hp from player *OVERRIDEABLE BY NEXT TWO OPTIONS)
+// 16 - kill player    (kills player but is still reviveable *OVERRIDEABLE BY NEXT OPTION)
+// 32 - GIB            (makes player explode into pieces *OVERRIDES SLAP AND KILL)
+
+//The mute time for option 2 doubles each offense and is saved in a file along with permanent mutes.
+//**************************************************************************************
+
+
+//**************************************************************************************
+//Set Custom Admin Levels!!!!!!!!!!!!!!!!!!!!!
+
+set k_maxAdminLevels "9"
+
+//Set Built In Commands
+//Feel free to move the commands around and/or add more sets according to k_maxAdminLevels.
+//For example:  If k_maxAdminLevels is set to 9 then you can make k_admin9 and all those in between.
+
+set k_Admin0 "admintest listcmds time date spree_record tk_index spec999"
+set k_Admin1 ""
+set k_Admin2 ""
+set k_Admin3 ""
+set k_Admin4 "finger kick mute unmute warn"
+set k_Admin5 "pmute "
+set k_Admin6 ""
+set k_Admin7 "makeshoutcaster removeshoutcaster "
+set k_Admin8 "ban readconfig getip getguid setlevel "
+set k_admin9 "makereferee removereferee gravity speed knifeonly knockback cheats laser spree_restart crazygravity gib slap panzerwar frenzy grenadewar sniperwar timelimit"
+
+//**************************************************************************************
+
+
+
+
+
+
+
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+//k_sprees - This cvar enables or disables killingsprees
+//Includes sounds when disabled.
+//Valid values are 1 or 0
+//Default value = 1
+set k_sprees "1"
+
+//spree Misc
+set k_spree1_amount "5"
+set k_spree2_amount "10"
+set k_spree3_amount "15"
+set k_spree4_amount "20"
+set k_spree5_amount "25"
+set k_spree6_amount "30"
+
+//1 = chat area
+//2 = center screen area
+//3 = top of screen
+set k_ks_location "3"
+
+//Custom Deathspree messages
+//Aliases:
+//  #killer#  - killer's name
+//  #kills#  - number of kills
+set k_ks_message1 "^7#killer# ^1is on a killingspree! ^2(^1#kills#^2)"
+set k_ks_message2 "^7#killer# ^1is on a rampage! ^2(^1#kills#^2)"
+set k_ks_message3 "^7#killer# ^1is dominating! ^2(^1#kills#^2)"
+set k_ks_message4 "^7#killer# ^1is unstopable! ^2(^1#kills#^2)"
+set k_ks_message5 "^7#killer# ^1is godlike! ^2(^1#kills#^2)"
+set k_ks_message6 "^7#killer# ^1is wicked sick! ^2(^1#kills#^2)"
+
+//---------------------------------------
+//Spree ending messages
+//Aliases:
+//  #killer#  - killer's name
+//  #kills#  - number of kills
+//  #victim#  - victim's name
+
+//Death by player
+set k_end_message1 "^7#killer# ^1ended ^7#victim#^1's Killingspree! ^2(^7#kills#^2)"
+
+//Death by selfkill
+set k_end_message2 "^7#killer# ^1ended ^1his own Killingspree by killing himself! ^2(^7#kills#^2)"
+
+//Death by world
+set k_end_message3 "^7The world ^1ended ^7#victim#^1's Killingspree! ^2(^7#kills#^2)"
+
+//Teamkill
+set k_end_message4 "^7#killer# ^1ended ^1his own Killingspree! ^2(^7#kills#^2)"
+//---------------------------------------
+
+//k_spreesounds - This cvar enables or disables killingspree sounds
+//Valid values are 1 or 0
+//Default value = 1
+set k_spreesounds "1"
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+//k_deathsprees - This cvar enables or disables deathsprees
+//Includes sounds when disabled.
+//Valid values are 1 or 0
+//Default value = 1
+set k_deathsprees "1"
+
+//Deathspree Misc
+set k_deathspree1_amount "10"
+set k_deathspree2_amount "15"
+set k_deathspree3_amount "20"
+
+//1 = chat area
+//2 = center screen area
+//3 = top of screen
+set k_ds_location "3"
+
+//Custom Deathspree messages
+//Aliases:
+//  #victim#  - victim's name
+//  #deaths#  - number of deaths
+set k_ds_message1 "^7#victim# ^7seems to be having a bad day! (^1#deaths#^7)"
+set k_ds_message2 "^7#victim# ^7is on the way to getting ^3victim^7 of the day! (^1#deaths#^7)"
+set k_ds_message3 "^7#victim# ^7is getting his ass kicked! (^1#deaths#^7)"
+
+//k_deathspreesounds - This cvar enables or disables deathspree sounds
+//Valid values are 1 or 0
+//Default value = 1
+set k_deathspreesounds "1"
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+//k_multikills - This cvar enables or disables multikills
+//Includes sounds when disabled.
+//Valid values are 1 or 0
+//Default value = 1
+set k_multikills "1"
+
+//1 = chat area
+//2 = center screen area
+//3 = top of screen
+set k_mk_location "1"
+
+//Multikill Misc
+//k_multikill_time - Time in seconds between multikills
+set k_multikill_time "6.5"
+
+//Custom Multikill messages
+//Aliases:
+// #killer# - killer's name
+set k_mk_message1 "^7!!!^1DOUBLEKILL!^7 > #killer#^7 < ^1DOUBLEKILL^7!!!"
+set k_mk_message2 "^7!!!^1MULTIKILL!^7 > #killer#^7 < ^1MULTIKILL^7!!!"
+set k_mk_message3 "^7!!!^1MEGAKILL!^7 > #killer#^7 < ^1MEGAKILL^7!!!"
+set k_mk_message4 "^7!!!^1ULTRAKILL!^7 > #killer#^7 < ^1ULTRAKILL^7!!!"
+set k_mk_message5 "^7!!!^1MONSTERKILL!^7 > #killer#^7 < ^1MONSTERKILL^7!!!"
+set k_mk_message6 "^7!!!^1LUDICOUSKILL!^7 > #killer#^7 < ^1LUDICROUSKILL^7!!!"
+set k_mk_message7 "^7!!!^1HOLYSHIT!^7 > #killer#^7 < ^1HOLYSHIT^7!!!"
+
+//k_multikillsounds - This cvar enables or disables multikill sounds
+//Valid values are 1 or 0
+//Default value = 1
+set k_multikillsounds "1"
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+//k_flakmonkey - This cvar enables or disables flakmonkey
+//Includes sounds when disabled.
+//Valid values are 1 or 0
+//Default value = 1
+set k_flakmonkey "1"
+
+//1 = chat area
+//2 = center screen area
+//3 = top of screen
+set k_fm_location "1"
+
+//Custom Flak Monkey message
+//Alias:
+// #killer# - killer's name
+set k_fm_message "^7#killer# ^1got a flakmonkey!"
+
+//k_flakmonkeysound - This cvar enables or disables flakmonkey sound
+//Valid values are 1 or 0
+//Default value = 1
+set k_flakmonkeysound "1"
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+//k_firstblood - This cvar enables or disables firstblood
+//Includes sounds when disabled.
+//Valid values are 1 or 0
+//Default value = 1
+set k_firstblood "1"
+
+//firstblood Misc
+//1 = chat area
+//2 = center screen area
+//3 = top of screen
+set k_fb_location "2"
+
+//Custom Firstblood message
+//Alias:
+// #killer# - killer's name
+set k_fb_message "^7#killer# ^1drew ^1first ^1BLOOD ^1!^7"
+
+//k_firstbloodsound - This cvar enables or disables the firstblood sound
+//Valid values are 1 or 0
+//Default value = 1
+set k_firstbloodsound "1"
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+//k_lastblood - Displays a global message in chat
+//displaying who got the last kill of the match.
+//Valid values are 1 or 0
+//Default value = 1
+set k_lastblood "1"
+
+//Lastblood Misc
+//1 = chat area
+//2 = center screen area
+//3 = top of screen
+set k_lb_location "1"
+
+//Custom Lastblood message
+//Alias:
+// #killer# - killer's name
+set k_lb_message "^2Last kill of the match goes to ^7#killer#^7"
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+//k_killerhpdisplay - When you are killed this feature will
+//display a message telling you your killer's remaining HP.
+//Valid values are 1 or 0
+//Default value = 1
+set k_killerhpdisplay "1"
+
+//k_spreerecord - Saves the longest spree record to a file
+//and displays message at end of each round that displays
+//the current spree record
+//Valid values are 1 or 0
+//Default value = 1
+set k_spreerecord "1"
+
+//k_advancedpms - Slightly enhanced private messaging.
+//Can use partial name (3+ characters required) or slot #
+//Seperate sound for private messages. (etpro 3.2.6 required)
+//Can now send Pm's to all admins at or above level 2
+//Valid values are 1 or 0
+//Default value = 1
+set k_advancedpms "1"
+
+//k_disablevotes - Disables votes after a specified length of time
+//Valid values are 1 or 0
+//Default value = 1
+set k_disablevotes "1"
+
+//k_dvmode - Mode at witch the specified disable time will
+//be selected
+// 1 = Number of minutes before game ends
+// 2 = Percent of game time passed before votes are disabled
+// 3 = Number of minutes after game has started
+//Valid values are 1 - 3
+//Default value = 2
+set k_dvmode "2"
+
+//k_dvtime - See k_dvmode above
+//Default value = 90
+set k_dvtime "90"
+
+//k_advancedadrenaline - Sound is played near a player using
+//Adrenaline and the user also has a counter displaying time
+//left of the adrenaline effect.
+//Valid values are 1 or 0
+//Default value = 1
+set k_advancedadrenaline "1"
+
+//k_adrensound - Enables or Disables the sound from the
+//Advanced adrenaline feature.
+//Valid values are 1 or 0
+//Default value = 1
+set k_adrensound "1"
+
+//k_antiunmute - Cannot call votes to unmute a muted player
+//Valid values are 1 or 0
+//Default value = 1
+set k_antiunmute "1"
+
+//k_advplayers - Disables timenudge and maxpackets from
+//the players list and adds a new command (/admins) to
+//display all current admins
+//New command only availible to admin levels 2 and 3
+//Valid values are 1 or 0
+//Default value = 1
+set k_advplayers "1"
+
+//k_logchat - Logs most* chat messages into "chat_log.log"
+//*Currently excludes private messages
+//Valid values are 1 or 0
+//Default value = 1
+set k_logchat "1"
+
+//k_crazygravityinterval - The interval between 
+//crazygravity gravity changes (in seconds)
+//Default value = 30
+set k_crazygravityinterval "30"
+
+//k_teamkillrestriction - kickes excessive teamkillers
+//Everyone start with a tk index of 0 and will increase
+//or decrease by a certain number of points depending
+//on the type of weapon used.
+//Airstrike or Artillery 				= -0.65
+//grenade, panzer, mg42, riflenade, or mortar	= -0.75
+//Mines = -0
+//All other weapons = -1
+//Non teamkills or Revives = +1
+//Offenders will be warned prior to being kicked via
+//private message
+//Valid values are 1 or 0
+//Default value = 1
+set k_teamkillrestriction "1"
+
+//k_tklimit_high - Upper most limit for teamkill restriction
+//Default value = 3 (recomended)
+set k_tklimit_high "3"
+
+//k_tklimit_low - Lower most limit for teamkill restriction
+//Default value = -3 (recomended)
+set k_tklimit_low "-3"
+
+//k_tk_protect - admin levels at or above specified 
+//value will be immune to the teamkill restriction
+//Default value = 3
+set k_tk_protect "3"
+
+//k_slashkilllimit - Enabled/Disables /kill limit
+//Valid values are 1 or 0
+//Default value = 1
+set k_slashkilllimit "1"
+
+//k_slashkills - Maximum slash kills allowed per player per map
+//Default value = 3
+set k_slashkills "3"
+
+//k_color - Changes the color of killer's HP and spree record
+//Valid values are any color code character
+//Default value = 2
+set k_color "2"
+
+//k_endroundshuffle - Auto shuffles teams by xp at the end of each round.
+//Valid values are 1 or 0
+//Default value = 0
+set k_endroundshuffle "1"
+
+//k_noisereduction - Plays killingspree, flakmonkey, firstblood, 
+//deathspree, and multikill sounds to the killer/victim only
+//Requires Etpro 3.2.6 or higher!!!!!!!!!!!!!!!!!!!!
+//Valid values are 1 or 0
+//Default value = 0
+set k_noisereduction "0"
+
+//k_advancedspawn - Gives a freshly spawned player
+//infinite spawnshield until they move or shoot.
+//SERVER CVAR REQUIRED: g_inactivity must be above 0
+//or this feature will not work!
+//Valid values are 1 or 0
+//Default value = 0
+set k_advancedspawn "1"
+
+//Below are the file locations for all the sounds used
+set flakmonkeysound "sound/misc/flakmonkey.wav"
+set firstbloodsound "sound/misc/firstblood.wav"
+set doublekillsound "sound/misc/doublekill.wav"
+set multikillsound "sound/misc/multikill.wav"
+set megakillsound "sound/misc/megakill.wav"
+set ultrakillsound "sound/misc/ultrakill.wav"
+set monsterkillsound "sound/misc/monsterkill.wav"
+set ludicrouskillsound "sound/misc/ludicrouskill.wav"
+set holyshitsound "sound/misc/holyshit.wav"
+set deathspreesound1 "sound/misc/humiliation.wav"
+set deathspreesound2 "sound/misc/humiliation.wav"
+set deathspreesound3 "sound/misc/humiliation.wav"
+set killingspreesound "sound/misc/killingspree.wav"
+set rampagesound "sound/misc/rampage.wav"
+set dominatingsound "sound/misc/dominating.wav"
+set unstopablesound "sound/misc/unstoppable.wav"
+set godlikesound "sound/misc/godlike.wav"
+set wickedsicksound "sound/misc/wickedsick.wav"

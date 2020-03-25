@@ -1,0 +1,353 @@
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/botlib
+END
+be_ai_chat.c
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/botlib/be_ai_chat.c
+END
+l_libvar.h
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/botlib/l_libvar.h
+END
+l_struct.c
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/botlib/l_struct.c
+END
+be_aas_routetable.c
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/botlib/be_aas_routetable.c
+END
+be_aas_move.c
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/botlib/be_aas_move.c
+END
+be_ai_goal.c
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/botlib/be_ai_goal.c
+END
+l_struct.h
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/botlib/l_struct.h
+END
+be_aas_routetable.h
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/botlib/be_aas_routetable.h
+END
+be_aas_move.h
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/botlib/be_aas_move.h
+END
+be_interface.c
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/botlib/be_interface.c
+END
+botlib_stub.c
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/botlib/botlib_stub.c
+END
+l_common.h
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/botlib/l_common.h
+END
+aasfile.h
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/botlib/aasfile.h
+END
+be_aas_file.c
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/botlib/be_aas_file.c
+END
+be_ai_weap.c
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/botlib/be_ai_weap.c
+END
+be_interface.h
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/botlib/be_interface.h
+END
+be_aas_funcs.h
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/botlib/be_aas_funcs.h
+END
+be_aas_file.h
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/botlib/be_aas_file.h
+END
+be_aas_main.c
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/botlib/be_aas_main.c
+END
+l_script.c
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/botlib/l_script.c
+END
+be_aas_bspq3.c
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/botlib/be_aas_bspq3.c
+END
+be_aas_bsp.h
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/botlib/be_aas_bsp.h
+END
+be_aas_main.h
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/botlib/be_aas_main.h
+END
+l_script.h
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/botlib/l_script.h
+END
+be_ai_gen.c
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/botlib/be_ai_gen.c
+END
+be_aas_routealt.c
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/botlib/be_aas_routealt.c
+END
+be_aas_optimize.c
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/botlib/be_aas_optimize.c
+END
+l_log.c
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/botlib/l_log.c
+END
+be_aas_routealt.h
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/botlib/be_aas_routealt.h
+END
+be_aas_optimize.h
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/botlib/be_aas_optimize.h
+END
+l_log.h
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/botlib/l_log.h
+END
+be_aas_entity.c
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/botlib/be_aas_entity.c
+END
+be_ai_weight.c
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/botlib/be_ai_weight.c
+END
+be_aas_sample.c
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/botlib/be_aas_sample.c
+END
+be_aas_cluster.c
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/botlib/be_aas_cluster.c
+END
+be_aas_entity.h
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/botlib/be_aas_entity.h
+END
+be_ai_weight.h
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/botlib/be_ai_weight.h
+END
+be_aas_reach.c
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/botlib/be_aas_reach.c
+END
+be_aas_sample.h
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/botlib/be_aas_sample.h
+END
+be_aas_cluster.h
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/botlib/be_aas_cluster.h
+END
+be_aas_debug.c
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/botlib/be_aas_debug.c
+END
+l_precomp.c
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/botlib/l_precomp.c
+END
+l_utils.h
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/botlib/l_utils.h
+END
+be_aas_reach.h
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/botlib/be_aas_reach.h
+END
+l_crc.c
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/botlib/l_crc.c
+END
+l_memory.c
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/botlib/l_memory.c
+END
+be_aas_debug.h
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/botlib/be_aas_debug.h
+END
+be_ai_move.c
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/botlib/be_ai_move.c
+END
+l_precomp.h
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/botlib/l_precomp.h
+END
+l_crc.h
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/botlib/l_crc.h
+END
+be_aas_route.c
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/botlib/be_aas_route.c
+END
+l_memory.h
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/botlib/l_memory.h
+END
+l_libvar.c
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/botlib/l_libvar.c
+END
+be_ea.c
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/botlib/be_ea.c
+END
+be_ai_char.c
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/botlib/be_ai_char.c
+END
+botlib.vcproj
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/botlib/botlib.vcproj
+END
+be_aas_route.h
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/botlib/be_aas_route.h
+END
+be_aas_def.h
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/botlib/be_aas_def.h
+END

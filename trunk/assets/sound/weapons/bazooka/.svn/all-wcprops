@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/nq/!svn/ver/850/trunk/assets/sound/weapons/bazooka
+END
+bazooka_rocket_charge.wav
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/nq/!svn/ver/850/trunk/assets/sound/weapons/bazooka/bazooka_rocket_charge.wav
+END
+bazooka_rocket_fly.wav
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/nq/!svn/ver/850/trunk/assets/sound/weapons/bazooka/bazooka_rocket_fly.wav
+END
+bazooka_fire.wav
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/nq/!svn/ver/850/trunk/assets/sound/weapons/bazooka/bazooka_fire.wav
+END
+bazooka_far.wav
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/nq/!svn/ver/850/trunk/assets/sound/weapons/bazooka/bazooka_far.wav
+END

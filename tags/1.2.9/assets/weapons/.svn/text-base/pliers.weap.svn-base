@@ -1,0 +1,25 @@
+weaponDef
+{
+	both {
+		name					"Pliers"
+		statname				"Pliers"
+	}
+
+	client {
+		weaponConfig			"models/multiplayer/pliers/weapon.cfg"
+		handsModel				"models/multiplayer/pliers/v_pliers_hand.md3"
+
+		weaponIcon				"icons/iconw_pliers"
+		weaponSelectedIcon		"icons/iconw_pliers_1_select"
+
+		firstPerson {
+			model				"models/multiplayer/pliers/v_pliers.md3"
+			axisskin			"models/multiplayer/pliers/pliers_axis.skin"
+			alliedskin			"models/multiplayer/pliers/pliers_allied.skin"
+		}
+
+		thirdPerson {
+			model				"models/multiplayer/pliers/pliers.md3"
+		}
+	}
+}

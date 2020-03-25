@@ -1,0 +1,93 @@
+weaponDef
+{
+	both {
+		name					"Silenced Colt .45 ACP"
+		statname				"Colt"
+		damage					18
+		spread					600
+		spreadRatio				0.4
+		SpreadScaleAdd			20
+		viewchange2spread
+		CrouchSpreadRatio		0.6
+		ProneSpreadRatio		0.6
+		recoilDuration			100
+		recoilPitch				0.45
+		recoilYaw				0.0
+		selfKillMessage			"found a way to shoot himself!"
+		KillMessage				"was silently killed by"
+		KillMessage2			"'s Colt."
+		headshotWeapon
+		bulletReflection
+		DistanceFalloff
+	}
+
+	client {
+		pickupModel				"models/weapons2/colt/silenced_pickup.md3"
+		bounceSound				"sound/weapons/weaponbounce.wav"
+		clipBounceSound			"sound/weapons/clipbounce.wav"
+		
+		weaponConfig			"models/multiplayer/silencedcolt/weapon.cfg"
+		handsModel				"models/multiplayer/silencedcolt/v_silencedcolt_hand.md3"
+		
+		flashDlightColor		1.0 0.6 0.23
+		flashSound				"sound/weapons/colt/colt_silence.wav"
+		
+		reloadSound				"sound/weapons/colt/colt_reload.wav"
+		reloadFastSound			"sound/weapons/colt/colt_reload_fast.wav"
+		switchSound				"sound/weapons/misc/silence_on.wav"
+		
+		weaponIcon				"icons/iconw_silencedcolt"
+		weaponSelectedIcon		"icons/iconw_silencedcolt_1_select"
+		weaponIconScale 		2
+		
+		ejectBrassFunc			"MachineGunEjectBrass"
+		brassmodel				"models/weapons2/shells/45ACPshell.md3"
+		
+		firstPerson {
+			model				"models/multiplayer/silencedcolt/v_silencedcolt_nq.md3"
+
+			weaponLink
+			{
+				part 0
+				{
+					tag			"tag_barrel"
+					model		"models/multiplayer/silencedcolt/v_silencedcolt_barrel.mdc"
+				}
+				part 1
+				{
+					tag			"tag_barrel2"
+					model		"models/multiplayer/silencedcolt/v_silencedcolt_barrel2.mdc"
+				}
+				part 2
+				{
+					tag			"tag_barrel3"
+					model		"models/multiplayer/silencedcolt/v_silencedcolt_barrel3.mdc"
+				}
+				part 3
+				{
+					tag			"tag_barrel4"
+					model		"models/multiplayer/silencedcolt/v_silencedcolt_barrel4.mdc"
+				}
+				part 4
+				{
+					tag			"tag_barrel5"
+					model		"models/multiplayer/silencedcolt/v_silencedcolt_barrel5.mdc"
+				}
+				part 5
+				{
+					tag			"tag_barrel6"
+					model		"models/multiplayer/silencedcolt/v_silencedcolt_barrel6a.md3"
+				}
+				part 6
+				{
+					tag			"tag_barrel7"
+					model		"models/multiplayer/silencedcolt/v_silencedcolt_barrel7.mdc"
+				}
+			}
+		}
+		
+		thirdPerson {
+			model				"models/weapons2/colt/silenced.md3"
+		}
+	}
+}

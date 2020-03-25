@@ -1,0 +1,54 @@
+#include "ui/menudef.h"
+
+// Defines //
+
+#define WINDOW_X		16
+#define WINDOW_Y		16
+#define WINDOW_WIDTH	300
+#define WINDOW_HEIGHT	184
+#define GROUP_NAME		"grpOptionsNQControls"
+
+// Macros //
+
+#include "ui/menumacros.h"
+
+// Customise Game Menu //
+
+menuDef {
+	name		"options_nq_controls"
+	visible		0
+	fullscreen	0
+	rect		WINDOW_X WINDOW_Y WINDOW_WIDTH WINDOW_HEIGHT
+	style		WINDOW_STYLE_FILLED
+
+	onESC {
+		close options_nq_controls;
+		open options_nq;
+		}
+
+// Window //
+
+	WINDOW( "^?NO QUARTER CONTROLS^7", 94 )
+
+// Subwindows //
+#define SUBWINDOW_WIDTH		WINDOW_WIDTH-12
+#define CONTROLS_HEIGHT 	WINDOW_HEIGHT-64
+#define CONTROLS_Y 		32
+
+
+// Player //
+
+	SUBWINDOW( 6, CONTROLS_Y, (SUBWINDOW_WIDTH), CONTROLS_HEIGHT, "^1ADDITIONAL BINDABLE CONTROLS" )
+	BIND( 8, CONTROLS_Y+18, (SUBWINDOW_WIDTH)-4, 10, "Kick:", .2, 8, "+kick", "Kick" )
+	BIND( 8, CONTROLS_Y+30, (SUBWINDOW_WIDTH)-4, 10, "Drop Weapon:", .2, 8, "dropweapon", "Drops Your Current Weapon" )
+	BIND( 8, CONTROLS_Y+42, (SUBWINDOW_WIDTH)-4, 10, "Drop Clip:", .2, 8, "dropclip", "Drops A Clip" )
+	BIND( 8, CONTROLS_Y+54, (SUBWINDOW_WIDTH)-4, 10, "Slash Kill:", .2, 8, "kill", "Self Kill" )
+	BIND( 8, CONTROLS_Y+66, (SUBWINDOW_WIDTH)-4, 10, "Play Dead:", .2, 8, "playdead", "Play Dead" )	
+	MULTI( 8, CONTROLS_Y+78, (SUBWINDOW_WIDTH)-4, 10, "Favorite Weaponbank:", .2, 8, "cg_favWeaponBank", cvarStrList { "Last Used"; "0"; "Knife"; "1"; "Pistol"; "2"; "SMG"; "3"; "Grenade"; "4" }, "Selected Bank After Using Panzer/Airstrike/Satchel" )
+#ifdef NQUI
+	BIND( 8, CONTROLS_Y+90, (SUBWINDOW_WIDTH)-6, 10, "PM:", .2, 8, "messagemode4", "Personal Messages" )
+#endif
+	MULTI( 8, CONTROLS_Y+102, (SUBWINDOW_WIDTH)-4, 10, "Preselected Secondary:", .2, 8, "cg_limbo_secondary", cvarStrList { "Single"; "0"; "Dual"; "1"; "SMG (always best)"; "2" }, "Preselected secondary weapon in limbo" )
+
+	BUTTON( 6, WINDOW_HEIGHT-24, SUBWINDOW_WIDTH, 18, "BACK", .3, 14, close options_nq_controls ; open options_nq )
+}

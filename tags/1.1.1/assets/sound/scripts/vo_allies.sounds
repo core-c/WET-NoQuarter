@@ -1,0 +1,488 @@
+// generic allied commander
+
+
+// construct a command post
+allies_hq_compost_construct
+{
+	sound sound/vo/general/allies/hq_cpcon_a.wav
+	sound sound/vo/general/allies/hq_cpcon_b.wav
+	voice
+	streaming	
+}
+
+// command post constructed
+allies_hq_compost_constructed
+{
+	sound sound/vo/general/allies/hq_cpconst_a.wav
+	sound sound/vo/general/allies/hq_cpconst_b.wav
+	voice
+	streaming	
+}
+
+// they have constructed a command post
+allies_hq_compost_constructed_axis
+{
+	sound sound/vo/general/allies/hq_cpconst2.wav
+	voice
+	streaming	
+}
+
+// command post damaged
+allies_hq_compost_damaged
+{
+	sound sound/vo/general/allies/hq_cpdam.wav
+	voice
+	streaming
+}
+
+// command post repaired
+allies_hq_compost_repaired
+{
+	sound sound/vo/general/allies/hq_cprep.wav
+	voice
+	streaming
+}
+
+// construction completed
+allies_hq_const_completed
+{
+	sound sound/vo/general/allies/hq_conconst_a.wav
+	sound sound/vo/general/allies/hq_conconst_b.wav
+	voice
+	streaming	
+}
+
+// construction destroyed
+allies_hq_const_destroyed
+{
+	sound sound/vo/general/allies/hq_condest_a.wav
+	sound sound/vo/general/allies/hq_condest_b.wav
+	voice
+	streaming	
+}
+
+// construction failed
+allies_hq_const_failed
+{
+	sound sound/vo/general/allies/hq_confail.wav
+	voice
+	streaming	
+}
+
+// objective captured
+allies_hq_objective_captured
+{
+	sound sound/vo/general/allies/hq_objcap.wav
+	voice
+	streaming
+}
+
+// objective destroyed
+allies_hq_objective_destroyed
+{
+	sound sound/vo/general/allies/hq_objdest.wav
+	voice
+	streaming
+}
+
+// objective lost
+allies_hq_objective_lost
+{
+	sound sound/vo/general/allies/hq_objlost.wav
+	voice
+	streaming
+}
+
+// objective secured
+allies_hq_objective_secure
+{
+	sound sound/vo/general/allies/hq_objsec.wav
+	voice
+	streaming
+}
+
+// objective taken
+allies_hq_objective_taken
+{
+	sound sound/vo/general/allies/hq_objtaken.wav
+	voice
+	streaming
+}
+
+// dynamite defused
+allies_hq_dynamite_defused
+{
+	sound sound/vo/general/allies/hq_dyndefused_a.wav
+	sound sound/vo/general/allies/hq_dyndefused_b.wav
+	voice
+	streaming	
+}
+
+// dynamite planted
+allies_hq_dynamite_planted
+{
+	sound sound/vo/general/allies/hq_dynplanted_a.wav
+	sound sound/vo/general/allies/hq_dynplanted_b.wav
+	voice
+	streaming	
+}
+
+// dynamite defused allies
+allies_hq_dynamite_defused_axis
+{
+	sound sound/vo/general/allies/hq_dyndefused2_a.wav
+	sound sound/vo/general/allies/hq_dyndefused2_b.wav
+	voice
+	streaming	
+}
+
+// dynamite planted allies
+allies_hq_dynamite_planted_axis
+{
+	sound sound/vo/general/allies/hq_dynplanted2_a.wav
+	sound sound/vo/general/allies/hq_dynplanted2_b.wav
+	voice
+	streaming	
+}
+
+// landmines spotted, check your command map
+allies_hq_mines_spotted
+{
+	sound sound/vo/general/allies/hq_minesspot.wav
+	voice
+	streaming
+}
+
+// we need a covert ops
+allies_hq_need_covertops
+{
+	sound sound/vo/general/allies/hq_needcos_a.wav
+	sound sound/vo/general/allies/hq_needcos_b.wav
+	voice
+	streaming	
+}
+
+// we need an engineer
+allies_hq_need_engineer
+{
+	sound sound/vo/general/allies/hq_needeng_a.wav
+	sound sound/vo/general/allies/hq_needeng_b.wav
+	voice
+	streaming	
+}
+
+// we need a field ops
+allies_hq_need_fieldops
+{
+	sound sound/vo/general/allies/hq_needfos_a.wav
+	sound sound/vo/general/allies/hq_needfos_b.wav
+	voice
+	streaming	
+}
+
+// we need a medic
+allies_hq_need_medic
+{
+	sound sound/vo/general/allies/hq_needmedic_a.wav
+	sound sound/vo/general/allies/hq_needmedic_b.wav
+	voice
+	streaming	
+}
+
+// we need a soldier
+allies_hq_need_soldier
+{
+	sound sound/vo/general/allies/hq_needsoldier_a.wav
+	sound sound/vo/general/allies/hq_needsoldier_b.wav
+	voice
+	streaming	
+}
+
+// only five minutes, soldier
+allies_hq_5minutes
+{
+	sound sound/vo/general/allies/hq_5minutes_a.wav
+	sound sound/vo/general/allies/hq_5minutes_b.wav
+	voice
+	streaming
+}
+
+// two minutes to get outta here, soldier
+allies_hq_2minutes
+{
+	sound sound/vo/general/allies/hq_2minutes_a.wav
+	sound sound/vo/general/allies/hq_2minutes_b.wav
+	voice
+	streaming
+}
+
+// thirty seconds, c'mon move it
+allies_hq_30seconds
+{
+	sound sound/vo/general/allies/hq_30seconds_a.wav
+	sound sound/vo/general/allies/hq_30seconds_b.wav
+	voice
+	streaming
+}
+
+// affirmative, on my way
+allies_hq_airstrike
+{
+	sound sound/vo/general/allies/hq_airstrike_a.wav
+	sound sound/vo/general/allies/hq_airstrike_b.wav
+	voice
+	streaming
+}
+
+// aborting, can't see target
+allies_hq_airstrike_abort
+{
+	sound sound/vo/general/allies/hq_airabort_a.wav
+	sound sound/vo/general/allies/hq_airabort_b.wav
+	voice
+	streaming
+}
+
+// too many airstrikes requested
+allies_hq_airstrike_denied
+{
+	sound sound/vo/general/allies/hq_airdenied_a.wav
+	sound sound/vo/general/allies/hq_airdenied_b.wav
+	voice
+	streaming
+}
+
+// firing for effect
+allies_hq_ffe
+{
+	sound sound/vo/general/allies/hq_artillery_a.wav
+	sound sound/vo/general/allies/hq_artillery_b.wav
+	voice
+	streaming	
+}
+
+// aborting, can't see target
+allies_hq_ffe_abort
+{
+	sound sound/vo/general/allies/hq_artabort_a.wav
+	sound sound/vo/general/allies/hq_artabort_b.wav
+	voice
+	streaming
+}
+
+// insufficient fire support
+allies_hq_ffe_denied
+{
+	sound sound/vo/general/allies/hq_artdenied_a.wav
+	sound sound/vo/general/allies/hq_artdenied_b.wav
+	voice
+	streaming
+}
+
+// escort the tank
+allies_hq_tank_escort
+{
+	sound sound/vo/general/allies/hq_tankesc_a.wav
+	sound sound/vo/general/allies/hq_tankesc_b.wav
+	voice
+	streaming
+}
+
+// tank repaired
+allies_hq_tank_repaired
+{
+	sound sound/vo/general/allies/hq_tankrep_a.wav
+	sound sound/vo/general/allies/hq_tankrep_b.wav
+	voice
+	streaming
+}
+
+// tank damaged axis
+allies_hq_tank_damaged_axis
+{
+	sound sound/vo/general/allies/hq_tankdam_a.wav
+	sound sound/vo/general/allies/hq_tankdam_b.wav
+	voice
+	streaming
+}
+
+// escort the truck
+allies_hq_truck_escort
+{
+	sound sound/vo/general/allies/hq_truckesc_a.wav
+	sound sound/vo/general/allies/hq_truckesc_b.wav
+	voice
+	streaming
+}
+
+// truck repaired
+allies_hq_truck_repaired
+{
+	sound sound/vo/general/allies/hq_truckrep_a.wav
+	sound sound/vo/general/allies/hq_truckrep_b.wav
+	voice
+	streaming
+}
+
+// truck damaged axis
+allies_hq_truck_damaged_axis
+{
+	sound sound/vo/general/allies/hq_truckdam_a.wav
+	sound sound/vo/general/allies/hq_truckdam_b.wav
+	voice
+	streaming
+}
+
+// congratulations on your promotion, private first class
+allies_hq_promo_private
+{
+	sound sound/vo/general/allies/hq_promopfc.wav
+	voice
+	streaming
+}
+
+// congratulations on your promotion, corporal
+allies_hq_promo_corporal
+{
+	sound sound/vo/general/allies/hq_promocpl.wav
+	voice
+	streaming
+}
+
+// congratulations on your promotion, sergeant
+allies_hq_promo_sergeant
+{
+	sound sound/vo/general/allies/hq_promosgt.wav
+	voice
+	streaming
+}
+
+// congratulations on your promotion, staff sergeant
+allies_hq_promo_sergeant_staff
+{
+	sound sound/vo/general/allies/hq_promosgt.wav
+	voice
+	streaming
+}
+
+// congratulations on your promotion, sergeant first class
+allies_hq_promo_sergeant_fc
+{
+	sound sound/vo/general/allies/hq_promosgtfc.wav
+	voice
+	streaming
+}
+
+// congratulations on your promotion, master sergeant
+allies_hq_promo_sergeant_master
+{
+	sound sound/vo/general/allies/hq_promosgt.wav
+	voice
+	streaming
+}
+
+// congratulations on your promotion, sergeant major
+allies_hq_promo_sergeant_major
+{
+	sound sound/vo/general/allies/hq_promosgtmaj.wav
+	voice
+	streaming
+}
+
+// congratulations on your promotion, second lieutenant
+allies_hq_promo_lieutenant_second
+{
+	sound sound/vo/general/allies/hq_promolt2.wav
+	voice
+	streaming
+}
+
+// congratulations on your promotion, first lieutenant
+allies_hq_promo_lieutenant
+{
+	sound sound/vo/general/allies/hq_promolt1.wav
+	voice
+	streaming
+}
+
+// congratulations on your promotion, captain
+allies_hq_promo_captain
+{
+	sound sound/vo/general/allies/hq_promocpt.wav
+	voice
+	streaming
+}
+
+// congratulations on your promotion, major
+allies_hq_promo_major
+{
+	sound sound/vo/general/allies/hq_promomaj.wav
+	voice
+	streaming
+}
+
+// congratulations on your promotion, lieutenant colonel
+allies_hq_promo_colonel_lieutenant
+{
+	sound sound/vo/general/allies/hq_promoltcol.wav
+	voice
+	streaming
+}
+
+// congratulations on your promotion, colonel
+allies_hq_promo_colonel
+{
+	sound sound/vo/general/allies/hq_promocol.wav
+	voice
+	streaming
+}
+
+// congratulations on your promotion, major general
+allies_hq_promo_general_major
+{
+	sound sound/vo/general/allies/hq_promogenmaj.wav
+	voice
+	streaming
+}
+
+// congratulations on your promotion, brigadier general
+allies_hq_promo_general_brigadier
+{
+	sound sound/vo/general/allies/hq_promogenbrig.wav
+	voice
+	streaming
+}
+
+// congratulations on your promotion, lieutenant general
+allies_hq_promo_general_lieutenant
+{
+	sound sound/vo/general/allies/hq_promogenlt.wav
+	voice
+	streaming
+}
+
+// congratulations on your promotion, general
+allies_hq_promo_general
+{
+	sound sound/vo/general/allies/hq_promogen.wav
+	voice
+	streaming
+}
+
+// congratulations on your promotion, general of the army
+allies_hq_promo_general_ofarmy
+{
+	sound sound/vo/general/allies/hq_promogen.wav
+	voice
+	streaming
+}
+
+
+// we've lost most of our men
+allies_hq_men_down
+{
+	sound sound/vo/allies/hq_lostmen.wav
+	voice
+	streaming
+}
+

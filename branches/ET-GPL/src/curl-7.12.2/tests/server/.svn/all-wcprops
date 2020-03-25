@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/tests/server
+END
+Makefile.in
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/tests/server/Makefile.in
+END
+getpart.c
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/tests/server/getpart.c
+END
+Makefile.am
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/tests/server/Makefile.am
+END
+getpart.h
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/tests/server/getpart.h
+END
+sws.c
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/tests/server/sws.c
+END

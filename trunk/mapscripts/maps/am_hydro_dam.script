@@ -1,0 +1,569 @@
+game_manager 
+{
+	spawn
+	{
+		wm_allied_respawntime	20
+		wm_axis_respawntime		20
+		wm_set_round_timelimit	30
+	    	wm_number_of_objectives	6
+
+		// Winner on expiration of round timer (0=Axis, 1=Allies)
+		wm_setwinner	1
+
+		//wm_objective_status <objective> <team (0=Axis, 1=Allies)> <status (0=neutral 1=complete 2=failed)>
+	    	wm_objective_status	1 0 0	// axis door
+		wm_objective_status	1 1 0	// axis door
+		wm_objective_status	2 0 0	// allied door
+		wm_objective_status	2 1 0	// allied door
+		wm_objective_status	3 0 0	//docs
+		wm_objective_status	3 1 0	//docs
+		wm_objective_status	4 0 0	//gold
+		wm_objective_status	4 1 0	//gold
+		wm_objective_status	5 0 0	//allied base flag
+		wm_objective_status	5 1 0	//allied base flag
+		wm_objective_status	6 0 0	//axis base flag
+		wm_objective_status	6 1 0	//axis base flag
+
+		wait 150
+
+		// Hide 2nd spawn points
+		setstate allied_fwd_spawn invisible	// Allied fwd spawn
+		setstate spawn1 invisible		// Allied fwd spawn
+		setstate axis_fwd_spawn invisible	// Axis fwd spawn
+		setstate forward_spawn invisible	// Axis fwd spawn
+		setstate radarbox_trans default
+		setstate radarbox invisible
+
+		// Show delivery points on command map
+		setstate obj_cam3 default
+		setstate obj_cam4 default
+
+		// spawn points (0=Axis, 1=Allies)
+		setautospawn "Allied Side" 1		// Allied cellar
+		setautospawn "Axis Side" 0		// Axis cellar
+
+
+		cvar hydro_timelimit trigger_if_equal 20 game_manager spawn_20
+		cvar hydro_timelimit trigger_if_equal 25 game_manager spawn_25
+		cvar hydro_timelimit trigger_if_equal 30 game_manager spawn_30
+		cvar hydro_timelimit trigger_if_equal 45 game_manager spawn_45
+		cvar hydro_timelimit trigger_if_equal 60 game_manager spawn_60
+		
+		wait 350
+	}
+
+	trigger spawn_20
+	{
+		wm_set_round_timelimit 20
+		trigger game_manager winner
+	}
+
+	trigger spawn_25
+	{
+		wm_set_round_timelimit 25
+		trigger game_manager winner
+	}
+
+	trigger spawn_30
+	{
+		wm_set_round_timelimit 30
+		trigger game_manager winner
+	}
+
+	trigger spawn_45
+	{
+		wm_set_round_timelimit 45
+		trigger game_manager winner
+	}
+
+	trigger spawn_60
+	{
+		wm_set_round_timelimit 60
+		trigger game_manager winner
+	}
+
+	trigger winner
+	{
+		wm_setwinner 0					// Axis win
+		wm_set_defending_team 0
+		cvar g_gametype abort_if_equal 3
+		accum 0 random 2
+		accum 0 abort_if_not_equal 1
+		wm_setwinner 1					// Allies win
+		wm_set_defending_team 1
+	}
+
+	trigger cp1_blue  		//allied base flag
+	{
+		wm_objective_status		5 1 1		//allied reclaim
+		wm_objective_status		5 0 0
+
+		setstate allied_fwd_spawn default	// Allied fwd spawn
+		wait 50
+		setstate spawn1 default			// Allied fwd spawn
+		wait 50
+		setautospawn "Allied Forward Spawn" 1
+	}
+
+	trigger cp1_red			//allied base flag
+	{
+		wm_objective_status		5 0 1		//axis claim
+		wm_objective_status		5 1 0
+
+		setstate allied_fwd_spawn invisible	// Allied fwd spawn
+		wait 50
+		setstate spawn1 invisible		// Allied fwd spawn
+		wait 50
+		setautospawn "Allied Side" 1
+	}
+
+	trigger cp2_blue		//axis base flag
+	{
+		wm_objective_status		6 1 1		//allied claim
+		wm_objective_status		6 0 0
+
+		setstate axis_fwd_spawn invisible	// Axis fwd spawn
+		wait 50
+		setstate forward_spawn invisible	// Axis fwd spawn
+		wait 50
+		setautospawn "Axis Side" 0
+	}
+
+	trigger cp2_red			//axis base flag
+	{
+		wm_objective_status		6 0 1		//axis reclaim
+		wm_objective_status		6 1 0
+
+		setstate axis_fwd_spawn default		// Axis fwd spawn
+		wait 50
+		setstate forward_spawn default		// Axis fwd spawn
+		wait 50
+		setautospawn "Axis Forward Spawn" 0
+	}
+
+	trigger objective1
+ 	{
+		wm_objective_status	2 1 1		//allied destroy door
+		wm_objective_status	2 0 2
+		wm_announce	"The Axis door has been Destroyed!"
+		wm_removeteamvoiceannounce 0 "axis_protect_door"
+		wm_teamvoiceannounce 0 "axis_door_destroyed"
+		wm_addteamvoiceannounce 0 "axis_protect_radar_parts"
+		wm_teamvoiceannounce 0 "axis_protect_radar_parts"
+
+		alertentity psirens
+	}
+
+	trigger objective2
+ 	{
+		wm_objective_status	1 0 1		//axis destroy door
+		wm_objective_status	1 1 2
+		wm_announce	"The Allied Door has been Destroyed!"
+		wm_addteamvoiceannounce 0 "axis_get_gold"
+		wm_teamvoiceannounce 0 "axis_get_gold"
+		wm_addteamvoiceannounce 1 "allied_protect_gold"
+		wm_teamvoiceannounce 1 "allied_protect_gold"
+
+		alertentity sirens
+	}
+
+	trigger objective3
+	{
+		wm_teamvoiceannounce 0 "axis_hq_objective_captured"
+		wm_teamvoiceannounce 1 "allies_hq_objective_captured"
+		wm_announce "The Allies have transmitted the Secret War Documents!"
+
+		wm_objective_status	3 1 1	//allies win
+		wm_objective_status	3 0 2	//allies win
+
+		trigger game_manager checkgame
+	}
+
+	trigger objective4
+	{
+		wm_teamvoiceannounce 0 "axis_hq_objective_captured"
+		wm_teamvoiceannounce 1 "allies_hq_objective_captured"
+		wm_announce "The Axis have escaped with the Gold!"
+
+		wm_objective_status	4 0 1	//axis win
+		wm_objective_status	4 1 2	//axis win
+
+		trigger game_manager checkgame2
+	}
+
+	trigger checkgame
+ 	{
+		setstate radarbox_trans invisible
+		setstate radarbox default
+		wm_setwinner 1
+		wm_endround
+ 	}
+
+	trigger checkgame2
+ 	{
+		wm_setwinner 0
+		wm_endround
+
+		wait 1500
+
+		trigger truck_mover_01 move_dest10  // **NEW** Run the axis truck end sequence
+ 	}
+ 	trigger timelimit_hit
+ 	{
+ 		wm_setwinner -1
+ 		wait 100
+ 		wm_endround
+ 	}
+}
+
+allied_flag1   		//allied base respawn flag
+{
+	trigger axis_capture
+	{
+		trigger game_manager cp1_red
+	}
+
+	trigger allied_capture
+	{
+		trigger game_manager cp1_blue
+	}
+}
+
+axis_flag1		//axis base respawn flag
+{
+	trigger axis_capture
+	{
+		trigger game_manager cp2_red
+	}
+
+	trigger allied_capture
+	{
+		trigger game_manager cp2_blue
+	}
+}
+
+//Event triggered by Destroying Allied door
+allied_obj1  	//axis door objective1
+{
+	spawn
+	{
+		wait 200
+		constructible_class 3		// dyno
+	}
+
+	death
+	{
+		trigger game_manager objective1
+	}
+}
+
+axis_obj1		//allied door objective 2
+{
+     spawn
+     {
+		wait 200
+		constructible_class 3		// dyno
+	}
+
+     death
+     {
+		trigger game_manager objective2
+	}
+}
+
+//Event triggered by getting to Transmitter/flag_only
+allied_obj4		//axis war docs
+{
+	spawn
+	{
+	}
+
+	death
+	{
+		trigger game_manager objective3
+	}
+}
+
+//Event triggered by getting to Transmitter/flag_only
+axis_obj4		//allied gold
+{
+	spawn
+	{
+	}
+
+	death
+	{
+		trigger game_manager objective4
+	}
+}
+
+obj_cam3		// truck command icon
+{
+	spawn
+	{
+	}
+}
+
+obj_cam4		// transmitter command icon
+{
+	spawn
+	{
+	}
+}
+
+//Door script_mover
+move_door_01
+{
+	trigger move_to_open
+	{
+		trigger door_01 move_dest
+	}
+}
+
+door_01
+{
+	trigger move_dest
+	{
+		gotomarker pc_01 100
+		playsound sound/movers/doors/door6_open.wav
+		wait 3000
+		gotomarker pc_00 100
+		playsound sound/movers/doors/door6_open.wav
+	}
+}
+
+//Door script_mover
+move_door_02
+{
+	trigger move_to_open2
+	{
+		trigger door_02 move_dest2
+	}
+}
+
+door_02
+{
+	trigger move_dest2
+	{
+		gotomarker pc_03 100
+		playsound sound/movers/doors/door6_open.wav
+		wait 3000
+		gotomarker pc_02 100
+		playsound sound/movers/doors/door6_open.wav
+	}
+}
+
+//Mover Axis 
+move_door_03  
+{
+	trigger move_to_open3 
+	{
+		trigger door_03 move_dest3 
+	}
+}
+
+door_03  
+{
+	trigger move_dest3 
+	{
+		gotomarker pc_05 100
+		playsound sound/maps/am_hydro_dam/liftclos.wav
+		wait 3000
+		gotomarker pc_04 100
+		playsound sound/maps/am_hydro_dam/liftclos.wav
+	}
+}
+
+//Mover Allied
+move_door_04
+{
+	trigger move_to_open4
+	{
+		trigger door_04 move_dest4
+	}
+}
+
+door_04
+{
+	trigger move_dest4
+	{
+		gotomarker pc_07 100
+		playsound sound/maps/am_hydro_dam/liftclos.wav
+		wait 3000
+		gotomarker pc_06 100
+		playsound sound/maps/am_hydro_dam/liftclos.wav
+	}
+}
+
+allied_noise1
+{
+	trigger trig
+	{
+		alertentity allied_noise1_trig
+	}
+}
+
+allied_noise2
+{
+	trigger trig
+	{
+		alertentity allied_noise2_trig
+	}
+}
+
+axis_noise1
+{
+	trigger trig
+	{
+		alertentity axis_noise1_trig
+	}
+}
+
+axis_noise2
+{
+	trigger trig
+	{
+		alertentity axis_noise2_trig
+	}
+}
+
+truck_mover_01  //The truck end sequence
+{
+	trigger move_dest10 
+	{
+		wait 1000
+		playsound sound/vehicles/truck/truck_revup.wav
+		wait 1000
+		playsound sound/vehicles/truck/truck_move.wav looping
+		trigger truck_wheels_front forward
+		trigger truck_wheels_back forward
+		gotomarker pc_12 68
+		trigger gold_mover_01 move_dest11
+		wait 12000
+		stopsound
+		trigger truck_wheels_front stop
+		trigger truck_wheels_back stop
+	}
+}
+
+truck_wheels_front
+{
+	spawn
+	{
+		wait 500
+		attachtotag truck tag_wfront
+	}
+
+	trigger forward
+	{
+		setrotation 130 0 0
+	}
+
+	trigger stop
+	{
+		stoprotation
+	}
+}
+
+truck_wheels_back
+{
+	spawn
+	{
+		wait 500
+		attachtotag truck tag_wback
+	}
+
+	trigger forward
+	{
+		setrotation 130 0 0
+	}
+
+	trigger stop
+	{
+		stoprotation
+	}
+}
+
+gold_mover_01 
+{
+	spawn
+	{
+		faceangles 0 0 0 50
+	}
+
+	trigger move_dest11
+	{
+		gotomarker pc_14 68
+		wait 12000
+	}
+}
+
+radar_parts	// Radar parts
+{
+	spawn
+	{
+	}
+
+	trigger stolen
+	{
+		wm_teamvoiceannounce 0 "axis_allies_stolen_radar"
+	}
+
+	trigger returned
+	{
+		wm_teamvoiceannounce 0 "axis_returned_radar"
+	}
+
+	trigger dropped
+	{
+		wm_teamvoiceannounce 0 "axis_radar_dropped"
+	}
+
+	trigger captured
+	{
+		wm_teamvoiceannounce 0 "axis_radar_captured"
+	}
+}
+
+gold_box	// Gold
+{
+	spawn
+	{
+	}
+
+	trigger stolen
+	{
+		
+	}
+
+	trigger returned
+	{
+		
+	}
+
+	trigger dropped
+	{
+
+	}
+
+	trigger captured
+	{
+		
+	}
+}
+
+radarbox_trans
+{
+	spawn
+	{
+
+	}
+}
+
+radarbox
+{
+	spawn
+	{
+
+	}
+}

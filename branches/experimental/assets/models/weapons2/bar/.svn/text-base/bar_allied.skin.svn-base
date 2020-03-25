@@ -1,0 +1,8 @@
+b3_rightarm,	"models/weapons2/arms/arm_allied.jpg"
+b3_sleeve,	"models/weapons2/arms/arm_allied.jpg"
+b3_rhand,	"models/weapons2/mp40/hand16.jpg"
+b3_fullfingers, "models/weapons2/mp40/hand16.jpg"
+BAR_Stock,	"models/weapons2/bar/barStock.tga"
+BAR_barrel,	"models/weapons2/bar/barBarrel.tga"
+BAR_Misc,	"models/weapons2/bar/barMisc.tga"
+bipodBase,	"models/weapons2/bar/barClipBolt.tga"

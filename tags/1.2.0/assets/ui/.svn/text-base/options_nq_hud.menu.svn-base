@@ -1,0 +1,76 @@
+#include "ui/menudef.h"
+
+// Defines //
+
+#define WINDOW_X		16
+#define WINDOW_Y		16
+//#define WINDOW_WIDTH	608
+#define WINDOW_WIDTH	368
+#define WINDOW_HEIGHT	402
+#define GROUP_NAME		"grpOptionsNQHud"
+
+// Macros //
+
+#include "ui/menumacros.h"
+
+// Customise Game Menu //
+	
+menuDef {
+	name		"options_nq_hud"
+	visible		0
+	fullscreen	0
+	rect		WINDOW_X WINDOW_Y WINDOW_WIDTH WINDOW_HEIGHT
+	style		WINDOW_STYLE_FILLED
+	
+	onESC {
+		close options_nq_hud ;
+		open options_nq; 
+		}
+
+// Window //
+
+	WINDOW( "^?NO QUARTER HUD^7", 94 )
+
+// Subwindows //
+//#define SUBWINDOW_WIDTH	.5*(WINDOW_WIDTH-22)
+#define SUBWINDOW_WIDTH		WINDOW_WIDTH-12
+#define DISP_HEIGHT		116
+#define HUD_HEIGHT		92
+#define CONV_HEIGHT		116
+#define DISP_Y 			32
+#define HUD_Y			DISP_Y+DISP_HEIGHT+8
+#define CONV_Y			HUD_Y+HUD_HEIGHT+8
+		
+// Player //
+
+	SUBWINDOW( 6, (DISP_Y), (SUBWINDOW_WIDTH), DISP_HEIGHT, "^1DISPLAY" )
+	MULTI( 8, (DISP_Y)+18, (SUBWINDOW_WIDTH)-4, 10, "Crosshair Name Drawing:", .2, 8, "cg_drawCrosshairNames", cvarFloatList { "No Names" 0 "White Names" 1 "Color Names" 3 "Color Names & Rank Icons" 7 "White Names & Rank Icons" 5 }, "Displays player info when the crosshair is over a teammate" )
+	YESNO( 8, (DISP_Y)+30, (SUBWINDOW_WIDTH)-4, 10, "Auto Select FT Buddies:", .2, 8, "cg_FTAutoSelect", "Automatically Select Buddies In A Fireteam" )
+	SLIDER( 8, (DISP_Y)+42, (SUBWINDOW_WIDTH)-4, 10, "Auto Map Zoom:", .2, 8, "cg_automapZoom" 5.159 1 7.43, "Sets Zoom Level Automatically When Map Loads" )
+	YESNO( 8, (DISP_Y)+54, (SUBWINDOW_WIDTH)-4, 10, "Show Graphic Obituaries:", .2, 8, "cg_graphicObituaries", "Draw Graphical Obituaries" )
+	MULTI( 8, (DISP_Y)+66, (SUBWINDOW_WIDTH)-4, 10, "Show Kill Counter:", .2, 8, "cg_drawkillSpree",  cvarFloatList { "Off" 0 "Current Spree" 1 "Total Kills" 2 "Spree and Total kills" 3 "Current Bounty" 4 "Bounty and Spree" 5 "Kills and Bounty" 6  "Kills, Spree, and Bounty" 7 }, "Kill Spree Counter Options" )
+	YESNO( 8, (DISP_Y)+78, (SUBWINDOW_WIDTH)-4, 10, "Show Aura Shadows:", .2, 8, "cg_drawAuraIcons", "Draw Aura Icons" )
+	YESNO( 8, (DISP_Y)+90, (SUBWINDOW_WIDTH)-4, 10, "Draw Objective Icons:", .2, 8, "cg_drawObjIcons", "Draw Objective Icon Flags" )
+	MULTI( 8, (DISP_Y)+102, (SUBWINDOW_WIDTH)-4, 10, "Side Message Speed:", .2, 8, "cg_pmPopupTime",  cvarFloatList { "Normal" 1 "Fast" .75 "Faster" .5 "Fastest" .25 "Instant" 0 "Slowest" 2 "Slower" 1.5  "Slow" 1.25 }, "Kill Spree Counter Options" )
+
+	SUBWINDOW( 6, (HUD_Y), (SUBWINDOW_WIDTH), HUD_HEIGHT, "^1HUD" )
+	YESNO( 8, (HUD_Y)+18, (SUBWINDOW_WIDTH)-4, 10, "Show Powerups in HUD:", .2, 8, "hud_drawPowerups", "Draw Icons of Powerups Currently Available" )
+	MULTI( 8, (HUD_Y)+30, (SUBWINDOW_WIDTH)-4, 10, "Power Up Size:", .2, 8, "hud_powerupSize", cvarFloatList { "Small" 12 "Normal" 18 "Large" 24 }, "Size of Powerup Icons" )
+	YESNO( 8, (HUD_Y)+42, (SUBWINDOW_WIDTH)-4, 10, "Use NQ Hud:", .2, 8, "hud_drawAltHud", "Use Alternate No Quarter HUD" )
+	MULTI( 8, (HUD_Y)+54, (SUBWINDOW_WIDTH)-4, 10, "HUD Color:", .2, 8, "cg_hudBackgroundColor", cvarStrList { "Default"; ".16 .2 .17 .8"; "White"; "1 1 1 .8"; "Yellow"; "1 1 0 .8"; "Red"; "1 0 0 .8"; "Green"; "0 1 0 .8"; "Blue"; "0 0 1 .8"; "Magenta"; "1 0 1 .8"; "Cyan"; "0 1 1 .8"; "Orange"; "1 .5 0 .8"; "Purple"; "0.5 0 0.5 .8"; "Light Blue"; ".5 .5 1 .8"; "Medium Blue"; "0 0 .5 .8"; "Dark Blue"; "0 0 0.15 .8" ;"Light Red"; "1 .25 .25 .8"; "Medium Red"; ".5 0 0 .8"; "Dark Red"; "0.15 0 0 .8"; "Light Green"; ".25 1 .25 .8"; "Medium Green"; "0 .5 0 .8"; "Dark Green"; "0 .15 0 .8"; "Medium Cyan"; "0 .5 .5 .8"; "Medium Yellow"; ".5 .5 0 .8"; "Medium Orange"; ".5 .25 0 .8"; "Light Grey"; ".6 .6 .6 .8"; "Medium Grey"; ".3 .3 .3 .8"; "Dark Grey"; ".1 .1 .1 .8"; "Black"; "0 0 0 .8" }, "HUD Background Color" )
+	MULTI( 8, (HUD_Y)+66, (SUBWINDOW_WIDTH)-4, 10, "HUD Border Color:", .2, 8, "cg_hudBorderColor", cvarStrList { "Default"; ".5 .5 .5 .5"; "White"; "1 1 1 .8"; "Yellow"; "1 1 0 .8"; "Red"; "1 0 0 .8"; "Green"; "0 1 0 .8"; "Blue"; "0 0 1 .8"; "Magenta"; "1 0 1 .8"; "Cyan"; "0 1 1 .8"; "Orange"; "1 .5 0 .8"; "Purple"; "0.5 0 0.5 .8"; "Light Blue"; ".5 .5 1 .8"; "Medium Blue"; "0 0 .5 .8"; "Dark Blue"; "0 0 0.15 .8"; "Light Red"; "1 .25 .25 .8"; "Medium Red"; ".5 0 0 .8"; "Dark Red"; "0.15 0 0 .8"; "Light Green"; ".25 1 .25 .8"; "Medium Green"; "0 .5 0 .8"; "Dark Green"; "0 .15 0 .8"; "Medium Cyan"; "0 .5 .5 .8"; "Medium Yellow"; ".5 .5 0 .8"; "Medium Orange"; ".5 .25 0 .8"; "Light Grey"; ".6 .6 .6 .8"; "Medium Grey"; ".3 .3 .3 .8"; "Dark Grey"; ".1 .1 .1 .8"; "Black"; "0 0 0 .8" }, "HUD Border Color" )
+	SLIDER( 8, (HUD_Y)+78, (SUBWINDOW_WIDTH)-4, 10, "HUD Alpha:", .2, 8, "cg_hudAlpha" .8 0 1, "Transparency of HUD" )
+
+	SUBWINDOW( 6, (CONV_Y), (SUBWINDOW_WIDTH), CONV_HEIGHT, "^1CONVENIENCE" )
+	MULTI( 8, (CONV_Y)+18, (SUBWINDOW_WIDTH)-4, 10, "Show Speed:", .2, 8, "cg_drawSpeed", cvarFloatList{ "Off" 0 "Draw Speed" 1 "Draw Speed + Max Acheived" 2 }, "Draw Speed" )
+	MULTI( 8, (CONV_Y)+30, (SUBWINDOW_WIDTH)-4, 10, "Speed Units:", .2, 8, "cg_speedunit", cvarFloatList{ "Units per Second (UPS)" 0 "Kilometers per Hour (KPH)" 1 "Miles per Hour (MPH)" 2 }, "Change Units That Speed is Displayed As" )
+	YESNO( 8, (CONV_Y)+42, (SUBWINDOW_WIDTH)-4, 10, "Draw Small Popup Icons:", .2, 8, "cg_drawSmallPopupIcons", "Draw Small Pop Icons" )
+	YESNO( 8, (CONV_Y)+54, (SUBWINDOW_WIDTH)-4, 10, "Show FPS:", .2, 8, "cg_drawFPS", "Draw Frames Per Second" )
+	YESNO( 8, (CONV_Y)+66, (SUBWINDOW_WIDTH)-4, 10, "Show Ping:", .2, 8, "cg_drawPing", "Draw Ping" )	
+	YESNO( 8, (CONV_Y)+78, (SUBWINDOW_WIDTH)-4, 10, "Show Lag-o-Meter:", .2, 8, "cg_lagometer", "Draw Lag-o-Meter" )
+	MULTI( 8, (CONV_Y)+90, (SUBWINDOW_WIDTH)-4, 10, "Show Clock:", .2, 8, "cg_drawTime", cvarFloatList{ "Off" 0 "24hr" 1 "12hr" 2 }, "Draw Clock" )
+	YESNO( 8, (CONV_Y)+102,(SUBWINDOW_WIDTH)-4, 10, "Show Country-Flags:", .2, 8, "cg_countryflags", "Draw Country-Flags" )
+		
+	BUTTON( 6, WINDOW_HEIGHT-24, SUBWINDOW_WIDTH, 18, "BACK", .3, 14, close options_nq_hud ; open options_nq )
+
+}

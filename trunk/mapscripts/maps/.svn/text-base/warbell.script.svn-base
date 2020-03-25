@@ -1,0 +1,2528 @@
+// .script
+// Map: WarBell
+// BSP: warbell
+// by ]UBC[ McNite
+
+// modified Warbell script II
+// restricts the access to the Belltower roof room
+// ammocrate at command post if built by axis
+
+// copyright of this scriptfix: see readme of Warbell inside the warbell.pk3
+// any further modifications of the script need permission by ]UBC[ McNite
+
+
+
+
+// -----------------------------------------------
+// ------------- GAME MANAGER --------------------
+// -----------------------------------------------
+
+game_manager
+{
+	spawn
+	{
+
+
+//--------------ETPRO MAPSCRIPT CHANGES # II-----------------------------
+
+		create
+		{
+			scriptname "belltowerclip1"
+			classname "func_fakebrush"
+			contents 1 // CONTENTS_SOLID
+			origin "1416 -1408 536"
+			mins "-8 -64 -56"
+			maxs "8 64 56"
+		}
+
+		create
+		{
+	        	scriptname "scrf_barrel1"
+		        targetname "scrf_barrel1"
+		        classname "misc_gamemodel"
+	        	origin "1416 -1368 432"
+		        mins "-16 -16 -24"
+		        maxs "16 16 24"
+	        	angle "90"
+			modelscale "0.75"
+		        contents "1"
+	        	clipmask "1"
+		        model "models/mapobjects/barrel_sd/barrel.md3"
+		}
+		create
+		{
+	        	scriptname "scrf_barrel2"
+		        targetname "scrf_barrel2"
+		        classname "misc_gamemodel"
+	        	origin "1416 -1408 432"
+		        mins "-16 -16 -24"
+		        maxs "16 16 24"
+	        	angle "135"
+			modelscale "0.75"
+		        contents "1"
+	        	clipmask "1"
+		        model "models/mapobjects/barrel_sd/barrel.md3"
+		}
+		create
+		{
+	        	scriptname "scrf_barrel3"
+		        targetname "scrf_barrel3"
+		        classname "misc_gamemodel"
+	        	origin "1416 -1448 432"
+		        mins "-16 -16 -24"
+		        maxs "16 16 24"
+	        	angle "270"
+			modelscale "0.75"
+		        contents "1"
+	        	clipmask "1"
+		        model "models/mapobjects/barrel_sd/barrel.md3"
+		}
+		create
+		{
+	        	scriptname "scrf_barrel4"
+		        targetname "scrf_barrel4"
+		        classname "misc_gamemodel"
+	        	origin "1416 -1440 476"
+		        mins "-16 -16 -24"
+		        maxs "16 16 24"
+	        	angle "90"
+			modelscale "0.75"
+		        contents "1"
+	        	clipmask "1"
+		        model "models/mapobjects/barrel_sd/barrel.md3"
+		}
+		create
+		{
+	        	scriptname "scrf_barrel5"
+		        targetname "scrf_barrel5"
+		        classname "misc_gamemodel"
+	        	origin "1416 -1392 476"
+		        mins "-16 -16 -24"
+		        maxs "16 16 24"
+	        	angle "225"
+			modelscale "0.75"
+		        contents "1"
+	        	clipmask "1"
+		        model "models/mapobjects/barrel_sd/barrel.md3"
+		}
+
+		create
+		{
+			scriptname "scrf_ammo"
+			targetname "scrf_ammo"
+			origin "-960 -3576 176"
+			classname "misc_cabinet_supply"
+			angle "90"
+			mins "-20 -8 -25"
+			maxs "20 8 25"
+			ammototal "12"
+			modelscale "1"
+			contents "1"
+			clipmask "1"
+			model "models/mapobjects/supplystands/stand_ammo.md3"
+		}
+
+		create
+		{
+			scriptname "scrf_ammotr"
+			targetname "scrf_ammotr"
+			classname "trigger_ammo"
+			target "scrf_ammo"
+			origin "-960 -3568 208"
+			mins "-45 -45 -25"
+			maxs "45 45 25"
+
+			ammototal "12"
+			ammorate "1"
+
+			contents "1"
+			clipmask "1"
+		}
+
+		create
+		{
+			scriptname "scrf_ammoempty"
+			targetname "scrf_ammoempty"
+			origin "-960 -3576 176"
+			classname "misc_gamemodel"
+			angle "90"
+			mins "-20 -8 -25"
+			maxs "20 8 25"
+			contents "1"
+			clipmask "1"
+			model "models/mapobjects/supplystands/stand_ammo_damaged.md3"
+		}
+
+
+
+
+//--------------NORMAL GAME_MANAGER STUFF FROM HERE ON--------------------
+
+		// game rules
+		wm_axis_respawntime	15 // 15
+		wm_allied_respawntime	20 // 20
+		wm_set_round_timelimit	18 // 20
+
+		// defending team for stopwatch (0=axis, 1=allies)
+		wm_set_defending_team 1
+
+		// defending team wins after timelimit
+		wm_setwinner 1
+
+//--------------SPAWNS--------------------
+		wait 400
+		setautospawn "Axis Start" 0
+		setautospawn "Guardhouse" 1
+
+//--------------OBJECTIVES----------------
+		// objective A 1: (P) secure the guard house (destroy gate)
+		// objective B 2: (P) destroy the wall hiding the secret room
+		// objective C 3: (P) deliver the book of death to the altar
+		// objective G #: capture the guard house flag
+		// objective J 4: (P) destroy the monastery main gate (need them for fast access)
+		// objective D 5: (P) repair the bell mechanism
+		// objective E 6: (P) and toll the bell
+		// objective F 7: (P) sacrifice 3 humans
+		// objective L 8: destroy the crypt gate (need them for fast access)
+		// objective K #: destroy the monastery garden gate (need them for fast access)
+		// objective I #: build the command post (gives forward spawn)
+
+		wm_number_of_objectives 8
+
+		// main objectives (amount/team)
+		wm_set_main_objective 7 0
+		wm_set_main_objective 7 1
+
+		// objectives at mapstart (#/team/status)
+		wm_objective_status 1 0 0
+		wm_objective_status 1 1 0
+		wm_objective_status 2 0 0
+		wm_objective_status 2 1 0
+		wm_objective_status 3 0 0
+		wm_objective_status 3 1 0
+		wm_objective_status 4 0 0
+		wm_objective_status 4 1 0
+		wm_objective_status 5 0 0
+		wm_objective_status 5 1 0
+		wm_objective_status 6 0 0
+		wm_objective_status 6 1 0
+		wm_objective_status 7 0 0
+		wm_objective_status 7 1 0
+		wm_objective_status 8 0 0
+		wm_objective_status 8 1 0
+
+
+//--------------ACCUMS--------------------
+		// accum 1 for who wins the game
+		// accum 2 for flag at guard house
+		// accum 3 for documents
+		// accum 4 for bellropes and right bellsound
+		// accum 5 for bellropes and right bellsound
+		// accum 6 for 
+
+//--------------REMAP OF SHADERS --------------
+		//truck
+		remapshader models/mapobjects/dt_oblitz/dt_oblitz_glass models/mapobjects/dt_oblitz/dt_oblitz_glass2
+
+		// hint_powerup
+		remapshader gfx/2d/treasurehint textures/wb_sfx/saint
+
+		remapshaderflush
+
+	}
+
+	trigger axiswin
+	{
+		wm_setwinner 0 //roundwinner: 0 == AXIS, 1 == ALLIED
+		resetscript
+		wait 2500
+		setstate bellropefire invisible
+		trigger sfxmapend mapend
+		wm_endround
+	}
+}
+
+
+
+
+// -----------------------------------------------
+// ------------- VOICE OBJECTIVES ----------------
+// -----------------------------------------------
+
+vobj
+{	
+	spawn
+	{
+		wait 800
+		// set accums needed
+		accum 1 set 0 // status of book delivery
+		accum 2 set 0 // status of bell mechanism
+
+		wait 15000
+		//wm_announce "^2WARBELL ETPRO mapscript # II"
+		wait 500
+		//wm_announce "^2CHANGES: RESTRICTED BELLTOWER ACCESS & AXIS CP AMMO"
+	}
+
+
+
+
+
+
+//------------- GUARD HOUSE TAKEN OVER -----------------------------------
+
+	trigger ghtakenover // gate blown
+	{
+	}
+
+	trigger gatesdown
+	{
+		//wm_announce "^3VO - all gates are destroyed"
+	}
+
+
+//------------- ABBEY STUFF -----------------------------------
+
+	trigger bookdelivered // sets the accum
+	{
+		accum 1 set 1
+		enablespeaker sd_bookdelivery1
+	}
+
+	trigger mechanismbuilt
+	{
+		accum 2 set 1
+	}
+
+	trigger mechanismdestroyed
+	{
+		accum 2 set 0
+	}
+
+	trigger tolledaccums
+	{
+		accum 1 set 2
+		accum 2 set 2
+	}
+
+	trigger bookdeliveredfirst // nothing built yet
+	{
+		accum 2 abort_if_not_equal 0
+		wm_announce "^1Axis need to repair and toll the Bell!"
+	}
+
+	trigger bookdeliveredsecond // mechanism built
+	{
+		accum 2 abort_if_not_equal 1
+		wm_announce "^1The Book is in place... Axis need to toll the Bell!"
+	}
+
+	trigger mechanismbuiltfirst
+	{
+		accum 1 abort_if_equal 1
+		wm_announce "^1Axis still needs to deliver the Book to open the Sacrifice Portals!"
+		wait 20		
+	}
+
+	trigger mechanismbuiltsecond
+	{
+		accum 1 abort_if_equal 0
+		wm_announce "^1Axis need to toll the Bell now to activate the Sacrifice Portals!"		
+		wait 20
+	}
+
+	trigger belltolled
+	{
+		wm_announce "^1Warbell tolled... the Sacrifice Portals will open now!"
+		enablespeaker sd_belltolled
+
+		trigger vobj tolledaccums
+	}
+
+	// the sacrifice VOs are located in the sacrifice scripts
+}
+
+// -----------------------------------------------
+// ------------- SFX MAPEND ----------------------
+// -----------------------------------------------
+
+sfxmapend // spectator located at: 1936 -1568 240
+{
+	spawn
+	{
+	}
+
+	trigger mapend // mix of thunders and skull/ghost/spirit
+	{
+		resetscript
+		wait 100
+		//trigger self mapendskull
+		trigger self ambient2
+		wait 500
+		trigger self thunder5
+		wait 6000 
+		trigger self thunder1
+		wait 3500
+		trigger self skull3
+		wait 2500
+		trigger self thunder4
+		wait 3500
+		trigger self thunder1a
+		wait 5500
+		trigger self ghost1
+		wait 3500
+		trigger self thunder3
+		wait 5000
+		trigger self thunder1
+		wait 5000
+		trigger self skull1
+		wait 2000
+		trigger self thunder2
+		wait 3000
+		trigger self thunder5
+		wait 3500
+		trigger self thunder3
+		wait 3000
+		trigger self skull2
+		wait 3700
+		trigger self thunder4
+		wait 3500
+		trigger self thunder1a
+		wait 6000
+		trigger self thunder2
+		wait 2800
+	}
+
+
+	trigger ambient2
+	{
+		enablespeaker end_ambient2
+	}
+	trigger ghost1
+	{
+		enablespeaker end_ghost1
+	}
+	trigger skull1
+	{
+		enablespeaker end_skull1
+	}
+	trigger skull2
+	{
+		enablespeaker end_skull2
+	}
+	trigger skull3
+	{
+		enablespeaker end_skull3
+	}
+	trigger spirit1
+	{
+		enablespeaker end_spirit1
+	}
+	trigger thunder1 // 14s - 7s effectively
+	{
+		enablespeaker end_thunder1
+	}
+	trigger thunder1a // 14s - 7s effectively
+	{
+		enablespeaker end_thunder1a
+	}
+	trigger thunder2 // 9s - 4s effectively, very faint
+	{
+		enablespeaker end_thunder2
+	}
+	trigger thunder3 // 12s - 6s effectively
+	{
+		enablespeaker end_thunder3
+	}
+	trigger thunder4 // 11s - 5s effectively, very faint
+	{
+		enablespeaker end_thunder4
+	}
+	trigger thunder5 // 14s - 5s effectively, very faint
+	{
+		enablespeaker end_thunder5
+	}
+
+
+}
+
+// -----------------------------------------------
+// ------------- OBJECTIVE A - GUARD HOUSE GATE --
+// -----------------------------------------------
+
+ghgate
+{
+	spawn
+	{
+		wait 150
+		constructible_class 3
+	}
+
+	death
+	{
+	trigger ghgate ghgate_dynamited
+	}
+	
+	trigger ghgate_dynamited
+	{
+
+		wm_announce "^1Axis have destroyed the Guard House Gate!"
+		//trigger vobj ghtakenover
+
+		wm_objective_status 1 0 1
+		wm_objective_status 1 1 2
+		trigger spawngh_flag takenover
+		trigger ghteamdoor doorgone
+		trigger ghteamdoor2 door2gone
+	}
+}
+
+ghteamdoor
+{
+	spawn
+	{
+		wait 150
+		setstate ghteamdoor default
+	}
+	
+	trigger doorgone
+	{
+		setstate ghteamdoor invisible
+		trigger ghteamdooropen dooropen
+	}
+}
+
+ghteamdooropen
+{
+	spawn
+	{
+		wait 150
+		setstate ghteamdooropen invisible
+	}
+	
+	trigger dooropen
+	{
+		setstate ghteamdooropen default
+	}
+}
+
+ghteamdoor2
+{
+	spawn
+	{
+		wait 150
+		setstate ghteamdoor2 default
+	}
+	
+	trigger door2gone
+	{
+		setstate ghteamdoor2 invisible
+		trigger ghteamdoor2open door2open
+	}
+}
+
+ghteamdoor2open
+{
+	spawn
+	{
+		wait 150
+		setstate ghteamdoor2open invisible
+	}
+	
+	trigger door2open
+	{
+		setstate ghteamdoor2open default
+	}
+}
+
+
+// -----------------------------------------------------
+// ------------- OBJECTIVE B - WALL of SECRET ROOM -----
+// -----------------------------------------------------
+
+srwall
+{
+	spawn
+	{
+		wait 150
+		constructible_class 3
+	}
+
+	death
+	{
+		wm_announce "^1Axis opened the Hidden Room!"
+		wm_objective_status 2 0 1
+		wm_objective_status 2 1 2
+	}
+}
+
+
+
+// -----------------------------------------------------
+// ------------- OBJECTIVE C - DELIVER THE DOCUMENTS ---
+// -----------------------------------------------------
+
+book
+{
+	spawn
+	{
+	}
+
+	trigger stolen
+	{
+		// trigger für VO
+	}
+
+	trigger secured // läuft nicht
+	{
+		//wm_announce "^1Book secured"
+	}
+
+	trigger returned
+	{
+		// trigger für VO
+	}
+}
+
+altar
+{
+	spawn
+	{
+		accum 3 set 0
+	}
+
+	death
+	{
+		accum 3 set 1
+
+		enablespeaker sd_bookdelivered
+
+		trigger booktr hide
+		trigger bookaltar show
+		setstate book_toi invisible
+		setstate book_cm_marker invisible
+
+		trigger altar bookdelivered
+	}
+
+	trigger bookdelivered
+	{
+		accum 3 abort_if_not_equal 1
+
+		wm_announce "^1Axis have delivered the Book of Death!"
+		trigger vobj bookdelivered
+
+		// set objective status
+		wm_objective_status 3 0 1
+		wm_objective_status 3 1 2
+
+		wait 750
+
+		trigger sacr_onepreind on
+		enablespeaker sd_spot1
+		wait 750
+
+		trigger sacr_twopreind on
+		enablespeaker sd_spot2
+		wait 750
+
+		trigger sacr_threepreind on
+		enablespeaker sd_spot3
+
+		trigger sroom_monster4 on
+
+		wait 500
+		enablespeaker sd_bookdelivery2
+		wait 250
+
+		trigger bellropes bookdelivered
+		trigger vobj bookdeliveredfirst
+		trigger vobj bookdeliveredsecond
+	}	
+}
+
+booktr
+{
+	spawn
+	{
+		wait 500
+		setstate booktr default
+	}
+
+	trigger hide
+	{
+		setstate booktr invisible
+	}
+}
+
+bookaltar
+{
+	spawn
+	{
+		wait 500
+		setstate bookaltar invisible
+	}
+
+	trigger show
+	{
+		setstate bookaltar default
+	}
+}
+
+book_toi
+{
+}
+
+
+
+// -----------------------------------------------
+// ------------- OBJECTIVE D - BELL MECHANISM ----
+// -----------------------------------------------
+
+bm_toi
+{
+}
+
+bm_repair
+{
+}
+
+bm
+{
+	spawn
+	{
+		wait 500
+		setstate bm invisible
+		setstate bmmat default
+		constructible_class 3 // dyno to give the attackers at least 30 secs
+	}
+
+	buildstart final
+	{
+		setstate bm underconstruction
+		setstate bmmat invisible
+	}
+
+	built final
+	{
+		setstate bm default	
+		setstate bmmat invisible
+
+		wm_objective_status 5 0 1
+		wm_objective_status 5 1 2
+		wm_announce "^1Axis repaired the Bell Mechanism!"
+
+		trigger vobj mechanismbuilt // sets the accum
+		trigger vobj mechanismbuiltfirst
+		trigger vobj mechanismbuiltsecond
+
+		trigger bm bmbuilt // calls the effects of the built mechanism
+	}
+
+	decayed final
+	{
+		setstate bm invisible
+		setstate bmmat default
+	}
+
+	death
+	{
+		setstate bm invisible
+		setstate bmmat default //invisible
+		wm_announce "^1Allies have destroyed the Bell Mechanism!"
+
+		wm_objective_status 5 0 2
+		wm_objective_status 5 1 1
+
+		trigger vobj mechanismdestroyed // sets the accum
+
+		trigger bellropes ropedestr
+		trigger bell1rope off
+		trigger bell2rope off
+		trigger bell2tolltr off
+		trigger bellropehint off
+	}
+	trigger bmbuilt
+	{
+		trigger bellropehint on
+		wait 5000 // necessary when rope is located in a diff place?
+		trigger bellropes ropeconstr
+	}
+}
+
+bellropehint // gives the hint_activate to users
+{
+	spawn
+	{
+		wait 400
+		setstate bellropehint invisible
+	}
+	trigger on
+	{
+		setstate bellropehint default
+	}
+	trigger off
+	{
+		setstate bellropehint invisible
+	}
+}
+
+bellropeinfo // gives the "you are near..." for the bellrope; visible all the time for now
+{
+	spawn
+	{
+		wait 400
+		setstate bellropeinfo default // invisible
+	}
+	trigger on
+	{
+		setstate bellropeinfo default
+	}
+	trigger off
+	{
+		setstate bellropeinfo invisible
+	}
+}
+
+
+// ---------------------------------------------------
+// ------------- OBJECTIVE E - TOLL the BELL ---------
+// ---------------------------------------------------
+
+bellropes //script_mover
+{
+	spawn
+	{
+		wait 300
+		accum 4 set 0 // status of the book
+		accum 5 set 0 // status of the bell mechanism
+	}
+
+	trigger bookdelivered
+	{
+		accum 4 set 1 // book delivered >> real bell tolling
+		trigger bellropes rope1change
+		trigger bellropes rope2change
+	}
+
+	trigger ropeconstr
+	{
+		accum 5 set 1
+		trigger bellropes rope1on
+		trigger bellropes rope2on
+	}
+	trigger ropedestr // new
+	{
+		accum 5 set 0
+	}
+
+	trigger rope1on
+	{
+		accum 4 abort_if_not_equal 0
+		accum 5 abort_if_not_equal 1
+		trigger bell1rope on
+	}
+
+	trigger rope2on
+	{
+		accum 4 abort_if_not_equal 1
+		accum 5 abort_if_not_equal 1
+		trigger bell2rope on
+		trigger bell2tolltr on
+	}
+
+
+	trigger rope1change
+	{
+		// wm_announce "^3rope 1 change called"
+		accum 5 abort_if_not_equal 1
+		accum 4 abort_if_not_equal 0
+		// wm_announce "^3rope 1 change executed"
+		trigger bell1rope on
+	}
+
+	trigger rope2change
+	{
+		// wm_announce "^3rope 2 change called"
+		accum 5 abort_if_not_equal 1
+		accum 4 abort_if_not_equal 1
+		// wm_announce "^3rope 2 change executed"
+		trigger bell1rope off
+		trigger bell2rope on
+		trigger bell2tolltr on
+	}
+}
+
+bell1rope
+{
+	spawn
+	{
+		wait 200
+		setstate bell1rope invisible
+	}
+	trigger on
+	{
+		setstate bell1rope default
+	}
+	trigger off
+	{
+		setstate bell1rope invisible
+	}
+}
+
+bell2rope
+{
+	spawn
+	{
+		wait 200
+		setstate bell2rope invisible
+	}
+	trigger on
+	{
+		setstate bell2rope default
+	}
+	trigger off
+	{
+		setstate bell2rope invisible
+	}
+}
+
+
+bell2tolltr
+{
+	spawn
+	{
+		wait 200
+		accum 1 set 0
+		setstate bell2tolltr invisible
+	}
+
+	trigger on
+	{
+		setstate bell2tolltr default
+	}
+	trigger off
+	{
+		setstate bell2tolltr invisible
+	}
+
+	trigger tolling
+	{
+		trigger bell2tolltr bell2tolled
+		trigger bell2tolltr bell2tolledagain
+	}
+
+
+	trigger bell2tolled
+	{
+		accum 1 abort_if_not_equal 0
+		accum 1 set 1
+
+		//wm_announce "^1Axis tolled the Warbell!"
+		wm_objective_status 6 0 1
+		wm_objective_status 6 1 2
+
+		trigger vobj belltolled
+		trigger sacr_onetr sacr_oneon
+	}
+
+	trigger bell2tolledagain
+	{
+		accum 1 abort_if_equal 0
+		enablespeaker sd_belltolledagain1
+		enablespeaker sd_belltolledagain2
+	}
+}
+
+
+
+// ---------------------------------------------------
+// ------------- OBJECTIVE F - SACRIFICES ------------
+// ---------------------------------------------------
+
+// ------------- SACRIFICE 1 -----------------------------------
+
+sacr_onetr
+{
+	spawn
+	{
+		wait 300
+		setstate sacr_onetr invisible
+	}
+
+	trigger sacr_oneon
+	{
+		trigger sroom_monster1 on
+		trigger sroom_monster1 on
+		trigger sroom_monster1 on
+		// we need a pre-indicator here
+		wait 10000 // time in ms before first spot opens
+
+		wm_announce "^1The Wargod awaits the first Sacrifice!"
+
+		//wm_teamvoiceannounce 0 "wb_axis_sacr1" //------------------------------
+		//wm_teamvoiceannounce 1 "wb_allies_prevent" //------------------------------
+
+		trigger sacr_oneind on
+		setstate sacr_onetr default
+
+	}
+
+}
+
+sacr_onescript
+{
+	spawn
+	{
+		wait 300
+		setstate sacr_onescript invisible
+	}
+
+	trigger sacr_oneactivate
+	{
+		trigger sacr_oneind off
+		trigger sacr_onehurt on
+		trigger sacr_onefire onandoff
+		enablespeaker sd_sacr1
+		wm_announce "^1First Sacrifice performed!"
+
+		wait 2500
+		trigger sacr_onesmoke on
+		wait 1000
+		trigger sacr_onehurt off
+
+		// wm_announce "^3-- smoke one visible --"
+
+		//trigger gwinner sacrificeone
+		trigger sacr_twotr sacr_twoon // opens 2nd spot
+	}
+}
+
+sacr_onepreind // pre-indicator that gets called by delivery of book
+{
+	spawn
+	{
+		wait 300
+		setstate sacr_onepreind invisible // invisible
+	}
+	trigger on
+	{
+		setstate sacr_onepreind default
+	}
+	trigger off
+	{
+		wait 500
+		setstate sacr_onepreind invisible
+	}
+}
+
+sacr_oneind // indicates the activation of spot 1
+{
+	spawn
+	{
+		wait 300
+		setstate sacr_oneind invisible // invisible
+	}
+	trigger on
+	{
+		setstate sacr_oneind default
+		trigger sacr_onepreind off
+	}
+	trigger off
+	{
+		wait 3000
+		setstate sacr_oneind invisible
+	}
+}
+
+sacr_onehurt // indicates the activation of spot 1
+{
+	spawn
+	{
+		wait 300
+		setstate sacr_onehurt invisible
+	}
+	trigger on
+	{
+		setstate sacr_onehurt default
+	}
+	trigger off // not necessary cuz the trigger_hurt only lasts 2.5 secs - which doesnt work lol
+	{
+		setstate sacr_onehurt invisible
+	}
+}
+
+sacr_onefire // makes the fire and smoke that the player dies in
+{
+	spawn
+	{
+		wait 300
+		setstate sacr_onefire invisible
+	}
+	trigger onandoff
+	{
+		setstate sacr_onefire default
+		wait 4000
+		setstate sacr_onefire invisible
+	}
+}
+
+sacr_onesmoke // is the smoke column that indicates the spot was used already
+{
+	spawn
+	{
+		wait 300
+		setstate sacr_onesmoke invisible
+	}
+	trigger on
+	{
+		setstate sacr_onesmoke default
+	}
+	trigger off
+	{
+		setstate sacr_onesmoke invisible
+	}
+}
+
+
+// ------------- SACRIFICE 2 -----------------------------------
+
+sacr_twotr
+{
+	spawn
+	{
+		wait 300
+		setstate sacr_twotr invisible
+	}
+
+	trigger sacr_twoon
+	{
+		wait 16500
+
+		wm_announce "^1The Wargod awaits the Second Sacrifice!"
+		//wm_teamvoiceannounce 0 "wb_axis_sacr2" //------------------------------
+		//wm_teamvoiceannounce 1 "wb_allies_prevent" //------------------------------
+
+		trigger sacr_twoind on
+		setstate sacr_twotr default
+	}
+
+}
+
+sacr_twoscript
+{
+	spawn
+	{
+		wait 300
+		setstate sacr_twoscript invisible
+	}
+
+	trigger sacr_twoactivate
+	{
+		trigger sacr_twoind off
+		trigger sacr_twohurt on
+		trigger sacr_twofire onandoff
+		enablespeaker sd_sacr2
+		wm_announce "^1Second Sacrifice performed!"
+
+		wait 2500
+		trigger sacr_twosmoke on
+		wait 1000
+		trigger sacr_twohurt off
+
+		// wm_announce "^1-- smoke two visible --"
+
+		trigger gwinner sacrificetwo
+		trigger sacr_threetr sacr_threeon // opens 3rd spot
+	}
+}
+
+sacr_twopreind // pre-indicator that gets called by delivery of book
+{
+	spawn
+	{
+		wait 300
+		setstate sacr_twopreind invisible
+	}
+	trigger on
+	{
+		setstate sacr_twopreind default
+	}
+	trigger off
+	{
+		wait 500
+		setstate sacr_twopreind invisible
+	}
+}
+
+sacr_twoind // indicates the activation of spot 2
+{
+	spawn
+	{
+		wait 300
+		setstate sacr_twoind invisible // invisible
+	}
+	trigger on
+	{
+		setstate sacr_twoind default
+		trigger sacr_twopreind off
+	}
+	trigger off
+	{
+		wait 3000
+		setstate sacr_twoind invisible
+	}
+}
+
+sacr_twohurt // indicates the activation of spot 2
+{
+	spawn
+	{
+		wait 300
+		setstate sacr_twohurt invisible
+	}
+	trigger on
+	{
+		setstate sacr_twohurt default
+	}
+	trigger off // not necessary cuz the trigger_hurt only lasts 2.5 secs
+	{
+		setstate sacr_twohurt invisible
+	}
+}
+
+sacr_twofire // makes the fire and smoke that the player dies in
+{
+	spawn
+	{
+		wait 300
+		setstate sacr_twofire invisible
+	}
+	trigger onandoff
+	{
+		setstate sacr_twofire default
+		wait 4000
+		setstate sacr_twofire invisible
+	}
+}
+
+sacr_twosmoke // is the smoke column that indicates the spot was used already
+{
+	spawn
+	{
+		wait 300
+		setstate sacr_twosmoke invisible
+	}
+	trigger on
+	{
+		setstate sacr_twosmoke default
+	}
+	trigger off
+	{
+		setstate sacr_twosmoke invisible
+	}
+}
+
+
+
+// ------------- SACRIFICE 3 -----------------------------------
+
+sacr_threetr
+{
+	spawn
+	{
+		wait 300
+		setstate sacr_threetr invisible
+	}
+
+	trigger sacr_threeon
+	{
+		wait 16500
+		wm_announce "^1The Wargod awaits the Third and Last Sacrifice!"
+		//wm_teamvoiceannounce 0 "wb_axis_sacr3" //------------------------------
+		//wm_teamvoiceannounce 1 "wb_allies_prevent" //------------------------------
+
+		trigger sacr_threeind on
+		setstate sacr_threetr default
+		// wm_announce "^3-- trigger three visible --"
+	}
+
+}
+
+sacr_threescript
+{
+	spawn
+	{
+		wait 300
+		setstate sacr_threescript invisible
+	}
+
+	trigger sacr_threeactivate
+	{
+		trigger sacr_threeind off
+		trigger sacr_threehurt on
+		trigger sacr_threefire onandoff
+		enablespeaker sd_sacr1
+
+		wm_announce "^1AXIS RAISED THE WARGOD... THE WORLD IS DOOMED!!!"
+		wm_objective_status 7 0 1
+		wm_objective_status 7 1 2
+
+		trigger game_manager axiswin
+
+		trigger sroom_monster4 off
+
+		wait 2500
+		trigger sacr_threesmoke on
+		wait 1500
+	}
+}
+
+sacr_threepreind // pre-indicator that gets called by delivery of book
+{
+	spawn
+	{
+		wait 300
+		setstate sacr_threepreind invisible
+	}
+	trigger on
+	{
+		setstate sacr_threepreind default
+	}
+	trigger off
+	{
+		wait 500
+		setstate sacr_threepreind invisible
+	}
+}
+
+sacr_threeind // indicates the activation of spot 3
+{
+	spawn
+	{
+		wait 300
+		setstate sacr_threeind invisible // invisible
+	}
+	trigger on
+	{
+		setstate sacr_threeind default
+		trigger sacr_threepreind off
+	}
+	trigger off
+	{
+		wait 3000
+		setstate sacr_threeind invisible
+	}
+}
+
+sacr_threehurt // indicates the activation of spot 3
+{
+	spawn
+	{
+		wait 300
+		setstate sacr_threehurt invisible
+	}
+	trigger on
+	{
+		setstate sacr_threehurt default
+	}
+	trigger off // not necessary cuz the trigger_hurt only lasts 2.5 secs
+	{
+		setstate sacr_threehurt invisible
+	}
+}
+
+sacr_threefire // makes the fire and smoke that the player dies in
+{
+	spawn
+	{
+		wait 300
+		setstate sacr_threefire invisible
+	}
+	trigger onandoff
+	{
+		setstate sacr_threefire default
+		wait 4000
+		setstate sacr_threefire invisible
+	}
+}
+
+sacr_threesmoke // is the smoke column that indicates the spot was used already
+{
+	spawn
+	{
+		wait 300
+		setstate sacr_threesmoke invisible
+	}
+	trigger on
+	{
+		setstate sacr_threesmoke default
+	}
+	trigger off
+	{
+		setstate sacr_threesmoke invisible
+	}
+}
+
+
+
+// -----------------------------------------------
+// ------------- OBJECTIVE G - GUARD HOUSE FLAG --
+// -----------------------------------------------
+
+
+// ----- AXIS FIRST SPAWN
+
+spawnstartax_spawns
+{
+	spawn
+	{
+	}
+	trigger off
+	{
+		setstate spawnstartax_spawns invisible
+	}
+}
+
+spawnstartax_wobj // first Axis spawn - descr. "Axis Start"
+{
+	spawn
+	{
+		wait 50
+		setstate spawnstartax_wobj default
+	}
+
+	trigger on
+	{
+		setstate spawnstartax_wobj default
+		// wm_announce "^2setstate spawnaxstart_wobj, spawnaxstart DEFAULT"
+	}
+
+	trigger off
+	{
+		setstate spawnstartax_wobj invisible
+		// wm_announce "^2setstate spawnaxstart_wobj, spawnaxstart invisible"
+	}
+}
+
+// ----- AXIS SPAWN in GUARDHOUSE - removed
+
+
+
+// ----- ALLIES FIRST SPAWN - removed
+
+
+
+// ----- FLAG in GUARD HOUSE
+
+spawngh_flag
+{
+	spawn
+	{
+		wait 150
+		accum 2 set 1 // Allies have the flag at the start
+		setautospawn "Axis Start" 0
+		setautospawn "Guardhouse" 1
+
+		disablespeaker sd_ghaxis
+		enablespeaker sd_ghallies
+	}
+
+	trigger allied_capture
+	{
+		accum 2 abort_if_equal 1 // allies own the flag already
+		accum 2 set 1
+
+		wm_objective_status	5 0 2
+		wm_objective_status	5 1 1
+		wm_announce "^1Allies have captured the Guardhouse Flag!"
+
+		trigger spawnstartax_wobj on
+		setstate spawnstartax_spawns default
+		alertentity spawngh_wobj
+
+		setautospawn "Guardhouse" 1
+		setautospawn "Axis Start" 0
+
+		disablespeaker sd_ghaxis
+		enablespeaker sd_ghallies
+	}
+
+	trigger axis_capture
+	{
+		accum 2 abort_if_equal 0 // axis already own the flag
+		accum 2 set 0
+
+		// correct Autospawn gets called in the vobj scriptblock
+
+		wm_objective_status	5 0 1
+		wm_objective_status	5 1 2
+		wm_announce "^1Axis have captured the Guardhouse Flag!"
+
+		alertentity spawngh_wobj
+		trigger spawnstartax_wobj off
+		setstate spawnstartax_spawns invisible
+		//trigger spawnmon_wobj on
+
+		setautospawn "Monastery" 1
+		setautospawn "Guardhouse" 0
+
+		disablespeaker sd_ghallies
+		enablespeaker sd_ghaxis
+	}
+
+	trigger takenover //triggers spawnsetting after gate blown
+	{
+		wm_announce "^1Axis secured the Guardhouse Flag!"
+		trigger spawngh_flag force_axis
+		trigger spawngh_flag checkobj
+		trigger spawngh_flag kill
+	}
+
+	trigger force_axis
+	{
+		accum 2 abort_if_equal 0
+		alertentity spawngh_wobj
+		alertentity spawngh_spawns
+		// wm_announce "^2forceaxis executed"
+
+		trigger spawnstartax_wobj off
+		setstate spawnstartax_spawns invisible
+
+		disablespeaker sd_ghallies
+		enablespeaker sd_ghaxis
+	}
+
+	trigger checkobj
+	{
+		accum 2 abort_if_equal 0
+		wm_objective_status	5 0 1
+		wm_objective_status	5 1 2
+		// wm_announce "^2checkobj executed"
+	}
+
+	trigger kill
+	{
+		remove
+		// wm_announce "^2flag remove executed"
+	}
+}
+
+
+// ----- Allied Spawn at Monastery
+
+
+
+spawnmon_wobj // second Allied spawn - descr. "Monastery" - disabled
+{
+	spawn
+	{
+		wait 200
+		//setstate spawnmon_wobj invisible
+		//wait 30000
+		setstate spawnmon_wobj default
+	}
+	trigger on
+	{
+		setstate spawnmon_wobj default
+	}
+	trigger off
+	{
+		setstate spawnmon_wobj invisible
+	}
+}
+
+
+// ----- AXIS SPAWN at COMMAND POST
+
+spawncpax // third Axis spawn - descr. "Command Post"
+{
+	spawn
+	{
+		wait 50
+		setstate spawncpax invisible
+	}
+}
+
+spawncpax_wobj
+{
+	spawn
+	{
+		wait 50
+		setstate spawncpax_wobj invisible
+	}
+
+	trigger on //gets used while bell hammer not delivered yet
+	{
+		setstate spawncpax_wobj default
+		setstate spawncpax default
+		wait 100
+		// wm_announce "^1setstate spawncpax_wobj, spawncpax default"
+	}
+
+	trigger onautosp //gets called after delivery of bell hammer
+	{
+		// setautospawn "Command Post" 0 //can only be called after hammer delivered
+	}
+
+	trigger off
+	{
+		setstate spawncpax_wobj invisible
+		setstate spawncpax invisible
+		// wm_announce "^1setstate spawncpax_wobj, spawncpax invisible"
+	}
+}
+
+
+
+// -------------LMS-Spawns------------------------
+allied_lms_spawns
+{
+	spawn
+	{
+		remove
+	}
+}
+
+allied_lms_wobj
+{
+	spawn
+	{
+		remove
+	}
+}
+
+axis_lms_spawns
+{
+	spawn
+	{
+		remove
+	}
+}
+
+axis_lms_wobj
+{
+	spawn
+	{
+		remove
+	}
+}
+
+
+
+
+// ---------------------------------------------------
+// ------------- OBJECTIVE H - CAVE WALL -------------
+// ---------------------------------------------------
+
+// real func_explosive or just something to destroy with grenades?
+
+
+
+// ---------------------------------------------------
+// ------------- OBJECTIVE I - CMD Post --------------
+// ---------------------------------------------------
+
+
+// ------------- START: NEUTRAL ----------------------
+
+radio_neutral //neutral_radio_closed
+{
+	spawn
+	{
+		accum 0 set 0
+	}
+
+	trigger hide
+	{
+		setstate radio_neutral invisible
+		setstate radio_neutral_model invisible
+	}
+
+	trigger show
+	{
+		accum 0 abort_if_equal 1
+		setstate radio_neutral default
+		setstate radio_neutral_model default
+	}
+
+	trigger disable
+	{
+		accum 0 set 1
+	}
+}
+
+// trigger: 
+// target - radio_neutral_built
+
+
+// ------------- AXIS BUILT IT -------------------------
+
+radio_axis_constr //axis_radio_built
+{
+	spawn
+	{
+		wait 50
+		constructible_class	2
+
+		wait 150
+		trigger radio_axis_constr setup
+	}
+
+	trigger setup
+	{
+		setchargetimefactor 0 soldier 1
+		setchargetimefactor 0 lieutenant 1
+		setchargetimefactor 0 medic 1
+		setchargetimefactor 0 engineer 1
+		setchargetimefactor 0 covertops 1
+		sethqstatus 0 0
+	}
+
+	buildstart final
+	{
+		trigger radio_axis_constr_model trans
+		trigger radio_axis_destr hide
+		trigger radio_allied_destr hide
+		trigger radio_neutral 	hide
+	}
+
+	built final
+	{
+		trigger radio_axis_constr_model show
+		trigger radio_axis_constr_model enable_axis_features
+
+		trigger radio_neutral 	disable	
+
+		trigger radio_axis_destr enable
+		trigger radio_allied_destr enable
+
+		trigger spawncpax_wobj on //calls CP spawn for Axis
+		enablespeaker axis_compost_sound
+	}
+
+	decayed final
+	{
+		trigger radio_axis_constr_model hide
+		trigger radio_axis_destr show
+		trigger radio_allied_destr show
+		trigger radio_neutral 	show
+	}
+
+	death
+	{
+		trigger radio_axis_constr_model hide
+		trigger radio_axis_destr show
+		trigger radio_axis_constr_model disable_axis_features
+
+		disablespeaker axis_compost_sound
+		trigger spawncpax_wobj off //disables cp spawn
+	}
+}
+
+radio_axis_constr_model //axis_radio_built_model
+{
+	spawn
+	{
+		accum 1 set 0
+		wait 200
+		setstate radio_axis_constr_model invisible
+	}
+
+	trigger show
+	{
+		setstate radio_axis_constr_model default
+	}
+
+	trigger hide
+	{
+		setstate radio_axis_constr_model invisible
+	}
+
+	trigger trans
+	{
+		setstate radio_axis_constr_model underconstruction
+	}
+
+	trigger enable_axis_features
+	{
+		// axis built it
+		setchargetimefactor 0 soldier 0.8
+		setchargetimefactor 0 lieutenant 0.8
+		setchargetimefactor 0 medic 0.8
+		setchargetimefactor 0 engineer 0.8
+		setchargetimefactor 0 covertops 0.8
+		sethqstatus 0 1
+
+		wm_objective_status	6 1 2
+		wm_objective_status	6 0 1
+
+		trigger scrf_ammo on
+		trigger scrf_ammotr on
+		trigger scrf_ammoempty off
+
+		wm_announce	"Axis Command Post constructed: charge speed increased!"
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "axis_hq_compost_constructed"
+
+		wm_teamvoiceannounce 1 "allies_hq_compost_constructed_axis"
+
+		wm_removeteamvoiceannounce 0 "axis_hq_compost_construct"
+		// *---------------------------------------------------------------------------------*
+	}
+
+	trigger disable_axis_features
+	{
+		// axis lost it
+		setchargetimefactor 0 soldier 1
+		setchargetimefactor 0 lieutenant 1
+		setchargetimefactor 0 medic 1
+		setchargetimefactor 0 engineer 1
+		setchargetimefactor 0 covertops 1
+		sethqstatus 0 0
+
+		wm_objective_status	6 1 0
+		wm_objective_status	6 0 0
+
+		trigger scrf_ammo off
+		trigger scrf_ammotr off
+		trigger scrf_ammoempty on
+
+		wm_announce	"Allied team has destroyed the Axis Command Post!"
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_addteamvoiceannounce 0 "axis_hq_compost_construct"
+
+		wm_addteamvoiceannounce 1 "allies_hq_compost_construct"
+
+		wm_teamvoiceannounce 0 "axis_hq_compost_damaged"
+
+		wm_teamvoiceannounce 1 "allies_hq_compost_construct"
+		// *---------------------------------------------------------------------------------*
+	}
+}
+
+// ------------- AXIS LOST IT -------------------------
+
+radio_axis_destr //axis_radio_destroyed - changed
+{
+	spawn
+	{
+		wait 200
+		accum 0 set 0
+		setstate radio_axis_destr invisible
+		setstate radio_axis_destr_model invisible
+	}
+
+	trigger hide
+	{
+		setstate radio_axis_destr invisible
+		setstate radio_axis_destr_model invisible
+	}
+
+	trigger show
+	{
+		accum 0 abort_if_equal 0
+		setstate radio_axis_destr default
+		setstate radio_axis_destr_model default
+	}
+
+	trigger enable
+	{
+		accum 0 set 1
+	}
+
+	trigger disable
+	{
+		accum 0 set 0
+	}
+}
+
+// ------------- ALLIES BUILT IT -------------------------
+
+radio_allied_constr //allied_radio_built
+{
+	spawn
+	{
+		wait 50
+		constructible_class	2
+		trigger radio_allied_constr setup
+	}
+
+	trigger setup
+	{
+		setchargetimefactor 1 soldier 1
+		setchargetimefactor 1 lieutenant 1
+		setchargetimefactor 1 medic 1
+		setchargetimefactor 1 engineer 1
+		setchargetimefactor 1 covertops 1
+		sethqstatus 1 0
+	}
+
+	buildstart final
+	{
+		trigger radio_allied_constr_model trans
+		trigger radio_axis_destr hide
+		trigger radio_allied_destr hide
+		trigger radio_neutral 	hide
+	}
+
+	built final
+	{
+		trigger radio_allied_constr_model show
+		trigger radio_allied_destr enable
+		trigger radio_axis_destr disable
+		trigger radio_neutral 	disable
+		trigger radio_allied_constr_model enable_allied_features
+		trigger alliedcpspawns_obj on
+
+		enablespeaker allies_compost_sound
+	}
+
+	decayed final
+	{
+		trigger radio_allied_constr_model hide
+		trigger radio_allied_destr show
+		trigger radio_axis_destr show
+		trigger radio_neutral 	show
+	}
+
+	death
+	{
+		trigger radio_allied_constr_model hide
+		trigger radio_allied_destr show
+		trigger radio_allied_constr_model disable_allied_features
+		trigger alliedcpspawns_obj off
+
+		disablespeaker allies_compost_sound
+	}
+}
+
+radio_allied_constr_model
+{
+	spawn
+	{
+		accum 1 set 0
+		accum 2 set 0 // state of command post as far as the VO is concerned (0=not built, 1=built) - Wils
+		wait 200
+		setstate radio_allied_constr_model invisible
+	}
+
+	trigger show
+	{
+		setstate radio_allied_constr_model default
+		enablespeaker neutral_radio_sound
+	}
+
+	trigger hide
+	{
+		setstate radio_allied_constr_model invisible
+		disablespeaker neutral_radio_sound
+	}
+
+	trigger trans
+	{
+		setstate radio_allied_constr_model underconstruction
+	}
+
+	trigger alliedcompostvo
+	{
+		accum 2 abort_if_equal 1
+		wm_teamvoiceannounce 1 "allies_hq_compost_construct"
+	}
+		
+	trigger enable_allied_features
+	{
+		// allies built it
+		accum 1 set 1 // Is this ever used? - Wils
+		accum 2 set 1 // State of com post as far as VO is concerned (1=built)
+		setchargetimefactor 1 soldier 0.8
+		setchargetimefactor 1 lieutenant 0.8
+		setchargetimefactor 1 medic 0.8
+		setchargetimefactor 1 engineer 0.8
+		setchargetimefactor 1 covertops 0.8
+		sethqstatus 0 1
+
+		//wm_objective_status	6 1 1
+		//wm_objective_status	6 0 2
+
+		wm_announce	"Allied Command Post constructed: charge speed increased!"
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "axis_hq_compost_constructed_allies"
+
+		wm_teamvoiceannounce 1 "allies_hq_compost_constructed"
+
+		wm_removeteamvoiceannounce 1 "allies_hq_compost_construct"
+		// *---------------------------------------------------------------------------------*
+	}
+
+	trigger disable_allied_features
+	{
+		// allies lost it
+		accum 2 set 0 // state of com post as far as VO is concerned (0=destroyed)
+		wm_announce	"Axis team has destroyed the Allied Command Post!"
+
+		setchargetimefactor 1 soldier 1
+		setchargetimefactor 1 lieutenant 1
+		setchargetimefactor 1 medic 1
+		setchargetimefactor 1 engineer 1
+		setchargetimefactor 1 covertops 1
+		sethqstatus 0 0
+
+		//wm_objective_status	6 1 0
+		//wm_objective_status	6 0 0
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_addteamvoiceannounce 0 "axis_hq_compost_construct"
+
+		wm_addteamvoiceannounce 1 "allies_hq_compost_construct"
+
+		wm_teamvoiceannounce 0 "axis_hq_compost_construct"
+
+		wm_teamvoiceannounce 1 "allies_hq_compost_damaged"
+		// *---------------------------------------------------------------------------------*
+	}
+}
+
+// ------------- ALLIES LOST IT -------------------------
+
+radio_allied_destr //allied_radio_destroyed
+{
+	spawn
+	{
+		wait 200
+		accum 0 set 0
+		setstate radio_allied_destr invisible
+		setstate radio_allied_destr_model invisible
+	}
+
+	trigger hide
+	{
+		setstate radio_allied_destr invisible
+		setstate radio_allied_destr_model invisible
+	}
+
+	trigger show
+	{
+		accum 0 abort_if_equal 0
+		setstate radio_allied_destr default
+		setstate radio_allied_destr_model default
+	}
+
+	trigger enable
+	{
+		accum 0 set 1
+	}
+
+	trigger disable
+	{
+		accum 0 set 0
+	}
+}
+
+
+
+
+scrf_ammo
+{
+	spawn
+	{
+		wait 1000
+		setstate scrf_ammo invisible
+	}
+	trigger on
+	{
+		setstate scrf_ammo default
+	}
+	trigger off
+	{
+		setstate scrf_ammo invisible
+	}
+}
+
+scrf_ammotr
+{
+	spawn
+	{
+		wait 1000
+		setstate scrf_ammotr invisible
+	}
+	trigger on
+	{
+		setstate scrf_ammotr default
+	}
+	trigger off
+	{
+		setstate scrf_ammotr invisible
+	}
+}
+
+scrf_ammoempty
+{
+	spawn
+	{
+		wait 1000
+		setstate scrf_ammoempty default
+	}
+	trigger on
+	{
+		setstate scrf_ammoempty default
+	}
+	trigger off
+	{
+		setstate scrf_ammoempty invisible
+	}
+}
+
+
+
+// -----------------------------------------------------
+// ------------- OBJECTIVE J - MONASTERY MAIN GATE -----
+// -----------------------------------------------------
+
+mmgate
+{
+	spawn
+	{
+		wait 100
+		constructible_class 3
+	}
+
+	death
+	{
+		wm_announce "^1Axis have destroyed the Abbey Main Gate!"
+		//wm_teamvoiceannounce 0 "wb_axis_gatemain"
+		//wm_teamvoiceannounce 1 "wb_allies_gatemain"
+
+		wm_objective_status 7 0 2
+		wm_objective_status 7 1 1
+	}
+}
+
+// -----------------------------------------------------
+// ------------- OBJECTIVE K - MONASTERY GARDEN GATE ---
+// -----------------------------------------------------
+
+mggate
+{
+	spawn
+	{
+		wait 150
+		constructible_class 2 // 3
+	}
+
+	death
+	{
+		wm_announce "^1Axis have destroyed the Garden Gate!"
+		//wm_teamvoiceannounce 0 "wb_axis_gategarden"
+		//wm_teamvoiceannounce 1 "wb_allies_gategarden"
+	}
+
+}
+
+
+// -----------------------------------------------------
+// ------------- OBJECTIVE L - CRYPT GATE --------------
+// -----------------------------------------------------
+
+mcgate
+{
+	spawn
+	{
+		wait 150
+		constructible_class 3
+	}
+
+	death
+	{
+		wm_announce "^1Axis have destroyed the Crypt Gate!"
+
+		wm_objective_status 8 0 1
+		wm_objective_status 8 1 2
+
+		//wm_teamvoiceannounce 0 "wb_axis_gatecrypt"
+		//wm_teamvoiceannounce 1 "wb_allies_gatecrypt"
+	}
+
+}
+
+
+
+// -------------------------------------------------------------
+// ------------- SFX TERRAIN -----------------------------------
+// -------------------------------------------------------------
+
+sfx_tercliff01
+{
+	spawn
+	{
+	}
+	
+	trigger falling
+	{
+		enablespeaker sfx_tercliff01falling
+		wait 3200
+		trigger sfx_tercliff01hurt hurthim
+		wait 300
+		disablespeaker sfx_tercliff01falling
+	}
+}
+sfx_tercliff01hurt
+{
+	spawn
+	{
+		wait 1500
+		setstate sfx_tercliff01hurt invisible
+	}
+	
+	trigger hurthim
+	{
+		setstate sfx_tercliff01hurt default
+		wait 50
+		setstate sfx_tercliff01hurt invisible
+	}
+}
+
+sfx_tercliff02
+{
+	spawn
+	{
+	}
+	
+	trigger falling
+	{
+		enablespeaker sfx_tercliff02falling
+		wait 3200
+		trigger sfx_tercliff02hurt hurthim
+		wait 300
+		disablespeaker sfx_tercliff02falling
+	}
+}
+sfx_tercliff02hurt
+{
+	spawn
+	{
+		wait 1500
+		setstate sfx_tercliff02hurt invisible
+	}
+	
+	trigger hurthim
+	{
+		setstate sfx_tercliff02hurt default
+		wait 50
+		setstate sfx_tercliff02hurt invisible
+	}
+}
+
+sfx_tercliff03
+{
+	spawn
+	{
+	}
+	
+	trigger falling
+	{
+		enablespeaker sfx_tercliff03falling
+		wait 3200
+		trigger sfx_tercliff03hurt hurthim
+		wait 300
+		disablespeaker sfx_tercliff03falling
+	}
+}
+sfx_tercliff03hurt
+{
+	spawn
+	{
+		wait 1500
+		setstate sfx_tercliff03hurt invisible
+	}
+	
+	trigger hurthim
+	{
+		setstate sfx_tercliff03hurt default
+		wait 50
+		setstate sfx_tercliff03hurt invisible
+	}
+}
+
+sfx_tercliff04
+{
+	spawn
+	{
+	}
+	
+	trigger falling
+	{
+		enablespeaker sfx_tercliff04falling
+		wait 3200
+		trigger sfx_tercliff04hurt hurthim
+		wait 300
+		disablespeaker sfx_tercliff04falling
+	}
+}
+sfx_tercliff04hurt
+{
+	spawn
+	{
+		wait 1500
+		setstate sfx_tercliff04hurt invisible
+	}
+	
+	trigger hurthim
+	{
+		setstate sfx_tercliff04hurt default
+		wait 50
+		setstate sfx_tercliff04hurt invisible
+	}
+}
+
+sfx_tercliff05
+{
+	spawn
+	{
+	}
+	
+	trigger falling
+	{
+		enablespeaker sfx_tercliff05falling
+		wait 3200
+		trigger sfx_tercliff05hurt hurthim
+		wait 300
+		disablespeaker sfx_tercliff05falling
+	}
+}
+
+sfx_tercliff05hurt
+{
+	spawn
+	{
+		wait 1500
+		setstate sfx_tercliff05hurt invisible
+	}
+	
+	trigger hurthim
+	{
+		setstate sfx_tercliff05hurt default
+		wait 50
+		setstate sfx_tercliff05hurt invisible
+	}
+}
+
+sfx_cave
+{
+	spawn
+	{
+	}
+	
+	trigger falling
+	{
+		enablespeaker sfx_cavefalling
+		wait 3200
+		trigger sfx_cavehurt hurthim
+		wait 300
+		disablespeaker sfx_cavefalling
+	}
+}
+
+sfx_cavehurt
+{
+	spawn
+	{
+		wait 500
+		setstate sfx_cavehurt invisible
+	}
+	
+	trigger hurthim
+	{
+		setstate sfx_cavehurt default
+		wait 50
+		setstate sfx_cavehurt invisible
+	}
+}
+
+
+// -------------------------------------------------------------
+// ------------- SFX RADIO -------------------------------------
+// -------------------------------------------------------------
+
+radio01
+{
+	spawn
+	{
+		wait 500
+		accum 7 set 1
+		disablespeaker sd_abradiooff
+		enablespeaker sd_abradioon
+	}
+
+	trigger used
+	{
+		enablespeaker sd_abradiotr
+		wait 100
+		trigger radio01 on
+		trigger radio01 off
+	}	
+
+	trigger on
+	{
+		accum 7 abort_if_not_equal 2
+		disablespeaker sd_abradiooff
+		enablespeaker sd_abradioon
+		accum 7 set 1
+		wait 20
+	}
+
+	trigger off
+	{
+		accum 7 abort_if_not_equal 1
+		enablespeaker sd_abradiooff
+		disablespeaker sd_abradioon
+		accum 7 set 2
+		wait 20
+	}
+
+	trigger destroyed
+	{
+		disablespeaker sd_abradiooff
+		disablespeaker sd_abradioon
+		accum 7 set 3
+	}
+}
+
+radio01trigger
+{
+	spawn
+	{
+		wait 200
+		setstate radio01trigger default
+	}
+
+	trigger destroyed
+	{
+		setstate radio01trigger invisible	
+	}
+}
+
+// -------------------------------------------------------------
+// ------------- SFX ABBEY CHAPPELL ----------------------------
+// -------------------------------------------------------------
+
+prayer
+{
+	spawn
+	{
+		wait 500
+		disablespeaker sd_sainton
+	}
+
+	trigger praying
+	{
+		enablespeaker sd_sainton
+		wait 500
+		trigger saint praying
+	}	
+}
+
+saint
+{
+	spawn
+	{
+		wait 500
+		setstate miracle invisible
+	}
+
+	trigger praying
+	{
+		setstate miracle default
+		wait 3500
+		setstate miracle invisible
+	}	
+}
+
+monster1
+{
+	spawn
+	{
+		wait 700
+		setstate monster1 invisible
+	}
+	trigger bite
+	{
+		wait 200
+		setstate monster1 default
+		wait 200
+		setstate monster1 invisible
+	}
+}
+
+monster2
+{
+	spawn
+	{
+		wait 700
+		setstate monster2 invisible
+	}
+	trigger bite
+	{
+		wait 500
+		setstate monster2 default
+		wait 1500
+		setstate monster2 invisible
+	}
+}
+
+
+
+// -------------------------------------------------------------
+// ------------- SFX ABBEY SACRIFICE ROOM ----------------------
+// -------------------------------------------------------------
+
+sroom_monster1
+{
+	spawn
+	{
+		wait 600
+		setstate sroom_monster1 invisible
+	}
+
+	trigger on
+	{
+		setstate sroom_monster1 default
+	}	
+}
+
+sroom_monster2
+{
+	spawn
+	{
+		wait 650
+		setstate sroom_monster2 invisible
+	}
+
+	trigger on
+	{
+		setstate sroom_monster2 default
+	}	
+}
+
+sroom_monster4
+{
+	spawn
+	{
+		wait 600
+		setstate sroom_monster4 invisible
+	}
+
+	trigger on
+	{
+		wait 8000
+		setstate sroom_monster4 default
+	}	
+
+	trigger off
+	{
+		setstate sroom_monster4 invisible
+	}	
+}

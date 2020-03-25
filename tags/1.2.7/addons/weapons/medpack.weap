@@ -1,0 +1,25 @@
+weaponDef
+{
+	client {
+		pickupModel		"models/multiplayer/medpack/medpack_pickup.md3"
+
+		weaponConfig		"models/multiplayer/medpack/weapon.cfg"
+		handsModel		"models/multiplayer/medpack/v_medpack_hand.md3"
+
+		flashSound		"sound/misc/bag_toss.wav"
+
+		weaponSelectedIcon	"icons/iconw_medheal_1_select"
+
+		firstPerson {
+			model		"models/multiplayer/medpack/v_medpack.md3"
+			axisskin	"models/multiplayer/medpack/medpack_axis.skin"
+			alliedskin	"models/multiplayer/medpack/medpack_allied.skin"
+		}
+
+		thirdPerson {
+			model		"models/multiplayer/medpack/medpack.md3"
+			axisskin	"models/multiplayer/medpack/medpack_axis.skin"
+			alliedskin	"models/multiplayer/medpack/medpack_allied.skin"
+		}
+	}
+}

@@ -1,0 +1,36 @@
+weaponDef
+{
+	both {
+		name					"Smoke Screen"
+		statname				"Smoke"
+		damage					140
+		splashdamage			140
+		splashdamage_radius		140
+		selfKillMessage			"saw his smoke grenade."
+		KillMessage				"saw"
+		KillMessage2			"'s smoke grenade."
+	}
+
+	client {
+		weaponConfig			"models/multiplayer/smokebomb/weapon.cfg"
+		handsModel				"models/multiplayer/smokebomb/v_smokebomb_hand.mdc"
+
+		flashDlightColor		1 0.7 0.5
+
+		overheatSound			"sound/weapons/grenade/gren_smoke.wav"
+
+		weaponIcon				"icons/iconw_smokegrenade"
+		weaponSelectedIcon		"icons/iconw_smokegrenade_1_select"
+
+		missileModel			"models/multiplayer/smokebomb/smokebomb.md3"
+		missileTrailFunc		"GrenadeTrail"
+
+		firstPerson {
+			model				"models/multiplayer/smokebomb/v_smokebomb.md3"
+		}
+
+		thirdPerson {
+			model				"models/multiplayer/smokebomb/smokebomb.md3"
+		}
+	}
+}

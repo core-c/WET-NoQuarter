@@ -1,0 +1,4702 @@
+// globalaccum 0 bit 1	: 1=footbridge destroyed
+// globalaccum 0 bit 2	: 1=footbridge debris demolished
+// globalaccum 0 bit 3	: 1=assault ramp built
+// globalaccum 0 bit 4	: 1=tank barrier built
+// globalaccum 0 bit 5	: 1=tunnel destroyed
+// globalaccum 0 bit 6	: 1=tunnel debris demolished
+// globalaccum 0 bit 7	: 1=tank has passed footbridge
+// globalaccum 0 bit 8	: 1=tank has passed ramp
+// globalaccum 0 bit 9	: 1=tank has passed tunnel
+// globalaccum 0 bit 10	: 1=tank has passed bunker room
+// globalaccum 0 bit 11	: 1=bunker room destroyed
+// globalaccum 0 bit 12	: 1=bunker room debris cleared
+// globalaccum 0 bit 13	: 1=tank has passed barrier
+// globalaccum 0 bit 14	: 1=train arrived
+// globalaccum 0 bit 15	: 1=train2 arrived
+
+game_manager
+{
+	spawn
+	{
+	create
+	{
+"targetname" "rampm"
+"classname" "func_static"
+"scriptname" "rampm"
+"spawnflags" "9"
+"origin" "1920 1792 48"
+"model" "*6"
+}
+		wm_set_round_timelimit	25
+		wm_axis_respawntime	25 // --> 19 with CP
+		wm_allied_respawntime	15 // --> 18 with CP
+		wm_number_of_objectives 8
+		wm_setwinner 0
+
+	//	Objs from Allied viewpoint
+	//	1 - Keep footbridge intact, else clear its wreckage
+	//	2 - Build assault ramp
+	//	3 - Don't let tank barriers prevent escape
+	//	4 - Keep railway bridge intact, else clear its rubble
+	//	5 - Keep bunker control room intact, else clear its debris
+	//	6 - Build the CP
+	//	7 - Don't let them build their CP
+	//	8 - Capture the station flag
+
+		// obj nbr, team, status (0=none, 1=passed, 2=failed)
+		wm_objective_status 1 0 0
+		wm_objective_status 1 1 0
+		wm_objective_status 2 0 0
+		wm_objective_status 2 1 0
+		wm_objective_status 3 0 0
+		wm_objective_status 3 1 0
+		wm_objective_status 4 0 0
+		wm_objective_status 4 1 0
+		wm_objective_status 5 0 0
+		wm_objective_status 5 1 0
+		wm_objective_status 6 0 0
+		wm_objective_status 6 1 0
+		wm_objective_status 7 0 0
+		wm_objective_status 7 1 0
+		wm_objective_status 8 0 0
+		wm_objective_status 8 1 0
+
+		wait 500
+
+	//	Hide secondary spawnpoints
+		setstate bunker_wobj invisible
+		setstate station_wobj invisible
+
+	//	Set preferred spawns
+		setautospawn "Station" 0
+		setautospawn "Station" 1
+
+	//	Hide hurts
+		setstate bunker_hurt invisible
+		setstate footbridge_hurt invisible
+		setstate tunnel_hurt invisible
+
+	//	Hide station flag markers
+		setstate station_flag_allies invisible
+		setstate station_flag_axis invisible
+
+	//	Hide the train cargo
+		setstate train_mg42 invisible
+		setstate train_cargo_door invisible
+
+		setstate first_hacabinet_toi invisible
+		setstate first_hacabinet_cm_marker invisible
+
+		setstate first_trigger_ammo invisible
+		setstate first_ammocabinet invisible
+		setstate first_ammocabinet_clip invisible
+
+		setstate first_trigger_heal invisible
+		setstate first_healthcabinet invisible
+		setstate first_healthcabinet_clip invisible
+
+	//	Tank MG
+		remapshader "models/mapobjects/tanks_sd/mg42turret" "models/mapobjects/dt_tiger/mg42turret_tiger"
+
+	//	Tank design
+		remapshader "models/mapobjects/dt_tiger/dt_tiger_turret" "textures/breakout2/2bit/dt_tiger_turret"
+		remapshader "models/mapobjects/dt_tiger/dt_tiger_hull" "textures/breakout2/2bit/dt_tiger_hull"
+
+		remapshaderflush
+
+		wait 1000
+		wm_teamvoiceannounce 0 "axis_dynamite_footbridge"
+		wm_teamvoiceannounce 0 "axis_capture_station"
+
+		wm_addteamvoiceannounce 0 "axis_dynamite_footbridge"
+
+		wm_teamvoiceannounce 1 "allies_escort_tank_past_bridge"
+		wm_teamvoiceannounce 1 "allies_capture_station"
+
+		wm_addteamvoiceannounce 1 "allies_escort_tank_past_bridge"
+
+		wait 2000
+		wm_announce "^3*** ^7The Axis High Command want the tank stopped with minimal damage to the railway network! ^3***"
+		wait 5000
+		wm_announce "^3*** ^7At this time Axis forces are permitted to destroy ONLY the railway footbridge! ^3***"
+	}
+
+	trigger allies_win
+	{
+		wm_setwinner 1
+		wm_announce "^3*** ^7The Allies have escaped!!! ^3***"
+		trigger scriptblock1 break_final_barrier
+
+		wait 3000
+		trigger tank allied_victory
+		wm_endround
+	}
+
+	trigger timelimit_hit
+	{
+	//	Axis win, move the trains if they are at the station
+
+		globalaccum 0 abort_if_not_bitset 15 // Exit if train2 hasn't arrived
+		trigger train2 depart
+
+		globalaccum 0 abort_if_not_bitset 14 // Exit if train hasn't arrived
+		globalaccum 0 abort_if_not_bitset 8  // Exit if tank hasn't ascended ramp
+		trigger rampm hide
+		trigger train depart
+	}
+}
+
+scriptblock1
+{
+	trigger break_final_barrier
+	{
+		wait 700
+		alertentity final_barrier
+	}
+
+	trigger splat_crates
+	{
+		wait 700
+		alertentity tank_splat_crate1
+		wait 800
+		alertentity tank_splat_crate2
+	}
+}
+
+// ================================================
+allied_cp_open
+{
+	spawn
+	{
+		wait 100
+		accum 0 set 0			// 0=CP Closed, 1=CP Damaged
+		constructible_class 2			// Dyno+Satchel
+
+		trigger self disable_cp_features		// Default charge bar times
+		setstate allied_cp_damaged invisible	// Hide damaged CP clipbrush+model
+		setstate allied_cp_damaged_model invisible
+
+		wait 3000
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 1 "allies_hq_compost_construct"
+		wm_addteamvoiceannounce 1 "allies_hq_compost_construct"
+		// *----------------------------------- vo ------------------------------------------*
+	}
+
+	trigger disable_cp_features
+	{
+		setstate allied_cp_open_model invisible	// Hide Open CP model
+
+		setchargetimefactor 1 soldier 1
+		setchargetimefactor 1 lieutenant 1
+		setchargetimefactor 1 medic 1
+		setchargetimefactor 1 engineer 1
+		setchargetimefactor 1 covertops 1
+
+		sethqstatus 1 0			// Landmines team warning message
+		disablespeaker speaker_allied_cp		// Disable morse code sound
+	}
+
+	trigger enable_cp_features
+	{
+		setstate allied_cp_open_model default	// Show open CP model
+
+		setchargetimefactor 1 soldier 0.75
+		setchargetimefactor 1 lieutenant 0.75
+		setchargetimefactor 1 medic 0.75
+		setchargetimefactor 1 engineer 0.75
+		setchargetimefactor 1 covertops 0.75
+
+		sethqstatus 1 1			// Landmines team warning message
+		enablespeaker speaker_allied_cp		// Enable morse code sound
+	}
+
+	buildstart final
+	{
+		setstate allied_cp_closed invisible		// Hide closed CP clipbrush+model
+		setstate allied_cp_closed_model invisible
+		setstate allied_cp_damaged invisible	// Hide damaged CP clipbrush+model
+		setstate allied_cp_damaged_model invisible
+	}
+
+	built final
+	{
+		accum 0 set 1			// Only show the damaged CP model
+		trigger self enable_cp_features		// Increase charge bar times
+
+		wm_announce "Allied Command Post constructed. Charge speed increased!"
+		
+		wm_objective_status 6 0 2
+		wm_objective_status 6 1 1
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_removeteamvoiceannounce 1 "allies_hq_compost_construct"
+		wm_teamvoiceannounce 1 "allies_hq_compost_constructed"
+
+		wm_teamvoiceannounce 0 "axis_hq_compost_constructed_allies"
+		wm_addteamvoiceannounce 0 "axis_hq_compost_constructed_allies"
+		// *----------------------------------- vo ------------------------------------------*
+	}
+
+	decayed final
+	{
+		setstate allied_cp_open_model invisible	// Hide Open CP model
+		trigger self show_damaged_cabinet	// Show previous cabinet state
+		trigger self show_closed_cabinet
+	}
+
+	death
+	{
+		trigger self show_damaged_cabinet	// Show damaged CP model
+		trigger self disable_cp_features		// Default charge bar times
+
+		wm_announce "Axis have destroyed the Allied Command Post!"
+		
+		wm_objective_status 6 0 1
+		wm_objective_status 6 1 2
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 1 "allies_hq_compost_damaged"
+		wm_addteamvoiceannounce 1 "allies_hq_compost_construct"
+
+		wm_removeteamvoiceannounce 0 "axis_hq_compost_constructed_allies"
+		// *----------------------------------- vo ------------------------------------------*
+	}
+
+	trigger show_closed_cabinet
+	{
+		accum 0 abort_if_equal 1		// Closed cabinet active yet?
+		setstate allied_cp_closed default
+		setstate allied_cp_closed_model default
+	}
+
+	trigger show_damaged_cabinet
+	{
+		accum 0 abort_if_equal 0		// Damaged cabinet active yet?
+		setstate allied_cp_damaged default
+		setstate allied_cp_damaged_model default
+	}
+}
+
+// ================================================
+axis_cp_open
+{
+// accum 0	: Which model to show, 0=Closed 1=Damaged
+// accum 1	: CP damage status, 0=Undamaged 1=Damaged
+// accum 2	: CP build status, 0=Unbuilt, 1=Built
+	spawn
+	{
+		wait 100
+		accum 0 set 0			// 0=CP Closed, 1=CP Damaged
+		constructible_class 2			// Dyno+Satchel
+
+		trigger self disable_cp_features		// Default charge bar times
+		setstate axis_cp_damaged invisible	// Hide damaged CP clipbrush+model
+		setstate axis_cp_damaged_model invisible
+
+		wait 3000
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "axis_hq_compost_construct"
+		wm_addteamvoiceannounce 0 "axis_hq_compost_construct"
+		// *----------------------------------- vo ------------------------------------------*
+	}
+
+	trigger clear
+	{
+	//	Allow the CP to be built again
+		setstate axis_cp_toi default
+	}
+
+	trigger shutdown
+	{
+	//	The axis CP must be damaged and not useable until the allies clear the rubble
+		setstate axis_cp_toi invisible
+
+		accum 1 abort_if_equal 1 	// abort if CP already damaged
+		accum 0 set 1			// use damaged model
+
+		
+		setstate axis_cp_open_model invisible	// Hide Open CP model
+		setstate axis_cp_closed invisible		// Hide closed CP clipbrush+model
+		setstate axis_cp_closed_model invisible
+
+		trigger self shutdown_if_unbuilt
+		trigger self shutdown_if_built
+	}
+
+	trigger shutdown_if_unbuilt
+	{
+		accum 2 abort_if_not_equal 0
+		trigger self show_damaged_cabinet
+	}
+
+	trigger shutdown_if_built
+	{
+		accum 2 abort_if_not_equal 1
+		accum 1 set 1			// CP damaged
+		accum 2 set 0			// CP unbuilt
+
+		kill axis_cp_open
+
+		wm_objective_status 7 0 2
+		wm_objective_status 7 1 1
+
+		trigger self show_damaged_cabinet	// Show damaged CP model
+		trigger self disable_cp_features		// Default charge bar times
+	}
+
+	trigger disable_cp_features
+	{
+		setstate axis_cp_open_model invisible	// Hide Open CP model
+
+		setchargetimefactor 0 soldier 1
+		setchargetimefactor 0 lieutenant 1
+		setchargetimefactor 0 medic 1
+		setchargetimefactor 0 engineer 1
+		setchargetimefactor 0 covertops 1
+
+		sethqstatus 0 0			// Landmines team warning message
+		disablespeaker speaker_axis_cp		// Disable morse code sound
+	}
+
+	trigger enable_cp_features
+	{
+		setstate axis_cp_open_model default	// Show open CP model
+
+		setchargetimefactor 0 soldier 0.75
+		setchargetimefactor 0 lieutenant 0.75
+		setchargetimefactor 0 medic 0.75
+		setchargetimefactor 0 engineer 0.75
+		setchargetimefactor 0 covertops 0.75
+
+		sethqstatus 0 1			// Landmines team warning message
+		enablespeaker speaker_axis_cp		// Enable morse code sound
+	}
+
+	buildstart final
+	{
+		setstate axis_cp_closed invisible		// Hide closed CP clipbrush+model
+		setstate axis_cp_closed_model invisible
+		setstate axis_cp_damaged invisible	// Hide damaged CP clipbrush+model
+		setstate axis_cp_damaged_model invisible
+	}
+
+	built final
+	{
+		accum 0 set 1			// Only show the damaged CP model
+		accum 1 set 0			// CP undamaged
+		accum 2 set 1			// CP built
+		trigger self enable_cp_features		// Increase charge bar times
+
+		wm_announce "Axis Command Post constructed. Charge speed increased!"
+		
+
+		wm_objective_status 7 0 1
+		wm_objective_status 7 1 2
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_removeteamvoiceannounce 0 "axis_hq_compost_construct"
+		wm_teamvoiceannounce 0 "axis_hq_compost_constructed"
+
+		wm_teamvoiceannounce 1 "allies_hq_compost_constructed_axis"
+		wm_addteamvoiceannounce 1 "allies_hq_compost_constructed_axis"
+		// *----------------------------------- vo ------------------------------------------*
+	}
+
+	decayed final
+	{
+		setstate axis_cp_open_model invisible	// Hide Open CP model
+		trigger self show_damaged_cabinet	// Show previous cabinet state
+		trigger self show_closed_cabinet
+	}
+
+	death
+	{
+		accum 1 set 1			// CP damaged
+		accum 2 set 0			// CP unbuilt
+
+		trigger self show_damaged_cabinet	// Show damaged CP model
+		trigger self disable_cp_features		// Default charge bar times
+
+		wm_announce "Allies have destroyed the Axis Command Post!"
+		
+		wm_objective_status 7 0 2
+		wm_objective_status 7 1 1
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "axis_hq_compost_damaged"
+		wm_addteamvoiceannounce 0 "axis_hq_compost_construct"
+
+		wm_removeteamvoiceannounce 1 "allies_hq_compost_constructed_axis"
+		// *----------------------------------- vo ------------------------------------------*
+	}
+
+	trigger show_closed_cabinet
+	{
+		accum 0 abort_if_equal 1		// Closed cabinet active yet?
+		setstate axis_cp_closed default
+		setstate axis_cp_closed_model default
+	}
+
+	trigger show_damaged_cabinet
+	{
+		accum 0 abort_if_equal 0		// Damaged cabinet active yet?
+		setstate axis_cp_damaged default
+		setstate axis_cp_damaged_model default
+	}
+}
+
+// ================================================
+barricade
+{
+	spawn
+	{
+		wait 50
+		constructible_class 1
+		constructible_health 800
+
+		setstate barricade_materials invisible	// Crate Models
+		setstate barricade_clip invisible	// Clip brushes
+		setstate barricade_flag invisible
+	}
+
+	trigger setup
+	{
+		setstate barricade_materials default	// Crate Models
+		setstate barricade_clip default		// Clip brushes
+		setstate barricade_flag default
+	}
+
+	built final
+	{
+		constructible_health 800
+
+		setstate barricade_materials invisible	// Crate Models
+		setstate barricade_clip invisible	// Clip brushes
+		setstate barricade_flag invisible
+
+		wm_announce "^3*** ^7Axis have built the mine tunnel barricade! ^3***"
+	}
+
+	decayed final
+	{
+		trigger self setup
+	}
+
+	death
+	{
+		trigger self setup
+		wm_announce "^3*** ^7Allies have destroyed the mine tunnel barricade! ^3***"
+	}
+}
+
+// ================================================
+barrier1
+{
+	spawn
+	{
+		wait 400
+
+		constructible_class 3
+
+	//	Objective starts unavailable
+		setstate barrier1_toi invisible
+		setstate barrier1_materials invisible
+		setstate barrier1_materials_clip invisible
+		setstate barrier1_flag invisible
+	}
+
+	trigger setup
+	{
+		setstate barrier1_toi default
+		setstate barrier1_materials default
+		setstate barrier1_materials_clip default
+		setstate barrier1_flag default
+	}
+
+	built final
+	{
+		setstate barrier1_materials invisible
+		setstate barrier1_materials_clip invisible
+		setstate barrier1_flag invisible
+
+		wm_announce "^3*** ^7Axis have constructed the Tank Barrier! ^3***"
+
+		wm_objective_status 3 0 1
+		wm_objective_status 3 1 2
+
+		globalaccum 0 bitset 4				// record that the barrier is built
+
+		wm_removeteamvoiceannounce 0 "axis_build_barrier"
+
+		wm_teamvoiceannounce 0 "axis_barrier_constructed"
+		wm_teamvoiceannounce 1 "allies_destroy_barrier"
+
+		wm_addteamvoiceannounce 1 "allies_destroy_barrier"
+	}
+
+	decayed final
+	{
+		setstate barrier1_materials default
+		setstate barrier1_materials_clip default
+		setstate barrier1_flag default
+	}
+
+	death
+	{
+		globalaccum 0 bitreset 4			// record that the barrier is destroyed
+
+		trigger self remove_toi_check			// if the tank has passed the barrier, remove toi
+
+		globalaccum 0 abort_if_bitset 13		// abort if the tank has passed the barrier
+
+		wm_announce "^3*** ^7Allies have destroyed the Tank Barrier! ^3***"
+
+		trigger self setup
+
+		wm_addteamvoiceannounce 0 "axis_build_barrier"
+
+		wm_teamvoiceannounce 0 "axis_barrier_destroyed"
+		wm_teamvoiceannounce 1 "allies_barrier_destroyed"
+
+		wm_removeteamvoiceannounce 1 "allies_destroy_barrier"
+	}
+
+	trigger passed
+	{
+	//	This routine is called when the tank passes or bypasses the barrier.
+
+		wm_removeteamvoiceannounce 0 "axis_build_barrier"
+		wm_removeteamvoiceannounce 1 "allies_destroy_barrier"
+
+		wm_objective_status 3 0 2
+		wm_objective_status 3 1 1
+
+		globalaccum 0 abort_if_bitset 4 // abort if barrier built, else remove crates and toi
+		setstate barrier1_materials invisible
+		setstate barrier1_materials_clip invisible
+		setstate barrier1_flag invisible
+		trigger barrier1_toi remove
+	}
+
+	trigger remove_toi_check
+	{
+	//	if the tank has passed the barrier, remove toi
+		globalaccum 0 abort_if_not_bitset 13	// abort if the tank hasn't passed the barrier
+		trigger barrier1_toi remove
+	}
+}
+
+barrier1_toi
+{
+	trigger remove
+	{
+		remove
+	}
+}
+
+bird_hit
+{
+	trigger ouch
+	{
+		accum 0 abort_if_equal 1
+		accum 0 set 1
+		enablespeaker speaker_bird
+		wait 2000
+		accum 0 set 0
+	}
+}
+
+bird1
+{
+	spawn
+	{
+		wait 300
+		trigger self fly
+	}
+
+	pain
+	{
+		trigger bird_hit ouch
+	}
+
+	trigger fly
+	{
+		followspline 0 b1 180 wait
+		followspline 0 b2 180 wait
+		followspline 0 b3 180 wait
+		followspline 0 b4 180 wait
+		followspline 0 b5 180 wait
+		followspline 0 b6 180 wait
+		followspline 0 b7 180 wait
+		followspline 0 b8 180 wait
+		followspline 0 b9 180 wait
+		followspline 0 b10 180 wait
+
+		trigger self circle
+	}
+
+	trigger circle
+	{
+		followspline 0 b11 180 wait
+		followspline 0 b12 180 wait
+		followspline 0 b13 180 wait
+		followspline 0 b14 180 wait
+		accum 0 random 3
+		accum 0 trigger_if_equal 0 bird1 circle
+		accum 0 trigger_if_equal 1 bird1 circle
+
+		followspline 0 b15 180 wait
+		followspline 0 b16 180 wait
+		followspline 0 b17 180 wait
+		followspline 0 b18 180 wait
+		trigger self fly
+	}
+}
+
+bird2
+{
+	spawn
+	{
+		wait 300
+		trigger self fly
+	}
+
+	pain
+	{
+		trigger bird_hit ouch
+	}
+
+	trigger fly
+	{
+		followspline 0 b9 180 wait
+		followspline 0 b10 180 wait
+		trigger self circle
+	}
+
+	trigger circle
+	{
+		followspline 0 b11 180 wait
+		followspline 0 b12 180 wait
+		followspline 0 b13 180 wait
+		followspline 0 b14 180 wait
+
+		accum 0 random 3
+		accum 0 trigger_if_equal 0 bird2 circle
+		accum 0 trigger_if_equal 1 bird2 circle
+
+		followspline 0 b15 180 wait
+		followspline 0 b16 180 wait
+		followspline 0 b17 180 wait
+		followspline 0 b18 180 wait
+		followspline 0 b1 180 wait
+		followspline 0 b2 180 wait
+		followspline 0 b3 180 wait
+		followspline 0 b4 180 wait
+		followspline 0 b5 180 wait
+		followspline 0 b6 180 wait
+		followspline 0 b7 180 wait
+		followspline 0 b8 180 wait
+		trigger self fly
+	}
+}
+
+bird3
+{
+	spawn
+	{
+		wait 300
+		trigger self fly
+	}
+
+	pain
+	{
+		trigger bird_hit ouch
+	}
+
+	trigger fly
+	{
+		followspline 1 b18 180 wait
+		followspline 1 b17 180 wait
+		followspline 1 b16 180 wait
+		followspline 1 b15 180 wait
+		trigger self circle
+	}
+
+	trigger circle
+	{
+		followspline 1 b14 180 wait
+		followspline 1 b13 180 wait
+		followspline 1 b12 180 wait
+		followspline 1 b11 180 wait
+
+		accum 0 random 3
+		accum 0 trigger_if_equal 0 bird3 circle
+		accum 0 trigger_if_equal 1 bird3 circle
+
+		followspline 1 b10 180 wait
+		followspline 1 b9 180 wait
+		followspline 1 b8 180 wait
+		followspline 1 b7 180 wait
+		followspline 1 b6 180 wait
+		followspline 1 b5 180 wait
+		followspline 1 b4 180 wait
+		followspline 1 b3 180 wait
+		followspline 1 b2 180 wait
+		followspline 1 b1 180 wait
+		trigger self fly
+	}
+}
+
+bird4
+{
+	spawn
+	{
+		wait 300
+		trigger self fly
+	}
+
+	pain
+	{
+		trigger bird_hit ouch
+	}
+
+	trigger fly
+	{
+		followspline 1 b7 180 wait
+		followspline 1 b6 180 wait
+		followspline 1 b5 180 wait
+		followspline 1 b4 180 wait
+		followspline 1 b3 180 wait
+		followspline 1 b2 180 wait
+		followspline 1 b1 180 wait
+		followspline 1 b18 180 wait
+		followspline 1 b17 180 wait
+		followspline 1 b16 180 wait
+		followspline 1 b15 180 wait
+		trigger self circle
+	}
+
+	trigger circle
+	{
+		followspline 1 b14 180 wait
+		followspline 1 b13 180 wait
+		followspline 1 b12 180 wait
+		followspline 1 b11 180 wait
+
+		accum 0 random 3
+		accum 0 trigger_if_equal 0 bird4 circle
+		accum 0 trigger_if_equal 1 bird4 circle
+
+		followspline 1 b10 180 wait
+		followspline 1 b9 180 wait
+		followspline 1 b8 180 wait
+		trigger self fly
+	}
+}
+
+// ================================================
+bunker_debris_smoke1
+{
+	spawn
+	{
+		wait 300
+		setstate bunker_debris_smoke1 invisible
+	}
+
+	trigger bunker_debris_smoke_on
+	{
+		setstate bunker_debris_smoke1 default
+		wait random 500 1000
+		setstate bunker_debris_smoke1 invisible
+		wait random 400 800
+		accum 0 inc 1
+		accum 0 abort_if_greater_than 20
+		trigger self bunker_debris_smoke_on
+	}
+}
+
+bunker_debris_smoke2
+{
+	spawn
+	{
+		wait 300
+		setstate bunker_debris_smoke2 invisible
+	}
+
+	trigger bunker_debris_smoke_on
+	{
+		setstate bunker_debris_smoke2 default
+		wait random 500 1000
+		setstate bunker_debris_smoke2 invisible
+		wait random 400 800
+		accum 0 inc 1
+		accum 0 abort_if_greater_than 15
+		trigger self bunker_debris_smoke_on
+	}
+}
+
+bunker_debris_smoke3
+{
+	spawn
+	{
+		wait 300
+		setstate bunker_debris_smoke3 invisible
+	}
+
+	trigger bunker_debris_smoke_on
+	{
+		setstate bunker_debris_smoke3 default
+		wait random 500 1000
+		setstate bunker_debris_smoke3 invisible
+		wait random 400 800
+		accum 0 inc 1
+		accum 0 abort_if_greater_than 25
+		trigger self bunker_debris_smoke_on
+	}
+}
+
+// =================================================
+bunker_debris
+{
+	spawn
+	{
+		wait 300
+		constructible_class 3
+
+		setstate bunker_debris_toi invisible
+		setstate bunker_debris invisible
+	}
+
+	death
+	{
+		trigger bunker_hurt ouch
+		alertentity bunker_dust
+		trigger bunker_debris_toi remove
+
+		trigger axis_cp_open clear
+
+		wm_announce "^3*** ^7Allies have cleared the bunker debris, the bunker exit is clear! ^3***!"
+
+		wm_objective_status 5 0 2
+		wm_objective_status 5 1 1
+
+		globalaccum 0 bitset 12 // record that the damage has been cleared
+
+		wm_teamvoiceannounce 0 "axis_bunker_breached"
+		wm_teamvoiceannounce 1 "allies_bunker_breached"
+	}
+}
+
+bunker_debris_toi
+{
+	trigger remove
+	{
+		remove
+	}
+}
+
+// =================================================
+bunker_hurt
+{
+	trigger ouch
+	{
+		setstate bunker_hurt default
+		wait 100
+		setstate bunker_hurt invisible
+	}
+}
+
+// ================================================
+bunker_room
+{
+//	if axis destroy the item, set globalaccum 0 bit 11 to show the route is blocked
+	spawn
+	{
+		wait 50
+		constructible_class 3
+
+	//	Bunker objective starts unavailable
+		setstate bunker_room invisible
+		setstate bunker_room_toi invisible
+	}
+
+	death
+	{
+		globalaccum 0 bitset 11			// flag that the route is blocked
+
+		trigger bunker_hurt ouch
+
+		alertentity bunker_room_model		// hide other parts of room
+		alertentity bunker_broken_floor	// show broken parts
+		trigger global bunker_debris_smoke_on
+
+		trigger axis_cp_open shutdown
+
+		wm_announce "^3*** ^7Axis have demolished the bunker control room! ^3***"
+
+		wm_objective_status 5 0 1
+		wm_objective_status 5 1 2
+
+		trigger bunker_room_toi remove
+
+		wm_removeteamvoiceannounce 0 "axis_dynamite_bunker"
+		wm_removeteamvoiceannounce 1 "allies_save_bunker"
+
+		wm_teamvoiceannounce 0 "axis_bunker_damaged"
+		wm_teamvoiceannounce 1 "allies_bunker_damaged"
+
+		setstate bunker_debris default
+
+		globalaccum 0 abort_if_bitset 10	// abort if the tank has already passed the bunker room
+		setstate bunker_debris_toi default	// allow allies to dyna the debris
+	}
+}
+
+bunker_room_toi
+{
+	trigger remove
+	{
+		remove
+	}
+}
+
+// ================================================
+fire_truck
+{
+	trigger bash
+	{
+		wait 200
+		enablespeaker speaker_tank_bash
+		faceangles 0 40 0 750
+	}
+}
+
+// ================================================
+footbridge
+{
+//	if axis destroy the item, set globalaccum 0 bit 1 to show the route is blocked
+	spawn
+	{
+		wait 50
+		constructible_class 3
+	}
+
+	death
+	{
+		globalaccum 0 bitset 1				// flag that the route is blocked
+
+		trigger footbridge_hurt ouch
+		wm_announce "^3*** ^7Axis have damaged the railway footbridge! ^3***"
+
+		alertentity footbridge_damaged_structure	// show the damaged remains
+		alertentity footbridge_leg			// hide the good leg
+
+		trigger footbridge_toi remove
+
+		wm_objective_status 1 0 1
+		wm_objective_status 1 1 2
+
+		wm_removeteamvoiceannounce 0 "axis_dynamite_footbridge"
+
+		wm_teamvoiceannounce 0 "axis_footbridge_damaged"
+		wm_teamvoiceannounce 1 "allies_footbridge_damaged"
+
+		globalaccum 0 abort_if_bitset 7 // abort if the tank has already passed the footbridge
+		setstate footbridge_wreck_toi default	// allow allies to dyna the wreck
+		setstate footbridge_wreck default
+	}
+}
+
+footbridge_toi
+{
+	trigger remove
+	{
+		remove
+	}
+
+	dynamited
+	{
+		trigger train2 arrive
+	}
+
+}
+
+// =================================================
+footbridge_hurt
+{
+	trigger ouch
+	{
+		setstate footbridge_hurt default
+		wait 100
+		setstate footbridge_hurt invisible
+	}
+}
+
+// =================================================
+footbridge_wreck
+{
+	spawn
+	{
+		wait 300
+		constructible_class 3
+
+		setstate footbridge_wreck_toi invisible
+		setstate footbridge_wreck invisible
+	}
+
+	death
+	{
+		trigger footbridge_hurt ouch
+		alertentity footbridge_wreck_bits
+		trigger footbridge_wreck_toi remove
+
+		wm_announce "^3*** ^7Allies have destroyed the footbridge, the rail tracks are clear! ^3***!"
+
+		globalaccum 0 bitset 2 // record that the damage has been cleared
+
+		wm_objective_status 1 0 2
+		wm_objective_status 1 1 1
+
+		wm_teamvoiceannounce 0 "axis_footbridge_destroyed"
+		wm_teamvoiceannounce 1 "allies_footbridge_destroyed"
+	}
+}
+
+footbridge_wreck_toi
+{
+	trigger remove
+	{
+		remove
+	}
+}
+
+// ================================================
+garage_door
+{
+	trigger up
+	{
+		wm_announce "^3*** ^7Bunker security door closing! ^3***"
+
+		stopsound
+		playsound sound/movers/misc/garage_door_start_01.wav volume 512
+		wait 1000
+
+		stopsound
+		playsound sound/movers/misc/garage_door_loop_01.wav looping volume 512
+
+		gotomarker garage_door_up 30 wait
+
+		stopsound
+		playsound sound/movers/misc/garage_door_end_01.wav volume 512
+	}
+
+	trigger down
+	{
+		wm_announce "^3*** ^7Bunker security door opening! ^3***"
+
+		stopsound
+		playsound sound/movers/misc/garage_door_start_01.wav volume 512
+		wait 1000
+
+		stopsound
+		playsound sound/movers/misc/garage_door_loop_01.wav looping volume 512
+
+		gotomarker garage_door_down 30 wait
+
+		stopsound
+		playsound sound/movers/misc/garage_door_end_01.wav volume 512
+	}
+}
+
+// ================================================
+jagdpanther
+{
+	spawn
+	{
+		wait 400
+
+		followspline 0 j0 50000 length 32 wait
+		followspline 1 j0 50000 length 32 wait
+
+		trigger self sound_idle
+		trigger self tracks_stop
+	}
+
+	trigger attack
+	{
+		trigger jagdpanther_sound start
+
+		startanimation 55 10 15 nolerp norandom
+		wait 666
+		startanimation 5 40 15 nolerp norandom
+		wait 500
+		trigger self tracks_forward
+
+		followspline 0 j0 90 length 32 wait
+		followspline 0 j1 100 length 32 wait
+		followspline 0 j2 90 length 32 wait
+		followspline 0 j3 90 length 32 wait
+
+	//	tank death
+		changemodel models/mapobjects/tanks_sd/jagdpanther_africa_tracks2.md3
+
+		trigger self sound_death
+		trigger self tracks_stop
+	}
+
+	trigger sound_idle
+	{
+		stopsound
+		playsound sound/vehicles/tank/tank_idle.wav looping volume 512
+	}
+
+	trigger sound_start
+	{
+		stopsound
+		playsound sound/vehicles/tank/tank_revup.wav volume 196
+	}
+
+	trigger sound_move
+	{
+		stopsound
+		playsound sound/vehicles/tank/tank_move.wav looping volume 512
+	}
+
+	trigger sound_stop
+	{
+		stopsound
+		playsound sound/vehicles/tank/tank_revdown.wav volume 196
+	}
+
+	trigger sound_death
+	{
+		stopsound
+		playsound sound/vehicles/tank/tank_stop.wav volume 256
+	}
+
+	trigger tracks_forward
+	{
+		remapshader models/mapobjects/tanks_sd/jag_tracks_left 	models/mapobjects/tanks_sd/jag_tracks_alt_forward
+		remapshader models/mapobjects/tanks_sd/jag_tracks_right models/mapobjects/tanks_sd/jag_tracks_alt_forward
+		remapshader models/mapobjects/tanks_sd/jag_wheels_left 	models/mapobjects/tanks_sd/jag_wheels_alt_forward
+		remapshader models/mapobjects/tanks_sd/jag_wheels_right models/mapobjects/tanks_sd/jag_wheels_alt_forward
+		remapshader models/mapobjects/tanks_sd/jag_cogs_left 	models/mapobjects/tanks_sd/jag_cogs_alt_forward
+		remapshader models/mapobjects/tanks_sd/jag_cogs_right 	models/mapobjects/tanks_sd/jag_cogs_alt_forward
+
+		remapshaderflush
+	}
+
+	trigger tracks_stop
+	{
+		remapshader models/mapobjects/tanks_sd/jag_tracks_left 	models/mapobjects/tanks_sd/jag_tracks_left
+		remapshader models/mapobjects/tanks_sd/jag_tracks_right models/mapobjects/tanks_sd/jag_tracks_right
+		remapshader models/mapobjects/tanks_sd/jag_wheels_left 	models/mapobjects/tanks_sd/jag_wheels_left
+		remapshader models/mapobjects/tanks_sd/jag_wheels_right models/mapobjects/tanks_sd/jag_wheels_right
+		remapshader models/mapobjects/tanks_sd/jag_cogs_left 	models/mapobjects/tanks_sd/jag_cogs_left
+		remapshader models/mapobjects/tanks_sd/jag_cogs_right 	models/mapobjects/tanks_sd/jag_cogs_right
+
+		remapshaderflush
+	}
+}
+
+jagdpanther_shell
+{
+	spawn
+	{
+		wait 400
+		attachtotag jagdpanther tag_tank
+	}
+}
+
+jagdpanther_smoke
+{
+	spawn
+	{
+		wait 300
+	//	attachtotag jagdpanther_shell tag_smoke
+		setstate jagdpanther_smoke invisible
+	}
+
+	trigger burn
+	{
+		enablespeaker speaker_jagdpanther_flames1
+		alertentity jagdpanther_flames
+		alertentity jagdpanther_hurt
+		setstate jagdpanther_smoke default
+		wait random 30000 45000
+
+	//	Start 2nd fire on jagdpanther
+		enablespeaker speaker_jagdpanther_flames2
+		alertentity jagdpanther_flames2
+		alertentity jagdpanther_hurt2
+		setstate jagdpanther_smoke2 default
+
+		wait random 60000 90000
+
+	//	Put out 1st fire
+		disablespeaker speaker_jagdpanther_flames1
+		alertentity jagdpanther_flames
+		alertentity jagdpanther_hurt
+		setstate jagdpanther_smoke invisible
+
+		wait random 15000 30000
+
+	//	Put out 2nd fire
+		disablespeaker speaker_jagdpanther_flames2
+		alertentity jagdpanther_flames2
+		alertentity jagdpanther_hurt2
+		setstate jagdpanther_smoke2 invisible
+	}
+}
+
+jagdpanther_smoke2
+{
+	spawn
+	{
+		wait 300
+		setstate jagdpanther_smoke2 invisible
+	}
+}
+
+jagdpanther_sound
+{
+	trigger start
+	{
+		trigger jagdpanther sound_start
+		wait 3400
+		trigger jagdpanther sound_move
+	}
+
+	trigger stop
+	{
+		trigger jagdpanther sound_stop
+		wait 1400
+		trigger jagdpanther sound_idle
+	}
+}
+
+jagdpanther_turret
+{
+	spawn
+	{
+		wait 500
+		attachtotag jagdpanther_shell tag_turret
+	}
+}
+
+// ================================================
+ramp
+{
+// The script intends to have the tank halt if the ramp has dyna planted, but this is not actioned on ETPro, so the tank continues anyway.
+// In an effort to accommodate ET and ETPro, the script must handle the tank ascending the ramp with dyna on it.
+// In this case, the ramp func_explosive is hidden and a func_static dummy is put in its place.
+	spawn
+	{
+		
+		wait 50
+		globalaccum 0 bitset 3
+		constructible_class 3
+remove
+	//	Objective starts unavailable
+		setstate ramp_toi invisible
+		setstate ramp_materials invisible	// Crate Models
+		setstate ramp_clip invisible		// Clip brushes
+		setstate ramp_flag invisible
+	}
+
+	trigger setup
+	{
+		setstate ramp_toi default
+		setstate ramp_materials default	// Crate Models
+		setstate ramp_clip default		// Clip brushes
+		setstate ramp_flag default
+	}
+
+	built final
+	{
+		globalaccum 0 bitset 3 // record ramp is built
+
+		setstate ramp_toi invisible
+		setstate ramp_materials invisible	// Crate Models
+		setstate ramp_clip invisible	// Clip brushes
+		setstate ramp_flag invisible
+
+		wm_announce "^3*** ^7Allies have built the Assault Ramp! ^3***"
+
+		wm_objective_status 2 0 2
+		wm_objective_status 2 1 1
+
+		wm_teamvoiceannounce 0 "axis_ramp_constructed"
+		wm_teamvoiceannounce 1 "allies_ramp_constructed"
+
+		wm_removeteamvoiceannounce 1 "allies_build_ramp"
+	}
+
+	decayed final
+	{
+		trigger self setup
+	}
+
+	death
+	{
+		globalaccum 0 bitreset 3		// record ramp is destroyed
+
+		trigger self remove_toi_check		// if the tank has passed the ramp, remove toi
+
+		globalaccum 0 abort_if_bitset 8	// abort if the tank has passed the ramp
+
+		wm_announce "^3*** ^7Axis have destroyed the Assault Ramp! ^3***" 
+
+		wm_objective_status 2 0 1
+		wm_objective_status 2 1 2
+
+		wm_teamvoiceannounce 0 "axis_ramp_destroyed"
+		wm_teamvoiceannounce 1 "allies_ramp_destroyed"
+		wm_teamvoiceannounce 1 "allies_build_ramp"
+
+		wm_addteamvoiceannounce 1 "allies_build_ramp"
+
+		trigger self setup
+	}
+
+	trigger hide
+	{
+	//	Hide the ramp at end game
+		globalaccum 0 abort_if_not_bitset 3	// exit if ramp not built
+		alertentity ramp_dummy // Hide the dummy again
+	}
+
+	trigger remove_toi_check
+	{
+	//	if the tank has passed the ramp, remove toi
+		globalaccum 0 abort_if_not_bitset 8	// abort if the tank hasn't passed the ramp
+		trigger ramp_toi remove
+	}
+
+	trigger tank_on_ramp
+	{
+	//	Hide the ramp so it can't be blown up, and show a dummy in its place
+		setstate ramp invisible
+		alertentity ramp_dummy
+	}
+}
+
+ramp_toi
+{
+	trigger remove
+	{
+		remove
+	}
+}
+
+// ================================================
+roadblock
+{
+	spawn
+	{
+		wait 50
+		trigger self setup
+		constructible_class	2	// 2=Satchel 3=Dyna
+	}
+
+	trigger setup
+	{
+		setstate roadblock_hurt invisible
+		setstate roadblock_materials default	// Crate Models
+		setstate roadblock_clip default		// Clip brushes
+		setstate roadblock_flag default
+	}
+
+	built final
+	{
+		setstate roadblock_hurt default
+		setstate roadblock_materials invisible	// Crate Models
+		setstate roadblock_clip invisible	// Clip brushes
+		setstate roadblock_flag invisible
+
+		wm_announce "^3*** ^7Axis have built the station roadblock! ^3***"
+	}
+
+	decayed final
+	{
+		trigger self setup
+	}
+
+	death
+	{
+		trigger self setup
+		wm_announce "^3*** ^7Allies have destroyed the station roadblock! ^3***"
+	}
+}
+
+// ================================================
+sparks1
+{
+	trigger sparks
+	{
+		accum 0 inc 1
+		accum 0 abort_if_greater_than 7
+		wait random 200 500
+		alertentity sparks1
+		trigger self sparks
+	}
+}
+
+sparks2
+{
+	trigger sparks
+	{
+		accum 0 inc 1
+		accum 0 abort_if_greater_than 7
+		wait random 200 500
+		alertentity sparks2
+		trigger self sparks
+	}
+}
+
+sparks3
+{
+	trigger sparks
+	{
+		accum 0 inc 1
+		accum 0 abort_if_greater_than 7
+		wait random 200 500
+		alertentity sparks3
+		trigger self sparks
+	}
+}
+
+// ================================================
+sparks_hallway_1
+{
+	spawn
+	{
+		trigger self sparks
+	}
+
+	trigger sparks
+	{
+		wait random 2000 5000
+		alertentity sparks_hallway_1
+		trigger self sparks
+	}
+}
+
+// ================================================
+sparks_hallway_2
+{
+	spawn
+	{
+		trigger self sparks
+	}
+
+	trigger sparks
+	{
+		wait random 2000 5000
+		alertentity sparks_hallway_2
+		trigger self sparks
+	}
+}
+
+// ================================================
+sparks_hallway_3
+{
+	spawn
+	{
+		trigger self sparks
+	}
+
+	trigger sparks
+	{
+		wait random 2000 5000
+		alertentity sparks_hallway_3
+		trigger self sparks
+	}
+}
+
+// ================================================
+station_flag
+{
+	spawn
+	{
+		accum 0 set 2				// Who owns flag: 0-Axis, 1-Allied, 2-Nobody
+	}
+
+	trigger force_to_allies
+	{
+		wm_removeteamvoiceannounce 0 "axis_capture_station"
+		wm_removeteamvoiceannounce 1 "allies_capture_station"
+
+		wm_announce "^3*** ^7Allies have ^3permanently ^7claimed the station courtyard! ^3***"
+		setstate station_flag invisible
+		setstate station_flag_allies default
+		setstate station_flag_axis invisible
+
+		accum 0 abort_if_equal 1 		// abort if Allies already owner
+		accum 0 set 1 				// Allied own the flag
+
+		wm_teamvoiceannounce 1 "allies_station_captured"
+
+		wm_objective_status 8 0 2
+		wm_objective_status 8 1 1
+
+		setstate station_wobj default
+		alertentity station_spawns		// Flip the enabled spawns
+		alertentity station_wobj		// Switch command map marker
+		setautospawn "Barracks" 0
+	}
+
+	trigger axis_capture				// Touched by an Axis player
+	{
+		accum 0 abort_if_equal 0 		// do Axis own flag?
+		accum 0 trigger_if_equal 1 station_flag axis_reclaim	// Reclaimed from Allies
+
+		accum 0 set 0 				// Axis own the flag
+		wm_announce "^3*** ^7Axis are in control of the station courtyard! ^3***"
+
+		wm_teamvoiceannounce 0 "axis_station_captured"
+		wm_removeteamvoiceannounce 0 "axis_capture_station"
+
+		wm_teamvoiceannounce 1 "allies_capture_station"
+		wm_addteamvoiceannounce 1 "allies_capture_station"
+
+		wm_objective_status 8 0 1
+		wm_objective_status 8 1 2
+
+		setstate station_flag_allies invisible
+		setstate station_flag_axis default
+
+		setstate station_wobj default
+	}
+
+	trigger axis_reclaim
+	{
+		alertentity station_wobj		// Switch command map marker
+	}
+
+	trigger allied_capture				// Touched by an allied player
+	{
+		accum 0 abort_if_equal 1 		// do Allies own flag?
+
+		accum 0 set 1 				// Allied own the flag
+		wm_announce "^3*** ^7Allies are in control of the station courtyard! ^3***"
+
+		wm_teamvoiceannounce 0 "axis_capture_station"
+		wm_addteamvoiceannounce 0 "axis_capture_station"
+
+		wm_teamvoiceannounce 1 "allies_station_captured"
+		wm_removeteamvoiceannounce 1 "allies_capture_station"
+
+		wm_objective_status 8 0 2
+		wm_objective_status 8 1 1
+
+		setstate station_flag_allies default
+		setstate station_flag_axis invisible
+		
+		setstate station_wobj default
+		alertentity station_wobj		// Switch command map marker
+		alertentity station_spawns
+	}
+	
+	
+}
+
+// ================================================
+tank
+{
+// accum 0, track state
+// accum 1
+//  - bit 2: spline status 		( 0 = not moving, 	1 = moving 		)
+//  - bit 3: stuck check flag 	( 0 = not stuck, 	1 = stuck 		)
+//  - bit 4: flag for message	( 0 = dont display, 1= display		)
+//  - bit 5:
+//  - bit 6: temp register 		(XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX)
+//  - bit 7: death status 		( 0 = alive, 		1 = dead		)
+//  - bit 8: player check 		( 0 = players, 		1 = no players	)
+//  - bit 9: visible state		( 0 = alive, 		1 = dead		)
+// accum 2, dyna count, used at each barrier
+// accum 3, current movement loop position
+// accum 4, stop counter
+// accum 5, lockout ref counter
+// accum 6, blank
+// accum 7, blank
+	spawn
+	{
+		wait 400
+
+	//	Tracks moving
+		accum 0 set 1
+
+	//	Set tank at start spline
+		accum 3 set 0
+		followspline 0 s0 50000 length 32 wait
+		followspline 1 s0 50000 length 32 wait
+
+		trigger tank sound_idle
+		trigger tank tracks_stop		
+	}
+
+	death
+	{
+		accum 1 bitset 7
+	}
+
+	rebirth
+	{
+		accum 1 bitreset 9 // we're visibly alive
+		accum 1 bitreset 7 // we're alive again
+
+		trigger self script_lockout
+
+		trigger tank_gun level
+
+		setstate tank_smoke invisible
+
+		wm_teamvoiceannounce 0 "axis_tank_repaired"
+		wm_teamvoiceannounce 1 "allies_tank_repaired"
+
+		trigger tank_sound rebirth
+		wait 500
+
+		trigger self script_lockout_stop
+	}
+
+	trigger allied_victory
+	{
+		resetscript
+
+		stopsound
+		trigger self tracks_forward
+		trigger tank sound_move
+		trigger tank_turret face_ahead
+		followspline 0 v0 50000 length 32 wait
+		followspline 1 v0 50000 length 32 wait
+
+		followspline 0 v0 80 length 32 wait
+		followspline 0 v1 80 length 32 wait
+		followspline 0 v2 80 length 32 wait
+
+		alertentity va_te2
+
+		followspline 0 v3 80 length 32 wait
+
+		trigger tank_turret face_farright
+		followspline 0 v4 80 length 32 wait
+		followspline 0 v5 80 length 32 wait
+
+		alertentity va_te1
+
+		followspline 0 v6 80 length 32 wait
+
+		trigger tank_turret face_farahead
+		followspline 0 v7 80 length 32 wait
+		followspline 0 v8 80 length 32 wait
+
+		trigger tank_turret face_farleft
+		followspline 0 v9 80 length 32
+		wait 2700
+		trigger tank_flash run
+	}
+
+	trigger barrier_built
+	{
+		accum 1 bitset 1
+	}
+
+	trigger barrier_destroyed
+	{
+		accum 1 bitreset 1
+	}
+
+	trigger deathcheck
+	{
+		accum 1 abort_if_not_bitset 7	// abort if tank not damaged
+		accum 1 abort_if_bitset 9	// abort if tank already visibly dead
+		accum 1 abort_if_bitset 2	// abort if we are following a spline
+		accum 5 abort_if_not_equal 0	// abort if we are in a script lockout
+
+		accum 1 bitset 9				// we're now visibly dead
+
+		setstate tank_smoke default
+
+		kill tank_construct
+
+		trigger self sound_death
+		accum 1 bitset 5 // allow announcements after game start
+
+		trigger self tracks_stop
+		trigger self script_lockout
+		trigger tank_gun depress
+		trigger self tracks_stop		
+		startanimation 5 10 15 nolerp norandom	// stopping
+		wait 666
+		startanimation 0 1 15 nolerp norandom	// stopped
+
+		trigger self script_lockout_stop
+
+		resetscript
+	}
+
+	// ========================
+	// movement
+
+	trigger dispatch
+	{
+		accum 3 trigger_if_equal 0 tank run_0
+		accum 3 trigger_if_equal 1 tank run_1
+		accum 3 trigger_if_equal 2 tank run_2
+		accum 3 trigger_if_equal 3 tank run_3
+		accum 3 trigger_if_equal 4 tank run_4
+		accum 3 trigger_if_equal 5 tank run_5
+		accum 3 trigger_if_equal 6 tank run_6
+		accum 3 trigger_if_equal 7 tank run_7
+		accum 3 trigger_if_equal 8 tank run_8
+		accum 3 trigger_if_equal 9 tank run_9
+		accum 3 trigger_if_equal 10 tank run_10
+		accum 3 trigger_if_equal 11 tank run_11
+		accum 3 trigger_if_equal 12 tank run_12
+		accum 3 trigger_if_equal 13 tank run_13
+		accum 3 trigger_if_equal 14 tank run_14
+		accum 3 trigger_if_equal 15 tank run_15
+		accum 3 trigger_if_equal 16 tank run_16
+		accum 3 trigger_if_equal 17 tank run_17
+		accum 3 trigger_if_equal 18 tank run_18
+		accum 3 trigger_if_equal 19 tank run_19
+		accum 3 trigger_if_equal 20 tank run_20
+		accum 3 trigger_if_equal 21 tank run_21
+		accum 3 trigger_if_equal 22 tank run_22
+		accum 3 trigger_if_equal 23 tank run_23
+		accum 3 trigger_if_equal 24 tank run_24
+		accum 3 trigger_if_equal 25 tank run_25
+		accum 3 trigger_if_equal 26 tank run_26
+		accum 3 trigger_if_equal 27 tank run_27
+		accum 3 trigger_if_equal 28 tank run_28
+		accum 3 trigger_if_equal 29 tank run_29
+		accum 3 trigger_if_equal 30 tank run_30
+		accum 3 trigger_if_equal 31 tank run_31
+		accum 3 trigger_if_equal 32 tank run_32
+		accum 3 trigger_if_equal 33 tank run_33
+		accum 3 trigger_if_equal 34 tank run_34
+
+		accum 3 trigger_if_equal 100 tank run_100
+		accum 3 trigger_if_equal 101 tank run_101
+		accum 3 trigger_if_equal 102 tank run_102
+		accum 3 trigger_if_equal 103 tank run_103
+		accum 3 trigger_if_equal 104 tank run_104
+		accum 3 trigger_if_equal 105 tank run_105
+		accum 3 trigger_if_equal 106 tank run_106
+		accum 3 trigger_if_equal 107 tank run_107
+		accum 3 trigger_if_equal 108 tank run_108
+	//	108-112 ascend ramp
+		accum 3 trigger_if_equal 113 tank run_113
+		accum 3 trigger_if_equal 114 tank run_114
+
+		accum 3 trigger_if_equal 200 tank run_200
+		accum 3 trigger_if_equal 201 tank run_201
+		accum 3 trigger_if_equal 202 tank run_202
+		accum 3 trigger_if_equal 203 tank run_203
+		accum 3 trigger_if_equal 204 tank run_204
+		accum 3 trigger_if_equal 205 tank run_205
+		accum 3 trigger_if_equal 206 tank run_206
+		accum 3 trigger_if_equal 207 tank run_207
+		accum 3 trigger_if_equal 208 tank run_208
+		accum 3 trigger_if_equal 209 tank run_209
+		accum 3 trigger_if_equal 210 tank run_210
+		accum 3 trigger_if_equal 211 tank run_211
+		accum 3 trigger_if_equal 212 tank run_212
+		accum 3 trigger_if_equal 213 tank run_213
+
+		accum 3 trigger_if_equal 302 tank run_302
+		accum 3 trigger_if_equal 303 tank run_303
+		accum 3 trigger_if_equal 304 tank run_304
+		accum 3 trigger_if_equal 305 tank run_305
+		accum 3 trigger_if_equal 306 tank run_306
+		accum 3 trigger_if_equal 307 tank run_307
+		accum 3 trigger_if_equal 308 tank run_308
+		accum 3 trigger_if_equal 309 tank run_309
+		accum 3 trigger_if_equal 310 tank run_310
+		accum 3 trigger_if_equal 311 tank run_311
+		accum 3 trigger_if_equal 312 tank run_312
+		accum 3 trigger_if_equal 313 tank run_313
+		accum 3 trigger_if_equal 314 tank run_314
+		accum 3 trigger_if_equal 315 tank run_315
+		accum 3 trigger_if_equal 316 tank run_316
+		accum 3 trigger_if_equal 317 tank run_317
+		accum 3 trigger_if_equal 318 tank run_318
+		accum 3 trigger_if_equal 319 tank run_319
+		accum 3 trigger_if_equal 320 tank run_320
+		accum 3 trigger_if_equal 321 tank run_321
+		accum 3 trigger_if_equal 322 tank run_322
+		accum 3 trigger_if_equal 323 tank run_323
+		accum 3 trigger_if_equal 324 tank run_324
+		accum 3 trigger_if_equal 325 tank run_325
+
+		accum 3 trigger_if_equal 400 tank run_400
+		accum 3 trigger_if_equal 401 tank run_401
+	//	401-406 pass thru tunnel
+		accum 3 trigger_if_equal 407 tank run_407
+		accum 3 trigger_if_equal 408 tank run_408
+		accum 3 trigger_if_equal 409 tank run_409
+		accum 3 trigger_if_equal 410 tank run_410
+		accum 3 trigger_if_equal 411 tank run_411
+		accum 3 trigger_if_equal 412 tank run_412
+
+		accum 3 trigger_if_equal 500 tank run_500
+		accum 3 trigger_if_equal 501 tank run_501
+		accum 3 trigger_if_equal 502 tank run_502
+		accum 3 trigger_if_equal 503 tank run_503
+		accum 3 trigger_if_equal 504 tank run_504
+		accum 3 trigger_if_equal 505 tank run_505
+
+		accum 3 trigger_if_equal 600 tank run_600
+		accum 3 trigger_if_equal 601 tank run_601
+		accum 3 trigger_if_equal 602 tank run_602
+		accum 3 trigger_if_equal 603 tank run_603
+		accum 3 trigger_if_equal 604 tank run_604
+		accum 3 trigger_if_equal 605 tank run_605
+		accum 3 trigger_if_equal 606 tank run_606
+		accum 3 trigger_if_equal 607 tank run_607
+		accum 3 trigger_if_equal 608 tank run_608
+		accum 3 trigger_if_equal 609 tank run_609
+		accum 3 trigger_if_equal 610 tank run_610
+		accum 3 trigger_if_equal 611 tank run_611
+		accum 3 trigger_if_equal 612 tank run_612
+		accum 3 trigger_if_equal 613 tank run_613
+		accum 3 trigger_if_equal 614 tank run_614
+		accum 3 trigger_if_equal 615 tank run_615
+		accum 3 trigger_if_equal 616 tank run_616
+	//	616 - 619 attack jagdpanther
+		accum 3 trigger_if_equal 620 tank run_620
+		accum 3 trigger_if_equal 621 tank run_621
+		accum 3 trigger_if_equal 622 tank run_622
+		accum 3 trigger_if_equal 623 tank run_623
+		accum 3 trigger_if_equal 624 tank run_624
+		accum 3 trigger_if_equal 625 tank run_625
+		accum 3 trigger_if_equal 626 tank run_626
+		accum 3 trigger_if_equal 627 tank run_627
+		accum 3 trigger_if_equal 628 tank run_628
+		accum 3 trigger_if_equal 629 tank run_629
+		accum 3 trigger_if_equal 630 tank run_630
+	//	630 - 634 pass under bunker room
+		accum 3 trigger_if_equal 635 tank run_635
+		accum 3 trigger_if_equal 636 tank run_636
+		accum 3 trigger_if_equal 637 tank run_637
+		accum 3 trigger_if_equal 638 tank run_638
+		accum 3 trigger_if_equal 639 tank run_639
+		accum 3 trigger_if_equal 640 tank run_640
+		accum 3 trigger_if_equal 641 tank run_641
+		accum 3 trigger_if_equal 642 tank run_642
+		accum 3 trigger_if_equal 643 tank run_643
+		accum 3 trigger_if_equal 644 tank run_644
+		accum 3 trigger_if_equal 645 tank run_645
+		accum 3 trigger_if_equal 646 tank run_646
+		accum 3 trigger_if_equal 647 tank run_647
+		accum 3 trigger_if_equal 648 tank run_648
+		accum 3 trigger_if_equal 649 tank run_649
+		accum 3 trigger_if_equal 650 tank run_650
+		accum 3 trigger_if_equal 651 tank run_651
+		accum 3 trigger_if_equal 652 tank run_652
+
+		accum 3 trigger_if_equal 701 tank run_701
+		accum 3 trigger_if_equal 702 tank run_702
+	}
+
+	trigger attack_house
+	{
+		trigger self script_lockout
+
+		trigger tank_sound 	stop
+		trigger self tracks_stop		
+		startanimation 5 10 15 nolerp norandom	// stopping
+		wait 666
+		startanimation 0 1 15 nolerp norandom	// stopped
+
+		trigger tank_turret attack_house
+
+		wait 10000
+
+		trigger self script_lockout_stop
+
+		trigger self run_continue
+	}
+
+	trigger enable_bunker_objective
+	{
+	//	Bunker objective now available
+
+		wm_announce "^3*** ^7Axis High Command permit the destruction of the bunker control room!^3***"
+
+		setstate bunker_room default
+		setstate bunker_room_toi default
+		setstate bunker_room_dummy invisible
+
+		wm_teamvoiceannounce 0 "axis_dynamite_bunker"
+		wm_addteamvoiceannounce 0 "axis_dynamite_bunker"
+
+		wm_teamvoiceannounce 1 "allies_save_bunker"
+		wm_addteamvoiceannounce 1 "allies_save_bunker"
+	}
+
+	trigger enable_tunnel_objective
+	{
+	//	Tunnel objective now available
+
+		wm_announce "^3*** ^7Axis High Command now authorise the destruction of the railway tunnel!^3***"
+
+		setstate tunnel default
+		setstate tunnel_toi default
+		setstate tunnel_model invisible
+
+		wm_teamvoiceannounce 0 "axis_dynamite_tunnel"
+		wm_teamvoiceannounce 1 "allies_save_tunnel"
+
+		wm_addteamvoiceannounce 0 "axis_dynamite_tunnel"
+		wm_addteamvoiceannounce 1 "allies_save_tunnel"
+	}
+
+	trigger move
+	{
+		trigger self move_check
+		wait 500
+		trigger self move
+	}
+
+	trigger move_check
+	{
+		trigger self stuck_check
+		accum 1 abort_if_bitset 3
+
+		trigger self dispatch
+	}
+
+	trigger remove_bunker_toi
+	{
+		globalaccum 0 abort_if_bitset 11	// abort if the axis blew up the bunker control room
+		trigger bunker_room_toi remove
+	}
+
+	trigger remove_footbridge_toi
+	{
+		globalaccum 0 abort_if_bitset 1 	// abort if the axis blew up the footbridge
+		trigger footbridge_toi remove
+	}
+
+	trigger remove_tunnel_toi
+	{
+		globalaccum 0 abort_if_bitset 5 	// abort if the axis blew up the tunnel
+		trigger tunnel_toi remove
+	}
+
+	trigger run_continue
+	{
+		accum 3 inc 1
+
+		trigger self deathcheck
+		trigger self stopcheck
+		trigger self move
+	}
+
+	trigger run_0
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s0 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_1
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s1 120 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_2
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s2 120 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_3
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s3 120 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_4
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s4 120 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_5
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s5 120 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_6
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s6 120 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_7
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s7 120 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_8
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s8 120 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_9
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s9 120 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_10
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s10 120 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_11
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s11 120 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_12
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s12 120 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_13
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s13 120 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_14
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s14 120 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_15
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s15 120 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_16
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s16 120 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_17
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s17 120 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_18
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s18 120 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_19
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s19 120 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_20
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s20 120 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_21
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s21 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_22
+	{
+		trigger train2 arrive
+
+		wm_teamvoiceannounce 0 "axis_tank_in_tunnel"
+
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s22 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_23
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s23 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_24
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s24 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_25
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s25 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_26
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s26 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_27
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s27 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_28
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s28 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_29
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s29 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_30
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s30 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_31
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s31 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_32
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s32 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_33
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s33 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_34
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s34 80 wait length 32
+		accum 1 bitreset 2
+
+		accum 3 set 99
+		trigger self run_continue
+	}
+
+	trigger run_100
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s100 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_101
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s101 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_102
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s102 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_103
+	{
+		globalaccum 0 bitset 7 // Record tank has passed footbridge
+		trigger self remove_footbridge_toi
+
+		trigger tank_turret swivel
+		trigger station_flag force_to_allies
+		wm_announce "^3*** ^7Axis now have Bunker spawn available! ^3***"
+		alertentity bunker_spawns
+		setstate bunker_wobj default
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s103 80 wait length 32
+
+		trigger train arrive
+
+		followspline 0 s103_1 80 wait length 32
+		followspline 0 s103_2 80 wait length 32
+
+		trigger tank_turret face_ahead
+
+		wm_announce "^3*** ^7The Tank has passed the footbridge and will try to leave the track at the station!^3***"
+
+		wm_objective_status 1 0 2
+		wm_objective_status 1 1 1
+
+		wm_removeteamvoiceannounce 0 "axis_dynamite_footbridge"
+		wm_removeteamvoiceannounce 1 "allies_escort_tank_past_bridge"
+
+		wm_teamvoiceannounce 0 "axis_tank_past_bridge"
+		wm_teamvoiceannounce 0 "axis_stop_ramp"
+		wm_teamvoiceannounce 0 "axis_build_barrier"
+
+		wm_addteamvoiceannounce 0 "axis_stop_ramp"
+		wm_addteamvoiceannounce 0 "axis_build_barrier"
+
+		wm_teamvoiceannounce 1 "allies_tank_past_bridge"
+		
+
+		
+
+	//	Barrier and Ramp objectives now available
+		trigger barrier1 setup
+		trigger ramp setup
+
+		followspline 0 s103_3 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_104
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s104 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_105
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s105 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_106
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s106 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_107
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s107 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_108
+	{
+		globalaccum 0 bitset 8 // Record tank has passed ramp
+		trigger ramp tank_on_ramp
+
+		wm_removeteamvoiceannounce 0 "axis_stop_ramp"
+		wm_removeteamvoiceannounce 1 "allies_build_ramp"
+
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s108 50 wait length 32
+		followspline 0 s109 50 wait length 32
+		followspline 0 s110 50 wait length 32
+		followspline 0 s111 50 wait length 32
+
+		trigger scriptblock1 splat_crates
+
+		followspline 0 s112 50 wait length 32
+		accum 1 bitreset 2
+
+		wm_teamvoiceannounce 0 "axis_inside_courtyard"
+
+		trigger self enable_tunnel_objective
+
+		accum 3 set 112
+
+		trigger self run_continue
+	}
+
+	trigger run_113
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s113 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_114
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s114 80 wait length 32
+		accum 1 bitreset 2
+
+	//	Start the courtyard path, set accum 3 to next spline - 1
+		accum 3 set 199
+		trigger self run_continue
+	}
+
+	trigger run_200
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s200 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_201
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s201 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_202
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s202 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_203
+	{
+		globalaccum 0 bitset 13		// record that the tank has passed the barrier
+		trigger barrier1 passed
+
+	//	Divert if the barrier is built. Routine returns if the barrier not built.
+		trigger self run_300
+
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s203 80 wait length 32
+		accum 1 bitreset 2
+
+		wm_teamvoiceannounce 0 "axis_tank_past_barrier"
+		wm_teamvoiceannounce 1 "allies_tank_past_barrier"
+
+		trigger self run_continue
+	}
+
+	trigger run_204
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s204 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_205
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s205 80 wait length 32
+		followspline 0 s205a 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_206
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s206 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_207
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s207 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_208
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s208 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_209
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s209 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_210
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s210 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_211
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s211 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_212
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s212 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_213
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s213 80 wait length 32
+		accum 1 bitreset 2
+
+	//	Start the tunnel path, set accum 3 to next spline - 1
+		accum 3 set 399
+		trigger self run_continue
+	}
+
+	trigger run_300
+	{
+	//	return if barrier not built
+		globalaccum 0 abort_if_not_bitset 4
+
+		accum 3 set 300
+
+		trigger self tracks_forward
+		accum 1 bitset 2
+
+		followspline 0 s300 80 wait length 32
+		accum 3 inc 1
+		followspline 0 s301 80 wait length 32
+
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_302
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s302 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_303
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s303 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_304
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s304 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self attack_house
+	}
+
+	trigger run_305
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s305 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_306
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s306 50 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_307
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s307 50 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_308
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s308 50 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_309
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s309 50 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_310
+	{
+		wm_teamvoiceannounce 0 "axis_tank_past_barrier"
+		wm_teamvoiceannounce 1 "allies_tank_past_barrier"
+
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s310 50 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_311
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s311 50 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_312
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s312 50 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_313
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s313 50 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_314
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s314 50 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_315
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s315 50 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_316
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s316 50 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_317
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s317 50 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_318
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s318 50 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_319
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s319 50 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_320
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s320 50 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_321
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s321 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_322
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s322 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_323
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s323 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_324
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s324 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_325
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s325 80 wait length 32
+		accum 1 bitreset 2
+
+	//	Set next spline to tunnel start
+		accum 3 set 399
+		trigger self run_continue
+	}
+
+	trigger run_400
+	{
+	//	Tank now at tunnel, make the bunker spawn accessible and set the station spawn to allied
+		
+
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s400 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_401
+	{
+		trigger self remove_tunnel_toi
+
+		wm_removeteamvoiceannounce 0 "axis_dynamite_tunnel"
+		wm_removeteamvoiceannounce 1 "allies_save_tunnel"
+
+		wm_teamvoiceannounce 0 "axis_stop_tank"
+		wm_addteamvoiceannounce 0 "axis_stop_tank"
+
+		wm_teamvoiceannounce 1 "allies_escort_tank_to_bunker"
+		wm_addteamvoiceannounce 1 "allies_escort_tank_to_bunker"
+
+	//	Divert for possible path up debris. Routine returns if there is no debris.
+		trigger self run_500
+
+	//	Go thru the tunnel without stopping
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s401 80 wait length 32
+		followspline 0 s402 80 wait length 32
+		followspline 0 s403 80 wait length 32
+
+		wm_teamvoiceannounce 0 "axis_tank_in_tunnel"
+
+		followspline 0 s404 80 wait length 32
+		followspline 0 s405 80 wait length 32
+		followspline 0 s406 80 wait length 32
+		accum 1 bitreset 2
+
+		accum 3 set 406
+		trigger self run_continue
+	}
+
+
+	trigger run_407
+	{
+		wm_teamvoiceannounce 1 "allies_tank_past_tunnel"
+		wm_objective_status 4 0 2
+		wm_objective_status 4 1 1
+
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s407 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_408
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s408 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_409
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s409 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_410
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s410 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_411
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s411 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_412
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s412 80 wait length 32
+		accum 1 bitreset 2
+
+	//	Set next spline to 600, entrance to bunker
+		accum 3 set 599
+		trigger self run_continue
+	}
+
+	trigger run_500
+	{
+	//	return if tunnel is intact, otherwise clamber over the rubble
+		globalaccum 0 abort_if_not_bitset 5
+
+		accum 3 set 500
+
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s500 50 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_501
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s501 50 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_502
+	{
+		wm_teamvoiceannounce 0 "axis_tank_in_tunnel"
+
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s502 50 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_503
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s503 50 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_504
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s504 50 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_505
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s505 50 wait length 32
+		accum 1 bitreset 2
+
+	//	Back to the normal path, set accum 3 to next spline - 1
+		accum 3 set 406
+		trigger self run_continue
+	}
+
+	trigger run_600
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s600 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_601
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s601 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_602
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s602 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_603
+	{
+		wm_removeteamvoiceannounce 0 "axis_stop_tank"
+		wm_removeteamvoiceannounce 1 "allies_escort_tank_to_bunker"
+
+		alertentity roadbarrier
+		alertentity broken_roadbarrier
+
+	//	Axis ought to spawn in the bunker now, even if they haven't chosen to do so
+		setautospawn "Bunker" 0
+
+	//	Uncomment these if we decide to stop spawns in the barracks
+	//	alertentity barracks_spawns
+	//	setstate barracks_wobj invisible
+
+		trigger self enable_bunker_objective
+
+		trigger garage_door up
+
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s603 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_604
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s604 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_605
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s605 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_606
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s606 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_607
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s607 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_608
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s608 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_609
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s609 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_610
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s610 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_611
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s611 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_612
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s612 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_613
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s613 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_614
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s614 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_615
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s615 50 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_616
+	{
+		trigger jagdpanther attack
+
+		trigger self tracks_forward
+		accum 1 bitset 2
+
+		followspline 0 s616 50 wait length 32
+		followspline 0 s617 50 wait length 32
+		trigger tank_turret attack_jagdpanther
+		followspline 0 s618 50 wait length 32
+		followspline 0 s619 50 wait length 32
+
+		accum 1 bitreset 2
+
+		accum 3 set 619 // ready for next spline
+		trigger self run_continue
+	}
+
+	trigger run_620
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s620 50 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_621
+	{
+		trigger fire_truck bash
+
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s621 50 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_622
+	{
+		trigger tank_turret after_jagdpanther
+
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s622 50 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_623
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s623 50 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_624
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s624 50 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_625
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s625 50 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_626
+	{
+		enablespeaker speaker_tank_scrape
+		trigger global sparks
+
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s626 50 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_627
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s627 50 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_628
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s628 50 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_629
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s629 50 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_630
+	{
+		trigger self remove_bunker_toi
+		globalaccum 0 bitset 10			// show that the tank has passed bunker control room
+
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s630 50 wait length 32
+
+		wm_objective_status 5 0 2
+		wm_objective_status 5 1 1
+
+	//	Divert for possible path up debris. Routine returns if there is no debris.
+		trigger self run_700
+
+		wm_removeteamvoiceannounce 0 "axis_dynamite_bunker"
+		wm_removeteamvoiceannounce 1 "allies_save_bunker"
+
+	//	Go into the bunker exit without stopping
+		followspline 0 s631 50 wait length 32
+		followspline 0 s632 50 wait length 32
+		followspline 0 s633 50 wait length 32
+
+		wm_teamvoiceannounce 0 "axis_tank_past_bunker"
+		wm_teamvoiceannounce 1 "allies_tank_past_bunker"
+
+		followspline 0 s634 50 wait length 32
+		accum 1 bitreset 2
+
+		accum 3 set 634
+		trigger self run_continue
+	}
+
+	trigger run_635
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s635 50 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_636
+	{
+		trigger garage_door down
+
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s636 50 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_637
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s637 50 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_638
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s638 50 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_639
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s639 50 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_640
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s640 50 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_641
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s641 50 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_642
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s642 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_643
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s643 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_644
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s644 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_645
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s645 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_646
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s646 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_647
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s647 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_648
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s648 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_649
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s649 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_650
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s650 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_651
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s651 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_652
+	{
+		trigger game_manager allies_win
+
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s652 80 wait length 32
+		followspline 0 s653 80 wait length 32
+		followspline 0 s654 80 wait length 32
+		accum 1 bitreset 2
+
+		trigger self script_lockout
+
+		accum 3 inc 3
+
+		trigger tank_sound stop
+		trigger self tracks_stop
+
+		startanimation 5 10 15 nolerp norandom	// stopping
+		wait 666
+		startanimation 0 1 15 nolerp norandom	// stopped
+	}
+
+	trigger run_700
+	{
+	//	return if bunker room is intact, otherwise clamber over the rubble
+		globalaccum 0 abort_if_not_bitset 11
+
+		accum 3 set 700
+
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s700 50 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_701
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s701 50 wait length 32
+		accum 1 bitreset 2
+
+		trigger self run_continue
+	}
+
+	trigger run_702
+	{
+		trigger self tracks_forward
+		accum 1 bitset 2
+		followspline 0 s702 50 wait length 32
+
+		wm_teamvoiceannounce 0 "axis_tank_past_bunker"
+		wm_teamvoiceannounce 1 "allies_tank_past_bunker"
+
+		followspline 0 s634 50 wait length 32
+
+		accum 1 bitreset 2
+
+		accum 3 set 634
+		trigger self run_continue
+	}
+
+	// =========================
+	// script lockouts
+
+	trigger script_lockout
+	{
+		accum 5 inc 1
+	}
+
+	trigger script_lockout_stop
+	{
+		accum 5 inc -1
+	}
+
+	trigger sound_idle
+	{
+		stopsound
+		playsound sound/vehicles/tank/tank_idle.wav looping volume 512
+	}
+
+	trigger sound_start
+	{
+		stopsound
+		playsound sound/vehicles/tank/tank_revup.wav volume 196
+	}
+
+	trigger sound_move
+	{
+		stopsound
+		playsound sound/vehicles/tank/tank_move.wav looping volume 512
+	}
+
+	trigger sound_stop
+	{
+		stopsound
+		playsound sound/vehicles/tank/tank_revdown.wav volume 196
+	}
+
+	trigger sound_death
+	{
+		stopsound
+		playsound sound/vehicles/tank/tank_stop.wav volume 256
+
+		accum 1 abort_if_not_bitset 5 // Don't make announcement at game start
+
+		wm_teamvoiceannounce 0 "axis_tank_damaged"
+		wm_teamvoiceannounce 1 "allies_tank_damaged"
+
+		wm_announce "^3*** ^7The Tiger Tank has been damaged! ^3***"
+	}
+
+	trigger sound_rebirth
+	{
+		stopsound
+		playsound sound/vehicles/tank/tank_start.wav volume 196
+	}
+
+	// ================================
+	// stop check
+	trigger stopcheck
+	{
+		trigger self stopcheck_setup
+		accum 1 abort_if_not_bitset 6
+
+		trigger self script_lockout
+
+		trigger tank_sound 	stop
+		trigger self tracks_stop		
+		startanimation 5 10 15 nolerp norandom	// stopping
+		wait 666
+		startanimation 0 1 15 nolerp norandom	// stopped
+
+		trigger self script_lockout_stop
+		resetscript
+	}
+
+	trigger stopcheck_setup
+	{
+		accum 1 bitset 6				// stop if we're stuck/no-one's pushing :)
+
+		accum 1 abort_if_bitset 8		// no one in the trigger, abort
+
+		trigger self stuck_check		// call the stuck check function
+		accum 1 abort_if_bitset 3		// we're stuck so break out
+
+		accum 1 bitreset 6			// we're free to move
+	}
+
+	// ======================================
+	// stuck checking
+
+	trigger stuck_check
+	{
+		accum 1 bitreset 3
+
+		trigger self stuck_check_footbridge_dyna
+		trigger self stuck_check_footbridge
+
+		trigger self stuck_check_ramp_dyna
+		trigger self stuck_check_ramp
+
+		trigger self stuck_check_barrier_dyna
+
+		trigger self stuck_check_tunnel_dyna
+		trigger self stuck_check_tunnel
+
+		trigger self stuck_check_bunker_dyna
+		trigger self stuck_check_bunker
+
+		trigger self stuck_check_scriptlockout
+		trigger self stuck_check_finished
+	}
+
+	trigger stuck_check_finished
+	{
+	//	The final spline
+		accum 3 abort_if_not_equal 655
+
+		accum 1 bitset 3
+	}
+
+	trigger stuck_check_scriptlockout
+	{
+		accum 5 abort_if_equal 0
+		accum 1 bitset 3
+	}
+
+	trigger stuck_check_footbridge
+	{
+	//	The value is the spline just before the footbridge
+		accum 3 abort_if_not_equal 103		// abort if tank not at footbridge
+
+		globalaccum 0 abort_if_bitset 2		// abort if footbridge was destroyed but the wreckage has been cleared
+		globalaccum 0 abort_if_not_bitset 1		// abort if footbridge not destroyed so route is still clear
+
+		accum 1 bitset 3
+	}
+
+	trigger stuck_check_footbridge_dyna
+	{
+	//	The value is the spline just before the footbridge
+		accum 3 abort_if_not_equal 103		// abort if tank not at footbridge
+
+		globalaccum 0 abort_if_bitset 1		// abort if footbridge destroyed
+
+	//	set_to_dynamitecount doesn't work on ETPro
+		accum 2 set_to_dynamitecount footbridge	// is dyna planted at footbridge?
+		accum 2 abort_if_equal 0			// abort if dyna not planted
+
+		accum 1 bitset 3
+	}
+
+	trigger stuck_check_ramp
+	{
+	//	The value is the spline just before the ramp
+		accum 3 abort_if_not_equal 108		// abort if tank not at ramp
+
+		globalaccum 0 abort_if_bitset 3		// abort if ramp built
+
+		accum 1 bitset 3
+	}
+
+	trigger stuck_check_ramp_dyna
+	{
+	//	The value is the spline just before the footbridge
+		accum 3 abort_if_not_equal 108		// abort if tank not at ramp
+
+		globalaccum 0 abort_if_not_bitset 3		// abort if ramp not built or is destroyed
+
+	//	set_to_dynamitecount doesn't work on ETPro
+	//	accum 2 set_to_dynamitecount ramp		// is dyna planted at ramp?
+		accum 2 abort_if_equal 0			// abort if dyna not planted
+
+		accum 1 bitset 3
+	}
+
+	trigger stuck_check_barrier_dyna
+	{
+	//	The value is the spline just before the barrier
+		accum 3 abort_if_not_equal 203		// abort if tank not at barrier
+
+		globalaccum 0 abort_if_not_bitset 4		// abort if barrier not built or is destroyed
+
+	//	set_to_dynamitecount doesn't work on ETPro
+		accum 2 set_to_dynamitecount barrier1	// is dyna planted at barrier?
+		accum 2 abort_if_equal 0			// abort if dyna not planted
+
+		accum 1 bitset 3
+	}
+
+	trigger stuck_check_tunnel
+	{
+	//	The value is the spline just before the tunnel
+		accum 3 abort_if_not_equal 401		// abort if tank not at tunnel
+
+		globalaccum 0 abort_if_bitset 6		// abort if tunnel was destroyed but the wreckage has been cleared
+		globalaccum 0 abort_if_not_bitset 5		// abort if tunnel not destroyed so route is still clear
+
+		accum 1 bitset 3
+	}
+
+	trigger stuck_check_tunnel_dyna
+	{
+	//	The value is the spline just before the tunnel
+		accum 3 abort_if_not_equal 401		// abort if tank not at tunnel
+
+		globalaccum 0 abort_if_bitset 5		// abort if tunnel destroyed
+
+	//	set_to_dynamitecount doesn't work on ETPro
+		accum 2 set_to_dynamitecount tunnel		// is dyna planted at tunnel?
+		accum 2 abort_if_equal 0			// abort if dyna not planted
+
+		accum 1 bitset 3
+	}
+
+	trigger stuck_check_bunker
+	{
+	//	The value is the spline just before the bunker
+		accum 3 abort_if_not_equal 630		// abort if tank not at bunker
+
+		globalaccum 0 abort_if_bitset 12		// abort if bunker was destroyed but the wreckage has been cleared
+		globalaccum 0 abort_if_not_bitset 11	// abort if bunker not destroyed so route is still clear
+
+		accum 1 bitset 3
+	}
+
+	trigger stuck_check_bunker_dyna
+	{
+	//	The value is the spline just before the bunker
+		accum 3 abort_if_not_equal 630		// abort if tank not at bunker
+
+		globalaccum 0 abort_if_bitset 11		// abort if bunker destroyed
+
+	//	set_to_dynamitecount doesn't work on ETPro
+		accum 2 set_to_dynamitecount bunker_room	// is dyna planted at bunker?
+		accum 2 abort_if_equal 0			// abort if dyna not planted
+
+		accum 1 bitset 3
+	}
+
+	trigger tank_disable
+	{
+		accum 4 inc 1				// up the stop counter
+		accum 4 abort_if_less_than 4
+
+		accum 1 bitset 8				// set stop check
+
+		trigger self deathcheck
+	}
+
+	trigger tank_enable
+	{
+		trigger self stuck_check
+		accum 1 abort_if_bitset 3 	// stuck check
+
+		accum 4 set 0			// reset stop counter
+		accum 1 bitreset 8		// reset stop check
+
+		accum 1 abort_if_bitset 2 	// already following spline
+		accum 5 abort_if_not_equal 0	// are we not in a script lockout?
+
+		accum 1 abort_if_bitset 7 	// death check
+
+		trigger self script_lockout
+
+		trigger tank_sound start
+
+		startanimation 55 10 15 nolerp norandom
+		wait 666
+		startanimation 5 40 15 nolerp norandom
+		wait 500
+		trigger self tracks_forward
+
+		trigger self script_lockout_stop
+
+		trigger self move
+	}
+
+	trigger tracks_forward
+	{
+		accum 0 abort_if_equal 1
+		accum 0 set 1
+
+		remapshader models/mapobjects/dt_tiger/dt_tiger_track models/mapobjects/dt_tiger/dt_tiger_track
+		remapshader models/mapobjects/dt_tiger/dt_whl_trim models/mapobjects/dt_tiger/dt_whl_trim
+		remapshader models/mapobjects/dt_tiger/dt_tiger_m_whl models/mapobjects/dt_tiger/dt_tiger_m_whl
+		remapshader models/mapobjects/dt_tiger/dt_tiger_o_whl models/mapobjects/dt_tiger/dt_tiger_o_whl
+
+		remapshaderflush
+	}
+
+	trigger tracks_stop
+	{
+		accum 0 abort_if_equal 0
+		accum 0 set 0
+
+		remapshader models/mapobjects/dt_tiger/dt_tiger_track models/mapobjects/dt_tiger/dt_tiger_track_stopped
+		remapshader models/mapobjects/dt_tiger/dt_whl_trim models/mapobjects/dt_tiger/dt_whl_trim_stopped
+		remapshader models/mapobjects/dt_tiger/dt_tiger_m_whl models/mapobjects/dt_tiger/dt_tiger_m_whl_stopped
+		remapshader models/mapobjects/dt_tiger/dt_tiger_o_whl models/mapobjects/dt_tiger/dt_tiger_o_whl_stopped
+
+		remapshaderflush
+	}
+}
+
+tank_build
+{
+	spawn
+	{
+		wait 500
+		attachtotag tank tag_hull
+	}
+}
+
+tank_construct
+{
+	spawn
+	{
+		wait 1000
+
+	//	kill tank
+
+		constructible_class 2
+		constructible_health 1200
+	//	constructible_constructxpbonus 10
+	//	constructible_destructxpbonus 10
+	}
+
+	built final
+	{
+		alertentity tank
+		wm_announce "The Tiger has been repaired!"
+	}
+}
+
+tank_disabler
+{
+	trigger run
+	{
+		trigger tank tank_disable
+	}
+}
+
+tank_enabler
+{
+	trigger run
+	{
+		trigger tank tank_enable
+	}
+}
+
+tank_fire_sound
+{
+	trigger run
+	{
+		setposition tank
+		alertentity tank_fire_sound
+	}
+}
+
+tank_flash
+{
+	spawn
+	{
+		wait 300
+ 		attachtotag tank_gun tag_guneffec
+		setstate tank_flash invisible
+	}
+
+	trigger run
+	{
+		trigger tank_fire_sound run
+
+		setstate tank_gunsmoke default
+		setstate tank_flash default
+		wait 100
+		setstate tank_flash invisible
+		setstate tank_gunsmoke invisible
+	}
+}
+
+tank_gun		
+{
+	spawn
+	{
+		wait 500
+		attachtotag tank_turret tag_gunpivot
+	}
+
+	trigger level
+	{
+		faceangles 0 0 0 2000
+	}
+
+	trigger depress
+	{
+		faceangles 12 0 0 2000
+	}
+
+	trigger elevate
+	{
+		faceangles 348 0 0 2000
+	}
+}
+
+tank_gunsmoke
+{
+	spawn
+	{
+		wait 500
+		attachtotag tank_gun tag_guneffec
+		setstate tank_gunsmoke invisible
+	}
+}
+
+tank_hull
+{
+	spawn
+	{
+		wait 400
+		attachtotag tank tag_hull
+	}
+}
+
+tank_smoke
+{
+	spawn
+	{
+		wait 500
+		attachtotag tank_gun tag_guneffec
+		setstate tank_smoke invisible
+	}
+}
+
+tank_sound
+{
+	trigger start
+	{
+		trigger tank sound_start
+		wait 3400
+		trigger tank sound_move
+	}
+
+	trigger stop
+	{
+		trigger tank sound_stop
+		wait 1400
+		trigger tank sound_idle
+	}
+
+	trigger rebirth
+	{
+		trigger tank sound_rebirth
+		wait 1400
+		trigger tank sound_idle
+	}
+}
+
+tank_trigger
+{
+	spawn
+	{
+		wait 500
+		attachtotag tank tag_turret
+	}
+}
+
+tank_turret
+{
+	spawn
+	{
+		wait 500
+		attachtotag tank tag_turret
+	}
+
+	trigger after_jagdpanther
+	{
+		playsound sound/vehicles/tank/turret_spin.wav looping
+		trigger tank_gun level
+	//	2Bit - half distance
+		faceangles 0 0 0 700
+
+		stopsound
+		playsound sound/vehicles/tank/turret_end.wav
+	}
+
+	trigger attack_house
+	{
+		playsound sound/vehicles/tank/turret_spin.wav looping
+		faceangles 0 325 0 1200
+		stopsound
+
+		wait 500
+		trigger tank_flash run
+		wait 200
+		alertentity house_wall1
+		alertentity house_wall1_explosion
+		alertentity house_wall1_broken
+
+		playsound sound/maps/track_switch.wav looping
+		wait 5000
+		stopsound
+
+		wait 500
+		trigger tank_flash run
+		wait 200
+		alertentity house_wall2
+		alertentity house_wall2_explosion
+		alertentity house_wall2_broken
+		wait 2000
+
+		playsound sound/vehicles/tank/turret_spin.wav looping
+		trigger tank_gun level
+		faceangles 0 0 0 1200
+
+		stopsound
+		playsound sound/vehicles/tank/turret_end.wav
+	}
+
+	trigger attack_jagdpanther
+	{
+		playsound sound/vehicles/tank/turret_spin.wav looping
+	//	2Bit - full distance
+		faceangles 0 320 0 1400
+		stopsound
+
+		wait 500
+		trigger tank_flash run
+		wait 200
+		alertentity jagdpanther_hit
+		trigger jagdpanther_smoke burn
+		wait 1000
+
+		playsound sound/vehicles/tank/turret_spin.wav looping
+		trigger tank_gun level
+	//	2Bit - half distance
+		faceangles 0 340 0 700
+
+		stopsound
+		playsound sound/vehicles/tank/turret_end.wav
+	}
+
+	trigger face_ahead
+	{
+	//	return turret to forward
+		accum 1 abort_if_equal 0
+		accum 1 set 0
+
+		playsound sound/vehicles/tank/turret_spin.wav looping
+		trigger tank_gun level
+		faceangles 0 0 0 1000
+
+		stopsound
+		playsound sound/vehicles/tank/turret_end.wav
+	}
+
+	trigger face_left
+	{
+		accum 1 abort_if_equal 1
+		accum 1 set 1
+
+		playsound sound/vehicles/tank/turret_spin.wav looping
+		faceangles 0 15 0 1000
+		stopsound
+	}
+
+	trigger face_right
+	{
+		accum 1 abort_if_equal 2
+		accum 1 set 2
+
+		playsound sound/vehicles/tank/turret_spin.wav looping
+		faceangles 0 345 0 1000
+		stopsound
+	}
+
+	trigger face_farahead
+	{
+	//	return turret to forward
+		accum 1 abort_if_equal 0
+		accum 1 set 0
+
+		playsound sound/vehicles/tank/turret_spin.wav looping
+		trigger tank_gun level
+		faceangles 0 0 0 2500
+
+		stopsound
+		playsound sound/vehicles/tank/turret_end.wav
+	}
+
+	trigger face_farleft
+	{
+		accum 1 abort_if_equal 1
+		accum 1 set 1
+
+		playsound sound/vehicles/tank/turret_spin.wav looping
+		faceangles 0 40 0 2500
+		stopsound
+	}
+
+	trigger face_farright
+	{
+		accum 1 abort_if_equal 2
+		accum 1 set 2
+
+		playsound sound/vehicles/tank/turret_spin.wav looping
+		faceangles 0 320 0 2500
+		stopsound
+	}
+
+	trigger swivel
+	{
+		accum 0 random 2
+		accum 0 trigger_if_equal 0 tank_turret face_left
+		accum 0 trigger_if_equal 1 tank_turret face_right
+	}
+}
+
+// =================================================
+train
+{
+	spawn
+	{
+		wait 300
+		gotomarker train_s0 50000
+	}
+
+	trigger arrive
+	{
+		trigger train_smoke follow
+
+		enablespeaker speaker_train1_whistle
+		enablespeaker speaker_train1_chuff_chuff
+
+		trigger train_cargo_shell arrive
+		gotomarker train_s1 450 wait
+
+		enablespeaker speaker_chuff_to_stop
+		disablespeaker speaker_train1_chuff_chuff
+
+		gotomarker train_s2 200 wait
+
+		alertentity train_corona
+
+		wait 200
+
+		enablespeaker speaker_train1_steam
+		setstate steam1 default
+		setstate steam2 default
+
+	//	Reveal wagon contents
+		setstate train_mg42 default
+
+		setstate first_hacabinet_toi default
+		setstate first_hacabinet_cm_marker default
+
+		setstate first_trigger_ammo default
+		setstate first_ammocabinet default
+		setstate first_ammocabinet_clip default
+
+		setstate first_trigger_heal default
+		setstate first_healthcabinet default
+		setstate first_healthcabinet_clip default
+
+	//	Reveal cargo doors
+		setstate train_cargo_door default
+
+	//	Reveal wagon sides
+		alertentity train_cargo_wagon
+
+	//	Hide script mover shell
+		setstate train_cargo_shell invisible
+
+		wait 4000
+	//	2Bit - made invisible so we can move the train at game end
+	//	trigger train_smoke remove
+		setstate train_smoke invisible
+
+		wait 2000
+		setstate steam1 invisible
+		setstate steam2 invisible
+
+		globalaccum 0 bitset 14	// record that train has arrived
+	}
+
+	trigger depart
+	{
+	//	Hide wagon contents
+		setstate train_mg42 invisible
+
+		setstate first_hacabinet_toi invisible
+		setstate first_hacabinet_cm_marker invisible
+
+		setstate first_trigger_ammo invisible
+		setstate first_ammocabinet invisible
+		setstate first_ammocabinet_clip invisible
+
+		setstate first_trigger_heal invisible
+		setstate first_healthcabinet invisible
+		setstate first_healthcabinet_clip invisible
+
+	//	Hide cargo doors
+		setstate train_cargo_door invisible
+
+	//	Hide wagon sides
+		alertentity train_cargo_wagon
+
+	//	Reveal script mover shell
+		setstate train_cargo_shell default
+
+		wait 6000
+
+		setstate steam1 default
+		setstate steam2 default
+		setstate train_smoke default
+
+		wait 4000
+
+		setstate steam1 invisible
+		setstate steam2 invisible
+
+		alertentity train_corona
+
+		trigger train_cargo_shell depart
+		gotomarker train_s3 100 wait
+	}
+}
+
+// =================================================
+train_cargo_shell
+{
+	spawn
+	{
+		wait 300
+		gotomarker train_s0 50000
+	}
+
+	trigger arrive
+	{
+		gotomarker train_s1 450 wait
+		gotomarker train_s2 200 wait
+	}
+
+	trigger depart
+	{
+		gotomarker train_s3 100 wait
+	}
+}
+
+// =================================================
+train_smoke
+{
+	spawn
+	{
+		wait 600
+		setposition train
+		setstate steam1 invisible
+		setstate steam2 invisible
+	}
+
+	trigger follow
+	{
+		setposition train
+		wait 100
+		trigger self follow
+	}
+
+	trigger remove
+	{
+		resetscript
+		remove
+	}
+}
+
+// =================================================
+train2
+{
+//	accum 0 : 1=train already departed
+//	The train will move if the footbridge is dynamited, or the tank enters the tunnel.
+//	accum 0 is used to prevent the train moving twice.
+	spawn
+	{
+		wait 300
+		gotomarker train2_s0 50000
+	}
+
+	trigger arrive
+	{
+		accum 0 abort_if_equal 1
+		accum 0 set 1
+
+		wait random 3000 6000
+
+		trigger train2_smoke follow
+
+		enablespeaker speaker_train2_whistle
+		enablespeaker speaker_train2_chuff_chuff
+
+		gotomarker train2_s1 450 wait
+
+		enablespeaker speaker_chuff_to_stop
+		disablespeaker speaker_train2_chuff_chuff
+
+		gotomarker train2_s2 200 wait
+
+		alertentity train2_corona
+
+		wait 200
+
+		enablespeaker speaker_train2_steam
+		setstate steam3 default
+		setstate steam4 default
+
+		wait 4000
+	//	2Bit - made invisible so we can move the train at game end
+	//	trigger train2_smoke remove
+		setstate train2_smoke invisible
+
+		wait 2000
+		setstate steam3 invisible
+		setstate steam4 invisible
+
+		globalaccum 0 bitset 15	// record that train2 has arrived
+	}
+
+	trigger depart
+	{
+		wait 2000
+
+		setstate steam3 default
+		setstate steam4 default
+		setstate train2_smoke default
+
+		wait 3000
+
+		setstate steam3 invisible
+		setstate steam4 invisible
+
+		alertentity train2_corona
+
+		gotomarker train2_s3 100 wait
+	}
+}
+
+// =================================================
+train2_smoke
+{
+	spawn
+	{
+		wait 600
+		setposition train2
+		setstate steam3 invisible
+		setstate steam4 invisible
+	}
+
+	trigger follow
+	{
+		setposition train2
+		wait 100
+		trigger self follow
+	}
+
+	trigger remove
+	{
+		resetscript
+		remove
+	}
+}
+
+// =================================================
+tunnel
+{
+	spawn
+	{
+		wait 300
+		constructible_class 3
+
+	//	Objective starts unavailable
+		setstate tunnel invisible
+		setstate tunnel_toi invisible
+	}
+
+	death
+	{
+		globalaccum 0 bitset 5				// flag that the route is blocked
+
+		trigger tunnel_hurt ouch
+
+	//	Show debris
+		alertentity tunnel_debris
+
+	//	Show rubble heap that allies have to clear
+		setstate tunnel_damaged_toi default
+		setstate tunnel_damaged default
+
+		trigger tunnel_toi remove
+
+		wm_announce "^3*** ^7Axis have collapsed the tunnel and blocked the road! ^3***"
+
+		wm_objective_status 4 0 1
+		wm_objective_status 4 1 2
+
+		wm_removeteamvoiceannounce 0 "axis_dynamite_tunnel"
+		wm_removeteamvoiceannounce 1 "allies_save_tunnel"
+
+		wm_teamvoiceannounce 0 "axis_tunnel_destroyed"
+		wm_teamvoiceannounce 1 "allies_tunnel_destroyed"
+	}
+}
+
+tunnel_toi
+{
+	trigger remove
+	{
+		remove
+	}
+}
+
+// =================================================
+tunnel_damaged
+{
+	spawn
+	{
+		wait 300
+		constructible_class 3
+
+		setstate tunnel_damaged_toi invisible
+		setstate tunnel_damaged invisible
+	}
+
+	death
+	{
+		globalaccum 0 bitset 6 // record that the debris has been cleared
+
+		trigger tunnel_hurt ouch
+		trigger tunnel_damaged_toi remove
+
+		wm_announce "^3*** ^7Allies have cleared a path through the tunnel rubble! ^3***"
+
+		wm_objective_status 4 0 2
+		wm_objective_status 4 1 1
+
+		wm_teamvoiceannounce 0 "axis_tunnel_breached"
+		wm_teamvoiceannounce 1 "allies_tunnel_breached"
+	}
+}
+
+tunnel_damaged_toi
+{
+	trigger remove
+	{
+		remove
+	}
+}
+
+// =================================================
+tunnel_hurt
+{
+	trigger ouch
+	{
+		setstate tunnel_hurt default
+		wait 100
+		setstate tunnel_hurt invisible
+	}
+}
+
+// =================================================
+watertank_cables
+{
+	pain
+	{
+		trigger watertank_hose drop
+	}
+}
+
+watertank_hose
+{
+	trigger drop
+	{
+		faceangles 315 0 0 2000
+
+		alertentity watertank_water
+		enablespeaker speaker_splash
+		enablespeaker speaker_gurgle
+		alertentity wet_track
+		setstate dry_track invisible
+
+		wait 30000
+
+		alertentity watertank_water
+		disablespeaker speaker_splash
+		disablespeaker speaker_gurgle
+	}
+}
+
+// =================================================
+waterwheel
+{
+	spawn
+	{
+		wait 500
+		setrotation -10 0 0 
+	}
+}

@@ -1,0 +1,25 @@
+weaponDef
+{
+	both {
+		name					"Adrenaline Needle"
+		statname				"Adrenaline"
+	}
+
+	client {
+		weaponConfig			"models/multiplayer/adrenaline/weapon.cfg"
+		handsModel				"models/multiplayer/adrenaline/v_adrenaline_hand.md3"
+
+		weaponIcon				"icons/iconw_syringe"
+		weaponSelectedIcon		"icons/iconw_syringe2_1_select"
+
+		firstPerson {
+			model				"models/multiplayer/adrenaline/v_adrenaline.md3"
+			axisskin			"models/multiplayer/adrenaline/adrenaline_axis.skin"
+			alliedskin			"models/multiplayer/adrenaline/adrenaline_allied.skin"
+		}
+
+		thirdPerson {
+			model				"models/multiplayer/adrenaline/adrenaline.md3"
+		}
+	}
+}

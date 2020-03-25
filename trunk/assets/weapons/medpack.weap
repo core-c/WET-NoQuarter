@@ -1,0 +1,27 @@
+weaponDef
+{
+	both {
+		name					"Medpack"
+		statname				"Medpack"
+	}
+
+	client {
+		pickupModel			"models/multiplayer/medpack/medpack_pickup.md3"
+
+		weaponConfig		"models/multiplayer/medpack/weapon.cfg"
+		handsModel			"models/multiplayer/medpack/v_medpack_hand.md3"
+
+		flashSound			"sound/misc/bag_toss.wav"	
+
+		weaponIcon			"icons/iconw_medheal"
+		weaponSelectedIcon	"icons/iconw_medheal_1_select"
+
+		firstPerson {
+			model			"models/multiplayer/medpack/v_medpack.md3"
+		}
+
+		thirdPerson {
+			model			"models/multiplayer/medpack/medpack.md3"
+		}
+	}
+}

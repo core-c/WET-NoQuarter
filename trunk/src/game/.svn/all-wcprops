@@ -1,0 +1,623 @@
+K 25
+svn:wc:ra_dav:version-url
+V 36
+/svn/nq/!svn/ver/5755/trunk/src/game
+END
+bg_sscript.c
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/nq/!svn/ver/5538/trunk/src/game/bg_sscript.c
+END
+g_alarm.c
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/nq/!svn/ver/5583/trunk/src/game/g_alarm.c
+END
+g_etbot_interface.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/nq/!svn/ver/5663/trunk/src/game/g_etbot_interface.cpp
+END
+bg_misc.c
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/nq/!svn/ver/5686/trunk/src/game/bg_misc.c
+END
+g_syscalls.c
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/nq/!svn/ver/5493/trunk/src/game/g_syscalls.c
+END
+bg_character.c
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/nq/!svn/ver/5630/trunk/src/game/bg_character.c
+END
+g_local.h
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/nq/!svn/ver/5741/trunk/src/game/g_local.h
+END
+bg_classes.c
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/nq/!svn/ver/4560/trunk/src/game/bg_classes.c
+END
+bg_stats.c
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/nq/!svn/ver/4555/trunk/src/game/bg_stats.c
+END
+g_strparse.c
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/nq/!svn/ver/2108/trunk/src/game/g_strparse.c
+END
+q_math.c
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn/nq/!svn/ver/5610/trunk/src/game/q_math.c
+END
+crc32.c
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/svn/nq/!svn/ver/5670/trunk/src/game/crc32.c
+END
+diskId32.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/nq/!svn/ver/5016/trunk/src/game/diskId32.cpp
+END
+g_strparse.h
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/nq/!svn/ver/4918/trunk/src/game/g_strparse.h
+END
+crc32.h
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/svn/nq/!svn/ver/5670/trunk/src/game/crc32.h
+END
+g_active.c
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/nq/!svn/ver/5500/trunk/src/game/g_active.c
+END
+g_mem.c
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/svn/nq/!svn/ver/4277/trunk/src/game/g_mem.c
+END
+g_teammapdata.c
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/nq/!svn/ver/5207/trunk/src/game/g_teammapdata.c
+END
+g_antilag.c
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/nq/!svn/ver/5538/trunk/src/game/g_antilag.c
+END
+md5.c
+K 25
+svn:wc:ra_dav:version-url
+V 42
+/svn/nq/!svn/ver/5016/trunk/src/game/md5.c
+END
+g_lua.c
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/svn/nq/!svn/ver/5741/trunk/src/game/g_lua.c
+END
+bg_campaign.c
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/nq/!svn/ver/5667/trunk/src/game/bg_campaign.c
+END
+g_public.h
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/nq/!svn/ver/5676/trunk/src/game/g_public.h
+END
+g_script_actions.c
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/nq/!svn/ver/5641/trunk/src/game/g_script_actions.c
+END
+g_main.c
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn/nq/!svn/ver/5755/trunk/src/game/g_main.c
+END
+md5.h
+K 25
+svn:wc:ra_dav:version-url
+V 42
+/svn/nq/!svn/ver/5016/trunk/src/game/md5.h
+END
+xorcrypt.c
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/nq/!svn/ver/5016/trunk/src/game/xorcrypt.c
+END
+g_multiview.c
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/nq/!svn/ver/4447/trunk/src/game/g_multiview.c
+END
+g_lua.h
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/svn/nq/!svn/ver/2162/trunk/src/game/g_lua.h
+END
+bg_pmove.c
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/nq/!svn/ver/5694/trunk/src/game/bg_pmove.c
+END
+g_shrubbot.c
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/nq/!svn/ver/5739/trunk/src/game/g_shrubbot.c
+END
+bg_hwguid_win32_cross.h
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/nq/!svn/ver/4944/trunk/src/game/bg_hwguid_win32_cross.h
+END
+g_weapon.c
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/nq/!svn/ver/5691/trunk/src/game/g_weapon.c
+END
+xorcrypt.h
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/nq/!svn/ver/5016/trunk/src/game/xorcrypt.h
+END
+g_misc.c
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn/nq/!svn/ver/5656/trunk/src/game/g_misc.c
+END
+g_shrubbot.h
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/nq/!svn/ver/5616/trunk/src/game/g_shrubbot.h
+END
+geoip.c
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/svn/nq/!svn/ver/4852/trunk/src/game/geoip.c
+END
+input_tokens.gperf
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/nq/!svn/ver/4926/trunk/src/game/input_tokens.gperf
+END
+bg_local.h
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/nq/!svn/ver/5674/trunk/src/game/bg_local.h
+END
+g_script.c
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/nq/!svn/ver/5641/trunk/src/game/g_script.c
+END
+g_config.c
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/nq/!svn/ver/4626/trunk/src/game/g_config.c
+END
+game.dsp
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn/nq/!svn/ver/2397/trunk/src/game/game.dsp
+END
+input_tokens_hwban.gperf
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/nq/!svn/ver/4926/trunk/src/game/input_tokens_hwban.gperf
+END
+g_referee.c
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/nq/!svn/ver/4800/trunk/src/game/g_referee.c
+END
+g_vote.c
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn/nq/!svn/ver/5535/trunk/src/game/g_vote.c
+END
+g_fireteams.c
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/nq/!svn/ver/5517/trunk/src/game/g_fireteams.c
+END
+g_items.c
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/nq/!svn/ver/5640/trunk/src/game/g_items.c
+END
+etpro_mdx_lut.h
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/nq/!svn/ver/2108/trunk/src/game/etpro_mdx_lut.h
+END
+game.vcproj
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/nq/!svn/ver/2397/trunk/src/game/game.vcproj
+END
+game.cbp
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn/nq/!svn/ver/5066/trunk/src/game/game.cbp
+END
+g_cmds.c
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn/nq/!svn/ver/5735/trunk/src/game/g_cmds.c
+END
+g_team.c
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn/nq/!svn/ver/5720/trunk/src/game/g_team.c
+END
+g_spawn.c
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/nq/!svn/ver/5377/trunk/src/game/g_spawn.c
+END
+bg_slidemove.c
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/nq/!svn/ver/3160/trunk/src/game/bg_slidemove.c
+END
+etpro_mdx.c
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/nq/!svn/ver/4454/trunk/src/game/etpro_mdx.c
+END
+g_systemmsg.c
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/nq/!svn/ver/5638/trunk/src/game/g_systemmsg.c
+END
+g_team.h
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn/nq/!svn/ver/5515/trunk/src/game/g_team.h
+END
+g_match.c
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/nq/!svn/ver/5640/trunk/src/game/g_match.c
+END
+bg_tracemap.c
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/nq/!svn/ver/5523/trunk/src/game/bg_tracemap.c
+END
+g_time.c
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn/nq/!svn/ver/2108/trunk/src/game/g_time.c
+END
+g_svcmds.c
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/nq/!svn/ver/5632/trunk/src/game/g_svcmds.c
+END
+etpro_mdx.h
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/nq/!svn/ver/3871/trunk/src/game/etpro_mdx.h
+END
+g_time.h
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn/nq/!svn/ver/2108/trunk/src/game/g_time.h
+END
+surfaceflags.h
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/nq/!svn/ver/3314/trunk/src/game/surfaceflags.h
+END
+g_combat.c
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/nq/!svn/ver/5516/trunk/src/game/g_combat.c
+END
+g_cmds_ext.c
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/nq/!svn/ver/5468/trunk/src/game/g_cmds_ext.c
+END
+game.def
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/svn/nq/!svn/ver/411/trunk/src/game/game.def
+END
+q_shared.c
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/nq/!svn/ver/5719/trunk/src/game/q_shared.c
+END
+g_osfile.c
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/nq/!svn/ver/5732/trunk/src/game/g_osfile.c
+END
+bg_animation.c
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/nq/!svn/ver/5651/trunk/src/game/bg_animation.c
+END
+g_session.c
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/nq/!svn/ver/5741/trunk/src/game/g_session.c
+END
+q_shared.h
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/nq/!svn/ver/5691/trunk/src/game/q_shared.h
+END
+g_osfile.h
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/nq/!svn/ver/5732/trunk/src/game/g_osfile.h
+END
+g_target.c
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/nq/!svn/ver/4819/trunk/src/game/g_target.c
+END
+g_mover.c
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/nq/!svn/ver/5522/trunk/src/game/g_mover.c
+END
+bg_profiler.h
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/nq/!svn/ver/5586/trunk/src/game/bg_profiler.h
+END
+bg_hwguid.c
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/nq/!svn/ver/4934/trunk/src/game/bg_hwguid.c
+END
+game2005.vcproj
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/nq/!svn/ver/2493/trunk/src/game/game2005.vcproj
+END
+g_sha1.c
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn/nq/!svn/ver/2162/trunk/src/game/g_sha1.c
+END
+g_character.c
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/nq/!svn/ver/5376/trunk/src/game/g_character.c
+END
+bg_hwguid.h
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/nq/!svn/ver/4934/trunk/src/game/bg_hwguid.h
+END
+g_stats.c
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/nq/!svn/ver/5420/trunk/src/game/g_stats.c
+END
+g_crash.c
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/nq/!svn/ver/5732/trunk/src/game/g_crash.c
+END
+g_utils.c
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/nq/!svn/ver/5713/trunk/src/game/g_utils.c
+END
+g_etbot_interface.h
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/nq/!svn/ver/5657/trunk/src/game/g_etbot_interface.h
+END
+g_buddy_list.c
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/nq/!svn/ver/5583/trunk/src/game/g_buddy_list.c
+END
+g_props.c
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/nq/!svn/ver/5665/trunk/src/game/g_props.c
+END
+bg_animgroup.c
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/nq/!svn/ver/5666/trunk/src/game/bg_animgroup.c
+END
+g_trigger.c
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/nq/!svn/ver/5636/trunk/src/game/g_trigger.c
+END
+bg_profiler_hook.c
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/nq/!svn/ver/5345/trunk/src/game/bg_profiler_hook.c
+END
+g_missile.c
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/nq/!svn/ver/5691/trunk/src/game/g_missile.c
+END
+g_xpsave.c
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/nq/!svn/ver/5748/trunk/src/game/g_xpsave.c
+END
+bg_lib.c
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn/nq/!svn/ver/3259/trunk/src/game/bg_lib.c
+END
+game2008EE.vcproj
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/nq/!svn/ver/5196/trunk/src/game/game2008EE.vcproj
+END
+g_xpsave.h
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/nq/!svn/ver/2108/trunk/src/game/g_xpsave.h
+END
+g_client.c
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/nq/!svn/ver/5742/trunk/src/game/g_client.c
+END
+base64.c
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn/nq/!svn/ver/5582/trunk/src/game/base64.c
+END
+bg_weapons.c
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/nq/!svn/ver/5652/trunk/src/game/bg_weapons.c
+END
+g_match_tokens.c
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/nq/!svn/ver/4927/trunk/src/game/g_match_tokens.c
+END
+game2010.vcxproj
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/nq/!svn/ver/5231/trunk/src/game/game2010.vcxproj
+END
+base64.h
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn/nq/!svn/ver/5582/trunk/src/game/base64.h
+END
+bg_public.h
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/nq/!svn/ver/5711/trunk/src/game/bg_public.h
+END
+et-antiwarp.c
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/nq/!svn/ver/5539/trunk/src/game/et-antiwarp.c
+END

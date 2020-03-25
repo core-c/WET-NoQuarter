@@ -1,0 +1,98 @@
+weaponDef
+{
+	both{
+		name					"FG42"
+		statname				"FG-42"
+		damage					15
+		spread					500
+		spreadRatio				0.9
+		SpreadScaleAdd			100
+		viewchange2spread
+		CrouchSpreadRatio		0.6
+		ProneSpreadRatio		0.6
+		selfKillMessage			"found a way to shoot himself!"
+		headshotWeapon
+	 	bulletReflection
+		DistanceFalloff
+	}
+
+	both_altweap {
+		name					"FG42"
+		damage					30
+		spread					200
+		spreadRatio				7.0
+		SpreadScaleAdd			100
+		velocity2spread
+		recoilDuration			100
+		recoilPitch				0.45
+		recoilYaw				0.0
+		selfKillMessage			"found a way to shoot himself!"
+		KillMessage				"was sniped by"
+		KillMessage2			"'s FG42."
+		headshotWeapon
+		bulletReflection
+	}
+
+	client {
+		pickupModel				"models/weapons2/fg42/fg42.md3"
+		droppedAnglesHack
+		bounceSound				"sound/weapons/weaponbounce.wav"
+		clipBounceSound			"sound/weapons/clipbounce.wav"
+		
+		weaponConfig			"models/weapons2/fg42/weapon.cfg"
+		handsModel				"models/weapons2/fg42/v_fg42_hand.mdc"
+		
+		flashDlightColor		1.0 0.6 0.23
+		flashSound				"sound/weapons/fg42/fg42_fire.wav"
+		flashEchoSound			"sound/weapons/fg42/fg42_far.wav"
+		
+		reloadSound				"sound/weapons/fg42/fg42_reload.wav"
+		reloadFastSound			"sound/weapons/fg42/fg42_reload_fast.wav"
+		
+		weaponIcon				"icons/iconw_fg42"
+		weaponSelectedIcon		"icons/iconw_fg42_1_select"
+		
+		ejectBrassFunc			"MachineGunEjectBrass"
+		brassmodel				"models/weapons2/shells/792shell.md3"
+		
+		firstPerson {
+			model				"models/weapons2/fg42/v_fg42.mdc"
+			flashModel			"models/weapons2/fg42/v_fg42_flash.mdc"
+
+			weaponLink
+			{
+				part 0
+				{
+					tag			"tag_barrel2"
+					model		"models/weapons2/fg42/v_fg42_barrel2.mdc"
+				}
+				part 1
+				{
+					tag			"tag_barrel3"
+					model		"models/weapons2/fg42/v_fg42_barrel3.mdc"
+					axisskin	"models/weapons2/fg42/fg42_axis.skin"
+					alliedskin	"models/weapons2/fg42/fg42_allied.skin"
+				}
+				part 2
+				{
+					tag			"tag_barrel4"
+					model		"models/weapons2/fg42/v_fg42_barrel4.mdc"
+				}
+			}
+		}
+		
+		thirdPerson {
+			model				"models/weapons2/fg42/fg42.md3"
+			flashmodel			"models/weapons2/fg42/fg42_flash.mdc"
+			
+			weaponLink
+			{
+				part 0
+				{
+					tag			"tag_barrel"
+					model		"models/weapons2/fg42/fg42_barrel.mdc"
+				}
+			}
+		}
+	}
+}

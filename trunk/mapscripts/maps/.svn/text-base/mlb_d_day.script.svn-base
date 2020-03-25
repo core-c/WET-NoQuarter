@@ -1,0 +1,937 @@
+//
+//Brush Scripting
+//Map: mlb_d_day
+//Last edited by: Lowlife
+//
+//=SC=Beef - Removed access to the 'secret' rooms. www.silent-clan.com
+
+game_manager
+{
+	spawn
+	{
+		// Set scenario information
+
+//		wm_mapdescription		"Allied forces are attempting to steal top secret war documents from an Axis beach installation."
+
+		// Set the respawn times
+
+		wm_allied_respawntime		10
+		wm_axis_respawntime		25
+
+		wm_set_round_timelimit		20
+		wm_number_of_objectives 7
+
+		// Set the number of objectives for the map
+
+
+		// Set Defending Team for SW Mode
+
+		wm_set_defending_team	0
+
+		// If the round timer expires, the Axis have won, so set the current winning team
+		// Set the round winner:  0 == AXIS, 1 == ALLIED
+		wm_setwinner 0
+
+		wait 500
+
+		setautospawn	"Axis Base"	0
+		setautospawn	"Beach"		1
+		setstate goldbars_cm_marker default
+		setstate radio_cmm default
+		accum 1 set 0
+		alertentity flag1blob
+		setstate flag1blob invisible
+		setstate tele invisible
+		setstate tele_pub invisible
+		remapshader "sprites/objective" "textures/mlb_d_day/objective_codes"
+		
+		remapshaderflush
+
+		wm_objective_status 1 0 0 //side entrance door
+		wm_objective_status 1 1 0 //
+		wm_objective_status 2 0 0 // main entrance gate
+		wm_objective_status 2 1 0 //	
+		wm_objective_status 3 0 0 //the sea wall
+		wm_objective_status 3 1 0 //
+		wm_objective_status 4 0 0 //forward bunker flag
+		wm_objective_status 4 1 0 //
+		wm_objective_status 5 0 0 //the documents
+		wm_objective_status 5 1 0 //
+		wm_objective_status 6 0 0 //the beach radio
+		wm_objective_status 6 1 0 //
+		wm_objective_status 7 0 0 //command post
+		wm_objective_status 7 1 0 //
+
+		wait 1500 
+	
+		// *----------------------------------- vo ------------------------------------------*
+		wm_addteamvoiceannounce 0 "axis-promain1"
+		wm_addteamvoiceannounce 0 "axis-prosea1"
+		wm_addteamvoiceannounce 0 "axis-proside2"
+		wm_addteamvoiceannounce 0 "axis-profor1"
+
+		wm_addteamvoiceannounce 1 "ally-mainent1"
+		wm_addteamvoiceannounce 1 "ally-seawall2"
+		wm_addteamvoiceannounce 1 "ally-sident2"
+		wm_addteamvoiceannounce 1 "ally-forbunk1"
+
+		wm_teamvoiceannounce 0 "axis-promain1"
+		wm_teamvoiceannounce 0 "axis-prosea1"
+		wm_teamvoiceannounce 0 "axis-proside2"
+		wm_teamvoiceannounce 0 "axis-profor1"
+
+		wm_teamvoiceannounce 1 "ally-mainent1"
+		wm_teamvoiceannounce 1 "ally-seawall2"
+		wm_teamvoiceannounce 1 "ally-sident2"
+		wm_teamvoiceannounce 1 "ally-forbunk1"
+		// *---------------------------------------------------------------------------------*
+	}
+
+	
+
+	trigger objective4
+	{
+		wm_announce	"Allies transmitted the documents!"
+		trigger game_manager victory
+	}
+
+	trigger victory
+	{
+
+		// Set the round winner:  0 == AXIS, 1 == ALLIED
+		wm_setwinner 1
+
+		// End the round
+		wm_endround
+	}
+	
+	trigger beach_flagblue
+	{
+		wm_announce	"Allies capture the Forward Bunker!"
+		// *----------------------------------- vo ------------------------------------------*
+		wm_removeteamvoiceannounce 0 "axis-profor1"
+
+		wm_removeteamvoiceannounce 1 "ally-forbunk1"
+
+		wm_teamvoiceannounce 0 "theycapforbunk2"
+
+		wm_teamvoiceannounce 1 "ally-forbunk1"
+
+		// *---------------------------------------------------------------------------------*
+		alertentity aspawn2
+		setautospawn	"Beach bunkers"	1
+		setstate flag1blob default
+		wm_allied_respawntime		15
+		wm_axis_respawntime		20
+		wm_objective_status 4 0 2
+		wm_objective_status 4 1 1
+		accum 1 set 1
+
+
+	}
+
+	trigger beach_flagred
+	{
+		wm_announce	"Axis reclaims the Forward Bunker!"
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_addteamvoiceannounce 0 "axis-profor1"
+
+		wm_addteamvoiceannounce 1 "ally-forbunk1"
+
+		wm_teamvoiceannounce 1 "ally-reclforbunk1"
+		wm_teamvoiceannounce 1 "ally-forbunk1"
+
+		wm_teamvoiceannounce 0 "axis-forbunker1"
+
+		// *---------------------------------------------------------------------------------*
+		setautospawn	"Beach"	1
+		setstate flag1blob invisible
+		accum 1 abort_if_not_equal 1
+		wm_allied_respawntime		15
+		wm_axis_respawntime		25
+		wm_objective_status 4 0 1
+		wm_objective_status 4 1 2
+		alertentity aspawn2
+	}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	trigger acc
+	{		
+		globalaccum 1 abort_if_not_equal 3		
+		globalaccum 3 abort_if_not_equal 2
+		globalaccum 2 abort_if_not_equal 1
+		globalaccum 4 abort_if_not_equal 0
+		globalaccum 1 set 0
+		globalaccum 2 set 0
+		globalaccum 3 set 0
+		globalaccum 4 set 0
+		wm_announce	"^1axs!"			
+		wait 1000		
+		setstate tele_pub default
+		wait 100
+		setstate tele_pub invisible	
+	}
+	trigger pub_passed
+	{
+		globalaccum 4 abort_if_not_equal 100		
+		wait 1000		
+		setstate tele_pub default
+		wait 1000
+		setstate tele_pub invisible		
+	}	
+}
+////////////////////////////////////////////////////////////////////////////////
+acc1
+{
+	activate
+	{
+		globalaccum 1 inc 1
+		trigger game_manager acc
+		wait 10000
+		globalaccum 1 set 0				
+	}
+}	
+acc2
+{
+	activate
+	{
+		globalaccum 2 inc 1
+		trigger game_manager acc
+		wait 10000
+		globalaccum 2 set 0				
+	}
+}	
+acc3
+{
+	activate
+	{
+		globalaccum 3 inc 1
+		trigger game_manager acc
+		wait 10000
+		globalaccum 3 set 0			
+	}
+}	
+acc4
+{
+	activate
+	{
+		globalaccum 4 inc 1
+		trigger game_manager pub_passed
+		wait 20000
+		globalaccum 4 set 0				
+	}	
+}
+////////////////////////////////////////////////////////////////////////////////
+ctal
+{
+	spawn
+	{
+		wait 200
+		remove
+		accum 0 set 3	
+	}
+	activate
+	{
+		accum 0 inc 1
+		trigger self do				
+	}
+	trigger down
+	{
+		accum 0 inc -1
+		trigger self do			
+	}
+	trigger do
+	{
+		accum 0 trigger_if_equal 0 ctal do_1
+		accum 0 trigger_if_equal 1 ctal do_1
+		accum 0 trigger_if_equal 2 ctal do_2
+		accum 0 trigger_if_equal 3 ctal do_3
+		accum 0 trigger_if_equal 4 ctal do_4
+		accum 0 trigger_if_equal 5 ctal do_5
+		accum 0 trigger_if_equal 6 ctal do_5				
+	}
+	trigger do_1
+	{
+		accum 0 set 1
+		setchargetimefactor 1 soldier 2
+		setchargetimefactor 1 lieutenant 2
+		setchargetimefactor 1 medic 2
+		setchargetimefactor 1 engineer 2
+		setchargetimefactor 1 covertops 2
+		setchargetimefactor 0 soldier 0.2
+		setchargetimefactor 0 lieutenant 0.2
+		setchargetimefactor 0 medic 0.2
+		setchargetimefactor 0 engineer 0.2
+		setchargetimefactor 0 covertops 0.2
+		wm_announce	"^1Axis Chargetimebonus +2!"					
+	}
+	trigger do_2
+	{
+		setchargetimefactor 1 soldier 1.5
+		setchargetimefactor 1 lieutenant 1.5
+		setchargetimefactor 1 medic 1.5
+		setchargetimefactor 1 engineer 1.5
+		setchargetimefactor 1 covertops 1.5
+		setchargetimefactor 0 soldier 0.6
+		setchargetimefactor 0 lieutenant 0.6
+		setchargetimefactor 0 medic 0.6
+		setchargetimefactor 0 engineer 0.6
+		setchargetimefactor 0 covertops 0.6	
+		wm_announce	"^1Axis Chargetimebonus +1!"			
+	}
+	trigger do_3
+	{
+		setchargetimefactor 1 soldier 1
+		setchargetimefactor 1 lieutenant 1
+		setchargetimefactor 1 medic 1
+		setchargetimefactor 1 engineer 1
+		setchargetimefactor 1 covertops 1
+		setchargetimefactor 0 soldier 1
+		setchargetimefactor 0 lieutenant 1
+		setchargetimefactor 0 medic 1
+		setchargetimefactor 0 engineer 1
+		setchargetimefactor 0 covertops 1
+		wm_announce	"^1Standard Chargetime!"						
+	}
+	trigger do_4
+	{
+		setchargetimefactor 1 soldier 0.6
+		setchargetimefactor 1 lieutenant 0.6
+		setchargetimefactor 1 medic 0.6
+		setchargetimefactor 1 engineer 0.6
+		setchargetimefactor 1 covertops 0.6
+		setchargetimefactor 0 soldier 1.5
+		setchargetimefactor 0 lieutenant 1.5
+		setchargetimefactor 0 medic 1.5
+		setchargetimefactor 0 engineer 1.5
+		setchargetimefactor 0 covertops 1.5
+		wm_announce	"^1Allied Chargetimebonus +1!"							
+	}
+	trigger do_5
+	{
+		accum 0 set 5
+		setchargetimefactor 1 soldier 0.2
+		setchargetimefactor 1 lieutenant 0.2
+		setchargetimefactor 1 medic 0.2
+		setchargetimefactor 1 engineer 0.2
+		setchargetimefactor 1 covertops 0.2
+		setchargetimefactor 0 soldier 2
+		setchargetimefactor 0 lieutenant 2
+		setchargetimefactor 0 medic 2
+		setchargetimefactor 0 engineer 2
+		setchargetimefactor 0 covertops 2	
+		wm_announce	"^1Allied Chargetimebonus +2!"						
+	}	
+}
+ctax
+{
+	activate
+	{
+		trigger ctal down						
+	}
+}
+////////////////////////////////////////////////////////////////////////////////	
+stal
+{
+	spawn
+	{
+		wait 200
+		remove
+		accum 0 set 3	
+	}
+	activate
+	{
+		accum 0 inc 1
+		trigger self do				
+	}
+	trigger down
+	{
+		accum 0 inc -1
+		trigger self do			
+	}
+	trigger do
+	{
+		accum 0 trigger_if_equal 0 stal do_1
+		accum 0 trigger_if_equal 1 stal do_1
+		accum 0 trigger_if_equal 2 stal do_2
+		accum 0 trigger_if_equal 3 stal do_3
+		accum 0 trigger_if_equal 4 stal do_4
+		accum 0 trigger_if_equal 5 stal do_5
+		accum 0 trigger_if_equal 6 stal do_5				
+	}
+	trigger do_1
+	{
+		accum 0 set 1	
+		wm_axis_respawntime 10
+		wm_allied_respawntime 25
+		wm_announce	"^1Axis Spawntimebonus +2!"				
+	}
+	trigger do_2
+	{
+		wm_axis_respawntime 15
+		wm_allied_respawntime 20	
+		wm_announce	"^1Axis Spawntimebonus +1!"			
+	}
+	trigger do_3
+	{
+		wm_axis_respawntime 20
+		wm_allied_respawntime 15	
+		wm_announce	"^1Standard Spawntime!"				
+	}
+	trigger do_4
+	{
+		wm_axis_respawntime 25
+		wm_allied_respawntime 10
+		wm_announce	"^1Allied Spawntimebonus +1!"					
+	}
+	trigger do_5
+	{
+		accum 0 set 5	
+		wm_axis_respawntime 30
+		wm_allied_respawntime 5	
+		wm_announce	"^1Allied Spawntimebonus +2!"			
+	}	
+}	
+stax
+{
+	activate
+	{
+		trigger stal down				
+	}
+}
+////////////////////////////////////////////////////////////////////////////////	
+spal
+{
+	activate
+	{
+		//wm_announce	"^1Allied Special!"				
+	}
+}
+////////////////////////////////////////////////////////////////////////////////	
+spax
+{
+	activate
+	{
+		//wm_announce	"^1Axis Special!"					
+	}
+}	
+////////////////////////////////////////////////////////////////////////////////	
+bino_l
+{
+	activate
+	{
+		remapshader "gfx/misc/binocsimple" "textures/mlb_basic/bino"			
+		remapshaderflush
+		wm_announce	"^1Bino unlimited!"					
+	}
+}
+bino_s
+{
+	activate
+	{
+		remapshader "gfx/misc/binocsimple" "textures/mlb_basic/bino_d"			
+		remapshaderflush
+		wm_announce	"^1Bino limited!"						
+	}
+}
+////////////////////////////////////////////////////////////////////////////////
+reti_l
+{
+	activate
+	{
+		remapshader "gfx/misc/reticlesimple" "textures/mlb_basic/reti"
+		remapshaderflush
+		wm_announce	"^1Scope unlimited!"					
+	}
+}
+reti_s
+{
+	activate
+	{
+		remapshader "gfx/misc/reticlesimple" "textures/mlb_basic/reti_d"		
+		remapshaderflush
+		wm_announce	"^1Scope limited!"							
+	}
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+
+wall //Sea wall breached.
+{
+	spawn
+	{
+		wait 250
+
+		constructible_class 3
+		wait 1750
+	trigger wall spawn
+	}
+
+	death
+	{
+		wm_announce	"^6The Sea Wall has been breached!"
+		// *----------------------------------- vo ------------------------------------------*
+
+		wm_addteamvoiceannounce 0 "axis-prodoc1"
+
+		wm_addteamvoiceannounce 1 "ally-stealwar1"
+
+		wm_removeteamvoiceannounce 0 "axis-prosea1"
+
+
+		wm_removeteamvoiceannounce 1 "ally-seawall2"
+
+		wm_teamvoiceannounce 0 "axis-prodoc1"
+
+		wm_teamvoiceannounce 1 "ally-stealwar1"
+		// *---------------------------------------------------------------------------------*		
+		wm_objective_status 3 0 2
+		wm_objective_status 3 1 1
+	}
+	trigger spawn
+	{
+		alertentity init
+		alertentity xspawn
+	}
+}
+
+gate
+{
+	spawn
+	{
+		wait 250
+
+		constructible_class 3
+	}
+
+	death
+	{
+		wm_announce	"^6The Beach Gate has been breached!"
+		// *----------------------------------- vo ------------------------------------------*
+		wm_addteamvoiceannounce 0 "axis-prodoc1"
+
+		wm_addteamvoiceannounce 1 "ally-stealwar1"
+
+		wm_removeteamvoiceannounce 0 "axis-promain1"
+
+		wm_removeteamvoiceannounce 1 "ally-mainent1"
+
+		wm_teamvoiceannounce 0 "axis-prodoc1"
+
+		wm_teamvoiceannounce 1 "ally-stealwar1"
+
+		// *---------------------------------------------------------------------------------*
+
+		wm_objective_status 2 0 2
+		wm_objective_status 2 1 1
+	}
+}
+
+door
+{
+	spawn
+	{
+		wait 250
+
+		constructible_class 3
+	}
+
+	death
+	{
+		wm_announce	"^6The South Bunker Door has been breached!"
+		// *----------------------------------- vo ------------------------------------------*
+		wm_addteamvoiceannounce 0 "axis-prodoc1"
+
+		wm_addteamvoiceannounce 1 "ally-stealwar1"
+
+		wm_removeteamvoiceannounce 0 "axis-proside2"
+
+		wm_removeteamvoiceannounce 1 "ally-sident2"
+
+		wm_teamvoiceannounce 0 "axis-prodoc1"
+
+		wm_teamvoiceannounce 1 "ally-stealwar1"
+
+		// *---------------------------------------------------------------------------------*
+
+		wm_objective_status 1 0 2
+		wm_objective_status 1 1 1
+	}
+}
+
+gold
+{
+	trigger stolen
+	{
+		wm_announce	"^6Allies have stolen the documents!!!!"
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_removeteamvoiceannounce 0 "axis-prodoc1"
+
+		wm_removeteamvoiceannounce 1 "ally-stealwar1"
+
+		wm_teamvoiceannounce 0 "axis-warsto2"
+
+		wm_teamvoiceannounce 1 "ally-stolewar1"
+		wm_teamvoiceannounce 1 "ally-transwar1"
+
+		// *---------------------------------------------------------------------------------*
+		setstate goldbars_cm_marker invisible
+		wm_objective_status 5 0 2
+		wm_objective_status 5 1 1
+	
+	}
+
+	trigger returned
+	{
+	
+		wm_announce	"^6The docments have been returned!!!!"
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_addteamvoiceannounce 0 "axis-prodoc1"
+
+		wm_addteamvoiceannounce 1 "ally-stealwar1"
+
+		wm_teamvoiceannounce 0 "axis-warret1"
+		wm_teamvoiceannounce 0 "axis-prodoc1"
+
+		wm_teamvoiceannounce 1 "ally-secwar1"
+		wm_teamvoiceannounce 1 "ally-stealwar1"
+
+		// *---------------------------------------------------------------------------------*
+		setstate goldbars_cm_marker default
+		wm_objective_status 5 0 1
+		wm_objective_status 5 1 0
+
+	}
+
+	trigger captured
+	{
+
+	}
+}
+
+
+goldbar_holder
+{
+	spawn
+	{
+	}
+	death
+	{
+		trigger game_manager victory
+
+		wm_objective_status 6 0 2
+		wm_objective_status 6 1 1
+	}
+}
+
+beach_flag
+{
+	trigger axis_capture
+	{
+		trigger game_manager beach_flagred
+	}
+
+	trigger allied_capture
+	{
+		trigger game_manager beach_flagblue
+	}
+}
+
+
+
+// ================================================
+// ============ NEUTRAL COMMAND POST ==============
+// ================================================
+// FROM GOldRush Thx SD!!! prefab by seven 2003 
+
+allied_compost_built
+{
+	spawn
+	{
+		wait 400
+		trigger allied_compost_built setup
+
+		constructible_class 2
+	}
+
+	trigger setup
+	{
+		setchargetimefactor 1 soldier 1
+		setchargetimefactor 1 lieutenant 1
+		setchargetimefactor 1 medic 1
+		setchargetimefactor 1 engineer 1
+		setchargetimefactor 1 covertops 1
+		sethqstatus 1 0
+	}
+
+	buildstart final
+	{
+		setstate allied_compost_built_model underconstruction
+		setstate neutral_compost_closed_clip invisible
+		setstate neutral_compost_closed_model invisible
+	}
+
+	built final
+	{
+		setstate allied_compost_built_model default
+		setstate neutral_compost_closed_clip invisible
+		setstate neutral_compost_closed_model invisible
+		trigger allied_compost_built_model enable_allied_features
+		enablespeaker allies_compost_sound
+	}
+
+	decayed final
+	{
+		setstate allied_compost_built_model invisible
+		setstate neutral_compost_closed_clip default
+		setstate neutral_compost_closed_model default
+	}
+
+	death
+	{
+		setstate allied_compost_built_model invisible
+		setstate neutral_compost_closed_clip default
+		setstate neutral_compost_closed_model default
+		trigger allied_compost_built_model disable_allied_features
+		disablespeaker allies_compost_sound
+	}
+}
+
+allied_compost_built_model
+{
+	spawn
+	{
+		wait 400
+		setstate allied_compost_built_model invisible
+	}
+
+	trigger enable_allied_features
+	{
+		setchargetimefactor 1 soldier 0.75
+		setchargetimefactor 1 lieutenant 0.75
+		setchargetimefactor 1 medic 0.75
+		setchargetimefactor 1 engineer 0.75
+		setchargetimefactor 1 covertops 0.75
+		sethqstatus 1 1
+		wm_announce	"Allied Command Post constructed. Charge speed increased!"
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "axis_hq_compost_constructed_allies"
+		wm_teamvoiceannounce 1 "allies_hq_compost_constructed"
+		wm_removeteamvoiceannounce 1 "allies_hq_compost_construct"
+		// *---------------------------------------------------------------------------------*
+		wm_objective_status 7 0 0
+		wm_objective_status 7 1 1
+	}
+
+	trigger disable_allied_features
+	{
+		setchargetimefactor 1 soldier 1
+		setchargetimefactor 1 lieutenant 1
+		setchargetimefactor 1 medic 1
+		setchargetimefactor 1 engineer 1
+		setchargetimefactor 1 covertops 1
+		sethqstatus 1 0
+		wm_announce	"Axis team has destroyed the Allied Command Post!"
+		// *----------------------------------- vo ------------------------------------------*
+		wm_addteamvoiceannounce 0 "axis_hq_compost_construct"
+		wm_addteamvoiceannounce 1 "allies_hq_compost_construct"
+		wm_teamvoiceannounce 0 "axis_hq_compost_construct"
+		wm_teamvoiceannounce 1 "allies_hq_compost_damaged"
+		// *---------------------------------------------------------------------------------*
+		wm_objective_status 7 0 0
+		wm_objective_status 7 1 0
+	}
+}
+
+axis_compost_built
+{
+	spawn
+	{
+		wait 400
+		trigger axis_compost_built setup
+
+		constructible_class 2
+	}
+
+	trigger setup
+	{
+		setchargetimefactor 0 soldier 1
+		setchargetimefactor 0 lieutenant 1
+		setchargetimefactor 0 medic 1
+		setchargetimefactor 0 engineer 1
+		setchargetimefactor 0 covertops 1
+		sethqstatus 0 0
+	}
+
+	buildstart final
+	{
+		setstate axis_compost_built_model underconstruction
+		setstate neutral_compost_closed_clip invisible
+		setstate neutral_compost_closed_model invisible
+	}
+
+	built final
+	{
+		setstate axis_compost_built_model default
+		setstate neutral_compost_closed_clip invisible
+		setstate neutral_compost_closed_model invisible
+		trigger axis_compost_built_model enable_axis_features
+		enablespeaker axis_compost_sound
+	}
+
+	decayed final
+	{
+		setstate axis_compost_built_model invisible
+		setstate neutral_compost_closed_clip default
+		setstate neutral_compost_closed_model default
+	}
+
+	death
+	{
+		setstate axis_compost_built_model invisible
+		setstate neutral_compost_closed_clip default
+		setstate neutral_compost_closed_model default
+		trigger axis_compost_built_model disable_axis_features
+		disablespeaker axis_compost_sound
+	}
+}
+
+axis_compost_built_model
+{
+	spawn
+	{
+		wait 400
+		setstate axis_compost_built_model invisible
+	}
+
+	trigger enable_axis_features
+	{
+		setchargetimefactor 0 soldier 0.75
+		setchargetimefactor 0 lieutenant 0.75
+		setchargetimefactor 0 medic 0.75
+		setchargetimefactor 0 engineer 0.75
+		setchargetimefactor 0 covertops 0.75
+		sethqstatus 0 1
+		wm_announce	"Axis Command Post constructed. Charge speed increased!"
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "axis_hq_compost_constructed"
+		wm_teamvoiceannounce 1 "allies_hq_compost_constructed_axis"
+		wm_removeteamvoiceannounce 0 "axis_hq_compost_construct"
+		// *---------------------------------------------------------------------------------*
+		wm_objective_status 7 0 1
+		wm_objective_status 7 1 0
+	}
+
+	trigger disable_axis_features
+	{
+		setchargetimefactor 0 soldier 1
+		setchargetimefactor 0 lieutenant 1
+		setchargetimefactor 0 medic 1
+		setchargetimefactor 0 engineer 1
+		setchargetimefactor 0 covertops 1
+		sethqstatus 0 0
+		wm_announce	"Allied team has destroyed the Axis Command Post!"
+		// *----------------------------------- vo ------------------------------------------*
+		wm_addteamvoiceannounce 0 "axis_hq_compost_construct"
+		wm_addteamvoiceannounce 1 "allies_hq_compost_construct"
+		wm_teamvoiceannounce 0 "axis_hq_compost_damaged"
+		wm_teamvoiceannounce 1 "allies_hq_compost_construct"
+		// *---------------------------------------------------------------------------------*
+		wm_objective_status 7 0 0
+		wm_objective_status 7 1 0
+	}
+}
+
+
+mg1nest
+{
+	spawn
+	{
+		wait 100
+
+		constructible_class 1
+		constructible_chargebarreq 1.5
+		setstate mg1gun invisible
+		setstate mg1_materials default
+	}
+
+	buildstart final
+	{
+		setstate mg1gun underconstruction
+	}
+
+	built final
+	{
+		setstate mg1gun default
+		setstate mg1_materials invisible
+		wm_announce	"Main beach bunker MG42 nest constructed"
+
+	}
+
+	decayed final
+	{
+		setstate mg1gun invisible
+		setstate mg1_materials default
+	}
+
+	death
+	{
+		setstate mg1gun invisible
+		setstate mg1_materials default
+		repairmg42 mg1gun
+		wm_announce	"Main beach bunker MG42 nest disabled"
+
+	}
+}
+
+mg4nest
+{
+	spawn
+	{
+		wait 800
+
+		constructible_class 1
+		constructible_chargebarreq 1.5
+		setstate mg4gun invisible
+		setstate mg4_materials default
+	}
+
+	buildstart final
+	{
+		setstate mg4gun underconstruction
+	}
+
+	built final
+	{
+		setstate mg4gun default
+		setstate mg4_materials invisible
+		wm_announce	"The Gate MG42 nest has been set up"
+
+	}
+
+	decayed final
+	{
+		setstate mg4gun invisible
+		setstate mg4_materials default
+	}
+
+	death
+	{
+		setstate mg4gun invisible
+		setstate mg4_materials default
+		repairmg42 mg4gun
+		wm_announce	"The Gate MG42 nest has been disabled"
+
+	}
+}
+
+
+
+

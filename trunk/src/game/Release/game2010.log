@@ -1,0 +1,162 @@
+﻿Build started 18.04.2012 09:30:49.
+     1>Project "D:\NQDEV\trunk\src\game\game2010.vcxproj" on node 3 (build target(s)).
+     1>InitializeBuildStatus:
+         Creating ".\Release\game.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /O2 /Ob1 /Oy- /D AUTO_GUID /D SYSTEM_CHECK /D WIN32 /D NDEBUG /D _WINDOWS /D GAMEDLL /D OMNIBOTS /D _CRT_SECURE_NO_DEPRECATE /D ET_LUA /D _VC80_UPGRADE=0x0710 /D _WINDLL /GF /Gm- /EHsc /MT /Zp16 /GS- /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo".\Release/" /Fd".\Release/vc100.pdb" /Gd /TC /analyze- /errorReport:prompt bg_animation.c bg_animgroup.c bg_campaign.c bg_character.c bg_classes.c bg_misc.c bg_pmove.c bg_profiler_hook.c bg_slidemove.c bg_sscript.c bg_stats.c bg_tracemap.c bg_weapons.c "et-antiwarp.c" etpro_mdx.c g_active.c g_alarm.c g_antilag.c g_buddy_list.c g_character.c g_client.c g_cmds.c g_cmds_ext.c g_combat.c g_config.c g_crash.c g_fireteams.c g_items.c g_lua.c g_main.c g_match.c g_match_tokens.c g_mem.c g_misc.c g_missile.c g_mover.c g_multiview.c g_osfile.c g_props.c g_referee.c g_script.c g_script_actions.c g_session.c g_sha1.c g_shrubbot.c g_spawn.c g_stats.c g_strparse.c g_svcmds.c g_syscalls.c g_systemmsg.c g_target.c g_team.c g_teammapdata.c g_time.c g_trigger.c g_utils.c g_vote.c g_weapon.c g_xpsave.c geoip.c q_math.c q_shared.c "..\sha-1\sha1.c"
+         bg_animation.c
+         bg_animgroup.c
+         bg_campaign.c
+         bg_character.c
+         bg_classes.c
+         bg_misc.c
+         bg_pmove.c
+         bg_profiler_hook.c
+         bg_slidemove.c
+         bg_sscript.c
+         bg_stats.c
+         bg_tracemap.c
+         bg_weapons.c
+         et-antiwarp.c
+         etpro_mdx.c
+         g_active.c
+         g_alarm.c
+         g_antilag.c
+         g_buddy_list.c
+         g_character.c
+         Generating Code...
+         Compiling...
+         g_client.c
+         g_cmds.c
+         g_cmds_ext.c
+         g_combat.c
+         g_config.c
+         g_crash.c
+         g_fireteams.c
+         g_items.c
+         g_lua.c
+         g_main.c
+         g_match.c
+         g_match_tokens.c
+         g_mem.c
+         g_misc.c
+         g_missile.c
+         g_mover.c
+         g_multiview.c
+         g_osfile.c
+         g_props.c
+         g_referee.c
+         Generating Code...
+         Compiling...
+         g_script.c
+         g_script_actions.c
+         g_session.c
+         g_sha1.c
+         g_shrubbot.c
+         g_spawn.c
+         g_stats.c
+         g_strparse.c
+         g_svcmds.c
+         g_syscalls.c
+         g_systemmsg.c
+         g_target.c
+         g_team.c
+         g_teammapdata.c
+         g_time.c
+         g_trigger.c
+         g_utils.c
+         g_vote.c
+         g_weapon.c
+         g_xpsave.c
+         Generating Code...
+         Compiling...
+         geoip.c
+         q_math.c
+         q_shared.c
+         sha1.c
+         Generating Code...
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /O2 /Ob1 /Oy- /D AUTO_GUID /D SYSTEM_CHECK /D WIN32 /D NDEBUG /D _WINDOWS /D GAMEDLL /D OMNIBOTS /D _CRT_SECURE_NO_DEPRECATE /D ET_LUA /D _VC80_UPGRADE=0x0710 /D _WINDLL /GF /Gm- /EHsc /MT /Zp16 /GS- /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo".\Release/" /Fd".\Release/vc100.pdb" /Gd /TP /analyze- /errorReport:prompt ..\..\Omnibot\Common\BotLoadLibrary.cpp g_etbot_interface.cpp
+         BotLoadLibrary.cpp
+         g_etbot_interface.cpp
+         Generating Code...
+     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\Microsoft.CppBuild.targets(990,5): warning MSB8012: TargetPath(D:\NQDEV\trunk\src\game\.\Release\game.dll) does not match the Linker's OutputFile property value (D:\NQDEV\Release LUA OB\qagame_mp_x86.dll). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Link.OutputFile).
+     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\Microsoft.CppBuild.targets(992,5): warning MSB8012: TargetName(game) does not match the Linker's OutputFile property value (qagame_mp_x86). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Link.OutputFile).
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"../../../Release LUA OB/qagame_mp_x86.dll" /INCREMENTAL:NO /NOLOGO winmm.lib ..\lua\Windows\lua51.lib ..\lua\Windows\lua5.1.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /DEF:".\game.def" /MANIFEST /ManifestFile:".\Release\game.dll.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /PDB:".\Release/qagame_mp_x86.pdb" /MAP:".\Release/qagame_mp_x86.map" /SUBSYSTEM:WINDOWS /TLBID:1 /BASE:"0x20000000" /DYNAMICBASE:NO /IMPLIB:".\Release/qagame_mp_x86.lib" /MACHINE:X86 /DLL .\Release/bg_animation.obj
+         .\Release/bg_animgroup.obj
+         .\Release/bg_campaign.obj
+         .\Release/bg_character.obj
+         .\Release/bg_classes.obj
+         .\Release/bg_misc.obj
+         .\Release/bg_pmove.obj
+         .\Release/bg_profiler_hook.obj
+         .\Release/bg_slidemove.obj
+         .\Release/bg_sscript.obj
+         .\Release/bg_stats.obj
+         .\Release/bg_tracemap.obj
+         .\Release/bg_weapons.obj
+         .\Release/BotLoadLibrary.obj
+         ".\Release/et-antiwarp.obj"
+         .\Release/etpro_mdx.obj
+         .\Release/g_active.obj
+         .\Release/g_alarm.obj
+         .\Release/g_antilag.obj
+         .\Release/g_buddy_list.obj
+         .\Release/g_character.obj
+         .\Release/g_client.obj
+         .\Release/g_cmds.obj
+         .\Release/g_cmds_ext.obj
+         .\Release/g_combat.obj
+         .\Release/g_config.obj
+         .\Release/g_crash.obj
+         .\Release/g_etbot_interface.obj
+         .\Release/g_fireteams.obj
+         .\Release/g_items.obj
+         .\Release/g_lua.obj
+         .\Release/g_main.obj
+         .\Release/g_match.obj
+         .\Release/g_match_tokens.obj
+         .\Release/g_mem.obj
+         .\Release/g_misc.obj
+         .\Release/g_missile.obj
+         .\Release/g_mover.obj
+         .\Release/g_multiview.obj
+         .\Release/g_osfile.obj
+         .\Release/g_props.obj
+         .\Release/g_referee.obj
+         .\Release/g_script.obj
+         .\Release/g_script_actions.obj
+         .\Release/g_session.obj
+         .\Release/g_sha1.obj
+         .\Release/g_shrubbot.obj
+         .\Release/g_spawn.obj
+         .\Release/g_stats.obj
+         .\Release/g_strparse.obj
+         .\Release/g_svcmds.obj
+         .\Release/g_syscalls.obj
+         .\Release/g_systemmsg.obj
+         .\Release/g_target.obj
+         .\Release/g_team.obj
+         .\Release/g_teammapdata.obj
+         .\Release/g_time.obj
+         .\Release/g_trigger.obj
+         .\Release/g_utils.obj
+         .\Release/g_vote.obj
+         .\Release/g_weapon.obj
+         .\Release/g_xpsave.obj
+         .\Release/geoip.obj
+         .\Release/q_math.obj
+         .\Release/q_shared.obj
+         .\Release/sha1.obj /MACHINE:I386 
+            Creating library .\Release/qagame_mp_x86.lib and object .\Release/qagame_mp_x86.exp
+         game2010.vcxproj -> D:\NQDEV\trunk\src\game\.\Release\game.dll
+       Manifest:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"../../../Release LUA OB/qagame_mp_x86.dll;#2" /manifest .\Release\game.dll.intermediate.manifest
+       FinalizeBuildStatus:
+         Deleting file ".\Release\game.unsuccessfulbuild".
+         Touching ".\Release\game.lastbuildstate".
+     1>Done Building Project "D:\NQDEV\trunk\src\game\game2010.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:14.50

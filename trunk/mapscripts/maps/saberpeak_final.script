@@ -1,0 +1,2583 @@
+game_manager
+{
+	spawn
+	{
+		wait 200
+		
+		// Game rules
+		wm_axis_respawntime	30
+		wm_allied_respawntime	20
+		wm_number_of_objectives 7
+		wm_set_round_timelimit	30
+		wm_setwinner 0  //axis default winner if time runs out
+		globalaccum 0 set 0 //controls who spawns at bunker...0 = axis 1 = allies
+
+		wm_set_main_objective 1	0
+		wm_set_main_objective 1	1
+
+		wm_objective_status 1 1 0   // escort boat
+		wm_objective_status 1 0 0   // stop boat
+		wm_objective_status 2 1 0   // steal ammo
+		wm_objective_status 2 0 0   // protect ammo
+		wm_objective_status 3 1 0   // destroy main entrance
+		wm_objective_status 3 0 0   // defend main entrance
+		wm_objective_status 4 1 0   // destroy sub
+		wm_objective_status 4 0 0   // defend sub
+		wm_objective_status 5 1 0   // assault bunker (bs objective)
+		wm_objective_status 5 0 0   // hold bunker
+		wm_objective_status 6 1 0   // build command post
+		wm_objective_status 6 0 0   // build command post
+		wm_objective_status 7 1 0   // destroy side wall
+		wm_objective_status 7 0 0   // defend side wall
+
+		trigger game_manager axis_control
+		
+		wait 2000
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_addteamvoiceannounce 0 "saberpeak_axis_defend_ammo"
+
+		wm_addteamvoiceannounce 1 "saberpeak_allies_escort_boat"
+
+		wm_teamvoiceannounce 0 "saberpeak_axis_defend_ammo"
+		wm_teamvoiceannounce 0 "axis_hq_compost_construct"
+
+		wm_teamvoiceannounce 1 "saberpeak_allies_escort_boat"
+		
+		
+		// *---------------------------------------------------------------------------------*
+
+	}
+
+	//script sequence when side path boulder is destoryed
+	trigger boulder_rockets
+	{
+		trigger ship script_lockout
+		wait 2000
+		trigger ship_cannon spin_start
+		trigger ship_cannon anim_forth
+		wait 2000
+		trigger ship_cannon spin_stop
+		
+		wait 1000
+		
+		trigger ship_cannon spin_start
+		trigger ship_cannon anim_down
+		wait 1000
+		trigger ship_cannon spin_stop
+		
+		wait 1000
+		alertentity rocket1
+		alertentity rocket2
+		wait 900
+		trigger boulder kablamo
+		wait 1000
+		
+		trigger ship_cannon spin_start
+		trigger ship_cannon anim_up
+		wait 1000
+		trigger ship_cannon spin_stop
+		
+		wait 1000
+		
+		trigger ship_cannon spin_start
+		trigger ship_cannon anim_back
+		wait 2000
+		trigger ship_cannon spin_stop
+		wait 2000
+		
+		trigger ship script_lockout_stop //end lock
+
+		
+		wm_teamvoiceannounce 0 "saberpeak_axis_advance_west"
+		wm_announce "Allies have gained access to the side path"
+		
+		globalaccum 0 abort_if_equal 1 //just in case side wall is already blown
+		
+		trigger game_manager allies_control
+		globalaccum 0 set 1 //axis don't spawn at bunker anymore
+		wm_addteamvoiceannounce 0 "saberpeak_axis_wall_stop"
+		wm_teamvoiceannounce 0 "saberpeak_axis_wall_stop"
+		wm_teamvoiceannounce 1 "saberpeak_allies_dynamite_wall"
+		wm_objective_status 5 1 1
+		wm_objective_status 5 0 2
+		
+		
+	}
+	
+	//script sequence when main entrance is destoryed
+	trigger gate_rockets
+	{
+
+		wait 1000
+		alertentity rocket3
+		alertentity rocket4
+		wait 400
+		trigger mainEntrance kablamo
+		
+
+		wm_addteamvoiceannounce 1 "saberpeak_allies_destory_sub"
+		wm_addteamvoiceannounce 0 "saberpeak_axis_defend_sub"
+
+		
+		wm_teamvoiceannounce 0 "saberpeak_axis_entrance_destroyed"
+		wm_teamvoiceannounce 0 "saberpeak_axis_defend_sub"
+		wm_teamvoiceannounce 1 "saberpeak_allies_entrance_destroyed"
+		wm_teamvoiceannounce 1 "saberpeak_allies_destory_sub"
+		
+		wm_removeteamvoiceannounce 0 "saberpeak_axis_entrance_defend"
+		wm_removeteamvoiceannounce 1 "saberpeak_allies_entrance_destroy"
+		
+		wm_announce "Allies have destroyed the main entrance"
+		wm_set_main_objective 4	0
+		wm_set_main_objective 4	1
+		wm_objective_status 1 1 1
+		wm_objective_status 1 0 2
+		wm_objective_status 3 1 1
+		wm_objective_status 3 0 2
+		wm_objective_status 5 1 1
+		wm_objective_status 5 0 2
+		
+		trigger ship script_lockout_stop
+		
+	}
+
+
+	trigger explosions
+	{
+		wait 1000
+		alertentity expl1
+		alertentity expl7
+		wait 1000
+		alertentity expl2
+		wait 300
+		alertentity expl8
+		alertentity expl9
+		wait 500
+		alertentity expl4
+		alertentity sub_smoke1
+		wait 1000
+		alertentity expl3
+		alertentity expl5
+		alertentity sub_smoke2
+		wait 200
+		alertentity expl6
+		wait 500
+		alertentity expl10
+		wait 500
+		alertentity expl11
+		alertentity sub_smoke3
+		
+		wm_objective_status 4 1 1
+		wm_objective_status 4 0 2
+
+		trigger game_manager endgame
+	}
+	
+	
+//TEAM SPAWN SWTICHING RULES:
+//AXIS always spawn at the bunker unless: Allies command post is
+//constructed OR boat has destroyed the boulder blocking the side path OR side wall is destroyed.
+//ALLIES always spawn at the beach unless: Allies have constructed the
+//command post OR boat has destroyed the boulder blocking the side path OR side wall is destroyed.
+	trigger axis_control 
+	{
+		setstate Allies_bunker_spawn invisible
+		setstate Allies_WObj_bunker invisible
+		setstate Axis_bunker_spawn default
+		setstate Axis_WObj_bunker default
+		setautospawn	"Bunker"	0
+		setautospawn	"Beach Landing Zone"	1		
+	}
+
+	trigger allies_control
+	{
+		setstate Allies_bunker_spawn default
+		setstate Allies_WObj_bunker default
+		setstate Axis_bunker_spawn invisible
+		setstate Axis_WObj_bunker invisible
+		setautospawn	"Captured Bunker"	1
+		setautospawn	"Mansion" 	0		
+	}
+
+	trigger endgame
+	{
+		wm_setwinner 1
+		wait 1000
+		wm_endround
+	}
+
+
+}
+
+//*********************************************************************
+//*****************************SUBMARINE******************************
+//*********************************************************************
+submarine_explosive
+{
+	spawn
+	{
+		wait 100
+		constructible_class 3
+	}
+	
+
+	death
+	{
+		
+		wm_announce "The Submarine has been destroyed!"
+		trigger game_manager explosions
+	}
+}
+
+
+//*********************************************************************
+//*****************************SIDE WALL******************************
+//*********************************************************************
+side_wall
+{
+	spawn
+	{
+		wait 200
+		constructible_class 3
+		
+	}
+	death
+	{
+		wm_addteamvoiceannounce 0 "saberpeak_axis_defend_sub"
+		wm_teamvoiceannounce 0 "saberpeak_axis_wall_destroyed"
+		wm_teamvoiceannounce 1 "saberpeak_allies_wall_destroyed"
+		wm_teamvoiceannounce 1 "saberpeak_allies_destory_sub"
+		globalaccum 0 trigger_if_equal 0 side_wall return_to_base //play different message depending where the boat is
+		globalaccum 0 trigger_if_equal 1 side_wall defend_sub
+		wm_removeteamvoiceannounce 0 "saberpeak_axis_wall_stop"
+		wm_announce "Allies have breached the side wall"
+		
+		
+		globalaccum 0 trigger_if_equal 0 game_manager allies_control //if boat hasn't blown the boulders yet
+		
+		globalaccum 0 set 1 //axis don't spawn at bunker anymore
+		wm_objective_status 5 1 1
+		wm_objective_status 5 0 2
+		wm_objective_status 7 1 1
+		wm_objective_status 7 0 2
+	}
+	
+	
+	trigger return_to_base
+	{
+		wm_teamvoiceannounce 0 "saberpeak_axis_return_base"
+	}
+	
+	
+	trigger defend_sub
+	{
+		wm_teamvoiceannounce 0 "saberpeak_axis_defend_sub"
+	}
+	
+}
+
+//*********************************************************************
+//******************************MAIN ENTRANCE**************************
+//*********************************************************************
+
+
+mainEntrance
+{
+	spawn
+	{
+		wait 200
+		setstate mainEntrance default
+		setstate mainEntrance_dmg invisible
+	}
+
+	trigger kablamo
+	{
+		setstate mainEntrance invisible
+		setstate mainEntrance_dmg default
+		setstate mainEntrance_toi invisible
+		trigger mainEntranceHurt masacreEveryone
+	}
+}
+
+mainEntranceHurt
+{
+	spawn
+	{
+		wait 200
+		setstate mainEntranceHurt invisible
+	}
+
+	trigger masacreEveryone
+	{
+		setstate mainEntranceHurt default
+		wait 100
+		remove
+	}
+}
+
+//*********************************************************************
+//******************************SIDE PATH******************************
+//*********************************************************************
+
+
+boulder
+{
+	spawn
+	{
+	}
+
+	trigger kablamo
+	{
+		setstate boulder invisible
+		setstate boulder_toi invisible
+		alertentity boulderTNT
+		trigger boulderHurt masacreEveryone
+	}
+}
+
+boulderHurt
+{
+	spawn
+	{
+		wait 200
+		setstate boulderHurt invisible
+	}
+
+	trigger masacreEveryone
+	{
+		setstate boulderHurt default
+		wait 100
+		remove
+	}
+}
+
+
+
+
+//*********************************************************************
+//*****************************COMMAND POST****************************
+//*********************************************************************
+
+
+neutral_cp_toi
+{
+	trigger show_neutral_cabinet			// Show Neutral Closed CP
+	{
+		setstate neutral_cp_closed default
+		setstate neutral_cp_closed_model default
+	}
+
+	trigger hide_neutral_cabinet			// Hide Neutral Closed CP
+	{
+		setstate neutral_cp_closed invisible
+		setstate neutral_cp_closed_model invisible
+	}
+}
+
+// ================ALLIES================================
+allied_cp_open
+{
+	spawn
+	{
+		wait 100
+		constructible_class 2		// Dyno+Satchel
+		
+
+		trigger self disable_cp_features	// Default charge bar times
+	}
+
+	trigger disable_cp_features
+	{
+		setstate allied_cp_open_model invisible	// Hide Open CP model
+
+		setchargetimefactor 1 soldier 1
+		setchargetimefactor 1 lieutenant 1
+		setchargetimefactor 1 medic 1
+		setchargetimefactor 1 engineer 1
+		setchargetimefactor 1 covertops 1
+
+		sethqstatus 1 0			// Landmines team warning message
+		disablespeaker allied_cp_sound		// Disable morse code sound
+		wm_objective_status 6 1 0
+		wm_objective_status 6 0 0
+
+		globalaccum 0 trigger_if_equal 0 game_manager axis_control
+	}
+
+	
+	trigger enable_cp_features
+	{
+		setstate allied_cp_open_model default	// Show open CP model
+
+		setchargetimefactor 1 soldier 0.75
+		setchargetimefactor 1 lieutenant 0.75
+		setchargetimefactor 1 medic 0.75
+		setchargetimefactor 1 engineer 0.75
+		setchargetimefactor 1 covertops 0.75
+
+		sethqstatus 1 1			// Landmines team warning message
+		enablespeaker allied_cp_sound		// Enable morse code sound
+		wm_objective_status 6 1 1
+		wm_objective_status 6 0 2
+
+		globalaccum 0 trigger_if_equal 0 game_manager allies_control
+		
+	}
+
+	buildstart final
+	{
+		trigger neutral_cp_toi hide_neutral_cabinet	// Hide Neutral CP model+clip brush
+	}
+
+	built final
+	{
+		trigger self enable_cp_features		// Increase charge bar times
+
+		wm_announce "Allied Command Post constructed. Charge speed increased!"
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "axis_hq_compost_constructed_allies"
+		wm_teamvoiceannounce 1 "allies_hq_compost_constructed"
+		wm_removeteamvoiceannounce 1 "allies_hq_compost_construct"
+		wm_removeteamvoiceannounce 0 "axis_hq_compost_construct"
+		// *----------------------------------- vo ------------------------------------------*
+	}
+
+	decayed final
+	{
+		setstate allied_cp_open_model invisible	// Hide Open CP model
+		trigger neutral_cp_toi show_neutral_cabinet	// Show Neutral CP model+clip brush
+	}
+
+	death
+	{
+		trigger neutral_cp_toi show_neutral_cabinet	// Show Neutral CP model+clip brush
+		trigger self disable_cp_features		// Default charge bar times
+
+		wm_announce "Axis team has destroyed the Allied Command Post!"
+		// *----------------------------------- vo ------------------------------------------*
+		wm_addteamvoiceannounce 0 "axis_hq_compost_construct"
+		wm_addteamvoiceannounce 1 "allies_hq_compost_construct"
+		wm_teamvoiceannounce 0 "axis_hq_compost_construct"
+		wm_teamvoiceannounce 1 "allies_hq_compost_damaged"
+		// *----------------------------------- vo ------------------------------------------*
+	}
+}
+
+// ===================AXIS=============================
+axis_cp_open
+{
+	spawn
+	{
+		wait 100
+		constructible_class 2			// Dyno+Satchel
+
+		trigger self disable_cp_features		// Default charge bar times
+	}
+
+	trigger disable_cp_features
+	{
+		setstate axis_cp_open_model invisible	// Hide Open CP model
+
+		setchargetimefactor 0 soldier 1
+		setchargetimefactor 0 lieutenant 1
+		setchargetimefactor 0 medic 1
+		setchargetimefactor 0 engineer 1
+		setchargetimefactor 0 covertops 1
+
+		sethqstatus 0 0			// Landmines team warning message
+		disablespeaker axis_cp_sound		// Disable morse code sound
+		wm_objective_status 6 1 0
+		wm_objective_status 6 0 0
+
+	}
+
+	trigger enable_cp_features
+	{
+		setstate axis_cp_open_model default	// Show open CP model
+
+		setchargetimefactor 0 soldier 0.75
+		setchargetimefactor 0 lieutenant 0.75
+		setchargetimefactor 0 medic 0.75
+		setchargetimefactor 0 engineer 0.75
+		setchargetimefactor 0 covertops 0.75
+
+		sethqstatus 0 1			// Landmines team warning message
+		enablespeaker axis_cp_sound		// Enable morse code sound
+		wm_objective_status 6 1 2
+		wm_objective_status 6 0 1
+
+	}
+
+	buildstart final
+	{
+		trigger neutral_cp_toi hide_neutral_cabinet	// Hide Neutral CP model+clip brush
+	}
+
+	built final
+	{
+		trigger self enable_cp_features		// Increase charge bar times
+
+		wm_announce "Axis Command Post constructed. Charge speed increased!"
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "axis_hq_compost_constructed"
+		wm_teamvoiceannounce 1 "allies_hq_compost_constructed_axis"
+		wm_removeteamvoiceannounce 0 "axis_hq_compost_construct"
+		wm_removeteamvoiceannounce 1 "allies_hq_compost_construct"
+		// *----------------------------------- vo ------------------------------------------*
+	}
+
+	decayed final
+	{
+		setstate axis_cp_open_model invisible	// Hide Open CP model
+		trigger neutral_cp_toi show_neutral_cabinet	// Show Neutral CP model+clip brush
+	}
+
+	death
+	{
+		trigger neutral_cp_toi show_neutral_cabinet	// Show Neutral CP model+clip brush
+		trigger self disable_cp_features		// Default charge bar times
+
+		wm_announce "Allied team has destroyed the Axis Command Post!"
+		// *----------------------------------- vo ------------------------------------------*
+		wm_addteamvoiceannounce 0 "axis_hq_compost_construct"
+		wm_addteamvoiceannounce 1 "allies_hq_compost_construct"
+		wm_teamvoiceannounce 0 "axis_hq_compost_damaged"
+		wm_teamvoiceannounce 1 "allies_hq_compost_construct"
+		// *----------------------------------- vo ------------------------------------------*
+	}
+}
+
+
+//*********************************************************************
+//*****************************AMMO STUFF******************************
+//*********************************************************************
+
+
+ammo_trigger
+{
+	spawn
+	{
+		wait 300
+		setstate ammo_trigger invisible
+	}
+	
+	death
+	{
+		accum 0 abort_if_equal 1
+		accum 0 set 1
+		wm_addteamvoiceannounce 0 "saberpeak_axis_entrance_defend"
+		wm_addteamvoiceannounce 1 "saberpeak_allies_entrance_destroy"
+		
+		wm_teamvoiceannounce 0 "saberpeak_axis_ammo_loaded"
+		wm_teamvoiceannounce 0 "saberpeak_axis_entrance_defend"
+		
+		wm_teamvoiceannounce 1 "saberpeak_allies_ammo_loaded"
+		wm_teamvoiceannounce 1 "saberpeak_allies_entrance_destroy"
+		
+		wm_removeteamvoiceannounce 0 "saberpeak_axis_defend_ammo"
+		wm_removeteamvoiceannounce 1 "saberpeak_allies_escort_boat"
+		
+		wm_announce "Allies have have loaded the ammo onto the boat"
+		wm_set_main_objective 3	0
+		wm_set_main_objective 3	1
+		wm_objective_status 2 1 1
+		wm_objective_status 2 0 2
+		setstate ammo1toi invisible //remove toi
+		setstate ammo1marker invisible //remove cm marker
+		setstate ammo2toi invisible 
+		setstate ammo2marker invisible
+		setstate ammo3toi invisible 
+		setstate ammo3marker invisible
+		
+		trigger ship loadAmmo  //enable boat to move again
+		
+	}
+}
+
+ammoBox1
+{
+	spawn
+	{
+		accum 1 set 0  //ammo loaded flag
+		accum 2 set 0  //ammo stolen flag
+	}
+	
+	trigger stolen
+	{
+		
+		accum 2 set 1
+		// *----------------------------------- vo ------------------------------------------*
+
+		wm_teamvoiceannounce 0 "saberpeak_axis_ammo_taken"
+		wm_teamvoiceannounce 1 "saberpeak_allies_ammo_taken"
+		
+		// *---------------------------------------------------------------------------------*
+
+	}
+	
+	trigger dropped
+	{
+		
+		// *----------------------------------- vo ------------------------------------------*
+		accum 1 abort_if_equal 1
+		wm_teamvoiceannounce 0 "saberpeak_axis_ammo_lost"
+		wm_teamvoiceannounce 1 "saberpeak_allies_ammo_lost"
+		
+		// *---------------------------------------------------------------------------------*
+
+	}
+
+	trigger returned
+	{
+		accum 2 set 0
+		
+		accum 1 trigger_if_equal 1 ammoBox1 remove //if other ammo box loaded remove this box
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 1 "saberpeak_allies_ammo_returned"
+
+		wm_teamvoiceannounce 0 "saberpeak_axis_ammo_returned"
+		// *---------------------------------------------------------------------------------*
+
+	}
+
+
+	trigger captured
+	{
+		
+		trigger ammoBox2 remove  //remove all other boxes when this one is loaded
+		trigger ammoBox3 remove
+	}
+	
+	trigger remove
+	{
+		wait 50
+		accum 1 set 1
+		accum 2 abort_if_not_equal 0 //if currently stolen don't remove
+		remove
+		alertentity ammoBox1Static  //make static box visible
+	}
+
+}
+
+
+
+ammoBox2
+{
+	spawn
+	{
+		accum 1 set 0
+		accum 2 set 0
+	}
+	
+	trigger stolen
+	{
+
+		accum 2 set 1
+		// *----------------------------------- vo ------------------------------------------*
+		
+		wm_teamvoiceannounce 0 "saberpeak_axis_ammo_taken"
+		wm_teamvoiceannounce 1 "saberpeak_allies_ammo_taken"
+
+		// *---------------------------------------------------------------------------------*
+
+	}
+
+	trigger dropped
+	{
+		// *----------------------------------- vo ------------------------------------------*
+		accum 1 abort_if_equal 1
+		wm_teamvoiceannounce 0 "saberpeak_axis_ammo_lost"
+		wm_teamvoiceannounce 1 "saberpeak_allies_ammo_lost"
+		
+		// *---------------------------------------------------------------------------------*
+
+	}
+	
+	trigger returned
+	{
+		accum 2 set 0
+		
+		accum 1 trigger_if_equal 1 ammoBox2 remove
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 1 "saberpeak_allies_ammo_returned"
+
+		wm_teamvoiceannounce 0 "saberpeak_axis_ammo_returned"
+		// *---------------------------------------------------------------------------------*
+
+	}
+
+	trigger captured
+	{
+		trigger ammoBox1 remove
+		trigger ammoBox3 remove
+	}
+	
+	trigger remove
+	{
+		wait 50
+		accum 1 set 1
+		accum 2 abort_if_not_equal 0
+		remove
+		alertentity ammoBox2Static
+	}
+
+}
+
+ammoBox3
+{
+	spawn
+	{
+		accum 1 set 0
+		accum 2 set 0
+	}
+	trigger stolen
+	{
+		accum 2 set 1
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 1 "saberpeak_allies_ammo_taken"
+
+		wm_teamvoiceannounce 0 "saberpeak_axis_ammo_taken"
+		// *---------------------------------------------------------------------------------*
+		
+	}
+
+	trigger dropped
+	{
+
+		// *----------------------------------- vo ------------------------------------------*
+		accum 1 abort_if_equal 1
+		wm_teamvoiceannounce 0 "saberpeak_axis_ammo_lost"
+		wm_teamvoiceannounce 1 "saberpeak_allies_ammo_lost"
+		
+		// *---------------------------------------------------------------------------------*
+
+	}
+	
+	trigger returned
+	{
+		accum 2 set 0
+		
+		accum 1 trigger_if_equal 1 ammoBox3 remove
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 1 "saberpeak_allies_ammo_returned"
+
+		wm_teamvoiceannounce 0 "saberpeak_axis_ammo_returned"
+		// *---------------------------------------------------------------------------------*
+	}
+
+	trigger captured
+	{
+		trigger ammoBox2 remove
+		trigger ammoBox1 remove
+	}
+	
+	trigger remove
+	{
+		wait 50
+		accum 1 set 1
+		accum 2 abort_if_not_equal 0
+		remove
+		alertentity ammoBox3Static
+	}
+
+}
+
+//*********************************************************************
+//*****************************SHIP STUFF******************************
+//*********************************************************************
+
+
+
+ship_disabler
+{
+	trigger run
+	{
+		trigger ship ship_disable
+	}
+}
+
+
+
+ship_repair
+{
+     spawn
+     {
+          wait 100
+          attachtotag ship tag_ship //FIXME
+     }
+}
+
+
+ship_enabler
+{
+	trigger run
+	{
+		trigger ship ship_enable
+	}
+}
+
+
+ship_trigger
+{
+	spawn
+	{
+		wait 100
+		attachtotag ship tag_ship  //FIXME
+	}
+}
+
+
+ship_construct
+{
+	spawn
+	{
+		wait 400
+
+		constructible_class 2
+		constructible_health 2000
+	}
+
+	built final
+	{
+		alertentity ship
+	}
+
+	trigger final_pos
+	{
+		constructible_constructxpbonus 0
+		constructible_destructxpbonus 0
+	}
+}
+
+
+//**********************************SMOKE*************************
+ship_smoke1
+{
+	spawn
+	{
+		wait 300
+		attachtotag ship tag_smoke1
+		setstate ship_smoke1 invisible
+	}
+}
+
+ship_smoke2
+{
+	spawn
+	{
+		wait 300
+		attachtotag ship tag_smoke2
+		setstate ship_smoke2 invisible
+	}
+}
+
+ship_smoke3
+{
+	spawn
+	{
+		wait 300
+		attachtotag ship tag_smoke3
+		setstate ship_smoke3 invisible
+	}
+}
+
+//****************************SHIP EXTRAS*****************************************
+
+ship_flag
+{
+	spawn
+	{
+		wait 300
+		attachtotag ship tag_flag
+		startanimation 0 44 15 nolerp norandom
+	}
+}
+
+
+ship_radar
+{
+	spawn
+	{
+		wait 300
+		attachtotag ship tag_radar
+		faceangles 0 180 0 50
+
+		followspline 0 spln0 10000 wait length -64
+		followspline 1 spln0 10000 wait length -64
+		startanimation 0 15 10 nolerp norandom
+	}
+	
+	trigger start
+	{
+		startanimation 0 15 10 nolerp norandom
+	}
+	
+	trigger stop
+	{
+		startanimation 0 0 0 nolerp norandom
+	}
+}
+
+
+ship_cannon
+{
+	spawn
+	{
+		wait 300
+		faceangles 0 180 0 50
+		followspline 0 spln0 10000 wait length -64
+		followspline 1 spln0 10000 wait length -64
+
+	}
+	
+
+	trigger spin_start
+	{
+		stopsound
+		playsound sound/vehicles/tank/turret_spin.wav looping volume 260
+	}
+
+	trigger spin_stop
+	{
+		stopsound
+		playsound sound/vehicles/tank/turret_end.wav volume 100
+	}
+	
+	trigger anim_forth
+	{
+		playanim 0 41 looping 2000 rate 20
+	}
+	
+	trigger anim_down
+	{
+		playanim 39 60 looping 1000 rate 20
+	}
+	
+	trigger anim_up
+	{
+		playanim 59 80 looping 1000 rate 20
+	}
+	
+	trigger anim_back
+	{
+		playanim 79 120 looping 2000 rate 20
+	}
+	
+	//============moving stages==============
+	
+	trigger run_0
+	{
+		followspline 0 spln0 80 wait length -64
+	}
+
+
+	trigger run_1
+	{
+		followspline 0 spln1 80 wait length -64
+	}
+
+	trigger run_2
+	{
+		followspline 0 spln2 80 wait length -64
+	}
+
+
+	trigger run_3
+	{
+		followspline 0 spln3 80 wait length -64
+	}
+
+	trigger run_4
+	{
+		followspline 0 spln4 80 wait length -64
+	}
+
+	
+	trigger run_5
+	{
+		followspline 0 spln5 80 wait length -64
+	}
+
+	trigger run_6
+	{
+		followspline 0 spln6 80 wait length -64
+	}
+
+	trigger run_7
+	{
+		followspline 0 spln7 80 wait length -64
+	}
+
+	trigger run_8
+	{
+		followspline 0 spln8 80 wait length -64
+	}
+
+	
+	trigger run_9
+	{
+		followspline 0 spln9 80 wait length -64
+	}
+
+	trigger run_10
+	{
+		followspline 0 spln10 80 wait length -64
+	}
+
+	
+	trigger run_11
+	{
+		followspline 0 spln11 80 wait length -64
+	}
+
+	
+	trigger run_12
+	{
+		followspline 0 spln12 80 wait length -64
+	}
+
+
+	trigger run_13
+	{
+		followspline 0 spln13 80 wait length -64  
+	}
+	
+	trigger run_14
+	{
+		followspline 0 spln14 80 wait length -64
+	}
+	
+	trigger run_15
+	{
+		followspline 0 spln15 80 wait length -64
+	}
+	
+	trigger run_16
+	{
+		followspline 0 spln16 80 wait length -64
+	}
+	
+	trigger run_17
+	{
+		followspline 0 spln17 80 wait length -64
+	}
+	
+	trigger run_18
+	{
+		followspline 0 spln18 80 wait length -64
+	}
+	
+	trigger run_19
+	{
+		followspline 0 spln19 80 wait length -64
+	}
+	
+	trigger run_20
+	{
+		followspline 0 spln20 80 wait length -64
+	}
+	
+	trigger run_21
+	{
+		followspline 0 spln21 80 wait length -64
+	}
+	
+	trigger run_22
+	{
+		followspline 0 spln22 80 wait length -64
+	}
+	
+	trigger run_23
+	{
+		followspline 0 spln23 80 wait length -64
+	}
+	
+	trigger run_24
+	{
+		followspline 0 spln24 80 wait length -64
+	}
+	
+	trigger run_25
+	{
+		followspline 0 spln25 80 wait length -64
+	}
+	
+	trigger run_26
+	{
+		followspline 0 spln26 80 wait length -64
+	}
+	
+	trigger run_27
+	{
+		followspline 0 spln27 80 wait length -64
+	}
+	
+	trigger run_27
+	{
+		followspline 0 spln27 80 wait length -64
+	}
+	
+	trigger run_28
+	{
+		followspline 0 spln28 80 wait length -64
+	}
+	
+	trigger run_29
+	{
+		followspline 0 spln29 80 wait length -64
+	}
+	
+	trigger run_30
+	{
+		followspline 0 spln30 80 wait length -64
+	}
+	
+	trigger run_31
+	{
+		followspline 0 spln31 80 wait length -64
+	}
+	
+	trigger run_32
+	{
+		followspline 0 spln32 80 wait length -64
+	}
+	
+	trigger run_33
+	{
+		followspline 0 spln33 80 wait length -64
+	}
+	
+	trigger run_34
+	{
+		followspline 0 spln34 80 wait length -64
+	}
+	
+	trigger run_35
+	{
+		followspline 0 spln35 80 wait length -64
+	}
+	
+	trigger run_36
+	{
+		followspline 0 spln36 80 wait length -64
+	}
+	
+	trigger run_37
+	{
+		followspline 0 spln37 80 wait length -64
+	}
+
+	trigger run_38
+	{
+		followspline 0 spln38 80 wait length -64
+	}
+
+	trigger run_39
+	{
+		followspline 0 spln39 80 wait length -64
+	}
+
+	trigger run_40
+	{
+		followspline 0 spln40 80 wait length -64
+	}
+
+	trigger run_41
+	{
+		followspline 0 spln41 80 wait length -64
+	}
+
+	trigger run_42
+	{
+		followspline 0 spln42 80 wait length -64
+	}
+
+	trigger run_43
+	{
+		followspline 0 spln43 80 wait length -64
+	}
+
+	trigger run_44
+	{
+		followspline 0 spln44 80 wait length -64
+	}
+
+	trigger run_45
+	{
+		followspline 0 spln45 80 wait length -64
+	}
+
+	trigger run_46
+	{
+		followspline 0 spln46 80 wait length -64
+	}
+
+	trigger run_47
+	{
+		gotomarker shipBackup 40 wait
+	}
+	
+	trigger run_48
+	{
+		followspline 0 spln48 50 wait length -64
+	}
+	
+	trigger run_49
+	{
+		followspline 0 spln49 50 wait length -64
+		followspline 0 spln49_2 35 wait length -64
+	}
+	
+	trigger run_50
+	{
+		followspline 0 spln50 80 wait length -64
+	}
+	
+	trigger run_51
+	{
+		followspline 0 spln51 80 wait length -64
+	}
+	
+	trigger run_52
+	{
+		followspline 0 spln52 80 wait length -64
+	}
+	
+	trigger run_53
+	{
+		followspline 0 spln53 80 wait length -64
+	}
+	
+	trigger run_54
+	{
+		followspline 0 spln54 80 wait length -64
+	}
+	
+	trigger run_55
+	{
+		followspline 0 spln55 80 wait length -64
+	}
+
+	trigger run_56
+	{
+		followspline 0 spln56 80 wait length -64
+	}
+
+	trigger run_57
+	{
+		followspline 0 spln57 80 wait length -64
+	}
+	
+	trigger run_58
+	{
+		followspline 0 spln58 80 wait length -64
+	}
+	
+	trigger run_59
+	{
+		followspline 0 spln59 80 wait length -64
+	}
+	
+	trigger run_60
+	{
+		followspline 0 spln60 80 wait length -64
+	}
+	
+	trigger run_61
+	{
+		followspline 0 spln61 80 wait length -64
+	}
+	
+	trigger run_62
+	{
+		followspline 0 spln62 80 wait length -64
+	}
+	
+	trigger run_63
+	{
+		followspline 0 spln63 80 wait length -64
+	}
+	
+	trigger run_64
+	{
+		followspline 0 spln64 80 wait length -64
+	}
+	
+	trigger run_65
+	{
+		followspline 0 spln65 80 wait length -64
+	}
+
+	trigger run_66
+	{
+		followspline 0 spln66 80 wait length -64
+	}
+
+	trigger run_67
+	{
+		followspline 0 spln67 80 wait length -64
+	}
+	
+	trigger run_68
+	{
+		followspline 0 spln68 80 wait length -64
+	}
+	
+	trigger run_69
+	{
+		followspline 0 spln69 80 wait length -64
+	}
+	
+	trigger run_70
+	{
+		followspline 0 spln70 80 wait length -64
+	}
+	
+	trigger run_71
+	{
+		followspline 0 spln71 80 wait length -64
+	}
+	
+	trigger run_72
+	{
+		followspline 0 spln72 80 wait length -64
+	}
+	
+	trigger run_73
+	{
+		followspline 0 spln73 50 wait length -64
+	}
+	
+	trigger run_74
+	{
+		followspline 0 spln74 50 wait length -64
+	}
+	
+	trigger run_75
+	{
+		followspline 0 spln75 50 wait length -64
+	}
+
+	trigger run_76
+	{
+		followspline 0 spln76 50 wait length -64
+	}
+
+	trigger run_77
+	{
+		followspline 0 spln77 50 wait length -64
+	}
+	
+	trigger run_78
+	{
+		followspline 0 spln78 80 wait length -64
+	}
+	
+	trigger run_79
+	{
+		followspline 0 spln79 80 wait length -64
+	}
+	
+	trigger run_80
+	{
+		followspline 0 spln80 80 wait length -64
+	}
+}
+
+ship_sound
+{
+
+
+	trigger start
+	{
+		trigger ship sound_start
+		wait 1800
+		trigger ship sound_move
+	}
+	
+	trigger stop
+	{
+		trigger ship sound_stop
+		wait 1400
+		trigger ship sound_idle
+	}
+
+	trigger rebirth
+	{
+		trigger ship sound_rebirth
+		wait 1400
+		trigger ship sound_idle
+	}
+}
+
+
+
+
+//******************************************************
+ship
+{
+// accum 0: flags
+//  - bit 0: check mobility		( 0 = stopped,	1 = can move )
+//  - bit 1: check for player present	( 0 = player near, 1 = no player	)
+//  - bit 2: following spline 	( 0 = no, 	1 = yes	) if ship is already moving
+//  - bit 3: damaged 	      ( 0 = no, 	1 = yes		)
+//  - bit 4: ammo_loaded       (0 = no, 1 = yes)
+//  - bit 5: track state		( 0 = stopped,		1 = forward		)
+//  - bit 6: temp register 		(XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX)
+//  - bit 7:  		
+//  - bit 8: 
+//  - bit 9: visible state		( 0 = alive, 		1 = dead		)
+// accum 1: movement counter        (continues movement after player has exited the trigger
+//						             brush to the next spline point)
+// accum 2, blank
+// accum 3, current movement loop position
+// accum 4, stop counter
+// accum 5, lockout ref counter
+// accum 6, blank
+// accum 7, blank
+
+	spawn
+	{
+		wait 500
+		startanimation 15 15 10 nolerp norandom
+		trigger self sound_idle
+		accum 5 set 0
+		accum 3 set 0
+		
+		faceangles 0 180 0 50
+
+		followspline 0 spln0 10000 wait length -64
+		followspline 1 spln0 10000 wait length -64
+	}
+	
+	trigger sound_idle
+	{
+		stopsound
+		playsound sound/saberpeak/world/sp_boatidle.wav looping volume 512
+	}
+
+	trigger sound_start
+	{
+		stopsound
+		playsound sound/saberpeak/world/sp_boatstart.wav volume 196
+	}
+
+	trigger sound_move
+	{
+		stopsound
+		playsound sound/saberpeak/world/sp_boatmove.wav looping volume 512
+	}
+
+	trigger sound_stop
+	{
+		stopsound
+		playsound sound/saberpeak/world/sp_boatstop.wav volume 196
+	}
+
+	trigger sound_death
+	{
+		stopsound
+		playsound sound/saberpeak/world/sp_boatstop.wav volume 256
+	}
+
+	trigger sound_rebirth
+	{
+		stopsound
+		playsound sound/saberpeak/world/sp_boatstart.wav volume 196
+	}
+
+	
+//****************************ENABLER/DISABLER************************************
+//	
+	trigger ship_enable
+	{
+
+		trigger self mobility_check      //conditions that must be met for the ship to move
+		accum 0 abort_if_not_bitset 0 	 //abort if there are conditions that prevent the ship from moving
+							             //i.e. needs ammo, has reached the end, etc.
+
+			             
+		accum 1 set 1				 // reset movement counter
+		accum 0 bitreset 1			 // reset player check
+
+		accum 0 abort_if_bitset 2 	 // already following spline 
+									 //(prevents startup stuff from starting if ship is already moving)
+		accum 5 abort_if_not_equal 0	// are we not in a script lockout?
+
+		accum 0 abort_if_bitset 3 	 // damaged check
+
+		//** Any just started moving stuff goes here
+
+		trigger self script_lockout //get the lock
+
+		trigger ship_sound start	//play the sounds
+		startanimation 0 15 15 nolerp norandom //start the propellers
+		wait 500
+		trigger self script_lockout_stop //release lock
+		trigger self move
+	}
+	
+	
+	trigger ship_disable
+	{
+		accum 1 inc 1				// up the movement counter
+		accum 1 abort_if_less_than 4
+		accum 0 bitset 1			// set stop check
+		trigger self deathcheck
+	}
+	
+//********************************************************************************
+
+
+//***********************MOBILITY CHECKS********************************************
+	trigger mobility_check
+	{
+		accum 0 bitset 0       //set mobility flag
+		trigger self ammo_check     //check for if ammo is loaded
+		trigger self finished_check //check if it reached the end of the path
+		trigger self lockout_check  //check for script lock
+	}
+	
+	
+    trigger finished_check
+	{
+		accum 3 abort_if_less_than 81   //final spline number(adjust as necessary)
+		accum 0 bitreset 0
+	}
+		
+	
+	trigger ammo_check
+	{
+		accum 3 abort_if_not_equal 47    //spline number for ammo stop(adjust)
+
+		accum 0 abort_if_bitset 4        //ammo loaded flag
+
+		accum 0 bitreset 0
+	}
+
+	
+	trigger lockout_check
+	{
+		accum 5 abort_if_equal 0
+		accum 0 bitreset 0
+	}
+
+//***********************************************************************	
+
+
+//********************SCRIPT LOCKS***************************************
+	
+	trigger script_lockout
+	{
+		accum 5 inc 1
+	}
+
+	trigger script_lockout_stop
+	{
+		accum 5 inc -1
+	}
+
+
+//************************************************************************
+
+
+//***********************MOVEMENT*****************************************
+
+	trigger move
+	{
+		trigger self move_check
+		wait 500
+		trigger self move
+	}
+	
+	trigger move_check
+	{
+		trigger self mobility_check
+		accum 0 abort_if_not_bitset 0
+		trigger self dispatch
+	}
+
+	trigger dispatch
+	{
+		accum 3 trigger_if_equal 0 ship run_0
+		accum 3 trigger_if_equal 1 ship run_1
+		accum 3 trigger_if_equal 2 ship run_2
+		accum 3 trigger_if_equal 3 ship run_3
+		accum 3 trigger_if_equal 4 ship run_4
+		accum 3 trigger_if_equal 5 ship run_5
+		accum 3 trigger_if_equal 6 ship run_6
+		accum 3 trigger_if_equal 7 ship run_7
+		accum 3 trigger_if_equal 8 ship run_8
+		accum 3 trigger_if_equal 9 ship run_9
+		accum 3 trigger_if_equal 10 ship run_10
+		accum 3 trigger_if_equal 11 ship run_11
+		accum 3 trigger_if_equal 12 ship run_12
+		accum 3 trigger_if_equal 13 ship run_13
+		accum 3 trigger_if_equal 14 ship run_14
+		accum 3 trigger_if_equal 15 ship run_15
+		accum 3 trigger_if_equal 16 ship run_16
+		accum 3 trigger_if_equal 17 ship run_17
+		accum 3 trigger_if_equal 18 ship run_18
+		accum 3 trigger_if_equal 19 ship run_19
+		accum 3 trigger_if_equal 20 ship run_20
+		accum 3 trigger_if_equal 21 ship run_21
+		accum 3 trigger_if_equal 22 ship run_22
+		accum 3 trigger_if_equal 23 ship run_23
+		accum 3 trigger_if_equal 24 ship run_24
+		accum 3 trigger_if_equal 25 ship run_25
+		accum 3 trigger_if_equal 26 ship run_26
+		accum 3 trigger_if_equal 27 ship run_27
+		accum 3 trigger_if_equal 28 ship run_28
+		accum 3 trigger_if_equal 29 ship run_29
+		accum 3 trigger_if_equal 30 ship run_30
+		accum 3 trigger_if_equal 31 ship run_31
+		accum 3 trigger_if_equal 32 ship run_32
+		accum 3 trigger_if_equal 33 ship run_33
+		accum 3 trigger_if_equal 34 ship run_34
+		accum 3 trigger_if_equal 35 ship run_35
+		accum 3 trigger_if_equal 36 ship run_36
+		accum 3 trigger_if_equal 37 ship run_37
+		accum 3 trigger_if_equal 38 ship run_38
+		accum 3 trigger_if_equal 39 ship run_39
+		accum 3 trigger_if_equal 40 ship run_40
+		accum 3 trigger_if_equal 41 ship run_41
+		accum 3 trigger_if_equal 42 ship run_42
+		accum 3 trigger_if_equal 43 ship run_43
+		accum 3 trigger_if_equal 44 ship run_44
+		accum 3 trigger_if_equal 45 ship run_45
+		accum 3 trigger_if_equal 46 ship run_46
+		accum 3 trigger_if_equal 47 ship run_47
+		accum 3 trigger_if_equal 48 ship run_48
+		accum 3 trigger_if_equal 49 ship run_49
+        accum 3 trigger_if_equal 50 ship run_50
+		accum 3 trigger_if_equal 51 ship run_51
+		accum 3 trigger_if_equal 52 ship run_52
+		accum 3 trigger_if_equal 53 ship run_53
+		accum 3 trigger_if_equal 54 ship run_54
+		accum 3 trigger_if_equal 55 ship run_55
+		accum 3 trigger_if_equal 56 ship run_56
+		accum 3 trigger_if_equal 57 ship run_57
+		accum 3 trigger_if_equal 58 ship run_58
+		accum 3 trigger_if_equal 59 ship run_59
+		accum 3 trigger_if_equal 60 ship run_60
+		accum 3 trigger_if_equal 61 ship run_61
+		accum 3 trigger_if_equal 62 ship run_62
+		accum 3 trigger_if_equal 63 ship run_63
+		accum 3 trigger_if_equal 64 ship run_64
+		accum 3 trigger_if_equal 65 ship run_65
+		accum 3 trigger_if_equal 66 ship run_66
+		accum 3 trigger_if_equal 67 ship run_67
+		accum 3 trigger_if_equal 68 ship run_68
+		accum 3 trigger_if_equal 69 ship run_69
+		accum 3 trigger_if_equal 70 ship run_70
+		accum 3 trigger_if_equal 71 ship run_71
+		accum 3 trigger_if_equal 72 ship run_72
+		accum 3 trigger_if_equal 73 ship run_73
+		accum 3 trigger_if_equal 74 ship run_74
+		accum 3 trigger_if_equal 75 ship run_75
+		accum 3 trigger_if_equal 76 ship run_76
+		accum 3 trigger_if_equal 77 ship run_77
+		accum 3 trigger_if_equal 78 ship run_78
+		accum 3 trigger_if_equal 79 ship run_79
+		accum 3 trigger_if_equal 80 ship run_80
+	}
+
+
+	trigger run_incpos
+	{
+		accum 3 inc 1
+	}
+
+	trigger run_continue
+	{
+		trigger self run_incpos
+		trigger self deathcheck
+		trigger self stopcheck
+		trigger self move
+	}
+	
+//***********************************************************************
+
+
+//***************************STOP/DEATH CHECKS**********************************
+
+	trigger stopcheck_setup
+	{
+		accum 0 bitset 6			    // temp variable used to return status
+
+		accum 0 abort_if_bitset 1		// no one in the trigger, abort
+
+		trigger self mobility_check  	// call the mobility_check function
+		accum 0 abort_if_not_bitset 0	// we're stuck so break out
+
+		accum 0 bitreset 6			    // we're free to move
+	}
+
+	
+	trigger stopcheck
+	{
+		trigger self stopcheck_setup
+		accum 0 abort_if_not_bitset 6
+
+		trigger self script_lockout     //get the lock
+
+		// Any just stopped moving stuff goes here
+		trigger ship_sound 	stop
+		startanimation 15 15 10 nolerp norandom
+		wait 666
+		trigger self script_lockout_stop  //release lock
+		resetscript
+	}
+
+	
+	
+	trigger deathcheck
+	{
+		accum 0 abort_if_not_bitset 3	// are we dead?
+		accum 0 abort_if_bitset 9		// are we not already visibly dead?
+		accum 0 abort_if_bitset 2		// are we not following a spline?
+		accum 5 abort_if_not_equal 0	// are we not in a script lockout?
+
+		accum 0 bitset 9				// we're now visibly dead
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "saberpeak_axis_boat_damaged"
+
+		wm_teamvoiceannounce 1 "saberpeak_allies_boat_damaged"
+		// *---------------------------------------------------------------------------------*
+
+		wm_announce "The boat has been damaged"
+
+
+		//start up the smoke
+		setstate ship_smoke1 default
+	    setstate ship_smoke2 default
+	    setstate ship_smoke3 default
+	    
+		kill ship_construct
+
+		trigger self sound_death
+		trigger self script_lockout
+		startanimation 15 15 10 nolerp norandom
+		trigger ship_radar stop         //radar stops rotating
+		wait 500
+		trigger self script_lockout_stop
+
+		resetscript
+	}
+//**************************************************************************
+
+
+
+//************************DEATH/REBIRTH**********************************
+
+	rebirth
+	{
+		accum 0 bitreset 9 // we're visibly alive
+		accum 0 bitreset 3 // we're alive again
+
+		trigger self script_lockout         //get the lock
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "saberpeak_axis_boat_repaired"
+
+		wm_teamvoiceannounce 1 "saberpeak_allies_boat_repaired"
+		// *---------------------------------------------------------------------------------*
+		wm_announce "The boat has been repaired"
+
+
+		setstate ship_smoke1 invisible
+		setstate ship_smoke2 invisible
+		setstate ship_smoke3 invisible
+		trigger ship_radar start         //radar rotates again
+		wait 300
+		trigger ship_sound rebirth
+		wait 500
+		trigger self script_lockout_stop   //release lock
+	}
+
+	death
+	{
+		accum 0 bitset 3
+	}
+
+//**************************************************************************	
+
+
+//**********************AMMO****************************************	
+	trigger loadAmmo
+	{
+		accum 0 bitset 4  //set the ammo flag
+	}
+
+//*********************************************************************	
+
+	
+//**********************RUN************************************
+	trigger run_0
+	{
+
+		accum 0 bitset 2
+		trigger ship_cannon run_0
+		followspline 0 spln0 80 wait length -64
+		accum 0 bitreset 2
+		trigger self run_continue
+	}
+
+
+	trigger run_1
+	{
+		accum 0 bitset 2
+		trigger ship_cannon run_1
+		followspline 0 spln1 80 wait length -64
+		accum 0 bitreset 2
+		trigger self run_continue
+	}
+
+	trigger run_2
+	{
+		accum 0 bitset 2
+		trigger ship_cannon run_2
+		followspline 0 spln2 80 wait length -64
+		accum 0 bitreset 2
+		trigger self run_continue
+	}
+
+
+	trigger run_3
+	{
+		accum 0 bitset 2
+		trigger ship_cannon run_3
+		followspline 0 spln3 80 wait length -64
+		accum 0 bitreset 2
+		trigger self run_continue
+	}
+
+	trigger run_4
+	{
+		accum 0 bitset 2
+		trigger ship_cannon run_4
+		followspline 0 spln4 80 wait length -64
+		accum 0 bitreset 2
+		trigger self run_continue
+	}
+
+	
+	trigger run_5
+	{
+		accum 0 bitset 2
+		trigger ship_cannon run_5
+		followspline 0 spln5 80 wait length -64
+		accum 0 bitreset 2
+		trigger self run_continue
+	}
+
+	trigger run_6
+	{
+		accum 0 bitset 2
+		trigger ship_cannon run_6
+		followspline 0 spln6 80 wait length -64
+		accum 0 bitreset 2
+		trigger self run_continue
+	}
+
+	trigger run_7
+	{
+		accum 0 bitset 2
+		trigger ship_cannon run_7
+		followspline 0 spln7 80 wait length -64
+		accum 0 bitreset 2
+		trigger self run_continue
+	}
+
+	trigger run_8
+	{
+		accum 0 bitset 2
+		trigger ship_cannon run_8
+		followspline 0 spln8 80 wait length -64
+		accum 0 bitreset 2
+		trigger self run_continue
+	}
+
+	
+	trigger run_9
+	{
+		accum 0 bitset 2
+		trigger ship_cannon run_9
+		followspline 0 spln9 80 wait length -64
+		accum 0 bitreset 2
+		trigger self run_continue
+	}
+
+	trigger run_10
+	{
+		accum 0 bitset 2
+		trigger ship_cannon run_10
+		followspline 0 spln10 80 wait length -64
+		accum 0 bitreset 2
+		trigger self run_continue
+	}
+
+	
+	trigger run_11
+	{
+		accum 0 bitset 2
+		trigger ship_cannon run_11
+		followspline 0 spln11 80 wait length -64
+		accum 0 bitreset 2
+		trigger self run_continue
+	}
+
+	
+	trigger run_12
+	{
+		accum 0 bitset 2
+		trigger ship_cannon run_12
+		followspline 0 spln12 80 wait length -64
+		accum 0 bitreset 2
+		trigger self run_continue
+	}
+
+
+	trigger run_13
+	{
+		accum 0 bitset 2
+		trigger ship_cannon run_13
+		followspline 0 spln13 80 wait length -64  
+		accum 0 bitreset 2
+		trigger self run_continue
+	}
+	
+	trigger run_14
+	{
+		accum 0 bitset 2
+		trigger ship_cannon run_14
+		followspline 0 spln14 80 wait length -64
+		accum 0 bitreset 2
+		trigger self run_continue
+	}
+	
+	trigger run_15
+	{
+		accum 0 bitset 2
+		trigger ship_cannon run_15
+		followspline 0 spln15 80 wait length -64
+		accum 0 bitreset 2
+		trigger self run_continue
+	}
+	
+	trigger run_16
+	{
+		accum 0 bitset 2
+		trigger ship_cannon run_16
+		followspline 0 spln16 80 wait length -64
+		accum 0 bitreset 2
+		trigger self run_continue
+	}
+	
+	trigger run_17
+	{
+		accum 0 bitset 2
+		trigger ship_cannon run_17
+		followspline 0 spln17 80 wait length -64
+		accum 0 bitreset 2
+		trigger self run_continue
+	}
+	
+	trigger run_18
+	{
+		accum 0 bitset 2
+		trigger ship_cannon run_18
+		followspline 0 spln18 80 wait length -64
+		accum 0 bitreset 2
+		trigger self run_continue
+	}
+	
+	trigger run_19
+	{
+		accum 0 bitset 2
+		trigger ship_cannon run_19
+		followspline 0 spln19 80 wait length -64
+		accum 0 bitreset 2
+		trigger self run_continue
+	}
+	
+	trigger run_20
+	{
+		accum 0 bitset 2
+		trigger ship_cannon run_20
+		followspline 0 spln20 80 wait length -64
+		accum 0 bitreset 2
+		trigger self run_continue
+	}
+	
+	trigger run_21
+	{
+		accum 0 bitset 2
+		trigger ship_cannon run_21
+		followspline 0 spln21 80 wait length -64
+		accum 0 bitreset 2
+		trigger self run_continue
+	}
+	
+	trigger run_22
+	{
+		accum 0 bitset 2
+		trigger ship_cannon run_22
+		followspline 0 spln22 80 wait length -64
+		accum 0 bitreset 2
+		trigger self run_continue
+	}
+	
+	trigger run_23
+	{
+		accum 0 bitset 2
+		trigger ship_cannon run_23
+		followspline 0 spln23 80 wait length -64
+		accum 0 bitreset 2
+		trigger self run_continue
+	}
+	
+	trigger run_24
+	{
+		accum 0 bitset 2
+		trigger ship_cannon run_24
+		followspline 0 spln24 80 wait length -64
+		accum 0 bitreset 2
+		trigger self run_continue
+	}
+	
+	trigger run_25
+	{
+		accum 0 bitset 2
+		trigger ship_cannon run_25
+		followspline 0 spln25 80 wait length -64
+		accum 0 bitreset 2
+		trigger self run_continue
+	}
+	
+	trigger run_26
+	{
+		accum 0 bitset 2
+		trigger ship_cannon run_26
+		followspline 0 spln26 80 wait length -64
+		accum 0 bitreset 2
+		trigger self run_continue
+	}
+	
+	trigger run_27
+	{
+		accum 0 bitset 2
+		trigger ship_cannon run_27
+		followspline 0 spln27 80 wait length -64
+		accum 0 bitreset 2
+		trigger self run_continue
+	}
+	
+	
+	trigger run_28
+	{
+		accum 0 bitset 2
+		trigger ship_cannon run_28
+		followspline 0 spln28 80 wait length -64
+		accum 0 bitreset 2
+		trigger self run_continue
+	}
+	
+	trigger run_29
+	{
+		accum 0 bitset 2
+		trigger ship_cannon run_29
+		followspline 0 spln29 80 wait length -64
+		accum 0 bitreset 2
+		trigger self run_continue
+	}
+	
+	trigger run_30
+	{
+		accum 0 bitset 2
+		trigger ship_cannon run_30
+		followspline 0 spln30 80 wait length -64
+		accum 0 bitreset 2
+		trigger self run_continue
+	}
+	
+	trigger run_31
+	{
+		accum 0 bitset 2
+		trigger ship_cannon run_31
+		followspline 0 spln31 80 wait length -64
+		accum 0 bitreset 2
+		trigger self run_continue
+	}
+	
+	trigger run_32
+	{
+		accum 0 bitset 2
+		trigger ship_cannon run_32
+		followspline 0 spln32 80 wait length -64
+		accum 0 bitreset 2
+		trigger self run_continue
+	}
+	
+	trigger run_33
+	{
+		accum 0 bitset 2
+		trigger ship_cannon run_33
+		followspline 0 spln33 80 wait length -64
+		accum 0 bitreset 2
+		trigger self run_continue
+	}
+	
+	trigger run_34
+	{
+		accum 0 bitset 2
+		trigger ship_cannon run_34
+		followspline 0 spln34 80 wait length -64
+		accum 0 bitreset 2
+		trigger self run_continue
+	}
+	
+	trigger run_35
+	{
+		accum 0 bitset 2
+		trigger ship_cannon run_35
+		followspline 0 spln35 80 wait length -64
+		accum 0 bitreset 2
+		trigger self run_continue
+	}
+	
+	trigger run_36
+	{
+		accum 0 bitset 2
+		trigger ship_cannon run_36
+		followspline 0 spln36 80 wait length -64
+		accum 0 bitreset 2
+		trigger self run_continue
+	}
+	
+	trigger run_37
+	{
+		accum 0 bitset 2
+		trigger ship_cannon run_37
+		followspline 0 spln37 80 wait length -64
+		accum 0 bitreset 2
+		trigger self run_continue
+	}
+
+	trigger run_38
+	{
+		accum 0 bitset 2
+		trigger ship_cannon run_38
+		followspline 0 spln38 80 wait length -64
+		accum 0 bitreset 2
+		trigger self run_continue
+	}
+
+	trigger run_39
+	{
+		accum 0 bitset 2
+		trigger ship_cannon run_39
+		followspline 0 spln39 80 wait length -64
+		accum 0 bitreset 2
+		trigger self run_continue
+	}
+
+	trigger run_40
+	{
+		accum 0 bitset 2
+		trigger ship_cannon run_40
+		followspline 0 spln40 80 wait length -64
+		accum 0 bitreset 2
+		trigger self run_continue
+	}
+
+	trigger run_41
+	{
+		accum 0 bitset 2
+		trigger ship_cannon run_41
+		followspline 0 spln41 80 wait length -64
+		accum 0 bitreset 2
+		trigger self run_continue
+	}
+
+	trigger run_42
+	{
+		accum 0 bitset 2
+		trigger ship_cannon run_42
+		followspline 0 spln42 80 wait length -64
+		accum 0 bitreset 2
+		trigger self run_continue
+	}
+
+	trigger run_43
+	{
+		accum 0 bitset 2
+		trigger ship_cannon run_43
+		followspline 0 spln43 80 wait length -64
+		accum 0 bitreset 2
+		trigger self run_continue
+	}
+
+	trigger run_44
+	{
+		accum 0 bitset 2
+		trigger ship_cannon run_44
+		followspline 0 spln44 80 wait length -64
+		accum 0 bitreset 2
+		trigger self run_continue
+	}
+
+	trigger run_45
+	{
+		accum 0 bitset 2
+		trigger ship_cannon run_45
+		followspline 0 spln45 80 wait length -64	
+		accum 0 bitreset 2
+		trigger self run_continue
+	}
+
+	trigger run_46
+	{
+		accum 0 bitset 2
+		trigger ship_cannon run_46
+		followspline 0 spln46 80 wait length -64	
+		
+		//**************LOAD AMMO***************************
+		//ADJUST as neccessary at correct spline
+		setstate ammo_trigger default 
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 1 "saberpeak_allies_get_ammo"
+		wm_set_main_objective 2	0
+		wm_set_main_objective 2	1
+		// *---------------------------------------------------------------------------------*
+		//**************************************************
+		
+		accum 0 bitreset 2
+		trigger self run_continue
+	}
+
+	trigger run_47
+	{
+		accum 0 bitset 2
+		trigger ship_cannon run_47
+		gotomarker shipBackup 40 wait
+		accum 0 bitreset 2
+		trigger self run_continue
+	}
+
+	trigger run_48
+	{
+		accum 0 bitset 2
+		wait 1000
+		accum 0 bitreset 2
+		trigger self run_continue
+	}
+
+	trigger run_49
+	{
+		accum 0 bitset 2
+		trigger ship_cannon run_49
+		followspline 0 spln49 50 wait length -64
+		followspline 0 spln49_2 35 wait length -64
+		accum 0 bitreset 2
+		trigger self run_continue
+	}
+
+	trigger run_50
+	{
+		accum 0 bitset 2
+		trigger ship_cannon run_50
+		followspline 0 spln50 80 wait length -64
+		accum 0 bitreset 2
+		trigger self run_continue
+	}
+
+	trigger run_51
+	{
+		accum 0 bitset 2
+		trigger ship_cannon run_51
+		followspline 0 spln51 80 wait length -64
+		accum 0 bitreset 2
+		trigger self run_continue
+	}
+
+	trigger run_52
+	{
+		accum 0 bitset 2
+		trigger ship_cannon run_52
+		followspline 0 spln52 80 wait length -64
+		accum 0 bitreset 2
+		trigger self run_continue
+	}
+
+	trigger run_53
+	{
+		accum 0 bitset 2
+		trigger ship_cannon run_53
+		followspline 0 spln53 80 wait length -64
+		accum 0 bitreset 2
+		trigger self run_continue
+	}
+
+	trigger run_54
+	{
+		accum 0 bitset 2
+		trigger ship_cannon run_54
+		followspline 0 spln54 80 wait length -64
+		accum 0 bitreset 2
+		trigger self run_continue
+	}
+
+	trigger run_55
+	{
+		accum 0 bitset 2
+		trigger ship_cannon run_55
+		followspline 0 spln55 80 wait length -64
+		accum 0 bitreset 2
+		trigger self run_continue
+	}
+
+	trigger run_56
+	{
+		accum 0 bitset 2
+		trigger ship_cannon run_56
+		followspline 0 spln56 80 wait length -64
+		accum 0 bitreset 2
+		trigger self run_continue
+	}
+
+	trigger run_57
+	{
+		accum 0 bitset 2
+		trigger ship_cannon run_57
+		followspline 0 spln57 80 wait length -64
+		accum 0 bitreset 2
+		trigger self run_continue
+	}
+
+	trigger run_58
+	{
+		accum 0 bitset 2
+		trigger ship_cannon run_58
+		followspline 0 spln58 80 wait length -64
+		accum 0 bitreset 2
+		trigger self run_continue
+	}
+
+	trigger run_59
+	{
+		accum 0 bitset 2
+		trigger ship_cannon run_59
+		followspline 0 spln59 80 wait length -64
+		accum 0 bitreset 2
+		trigger self run_continue
+	}
+
+	trigger run_60
+	{
+		accum 0 bitset 2
+		trigger ship_cannon run_60
+		followspline 0 spln60 80 wait length -64
+		accum 0 bitreset 2
+		trigger self run_continue
+	}
+
+	trigger run_61
+	{
+		accum 0 bitset 2
+		trigger ship_cannon run_61
+		followspline 0 spln61 80 wait length -64
+		accum 0 bitreset 2
+		trigger self run_continue
+	}
+
+	trigger run_62
+	{
+		accum 0 bitset 2
+		trigger ship_cannon run_62
+		followspline 0 spln62 80 wait length -64
+		//accum 0 bitreset 2
+		//trigger self run_incpos
+		//********************OPEN SIDE PATH*****************************
+		//trigger ship script_lockout
+		trigger game_manager boulder_rockets
+		//***************************************************************
+		
+		accum 0 bitreset 2
+		
+		//trigger self run_incpos
+		trigger self run_continue
+		accum 0 bitset 1			// set stop check
+	}
+
+	trigger run_63
+	{
+		accum 0 bitset 2
+		trigger ship_cannon run_63
+		followspline 0 spln63 80 wait length -64
+		accum 0 bitreset 2
+		trigger self run_continue
+	}
+
+	trigger run_64
+	{
+		accum 0 bitset 2
+		trigger ship_cannon run_64
+		followspline 0 spln64 80 wait length -64
+		accum 0 bitreset 2
+		trigger self run_continue
+	}
+
+	trigger run_65
+	{
+		accum 0 bitset 2
+		trigger ship_cannon run_65
+		followspline 0 spln65 80 wait length -64
+		accum 0 bitreset 2
+		trigger self run_continue
+	}
+	
+	trigger run_66
+	{
+		accum 0 bitset 2
+		trigger ship_cannon run_66
+		followspline 0 spln66 80 wait length -64
+		accum 0 bitreset 2
+		trigger self run_continue
+	}
+
+	trigger run_67
+	{
+		accum 0 bitset 2
+		trigger ship_cannon run_67
+		followspline 0 spln67 80 wait length -64
+		accum 0 bitreset 2
+		trigger self run_continue
+	}
+
+	trigger run_68
+	{
+		accum 0 bitset 2
+		trigger ship_cannon run_68
+		followspline 0 spln68 80 wait length -64
+		accum 0 bitreset 2
+		trigger self run_continue
+	}
+
+	trigger run_69
+	{
+		accum 0 bitset 2
+		trigger ship_cannon run_69
+		followspline 0 spln69 80 wait length -64
+		accum 0 bitreset 2
+		trigger self run_continue
+	}
+
+	trigger run_70
+	{
+		accum 0 bitset 2
+		trigger ship_cannon run_70
+		followspline 0 spln70 80 wait length -64
+		accum 0 bitreset 2
+		trigger self run_continue
+	}
+
+	trigger run_71
+	{
+		accum 0 bitset 2
+		trigger ship_cannon run_71
+		followspline 0 spln71 80 wait length -64
+		accum 0 bitreset 2
+		trigger self run_continue
+	}
+
+	trigger run_72
+	{
+		accum 0 bitset 2
+		trigger ship_cannon run_72
+		followspline 0 spln72 80 wait length -64
+		accum 0 bitreset 2
+		trigger self run_continue
+	}
+
+	trigger run_73
+	{
+		accum 0 bitset 2
+		trigger ship_cannon run_73
+		followspline 0 spln73 50 wait length -64
+		accum 0 bitreset 2
+		trigger self run_continue
+	}
+
+	trigger run_74
+	{
+		accum 0 bitset 2
+		trigger ship_cannon run_74
+		followspline 0 spln74 50 wait length -64
+		accum 0 bitreset 2
+		trigger self run_continue
+	}
+
+	trigger run_75
+	{
+		accum 0 bitset 2
+		trigger ship_cannon run_75
+		followspline 0 spln75 50 wait length -64
+		accum 0 bitreset 2
+		trigger self run_continue
+	}
+
+	trigger run_76
+	{
+		accum 0 bitset 2
+		trigger ship_cannon run_76
+		followspline 0 spln76 50 wait length -64
+		accum 0 bitreset 2
+		trigger self run_continue
+	}
+
+	trigger run_77
+	{
+		accum 0 bitset 2
+		trigger ship_cannon run_77
+		followspline 0 spln77 50 wait length -64
+		accum 0 bitreset 2
+		trigger self run_continue
+	}
+
+	trigger run_78
+	{
+		accum 0 bitset 2
+		trigger ship_cannon run_78
+		followspline 0 spln78 80 wait length -64
+		accum 0 bitreset 2
+		trigger self run_continue
+	}
+
+	trigger run_79
+	{
+		accum 0 bitset 2
+		trigger ship_cannon run_79
+		followspline 0 spln79 80 wait length -64
+		accum 0 bitreset 2
+		trigger self run_continue
+	}
+
+	trigger run_80
+	{
+		accum 0 bitset 2
+		trigger ship_cannon run_80
+		followspline 0 spln80 80 wait length -64
+		accum 0 bitreset 2
+		trigger self script_lockout //no more moving
+		trigger ship_construct final_pos //no more xp for dmg/repair
+		trigger ship_sound stop        //go idle
+		startanimation 15 15 10 nolerp norandom //stop moving animations
+		wait 666
+		trigger game_manager gate_rockets //blow up entrance
+		trigger self run_incpos
+	}
+}

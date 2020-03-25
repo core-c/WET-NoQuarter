@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="cgame" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Release LUA OB">
+				<Option output="../../build/Release_LUA_OB/cgame.mp.i386.so" prefix_auto="0" extension_auto="0" />
+				<Option object_output="Release_LUA_OB" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Option createStaticLib="1" />
+				<Compiler>
+					<Add option="-march=i386" />
+					<Add option="-O2" />
+					<Add option="-m32" />
+					<Add option="-Wno-unused-value" />
+					<Add option="-ffast-math" />
+					<Add option="-finline-functions" />
+					<Add option="-fschedule-insns2" />
+					<Add option="-D__linux__" />
+					<Add option="-DNDEBUG" />
+					<Add option="-DCGAMEDLL" />
+					<Add option="-D_CRT_SECURE_NO_DEPRECATE" />
+				</Compiler>
+			</Target>
+			<Target title="Debug">
+				<Option output="../../build/Debug/cgame.mp.i386.so" prefix_auto="0" extension_auto="0" />
+				<Option object_output="Debug" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Option createStaticLib="1" />
+				<Compiler>
+					<Add option="-march=i386" />
+					<Add option="-g" />
+					<Add option="-m32" />
+					<Add option="-Wno-unused-value" />
+					<Add option="-ffast-math" />
+					<Add option="-finline-functions" />
+					<Add option="-fschedule-insns2" />
+					<Add option="-O0" />
+					<Add option="-D__linux__" />
+					<Add option="-D_DEBUG" />
+					<Add option="-DCGAMEDLL" />
+					<Add option="-D_CRT_SECURE_NO_DEPRECATE" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="../../build/Release/cgame.mp.i386.so" prefix_auto="0" extension_auto="0" />
+				<Option object_output="Release" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Option createStaticLib="1" />
+				<Compiler>
+					<Add option="-march=i386" />
+					<Add option="-O2" />
+					<Add option="-m32" />
+					<Add option="-Wno-unused-value" />
+					<Add option="-ffast-math" />
+					<Add option="-finline-functions" />
+					<Add option="-fschedule-insns2" />
+					<Add option="-D__linux__" />
+					<Add option="-DNDEBUG" />
+					<Add option="-DCGAMEDLL" />
+					<Add option="-D_CRT_SECURE_NO_DEPRECATE" />
+				</Compiler>
+			</Target>
+			<Target title="Release OB">
+				<Option output="../../build/Release_OB/cgame.mp.i386.so" prefix_auto="0" extension_auto="0" />
+				<Option object_output="Release" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Option createStaticLib="1" />
+				<Compiler>
+					<Add option="-march=i386" />
+					<Add option="-O2" />
+					<Add option="-m32" />
+					<Add option="-Wno-unused-value" />
+					<Add option="-ffast-math" />
+					<Add option="-finline-functions" />
+					<Add option="-fschedule-insns2" />
+					<Add option="-D__linux__" />
+					<Add option="-DNDEBUG" />
+					<Add option="-DCGAMEDLL" />
+					<Add option="-D_CRT_SECURE_NO_DEPRECATE" />
+				</Compiler>
+			</Target>
+			<Target title="Release LUA">
+				<Option output="../../build/Release_LUA/cgame.mp.i386.so" prefix_auto="0" extension_auto="0" />
+				<Option object_output="Release" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Option createStaticLib="1" />
+				<Compiler>
+					<Add option="-march=i386" />
+					<Add option="-O2" />
+					<Add option="-m32" />
+					<Add option="-Wno-unused-value" />
+					<Add option="-ffast-math" />
+					<Add option="-finline-functions" />
+					<Add option="-fschedule-insns2" />
+					<Add option="-D__linux__" />
+					<Add option="-DNDEBUG" />
+					<Add option="-DCGAMEDLL" />
+					<Add option="-D_CRT_SECURE_NO_DEPRECATE" />
+				</Compiler>
+			</Target>
+			<Target title="Release LUA OB HWGUID">
+				<Option output="../../build/Release_LUA_OB_HWGUID/cgame.mp.i386.so" prefix_auto="0" extension_auto="0" />
+				<Option object_output="Release_HWGUID" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Option createStaticLib="1" />
+				<Compiler>
+					<Add option="-march=i386" />
+					<Add option="-O2" />
+					<Add option="-m32" />
+					<Add option="-Wno-unused-value" />
+					<Add option="-ffast-math" />
+					<Add option="-finline-functions" />
+					<Add option="-fschedule-insns2" />
+					<Add option="-D__linux__" />
+					<Add option="-DNDEBUG" />
+					<Add option="-DCGAMEDLL" />
+					<Add option="-D_CRT_SECURE_NO_DEPRECATE" />
+					<Add option="-DHW_BAN" />
+				</Compiler>
+			</Target>
+		</Build>
+		<Unit filename="../../main/ui/menudef.h" />
+		<Unit filename="cg_atmospheric.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="cg_character.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="cg_commandmap.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="cg_consolecmds.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="cg_crash.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="cg_debriefing.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="cg_draw.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="cg_drawtools.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="cg_effects.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="cg_ents.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="cg_event.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="cg_fireteamoverlay.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="cg_fireteams.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="cg_flamethrower.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="cg_info.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="cg_limbopanel.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="cg_loadpanel.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="cg_local.h" />
+		<Unit filename="cg_localents.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="cg_main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="cg_marks.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="cg_missionbriefing.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="cg_missionmessages.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="cg_multiview.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="cg_newDraw.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="cg_particles.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="cg_players.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="cg_playerstate.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="cg_polybus.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="cg_popupmessages.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="cg_predict.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="cg_public.h" />
+		<Unit filename="cg_scoreboard.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="cg_servercmds.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="cg_snapshot.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="cg_sound.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="cg_spawn.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="cg_statsranksmedals.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="cg_syscalls.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="cg_trails.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="cg_view.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="cg_weapons.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="cg_window.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="cgame.def" />
+		<Unit filename="nq_client_help.h" />
+		<Unit filename="nq_help.h" />
+		<Unit filename="nq_server_help.h" />
+		<Unit filename="tr_types.h" />
+		<Unit filename="../game/base64.c">
+			<Option compilerVar="CC" />
+			<Option target="Release LUA OB HWGUID" />
+		</Unit>
+		<Unit filename="../game/bg_animation.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../game/bg_animgroup.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../game/bg_campaign.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../game/bg_character.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../game/bg_classes.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../game/bg_hwguid.c">
+			<Option compilerVar="CC" />
+			<Option target="Release LUA OB HWGUID" />
+		</Unit>
+		<Unit filename="../game/bg_hwguid.h">
+			<Option target="Release LUA OB HWGUID" />
+		</Unit>
+		<Unit filename="../game/bg_lib.c">
+			<Option compilerVar="CC" />
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="../game/bg_local.h" />
+		<Unit filename="../game/bg_misc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../game/bg_pmove.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../game/bg_public.h" />
+		<Unit filename="../game/bg_slidemove.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../game/bg_sscript.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../game/bg_stats.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../game/bg_tracemap.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../game/bg_weapons.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../game/crc32.c">
+			<Option compilerVar="CC" />
+			<Option target="Release LUA OB HWGUID" />
+		</Unit>
+		<Unit filename="../game/diskId32.cpp">
+			<Option target="Release LUA OB HWGUID" />
+		</Unit>
+		<Unit filename="../game/g_match_tokens.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../game/g_strparse.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../game/md5.c">
+			<Option compilerVar="CC" />
+			<Option target="Release LUA OB HWGUID" />
+		</Unit>
+		<Unit filename="../game/q_math.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../game/q_shared.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../game/q_shared.h" />
+		<Unit filename="../game/surfaceflags.h" />
+		<Unit filename="../game/xorcrypt.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../game/xorcrypt.h">
+			<Option target="Release LUA OB HWGUID" />
+		</Unit>
+		<Unit filename="../ui/keycodes.h" />
+		<Unit filename="../ui/ui_shared.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../ui/ui_shared.h" />
+		<Extensions>
+			<envvars />
+			<code_completion />
+			<debugger />
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

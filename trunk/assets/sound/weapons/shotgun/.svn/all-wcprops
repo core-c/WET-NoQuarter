@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/nq/!svn/ver/900/trunk/assets/sound/weapons/shotgun
+END
+shotgun_addshell.wav
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/nq/!svn/ver/850/trunk/assets/sound/weapons/shotgun/shotgun_addshell.wav
+END
+shotgun_lastshot.wav
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/nq/!svn/ver/850/trunk/assets/sound/weapons/shotgun/shotgun_lastshot.wav
+END
+shotgun_fire.wav
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/nq/!svn/ver/850/trunk/assets/sound/weapons/shotgun/shotgun_fire.wav
+END
+shotgun_far.wav
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/nq/!svn/ver/850/trunk/assets/sound/weapons/shotgun/shotgun_far.wav
+END
+shotgun_reloadpump.wav
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/nq/!svn/ver/900/trunk/assets/sound/weapons/shotgun/shotgun_reloadpump.wav
+END

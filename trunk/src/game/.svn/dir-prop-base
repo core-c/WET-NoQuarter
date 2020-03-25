@@ -1,0 +1,11 @@
+K 10
+svn:ignore
+V 86
+Debug
+Release
+Release LUA
+*.user
+~AutoRecover.game2008EE.vcproj
+Release LUA OB HWGUID
+
+END

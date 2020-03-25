@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/nq/!svn/ver/4189/branches/experimental/src/lua/Mac
+END
+lua_mac.zip
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/nq/!svn/ver/4189/branches/experimental/src/lua/Mac/lua_mac.zip
+END
+liblua5.1.a
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/nq/!svn/ver/4189/branches/experimental/src/lua/Mac/liblua5.1.a
+END
+liblua5.1.so
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/nq/!svn/ver/4189/branches/experimental/src/lua/Mac/liblua5.1.so
+END

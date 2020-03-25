@@ -1,0 +1,551 @@
+1.2.8 No Quarter - TOOL
+
+    * Bug fixes
+      ** Vanilla bug fix for tank gun not cooling off if player leaves tank
+      ** Vanilla bug fix for the riflenade glitch (repeating attach/detach of nade)
+      ** Vanilla bug fix for bloodspurts & smokepuffs when hitting a player
+      ** Vanilla bug fix for clients in intermission. No permanent requests are sent anymore
+      ** Old NQ bug fix for spectators seeing footkicking players when switching players
+      ** Fixed a very old bug concerning movements (you get a much nicer lagometer too) - see g_antiwarp 2
+      ** Fixed a potential crash reason; Now running stable
+      ** Fix for vibrating vehicles blocked by corpses, dead/playdead/proned players
+      ** Muting reworked - also fixed a shrubbot issue
+      ** Fix for forced cvars
+      ** Fix for Venom players keeping all picked up weapons
+      ** Fixed players use nextspawn if lack of spawnplaces
+      ** Spectator view correction when observing mg42/browning/BAR players
+      ** War-mode riflenades: players using riflenades no longer keep unmounting the nade after a shot
+      ** Fixed !launch behaviour when a player is proning
+      ** Fixed some issues in event code
+      ** NQ filter in server browser matches new mod path
+      ** !give skill for engineers was not working correctly
+      ** Clean up of asset pk3 - some sounds fixed
+      ** Fix of init screeny for cs_method 1 not disapearing while recording demos
+      ** Immune admins with shrubbot level '1' can no longer be vote_kicked and/or vote_muted
+      ** Fixed a bug where player didn't lose charge when holding adrenaline and calling arty
+      ** ++
+    * Weapons
+      ** Fixed a major issue with the weapon spread
+      ** Added the footkick as real weapon
+      ** Fixed some weapon properties broken in 1.2.7 for thompson/mp40/mg42 and sniper guns
+      ** Fixed MP34 random shaking
+      ** Fix for pitchAdd of several bullet weapons
+      ** Fix for poisoned players have granade automatically in hand
+      ** Map landmines use same damage values as planted mines of players
+      ** Usage of airstrike damage values from weap file
+      ** Fixed a problem on respawn with the riflenades
+      ** Weapon pick up reworked
+      ** Fix for very large impact trails in some cases
+      ** Fixed g_noAttacklInvul for the shotgun
+      ** Shotgun bullet code changes
+    * Bots
+      ** Omni-Bot 0.8 support - for full update list visit omni-bot.de
+      ** Added 2 new omnibot_flags for gibbing players after death and bots can use g_shove (was default in older versions)
+      ** ++
+    * Lua
+      ** ClientBegin called only once after the 1st player connection and is ETPro compatible now
+      ** et.ResetXP added
+      ** pers. hitregions added
+      ** Rest of session fields are available now
+      ** New Lua scripts - NOQ introduced
+      ** Fix for mute fields + added two functions to easily mute from Lua (with proper screen-messages)
+    * Changes - new features
+      ** New hitregion stats available in player stats of end game screen
+      ** Added a new fast (personal) message type for easy 'clan' messaging
+      ** Spectators following another player can see a working breathbar while that player is underwater
+      ** Map voting (gametype 6) added by request - many thanks to the ETPub team!
+      ** Added an icon to scoreboard for indicating muted players
+      ** Shrubbot banning checks for GUID and/or IP again ...
+      ** !banIP shrubbot cmd added - see wiki
+      ** New g_realism flags - (also see wiki,.. like You always do)
+        *** No auto weapon change if poisened and out of ammo
+        *** A script_mover removes items when driving over them (instead of pushing them)
+        *** Players on a rotating script_mover will rotate along with the mover
+        *** Changing view (looking left/right) will not increase spread
+        *** Rotating doors can be opened even while they are already closing
+      ** Added a new cvar 'g_unlockWeapons' to unlock weapons per class (was jp_insanity 128 before)
+      ** New Killer-View-Lock to lock the view to your last killer for an adjustable duration - see g_killerLockTime
+      ** New Killer-Cam to see the view of your last killer (overlay like a mortar-/missile-cam)
+      ** New Riflenade-Cam (like a mortar-/missile-cam) 
+      ** Build-in help system introduced. Call 'nqhelp' console-command for description on server-cvars (and more)
+      ** Stats do no longer count shots on dead bodies
+      ** Killing sprees are no longer updated for players in limbo
+      ** Rework of commandmap code
+      ** Rework of weapon-restriction code
+      ** Improved security
+      ** Optimizations in client- & server-code
+      ** g_defaultMute removed - kind of cvar waste - default mute is 5 min now - for longer mutes use param
+      ** g_trueping code changes
+      ** New g_antwarp method + setting added
+      ** Aura check changed to run twice a second (was 4 x before)
+      ** Rework of nq_war: New mode WARMODE_PLIERS (if pliers flag set - dynamite is available to do objectives)
+      ** Rework of missile cam code (more efficient usage of entities)
+      ** Ditched cpu_affinity
+      ** cg_noAmmoAutoSwitch option added - see wiki
+      ** Spectator icon added + proper centerprint killmessages for following spectators
+      ** Less spammy "landmine spotted" voice message
+      ** Class stealing message shows the class switched to, uniform stealing shows the name of uniform owner
+      ** Dog tags added (jp_insanity 128 now!) - dog tags are simply added to the game, use Lua field ps.stats[STAT_DOGTAGS] for your own fun mod creations 
+      ** New g_logoptions flag 1024 - Logs the IP and playername in some cases if guid logging is used (vsp-stats should be able to track again)
+      ** g_XPSaveFile removed - see g_XPSave flag 32
+      ** g_fastres moved to g_medics flag 4096
+      ** Non-campaign gametype modes will draw the (much nicer) "photograph" map-image + the long mapname in the intermission screen
+      ** ETPro like spawntimer added by request - - many thanks to the ETPub team!
+      ** Usage of any shrubbot cheat command is reported to the main chat
+      ** Aligned Info boxes of ping, fps etc
+      ** Removed some useless location files 
+      ** More code clean up
+      ** ++
+      
+
+1.2.7 No Quarter - MOONWALKER
+
+    * Better performance - several code loops and math functions are optimized
+    * Fixed an issue of potential crashes if client switched between mods
+    * General optimizations on string comparisons and spawning related entities
+    * Removal of some unused client cvars
+    * Removal of g_maxLevel<skill> cvars - 7 cvars saved - disable skills with skill_ vars
+    * Removal of G_SetAASBlockingEntity for real
+    * Log file prints client ip 	
+    * Location files update
+    * Adrenaline 
+    ** Fixed g_adrenaline - did not work properly
+    ** Adrenaline and chargebar are now in sync
+    ** Added new g_adrenaline flags for more flexibility (ADF_NOHEALTH & ADF_HALFDAMAGE) 
+    ** Adrenaline can be used seperately from class-specific weapons
+    * New g_medics bitflags
+    ** MEDIC_MIRRORHEAL - Medics get HP if (non-medic)teammates pickup their healthpack(s)
+    ** MEDIC_NOEXTRATEAMHP - More Medics in a team do NOT make the team get higher maxHP
+    ** MEDIC_ALLMAXHP - All playerclasses get 25 extra maxHP, independent of the # medics in a team
+    ** MEDIC_EXTRAHP - medics get 12% extra maxHP (or not)
+    ** MEDIC_NOREGENERATION - medics do not regenerate at all
+    * Configstring CS - fix of MAX_GAMESTATE error
+    ** g_csMethod introduced - see wiki for more infos!
+    ** Removed some useless vars from CS_SERVERINFO
+    ** Saved many CS chars depending on config and player count
+    ** /rcon csinfo cmd introduced - will help to debug max CS errors - check /csinfo 1 on your server ;)
+    * Bots
+    ** Call bot client connect event before clientuserinfochanged
+    ** No bot kicks from lua clientconnect (use bot cmds!)
+    ** Fixed wrong GUID in !listplayers output when following a bot
+    ** Fixed axis usage of mortar goals and allies usage of mobile mg42 goals,
+    ** Returned latched player class always in _GetEntityClass
+    ** Same name of bots and one bot stays as spec bug fixed, install new game-manager.gm see omni-bot.de
+    ** Small bot interface performance improvement
+    ** Bots may use akimbo guns if light weapon skill 4 is reached (bot dual weapon scripts need update) 
+    ** omnibot_flags 16 - bots will target ungibbed players 
+    * g_shortcuts
+    ** [p] is working for spectators again
+    ** [b] added: last teammate who damaged you
+    ** [c] added: the damage the last teammate did to you
+    ** [x] added: the last (non-bot) client that connected
+    ** [m] added: the last teammate who called for a medic
+    ** [f] added: the last teammate who called for a fieldops (ammo)
+    * Weapons rework
+    ** Several *.weap file fixes and extensions
+    ** New bullet code, whizzsounds introduced see cg_whizzSounds
+    ** Fixed scoped/binocs view - stays on while watching scoreboard or automap	
+    ** Fix for selecting the last used weapon after throwing airstrike or using satchel_det
+    ** Fixed active scoped weapons lost scoped-view too soon when still walking (not running)
+    ** Fixed a satchel shot count bug
+    ** g_simpleBullets introduced
+    ** team_maxLMGs and team_maxScopes introduced to get more weapon control
+    ** More weaponstats: current spree, best spree, (hs/hits) headshot precentage
+    ** Fix for soldier level 4 with an extra SMG did not get his thompson/mp40 back after shooting a panzerfaust/bazooka
+    * Lua
+    ** Implemenation of some missing ETPro compatible functions
+    ** New NQ function et.G_XP_Set ( clientNum , xp, skill, add )
+    ** ETWsk script adapted & extended (tu Benny!)
+    * Fixed an issue with explosions
+    * Fixed playdead bug - mounting tank while playing dead
+    * Map/Mappers fixes
+    ** Added the mu_X script cmds again
+    ** Fix for double triggering of explosives in maps
+    * Players are able to push in spawn again
+    * Prepare to fight announcer is played 4 seconds before start
+    * Killing spree / multikill announcments on top of screen
+    * Restriction code optimized
+    * g_falloff
+    ** Improved code for consistent damage falloff over distance
+    ** Extended g_falloff for body shots too - see wiki
+    * Scoreboard view shows chat again
+    * New reconnect entry in the menu 
+    * HUD
+    ** Added class icon instead of a short class name on following players
+    ** Added client option to display (prim+sec) weapons of players you are spectating (cg_drawCarryWeapons)
+    ** Graphical obituaries name drawing can be swapped (for consistency with the textual obituaries)
+    ** If holding a heavy weapon, display the HW skill level in HUD (otherwise LW)
+    ** Stamina bar also displayed for spectated players
+    * Fade in/out over-head names 2x faster - code reworked
+    * Mission/objective announcements can be disabled completely
+    * Shrubbot flag g was used twice (!gib & !disguise) - new flag for disguise is 'T' 
+    * !give
+    ** Added more options to the cmd
+    ** !give health zombie fix
+    * !shuffle sort order changed
+    * Option to disable lean added - see g_realism 
+    * New insanity mode Kicking dynamite - don't use this on bot servers. Standard bot scripts might don't deal with it!
+    * New headshot modes
+    ** g_headshot 2 - one shot kills
+    ** g_headshot 3 - one headshot kills, bodyshots do normal damage
+    * New client cvar for weapon handling (choose your favorite weaponbank)
+    * Rework of forcedCvar & sv_cvar modification
+    ** Added a server cvar g_ForceCvarFile to let admins set up a single config file
+    * Additional feature of covert ops 'Stealthy Movement' lvl6 skill - reload without leaving scoped view
+    * Covert ops can detach the silencer from a pistol, and drop the pistol
+    * Soldier level 4 can drop/pickup weapons correctly
+    * New cvar nq_war
+    ** Panzerwar, sniperwar, knifewar, riflewar, shotgun, nades, flamethrower, and more...
+    ** Mixed wars with custom selection of weapons/tools (g_knifeonly is removed)
+    * Several new awards added & intermission scrollbar to view all.
+    * New feature: automatically reduce spawntimes when playercount is below a given limit (g_spawntimeMinPlayers)
+    * lookdown & lookup commands removed (used in anti-recoil scripts)
+    * More death animations used (especially noticable with g_fastBackStab enabled and selfkills)
+    * Message displayed if a player becomes the new leader of a fireteam.
+    * No bots-only fireteam will exist
+    * Executioner icon for teammates removed
+    * Fix for unmuting players if name is changed
+    * Removed the big text "SPECTATOR" - Extended chat area for specs.
+    * Resuscetation sound activated
+    * xp rewards changed: syringe revive = 2 xp - syringe heal when <25% hp = 3 xp - resuscetation = 4 xp
+    * New server var team_maxIsPercentage added - constant or percentage values for team_maxX vars - see wiki
+    * Added an announce for own made kills - changed cg_spreeAnnouncer to cg_killAnnouncer (see wiki).
+    * !spec999 moves players with ping 500-999 into spec (was 999 only before)  
+    * Install path changed for several reasons (after very long discussion)	
+	
+1.2.5 No Quarter - MOONSHOT
+
+    * Added sounds for field ops artillery/airstrike option
+    * Aura radius and sprite fix
+    * Bot rework
+    ** Merged latest omnibot updates
+    ** Bot modname and modversion fix
+    ** Bot event chat fix
+    ** Bots use all available landmines now
+    ** No kick for bots if teamkill restriction is reached
+    ** Rework of bots weapon charge
+    ** Fixed an issue where bots connect with same name
+    ** Bots are ingnored for potential kicks
+    * General cleanup
+    ** Old bot code removal part II
+    ** Unused cvar/cmd/code clean up (biggest cleanup ever!)
+    ** 37! sound & message spree cvars removed
+    ** SAVEGAME_SUPPORT removed as it was never used
+    ** GAMERANGER code removed
+    ** More MV code excluded
+    * yadas' client crash log
+    * Dogtags icon for upcoming versions (NEED MD3 modell if this will be real)
+    * Fixed !disguise bug
+    * Menu callvote shuffleteamsxp_norestart fix
+    * !dw (drop weopons) shrubbot cmd added
+    * CPU usage server side fix on player_die & calculateranks
+    * Menu callvote poll fix
+    * Callvote exploit security fix !!!
+    * Lua API implementation - thx to ETPub team !!!
+    ** ETPro announce log behavior
+    * Option to use different Lua libs (f.g. Lua-SQL, Lua-Socket ...)
+    * Hopefully fixed an issue with script actions
+    * !showbans negative parameter fix from C3PEG4
+    * General sound rework
+    ** Lost arty awareness sound activated
+    ** fxSounds fixed
+    ** Sound loading infos added
+    ** New vote sound added
+    ** Unused sounds removed
+    ** New 'caching' code
+    ** Optional sound in case of shrubbot player kick/ban
+    ** Missed world game & item sounds added
+    * The campaign string is no longer filled up for nuts
+    * Loose of disguise if jp_insanity 128 is set for all modes
+    * Tweak menu fix & rework (now contained com_hunkmegs setting)
+    ** NOTE: If you use a costum ui menu you may need to update this!
+    * !freeze update
+    ** g_slashkill 128 - slash kill is blocked if player is frozen
+    ** Frozen players are not allowed switching the team anymore. Players are frozen for real untill !unfreeze is called or map inits.
+    * jp_insanity 1024 - displays attacker's HP & distance
+    * Extended accum operations make life much easier for mapscripters
+    * Removed g_realism 4 - drop weapons if poisoned
+    * Added new medic skill 8 - improved poison needles
+    * Medic skill 8 - improved poison needles (poison drops weapons)
+    * g_medics 
+    ** Flag 16 is fixed 
+    ** New anti medic rambo options - see flags > 64
+    ** New default value: medics don't get 12% extra HP
+    * New awards
+    ** Kick Ass - most kills with the foot. Poison and kick'em :P 
+    ** Panzernoob - most self- & teamkills with panzer. Kick'em as well (from server!) 
+    ** Doctor Overdose - most poison kills 
+    ** War Hero - most objectives done
+    ** Best Medic
+    ** Best Engineer
+    * Extended personalized announcers - show who did it
+    * Fixed some engine and security related issues (remapShader fix)
+    * Added the etpro mapscript delete statement
+    * Rework of some events
+    * Rework of some math and other often called functions
+    * Dens' sanity checks for userinfo
+    * New 'caching' code for models
+    * Aura and InPVS is disabled per default - watch g_realism 8
+    * g_SBCheats removed - all affected commands require g_tyranny now
+    * Small fix for g_canisterKick
+    * Spectator rework
+    ** Follow player bug fixed
+    ** Holding SPRINT-key while clicking mouse will cycle through human players only (skips bots)
+    * !listteams reactivated
+    * Chargebar feedback changed - two separate icons show the status of arty & airstrike now
+    * FX TYPE FABRIC implemented
+    * Weapons
+    ** Overwork of weapon code and *.weap files
+    ** Fixed an issue of weapon cooling
+    ** Added some alt weap sounds
+    ** Dropped weapon ammo fix - in some cases there was no ammo given
+    ** Damage of some explosive weapons (landmines etc) slightly increased to kill full skilled medics
+    ** Stats fix for some weapons - acc & kill count f.g. shotgun and satchel
+    ** Skill fix for the shotgun - lower light weapon skills have less spread again
+    ** Browning 3rd person model fix
+    ** Code optimization for special weapons like landmines, satchel etc.
+    * Count selfkill as death
+    * Rework of some menu files and new credits menu added
+    * Fixed an issue with team_maxriflegrenades if jp_insanity 128 is set
+    * Display   
+    ** Playernames are colored in follow/deploy text now
+    ** Added cg_smallFont to set client text font size (0 is common size)
+    ** Character head animation fix
+    * Fixed some shrubbot mute/ban issues 
+    * New shrubbot cmd !banguid to ban players offline added
+    * Fixed airstrike can kicking and owner swapping causing wrong kills
+    * Increased some limits for menus (some huge soundpacks did not work)
+    * Added some "new" animations (in code but never used before)
+    * cg_spectator introduced
+    * g_adrenaline 32 has new effect
+    * Locations
+    ** Rework of location code
+    ** Latest location files added - tu Antman !!!
+    * Optimization  of G_Spawn() & G_FreeEntity()
+    * Allies gloves color fix
+    * Scoreboard
+    ** Removed background 2D on ingame scoreboard view
+    ** Intermission scoreboard changed - it displays more names
+    * Personal messages added to the send message window - use personal and target to send a pm
+    * Introduced client & server cvar cpu_Affinity - option to set affinity on SMP systems
+    * Changed NQ licence + NQ won't start on 2.55 based installations anymore - it's about getting them to move forward a bit & was never supported anyway
+    
+1.2.3 No Quarter - REACTIVATED
+
+    * Removed stun realism (4) from g_realism cvar
+    * Added g_realism 4 - Drop weapons if poisoned
+    * Fixed g_inactivity and g_spectatorInactivity - no mare AFK players except if the  shrubbot flag "0" -Player cannot be automatically kicked or put spec due to inactivity- overwrite it via adminlevel
+    * jp_insanity 512 - added fun mode which displays attacker's HP on every kill with headshot weapon
+    * Added a new skill: Battle Sense 9 - Battlefield Briefing (arty awareness) skill. Similar to grenade awareness.
+    * Fixed XP overflow bug (negative Xp values in HUD)
+    * Added omnibot 0.71 support
+    ** Bots receive chat events now
+    * Reworked shuffle (more info here: http://www.splashdamage.com/forums/showthread.php?t=5880)
+    * Fixed "Lag bug" when pmove_fixed = 1
+    * Display the reason and expiration to banned players when they try to connect
+    * Prevent "empty player name" bans when editing the name in the game options menu
+    * Added missing team_panzerRestriction cvar. 
+    * Fixed the basic code. Cleared & tons of old bot code and unused vars removed 
+    * Added first headshot message similar to first blood
+    * Send private message sound as new event type 
+    * Shotgun usage improvments
+    * Do not allow to kick with Bazooka/Panzerfaust (mainly because of retarded animation) 
+    * Fix for g_trueping 1 - antiwarp disabled if gamestate is intermission
+    * Fixed poison time when a !poison admin command is used
+    * Added new shrub flag "?" to control the adminlevels allowed to call a vote
+    * Added extra g_adrenaline flags to control who is allowed to use adrenaline (cvars are: SOLDIER 128, MEDIC 256, ENGINEER 512, FIELDOPS 1024, COVERTOPS 2048)    
+    * Improved NQ and UI ingame menu
+    * Added ingame tweak menu 
+    ** Added vote variables to the config files and extended the ingame vote menu
+    ** popupfilter option
+    * Added hidden sounds to chat menu
+    * Location files added and set to view on client as default for new players (NQ regulars have to set this) - thx antman!
+    * Added mapfixes/missing textures/missing md3 files for different maps
+    * Fixed the voice tone of the announcers/general sound update
+    * Added/Fixed countless visual updates
+    ** Only one assets pk3 is needed 
+    ** The non working/not used body and face textures are now available
+    ** Team based colored stuff
+    ** NQ's iron cross model instead of wolfy logo on the textures
+    ** Mirrored truck glass etc.
+    ** added dogtags icon for upcoming nq version
+    ** added class symbols to the axis clothes like the original game have
+    ** added aura sprite icons for the aura skills
+    ** Assets cleaned from unused files
+    ** NOTE: If you use costum skin/sound pack or ui menu you may need rework your pack!
+    * Added the latest bug/cheat fixes to the 6 official maps, more map fixes added to fun pack. For more info see the readme.txt in the maps directory of pk3 file.
+    * 4 missed cvar (g_teamDamageRestriction, g_minHits, g_autoTempBan, g_autoTempBanTime) added to the config list 
+    * Removed cvar g_shotgunPellets
+    * Removed colored smoke features and cvars g_smokeColor_Allies, g_smokeMod_Allies, g_smokeColor_Axis, g_smokeMod_Axis
+    * Reordered cg_skillViewOptions, added new flag to control visual effect for new Battlefield Briefing skill
+    * Fixed !nade overflow bug (thanks to patheticcockroach for the patch)
+    * Fixed crash bug with !showbans shrubbot command
+    * Fixed missile cam rendering with exploding barrels
+    * Fixed an issue with /give disguise
+    * Sweep for landmines CPU improvement fix 
+    * Fixed aura skill - the teamwork will be rewarded
+    * Popup message icons fixed
+    * fixed an issue with the menus
+    
+1.2.0 No Quarter - GOING UNDERGROUND
+
+    * Fixed some aura issues
+    * Add flag 64 for g_slashkill, this stops in-fight selfkill.
+    * Don't display negative health values for shortcut [s].
+    * send alt weapon switch as event instead of just predicting it.
+    * Options to draw/hide ping and country-flags added.
+    * BOT in scoreboard justified to get space for high XP values.
+    * Set lastrevive_client(for shortcut [r]) also when a player was healed with syringe.
+    * Removed support for multiple weapon script directories.
+    * Rework of killing spree code.
+    * Add pop-up message filtering using cg_popupMessageFilter .
+    * Don't show lives left in scoreboard when g_maxlives is not used.
+    * Error messages extended.
+    * Added team_panzerRestriction, a feature similar to et_admin mod's Panzer Pussy.
+    * Force group read/write permissions of .xp files.
+    * Fix wrong display of friendlyfire when g_friendlyfire is >1 (issue #26).
+    * Fixed possible segmenation fault.
+    * Made g_knifeonly really knife only mode. No pliers, dyno, arty, airstrikes or syringes anymore.
+    * Buffered print shrubbot fix.
+    * Added flag 64 to g_friendlyFire: Landmines hurt teammates when general FF is disabled.
+    * Fix wrong slot/name matching in several commands.
+    * Added CVARs to enable GeoIP serverside and clientside.
+    * Fixed HUD display to show large XP values.
+    * Added MCWF's GeoIP patch.
+    * Fixed an issue with unmuting auto-muted players.
+    * PM message sound added.
+    * First blood message and sound.
+    * Bots don't vote fix.
+    * Players with bad ASCII named not allowed to connect (thus fixing many issues).
+    * Improvements of bot XP save.
+    * 5 XP penalty for poisoning a teammate.
+    *  !putteam changed to !put (get used to it).
+    * Max fireteam members decreased to 6 (Really, who uses 8? It just messed up the HUD).
+    * Integrated ETPro antiwarp.
+    * Changed WP_FG42_SCOPE back to WP_FG42SCOPE for logging purposes (vsp)
+    * Fixed bot FF hitsound exploit.
+    * Omnibot 0.66 support
+    * Added Jaymod style double jump with g_doubleJump 2.
+    * Fixed full revive syringe color. Was checking for Signals level 3 not First Aid. 
+
+1.1.1 No Quarter
+
+    * Fixed a client-side command from etmain that can be abused to crash servers.
+    * Removed g_HQMessages, was way too annoying.
+    * Optimized shotgun animations a bit. Looks much the same and uses a whole 1MB less of hunkmegs.
+    * Added several new features to weapon scripts.
+    * Added some of the new client commands from 1.1.0 to NQ menus.
+    * Fixed lagometer display not working in NQ menu.
+    * Fixed server crash if unmuting a player (with a reason) who was not muted to begin with.
+    * Fixed flood protection not working bug.
+    * Optimized the shit out of string access to improve performance.
+    * Firebolt mode removed.
+    * Omnibot 0.6 integration.
+    * Forty's landmine fixes and improvements.
+    * Improved greatly g_painAnims. ( changed to g_realism 4 )
+    * Fixed reflected bullets direction. 
+
+1.1.0 No Quarter
+
+    * Ditched g_grenadeBonus and built it in to certain levels. Lowered grenade count for high levels.
+    * Level 6 First Aid - Full Payload - gives extra supplies (nades and needles) to medics.
+    * Changed Level 7 Covert Ops to "Recognition Disruption".
+    * Removed main menu "No Quarter" music, as it infringed copyrights of the band Tool and Led Zeppelin. It also reduces the main pk3 file by 4mb, which is nice.
+    * Fixed crashes with certain new ETPro maps scripts, such as Fueldump for ETPro 3.2.6.
+    * Removed Level 9 Battle Sense - Field Dressing - as it was very unfair.
+    * Added surface lodging for throwing knives. Knvies will now stick into softer surfaces, like wood, while deflecting off of stone, metal and harder surfaces. Also, it will still bounce off of wood and softer surfaces if the angle is not right, just like in real life.
+    * ETPro style shoving - shove uses player's aim vector, so you can boost properly. Shove sound option handled by clients.
+    * Fixed first time NQ menu not showing any values when no map is loaded.
+    * Added Level 6 Signals - Ammo Sensory skill to see teammates current ammo.
+    * Fixed missing campaign description bug.
+    * Ditched Helmet Chin Strap skill after numerous "medics take 8-14 headshots to kill" complaints.
+    * Level 9 Battle Sense - Field Dressing - rengerate by crouching to rest for a while. Demoted other NQ Battle Sense skills by 1.
+    * g_XPSaveFile replaced with g_XPSaveDirectory for new XP save method.
+    * Remade XP Save! XP Save over multiple servers is now fully supported and safe to implement.
+    * Unlagged poison syringe.
+    * Added g_adrenaline CVAR to customize behavior of adrenaline.
+    * Aura sources ( level 5 Medics, Field Ops, Engineers ) have a visual effect beneath them, can disable with cg_drawAuraIcons.
+    * Inspire morale improved, while under effect of it, stamina is drained 2x slower and recharged 3x faster than normal.
+    * Level 9 Battle Sense - Danger Awareness - nearby grenades shown on HUD.
+    * Level 8 Battle Sense - Dynamite Prediction - dynamite health timer on enemy dynamites.
+    * Yet another shove kill improvement, fixed a knockback on flat ground did not clear shoved flag ( so who hit latest get a kill if player suicided from his free will by jump ).
+    * Added waypoints working within fireteam.
+    * Added class icon and rank icon options to cg_drawCrosshairNames.
+    * Added automatic fireteam buddy selection.
+    * Remade playdead to be more realistic - plays death animation and revive animation as transition animations, view in first person which you can look around to an extent( other players can see your head turning ).
+    * Fixed fast backstabs in warmup.
+    * Removed all ETPub g_spectator flags except 1st, also removed dynamic lights flags.
+    * Fixed 1st person weapon animation glitches. (like first time switching to knife).
+    * Forced death anims to be ended instead of being cut.
+    * Fixed knife headhots.
+    * Demoted Level 8 First Aid and Level 8 Signals to Level 7.
+    * Fixed poison icon height.
+    * Fixed homing missiles flying erratically.
+    * Added backpack to gib effect.
+    * Server installation notification changed, bad version notification appears only once 5 minutes, uncolored, others are colored depending on their priority ( missing files red, wrong fs_game uncolored, old binaries yellow )
+    * Increased foot kicking damage.
+    * Improved door kicking - faster, always smash player who would block it.
+    * XP displayed for spectators in scoreboard.
+    * Updated scorebard stripes with colors.
+    * Fixed guided rocket movement. No longer turns by itself!
+    * Changed g_HQMessages to be off by default.
+    * Fixed shotgun/venom limiting depending on panzer limits.
+    * Fixed Mobile Browning out of stock not displayed in Limbo Menu.
+    * Fixed missile cam problems ( portals were not working right, was not drawing static gamemodels and coronas ).
+    * Fixed missile cam with flamethrowers.
+    * Level 8 Light Weapons - Throwable Knives added.
+    * Fixed ETPro .config files ( init was parsed everytime, and default was not parsed at all ).
+    * Fixed nVidia command map issues, (thanks ReyalP).
+    * Fixed/improved compass clipping.
+    * g_friendlyFire 0 support for poison.
+    * Added item physics for underwater.
+    * Readded ETPub g_medics flags.
+    * Level 8 First Aid - Health Pack Delivery - resupply health stands.
+    * Level 8 Signals - Ammo Pack Delivery - resupply ammo stands.
+    * ETPro style asterisk in fireteam overlay.
+    * Fixed cg_fireteamoverlay 0 turning off right clocks/displays.
+    * Fixed poison stats.
+    * Fixed flamethrower stats ( insane accuracy ).
+    * Fixed shove/knockback kills XP reward.
+    * Implemented a new file downloading UI. 
+
+1.0.4 No Quarter
+
+    * Kicking with your foot!!! ( kinda similar to RTCW SP kick ), but it immobilizes you, it might kick grenades away, and it uses much better code than RTCW did. bind +kick or bind it through the No Quarter menu to perform it.
+    * Redone poisoning - you now gain on 7th LW level a poison needle ( weapon bank 1 ), with that you can stab players in order to poison them, while the screen effect of poisoned player is still the same, damage is now gradual, and more stabs will make it faster, "ungibbed" players still remain poisoned until they are "gibbed" by it or somebody use a medic needle to them, which is now only way to cure poison ( only medic syringe heals it, medpacks won't help you anymore )
+    * no hitsounds for poison
+    * improved shove/knockback kills ( shoving/kicking/nading somebody into a hole will give you a kill )
+    * fixed single jump prediction error!!! ( sticking into grounds )
+    * execution now kills everytime ( no way to survive it )
+    * coronas are no longer server entities if they don't need to be ( 95% of them don't ) , it will use less brandwith, and make place for other entities on server
+    * player inactivity used only on full servers now
+    * improved g_canisterKick ( it now can be kicked over slopes, and it is used only by new +kick attack )
+    * bullets now fire through gibbed bodies, except venom ones ( it gibs instead )
+    * secondary selection should now be persistant (akimbo selection bug!)
+    * helmet armor skill (as level 9 battle sense) has been moved to level 9 heavy weapons, and will be for soldiers only. Previous levels 7, 8, 9 heavy weapons are demoted a level.
+    * added HQ voice messages. HQ will give you info on what to do. g_HQmessages 0 to disable. 
+
+1.0.3 No Quarter
+
+    * fixed mute command functionality
+    * class autoexec - used wrong filenames and was executed on spectator as well
+    * playonline menu - wrong filter drawing
+    * fixed uniform models - '!give <player> <team> (axis/allied in this case) <class> <uniform>' spawns them eg ( !give ETPlayer Allied Field Ops Uniform ). they can be placed to maps from spawners or themselfs as item_<team><class>uniform ( eg. item_alliedFieldOpsUniform )
+    * fixed missile camera problems and made it smoother
+    * fixed a crash while using demo playback
+    * added custom vsay support (/bind o vsay Move Moo!)
+    * fixed some crash info still printing into server log
+    * split XP awarded to BAR and StG44 between heavy weapons and light weapons, (1XP to heavy, 2XP to light, per kill).
+    * added level 8 heavy weapons - Improved Strength - flamethrower no longer slows down if attacking, and other heavy weapons slows down only a bit
+    * added sv_cvar, sv_cvarempty, forcecvarempty, loadconfig, reloadconfig
+    * redid forcecvar functionality
+    * changed Artillery Spammer award from most arty kills, to most arty calls
+    * added etpro configs support
+    * added preliminary TWL config support
+    * added reloading by weapAlt ( cg_weapAltReload )
+    * added class limiting (team_maxSoldiers...)
+    * added serverside bad installation notifications, so stupid people who don't read installation instructions know they installed the mod wrong. 
+
+1.0.2 No Quarter
+
+    * Initial Release 

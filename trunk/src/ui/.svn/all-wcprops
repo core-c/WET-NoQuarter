@@ -1,0 +1,107 @@
+K 25
+svn:wc:ra_dav:version-url
+V 34
+/svn/nq/!svn/ver/5759/trunk/src/ui
+END
+ui.vcproj
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/svn/nq/!svn/ver/5759/trunk/src/ui/ui.vcproj
+END
+ui.cbp
+K 25
+svn:wc:ra_dav:version-url
+V 41
+/svn/nq/!svn/ver/5066/trunk/src/ui/ui.cbp
+END
+ui_shared.c
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/nq/!svn/ver/5358/trunk/src/ui/ui_shared.c
+END
+ui2005.vcproj
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/nq/!svn/ver/5759/trunk/src/ui/ui2005.vcproj
+END
+ui_shared.h
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/nq/!svn/ver/5705/trunk/src/ui/ui_shared.h
+END
+keycodes.h
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn/nq/!svn/ver/3356/trunk/src/ui/keycodes.h
+END
+ui_atoms.c
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn/nq/!svn/ver/5491/trunk/src/ui/ui_atoms.c
+END
+ui_public.h
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/nq/!svn/ver/3356/trunk/src/ui/ui_public.h
+END
+ui.dsp
+K 25
+svn:wc:ra_dav:version-url
+V 41
+/svn/nq/!svn/ver/3101/trunk/src/ui/ui.dsp
+END
+ui_main.c
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/svn/nq/!svn/ver/5634/trunk/src/ui/ui_main.c
+END
+ui2008EE.vcproj
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/nq/!svn/ver/5759/trunk/src/ui/ui2008EE.vcproj
+END
+ui_gameinfo.c
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/nq/!svn/ver/3356/trunk/src/ui/ui_gameinfo.c
+END
+ui.def
+K 25
+svn:wc:ra_dav:version-url
+V 40
+/svn/nq/!svn/ver/411/trunk/src/ui/ui.def
+END
+ui2010.vcxproj
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/nq/!svn/ver/5759/trunk/src/ui/ui2010.vcxproj
+END
+ui_syscalls.c
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/nq/!svn/ver/5396/trunk/src/ui/ui_syscalls.c
+END
+ui_local.h
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn/nq/!svn/ver/5540/trunk/src/ui/ui_local.h
+END
+ui_loadpanel.c
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/nq/!svn/ver/5490/trunk/src/ui/ui_loadpanel.c
+END

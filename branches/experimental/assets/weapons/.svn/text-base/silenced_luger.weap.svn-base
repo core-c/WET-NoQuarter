@@ -1,0 +1,89 @@
+weaponDef
+{
+	both {
+		name					"Silenced Luger 9mm"
+		statname				"Luger"
+		damage					18
+		spread					600
+		spreadRatio				0.4
+		SpreadScaleAdd			20
+		viewchange2spread
+		CrouchSpreadRatio		0.6
+		ProneSpreadRatio		0.6
+		recoilDuration			100
+		recoilPitch				0.45
+		recoilYaw				0.0
+		selfKillMessage			"found a way to shoot himself!"
+		KillMessage				"was silently killed by"
+		KillMessage2			"'s Luger."
+		headshotWeapon
+		bulletReflection
+		DistanceFalloff
+	}
+
+	client {
+		standModel				"models/weapons2/silencer/silencer_stand.mdc"
+		pickupModel				"models/weapons2/luger/silencer_pickup.md3"
+		bounceSound				"sound/weapons/weaponbounce.wav"
+		clipBounceSound			"sound/weapons/clipbounce.wav"
+		
+		weaponConfig			"models/weapons2/silencer/weapon.cfg"
+		handsModel				"models/weapons2/silencer/v_silencer_hand.mdc"
+		
+		flashDlightColor		1.0 0.6 0.23
+		flashSound				"sound/weapons/luger/luger_silence.wav"
+		
+		reloadSound				"sound/weapons/luger/luger_reload.wav"
+		reloadFastSound			"sound/weapons/luger/luger_reload_fast.wav"
+		switchSound				"sound/weapons/misc/silence_on.wav"
+		
+		weaponIcon				"icons/iconw_silencedluger"
+		weaponSelectedIcon		"icons/iconw_silencedluger_1_select"
+		weaponIconScale 		2
+		
+		ejectBrassFunc			"MachineGunEjectBrass"
+		brassmodel				"models/weapons2/shells/9mmshell.md3"
+
+		firstPerson {
+			model				"models/weapons2/silencer/v_silencer.md3"
+
+			weaponLink
+			{
+				part 0
+				{
+					tag			"tag_barrel"
+					model		"models/weapons2/silencer/v_silencer_barrel.mdc"
+				}
+				part 1
+				{
+					tag			"tag_barrel2"
+					model		"models/weapons2/silencer/v_silencer_barrel2.mdc"
+				}
+				part 2
+				{
+					tag			"tag_barrel3"
+					model		"models/weapons2/silencer/v_silencer_barrel3.mdc"
+				}
+				part 3
+				{
+					tag			"tag_barrel4"
+					model		"models/weapons2/silencer/v_silencer_barrel4.mdc"
+				}
+				part 4
+				{
+					tag			"tag_barrel5"
+					model		"models/weapons2/silencer/v_silencer_barrel5.mdc"
+				}
+				part 5
+				{
+					tag			"tag_barrel6"
+					model		"models/weapons2/silencer/v_silencer_barrel6.md3"
+					}
+			}
+		}
+		
+		thirdPerson {
+			model				"models/weapons2/silencer/silencer.md3"
+		}
+	}
+}

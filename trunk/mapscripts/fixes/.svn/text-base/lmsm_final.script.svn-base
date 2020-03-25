@@ -1,0 +1,952 @@
+// Le Mont St michel Scripts
+game_manager
+{       
+        spawn
+        {
+		wait 200 
+
+
+		
+		// Game rules
+		wm_axis_respawntime	20
+		wm_allied_respawntime	20
+		wm_number_of_objectives 8
+		wm_set_round_timelimit	30
+
+		
+
+		// Current main objectives for each team (0=Axis, 1=Allies)
+		wm_set_main_objective		1	0
+		wm_set_main_objective		1	1
+
+		wm_objective_status 1 0 0 //church  *
+		wm_objective_status 1 1 0 //church  *
+		//wm_objective_status 2 0 0  //allied negotiate defences *
+		//wm_objective_status 2 1 0  //axis defences *
+		wm_objective_status 3 0 0 //blow  abbey doors *
+		wm_objective_status 3 1 0  //protect abbey doors *
+		wm_objective_status 4 0 0  //Abbey spawn built *
+		wm_objective_status 4 1 0  //Prevent Abbey Spawn *
+                wm_objective_status 5 0 0  //allies breach back door
+		wm_objective_status 5 1 0
+		wm_objective_status 6 0 0  //allies stolen document *
+		wm_objective_status 6 1 0 //allies stolen document * 
+		wm_objective_status 7 0 0
+		wm_objective_status 7 1 0  //allies escaped with document
+            	wm_objective_status 2 0 0  //abbey defences
+		wm_objective_status 2 1 0  
+
+		wm_set_main_objective		1	0
+		wm_set_main_objective		1	1
+
+		// Stopwatch mode defending team (0=Axis, 1=Allies)
+		wm_set_defending_team	0
+
+		// Winner on expiration of round timer (0=Axis, 1=Allies)
+		wm_setwinner	0
+
+		wait 500
+		setautospawn	"Town"	0
+		setautospawn	"Town"	1
+                setstate abbeyspawn_wobj invisible 
+
+                accum 1 set 0  // documents stolen & escaped?
+		accum 2 set 0  // documents stolen
+
+		// start triggered loops on/off as required (eg: command post radio sounds)
+	//	disablespeaker allies_compost_sound
+	//	disablespeaker axis_compost_sound
+	//	disablespeaker allies_compost_sound_lms
+	//	disablespeaker axis_compost_sound_lms
+
+		wait 2000
+
+		// *----------------------------------- vo ------------------------------------------*
+		
+		wm_addteamvoiceannounce 0 "axis_hq_compost_construct"
+		wm_addteamvoiceannounce 1 "lmsm_allies_detroy_entrance_tell"
+
+
+		
+		wm_teamvoiceannounce 0 "axis_hq_compost_construct"
+                wm_teamvoiceannounce 1 "lmsm_allies_detroy_entrance_tell"
+
+
+		// *---------------------------------------------------------------------------------*
+	}
+ 	
+
+
+
+	trigger objective7 
+	{
+		accum 1 set 1
+		wm_announce "Allied team have escaped with the documents!"
+		wm_objective_status 7 1 1
+		wm_objective_status 7 1 2
+		trigger game_manager checkgame
+	}
+
+	trigger axis_object_stolen
+	{
+		wm_objective_status 6 1 1
+		wm_objective_status 6 0 2
+		accum 2 set 1
+		wm_announce   "Allies have stolen the documents" 
+	}
+
+	trigger axis_object_returned
+	{
+		wm_objective_status 6 1 0
+		wm_objective_status 6 0 0
+		accum 2 set 0
+		wm_announce   "Axis have returned the documents" 
+	}
+
+
+	
+	trigger checkgame
+	{
+		accum 1 abort_if_not_equal 1
+		wm_setwinner 1
+		wait 1500
+		wm_endround
+	}
+
+}
+
+docs
+{
+	spawn
+	{        
+	}
+
+	trigger stolen
+	{
+		
+		trigger game_manager axis_object_stolen
+
+		
+	//	wm_teamvoiceannounce 0 "axis_hq_objective_taken"
+         //       wm_teamvoiceannounce 1 "allies_hq_objective_taken"
+
+		
+	}
+
+	trigger returned
+	{
+
+		trigger game_manager axis_object_returned
+
+	//	wm_teamvoiceannounce 0 "axis_hq_objective_secure"
+       //         wm_teamvoiceannounce 1 "allies_hq_objective_lost"
+	}
+
+	trigger captured
+	{
+
+	//	wm_teamvoiceannounce 0 "axis_hq_objective_lost"
+        //        wm_teamvoiceannounce 1 "allies_hq_objective_captured"
+	}
+}
+
+escape_obj
+{
+//escape with documents trigger
+	spawn
+	{
+	}
+	death
+	{
+		trigger game_manager objective7
+	}
+}
+
+
+
+
+cityflag
+{
+	spawn
+	{
+		wait 200
+		accum 0 set 0	// Who has the flag: 0-Axis, 1-Allied
+	}
+
+	trigger axis_capture	// Flag has been touched by an Axis player
+	{
+		accum 0 abort_if_equal 0 // do Axis own flag?
+
+		accum 0 set 0 // Axis own the pole
+		wm_announce	"Axis reclaim the church!"
+                
+
+
+		wm_removeteamvoiceannounce 1 "allies_hq_compost_construct"
+		wm_removeteamvoiceannounce 0 "lmsm_axis_defend_entrance_tell"
+
+
+                wm_objective_status 		1 0 1
+		wm_objective_status 		1 1 2
+
+                alertentity city_wobj
+		
+	}
+
+	trigger allied_capture	// Flag has been touched by an allied player
+	{
+		accum 0 abort_if_equal 1 // do Allies own flag?
+
+		accum 0 set 1 // Allied own the flag
+		wm_announce	"Allies captured the Church!"
+                
+		wm_removeteamvoiceannounce 0 "axis_hq_compost_construct"
+		
+
+		wm_addteamvoiceannounce 0 "lmsm_axis_defend_entrance_tell"
+		wm_addteamvoiceannounce 1 "allies_hq_compost_construct"
+
+
+		wm_teamvoiceannounce 0 "lmsm_axis_defend_entrance_tell"
+                wm_teamvoiceannounce 1 "allies_hq_compost_construct"
+                wm_teamvoiceannounce 1 "lmsm_allies_detroy_entrance_tell"
+                 
+                wm_objective_status 		1 0 2
+		wm_objective_status 		1 1 1
+
+		alertentity city_wobj
+               
+	}
+
+	
+
+}
+
+// NEUTRAL COMMAND POST ================================================
+// FROM Goldrush Thx SD!!! prefab by seven 2003 
+
+allied_compost_built
+{
+	spawn
+	{
+		wait 400
+		trigger allied_compost_built setup
+
+		constructible_class 2
+	}
+
+	trigger setup
+	{
+		setchargetimefactor 1 soldier 1
+		setchargetimefactor 1 lieutenant 1
+		setchargetimefactor 1 medic 1
+		setchargetimefactor 1 engineer 1
+		setchargetimefactor 1 covertops 1
+		sethqstatus 1 0
+	}
+
+	buildstart final
+	{
+		setstate allied_compost_built_model underconstruction
+		setstate neutral_compost_closed_clip invisible
+		setstate neutral_compost_closed_model invisible
+	}
+
+	built final
+	{
+		setstate allied_compost_built_model default
+		setstate neutral_compost_closed_clip invisible
+		setstate neutral_compost_closed_model invisible
+
+		trigger allied_compost_built_model enable_allied_features
+
+		enablespeaker allies_compost_sound
+	}
+
+	decayed final
+	{
+		setstate allied_compost_built_model invisible
+		setstate neutral_compost_closed_clip default
+		setstate neutral_compost_closed_model default
+	}
+
+	death
+	{
+		setstate allied_compost_built_model invisible
+		setstate neutral_compost_closed_clip default
+		setstate neutral_compost_closed_model default
+
+		trigger allied_compost_built_model disable_allied_features
+
+		disablespeaker allies_compost_sound
+	}
+}
+
+
+allied_compost_built_model
+{
+	spawn
+	{
+		wait 400
+		setstate allied_compost_built_model invisible
+	}
+
+	trigger enable_allied_features
+	{
+
+
+		setchargetimefactor 1 soldier 0.75
+		setchargetimefactor 1 lieutenant 0.75
+		setchargetimefactor 1 medic 0.75
+		setchargetimefactor 1 engineer 0.75
+		setchargetimefactor 1 covertops 0.75
+		sethqstatus 1 1
+
+		wm_announce	"Allied Command Post constructed. Charge speed increased!"
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "axis_hq_compost_constructed_allies"
+
+		wm_teamvoiceannounce 1 "allies_hq_compost_constructed"
+
+		wm_removeteamvoiceannounce 1 "allies_hq_compost_construct"
+		// *---------------------------------------------------------------------------------*
+
+	}
+
+	trigger disable_allied_features
+	{
+
+		setchargetimefactor 1 soldier 1
+		setchargetimefactor 1 lieutenant 1
+		setchargetimefactor 1 medic 1
+		setchargetimefactor 1 engineer 1
+		setchargetimefactor 1 covertops 1
+		sethqstatus 1 0
+
+		wm_announce	"Axis team has destroyed the Allied Command Post!"
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_addteamvoiceannounce 0 "axis_hq_compost_construct"
+
+		wm_addteamvoiceannounce 1 "allies_hq_compost_construct"
+
+		wm_teamvoiceannounce 0 "axis_hq_compost_construct"
+
+		wm_teamvoiceannounce 1 "allies_hq_compost_damaged"
+		// *---------------------------------------------------------------------------------*
+
+
+	}
+}
+
+axis_compost_built
+{
+	spawn
+	{
+		wait 400
+		trigger axis_compost_built setup
+
+		constructible_class 2
+	}
+
+	trigger setup
+	{
+		setchargetimefactor 0 soldier 1
+		setchargetimefactor 0 lieutenant 1
+		setchargetimefactor 0 medic 1
+		setchargetimefactor 0 engineer 1
+		setchargetimefactor 0 covertops 1
+		sethqstatus 0 0
+	}
+
+	buildstart final
+	{
+		setstate axis_compost_built_model underconstruction
+		setstate neutral_compost_closed_clip invisible
+		setstate neutral_compost_closed_model invisible
+	}
+
+	built final
+	{
+		setstate axis_compost_built_model default
+		setstate neutral_compost_closed_clip invisible
+		setstate neutral_compost_closed_model invisible
+
+		trigger axis_compost_built_model enable_axis_features
+
+		enablespeaker axis_compost_sound
+	}
+
+	decayed final
+	{
+		setstate axis_compost_built_model invisible
+		setstate neutral_compost_closed_clip default
+		setstate neutral_compost_closed_model default
+	}
+
+	death
+	{
+		setstate axis_compost_built_model invisible
+		setstate neutral_compost_closed_clip default
+		setstate neutral_compost_closed_model default
+
+		trigger axis_compost_built_model disable_axis_features
+
+		disablespeaker axis_compost_sound
+	}
+}
+
+axis_compost_built_model
+{
+	spawn
+	{
+		wait 400
+		setstate axis_compost_built_model invisible
+	}
+
+	trigger enable_axis_features
+	{
+		setchargetimefactor 0 soldier 0.75
+		setchargetimefactor 0 lieutenant 0.75
+		setchargetimefactor 0 medic 0.75
+		setchargetimefactor 0 engineer 0.75
+		setchargetimefactor 0 covertops 0.75
+		sethqstatus 0 1
+
+		wm_announce	"Axis Command Post constructed. Charge speed increased!"
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "axis_hq_compost_constructed"
+
+		wm_teamvoiceannounce 1 "allies_hq_compost_constructed_axis"
+
+		wm_removeteamvoiceannounce 0 "axis_hq_compost_construct"
+		// *---------------------------------------------------------------------------------*
+
+
+	}
+
+	trigger disable_axis_features
+	{
+		setchargetimefactor 0 soldier 1
+		setchargetimefactor 0 lieutenant 1
+		setchargetimefactor 0 medic 1
+		setchargetimefactor 0 engineer 1
+		setchargetimefactor 0 covertops 1
+		sethqstatus 0 0
+
+		wm_announce	"Allied team has destroyed the Axis Command Post!"
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_addteamvoiceannounce 0 "axis_hq_compost_construct"
+
+		wm_addteamvoiceannounce 1 "allies_hq_compost_construct"
+
+		wm_teamvoiceannounce 0 "axis_hq_compost_damaged"
+
+		wm_teamvoiceannounce 1 "allies_hq_compost_construct"
+		// *---------------------------------------------------------------------------------*
+
+	}
+}
+
+
+// ABBEY COMMAND POST ================================================
+abbey_compost_built
+{
+	spawn
+	{
+		wait 400
+		trigger abbey_compost_built setup
+
+		constructible_class 2
+
+
+	}
+
+	trigger setup
+	{
+
+		//sethqstatus 1 0
+		setstate abbey_compost_closed_clip default
+		setstate abbey_compost_closed_model default
+		setstate abbey_compost_damaged_clip invisible
+		setstate abbey_compost_damaged_model invisible
+	}
+
+	buildstart final
+	{
+		setstate abbey_compost_built_model underconstruction
+		setstate abbey_compost_closed_clip invisible
+		setstate abbey_compost_closed_model invisible
+		setstate abbey_compost_damaged_clip invisible
+		setstate abbey_compost_damaged_model invisible
+	}
+
+	built final
+	{
+		setstate abbey_compost_built_model default
+		setstate abbey_compost_closed_clip invisible
+		setstate abbey_compost_closed_model invisible
+		setstate abbey_compost_damaged_clip invisible
+		setstate abbey_compost_damaged_model invisible
+
+		trigger abbey_compost_built_model enable_allied_features
+
+		enablespeaker allies_compost_sound
+	}
+
+	decayed final
+	{
+		setstate abbey_compost_built_model invisible
+		setstate abbey_compost_closed_clip default
+		setstate abbey_compost_closed_model default
+		setstate abbey_compost_damaged_clip invisible
+		setstate abbey_compost_damaged_model invisible
+	}
+
+	death
+	{
+		setstate abbey_compost_built_model invisible
+		setstate abbey_compost_closed_clip invisible
+		setstate abbey_compost_closed_model invisible
+		setstate abbey_compost_damaged_clip default
+		setstate abbey_compost_damaged_model default
+
+		trigger abbey_compost_built_model disable_allied_features
+
+		disablespeaker allies_compost_sound
+	}
+}
+
+abbey_compost_built_model
+{
+	spawn
+	{
+		wait 400
+		setstate allied_compost_built_model invisible
+	}
+
+	trigger first_time_abbey_build
+	{
+		accum 8 abort_if_equal 1 // Allies build for first time
+
+		accum 8 set 1 // Allied own the flag
+		alertentity  allies_spawn_abbey
+
+	}
+	trigger enable_allied_features
+	{
+
+
+
+		trigger abbey_compost_built_model first_time_abbey_build
+
+		setstate abbeyspawn_wobj default
+		setstate allies_spawn_abbey default
+
+
+		setautospawn	"Abbey Spawn"	1
+		setautospawn	"Axis Spawn"	0
+
+		wm_announce	"Allied abbey command post built"
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "axis_hq_compost_constructed_allies"
+
+		wm_teamvoiceannounce 1 "allies_hq_compost_constructed"
+
+		wm_removeteamvoiceannounce 1 "allies_hq_compost_construct"
+		// *---------------------------------------------------------------------------------*
+
+		wm_objective_status 4 0 2
+		wm_objective_status 4 1 1
+	}
+
+	trigger disable_allied_features
+	{
+
+
+
+		setstate abbeyspawn_wobj invisible
+		setstate allies_spawn_abbey invisible
+
+
+		setautospawn	"Town"	1
+		setautospawn	"Town"	0
+
+
+		wm_announce	"Axis team has destroyed the Allied abbey Command Post!"
+
+		// *----------------------------------- vo ------------------------------------------*
+
+
+		wm_addteamvoiceannounce 1 "allies_hq_compost_construct"
+
+
+		wm_teamvoiceannounce 1 "allies_hq_compost_damaged"
+		// *---------------------------------------------------------------------------------*
+
+		wm_objective_status 4 0 2
+		wm_objective_status 4 1 1
+	}
+}
+
+
+//Axis MG
+
+axismg_script 
+{ 
+	spawn 
+	{ 
+      		wait 200 
+      		constructible_class 2 
+      		trigger self startup 
+   	} 
+
+   	buildstart final 
+   	{ 
+   	} 
+
+   	built final 
+   	{ 
+      		setstate axismg_extra default 
+		setstate axismg_light1 default 
+		setstate axismg_light2 default 
+      		setstate axismg_mg42  default 
+      		setstate axismg_materials invisible 
+
+      		wm_announce   "Axis MG nest constructed!" 
+   	} 
+
+   	decayed final 
+   	{ 
+      		trigger self startup 
+   	} 
+
+   	death 
+   	{ 
+      		trigger self startup 
+
+      		wm_announce   "Allied team has destroyed the Axis MG nest!" 
+	} 
+
+	trigger startup 
+   	{ 
+		setstate axismg_extra invisible 
+		setstate axismg_light1 invisible 
+		setstate axismg_light2 invisible
+		setstate axismg_mg42  invisible 
+		setstate axismg_materials default 
+      		repairmg42 construction_mg42 
+   	} 
+} 
+
+
+
+//Axis Defences
+
+construct_defence1
+{
+    spawn
+    {
+        wait 200
+        constructible_class 3
+	//constructible_health 350
+
+        setstate defence1_materials default
+        setstate defence1_trighurt invisible
+    }
+
+
+    buildstart final
+    {
+
+    }
+    built final
+    {
+        setstate defence1_materials invisible
+        setstate defence1_trighurt default
+        wm_announce "Back Step Defences Built"
+
+	wm_objective_status 2 0 1  //axis defences
+	wm_objective_status 2 1 0  //axis defences
+    }
+    decayed final
+    {
+        setstate defence1_materials default
+        setstate defence1_trighurt invisible
+
+	wm_objective_status 2 0 0  //axis defences
+	wm_objective_status 2 1 0  //axis defences
+    }
+    death 
+    {
+	wait 200
+        setstate defence1_materials default
+        setstate defence1_trighurt invisible
+        wm_announce "Back Step Defences DESTROYED!"
+
+
+	wm_objective_status 2 0 2  //axis defences
+	wm_objective_status 2 1 1  //axis defences
+
+    }
+}
+
+
+construct_defence2
+{
+    spawn
+    {
+        wait 200
+        constructible_class 2
+	constructible_health 350
+
+    
+        setstate defence2_materials default
+        setstate defence2_trighurt invisible
+        setstate def2door invisible 
+    }
+
+
+    buildstart final
+    {
+        //wm_announce "2nd"
+    }
+    built final
+    {
+        setstate defence2_materials invisible
+        setstate defence2_trighurt default
+        setstate def2door default 
+        wm_announce "Church Defences Built"
+    }
+    decayed final
+    {
+        setstate defence2_materials default
+        setstate defence2_trighurt invisible
+        setstate def2door invisible 
+    }
+    death 
+    {
+        setstate defence2_materials default
+        setstate defence2_trighurt invisible
+        setstate def2door invisible 
+        wm_announce "Church Defences DESTROYED!"
+    }
+}
+
+
+construct_defence3
+{
+    spawn
+    {
+        wait 200
+        constructible_class 2
+	// constructible_health 350
+    
+        setstate defence3_materials default
+        setstate defence3_trighurt invisible
+    }
+
+
+    buildstart final
+    {
+       // wm_announce "3rd"
+    }
+    built final
+    {
+        setstate defence3_materials invisible
+	setstate defence3_trighurt default
+        wm_announce "Hill Defences BUILT!"
+
+    }
+    decayed final
+    {
+        setstate defence3_materials default
+        setstate defence3_trighurt invisible
+
+
+    }
+    death 
+    {
+        setstate defence3_materials default
+      	setstate defence3_trighurt invisible
+
+        wm_announce "Hill Defences DESTROYED!"
+	
+	wm_teamvoiceannounce 0 "lmsm_axis_defend_side_entrance_tell"
+        wm_teamvoiceannounce 1 "lmsm_allies_detroy_entrance_side_tell"
+
+
+    }
+}
+
+
+construct_defence4
+{
+    spawn
+    {
+        wait 200
+        constructible_class 3
+    
+        setstate defence4_materials default
+        setstate defence4_trighurt invisible
+        setstate def4door invisible 
+    }
+
+
+    buildstart final
+    {
+    }
+    built final
+    {
+        setstate defence4_materials invisible
+	  setstate defence4_trighurt default
+        setstate def4door default 
+        wm_announce "Abbey Defences BUILT!"
+	//wm_objective_status 4 0 1  //axis defences
+	//wm_objective_status 4 1 0  //axis defences
+    }
+    decayed final
+    {
+        setstate defence4_materials default
+        setstate defence4_trighurt invisible
+        setstate def4door invisible 
+	//wm_objective_status 4 0 0  //axis defences
+	//wm_objective_status 4 1 0  //axis defences
+    }
+    death 
+    {
+        setstate defence4_materials default
+      	setstate defence4_trighurt invisible
+		setstate def4door invisible 
+        wm_announce "Abbey Defences DESTROYED!"
+	
+	wm_teamvoiceannounce 0 "lmsm_axis_defend_entrance_tell"
+
+	//wm_objective_status 4 0 2  //axis defences
+	//wm_objective_status 4 1 1  //axis defences
+
+    }
+}
+
+
+
+//Abbey Door
+abbeydoor_script
+{
+	spawn 
+	{
+		wait 200
+		constructible_class 3 
+	}
+
+	death 
+	{
+		wm_announce "Allies have destroyed the Abbey Door"
+
+		setstate abbeydoor_axisdoor invisible 
+
+		wm_objective_status 3 0 2
+		wm_objective_status 3 1 1
+
+//		setstate abbeyspawn_wobj default
+//		alertentity  allies_spawn_abbey
+
+//		setautospawn	"Abbey Spawn"	1
+//		setautospawn	"Axis Spawn"	0
+
+		wm_removeteamvoiceannounce 1 "lmsm_allies_detroy_entrance_tell"
+		wm_removeteamvoiceannounce 0 "lmsm_axis_defend_entrance_tell"
+
+
+		wm_teamvoiceannounce 0 "lmsm_axis_detroyed_entrance"
+                wm_teamvoiceannounce 1 "lmsm_allies_detroyed_entrance"
+
+		wm_teamvoiceannounce 0  "lmsm_axis_defend_objective_tell1"
+
+
+	}
+}
+
+
+
+//BACK DOOR
+
+backdoor_script
+{
+	spawn
+	{
+		wait 200
+		constructible_class 2
+	}
+
+	death
+	{
+		wm_announce "Allies have breached the abbey - side door"
+		setstate  backdoor_toi invisible 
+		setstate backdoor_target invisible 
+
+		wm_teamvoiceannounce 0 "lmsm_axis_detroyed_side_entrance"
+                wm_teamvoiceannounce 1 "lmsm_allies_detroyed_side_entrance"
+
+		wm_teamvoiceannounce 0  "lmsm_axis_defend_objective_tell1"
+
+		wm_objective_status  5 1 1
+		wm_objective_status  5 0 2
+	}
+
+}
+
+//rope_trigger1
+//{
+// 	spawn
+//	{
+//		wait 200
+//
+//		setstate wallrope invisible 
+//		setstate wallrope_ladder invisible 
+//		setstate ropecoil default
+//accum 1 set 1
+//  		wait 500
+// 		
+// 	}
+//
+ //	trigger on
+// 	{
+//  		wait 200
+ // 		setstate wallrope default
+///		//setstate wallrope_ladder default
+//		setstate ropecoil invisible 
+//		setstate coilactivate_target invisible 
+//		setstate ropecoil_toi invisible 
+//		wait 200
+//  		//trigger wallrope spawn
+//		//setstate wallrope_ladder default
+//		togglespeaker ropetoss
+//
+//		//wm_objective_status 4 0 2
+//		//wm_objective_status 4 1 1
+//		wm_announce "Allies have attached a rope at the hoist room abbey entrance"
+//
+//		wm_teamvoiceannounce 0  "lmsm_axis_defend_objective_tell2"
+//
+// 	}
+//
+//}
+
+
+//wallrope
+//{
+// 	spawn
+// 	{
+//		//wait 500
+//		//setstate wallrope invisible 
+//
+// 	}
+//
+//
+//}
+

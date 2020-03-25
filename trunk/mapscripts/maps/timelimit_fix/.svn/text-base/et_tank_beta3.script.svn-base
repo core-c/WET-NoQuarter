@@ -1,0 +1,1095 @@
+//Map: The Tank
+//BSP: et_tank
+//BadIdea - scripting chaos. You welcome :)
+
+//Start!
+
+// phisherman: Fixed popular bug of not passing on to intermission after timelimit hit and round draw
+
+game_manager
+{
+	spawn
+	{
+		// Game Rules  
+
+		wm_axis_respawntime		25
+		wm_allied_respawntime		20
+		wm_set_round_timelimit		20
+		wm_number_of_objectives		6
+
+		// Objectives
+
+		// Primary:
+		// 1: Destroy tank/ Defend Tank
+		// 2: Take doc./ protect doc.
+		// Secondary:
+		// 3: Capture road Bunker / Defend road Bunker
+		// 4: Destroy main gate/ Protect main gate
+		// 5: Allied command post
+		// 6: Axis command post
+
+		wm_set_main_objective		1	0
+		wm_set_main_objective		1	1
+
+		wm_objective_status 1 1 0
+		wm_objective_status 1 0 0
+		wm_objective_status 2 1 0
+		wm_objective_status 2 0 0
+		wm_objective_status 3 1 0
+		wm_objective_status 3 0 0
+		wm_objective_status 4 1 0
+		wm_objective_status 4 0 0
+		wm_objective_status 5 0 0
+		wm_objective_status 5 1 0
+		wm_objective_status 6 0 0
+		wm_objective_status 6 1 0
+
+		// Set the round winner:  0 == AXIS, 1 == ALLIED, - 1 == no one
+		wm_setwinner 0
+		// Set Defending Team for stopwatch Mode
+		wm_set_defending_team	0
+
+		wait 500
+		// spawns:
+		// Allied HQ
+		// Forward Bunker
+		// Feldkommandantur
+		// West Bunker
+		setautospawn "Forward Bunker" 1
+		setautospawn "Forward Bunker" 0
+
+		disablespeaker allies_compost_sound
+		disablespeaker axis_compost_sound
+
+		// wait for everything to settle
+		wait 1000
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_addteamvoiceannounce 0 "tank_protect_the_tank"
+		wm_addteamvoiceannounce 0 "tank_axis_bunker_stop"
+		wm_addteamvoiceannounce 0 "axis_hq_compost_construct"
+
+		wm_addteamvoiceannounce 1 "tank_destroy_the_tank"
+		wm_addteamvoiceannounce 1 "tank_allies_bunker_capture"
+
+		wm_teamvoiceannounce 0 "tank_axis_entrances_defend"
+		wm_teamvoiceannounce 0 "tank_axis_bunker_stop"
+		wm_teamvoiceannounce 0 "axis_hq_compost_construct"
+
+		wm_teamvoiceannounce 1 "tank_destroy_the_tank"
+		wm_teamvoiceannounce 1 "tank_allies_bunker_capture"
+		// *---------------------------------------------------------------------------------*
+
+	}
+
+	trigger timelimit_hit
+	{
+		wm_setwinner -1
+//		wm_endround
+	}
+
+//================================================================
+//========================= Main Door OBJ 4!!!! ==================
+//================================================================
+trigger maindoor1_destroyed
+	{
+		wm_objective_status 4 1 1
+		wm_objective_status 4 0 2
+		// why setmain obj is 2? 
+		wm_set_main_objective		2	0
+		wm_set_main_objective		2	1
+
+		// spawns:
+		// Allied HQ
+		// Forward Bunker
+		// Feldkommandantur
+		// West Bunker
+
+		setautospawn "Forward Bunker" 1
+		setautospawn "Feldkommandantur" 0
+
+		trigger roadbunker kill // Switch forward spawn to Allied ONLY
+		wm_announce	"Allies have breached the Main Entrance and secured the Forward Bunker!"
+
+		wait 1000
+
+// *----------------------------------- vo ------------------------------------------*
+		wm_addteamvoiceannounce 0 "tank_protect_the_tank"
+
+		wm_addteamvoiceannounce 1 "tank_destroy_the_tank"
+
+		wm_teamvoiceannounce 0 "tank_axis_entrance1_destroyed"
+		wm_teamvoiceannounce 0 "tank_axis_radars_defend"
+
+		wm_teamvoiceannounce 1 "tank_allies_entrance1_destroyed"
+		wm_teamvoiceannounce 1 "tank_destroy_the_tank"
+
+		wm_removeteamvoiceannounce 0 "tank_axis_entrances_defend"
+		wm_removeteamvoiceannounce 0 "tank_axis_entrance1_defend"
+		wm_removeteamvoiceannounce 0 "tank_axis_bunker_stop"
+
+		wm_removeteamvoiceannounce 1 "tank_allies_entrances_destroy"
+		wm_removeteamvoiceannounce 1 "tank_allies_entrance1_destroy"
+		wm_removeteamvoiceannounce 1 "tank_allies_bunker_capture"
+		// *---------------------------------------------------------------------------------*
+	}
+
+
+//================================================================
+//========================= Documents OBJ 2!!! ==================
+//================================================================
+
+	trigger allies_object_stolen
+	{
+		// Change the objective state internally, so UI can update, etc.
+		// Axis have stolen the documents (0 == AXIS, 1 == ALLIED)
+		wm_objective_status		2	0
+	}
+
+	trigger allies_object_returned
+	{
+		// Change the objective state internally, so UI can update, etc.
+		// Axis have returned the documents (0 == AXIS, 1 == ALLIED)
+		wm_objective_status		2	1
+	}
+	trigger Axis_objective2
+	{
+		// Change the objective state internally, so UI can update, etc.
+		// Axis takes control of objective #1
+		wm_objective_status		2 0 1
+		wm_objective_status		2 1 2
+
+		// UI pop-up to alert players
+		wm_announce	"Axis reached Feldkommandantur!"
+		
+		//short delay
+		wait 1000
+
+		// Set the round winnerto allied  0 == AXIS, 1 == ALLIED
+		wm_setwinner 0
+
+		// End the round
+		wm_endround
+	}
+
+//================================================================
+//========================= Tank OBJ 1 !!! =======================
+//================================================================
+	
+trigger objective1
+	{
+		wm_objective_status		1 0 2
+		wm_objective_status		1 1 1
+		
+		accum 1 set 1
+
+		// Some kind of UI pop-up to alert players
+		wm_announce	"Allied team destoyed the Prototype Tank !!!"
+
+		// Call function to check if the round has been won
+		trigger game_manager checkgame
+	}
+
+trigger checkgame
+	{
+		accum 1 abort_if_not_equal 1
+
+		// Set the round winner:  0 == AXIS, 1 == ALLIED
+		wm_setwinner 1
+
+		// End the round
+		wm_endround
+	}
+}
+// ================================================
+// =============== BASE ENTRANCES =================
+// ================================================
+
+maindoor1 // Front door of complex
+{
+	spawn
+	{
+		wait 50
+		constructible_class	3
+	}
+
+	death
+	{
+		trigger game_manager maindoor1_destroyed
+	}
+}
+
+// ================================================
+// =============== TANK           =================
+// ================================================
+
+allied_obj1 //The Tank
+{
+	spawn
+	{
+		wait 50
+		constructible_class 3
+	}
+
+	death
+	{
+		trigger game_manager objective1
+		setstate tank_smoke1 default
+		setstate tank_smoke2 default
+
+	}
+}
+tank_smoke1
+{
+	spawn
+	{
+		setstate tank_smoke1 invisible
+	}
+}
+
+tank_smoke2
+{
+	spawn
+	{
+		setstate tank_smoke2 invisible
+	}
+}
+
+// =================================================
+// ================= Documents =====================
+// =================================================
+
+axis_obj2 //Axis have taken Allies secret docs to Kommendatur!
+{
+	spawn
+	{
+	}
+
+	death
+	{		
+		trigger game_manager axis_objective2 
+	}
+}
+
+// ================================================
+// =========== SPAWN POINT CONTROLS OBJ 3 !!!======
+// ================================================
+
+roadbunker // Forward bunker
+{
+	spawn
+	{
+		accum 0 set 0	// 0-Axis, 1-Allied
+	}
+
+	trigger axis_capture	// Flag has been claimed by an axis player
+	{
+		accum 0 abort_if_equal 0 // Do Axis already own the flag?
+
+		accum 0 set 0 // Axis own the flag
+		wm_announce	"Axis reclaim the Forward Bunker!"
+
+
+		wm_objective_status 3 1 2
+		wm_objective_status 3 0 1
+		
+		//Spawns
+		// Allied HQ
+		// Forward Bunker
+		// Feldkommandantur
+		// West Bunker
+		setautospawn "Allied HQ" 1
+		setautospawn "Forward Bunker" 0
+
+		alertentity roadbunker_wobj
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_addteamvoiceannounce 0 "tank_axis_bunker_stop"
+
+		wm_addteamvoiceannounce 1 "tank_allies_bunker_capture"
+
+		wm_teamvoiceannounce 0 "tank_axis_bunker_reclaimed"
+
+		wm_teamvoiceannounce 1 "tank_allies_bunker_reclaimed"
+		// *---------------------------------------------------------------------------------*
+	}
+
+	trigger allied_capture	// Flag has been claimed by an allied player
+	{
+		accum 0 abort_if_equal 1 // Do Allies already own flag?
+
+		accum 0 set 1 // Allied own the flag
+		wm_announce	"Allies capture the Forward Bunker!"
+
+		wm_objective_status 3 1 1
+		wm_objective_status 3 0 2
+
+		//Spawns
+		// Allied HQ
+		// Forward Bunker
+		// Feldkommandantur
+		// West Bunker
+		setautospawn "Forward Bunker" 1
+		setautospawn "Feldkommandantur" 0
+
+		alertentity roadbunker_wobj
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "tank_axis_bunker_captured"
+
+		wm_teamvoiceannounce 1 "tank_allies_bunker_captured"
+
+		wm_removeteamvoiceannounce 0 "tank_axis_bunker_stop"
+
+		wm_removeteamvoiceannounce 1 "tank_allies_bunker_capture"
+		// *---------------------------------------------------------------------------------*
+	}
+
+	trigger kill
+	{
+		trigger roadbunker force_allied
+		remove
+	}
+
+	trigger force_allied
+	{
+		accum 0 abort_if_equal 1 // Do Allies already own flag?
+
+		wm_objective_status 3 1 1
+		wm_objective_status 3 0 2
+
+		//Spawns
+		// Allied HQ
+		// Forward Bunker
+		// Feldkommandantur
+		// West Bunker
+		setautospawn "Forward Bunker" 1
+		setautospawn "Feldkommandantur" 0
+
+		alertentity roadbunker_wobj
+		alertentity roadbunkerspawns
+	}
+
+}
+
+// ================================================
+// ============ NEUTRAL COMMAND POST ==============
+// ================================================
+// ============= OBJ 5 and 6 !!!!==================
+
+allied_compost_built
+{
+	spawn
+	{
+		wait 400
+		trigger allied_compost_built setup
+
+		constructible_class 2
+	}
+
+	trigger setup
+	{
+		setchargetimefactor 1 soldier 1
+		setchargetimefactor 1 lieutenant 1
+		setchargetimefactor 1 medic 1
+		setchargetimefactor 1 engineer 1
+		setchargetimefactor 1 covertops 1
+		sethqstatus 1 0
+	}
+
+	buildstart final
+	{
+		setstate allied_compost_built_model underconstruction
+		setstate neutral_compost_closed_clip invisible
+		setstate neutral_compost_closed_model invisible
+	}
+
+	built final
+	{
+		setstate allied_compost_built_model default
+		setstate neutral_compost_closed_clip invisible
+		setstate neutral_compost_closed_model invisible
+
+		trigger allied_compost_built_model enable_allied_features
+
+		enablespeaker allies_compost_sound
+	}
+
+	decayed final
+	{
+		setstate allied_compost_built_model invisible
+		setstate neutral_compost_closed_clip default
+		setstate neutral_compost_closed_model default
+	}
+
+	death
+	{
+		setstate allied_compost_built_model invisible
+		setstate neutral_compost_closed_clip default
+		setstate neutral_compost_closed_model default
+
+		trigger allied_compost_built_model disable_allied_features
+
+		disablespeaker allies_compost_sound
+	}
+}
+
+allied_compost_built_model
+{
+	spawn
+	{
+		wait 400
+		setstate allied_compost_built_model invisible
+	}
+
+	trigger enable_allied_features
+	{
+		setchargetimefactor 1 soldier 0.75
+		setchargetimefactor 1 lieutenant 0.75
+		setchargetimefactor 1 medic 0.75
+		setchargetimefactor 1 engineer 0.75
+		setchargetimefactor 1 covertops 0.75
+		sethqstatus 1 1
+
+		wm_announce	"Allied Command Post constructed. Charge speed increased!"
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "axis_hq_compost_constructed_allies"
+
+		wm_teamvoiceannounce 1 "allies_hq_compost_constructed"
+
+		wm_removeteamvoiceannounce 1 "allies_hq_compost_construct"
+		// *---------------------------------------------------------------------------------*
+
+		wm_objective_status 5 0 2
+		wm_objective_status 5 1 1
+	}
+
+	trigger disable_allied_features
+	{
+		setchargetimefactor 1 soldier 1
+		setchargetimefactor 1 lieutenant 1
+		setchargetimefactor 1 medic 1
+		setchargetimefactor 1 engineer 1
+		setchargetimefactor 1 covertops 1
+		sethqstatus 1 0
+
+		wm_announce	"Axis team has destroyed the Allied Command Post!"
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_addteamvoiceannounce 0 "axis_hq_compost_construct"
+
+		wm_addteamvoiceannounce 1 "allies_hq_compost_construct"
+
+		wm_teamvoiceannounce 0 "axis_hq_compost_construct"
+
+		wm_teamvoiceannounce 1 "allies_hq_compost_damaged"
+		// *---------------------------------------------------------------------------------*
+
+		wm_objective_status 5 0 0
+		wm_objective_status 5 1 0
+	}
+}
+
+axis_compost_built
+{
+	spawn
+	{
+		wait 400
+		trigger axis_compost_built setup
+
+		constructible_class 2
+	}
+
+	trigger setup
+	{
+		setchargetimefactor 0 soldier 1
+		setchargetimefactor 0 lieutenant 1
+		setchargetimefactor 0 medic 1
+		setchargetimefactor 0 engineer 1
+		setchargetimefactor 0 covertops 1
+		sethqstatus 0 0
+	}
+
+	buildstart final
+	{
+		setstate axis_compost_built_model underconstruction
+		setstate neutral_compost_closed_clip invisible
+		setstate neutral_compost_closed_model invisible
+	}
+
+	built final
+	{
+		setstate axis_compost_built_model default
+		setstate neutral_compost_closed_clip invisible
+		setstate neutral_compost_closed_model invisible
+
+		trigger axis_compost_built_model enable_axis_features
+
+		enablespeaker axis_compost_sound
+	}
+
+	decayed final
+	{
+		setstate axis_compost_built_model invisible
+		setstate neutral_compost_closed_clip default
+		setstate neutral_compost_closed_model default
+	}
+
+	death
+	{
+		setstate axis_compost_built_model invisible
+		setstate neutral_compost_closed_clip default
+		setstate neutral_compost_closed_model default
+
+		trigger axis_compost_built_model disable_axis_features
+
+		disablespeaker axis_compost_sound
+	}
+}
+
+axis_compost_built_model
+{
+	spawn
+	{
+		wait 400
+		setstate axis_compost_built_model invisible
+	}
+
+	trigger enable_axis_features
+	{
+		setchargetimefactor 0 soldier 0.75
+		setchargetimefactor 0 lieutenant 0.75
+		setchargetimefactor 0 medic 0.75
+		setchargetimefactor 0 engineer 0.75
+		setchargetimefactor 0 covertops 0.75
+		sethqstatus 0 1
+
+		wm_announce	"Axis Command Post constructed. Charge speed increased!"
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "axis_hq_compost_constructed"
+
+		wm_teamvoiceannounce 1 "allies_hq_compost_constructed_axis"
+
+		wm_removeteamvoiceannounce 0 "axis_hq_compost_construct"
+		// *---------------------------------------------------------------------------------*
+
+		wm_objective_status 6 0 1
+		wm_objective_status 6 1 2
+	}
+
+	trigger disable_axis_features
+	{
+		setchargetimefactor 0 soldier 1
+		setchargetimefactor 0 lieutenant 1
+		setchargetimefactor 0 medic 1
+		setchargetimefactor 0 engineer 1
+		setchargetimefactor 0 covertops 1
+		sethqstatus 0 0
+
+		wm_announce	"Allied team has destroyed the Axis Command Post!"
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_addteamvoiceannounce 0 "axis_hq_compost_construct"
+
+		wm_addteamvoiceannounce 1 "allies_hq_compost_construct"
+
+		wm_teamvoiceannounce 0 "axis_hq_compost_damaged"
+
+		wm_teamvoiceannounce 1 "allies_hq_compost_construct"
+		// *---------------------------------------------------------------------------------*
+
+		wm_objective_status 6 0 0
+		wm_objective_status 6 1 0
+	}
+}
+
+
+// =============================================================================
+// ========================= MIsc Stuff Section ================================
+// =============================================================================
+
+
+// ==================================================================
+// ============ Old Pump Door my first script mover...==============
+// ==================================================================
+
+pumpdoor_controller
+{
+	activate
+	{
+		trigger pumpdoor use
+	}
+}
+
+pumpdoor
+{
+	trigger use
+	{
+		trigger pumpdoor open
+		trigger pumpdoor close
+	}
+
+	trigger open
+	{
+		accum 1 abort_if_equal 1
+		accum 0 abort_if_equal 1
+		accum 1 set 1
+		accum 0 set 1
+
+		wait 50
+		playsound sound/movers/doors/door5_open.wav
+		gotomarker t1 16
+		wait 2000
+		gotomarker end_pos 20
+
+		accum 0 set 0
+	}
+
+	trigger close
+	{
+		accum 1 abort_if_equal 0
+		accum 0 abort_if_equal 1
+		accum 1 set 0
+		accum 0 set 1
+
+		wait 50
+		playsound sound/movers/doors/door5_close.wav
+		gotomarker t1 20
+		wait 5000
+		gotomarker start_pos 16
+		playsound sound/movers/doors/door5_endc.wav
+
+		accum 0 set 0
+	}
+}
+
+// ============================================================================
+// Allied MG42 Nest - on Allied side of the map
+// ============================================================================
+alliedbarnmg42nest
+{
+	spawn
+	{
+		wait 200
+
+		constructible_class 2
+
+		setstate alliedbarnmg42 invisible
+		setstate alliedbarnmg42materials default
+	}
+
+	buildstart final
+	{
+		setstate alliedbarnmg42 underconstruction
+	}
+
+	built final
+	{
+		setstate alliedbarnmg42 default
+		setstate alliedbarnmg42materials invisible
+
+		// Some kind of UI pop-up to alert players
+		wm_announce	"Allied team has constructed the Road MG Nest!"
+	}
+
+	decayed final
+	{
+		setstate alliedbarnmg42 invisible
+		setstate alliedbarnmg42materials default
+	}
+
+	death
+	{
+		setstate alliedbarnmg42 invisible
+		setstate alliedbarnmg42materials default
+		repairmg42 alliedbarnmg42
+
+		// Some kind of UI pop-up to alert players
+		wm_announce	"Axis team has destroyed the Road MG Nest!"
+	}
+}
+
+// ============================================================================
+// axis MG42 Nest - Forward bunker
+// ============================================================================
+axisbarnmg42nest
+{
+	spawn
+	{
+		wait 200
+
+		constructible_class 2
+
+		setstate axisbarnmg42 invisible
+		setstate axisbarnmg42materials default
+	}
+
+	buildstart final
+	{
+		setstate axisbarnmg42 underconstruction
+	}
+
+	built final
+	{
+		setstate axisbarnmg42 default
+		setstate axisbarnmg42materials invisible
+
+		// Some kind of UI pop-up to alert players
+		wm_announce	"Axis team has constructed the Kontrollpunkt MG Nest!"
+	}
+
+	decayed final
+	{
+		setstate axisbarnmg42 invisible
+		setstate axisbarnmg42materials default
+	}
+
+	death
+	{
+		setstate axisbarnmg42 invisible
+		setstate axisbarnmg42materials default
+		repairmg42 axisbarnmg42
+
+		// Some kind of UI pop-up to alert players
+		wm_announce	"Allied team has destroyed the Kontrollpunkt MG Nest!"
+	}
+}
+
+// ============================================================================
+// axis2 MG42 Nest - on axis side of the map
+// ============================================================================
+axis2barnmg42nest
+{
+	spawn
+	{
+		wait 200
+
+		constructible_class 2
+
+		setstate axis2barnmg42 invisible
+		setstate axis2barnmg42materials default
+	}
+
+	buildstart final
+	{
+		setstate axis2barnmg42 underconstruction
+	}
+
+	built final
+	{
+		setstate axis2barnmg42 default
+		setstate axis2barnmg42materials invisible
+
+		// Some kind of UI pop-up to alert players
+		wm_announce	"axis team has constructed the West MG Nest!"
+	}
+
+	decayed final
+	{
+		setstate axis2barnmg42 invisible
+		setstate axis2barnmg42materials default
+	}
+
+	death
+	{
+		setstate axis2barnmg42 invisible
+		setstate axis2barnmg42materials default
+		repairmg42 axis2barnmg42
+
+		// Some kind of UI pop-up to alert players
+		wm_announce	"Allied team has destroyed the West MG Nest!"
+	}
+}
+
+// ============================================================================
+// The Bridge
+// ============================================================================
+thebridge
+{
+	spawn
+	{
+		accum 7 set 0	// Bridge stage construction and tank status
+		wait 200
+
+		constructible_class 3
+		setstate bridgematerials_stage1 invisible
+		setstate bridgematerials_stage2 invisible
+
+		accum 7 bitset 1	// Tank NOT over bridge yet
+	}
+
+	//-----------------------------------------------------------------------
+	// Stage 1 is BUILT
+	//-----------------------------------------------------------------------
+	built stage1
+	{
+		setstate bridgematerials_stage1 invisible	// Remove stage 1 construction items
+		trigger game_manager objective7
+
+		accum 7 abort_if_not_bitset 1	// Tank over bridge?
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_addteamvoiceannounce 0 "tank_axis_bridge_destroy"
+
+//		wm_addteamvoiceannounce 1 "tank_allies_bridge_reinforce"
+
+		wm_teamvoiceannounce 0 "tank_axis_bridge_destroy"
+
+//		wm_teamvoiceannounce 1 "tank_allies_bridge_reinforce"
+
+		wm_removeteamvoiceannounce 0 "tank_axis_bridge_stop"
+
+		wm_removeteamvoiceannounce 1 "tank_allies_bridge_construct"
+		// *---------------------------------------------------------------------------------*
+	}
+
+	//-----------------------------------------------------------------------
+	// Stage 1 is build
+	//-----------------------------------------------------------------------
+	death
+	{
+		setstate bridgematerials_stage1 default		// Restore stage 1 construction items
+		togglespeaker bridge_expl			// Explosion
+
+		//trigger tank clearBridge
+
+		// Some kind of UI pop-up to alert players
+		wm_announce	"Axis team has destroyed the Bridge!"
+
+		accum 7 abort_if_not_bitset 1	// Tank over bridge?
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_addteamvoiceannounce 0 "tank_axis_bridge_stop"
+
+		wm_addteamvoiceannounce 1 "tank_allies_bridge_construct"
+
+		wm_teamvoiceannounce 0 "tank_axis_bridge_destroyed"
+
+		wm_teamvoiceannounce 1 "tank_allies_bridge_construct"
+
+		wm_removeteamvoiceannounce 0 "tank_axis_bridge_destroy"
+
+//		wm_removeteamvoiceannounce 1 "tank_allies_bridge_reinforce"
+		// *---------------------------------------------------------------------------------*
+	}
+
+	//-----------------------------------------------------------------------
+	// Stage 2 is final
+	//-----------------------------------------------------------------------
+	built final
+	{
+		setstate bridgematerials_stage2 invisible
+		trigger tank setBridge
+
+		// Some kind of UI pop-up to alert players
+		wm_announce	"Allied team has reinforced the Bridge!"
+
+		accum 7 abort_if_not_bitset 1	// Tank over bridge?
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_addteamvoiceannounce 0 "tank_axis_bridge_destroy"
+
+		wm_addteamvoiceannounce 1 "tank_allies_bridge_constructed"
+
+//		wm_teamvoiceannounce 0 "tank_axis_bridge_reinforced"
+
+//		wm_teamvoiceannounce 1 "tank_allies_bridge_reinforced"
+		wm_teamvoiceannounce 1 "tank_allies_bridge_constructed"
+
+//		wm_removeteamvoiceannounce 0 "tank_axis_bridge_stop"
+
+//		wm_removeteamvoiceannounce 1 "tank_allies_bridge_constructed"
+		// *---------------------------------------------------------------------------------*
+
+		wm_set_main_objective		7	0	// Completed an objective
+	}
+
+	//-----------------------------------------------------------------------
+	// Stage 2 is DESTROYED, go back to stage 1
+	//-----------------------------------------------------------------------
+	destroyed final
+	{
+		setstate bridgematerials_stage2 default
+		togglespeaker bridge_expl
+
+	//	trigger tank clearBridge
+
+		// Some kind of UI pop-up to alert players
+		wm_announce	"Axis team has damaged the Bridge!"
+
+		accum 7 abort_if_not_bitset 1	// Tank over bridge?
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_addteamvoiceannounce 0 "tank_axis_bridge_destroy"
+//		wm_addteamvoiceannounce 1 "tank_allies_bridge_reinforce"
+
+		wm_teamvoiceannounce 0 "tank_axis_bridge_damaged"
+
+		wm_teamvoiceannounce 1 "tank_allies_bridge_damaged"
+
+//		wm_removeteamvoiceannounce 1 "tank_allies_tank_bridge"
+		// *---------------------------------------------------------------------------------*
+	}
+
+	//-----------------------------------------------------------------------
+	// Tank has made it over the bridge and on route to the cave doors
+	// remove all VO reference to the bridge construct/destruct
+	//-----------------------------------------------------------------------
+	trigger tank_passed
+	{
+		accum 7 bitreset 1	// Tank over bridge, no more announcements
+
+		// *----------------------------------- vo ------------------------------------------*
+//		wm_addteamvoiceannounce 0 "tank_axis_tunnel_stop"
+//		wm_addteamvoiceannounce 1 "tank_allies_tank_depot"
+
+//		wm_teamvoiceannounce 0 "tank_axis_tunnel_stop"
+
+		wm_removeteamvoiceannounce 0 "tank_axis_bridge_destroy"
+		wm_removeteamvoiceannounce 0 "tank_axis_bridge_stop"
+
+		wm_removeteamvoiceannounce 1 "tank_allies_bridge_construct"
+//		wm_removeteamvoiceannounce 1 "tank_allies_bridge_reinforce"
+		wm_removeteamvoiceannounce 1 "tank_allies_tank_bridge"
+		// *---------------------------------------------------------------------------------*
+	}
+
+}
+
+// --------------------------------------------------------------------
+// "Hotbridge" in heating room
+//  
+// --------------------------------------------------------------------
+hot_script_trigger
+{
+	spawn
+	{
+		accum 5 set 1			// Initial state is ON
+		wait 500			// Wait for everything to settle
+		trigger hot_script_trigger hot	// Hot bridge cont
+	}
+	trigger hot
+	{
+		globalaccum 1 abort_if_not_equal 0
+		trigger hot_script_trigger t_close
+		trigger hot_script_trigger t_open
+
+	}
+	trigger t_close
+	{
+			accum 5 abort_if_not_equal 1	// Ready to run up routine == 1
+			resetscript			// return to trigger that called it
+
+			trigger switch1 upa
+			accum 5 set 0			// Setup accum for up routine
+	}
+	trigger t_open
+	{
+			accum 5 abort_if_not_equal 0	// Ready to run down routine == 0
+			resetscript			// return to trigger that called it
+
+			trigger switch1 downa
+			accum 5 set 1			// Setup accum for up routine
+	}
+}
+
+switch1
+{
+	spawn
+	{
+	}
+	trigger downa
+	{
+		wait 50
+		playsound sound/movers/doors/door5_open.wav
+		faceangles 36 0 0 1500
+		trigger hotbridge open
+	}
+	trigger upa
+	{
+		wait 50
+		playsound sound/movers/doors/door5_close.wav
+		faceangles 0 0 0 1500
+		playsound sound/movers/doors/door5_endc.wav
+		trigger hotbridge close
+	}
+}
+
+hotbridge
+{
+	spawn
+	{
+	}
+
+	trigger open
+	{
+		wait 500
+		playsound sound/movers/misc/big_gate1.wav volume 127
+		wait 350
+		gotomarker t_close wait
+		playsound sound/movers/misc/big_gate3.wav volume 127
+	}
+
+	trigger close
+	{
+		wait 500
+		playsound sound/movers/misc/big_gate1.wav volume 127
+		wait 400
+		gotomarker t_open 15 wait
+		playsound sound/movers/misc/big_gate3.wav volume 127
+	}
+}
+
+// ============================================================================
+// Allied Ladder - Old Pump Station
+// ============================================================================
+allied_ladder_pump
+{
+	spawn
+	{
+		wait 200
+
+		constructible_class 2
+
+		//setstate a_ladder invisible
+		setstate allied_laddermaterials default
+	}
+
+	buildstart final
+	{
+		setstate allied_ladder underconstruction
+	}
+
+	built final
+	{
+		setstate allied_ladder default
+		//setstate a_ladder default
+		setstate allied_laddermaterials invisible
+
+		// Some kind of UI pop-up to alert players
+		wm_announce	"Allies team has constructed the Ladder in Old Pump Station!"
+	}
+
+	decayed final
+	{
+		setstate allied_ladder invisible
+		//setstate a_ladder invisible
+		setstate allied_laddermaterials default
+	}
+
+	death
+	{
+		setstate allied_ladder invisible
+		//setstate a_ladder invisible
+		setstate allied_laddermaterials default
+		// repairmg42 axisbarnmg42
+
+		// Some kind of UI pop-up to alert players
+		wm_announce	"Axis team has destroyed the Ladder in Old Pump Station!"
+	}
+}
+
+
+

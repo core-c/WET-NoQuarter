@@ -1,0 +1,83 @@
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/nq/!svn/ver/3495/branches/1.2.8_0.71/Omnibot/Common
+END
+BotExports.h
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/nq/!svn/ver/3495/branches/1.2.8_0.71/Omnibot/Common/BotExports.h
+END
+Omni-Bot_BasicTypes.h
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/nq/!svn/ver/3495/branches/1.2.8_0.71/Omnibot/Common/Omni-Bot_BasicTypes.h
+END
+Functions_Bot.h
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/nq/!svn/ver/3495/branches/1.2.8_0.71/Omnibot/Common/Functions_Bot.h
+END
+IEngineInterface.h
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/nq/!svn/ver/3495/branches/1.2.8_0.71/Omnibot/Common/IEngineInterface.h
+END
+Omni-Bot_BitFlags.h
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/nq/!svn/ver/3495/branches/1.2.8_0.71/Omnibot/Common/Omni-Bot_BitFlags.h
+END
+Base_Messages.h
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/nq/!svn/ver/3495/branches/1.2.8_0.71/Omnibot/Common/Base_Messages.h
+END
+Omni-Bot_Color.h
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/nq/!svn/ver/3495/branches/1.2.8_0.71/Omnibot/Common/Omni-Bot_Color.h
+END
+BotLoadLibrary.os
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/nq/!svn/ver/3495/branches/1.2.8_0.71/Omnibot/Common/BotLoadLibrary.os
+END
+BotLoadLibrary.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/nq/!svn/ver/3495/branches/1.2.8_0.71/Omnibot/Common/BotLoadLibrary.cpp
+END
+MessageHelper.h
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/nq/!svn/ver/3495/branches/1.2.8_0.71/Omnibot/Common/MessageHelper.h
+END
+Omni-Bot.h
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/nq/!svn/ver/3495/branches/1.2.8_0.71/Omnibot/Common/Omni-Bot.h
+END
+Omni-Bot_Events.h
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/nq/!svn/ver/3495/branches/1.2.8_0.71/Omnibot/Common/Omni-Bot_Events.h
+END
+Omni-Bot_Types.h
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/nq/!svn/ver/3495/branches/1.2.8_0.71/Omnibot/Common/Omni-Bot_Types.h
+END

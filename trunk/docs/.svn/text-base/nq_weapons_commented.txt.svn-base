@@ -1,0 +1,103 @@
+/*
+You can restrict the following weapons:
+
+WP_PANZERFAUST		= Axis Panzerfaust weapon
+WP_FLAMETHROWER		= American flamethrower
+WP_KAR98		= Engineer's K43
+WP_CARBINE		= Engineer's M1 Garand
+WP_GARAND		= Covert's M1 Garand
+WP_LANDMINE		= Landmine
+WP_MOBILE_MG42		= Mobile MG42
+WP_K43			= Covert's K43
+WP_FG42			= FG42
+WP_MORTAR		= Allied Mortar
+WP_GPG40		= Grenade launcher for K43
+WP_M7			= grenade launcher for M1 Garand
+WP_GARAND_SCOPE		= Active scoped M1 Garand
+WP_K43_SCOPE		= Active scoped K43
+WP_FG42SCOPE		= Active scoped FG42
+WP_SHOTGUN		= Winchester Model 1897 12-gauge
+WP_MOBILE_BROWNING	= Browning .30 Light Machinegun
+WP_JOHNSON		= Johnson M41
+WP_BAZOOKA		= M1 Bazooka Anti-Tank
+WP_MORTAR2		= Axis mortar
+WP_VENOM		= Venom machinegun
+WP_JOHNSON_SCOPE	= Johnson M41
+*/
+
+/*
+	The weapon is only available if there are at least 'count' players.
+	Players are Axis or Allied. Spectators are ignored.
+	If 'count' is set to 13, and there are 5 players, the weapon will be unavailable.
+	'count' = -1 means there is no restriction.
+*/
+[minplayers]
+WP_PANZERFAUST		= 10
+WP_FLAMETHROWER		= 6
+WP_KAR98		= -1
+WP_CARBINE		= -1
+WP_GARAND		= -1
+WP_LANDMINE		= -1
+WP_MOBILE_MG42		= -1
+WP_K43			= -1
+WP_FG42			= -1
+WP_MORTAR		= -1
+WP_GPG40		= -1
+WP_M7			= -1
+WP_GARAND_SCOPE		= -1
+WP_K43_SCOPE		= -1
+WP_FG42SCOPE		= -1
+WP_SHOTGUN		= -1
+WP_MOBILE_BROWNING	= -1
+WP_JOHNSON		= -1
+WP_BAZOOKA		= 10
+WP_MORTAR2		= -1
+WP_VENOM		= -1
+WP_JOHNSON_SCOPE	= -1
+
+/*
+	A total of 'max' players can use the weapon.
+	There are never more than 'max' of this type of weapon ingame.
+	Players are Axis or Allied. Spectators are ignored.
+	'max' = -1 means there is no restriction.
+	'max' = 0 means the weapon is never available.
+*/
+[maxweap]
+WP_PANZERFAUST		= 4
+WP_FLAMETHROWER		= 6
+WP_KAR98		= 1
+WP_CARBINE		= -1
+WP_GARAND		= -1
+WP_LANDMINE		= 20
+WP_MOBILE_MG42		= -1
+WP_K43			= -1
+WP_FG42			= -1
+WP_MORTAR		= -1
+WP_GPG40		= 1
+WP_M7			= 1
+WP_GARAND_SCOPE		= -1
+WP_K43_SCOPE		= -1
+WP_FG42SCOPE		= -1
+WP_SHOTGUN		= -1
+WP_MOBILE_BROWNING	= -1
+WP_JOHNSON		= -1
+WP_BAZOOKA		= 4
+WP_MORTAR2		= -1
+WP_VENOM		= -1
+WP_JOHNSON_SCOPE	= -1
+
+/*
+	The weapon is available for 'p' percent of the players.
+	Players are Axis or Allied. Spectators are ignored.
+	If 'p' is set to 20, and there are 10 players, it means that there are 2 weapons available. (20% of 10 = 2).
+	'p' = -1 means there is no restriction.
+	'p' = 0 means the weapon is unavailable.
+
+	Note: It is not needed to add entries for weapons that are not restricted..
+	The following section only lists the restrictions.
+*/
+[percentage]
+WP_PANZERFAUST		= 20
+WP_FLAMETHROWER		= 50
+WP_BAZOOKA		= 20
+WP_VENOM		= 0

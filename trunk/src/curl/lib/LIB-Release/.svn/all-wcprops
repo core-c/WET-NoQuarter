@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/nq/!svn/ver/5389/trunk/src/curl/lib/LIB-Release
+END
+libcurl.lib
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/nq/!svn/ver/5389/trunk/src/curl/lib/LIB-Release/libcurl.lib
+END
+libcurl-release.a
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/nq/!svn/ver/5389/trunk/src/curl/lib/LIB-Release/libcurl-release.a
+END

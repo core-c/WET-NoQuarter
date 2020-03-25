@@ -1,0 +1,86 @@
+weaponDef
+{
+	both {
+		name					"Rifle Grenade (GPG40)"
+		statname				"Rifle Nade"
+		damage					250
+		splashdamage			250
+		splashdamage_radius		250
+		selfKillMessage			"ate his own rifle grenade."
+		KillMessage				"was exploded by"
+		KillMessage2			"'s riflenade."
+		GibbingWeapon
+	}
+
+	client {
+		droppedAnglesHack
+		
+		weaponConfig			"models/multiplayer/kar98/weapon.cfg"
+		handsModel				"models/multiplayer/kar98/v_kar98_hand.md3"
+		
+		flashDlightColor		1.0 0.7 0.5
+		flashSound				"sound/weapons/k43/k43_fire_grenade.wav"
+		flashEchoSound			"sound/weapons/k43/k43_far.wav"
+		
+		reloadSound				"sound/weapons/k43/k43_reload_grenade.wav"
+		switchSound				"sound/weapons/k43/k43_grenade_on.wav"
+		
+		weaponIcon				"icons/iconw_kar98_gren"
+		weaponSelectedIcon		"icons/iconw_kar98_gren_1_select"
+		
+		missileModel			"models/multiplayer/kar98/v_kar98_scope.md3"
+		missileSound			"sound/weapons/k43/k43_grenade_fly.wav"
+		missileTrailFunc		"GrenadeTrail"
+		
+		modModel 0				"models/multiplayer/kar98/v_kar98_scope.md3"
+		modModel 1				"models/multiplayer/kar98/kar98_att.md3"
+		
+		firstPerson {
+			model				"models/multiplayer/kar98/v_kar98.md3"
+			axisskin			"models/multiplayer/kar98/kar98_axis.skin"
+			alliedskin			"models/multiplayer/kar98/kar98_allied.skin"
+			flashModel			"models/multiplayer/kar98/v_kar98_flash.mdc"
+
+			weaponLink
+			{
+				part 0
+				{
+					tag			"tag_barrel"
+					model		"models/multiplayer/kar98/v_kar98_barrel.mdc"
+				}
+				part 1
+				{
+					tag			"tag_barrel2"
+					model		"models/multiplayer/kar98/v_kar98_barrel2.mdc"
+				}
+				part 2
+				{
+					tag			"tag_barrel3"
+					model		"models/multiplayer/kar98/v_kar98_barrel3.mdc"
+					axisskin	"models/multiplayer/kar98/kar98_axis.skin"
+					alliedskin	"models/multiplayer/kar98/kar98_allied.skin"
+				}
+				part 3
+				{
+					tag			"tag_barrel4"
+					model		"models/multiplayer/kar98/v_kar98_barrel4.mdc"
+				}
+				part 4
+				{
+					tag			"tag_barrel5"
+					model		"models/multiplayer/kar98/v_kar98_barrel5.mdc"
+				}
+				part 5
+				{
+					tag			"tag_barrel6"
+					model		"models/multiplayer/kar98/v_kar98_barrel6.mdc"
+				}
+			}
+		}
+		
+		thirdPerson {
+			model				"models/multiplayer/kar98/kar98_3rd.md3"
+			flashmodel			"models/multiplayer/kar98/kar98_3rd_flash.mdc"
+		}
+	}
+}

@@ -1,0 +1,104 @@
+#include "ui/menudef.h"
+
+// Defines //
+#define WINDOW_X		16
+#define WINDOW_Y		16
+#define WINDOW_WIDTH	296
+#define WINDOW_HEIGHT	330
+#define GROUP_NAME		"grpIngameVoteMiscRefRcon"
+
+// Macros //
+#include "ui/menumacros.h"
+
+// Misc Ref/Rcon Menu //
+menuDef {
+	name		"ingame_vote_misc_refrcon"
+	visible		0
+	fullscreen	0
+	rect		WINDOW_X WINDOW_Y WINDOW_WIDTH WINDOW_HEIGHT
+	style		WINDOW_STYLE_FILLED
+
+	onOpen {
+		copyCvar g_gametype ui_voteGameType ;
+
+		conditionalScript ui_voteGameType 3	// 3: cvartest
+			( "setcvar ui_voteGameType 2" )
+			( "clearFocus" ) "4" ;
+	}
+
+	onEsc {
+		close ingame_vote_misc_refrcon ;
+		open ingame_vote
+	}
+
+// Window //
+	WINDOW( "MISC", 50)
+	
+// Buttons //
+	// left side buttons
+	BUTTON( 6, 32, .5*(WINDOW_WIDTH-18), 14, "START MATCH", .24, 11, exec "cmd ref startmatch"; uiScript closeingame )
+	BUTTON( 6, 50, .5*(WINDOW_WIDTH-18), 14, "RESET MATCH", .24, 11, exec "cmd ref matchreset"; uiScript closeingame )
+	BUTTON( 6, 68, .5*(WINDOW_WIDTH-18), 14, "RESTART MAP", .24, 11, exec "cmd ref maprestart"; uiScript closeingame )
+	BUTTONEXT( 6, 86, .5*(WINDOW_WIDTH-18), 14, "NEXT MAP", .24, 11, exec "cmd ref nextmap"; uiScript closeingame, settingEnabled CV_SVS_NEXTMAP )
+	BUTTON( 6, 104, .5*(WINDOW_WIDTH-18), 14, "RESTART CAMPAIGN", .24, 11, exec "cmd ref restartcamaign"; uiScript closeingame )
+	BUTTONEXT( 6, 122, .5*(WINDOW_WIDTH-18), 14, "NEXT CAMPAIGN", .24, 11, exec "cmd ref nextcampaign"; uiScript closeingame, settingEnabled CV_SVS_NEXTMAP ) // kw: rename this to CV_SVS_NEXTCAMPAIGN?
+	BUTTONEXT( 6, 140, .5*(WINDOW_WIDTH-18), 14, "MUTE SPECS", .24, 11, exec "cmd ref mutespecs 1"; uiScript closeingame, settingDisabled CV_SVS_MUTESPECS )
+	BUTTONEXT( 6, 140, .5*(WINDOW_WIDTH-18), 14, "UNMUTE SPECS", .24, 11, exec "cmd ref mutespecs 0"; uiScript closeingame, settingEnabled CV_SVS_MUTESPECS )
+
+	// right side buttons
+	BUTTON( 6+.5*(WINDOW_WIDTH-18)+6, 32, .5*(WINDOW_WIDTH-18), 14, "SHUFFLE RESTART", .24, 11, exec "cmd ref shuffleteamsxp"; uiScript closeingame )
+	BUTTON( 6+.5*(WINDOW_WIDTH-18)+6, 50, .5*(WINDOW_WIDTH-18), 14, "SHUFFLE NO RESTART", .24, 11, exec "cmd ref shufflenorestart"; uiScript closeingame )
+	BUTTON( 6+.5*(WINDOW_WIDTH-18)+6, 68, .5*(WINDOW_WIDTH-18), 14, "SWAP TEAMS", .24, 11, exec "cmd ref swapteams"; uiScript closeingame )
+	BUTTONEXT( 6+.5*(WINDOW_WIDTH-18)+6, 86, .5*(WINDOW_WIDTH-18), 14, "FRIENDLY FIRE ON", .24, 11, exec "cmd ref friendlyfire 1"; uiScript closeingame, settingDisabled CV_SVS_FRIENDLYFIRE )
+	BUTTONEXT( 6+.5*(WINDOW_WIDTH-18)+6, 86, .5*(WINDOW_WIDTH-18), 14, "FRIENDLY FIRE OFF", .24, 11, exec "cmd ref friendlyfire 0"; uiScript closeingame, settingEnabled CV_SVS_FRIENDLYFIRE )
+	BUTTONEXT( 6+.5*(WINDOW_WIDTH-18)+6, 104, .5*(WINDOW_WIDTH-18), 14, "BALANCED TEAMS ON", .24, 11, exec "cmd ref balancedteams 1"; uiScript closeingame, settingDisabled CV_SVS_BALANCEDTEAMS )
+	BUTTONEXT( 6+.5*(WINDOW_WIDTH-18)+6, 104, .5*(WINDOW_WIDTH-18), 14, "BALANCED TEAMS OFF", .24, 11, exec "cmd ref balancedteams 0"; uiScript closeingame, settingEnabled CV_SVS_BALANCEDTEAMS )
+	BUTTONEXT( 6+.5*(WINDOW_WIDTH-18)+6, 122, .5*(WINDOW_WIDTH-18), 14, "ANTI-LAG ON", .24, 11, exec "cmd ref antilag 1"; uiScript closeingame, settingDisabled CV_SVS_ANTILAG )
+	BUTTONEXT( 6+.5*(WINDOW_WIDTH-18)+6, 122, .5*(WINDOW_WIDTH-18), 14, "ANTI-LAG OFF", .24, 11, exec "cmd ref antilag 0"; uiScript closeingame, settingEnabled CV_SVS_ANTILAG )
+	BUTTON( 6+.5*(WINDOW_WIDTH-18)+6, 140, .5*(WINDOW_WIDTH-18), 14, "SURRENDER", .24, 11, exec "cmd ref surrender"; uiScript closeingame )
+
+	BUTTON( 6, 158, WINDOW_WIDTH-12, 14, "COMPETITION SETTINGS", .24, 11, exec "cmd ref comp"; uiScript closeingame )
+	BUTTON( 6, 176, WINDOW_WIDTH-12, 14, "PUBLIC SETTINGS", .24, 11, exec "cmd ref pub"; uiScript closeingame )
+
+	MULTILEFT( 8, 194+2, .80*(WINDOW_WIDTH-18), 10, "Warmup Damage:", .2, 8, "ui_voteWarmupDamage", cvarFloatList { "None" 0 "Enemies" 1 "Everyone" 2 }, "Select the warm-up damage mode to vote on" )
+	NAMEDBUTTON( "bttnextWarmupDamage", 6+.80*(WINDOW_WIDTH-18)+6, 194, .20*(WINDOW_WIDTH-18), 14, "OK", .24, 11, uiScript refWarmupDamage; uiScript closeingame )
+
+	itemDef {
+		name		"nfleftbackTimelimit:"
+		group		GROUP_NAME
+		rect		$evalfloat(76+8) $evalfloat(212+2) $evalfloat(.45*(WINDOW_WIDTH-18)-76) 10
+		style		WINDOW_STYLE_FILLED
+		backcolor	.5 .5 .5 .2
+		visible		1
+		decoration
+	}
+	NUMERICFIELDLEFTEXT( 8, 212+2, .80*(WINDOW_WIDTH-18), 10, "Time Limit:", .2, 8, "ui_voteTimelimit", 6, "", "Specify a time limit to vote on" )
+	NAMEDBUTTON( "bttnextTimelimit", 6+.80*(WINDOW_WIDTH-18)+6, 212, .20*(WINDOW_WIDTH-18), 14, "OK", .24, 11, uiScript refTimelimit; uiScript closeingame )
+
+	MULTILEFT( 8, 230+2, .80*(WINDOW_WIDTH-18), 10, "Game Type:", .2, 8, "ui_voteGameType", cvarFloatList { "Single-Map Objective" 2 "Stopwatch" 3 "Last Man Standing" 5 "Map Voting" 6 }, "Select the game type to vote on" )
+	NAMEDBUTTON( "bttnextGameType", 6+.80*(WINDOW_WIDTH-18)+6, 230, .20*(WINDOW_WIDTH-18), 14, "OK", .24, 11, uiScript refGame; uiScript closeingame )
+	
+	itemDef {
+		name		"nfleftbackPoll:"
+		group		GROUP_NAME
+		rect		$evalfloat(40+8) $evalfloat(248+2) $evalfloat(.80*(WINDOW_WIDTH-18)-40) 10
+		style		WINDOW_STYLE_FILLED
+		backcolor	.5 .5 .5 .2
+		visible		1
+		voteFlag	CV_SVF_POLL
+		decoration
+	}
+	EDITFIELDLEFTEXT( 8, 248+2, .80*(WINDOW_WIDTH-18), 10, "Poll:", .2, 8, "ui_poll", 200, 28, "", "Enter the text for your poll" )
+	NAMEDBUTTON( "bttnextPoll", 6+.80*(WINDOW_WIDTH-18)+6, 248, .20*(WINDOW_WIDTH-18), 14, "OK", .24, 11, uiScript refPoll; uiScript closeingame )
+
+	BUTTONEXT( 6, 266, WINDOW_WIDTH-12, 14, "PAUSE", .24, 11, exec "cmd ref pause"; uiScript closeingame, settingDisabled CV_SVS_PAUSE )
+	BUTTONEXT( 6, 266, WINDOW_WIDTH-12, 14, "UNPAUSE", .24, 11, exec "cmd ref unpause"; uiScript closeingame, settingEnabled CV_SVS_PAUSE )
+	
+	BUTTONEXT( 6, 284, .5*(WINDOW_WIDTH-18), 14, "LOCK TEAMS", .24, 11, exec "cmd ref lock"; uiScript closeingame, settingDisabled CV_SVS_LOCKTEAMS )
+	BUTTONEXT( 6, 284, .5*(WINDOW_WIDTH-18), 14, "UNLOCK TEAMS", .24, 11, exec "cmd ref unlock"; uiScript closeingame, settingEnabled CV_SVS_LOCKTEAMS )
+	
+	BUTTONEXT( 6+.5*(WINDOW_WIDTH-18)+6, 284, .5*(WINDOW_WIDTH-18), 14, "LOCK SPECS", .24, 11, exec "cmd ref speclock"; uiScript closeingame, settingDisabled CV_SVS_LOCKSPECS )
+	BUTTONEXT( 6+.5*(WINDOW_WIDTH-18)+6, 284, .5*(WINDOW_WIDTH-18), 14, "UNLOCK SPECS", .24, 11, exec "cmd ref specunlock"; uiScript closeingame, settingEnabled CV_SVS_LOCKSPECS )
+
+	BUTTON( 6, WINDOW_HEIGHT-24, WINDOW_WIDTH-12, 18, "BACK", .3, 14, close ingame_vote_misc_refrcon ; open ingame_vote )
+}

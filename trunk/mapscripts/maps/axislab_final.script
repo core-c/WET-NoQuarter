@@ -1,0 +1,4872 @@
+//******************************
+//Scripting
+//Map: Axis Lab
+//Last edited by: Chris S.
+//******************************
+
+game_manager
+{
+	spawn
+	{
+		// Set scenario information
+
+		// "Allied forces are attempting to steal top secret lab documents from an under ground hidden Axis lab."
+
+		// Set the respawn times
+
+		wm_allied_respawntime		20
+		wm_axis_respawntime		25
+
+		wm_set_round_timelimit		25
+
+		// Set the number of objectives for the map
+
+		wm_number_of_objectives		8
+
+		// Current main objectives for each team (0=Axis, 1=Allies)
+		wm_set_main_objective		4	0
+		wm_set_main_objective		4	1
+
+		// objectives
+		// 0:	Flag on the Hill Top (shows as 1 of 9 in game and add one to the others also)
+		// 1:	Entrances
+		// 2:	Fixing truck
+		// 3:	Elevator Generator
+		// 4:	Nuke Room doors
+		// 5:	Lab Cart with nuke
+		// 6:	Escorting Truck
+		// 7:   Axis Command Post
+		// 8:   Allied Command Post
+
+		// Objective overview status indicators
+		//wm_objective_status <objective> <team (0=Axis, 1=Allies)> <status (0=neutral 1=complete 2=failed)>
+		wm_objective_status 1 1 0
+		wm_objective_status 1 0 0
+		wm_objective_status 2 1 0
+		wm_objective_status 2 0 0
+		wm_objective_status 3 1 0
+		wm_objective_status 3 0 0
+		wm_objective_status 4 1 0
+		wm_objective_status 4 0 0
+		wm_objective_status 5 1 0
+		wm_objective_status 5 0 0
+		wm_objective_status 6 1 0
+		wm_objective_status 6 0 0
+		wm_objective_status 7 1 0
+		wm_objective_status 7 0 0
+		wm_objective_status 8 1 0
+		wm_objective_status 8 0 0
+
+		// Set autospawn markers <team (0 = axis, 1 = allies)> <message key of marker>
+		// Spawns on Axis Lab:
+		// Allied Side
+		// Hill Top
+
+		wait 50
+		setstate docs_toi invisible
+		setstate docs_cm_marker invisible
+		setstate docs_trans invisible
+		setstate docs_holder invisible
+
+		setstate elevator_generator2_toi invisible
+		setstate elevator_generator2 invisible
+		setstate elevator_generator2_materials_clip invisible
+		setstate elevator_generator2_materials invisible
+
+		wait 450
+		setautospawn "Hill Top" 		0
+		setautospawn "Allied Cabin"		1
+		setstate allied_cabin_spawn invisible
+
+		// Set Defending Team for SW Mode
+		wm_set_defending_team	0
+
+		// If the round timer expires, the Axis have won, so set the current winning team
+		// Set the round winner:  0 == AXIS, 1 == ALLIED
+		wm_setwinner 0
+
+		wait 2000
+		// *----------------------------------- vo ------------------------------------------*
+		wm_addteamvoiceannounce 0 "axis_hill_top_dont"
+		wm_addteamvoiceannounce 0 "axis_entrances_defend"
+		wm_addteamvoiceannounce 0 "axis_hq_compost_construct"
+		wm_addteamvoiceannounce 0 "axis_truck_steal"
+
+		wm_addteamvoiceannounce 1 "allies_hill_top_go"
+		wm_addteamvoiceannounce 1 "allies_entrances_destroy"
+		wm_addteamvoiceannounce 1 "allies_hq_compost_construct"
+		wm_addteamvoiceannounce 1 "allies_truck_steal"
+
+		wm_teamvoiceannounce 0 "axis_hill_top_dont"
+		wm_teamvoiceannounce 0 "axis_entrances_defend"
+		wm_teamvoiceannounce 0 "axis_hq_compost_construct"
+		wm_teamvoiceannounce 0 "axis_truck_steal"
+
+		wm_teamvoiceannounce 1 "allies_hill_top_go"
+		wm_teamvoiceannounce 1 "allies_entrances_destroy"
+		wm_teamvoiceannounce 1 "allies_hq_compost_construct"
+		wm_teamvoiceannounce 1 "allies_truck_steal"
+		// *---------------------------------------------------------------------------------*
+	}
+
+	trigger allies_win
+	{
+		wm_setwinner	1
+		wm_announce "^5Allied team have escaped with the Nuke!"
+
+		wm_objective_status 6 0 2
+		wm_objective_status 6 1 1
+
+		wait 2000
+		wm_endround
+	}
+}
+
+elevator_generator2_materials
+{
+	spawn
+	{
+		wait 600
+		remove
+	}
+}
+
+elevator_generator2_materials_clip
+{
+	spawn
+	{
+		wait 600
+		remove
+	}
+}
+
+elevator_generator2
+{
+	spawn
+	{
+		wait 600
+		remove
+	}
+}
+
+elevator_generator2_toi
+{
+	spawn
+	{
+		wait 600
+		remove
+	}
+}
+
+docs_holder
+{
+	spawn
+	{
+		wait 600
+		remove
+	}
+}
+
+docs_trans
+{
+	spawn
+	{
+		wait 600
+		remove
+	}
+}
+
+docs_cm_marker
+{
+	spawn
+	{
+		wait 600
+		remove
+	}
+}
+
+docs_toi
+{
+	spawn
+	{
+		wait 600
+		remove
+	}
+}
+
+ceilingfan
+{
+	spawn
+	{
+		wait 100
+		setrotation	0 300 0
+	}
+}
+//////////////
+//Objectives//
+//////////////
+
+hill_flag //Flag on top of hill (Objective 1)
+{
+	spawn
+	{
+		// Accum #0 State of Hill Top flag: 0=axis 1=allied
+		wait 1000
+		disablespeaker flag_sound
+	}
+
+	trigger axis_capture
+	{
+		// Axis takes control of Hill Top flag
+
+		enablespeaker flag_sound
+
+		accum 0 abort_if_equal 0
+		accum 0 set 0
+
+		setautospawn "Hill Top"		0
+		setautospawn "Allied Cabin"	1
+
+		alertentity hill_top_spawn
+
+		wm_announce	"^1Axis reclaims the Hill Top!"
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_addteamvoiceannounce 0 "axis_hill_top_dont"
+
+		wm_addteamvoiceannounce 1 "allies_hill_top_go"
+
+		wm_teamvoiceannounce 0 "axis_hill_top_recaptured"
+
+		wm_teamvoiceannounce 1 "allies_hill_top_reclaimed"
+		// *---------------------------------------------------------------------------------*
+
+	}
+
+	trigger allied_capture
+	{
+		// Allied takes control of Hill Top flag
+	
+		enablespeaker flag_sound
+
+		accum 0 abort_if_equal 1
+		accum 0 set 1
+
+		setautospawn "Hill Top"		1
+		setautospawn "Axis Bunker"	0
+		alertentity hill_top_spawn // Targets team_WOLF_objective entity and changes who owns it on command map
+
+		wm_announce	"^5Allies capture the Hill Top!"
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "axis_hill_top_captured"
+
+		wm_teamvoiceannounce 1 "allies_hill_top_captured"
+
+		wm_removeteamvoiceannounce 0 "axis_hill_top_dont"
+
+		wm_removeteamvoiceannounce 1 "allies_hill_top_go"
+
+
+
+		// *---------------------------------------------------------------------------------*
+
+	}
+
+	trigger force_allied
+	{
+		disablespeaker flag_sound
+
+		globalaccum 1 set 1
+		wm_announce	"^5Allies have secured the Hill Top!"
+
+		accum 0 trigger_if_equal 1 hill_flag kill
+		accum 0 abort_if_equal 1
+		accum 0 set 1
+
+		setautospawn "Hill Top"		1
+		setautospawn "Axis Bunker"	0
+
+		alertentity hill_top_spawn
+		alertentity hill_top
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_removeteamvoiceannounce 0 "axis_hill_top_dont"
+		wm_removeteamvoiceannounce 1 "allies_hill_top_go"
+		// *---------------------------------------------------------------------------------*
+
+		trigger self kill
+	}
+
+	trigger kill
+	{
+		remove
+	}
+}
+
+sewers //Sewer grate (Objective 1)
+{
+	spawn
+	{
+		wait 200
+		constructible_class 3
+	}
+
+	death
+	{
+		wm_announce "^5Allies have breached the Sewers"
+
+		wm_objective_status 1 1 1
+		wm_objective_status 1 0 2
+		wm_set_main_objective	4 0
+		wm_set_main_objective	4 1
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "axis_hq_objective_destroyed"
+		wm_teamvoiceannounce 1 "allies_hq_objective_destroyed"
+
+		wm_removeteamvoiceannounce 0 "axis_entrances_defend"
+		wm_removeteamvoiceannounce 1 "allies_entrances_destroy"
+		trigger war_room_door announce
+		trigger elevator_generator announce
+		// *---------------------------------------------------------------------------------*
+	}
+}
+
+root_cellar //Root Cellar (Objective 1)
+{
+	spawn
+	{
+		wait 200
+		constructible_class 3
+	}
+
+	death
+	{
+		wm_announce "^5Allies have breached the Root Cellar"
+
+		globalaccum 1 trigger_if_equal 0 hill_flag force_allied // Switch hill top spawn to Allied ONLY
+
+		wm_objective_status 1 1 1
+		wm_objective_status 1 0 2
+		wm_set_main_objective	4 0
+		wm_set_main_objective	4 1
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "axis_hq_objective_destroyed"
+		wm_teamvoiceannounce 1 "allies_hq_objective_destroyed"
+
+		wm_removeteamvoiceannounce 0 "axis_entrances_defend"
+		wm_removeteamvoiceannounce 1 "allies_entrances_destroy"
+		trigger war_room_door announce
+		trigger elevator_generator announce
+		// *---------------------------------------------------------------------------------*
+	}
+}
+
+back_wall //Back Door (Objective 1)
+{
+	spawn
+	{
+		wait 200
+		constructible_class 3
+	}
+
+	death
+	{
+		setstate back_door invisible
+
+		wm_announce "^5Allies have breached the Back Door"
+
+		globalaccum 1 trigger_if_equal 0 hill_flag force_allied // Switch hill top spawn to Allied ONLY
+
+		wm_objective_status 1 1 1
+		wm_objective_status 1 0 2
+		wm_set_main_objective	4 0
+		wm_set_main_objective	4 1
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "axis_hq_objective_destroyed"
+		wm_teamvoiceannounce 1 "allies_hq_objective_destroyed"
+
+		wm_removeteamvoiceannounce 0 "axis_entrances_defend"
+		wm_removeteamvoiceannounce 1 "allies_entrances_destroy"
+		trigger war_room_door announce
+		trigger elevator_generator announce
+		// *---------------------------------------------------------------------------------*
+	}
+}
+
+elevator_generator //Elevator Generator (Objective 4)
+{
+	spawn
+	{
+		wait 1000
+		trigger elevator_generator setup
+		constructible_class 2
+	}
+
+	trigger announce
+	{
+		accum 0 trigger_if_equal 0 elevator_generator vo_repaired
+		accum 0 trigger_if_equal 1 elevator_generator vo_disabled
+	}
+
+	trigger vo_repaired
+	{
+		wm_addteamvoiceannounce 0 "axis_generator_disable"
+		wm_teamvoiceannounce 0 "axis_generator_disable"
+	}
+
+	trigger vo_disabled
+	{
+		wm_addteamvoiceannounce 1 "allies_generator_repair"
+		wm_teamvoiceannounce 1 "allies_generator_repair"
+	}
+
+	trigger setup
+	{
+		setstate elevator_generator default
+
+		setstate elevator_generator_materials invisible
+		setstate elevator_generator_materials_clip invisible
+		enablespeaker generator_sound
+	}
+
+	buildstart final
+	{
+		setstate elevator_generator underconstruction
+
+		setstate elevator_generator_materials default
+		setstate elevator_generator_materials_clip default
+	}
+
+	built final
+	{
+		setstate elevator_generator default
+
+		setstate elevator_generator_materials invisible
+		setstate elevator_generator_materials_clip invisible
+
+		enablespeaker generator_sound
+		accum 0 set 0
+		setstate call_buttons default
+
+		wm_announce "^5The Elevator Generator has been constructed."
+		wm_objective_status 3 1 1
+		wm_objective_status 3 0 2
+
+		trigger elevator elevator_fixed
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 1 "allies_generator_repaired"
+		wm_teamvoiceannounce 0 "axis_generator_constructed"
+		wm_teamvoiceannounce 0 "axis_generator_disable"
+
+		wm_removeteamvoiceannounce 1 "allies_generator_repair"
+		wm_addteamvoiceannounce 0 "axis_generator_disable"
+		// *---------------------------------------------------------------------------------*
+	}
+
+	decayed final
+	{
+		setstate elevator_generator invisible
+
+		setstate elevator_generator_materials default
+		setstate elevator_generator_materials_clip default
+	}
+
+	death
+	{
+		setstate elevator_generator invisible
+
+		setstate elevator_generator_materials default
+		setstate elevator_generator_materials_clip default
+
+		disablespeaker generator_sound
+		accum 0 set 1
+		setstate call_buttons invisible
+
+		wm_announce "^1The Elevator Generator has been destroyed."
+		wm_objective_status 3 1 2
+		wm_objective_status 3 0 1
+
+		trigger elevator elevator_destroyed
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 1 "allies_generator_destroyed"
+		wm_teamvoiceannounce 1 "allies_generator_repair"
+		wm_teamvoiceannounce 0 "axis_generator_destroyed"
+
+		wm_addteamvoiceannounce 1 "allies_generator_repair"
+		wm_removeteamvoiceannounce 0 "axis_generator_disable"
+		// *---------------------------------------------------------------------------------*
+	}
+}
+
+war_room_door //The Doors that access the nuke (Objective 5)
+{
+	spawn
+	{
+		wait 200
+		constructible_class 3
+	}
+
+	trigger announce
+	{
+		accum 0 abort_if_equal 1
+
+		wm_addteamvoiceannounce 0 "axis_main_entrance_stop"
+		wm_addteamvoiceannounce 1 "allies_main_entrance_destroy"
+		wm_teamvoiceannounce 0 "axis_main_entrance_stop"
+		wm_teamvoiceannounce 1 "allies_main_entrance_destroy"
+	}
+
+	death
+	{
+		accum 0 set 1
+		trigger cart bit_0_set
+
+		wm_announce "^5Allies have breached the Main Entrance to the Nuke!"
+
+		globalaccum 1 trigger_if_equal 0 hill_flag force_allied // Switch hill top spawn to Allied ONLY
+
+		wm_objective_status 4 1 1
+		wm_objective_status 4 0 2
+		wm_set_main_objective	5 0
+		wm_set_main_objective	5 1
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "axis_main_entrance_destroyed"
+		wm_teamvoiceannounce 1 "allies_main_entrance_destroyed"
+
+		wm_removeteamvoiceannounce 0 "axis_main_entrance_stop"
+		wm_removeteamvoiceannounce 1 "allies_main_entrance_destroy"
+		// *---------------------------------------------------------------------------------*
+	}
+}
+
+ramp //Ramp for nuke to truck (Part of Objective 6)
+{
+	spawn
+	{
+		wait 1000
+		trigger ramp setup
+		constructible_class 2
+	}
+
+	trigger setup
+	{
+		setstate ramp invisible
+		setstate ramp_materials default
+		setstate ramp_materials_flag invisible
+		setstate ramp_toi invisible
+	}
+
+	trigger death_disable
+	{
+		accum 0 set 1
+	}
+
+	trigger remove_all
+	{
+		setstate ramp invisible
+		setstate ramp_materials invisible
+		setstate ramp_materials_flag invisible
+		setstate ramp_toi invisible
+
+		wait 100
+		setstate ramp invisible
+		alertentity ramp_explosion
+	}
+
+	buildstart final
+	{
+		setstate ramp underconstruction
+		setstate ramp_materials underconstruction
+	}
+
+	built final
+	{
+		setstate ramp default
+		setstate ramp_materials invisible
+		setstate ramp_materials_flag invisible
+
+		wm_announce "^5The Cart Ramp has been constructed."
+
+		trigger cart bit_4_set
+	}
+
+	decayed final
+	{
+		setstate ramp invisible
+
+		setstate ramp_materials default
+	}
+
+	death
+	{
+		accum 0 abort_if_equal 1
+
+		setstate ramp invisible
+
+		setstate ramp_materials default
+		setstate ramp_materials_flag default
+
+		wm_announce "^1The Cart Ramp has been destroyed."
+
+		alertentity ramp_explosion
+		trigger cart bit_4_reset
+	}
+}
+
+// ================================================
+// =============== COMMAND POSTS ==================
+// ================================================
+// (Objectives 8 and 9)
+
+allied_radio_destroyed
+{
+	spawn
+	{
+		wait 400
+		setstate allied_radio_destroyed invisible
+		setstate allied_radio_destroyed_model invisible
+	}
+
+	trigger hide
+	{
+		setstate allied_radio_destroyed invisible
+		setstate allied_radio_destroyed_model invisible
+	}
+
+	trigger show
+	{
+		accum 0 abort_if_equal 0
+		setstate allied_radio_destroyed default
+		setstate allied_radio_destroyed_model default
+	}
+
+	trigger enable
+	{
+		accum 0 set 1
+	}
+}
+
+allied_radio_closed
+{
+	trigger hide
+	{
+		setstate allied_radio_closed invisible
+		setstate allied_radio_closed_model invisible
+	}
+
+	trigger show
+	{
+		accum 0 abort_if_equal 1
+		setstate allied_radio_closed default
+		setstate allied_radio_closed_model default
+	}
+
+	trigger disable
+	{
+		accum 0 set 1
+	}
+}
+
+allied_radio_built
+{
+	spawn
+	{
+		wait 1000
+
+		constructible_class 2
+		trigger allied_radio_built setup
+
+		disablespeaker allied_compost_sound
+	}
+
+	trigger setup
+	{
+		setchargetimefactor 1 soldier 1
+		setchargetimefactor 1 lieutenant 1
+		setchargetimefactor 1 medic 1
+		setchargetimefactor 1 engineer 1
+		setchargetimefactor 1 covertops 1
+		sethqstatus 1 0
+	}
+
+	buildstart final
+	{
+		trigger allied_radio_built_model trans
+
+		trigger allied_radio_destroyed hide
+		trigger allied_radio_closed 	hide
+	}
+
+	built final
+	{
+		trigger allied_radio_built_model show
+
+		trigger allied_radio_destroyed enable
+		trigger allied_radio_closed 	disable
+
+		trigger allied_radio_built_model enable_allied_features
+
+		alertentity allied_cabin
+		setstate allied_cabin_spawn default
+
+		enablespeaker allied_compost_sound
+	}
+
+	decayed final
+	{
+		trigger allied_radio_built_model hide
+
+		trigger allied_radio_destroyed show
+		trigger allied_radio_closed 	show
+	}
+
+	death
+	{
+		trigger allied_radio_built_model hide
+
+		trigger allied_radio_destroyed show
+
+		trigger allied_radio_built_model disable_allied_features
+
+		disablespeaker allied_compost_sound
+
+		alertentity allied_cabin
+		setstate allied_cabin_spawn invisible
+	}
+}
+
+allied_radio_built_model
+{
+	spawn
+	{
+		wait 400
+		setstate allied_radio_built_model invisible
+	}
+
+	trigger show
+	{
+		setstate allied_radio_built_model default
+	}
+
+	trigger hide
+	{
+		setstate allied_radio_built_model invisible
+	}
+
+	trigger trans
+	{
+		setstate allied_radio_built_model underconstruction
+	}
+
+	trigger enable_allied_features
+	{
+		setchargetimefactor 1 soldier 0.75
+		setchargetimefactor 1 lieutenant 0.75
+		setchargetimefactor 1 medic 0.75
+		setchargetimefactor 1 engineer 0.75
+		setchargetimefactor 1 covertops 0.75
+		sethqstatus 1 1
+
+		wm_announce	"^5Allied Command Post constructed. Charge speed increased!"
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "axis_hq_compost_constructed_allies"
+
+		wm_teamvoiceannounce 1 "allies_hq_compost_constructed"
+
+		wm_removeteamvoiceannounce 1 "allies_hq_compost_construct"
+		// *---------------------------------------------------------------------------------*
+
+		wm_objective_status 8 1 1
+		wm_objective_status 8 0 2
+
+	}
+
+	trigger disable_allied_features
+	{
+		// Some kind of UI pop-up to alert players
+		wm_announce	"^1Axis team has destroyed the Allied Command Post!"
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_addteamvoiceannounce 1 "allies_hqt_compost_construc"
+
+		wm_teamvoiceannounce 1 "allies_hq_compost_damaged"
+		// *----------------------------------- vo ------------------------------------------*
+
+		setchargetimefactor 1 soldier 1
+		setchargetimefactor 1 lieutenant 1
+		setchargetimefactor 1 medic 1
+		setchargetimefactor 1 engineer 1
+		setchargetimefactor 1 covertops 1
+		sethqstatus 1 0
+
+		wm_objective_status 8 1 2
+		wm_objective_status 8 0 1
+	}
+}
+
+axis_radio_destroyed
+{
+	spawn
+	{
+		wait 400
+		setstate axis_radio_destroyed invisible
+		setstate axis_radio_destroyed_model invisible
+	}
+
+	trigger hide
+	{
+		setstate axis_radio_destroyed invisible
+		setstate axis_radio_destroyed_model invisible
+	}
+
+	trigger show
+	{
+		accum 0 abort_if_equal 0
+		setstate axis_radio_destroyed default
+		setstate axis_radio_destroyed_model default
+	}
+
+	trigger enable
+	{
+		accum 0 set 1
+	}
+}
+
+axis_radio_closed
+{
+	trigger hide
+	{
+		setstate axis_radio_closed invisible
+		setstate axis_radio_closed_model invisible
+	}
+
+	trigger show
+	{
+		accum 0 abort_if_equal 1
+		setstate axis_radio_closed default
+		setstate axis_radio_closed_model default
+	}
+
+	trigger disable
+	{
+		accum 0 set 1
+	}
+}
+
+axis_radio_built
+{
+	spawn
+	{
+		wait 1000
+		constructible_class 2
+		trigger axis_radio_built setup
+
+		disablespeaker axis_compost_sound
+	}
+
+	trigger setup
+	{
+		setchargetimefactor 0 soldier 1
+		setchargetimefactor 0 lieutenant 1
+		setchargetimefactor 0 medic 1
+		setchargetimefactor 0 engineer 1
+		setchargetimefactor 0 covertops 1
+		sethqstatus 0 0
+	}
+
+	buildstart final
+	{
+		trigger axis_radio_built_model trans
+
+		trigger axis_radio_destroyed hide
+		trigger axis_radio_closed 	hide
+	}
+
+	built final
+	{
+		trigger axis_radio_built_model show
+
+		trigger axis_radio_destroyed enable
+		trigger axis_radio_closed 	disable
+
+		trigger axis_radio_built_model enable_axis_features
+
+		enablespeaker axis_compost_sound
+	}
+
+	decayed final
+	{
+		trigger axis_radio_built_model hide
+
+		trigger axis_radio_destroyed show
+		trigger axis_radio_closed 	show
+	}
+
+	death
+	{
+		trigger axis_radio_built_model hide
+
+		trigger axis_radio_destroyed show
+
+		trigger axis_radio_built_model disable_axis_features
+
+		disablespeaker axis_compost_sound
+	}
+}
+
+axis_radio_built_model
+{
+	spawn
+	{
+		wait 400
+		setstate axis_radio_built_model invisible
+	}
+
+	trigger show
+	{
+		setstate axis_radio_built_model default
+	}
+
+	trigger hide
+	{
+		setstate axis_radio_built_model invisible
+	}
+
+	trigger trans
+	{
+		setstate axis_radio_built_model underconstruction
+	}
+
+	trigger enable_axis_features
+	{
+		setchargetimefactor 0 soldier 0.75
+		setchargetimefactor 0 lieutenant 0.75
+		setchargetimefactor 0 medic 0.75
+		setchargetimefactor 0 engineer 0.75
+		setchargetimefactor 0 covertops 0.75
+		sethqstatus 0 1
+
+		wm_announce	"^1Axis Command Post constructed. Charge speed increased!"
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "axis_hq_compost_constructed"
+
+		wm_teamvoiceannounce 1 "allies_hq_compost_constructed_axis"
+
+		wm_removeteamvoiceannounce 0 "axis_hq_compost_construct"
+		// *----------------------------------- vo ------------------------------------------*
+
+		wm_objective_status 7 1 2
+		wm_objective_status 7 0 1
+
+	}
+
+	trigger disable_axis_features
+	{
+		// Some kind of UI pop-up to alert players
+		wm_announce	"^5Allied team has destroyed the Axis Command Post!"
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_addteamvoiceannounce 0 "axis_hq_compost_construct"
+
+		wm_teamvoiceannounce 0 "axis_hq_compost_damaged"
+		// *----------------------------------- vo ------------------------------------------*
+
+		setchargetimefactor 0 soldier 1
+		setchargetimefactor 0 lieutenant 1
+		setchargetimefactor 0 medic 1
+		setchargetimefactor 0 engineer 1
+		setchargetimefactor 0 covertops 1
+		sethqstatus 0 0
+
+		wm_objective_status 7 1 1
+		wm_objective_status 7 0 2
+	}
+}
+
+// ===================================================
+// ============== END COMMAND POSTS ==================
+// ===================================================
+// (Objectives secondary)
+
+axis_bunker_mg42_clip
+{
+	spawn
+	{
+		wait 1000
+		trigger axis_bunker_mg42_clip setup
+
+		constructible_class 2
+	}
+
+	trigger setup
+	{
+		setstate axis_bunker_mg42 invisible
+		setstate axis_bunker_mg42_sbags invisible
+
+		setstate axis_bunker_mg42_materials default
+		setstate axis_bunker_mg42_materials_clip default
+	}
+
+	buildstart final
+	{
+		setstate axis_bunker_mg42 underconstruction
+		setstate axis_bunker_mg42_sbags underconstruction
+
+		setstate axis_bunker_mg42_materials default
+		setstate axis_bunker_mg42_materials_clip default
+	}
+
+	built final
+	{
+		setstate axis_bunker_mg42 default
+		setstate axis_bunker_mg42_sbags default
+
+		setstate axis_bunker_mg42_materials invisible
+		setstate axis_bunker_mg42_materials_clip invisible
+
+		wm_announce "^1The Axis Bunker MG Nest has been constructed."
+	}
+
+	decayed final
+	{
+		setstate axis_bunker_mg42 invisible
+		setstate axis_bunker_mg42_sbags invisible
+
+		setstate axis_bunker_mg42_materials default
+		setstate axis_bunker_mg42_materials_clip default
+	}
+
+	death
+	{
+		setstate axis_bunker_mg42 invisible
+		setstate axis_bunker_mg42_sbags invisible
+		repairmg42 axis_bunker_mg42
+		setstate axis_bunker_mg42_materials default
+		setstate axis_bunker_mg42_materials_clip default
+
+		wm_announce "^5The Axis Bunker MG Nest has been destroyed."
+	}
+}
+
+allied_cabin_mg42_clip
+{
+	spawn
+	{
+		wait 1000
+		trigger allied_cabin_mg42_clip setup
+
+		constructible_class 2
+	}
+
+	trigger setup
+	{
+		setstate allied_cabin_mg42 invisible
+
+		setstate allied_cabin_mg42_materials default
+		setstate allied_cabin_mg42_materials_clip default
+	}
+
+	buildstart final
+	{
+		setstate allied_cabin_mg42 underconstruction
+
+		setstate allied_cabin_mg42_materials default
+		setstate allied_cabin_mg42_materials_clip default
+	}
+
+	built final
+	{
+		setstate allied_cabin_mg42 default
+		setstate allied_cabin_mg42_materials invisible
+		setstate allied_cabin_mg42_materials_clip invisible
+
+		wm_announce "^5The Allied Cabin MG Nest has been constructed."
+	}
+
+	decayed final
+	{
+		setstate allied_cabin_mg42 invisible
+		setstate allied_cabin_mg42_materials default
+		setstate allied_cabin_mg42_materials_clip default
+	}
+
+	death
+	{
+		setstate allied_cabin_mg42 invisible
+		repairmg42 allied_cabin_mg42
+		setstate allied_cabin_mg42_materials default
+		setstate allied_cabin_mg42_materials_clip default
+
+		wm_announce "^1The Allied Cabin MG Nest has been destroyed."
+	}
+}
+
+///////////////////////////////////////////////////
+// Functions for the elevator and elevator doors //
+///////////////////////////////////////////////////
+
+
+//Cabin Level Door
+
+cabindoor1
+{
+	trigger cabindooropen
+	{
+		//cabin door open
+		trigger cabindoor1 cabindoor1open
+		trigger cabindoor2 cabindoor2open
+		playsound sound/movers/doors/door3_open.wav volume 96
+		wait 742
+		playsound sound/movers/doors/door3_loopo.wav looping
+		wait 500
+		stopsound
+		playsound sound/movers/doors/door3_endo.wav volume 96
+		wait 1000
+	}
+
+	trigger cabindoorclose
+	{
+		//cabin door close
+		trigger cabindoor1 cabindoor1close
+		trigger cabindoor2 cabindoor2close
+		playsound sound/movers/doors/door3_open.wav volume 96
+		wait 742
+		playsound sound/movers/doors/door3_loopo.wav looping
+		wait 500
+		stopsound
+		playsound sound/movers/doors/door3_endo.wav volume 96
+	}
+
+	trigger cabindoor1open
+	{
+		gotomarker cabinopen 40
+	}
+
+	trigger cabindoor1close
+	{
+		gotomarker cabinclosed1 40
+	}
+
+	trigger halt
+	{
+		stopsound
+		halt
+		trigger cabindoor2 halt
+	}
+}
+
+cabindoor2
+{
+	trigger cabindoor2open
+	{
+		gotomarker cabinopen 20
+	}
+
+	trigger cabindoor2close
+	{
+		gotomarker cabinclosed2 20
+	}
+
+	trigger halt
+	{
+		stopsound
+		halt
+	}
+}
+
+//Basement Level 1 Door
+
+b1door1
+{
+	trigger b1dooropen
+	{
+		//b1door open
+		trigger b1door1 b1door1open
+		trigger b1door2 b1door2open
+		trigger b1door3 b1door3open
+		trigger b1door4 b1door4open
+		playsound sound/movers/doors/door3_open.wav volume 96
+		wait 742
+		playsound sound/movers/doors/door3_loopo.wav looping
+		wait 500
+		stopsound
+		playsound sound/movers/doors/door3_endo.wav volume 96
+		wait 1000
+	}
+
+	trigger b1doorclose
+	{
+		//b1door close
+		trigger b1door1 b1door1close
+		trigger b1door2 b1door2close
+		trigger b1door3 b1door3close
+		trigger b1door4 b1door4close
+		playsound sound/movers/doors/door3_open.wav volume 96
+		wait 742
+		playsound sound/movers/doors/door3_loopo.wav looping
+		wait 500
+		stopsound
+		playsound sound/movers/doors/door3_endo.wav volume 96
+	}
+
+	trigger b1door1open
+	{
+		gotomarker b1doorleft 20
+	}
+
+	trigger b1door1close
+	{
+		gotomarker b1door1 20
+	}
+
+	trigger halt
+	{
+		stopsound
+		halt
+		trigger b1door2 halt
+		trigger b1door3 halt
+		trigger b1door4 halt
+	}
+}
+
+b1door2
+{
+	trigger b1door2open
+	{
+		gotomarker b1doorleft 40
+	}
+
+	trigger b1door2close
+	{
+		gotomarker b1door2 40
+	}
+
+	trigger halt
+	{
+		stopsound
+		halt
+	}
+}
+
+b1door3
+{
+	trigger b1door3open
+	{
+		gotomarker b1doorright 40
+	}
+
+	trigger b1door3close
+	{
+		gotomarker b1door3 40
+	}
+
+	trigger halt
+	{
+		stopsound
+		halt
+	}
+}
+
+b1door4
+{
+	trigger b1door4open
+	{
+		gotomarker b1doorright 20
+	}
+
+	trigger b1door4close
+	{
+		gotomarker b1door4 20
+	}
+
+	trigger halt
+	{
+		stopsound
+		halt
+	}
+}
+
+//Basement Level 2 Door
+
+b2door1
+{
+	trigger b2dooropen
+	{
+		//b2door open
+		trigger b2door1 b2door1open
+		trigger b2door2 b2door2open
+		trigger b2door3 b2door3open
+		trigger b2door4 b2door4open
+		playsound sound/movers/doors/door3_open.wav volume 96
+		wait 742
+		playsound sound/movers/doors/door3_loopo.wav looping
+		wait 500
+		stopsound
+		playsound sound/movers/doors/door3_endo.wav volume 96
+		wait 1000
+	}
+
+	trigger b2doorclose
+	{
+		//b2door close
+		trigger b2door1 b2door1close
+		trigger b2door2 b2door2close
+		trigger b2door3 b2door3close
+		trigger b2door4 b2door4close
+		playsound sound/movers/doors/door3_open.wav volume 96
+		wait 742
+		playsound sound/movers/doors/door3_loopo.wav looping
+		wait 500
+		stopsound
+		playsound sound/movers/doors/door3_endo.wav volume 96
+	}
+
+	trigger b2door1open
+	{
+		gotomarker b2doorleft 20
+	}
+
+	trigger b2door1close
+	{
+		gotomarker b2door1 20
+	}
+
+	trigger halt
+	{
+		stopsound
+		halt
+		trigger b2door2 halt
+		trigger b2door3 halt
+		trigger b2door4 halt
+	}
+}
+
+b2door2
+{
+	trigger b2door2open
+	{
+		gotomarker b2doorleft 40
+	}
+
+	trigger b2door2close
+	{
+		gotomarker b2door2 40
+	}
+
+	trigger halt
+	{
+		stopsound
+		halt
+	}
+}
+
+b2door3
+{
+	trigger b2door3open
+	{
+		gotomarker b2doorright 40
+	}
+
+	trigger b2door3close
+	{
+		gotomarker b2door3 40
+	}
+
+	trigger halt
+	{
+		stopsound
+		halt
+	}
+}
+
+b2door4
+{
+	trigger b2door4open
+	{
+		gotomarker b2doorright 20
+	}
+
+	trigger b2door4close
+	{
+		gotomarker b2door4 20
+	}
+
+	trigger halt
+	{
+		stopsound
+		halt
+	}
+}
+
+//Basement Level 3 Door
+
+b3door1
+{
+	trigger b3dooropen
+	{
+		//b3door open
+		trigger b3door1 b3door1open
+		trigger b3door2 b3door2open
+		trigger b3door3 b3door3open
+		trigger b3door4 b3door4open
+		playsound sound/movers/doors/door3_open.wav volume 96
+		wait 742
+		playsound sound/movers/doors/door3_loopo.wav looping
+		wait 500
+		stopsound
+		playsound sound/movers/doors/door3_endo.wav volume 96
+		wait 1000
+	}
+
+	trigger b3doorclose
+	{
+		//b3door close
+		trigger b3door1 b3door1close
+		trigger b3door2 b3door2close
+		trigger b3door3 b3door3close
+		trigger b3door4 b3door4close
+		playsound sound/movers/doors/door3_open.wav volume 96
+		wait 742
+		playsound sound/movers/doors/door3_loopo.wav looping
+		wait 500
+		stopsound
+		playsound sound/movers/doors/door3_endo.wav volume 96
+	}
+
+	trigger b3door1open
+	{
+		gotomarker b3doorleft 20
+	}
+
+	trigger b3door1close
+	{
+		gotomarker b3door1 20
+	}
+
+	trigger halt
+	{
+		stopsound
+		halt
+		trigger b3door2 halt
+		trigger b3door3 halt
+		trigger b3door4 halt
+	}
+}
+
+b3door2
+{
+	trigger b3door2open
+	{
+		gotomarker b3doorleft 40
+	}
+
+	trigger b3door2close
+	{
+		gotomarker b3door2 40
+	}
+
+	trigger halt
+	{
+		stopsound
+		halt
+	}
+}
+
+b3door3
+{
+	trigger b3door3open
+	{
+		gotomarker b3doorright 40
+	}
+
+	trigger b3door3close
+	{
+		gotomarker b3door3 40
+	}
+
+	trigger halt
+	{
+		stopsound
+		halt
+	}
+}
+
+b3door4
+{
+	trigger b3door4open
+	{
+		gotomarker b3doorright 20
+	}
+
+	trigger b3door4close
+	{
+		gotomarker b3door4 20
+	}
+
+	trigger halt
+	{
+		stopsound
+		halt
+	}
+}
+
+// Elevator movements
+elevator
+{
+	spawn
+	{
+		// accum 0 = Call button pressed. (cabin)
+		// accum 1 = Call button pressed. (floor b1)
+		// accum 2 = Call button pressed. (floor b2)
+		// accum 3 = Call button pressed. (floor b3)
+		accum 4 set 2	 // Current floor the elevator is moving to or is on.
+		// accum 5 = Is the elevator moving? Call Button lockout.
+		// accum 6 = Is Disabled?
+		// accum 7 = Is nuke in the elevator?
+
+		wait 2000
+		trigger b2door1 b2dooropen
+	}
+
+	trigger disable
+	{
+		accum 6 inc 1
+	}
+
+	trigger enable
+	{
+		accum 6 inc -1
+	}
+
+	trigger cart_in
+	{
+		accum 7 set 1
+	}
+
+	trigger cart_out
+	{
+		accum 7 set 0
+	}
+
+	trigger cabin_call_button
+	{
+		accum 4 abort_if_equal 0
+		accum 0 set 1
+		accum 5 abort_if_equal 1
+
+		trigger elevator call_button_check
+	}
+	
+	trigger b1_call_button
+	{
+		accum 4 abort_if_equal 1
+		accum 1 set 1
+		accum 5 abort_if_equal 1
+
+		trigger elevator call_button_check
+	}
+
+	trigger b2_call_button
+	{
+		accum 4 abort_if_equal 2
+		accum 2 set 1
+		accum 5 abort_if_equal 1
+
+		trigger elevator call_button_check
+	}
+
+	trigger b3_call_button
+	{
+		accum 4 abort_if_equal 3
+		accum 3 set 1
+		accum 5 abort_if_equal 1
+
+		trigger elevator call_button_check
+	}
+
+	trigger call_button_check
+	{
+		accum 5 abort_if_equal 1
+
+		accum 0 trigger_if_equal 1 elevator goto_cabin
+		accum 0 abort_if_equal 1
+
+		accum 1 trigger_if_equal 1 elevator goto_b1
+		accum 1 abort_if_equal 1
+
+		accum 2 trigger_if_equal 1 elevator goto_b2
+		accum 2 abort_if_equal 1
+
+		accum 3 trigger_if_equal 1 elevator goto_b3
+	}
+
+	trigger goto_cabin
+	{
+		accum 6 abort_if_greater_than 0
+		trigger cart bit_1_reset
+		trigger cart bit_2_reset
+		accum 4 trigger_if_equal 1 elevator b1_to_1
+		accum 4 trigger_if_equal 2 elevator b2_to_1
+		accum 4 trigger_if_equal 3 elevator b3_to_1
+	}
+	
+	trigger goto_b1
+	{
+		accum 6 abort_if_greater_than 0
+		trigger cart bit_1_reset
+		trigger cart bit_2_reset
+		accum 4 trigger_if_equal 0 elevator 1_to_b1
+		accum 4 trigger_if_equal 2 elevator b2_to_b1
+		accum 4 trigger_if_equal 3 elevator b3_to_b1
+	}
+
+	trigger goto_b2
+	{
+		accum 6 abort_if_greater_than 0
+		trigger cart bit_1_reset
+		trigger cart bit_2_reset
+		accum 4 trigger_if_equal 0 elevator 1_to_b2
+		accum 4 trigger_if_equal 1 elevator b1_to_b2
+		accum 4 trigger_if_equal 3 elevator b3_to_b2
+	}
+
+	trigger goto_b3
+	{
+		accum 6 abort_if_greater_than 0
+		trigger cart bit_1_reset
+		trigger cart bit_2_reset
+		accum 4 trigger_if_equal 0 elevator 1_to_b3
+		accum 4 trigger_if_equal 1 elevator b1_to_b3
+		accum 4 trigger_if_equal 2 elevator b2_to_b3
+	}
+
+	trigger to_cabin
+	{
+		playsound sound/movers/elevators/elev1_loop.wav looping
+
+		trigger b3door1 b3doorclose
+		trigger b2door1 b2doorclose
+		trigger b1door1 b1doorclose
+		accum 7 trigger_if_equal 1 cart to_cabin
+		accum 7 trigger_if_equal 1 cart_trigger to_cabin
+		gotomarker floor1 90 wait
+		
+		stopsound
+		playsound sound/movers/elevators/elev1_end.wav volume 96
+		trigger cabindoor1 cabindooropen
+		wait 1000
+
+		setstate cabin_button_down default
+
+		accum 7 trigger_if_equal 1 cart_enabler_axis stage2
+		accum 7 trigger_if_equal 1 cart_enabler_allies stage2
+		wait 200
+		trigger cart bit_2_set
+		wait 3000
+		accum 5 set 0
+		trigger elevator call_button_check
+	}
+
+	trigger to_b1
+	{
+		playsound sound/movers/elevators/elev1_loop.wav looping
+
+		trigger b3door1 b3doorclose
+		trigger b2door1 b2doorclose
+		trigger cabindoor1 cabindoorclose
+		accum 7 trigger_if_equal 1 cart to_b1
+		accum 7 trigger_if_equal 1 cart_trigger to_b1
+		gotomarker floorb1 90 wait
+		
+		stopsound
+		playsound sound/movers/elevators/elev1_end.wav volume 96
+		trigger b1door1 b1dooropen
+		wait 1000
+
+		setstate b1_button_up default
+		setstate b1_button_down default
+
+		wait 3000
+		accum 5 set 0
+		trigger elevator call_button_check
+	}
+
+	trigger to_b2
+	{
+		playsound sound/movers/elevators/elev1_loop.wav looping
+
+		trigger b3door1 b3doorclose
+		trigger b1door1 b1doorclose
+		trigger cabindoor1 cabindoorclose
+		accum 7 trigger_if_equal 1 cart to_b2
+		accum 7 trigger_if_equal 1 cart_trigger to_b2
+		gotomarker floorb2 90 wait
+		
+		stopsound
+		playsound sound/movers/elevators/elev1_end.wav volume 96
+		trigger b2door1 b2dooropen
+		wait 1000
+
+		setstate b2_button_up default
+		setstate b2_button_down default
+
+		wait 3000
+		accum 5 set 0
+		trigger elevator call_button_check
+	}
+
+	trigger to_b3
+	{
+		playsound sound/movers/elevators/elev1_loop.wav looping
+
+		trigger cabindoor1 cabindoorclose
+		trigger b2door1 b2doorclose
+		trigger b1door1 b1doorclose
+		accum 7 trigger_if_equal 1 cart to_b3
+		accum 7 trigger_if_equal 1 cart_trigger to_b3
+		gotomarker floorb3 90 wait
+		
+		stopsound
+		playsound sound/movers/elevators/elev1_end.wav volume 96
+		trigger b3door1 b3dooropen
+		wait 1000
+
+		setstate b3_button_up default
+
+		accum 7 trigger_if_equal 1 cart_enabler_axis stage1
+		accum 7 trigger_if_equal 1 cart_enabler_allies stage1
+		wait 200
+		trigger cart bit_1_set
+		wait 3000
+		accum 5 set 0
+		trigger elevator call_button_check
+	}
+
+	trigger 1_to_b1
+	{
+		//from floor 1 to b1
+		trigger cabin_button hide_all_buttons
+		accum 5 set 1
+		accum 4 set 1
+		accum 1 set 0
+		trigger cabindoor1 cabindoorclose
+		wait 1000
+		playsound sound/movers/elevators/elev1_start.wav volume 96
+		wait 800
+		playsound sound/movers/elevators/elev1_loop.wav looping
+
+		accum 7 trigger_if_equal 1 cart 1_to_b1
+		accum 7 trigger_if_equal 1 cart_trigger 1_to_b1
+
+		gotomarker floor1_bottom 40 wait
+		gotomarker floorb1_top 90 wait
+		gotomarker floorb1 40 wait
+		stopsound
+		playsound sound/movers/elevators/elev1_end.wav volume 96
+		trigger b1door1 b1dooropen
+		
+		wait 2000
+		setstate b1_button_up default
+		setstate b1_button_down default
+
+		wait 3000
+		accum 5 set 0
+		trigger elevator call_button_check
+	}
+
+	trigger 1_to_b2
+	{
+		//from floor 1 to b2
+		trigger cabin_button hide_all_buttons
+		accum 5 set 1
+		accum 4 set 2
+		accum 2 set 0
+		trigger cabindoor1 cabindoorclose
+		wait 1000
+		playsound sound/movers/elevators/elev1_start.wav volume 96
+		wait 800
+		playsound sound/movers/elevators/elev1_loop.wav looping
+
+		accum 7 trigger_if_equal 1 cart 1_to_b2
+		accum 7 trigger_if_equal 1 cart_trigger 1_to_b2	
+
+		gotomarker floor1_bottom 40 wait
+		gotomarker floorb2_top 90 wait
+		gotomarker floorb2 40 wait
+		stopsound
+		playsound sound/movers/elevators/elev1_end.wav volume 96
+		trigger b2door1 b2dooropen
+		
+		wait 2000
+		setstate b2_button_up default
+		setstate b2_button_down default
+
+		wait 3000
+		accum 5 set 0
+		trigger elevator call_button_check
+	}
+
+	trigger 1_to_b3
+	{
+		//from floor 1 to b3
+		trigger cabin_button hide_all_buttons
+		accum 5 set 1
+		accum 4 set 3
+		accum 3 set 0
+		trigger cabindoor1 cabindoorclose
+		wait 1000
+		playsound sound/movers/elevators/elev1_start.wav volume 96
+		wait 800
+		playsound sound/movers/elevators/elev1_loop.wav looping
+
+		accum 7 trigger_if_equal 1 cart 1_to_b3
+		accum 7 trigger_if_equal 1 cart_trigger 1_to_b3
+
+		gotomarker floor1_bottom 40 wait
+		gotomarker floorb3_top 90 wait
+		gotomarker floorb3 40 wait
+		stopsound
+		playsound sound/movers/elevators/elev1_end.wav volume 96
+		trigger b3door1 b3dooropen
+		
+		wait 500
+		accum 7 trigger_if_equal 1 cart_enabler_axis stage1
+		accum 7 trigger_if_equal 1 cart_enabler_allies stage1
+		wait 200
+		trigger cart bit_1_set
+
+		wait 1500		
+		setstate b3_button_up default
+		
+		wait 3000
+		accum 5 set 0
+		trigger elevator call_button_check
+	}
+	
+	trigger b1_to_1
+	{
+		//from floor b1 to 1
+		trigger cabin_button hide_all_buttons
+		accum 5 set 1
+		accum 4 set 0
+		accum 0 set 0
+		trigger b1door1 b1doorclose
+		wait 1000
+		playsound sound/movers/elevators/elev1_start.wav volume 96
+		wait 800
+		playsound sound/movers/elevators/elev1_loop.wav looping
+
+		accum 7 trigger_if_equal 1 cart b1_to_1
+		accum 7 trigger_if_equal 1 cart_trigger b1_to_1
+
+		gotomarker floorb1_top 40 wait
+		gotomarker floor1_bottom 90 wait
+		gotomarker floor1 40 wait
+		stopsound
+		playsound sound/movers/elevators/elev1_end.wav volume 96
+		trigger cabindoor1 cabindooropen
+
+		wait 1500
+		accum 7 trigger_if_equal 1 cart_enabler_axis stage2
+		accum 7 trigger_if_equal 1 cart_enabler_allies stage2
+		wait 200
+		trigger cart bit_2_set
+
+		wait 1000
+		setstate cabin_button_down default
+
+		wait 3000
+		accum 5 set 0
+		trigger elevator call_button_check
+	}
+	
+	trigger b1_to_b2
+	{
+		//from floor b1 to b2
+		trigger cabin_button hide_all_buttons
+		accum 5 set 1
+		accum 4 set 2
+		accum 2 set 0
+		trigger b1door1 b1doorclose
+		wait 1000
+		playsound sound/movers/elevators/elev1_start.wav volume 96
+		wait 800
+		playsound sound/movers/elevators/elev1_loop.wav looping
+
+		accum 7 trigger_if_equal 1 cart b1_to_b2	
+		accum 7 trigger_if_equal 1 cart_trigger b1_to_b2	
+
+		gotomarker floorb1_bottom 40 wait
+		gotomarker floorb2_top 90 wait
+		gotomarker floorb2 40 wait
+		stopsound
+		playsound sound/movers/elevators/elev1_end.wav volume 96
+		trigger b2door1 b2dooropen
+		
+		wait 2000
+		setstate b2_button_up default
+		setstate b2_button_down default
+		
+		wait 3000
+		accum 5 set 0
+		trigger elevator call_button_check
+	}
+
+	trigger b1_to_b3
+	{
+		//from floor b1 to b3
+		trigger cabin_button hide_all_buttons
+		accum 5 set 1
+		accum 4 set 3
+		accum 3 set 0
+		trigger b1door1 b1doorclose
+		wait 1000
+		playsound sound/movers/elevators/elev1_start.wav volume 96
+		wait 800
+		playsound sound/movers/elevators/elev1_loop.wav looping
+
+		accum 7 trigger_if_equal 1 cart b1_to_b3
+		accum 7 trigger_if_equal 1 cart_trigger b1_to_b3
+
+		gotomarker floorb1_bottom 40 wait
+		gotomarker floorb3_top 90 wait
+		gotomarker floorb3 40 wait
+		stopsound
+		playsound sound/movers/elevators/elev1_end.wav volume 96
+		trigger b3door1 b3dooropen
+		
+		wait 500
+		accum 7 trigger_if_equal 1 cart_enabler_axis stage1
+		accum 7 trigger_if_equal 1 cart_enabler_allies stage1
+		wait 200
+		trigger cart bit_1_set
+
+		wait 1500
+		setstate b3_button_up default
+
+		wait 3000
+		accum 5 set 0
+		trigger elevator call_button_check
+	}
+
+	trigger b2_to_1
+	{
+		//from floor b2 to 1
+		trigger cabin_button hide_all_buttons
+		accum 5 set 1
+		accum 4 set 0
+		accum 0 set 0
+		trigger b2door1 b2doorclose
+		wait 1000
+		playsound sound/movers/elevators/elev1_start.wav volume 96
+		wait 800
+		playsound sound/movers/elevators/elev1_loop.wav looping
+
+		accum 7 trigger_if_equal 1 cart b2_to_1
+		accum 7 trigger_if_equal 1 cart_trigger b2_to_1
+
+		gotomarker floorb2_top 40 wait
+		gotomarker floor1_bottom 90 wait
+		gotomarker floor1 40 wait
+		stopsound
+		playsound sound/movers/elevators/elev1_end.wav volume 96
+		trigger cabindoor1 cabindooropen
+
+		wait 1500
+		accum 7 trigger_if_equal 1 cart_enabler_axis stage2
+		accum 7 trigger_if_equal 1 cart_enabler_allies stage2
+		wait 200
+		trigger cart bit_2_set
+
+		wait 1000
+		setstate cabin_button_down default
+
+		wait 4000
+		accum 5 set 0
+		trigger elevator call_button_check
+	}
+
+	trigger b2_to_b1
+	{
+		//from floor b2 to b1
+		trigger cabin_button hide_all_buttons
+		accum 5 set 1
+		accum 4 set 1
+		accum 1 set 0
+		trigger b2door1 b2doorclose
+		wait 1000
+		playsound sound/movers/elevators/elev1_start.wav volume 96
+		wait 800
+		playsound sound/movers/elevators/elev1_loop.wav looping
+
+		accum 7 trigger_if_equal 1 cart b2_to_b1
+		accum 7 trigger_if_equal 1 cart_trigger b2_to_b1
+
+		gotomarker floorb2_top 40 wait
+		gotomarker floorb1_bottom 90 wait
+		gotomarker floorb1 40 wait
+		stopsound
+		playsound sound/movers/elevators/elev1_end.wav volume 96
+		trigger b1door1 b1dooropen
+		
+		wait 2000
+		setstate b1_button_up default
+		setstate b1_button_down default
+
+		wait 3000
+		accum 5 set 0
+		trigger elevator call_button_check
+	}
+
+	trigger b2_to_b3
+	{
+		//from floor b2 to b3
+		trigger cabin_button hide_all_buttons
+		accum 5 set 1
+		accum 4 set 3
+		accum 3 set 0
+		trigger b2door1 b2doorclose
+		wait 1000
+		playsound sound/movers/elevators/elev1_start.wav volume 96	
+		wait 800
+		playsound sound/movers/elevators/elev1_loop.wav looping
+
+		accum 7 trigger_if_equal 1 cart b2_to_b3
+		accum 7 trigger_if_equal 1 cart_trigger b2_to_b3
+
+		gotomarker floorb2_bottom 40 wait
+		gotomarker floorb3_top 90 wait
+		gotomarker floorb3 40 wait
+		stopsound
+		playsound sound/movers/elevators/elev1_end.wav volume 96
+		trigger b3door1 b3dooropen
+		
+		wait 500
+		accum 7 trigger_if_equal 1 cart_enabler_axis stage1
+		accum 7 trigger_if_equal 1 cart_enabler_allies stage1
+		wait 200
+		trigger cart bit_1_set
+		
+		wait 1500
+		setstate b3_button_up default
+		
+		wait 3000
+		accum 5 set 0
+		trigger elevator call_button_check
+	}
+	
+	trigger b3_to_1
+	{
+		//from floor b3 to 1
+		trigger cabin_button hide_all_buttons
+		accum 5 set 1
+		accum 4 set 0
+		accum 0 set 0
+		trigger b3door1 b3doorclose
+		wait 1000
+		playsound sound/movers/elevators/elev1_start.wav volume 96
+		wait 800
+		playsound sound/movers/elevators/elev1_loop.wav looping
+
+		accum 7 trigger_if_equal 1 cart b3_to_1
+		accum 7 trigger_if_equal 1 cart_trigger b3_to_1
+
+		gotomarker floorb3_top 40 wait
+		gotomarker floor1_bottom 90 wait
+		gotomarker floor1 40 wait
+		stopsound
+		playsound sound/movers/elevators/elev1_end.wav volume 96
+		trigger cabindoor1 cabindooropen
+		
+		wait 1500
+		accum 7 trigger_if_equal 1 cart_enabler_axis stage2
+		accum 7 trigger_if_equal 1 cart_enabler_allies stage2
+		wait 200
+		trigger cart bit_2_set
+
+		wait 1000
+		setstate cabin_button_down default
+
+		wait 4000
+		accum 5 set 0
+		trigger elevator call_button_check
+	}
+
+	trigger b3_to_b1
+	{
+		//from floor b3 to b1
+		trigger cabin_button hide_all_buttons
+		accum 5 set 1
+		accum 4 set 1
+		accum 1 set 0
+		trigger b3door1 b3doorclose
+		wait 1000
+		playsound sound/movers/elevators/elev1_start.wav volume 96
+		wait 800
+		playsound sound/movers/elevators/elev1_loop.wav looping
+
+		accum 7 trigger_if_equal 1 cart b3_to_b1	
+		accum 7 trigger_if_equal 1 cart_trigger b3_to_b1	
+
+		gotomarker floorb3_top 40 wait
+		gotomarker floorb1_bottom 90 wait
+		gotomarker floorb1 40 wait
+		stopsound
+		playsound sound/movers/elevators/elev1_end.wav volume 96
+		trigger b1door1 b1dooropen
+		
+		wait 2000
+		setstate b1_button_up default
+		setstate b1_button_down default
+
+		wait 3000
+		accum 5 set 0
+		trigger elevator call_button_check
+	}
+
+	trigger b3_to_b2
+	{
+		//from floor b3 to b2
+		trigger cabin_button hide_all_buttons
+		accum 5 set 1
+		accum 4 set 2
+		accum 2 set 0
+		trigger b3door1 b3doorclose
+		wait 1000
+		playsound sound/movers/elevators/elev1_start.wav volume 96
+		wait 800
+		playsound sound/movers/elevators/elev1_loop.wav looping
+
+		accum 7 trigger_if_equal 1 cart b3_to_b2	
+		accum 7 trigger_if_equal 1 cart_trigger b3_to_b2	
+
+		gotomarker floorb3_top 40 wait
+		gotomarker floorb2_bottom 90 wait
+		gotomarker floorb2 40 wait
+		stopsound
+		playsound sound/movers/elevators/elev1_end.wav volume 96
+		trigger b2door1 b2dooropen
+		
+		wait 2000
+		setstate b2_button_up default
+		setstate b2_button_down default
+
+		wait 3000
+		accum 5 set 0
+		trigger elevator call_button_check
+	}
+
+	trigger elevator_destroyed
+	{
+		halt
+		resetscript
+
+		accum 6 inc 1
+
+		// halt
+		trigger cabindoor1 halt
+		trigger b2door1 halt
+		trigger b1door1 halt
+		trigger b3door1 halt
+		accum 7 trigger_if_equal 1 cart halt
+		accum 7 trigger_if_equal 1 cart_trigger halt
+
+		stopsound
+		playsound sound/movers/elevators/elev1_end.wav volume 400
+	}
+
+	trigger elevator_fixed
+	{
+		accum 3 set 0
+		accum 2 set 0
+		accum 1 set 0
+		accum 0 set 0
+
+		accum 6 inc -1
+		accum 5 trigger_if_equal 1 elevator fixed_move
+	}
+
+	trigger fixed_move
+	{
+		accum 4 trigger_if_equal 0 elevator to_cabin
+		accum 4 trigger_if_equal 1 elevator to_b1
+		accum 4 trigger_if_equal 2 elevator to_b2
+		accum 4 trigger_if_equal 3 elevator to_b3
+	}
+
+}
+
+// Elevator Buttons (call, up, down)
+
+cabin_button
+{
+	spawn
+	{
+		wait 1000
+		setstate cabin_button_down invisible
+	}
+
+	trigger hide_all_buttons
+	{
+		setstate cabin_button_down invisible
+		setstate b1_button_up invisible
+		setstate b1_button_down invisible
+		setstate b2_button_up invisible
+		setstate b2_button_down invisible
+		setstate b3_button_up invisible
+	}
+
+	trigger call
+	{
+		togglespeaker cabin_call_button_sound
+		trigger elevator cabin_call_button
+	}
+	
+	trigger down
+	{
+		togglespeaker cabin_button_sound
+		trigger elevator goto_b1		
+	}
+}
+
+b1_button
+{
+	spawn
+	{
+		wait 1000
+		setstate b1_button_down invisible
+		setstate b1_button_up invisible
+	}
+
+	trigger call
+	{
+		togglespeaker b1_call_button_sound
+		trigger elevator b1_call_button
+	}
+
+	trigger up
+	{
+		togglespeaker b1_button_sound
+		trigger elevator goto_cabin
+	}
+
+	trigger down
+	{
+		togglespeaker b1_button_sound
+		trigger elevator goto_b2
+	}
+}
+
+b2_button
+{
+	spawn
+	{
+		wait 1000
+		setstate b2_button_down default
+		setstate b2_button_up default
+	}
+
+	trigger call
+	{
+		togglespeaker b2_call_button_sound
+		trigger elevator b2_call_button
+	}
+
+	trigger up
+	{
+		togglespeaker b2_button_sound
+		trigger elevator goto_b1
+	}
+
+	trigger down
+	{
+		togglespeaker b2_button_sound
+		trigger elevator goto_b3
+	}
+}
+
+b3_button
+{
+	spawn
+	{
+		wait 1000
+		setstate b3_button_up invisible
+	}
+
+	trigger call
+	{
+		togglespeaker b3_call_button_sound
+		trigger elevator b3_call_button
+	}
+
+	trigger up
+	{
+		togglespeaker b3_button_sound
+		trigger elevator goto_b2
+	}
+}
+
+
+
+// Script for the moving rock
+
+rockbutton
+{
+	spawn
+	{
+		accum 0 set 0
+	}
+
+	trigger rockopenclose
+	{
+		trigger rockbutton open
+		trigger rockbutton close
+	}
+
+	trigger close
+	{
+		accum 0 abort_if_equal 0
+		gotomarker rock_button_out 5
+		playsound sound/movers/switches/switch.wav volume 96
+		wait 500
+		accum 0 set 0
+		trigger rock rockclose
+	}
+
+	trigger open
+	{
+		accum 0 abort_if_equal 1
+		gotomarker rock_button_in 5
+		playsound sound/movers/switches/switch.wav volume 96
+		wait 500
+		accum 0 set 1
+		trigger rock rockopen
+	}
+}
+
+rock
+{
+	trigger rockopen
+	{
+		playsound sound/movers/doors/door2_open.wav volume 96
+		wait 540
+		playsound sound/movers/doors/door2_loop.wav looping
+		gotomarker rockopen 25 wait
+		stopsound
+		playsound sound/movers/doors/door2_locked.wav volume 96
+		wait 5000
+		trigger rockbutton rockopenclose
+	}
+
+	trigger rockclose
+	{
+		playsound sound/movers/doors/door2_open.wav volume 96
+		wait 540
+		playsound sound/movers/doors/door2_loop.wav looping
+		gotomarker rockclose 25 wait
+		stopsound
+		playsound sound/movers/doors/door2_locked.wav volume 96	
+	}
+}
+
+
+// Script for the book case
+
+bookcasebutton
+{
+	spawn
+	{
+		wait 1000
+		setstate bookcase_iu_close invisible
+	}
+
+	trigger enable
+	{
+		accum 0 set 0
+	}
+
+	trigger disable
+	{
+		accum 0 set 1	
+	}
+
+	trigger close
+	{
+		accum 0 abort_if_equal 1
+		trigger cart bit_3_reset
+
+		setstate bookcase_iu_close invisible
+		playsound sound/movers/switches/butn2.wav volume 96
+		wait 250
+		trigger bookcase close
+	}
+
+	trigger open
+	{
+		setstate bookcase_iu_open invisible
+		playsound sound/movers/switches/butn2.wav volume 96
+		wait 250
+		trigger bookcase open
+	}
+}
+
+bookcase
+{
+	trigger open
+	{
+		playsound sound/movers/doors/door3_open.wav volume 96
+		wait 300
+		stopsound
+		playsound sound/movers/doors/door3_loopo.wav looping
+		gotomarker bookcaseopen 25 wait
+		stopsound
+		playsound sound/movers/doors/door3_endo.wav volume 96
+		setstate bookcase_iu_close default
+		trigger cart bit_3_set
+	}
+
+	trigger close
+	{
+		playsound sound/movers/doors/door3_open.wav volume 96
+		wait 300
+		stopsound
+		playsound sound/movers/doors/door3_loopo.wav looping
+		gotomarker bookcaseclose 25 wait
+		stopsound
+		playsound sound/movers/doors/door3_endo.wav volume 96
+		setstate bookcase_iu_open default
+	}
+}
+
+//**********************************
+//*********** Cart Script **********
+//**********************************
+
+cart
+{
+	spawn
+	{
+		// accum 2: is enabled (someone stood in trigger)
+		// accum 3: prestage - first ammo loaded stage is 0
+		// accum 4: is moving? (1 = moving)
+		// accum 6: who's got the tug? (0 = axis / 1 = allies)
+		// accum 7: blockades (bit 0 = main enterence)
+					// (bit 1 = elevator at b3)
+					// (bit 2 = elevator at cabin)
+					// (bit 3 = bookcase open)
+					// (bit 4 = truck ramp built)
+
+		wait 200
+		followspline 0 sp0 125 wait length 56
+	}
+
+	trigger bit_0_set
+	{
+		accum 7 bitset 0
+	}
+
+	trigger bit_1_set
+	{
+		accum 7 bitset 1
+	}
+
+	trigger bit_1_reset
+	{
+		accum 7 bitreset 1
+	}
+
+	trigger bit_2_set
+	{
+		accum 7 bitset 2
+	}
+
+	trigger bit_2_reset
+	{
+		accum 7 bitreset 2
+	}
+
+	trigger bit_3_set
+	{
+		accum 7 bitset 3
+	}
+
+	trigger bit_3_reset
+	{
+		accum 7 bitreset 3
+	}
+
+	trigger bit_4_set
+	{
+		accum 7 bitset 4
+	}
+
+	trigger bit_4_reset
+	{
+		accum 7 bitreset 4
+	}
+
+	/////////////////////////////
+	// start of moving portion //
+	/////////////////////////////
+
+	trigger run_1
+	{
+		
+		accum 6 trigger_if_equal 1 cart allies_taken
+		accum 6 trigger_if_equal 0 cart axis_secure
+
+		accum 2 abort_if_equal 0
+		accum 4 set 1
+		trigger cart_trigger run_1
+		followspline globalaccum 0 sp1 125 wait length 56
+
+		trigger cart update_counter_axis
+		trigger cart update_counter_allies
+		accum 4 set 0
+
+		trigger cart dispatch_allies
+		trigger cart dispatch_axis
+	}
+
+	trigger run_2
+	{
+		accum 2 abort_if_equal 0
+		accum 4 set 1
+		trigger cart_trigger run_2
+		followspline globalaccum 0 sp2 125 wait length 56
+
+		trigger cart update_counter_axis
+		trigger cart update_counter_allies
+		accum 4 set 0
+
+		trigger cart dispatch_allies
+		trigger cart dispatch_axis
+	}
+
+	trigger run_3
+	{
+		accum 2 abort_if_equal 0
+		accum 4 set 1
+		trigger cart_trigger run_3
+		followspline globalaccum 0 sp3 125 wait length 56
+
+		trigger cart update_counter_axis
+		trigger cart update_counter_allies
+		accum 4 set 0
+
+		trigger cart dispatch_allies
+		trigger cart dispatch_axis
+	}
+
+	trigger run_4
+	{
+		accum 2 abort_if_equal 0
+		accum 4 set 1
+		trigger cart_trigger run_4
+		followspline globalaccum 0 sp4 125 wait length 56
+
+		trigger cart update_counter_axis
+		trigger cart update_counter_allies
+		accum 4 set 0
+
+		trigger cart dispatch_allies
+		trigger cart dispatch_axis
+	}
+
+	trigger run_5
+	{
+		accum 2 abort_if_equal 0
+		accum 4 set 1
+		trigger cart_trigger run_5
+		followspline globalaccum 0 sp5 125 wait length 56
+
+		trigger cart update_counter_axis
+		trigger cart update_counter_allies
+		accum 4 set 0
+
+		trigger cart dispatch_allies
+		trigger cart dispatch_axis
+	}
+
+	trigger run_6
+	{
+		accum 2 abort_if_equal 0
+		accum 4 set 1
+		trigger cart_trigger run_6
+		followspline globalaccum 0 sp6 125 wait length 56
+
+		trigger cart update_counter_axis
+		trigger cart update_counter_allies
+		accum 4 set 0
+
+		trigger cart dispatch_allies
+		trigger cart dispatch_axis
+	}
+
+	trigger run_7
+	{
+		accum 2 abort_if_equal 0
+		accum 4 set 1
+		trigger cart_trigger run_7
+		followspline globalaccum 0 sp7 125 wait length 56
+
+		trigger cart update_counter_axis
+		trigger cart update_counter_allies
+		accum 4 set 0
+
+		trigger cart dispatch_allies
+		trigger cart dispatch_axis
+	}
+
+	trigger run_8
+	{
+		accum 2 abort_if_equal 0
+		accum 4 set 1
+		trigger cart_trigger run_8
+		followspline globalaccum 0 sp8 125 wait length 56
+
+		trigger cart update_counter_axis
+		trigger cart update_counter_allies
+		accum 4 set 0
+
+		trigger cart dispatch_allies
+		trigger cart dispatch_axis
+	}
+
+	trigger run_9
+	{
+		accum 2 abort_if_equal 0
+		accum 4 set 1
+		trigger cart_trigger run_9
+		followspline globalaccum 0 sp9 125 wait length 56
+
+		trigger cart update_counter_axis
+		trigger cart update_counter_allies
+		accum 4 set 0
+
+		trigger cart dispatch_allies
+		trigger cart dispatch_axis
+	}
+
+	trigger run_10
+	{
+		accum 2 abort_if_equal 0
+		accum 4 set 1
+		trigger cart_trigger run_10
+		followspline globalaccum 0 sp10 125 wait length 56
+
+		trigger cart update_counter_axis
+		trigger cart update_counter_allies
+		accum 4 set 0
+
+		trigger cart dispatch_allies
+		trigger cart dispatch_axis
+	}
+
+	trigger run_11
+	{
+		accum 2 abort_if_equal 0
+		accum 4 set 1
+		trigger cart_trigger run_11
+		followspline globalaccum 0 sp11 125 wait length 56
+
+		trigger cart update_counter_axis
+		trigger cart update_counter_allies
+		accum 4 set 0
+
+		trigger cart dispatch_allies
+		trigger cart dispatch_axis
+	}
+
+	trigger run_12
+	{
+		accum 2 abort_if_equal 0
+		accum 4 set 1
+		trigger cart_trigger run_12
+		followspline globalaccum 0 sp12 125 wait length 56
+
+		trigger cart update_counter_axis
+		trigger cart update_counter_allies
+		accum 4 set 0
+
+		trigger cart dispatch_allies
+		trigger cart dispatch_axis
+	}
+
+	trigger run_13_check
+	{
+		accum 7 abort_if_not_bitset 0
+		trigger self run_13
+	}
+
+	trigger run_13
+	{
+		accum 2 abort_if_equal 0
+		accum 4 set 1
+		trigger cart_trigger run_13
+		followspline globalaccum 0 sp13 125 wait length 56
+
+		trigger cart update_counter_axis
+		trigger cart update_counter_allies
+		accum 4 set 0
+
+		trigger cart dispatch_allies
+		trigger cart dispatch_axis
+	}
+
+	trigger run_14
+	{
+		accum 2 abort_if_equal 0
+		accum 4 set 1
+		trigger cart_trigger run_14
+		followspline globalaccum 0 sp14 125 wait length 56
+
+		trigger cart update_counter_axis
+		trigger cart update_counter_allies
+		accum 4 set 0
+
+		trigger cart dispatch_allies
+		trigger cart dispatch_axis
+	}
+
+	trigger run_15
+	{
+		accum 2 abort_if_equal 0
+		accum 4 set 1
+		trigger cart_trigger run_15
+		followspline globalaccum 0 sp15 125 wait length 56
+
+		trigger cart update_counter_axis
+		trigger cart update_counter_allies
+		accum 4 set 0
+
+		trigger cart dispatch_allies
+		trigger cart dispatch_axis
+	}
+
+	trigger run_16
+	{
+		accum 2 abort_if_equal 0
+		accum 4 set 1
+		trigger cart_trigger run_16
+		followspline globalaccum 0 sp16 125 wait length 56
+
+		trigger cart update_counter_axis
+		trigger cart update_counter_allies
+		accum 4 set 0
+
+		trigger cart dispatch_allies
+		trigger cart dispatch_axis
+	}
+
+	trigger run_17
+	{
+		accum 2 abort_if_equal 0
+		accum 4 set 1
+		trigger cart_trigger run_17
+		followspline globalaccum 0 sp17 125 wait length 56
+
+		trigger cart update_counter_axis
+		trigger cart update_counter_allies
+		accum 4 set 0
+
+		trigger cart dispatch_allies
+		trigger cart dispatch_axis
+	}
+
+	trigger run_18
+	{
+		accum 2 abort_if_equal 0
+		accum 4 set 1
+		trigger cart_trigger run_18
+		followspline globalaccum 0 sp18 125 wait length 56
+
+		trigger cart update_counter_axis
+		trigger cart update_counter_allies
+		accum 4 set 0
+
+		trigger cart dispatch_allies
+		trigger cart dispatch_axis
+	}
+
+	trigger run_19
+	{
+		accum 2 abort_if_equal 0
+		accum 4 set 1
+		trigger cart_trigger run_19
+		followspline globalaccum 0 sp19 125 wait length 56
+
+		trigger cart update_counter_axis
+		trigger cart update_counter_allies
+		accum 4 set 0
+
+		trigger cart dispatch_allies
+		trigger cart dispatch_axis
+	}
+
+	trigger run_20
+	{
+		accum 2 abort_if_equal 0
+		accum 4 set 1
+		trigger cart_trigger run_20
+		followspline globalaccum 0 sp20 125 wait length 56
+
+		trigger cart update_counter_axis
+		trigger cart update_counter_allies
+		accum 4 set 0
+
+		trigger cart dispatch_allies
+		trigger cart dispatch_axis
+	}
+
+	trigger run_21
+	{
+		accum 2 abort_if_equal 0
+		accum 4 set 1
+		trigger cart_trigger run_21
+		followspline globalaccum 0 sp21 125 wait length 56
+
+		trigger cart update_counter_axis
+		trigger cart update_counter_allies
+		accum 4 set 0
+
+		trigger cart dispatch_allies
+		trigger cart dispatch_axis
+	}
+
+	trigger run_22
+	{
+		accum 2 abort_if_equal 0
+		accum 4 set 1
+		trigger cart_trigger run_22
+		followspline globalaccum 0 sp22 125 wait length 56
+
+		trigger cart update_counter_axis
+		trigger cart update_counter_allies
+		accum 4 set 0
+
+		trigger cart dispatch_allies
+		trigger cart dispatch_axis
+	}
+
+	trigger run_23
+	{
+		accum 2 abort_if_equal 0
+		accum 4 set 1
+		trigger cart_trigger run_23
+		followspline globalaccum 0 sp23 125 wait length 56
+
+		trigger cart update_counter_axis
+		trigger cart update_counter_allies
+		accum 4 set 0
+
+		trigger cart dispatch_allies
+		trigger cart dispatch_axis
+	}
+
+	trigger run_24_allies
+	{
+		accum 7 abort_if_not_bitset 1
+		trigger elevator disable
+		
+		accum 2 abort_if_equal 0
+		accum 4 set 1
+		trigger cart_trigger run_24_allies
+
+		wm_announce	"^5The Allies have secured the Nuke in the Elevator!"
+		
+		wm_teamvoiceannounce 0 "axis_hq_objective_secure"
+		wm_teamvoiceannounce 1 "allies_hq_objective_secure"
+
+		followspline globalaccum 0 sp24 125 wait length 56
+		followspline globalaccum 0 sp24a 125 wait length 56
+		followspline globalaccum 0 sp24b 125 wait length 56
+
+		trigger cart update_counter_axis
+		trigger cart update_counter_allies
+		accum 4 set 0
+
+		trigger elevator cart_in
+		trigger elevator enable
+	}
+
+	trigger run_24_axis
+	{
+		accum 7 abort_if_not_bitset 1
+		trigger elevator disable
+		trigger elevator cart_out
+		
+		accum 2 abort_if_equal 0
+		accum 4 set 1
+		trigger cart_trigger run_24_axis
+
+		wm_announce	"^1The Axis have moved the Nuke back into the Lab!"
+
+		followspline globalaccum 0 sp24b 125 wait length 56
+		followspline globalaccum 0 sp24a 125 wait length 56
+		followspline globalaccum 0 sp24 125 wait length 56
+
+		trigger cart update_counter_axis
+		trigger cart update_counter_allies
+		accum 4 set 0
+
+		trigger elevator enable
+	}
+
+	trigger run_25_allies
+	{
+		accum 7 abort_if_not_bitset 2
+		accum 7 abort_if_not_bitset 3
+		trigger elevator disable
+		trigger elevator cart_out
+		trigger bookcasebutton disable
+		
+		accum 2 abort_if_equal 0
+		accum 4 set 1
+		trigger cart_trigger run_25
+
+		wm_announce	"^5The Allies have moved the Nuke into the Cabin!"
+
+		followspline globalaccum 0 sp25 125 wait length 56
+
+		trigger cart update_counter_axis
+		trigger cart update_counter_allies
+		accum 4 set 0
+
+		trigger elevator enable
+		trigger bookcasebutton enable
+	}
+
+	trigger run_25_axis
+	{
+		accum 7 abort_if_not_bitset 2
+		accum 7 abort_if_not_bitset 3
+		trigger elevator disable
+		trigger bookcasebutton disable
+		
+		accum 2 abort_if_equal 0
+		accum 4 set 1
+		trigger cart_trigger run_25
+
+		wm_announce	"^1The Axis have moved the Nuke back into the Elevator!"
+		
+		followspline globalaccum 0 sp25 125 wait length 56
+
+		trigger cart update_counter_axis
+		trigger cart update_counter_allies
+		accum 4 set 0
+
+		trigger elevator cart_in
+		trigger elevator enable
+		trigger bookcasebutton enable
+	}
+
+	trigger run_26
+	{
+		accum 2 abort_if_equal 0
+		accum 4 set 1
+		trigger cart_trigger run_26
+		followspline globalaccum 0 sp26 125 wait length 56
+
+		trigger cart update_counter_axis
+		trigger cart update_counter_allies
+		accum 4 set 0
+
+		trigger cart dispatch_allies
+		trigger cart dispatch_axis
+	}
+
+	trigger run_27
+	{
+		accum 2 abort_if_equal 0
+		accum 4 set 1
+		trigger cart_trigger run_27
+		followspline globalaccum 0 sp27 125 wait length 56
+
+		trigger cart update_counter_axis
+		trigger cart update_counter_allies
+		accum 4 set 0
+
+		trigger cart dispatch_allies
+		trigger cart dispatch_axis
+	}
+
+	trigger run_28
+	{
+		accum 2 abort_if_equal 0
+		accum 4 set 1
+		trigger cart_trigger run_28
+		followspline globalaccum 0 sp28 125 wait length 56
+
+		trigger cart update_counter_axis
+		trigger cart update_counter_allies
+		accum 4 set 0
+
+		trigger cart dispatch_allies
+		trigger cart dispatch_axis
+	}
+
+	trigger run_29_check
+	{
+		accum 2 abort_if_equal 0
+		accum 7 abort_if_not_bitset 4
+		accum 4 set 1
+
+		setstate cart_trigger invisible
+		trigger ramp death_disable
+
+		followspline globalaccum 0 sp29 125 wait length 56
+		followspline globalaccum 0 sp30 125 wait length 56
+		followspline globalaccum 0 sp31 125 wait length 56
+
+		setstate cart invisible
+		setstate cart2 default
+
+		trigger self attachtotruck
+		trigger cart_trigger attachtotruck
+
+		trigger truck enable_stage2
+		trigger truck add_cart
+	}
+
+	trigger attachtotruck
+	{
+		attachtotag truck tag_wback
+	}
+	
+	//////////////////////
+	// Cart in elevator //
+	//////////////////////
+
+	trigger to_cabin
+	{
+		gotomarker floor1 90
+	}
+
+	trigger to_b1
+	{
+		gotomarker floorb1 90
+	}
+
+	trigger to_b2
+	{
+		gotomarker floorb2 90
+	}
+
+	trigger to_b3
+	{
+		gotomarker floorb3 90
+	}
+
+	trigger 1_to_b1
+	{
+		gotomarker floor1_bottom 40 wait
+		gotomarker floorb1_top 90 wait
+		gotomarker floorb1 40
+	}
+
+	trigger 1_to_b2
+	{
+		gotomarker floor1_bottom 40 wait
+		gotomarker floorb2_top 90 wait
+		gotomarker floorb2 40
+	}
+
+	trigger 1_to_b3
+	{
+		gotomarker floor1_bottom 40 wait
+		gotomarker floorb3_top 90 wait
+		gotomarker floorb3 40
+	}
+
+	trigger b1_to_1
+	{
+		gotomarker floorb1_top 40 wait
+		gotomarker floor1_bottom 90 wait
+		gotomarker floor1 40
+	}
+
+	trigger b1_to_b2
+	{
+		gotomarker floorb1_bottom 40 wait
+		gotomarker floorb2_top 90 wait
+		gotomarker floorb2 40
+	}
+
+	trigger b1_to_b3
+	{
+		gotomarker floorb1_bottom 40 wait
+		gotomarker floorb3_top 90 wait
+		gotomarker floorb3 40
+	}
+
+	trigger b2_to_1
+	{
+		gotomarker floorb2_top 40 wait
+		gotomarker floor1_bottom 90 wait
+		gotomarker floor1 40
+	}
+
+	trigger b2_to_b1
+	{
+		gotomarker floorb2_top 40 wait
+		gotomarker floorb1_bottom 90 wait
+		gotomarker floorb1 40
+	}
+
+	trigger b2_to_b3
+	{
+		gotomarker floorb2_bottom 40 wait
+		gotomarker floorb3_top 90 wait
+		gotomarker floorb3 40
+	}
+
+	trigger b3_to_1
+	{
+		gotomarker floorb3_top 40 wait
+		gotomarker floor1_bottom 90 wait
+		gotomarker floor1 40
+	}
+
+	trigger b3_to_b1
+	{
+		gotomarker floorb3_top 40 wait
+		gotomarker floorb1_bottom 90 wait
+		gotomarker floorb1 40
+	}
+
+	trigger b3_to_b2
+	{
+		gotomarker floorb3_top 40 wait
+		gotomarker floorb2_bottom 90 wait
+		gotomarker floorb2 40
+	}
+
+	trigger halt
+	{
+		halt
+	}	
+
+	//\\\\\\\\\\\\\\\\\\\\\\\\\
+	// end of moving portion \\
+	//\\\\\\\\\\\\\\\\\\\\\\\\\
+
+	trigger dispatch_axis
+	{
+		accum 2 abort_if_not_equal 1
+		accum 1 abort_if_not_equal 0
+
+		// Cart movement
+		globalaccum 0 set 1		
+		accum 3 trigger_if_equal 1 cart run_1
+		accum 3 trigger_if_equal 2 cart run_2
+		accum 3 trigger_if_equal 3 cart run_3
+		accum 3 trigger_if_equal 4 cart run_4
+		accum 3 trigger_if_equal 5 cart run_5
+		accum 3 trigger_if_equal 6 cart run_6
+		accum 3 trigger_if_equal 7 cart run_7
+		accum 3 trigger_if_equal 8 cart run_8
+		accum 3 trigger_if_equal 9 cart run_9
+		accum 3 trigger_if_equal 10 cart run_10
+		accum 3 trigger_if_equal 11 cart run_11
+		accum 3 trigger_if_equal 12 cart run_12
+		accum 3 trigger_if_equal 13 cart run_13
+		accum 3 trigger_if_equal 14 cart run_14
+		accum 3 trigger_if_equal 15 cart run_15
+		accum 3 trigger_if_equal 16 cart run_16
+		accum 3 trigger_if_equal 17 cart run_17
+		accum 3 trigger_if_equal 18 cart run_18
+		accum 3 trigger_if_equal 19 cart run_19
+		accum 3 trigger_if_equal 20 cart run_20
+		accum 3 trigger_if_equal 21 cart run_21
+		accum 3 trigger_if_equal 22 cart run_22
+		accum 3 trigger_if_equal 23 cart run_23
+	//	accum 3 trigger_if_equal 24 cart run_24_axis
+
+	//	Cart direction changed		
+	//	globalaccum 0 set 0
+	//	accum 3 trigger_if_equal 25 cart run_25_axis
+	//	accum 3 trigger_if_equal 26 cart run_26
+	//	accum 3 trigger_if_equal 27 cart run_27
+	//	accum 3 trigger_if_equal 28 cart run_28
+	//	accum 3 trigger_if_equal 29 cart run_29
+	}
+
+	trigger dispatch_allies
+	{
+		accum 2 abort_if_not_equal 2
+		accum 1 abort_if_not_equal 0
+
+		// Cart movement
+		globalaccum 0 set 0
+		accum 3 trigger_if_equal 0 cart run_1
+		accum 3 trigger_if_equal 1 cart run_2
+		accum 3 trigger_if_equal 2 cart run_3
+		accum 3 trigger_if_equal 3 cart run_4
+		accum 3 trigger_if_equal 4 cart run_5
+		accum 3 trigger_if_equal 5 cart run_6
+		accum 3 trigger_if_equal 6 cart run_7
+		accum 3 trigger_if_equal 7 cart run_8
+		accum 3 trigger_if_equal 8 cart run_9
+		accum 3 trigger_if_equal 9 cart run_10
+		accum 3 trigger_if_equal 10 cart run_11
+		accum 3 trigger_if_equal 11 cart run_12
+		accum 3 trigger_if_equal 12 cart run_13_check
+		accum 3 trigger_if_equal 13 cart run_14
+		accum 3 trigger_if_equal 14 cart run_15
+		accum 3 trigger_if_equal 15 cart run_16
+		accum 3 trigger_if_equal 16 cart run_17
+		accum 3 trigger_if_equal 17 cart run_18
+		accum 3 trigger_if_equal 18 cart run_19
+		accum 3 trigger_if_equal 19 cart run_20
+		accum 3 trigger_if_equal 20 cart run_21
+		accum 3 trigger_if_equal 21 cart run_22
+		accum 3 trigger_if_equal 22 cart run_23
+		accum 3 trigger_if_equal 23 cart run_24_allies
+		
+		// Cart direction changed
+		globalaccum 0 set 1
+		accum 3 trigger_if_equal 24 cart run_25_allies
+		accum 3 trigger_if_equal 25 cart run_26
+		accum 3 trigger_if_equal 26 cart run_27
+		accum 3 trigger_if_equal 27 cart run_28
+		accum 3 trigger_if_equal 28 cart run_29_check
+	}
+	
+	trigger update_counter_axis
+	{
+		accum 2 abort_if_not_equal 1
+		accum 3 inc -1
+	}
+
+	trigger update_counter_allies
+	{
+		accum 2 abort_if_not_equal 2
+		accum 3 inc 1
+	}
+
+	trigger cart_enable_axis
+	{
+		accum 4 abort_if_equal 1
+		accum 6 set 0
+		accum 2 set 1
+		accum 1 set 0
+
+		trigger cart dispatch_axis
+	}
+
+	trigger cart_enable_allies
+	{
+		accum 4 abort_if_equal 1
+		accum 6 set 1
+		accum 2 set 2
+		accum 1 set 0
+
+		trigger cart dispatch_allies
+	}
+
+	trigger cart_disable
+	{
+		accum 1 set 1
+		accum 4 abort_if_not_equal 0
+		stopsound
+	}
+	
+	trigger sound_move
+	{
+		accum 4 abort_if_equal 0
+		stopsound
+		playsound sound/axis_lab/cart.wav looping
+	}
+
+	trigger allies_taken
+	{
+		wm_announce "^5Allies have the Nuke!"
+		wm_teamvoiceannounce 0 "axis_hq_objective_taken"
+		wm_teamvoiceannounce 1 "allies_hq_objective_taken"
+	}
+
+	trigger axis_secure
+	{
+		wm_announce "^1Axis have returned the Nuke!"
+		wm_teamvoiceannounce 0 "axis_hq_objective_secure"
+		wm_teamvoiceannounce 1 "allies_hq_objective_secure"
+	}
+}
+
+cart_trigger
+{
+	spawn
+	{
+		wait 200
+		//faceangles 0 180 0 50
+		followspline globalaccum 0 sp0 125 wait length 56
+	}
+
+	trigger run_1
+	{
+		followspline globalaccum 0 sp1 125 wait length 56
+	}
+
+	trigger run_2
+	{
+		followspline globalaccum 0 sp2 125 wait length 56
+	}
+	
+	trigger run_3
+	{
+		followspline globalaccum 0 sp3 125 wait length 56
+	}
+
+	trigger run_4
+	{
+		followspline globalaccum 0 sp4 125 wait length 56
+	}
+
+	trigger run_5
+	{
+		followspline globalaccum 0 sp5 125 wait length 56
+	}
+
+	trigger run_6
+	{
+		followspline globalaccum 0 sp6 125 wait length 56
+	}
+
+	trigger run_7
+	{
+		followspline globalaccum 0 sp7 125 wait length 56
+	}
+
+	trigger run_8
+	{
+		followspline globalaccum 0 sp8 125 wait length 56
+	}
+
+	trigger run_9
+	{
+		followspline globalaccum 0 sp9 125 wait length 56
+	}
+
+	trigger run_10
+	{
+		followspline globalaccum 0 sp10 125 wait length 56
+	}
+
+	trigger run_11
+	{
+		followspline globalaccum 0 sp11 125 wait length 56
+	}
+
+	trigger run_12
+	{
+		followspline globalaccum 0 sp12 125 wait length 56
+	}
+	
+	trigger run_13
+	{
+		followspline globalaccum 0 sp13 125 wait length 56
+	}
+
+	trigger run_14
+	{
+		followspline globalaccum 0 sp14 125 wait length 56
+	}
+
+	trigger run_15
+	{
+		followspline globalaccum 0 sp15 125 wait length 56
+	}
+
+	trigger run_16
+	{
+		followspline globalaccum 0 sp16 125 wait length 56
+	}
+	
+	trigger run_17
+	{
+		followspline globalaccum 0 sp17 125 wait length 56
+	}
+
+	trigger run_18
+	{
+		followspline globalaccum 0 sp18 125 wait length 56
+	}
+
+	trigger run_19
+	{
+		followspline globalaccum 0 sp19 125 wait length 56
+	}
+
+	trigger run_20
+	{
+		followspline globalaccum 0 sp20 125 wait length 56
+	}
+
+	trigger run_21
+	{
+		followspline globalaccum 0 sp21 125 wait length 56
+	}
+
+	trigger run_22
+	{
+		followspline globalaccum 0 sp22 125 wait length 56
+	}
+	
+	trigger run_23
+	{
+		followspline globalaccum 0 sp23 125 wait length 56
+	}
+
+	trigger run_24_allies
+	{
+		followspline globalaccum 0 sp24 125 wait length 56
+		followspline globalaccum 0 sp24a 125 wait length 56
+		followspline globalaccum 0 sp24b 125 wait length 56
+	}
+
+	trigger run_24_axis
+	{
+		followspline globalaccum 0 sp24b 125 wait length 56
+		followspline globalaccum 0 sp24a 125 wait length 56
+		followspline globalaccum 0 sp24 125 wait length 56
+	}
+
+	trigger run_25
+	{
+		followspline globalaccum 0 sp25 125 wait length 56
+	}
+
+	trigger run_26
+	{
+		followspline globalaccum 0 sp26 125 wait length 56
+	}
+	
+	trigger run_27
+	{
+		followspline globalaccum 0 sp27 125 wait length 56
+	}
+
+	trigger run_28
+	{
+		followspline globalaccum 0 sp28 125 wait length 56
+	}
+
+	trigger run_29
+	{
+		followspline globalaccum 0 sp29 125 wait length 56
+	}
+
+	trigger to_cabin
+	{
+		gotomarker floor1 90
+	}
+
+	trigger to_b1
+	{
+		gotomarker floorb1 90
+	}
+
+	trigger to_b2
+	{
+		gotomarker floorb2 90
+	}
+
+	trigger to_b3
+	{
+		gotomarker floorb3 90
+	}
+
+	trigger 1_to_b1
+	{
+		gotomarker floor1_bottom 40 wait
+		gotomarker floorb1_top 90 wait
+		gotomarker floorb1 40 wait
+	}
+
+	trigger 1_to_b2
+	{
+		gotomarker floor1_bottom 40 wait
+		gotomarker floorb2_top 90 wait
+		gotomarker floorb2 40 wait
+	}
+
+	trigger 1_to_b3
+	{
+		gotomarker floor1_bottom 40 wait
+		gotomarker floorb3_top 90 wait
+		gotomarker floorb3 40 wait
+	}
+
+	trigger b1_to_1
+	{
+		gotomarker floorb1_top 40 wait
+		gotomarker floor1_bottom 90 wait
+		gotomarker floor1 40 wait
+	}
+
+	trigger b1_to_b2
+	{
+		gotomarker floorb1_bottom 40 wait
+		gotomarker floorb2_top 90 wait
+		gotomarker floorb2 40 wait
+	}
+
+	trigger b1_to_b3
+	{
+		gotomarker floorb1_bottom 40 wait
+		gotomarker floorb3_top 90 wait
+		gotomarker floorb3 40 wait
+	}
+
+	trigger b2_to_1
+	{
+		gotomarker floorb2_top 40 wait
+		gotomarker floor1_bottom 90 wait
+		gotomarker floor1 40 wait
+	}
+
+	trigger b2_to_b1
+	{
+		gotomarker floorb2_top 40 wait
+		gotomarker floorb1_bottom 90 wait
+		gotomarker floorb1 40 wait
+	}
+
+	trigger b2_to_b3
+	{
+		gotomarker floorb2_bottom 40 wait
+		gotomarker floorb3_top 90 wait
+		gotomarker floorb3 40 wait
+	}
+
+	trigger b3_to_1
+	{
+		gotomarker floorb3_top 40 wait
+		gotomarker floor1_bottom 90 wait
+		gotomarker floor1 40 wait
+	}
+
+	trigger b3_to_b1
+	{
+		gotomarker floorb3_top 40 wait
+		gotomarker floorb1_bottom 90 wait
+		gotomarker floorb1 40 wait
+	}
+
+	trigger b3_to_b2
+	{
+		gotomarker floorb3_top 40 wait
+		gotomarker floorb2_bottom 90 wait
+		gotomarker floorb2 40 wait
+	}
+
+	trigger halt
+	{
+		halt
+	}
+
+	trigger attachtotruck
+	{
+		attachtotag truck tag_wback
+	}
+}
+
+cart_enabler_axis
+{
+	trigger stage1
+	{
+		accum 0 set 0
+	}
+
+	trigger stage2
+	{
+		accum 0 set 1
+	}
+	
+	trigger run
+	{
+		accum 0 abort_if_equal 1
+		trigger cart_controller axis_request
+	}
+
+	trigger run2
+	{
+		accum 0 abort_if_equal 0
+		trigger cart_controller axis_request
+	}
+}
+
+cart_enabler_allies
+{
+	trigger stage1
+	{
+		accum 0 set 0
+	}
+
+	trigger stage2
+	{
+		accum 0 set 1
+	}
+	
+	trigger run
+	{
+		accum 0 abort_if_equal 1
+		trigger cart_controller allied_request
+	}
+
+	trigger run2
+	{
+		accum 0 abort_if_equal 0
+		trigger cart_controller allied_request
+	}
+}
+
+cart_disabler
+{
+	trigger run
+	{
+		trigger cart cart_disable
+	}
+}
+
+cart_controller
+{
+	trigger allied_request
+	{
+		accum 1 inc 1
+		accum 0 set 0
+
+		accum 1 abort_if_less_than 3
+		trigger cart cart_enable_allies
+		trigger cart sound_move
+	}
+
+	trigger axis_request
+	{
+		accum 0 inc 1
+		accum 1 set 0
+
+		accum 0 abort_if_less_than 3
+		trigger cart cart_enable_axis
+		trigger cart sound_move
+	}
+}
+
+cart2
+{
+	spawn
+	{
+		wait 300
+		attachtotag truck tag_wback
+		setstate cart2 invisible
+	}
+}
+// **********************************************
+// ****************** TRUCK STUFF ***************
+// **********************************************
+
+truck_smoke
+{
+	spawn
+	{
+		wait 300
+		attachtotag truck tag_wfront
+		setstate truck_smoke invisible
+	}
+}
+
+// sound "thread"
+truck_engine
+{
+	spawn
+	{
+		wait 200
+		attachtotag truck tag_wfront
+	}
+
+	trigger start
+	{
+		trigger truck_engine sound_start
+		wait 950
+		trigger truck_engine sound_move
+	}
+
+	trigger stop
+	{
+		trigger truck_engine sound_stop
+		wait 950
+		trigger truck_engine sound_idle
+	}
+
+	// ========================================
+	// sound events
+	trigger sound_idle
+	{
+		playsound sound/vehicles/truck/truck_idle.wav looping
+	}
+
+	trigger sound_start
+	{
+		stopsound
+		playsound sound/vehicles/truck/truck_revup.wav volume 96
+	}
+
+	trigger sound_move
+	{
+		playsound sound/vehicles/truck/truck_move.wav looping
+	}
+
+	trigger sound_stop
+	{
+		stopsound
+		playsound sound/vehicles/truck/truck_revdown.wav volume 96
+	}
+
+	trigger sound_death
+	{
+		stopsound
+		playsound sound/vehicles/truck/truck_stop.wav volume 96
+	}
+
+	// ========================================
+	// ========================================
+}
+
+truck_build
+{
+	spawn
+	{
+		wait 500
+
+		attachtotag truck tag_wback
+	}
+}
+
+truck_construct
+{
+	spawn
+	{
+		constructible_class 2
+		constructible_health 1050
+		constructible_constructxpbonus 10
+		constructible_destructxpbonus 10
+		wait 1000
+		kill truck
+	}
+
+	built final
+	{
+		alertentity truck
+
+		wm_announce "^5The Truck has been repaired!"
+	}
+}
+
+// digibob: ok, for once i'm gonna PLAN this one, so NOTHING WILL BREAK EVAR
+// ============================================================================
+// accum 0, blank
+// accum 1
+//  - bit 0: barrier 1 status 	( 0 = destroyed, 	1 = built 		)
+//  - bit 1: barrier 2 status 	( 0 = destroyed, 	1 = built 		)
+//  - bit 2: spline status 	( 0 = not moving, 	1 = moving 		)
+//  - bit 3: stuck check flag 	( 0 = not stuck, 	1 = stuck 		)
+//  - bit 4: script lockout 	( 0 = no lockout, 	1 = lockout		)
+//  - bit 5: blank 		( 						)
+//  - bit 6: temp register 	(XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX		)
+//  - bit 7: death status 	( 0 = alive, 		1 = dead		)
+//  - bit 8: player check 	( 0 = players, 		1 = no players		)
+//  - bit 9: visible state	( 0 = alive, 		1 = dead		)
+// accum 2, blank
+// accum 3, current movement loop position
+// accum 4, stop counter
+// accum 5, wheel direction
+// accum 6, blank
+// accum 7, blank
+// ============================================================================
+// spline points are tspln_X with X = 1 to 23
+// ============================================================================
+// wheel events:
+//  - wheels_forward
+//  - wheels_backward
+//  - wheels_stop
+
+truck
+{
+	spawn
+	{
+		accum 1 bitset 9				// we're now visibly dead
+		wait 600
+
+		trigger self disable_stage2
+
+		followspline 0 tspln_0 125 wait length 240
+
+		setstate truck_smoke default
+		//kill truck_construct
+
+		trigger truck_engine sound_death
+		trigger truck wheels_stop
+
+		changemodel models/mapobjects/blitz_sd/blitzbody_damaged.md3
+		accum 1 bitset 7
+	}
+
+	// ========================================
+	// wheeeeeeeeeeeeeeels. eeels. ls.
+	trigger wheels_forward
+	{
+		trigger truck_bwheel2 forward
+		trigger truck_fwheel forward
+	}
+
+	trigger wheels_backward
+	{
+		trigger truck_bwheel2 backward
+		trigger truck_fwheel backward
+	}
+
+	trigger wheels_stop
+	{
+		trigger truck_bwheel2 stop
+		trigger truck_fwheel stop
+	}
+
+	// ========================================
+	// ========================================
+
+	trigger add_cart
+	{
+		wm_announce "^5Allies have loaded the Nuke onto the truck!"
+
+		wm_objective_status 5 0 2
+		wm_objective_status 5 1 1
+
+		wm_set_main_objective 6 0
+		wm_set_main_objective 6 1
+
+		wm_teamvoiceannounce 0 "axis_hq_objective_lost"
+		wm_teamvoiceannounce 1 "allies_hq_objective_captured"
+
+		wm_removeteamvoiceannounce 1 "allies_generator_repair"
+		wm_removeteamvoiceannounce 0 "axis_generator_disable"
+		wm_removeteamvoiceannounce 0 "axis_entrances_defend"
+	}
+
+	trigger truck_escape_msg
+	{
+		// *----------------------------------- vo ------------------------------------------*
+		wm_addteamvoiceannounce 0 "axis_hq_truck_stop"
+		wm_addteamvoiceannounce 1 "allies_hq_truck_escort"
+
+		wm_teamvoiceannounce 0 "axis_hq_truck_stop"
+		wm_teamvoiceannounce 1 "allies_hq_truck_escort"
+		// *---------------------------------------------------------------------------------*
+		trigger defense announce
+	}
+
+	// ========================================
+	// movement
+
+	trigger move_check
+	{
+		trigger truck stuck_check
+		accum 1 abort_if_bitset 3
+
+		trigger truck dispatch
+	}
+
+	trigger move
+	{
+		trigger truck move_check
+
+		wait 500
+
+		trigger truck move
+	}
+
+	// ========================================
+	// ========================================
+
+
+	trigger run_continue
+	{
+		trigger truck deathcheck
+		trigger truck stopcheck
+		trigger truck move
+	}
+
+	trigger run_1
+	{
+		// ------------------------------vo-----------------
+		wm_removeteamvoiceannounce 0 "axis_truck_steal"
+		wm_removeteamvoiceannounce 1 "allies_truck_steal"
+
+		wm_teamvoiceannounce 0 "axis_truck_stolen"
+		wm_teamvoiceannounce 1 "allies_truck_stolen"
+
+		wm_addteamvoiceannounce 0 "axis_hq_truck_stop"
+		wm_addteamvoiceannounce 0 "axis_truckbar_construct"
+		wm_addteamvoiceannounce 1 "allies_hq_truck_escort"
+		// -------------------------------------------------
+
+		trigger defense announce
+
+		accum 1 bitset 2
+		followspline 0 tspln_1 200 wait length 240 wait roll 0 0 dampin
+		accum 1 bitreset 2
+
+		accum 3 set 1
+
+		trigger truck run_continue
+	}
+
+	trigger run_2
+	{
+		accum 1 bitset 2
+		followspline 0 tspln_2 200 wait length 240 wait roll 0 -1
+		accum 1 bitreset 2
+
+		accum 3 set 2
+		trigger truck run_continue
+	}
+
+	trigger run_3
+	{
+		accum 1 bitset 2
+		followspline 0 tspln_3 200 wait length 240 wait roll -1 2
+		accum 1 bitreset 2
+
+		accum 3 set 3
+
+		trigger truck stuck_check_barrier3_built_msg
+
+		trigger truck run_continue
+	}
+
+	trigger run_4
+	{
+		accum 1 bitset 2
+		followspline 0 tspln_4 200 wait length 240 wait roll 1 -2
+		accum 1 bitreset 2
+
+		accum 3 set 4
+		trigger truck run_continue
+	}
+
+	trigger run_5
+	{
+		accum 1 bitset 2
+		followspline 0 tspln_5 200 wait length 240 wait roll -1 2
+		accum 1 bitreset 2
+
+		accum 3 set 5
+		trigger truck run_continue
+	}
+
+	trigger run_6
+	{
+		accum 1 bitset 2
+		followspline 0 tspln_6 200 wait length 240 wait roll 1 -1
+		accum 1 bitreset 2
+
+		accum 3 set 6
+		trigger truck run_continue
+	}
+
+	trigger run_7
+	{
+		accum 1 bitset 2
+		followspline 0 tspln_7 200 wait length 240 wait roll 0 2
+		accum 1 bitreset 2
+
+		accum 3 set 7
+		trigger truck run_continue
+	}
+
+	trigger run_8
+	{
+		accum 1 bitset 2
+		followspline 0 tspln_8 200 wait length 240 wait roll 2 2
+		accum 1 bitreset 2
+
+		accum 3 set 8
+		trigger truck run_continue
+	}
+
+	trigger run_9
+	{
+		accum 1 bitset 2
+		followspline 0 tspln_9 200 wait length 240 wait roll 4 6
+		accum 1 bitreset 2
+
+		accum 3 set 9
+		trigger truck run_continue
+	}
+
+	trigger run_10
+	{
+		accum 1 bitset 2
+		followspline 0 tspln_10 200 wait length 240 wait roll 10 -3
+		accum 1 bitreset 2
+
+		trigger truck stuck_check_barrier1_built_msg
+
+		accum 3 set 10
+		trigger truck run_continue
+	}
+
+	trigger run_11
+	{
+		accum 1 bitset 2
+
+		followspline 0 tspln_11 200 wait length 240 wait roll 7 -2
+
+		accum 1 bitreset 2
+
+		accum 3 set 11
+		trigger truck run_continue
+	}
+
+	trigger run_12
+	{
+		accum 1 bitset 2
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "axis_truck_barrier1"
+
+		wm_teamvoiceannounce 1 "allies_truck_barrier1"
+		// *---------------------------------------------------------------------------------*
+
+		followspline 0 tspln_12 200 wait length 240 wait roll 5 -5
+		accum 1 bitreset 2
+
+		accum 3 set 12
+		trigger truck run_continue
+	}
+
+	trigger run_13
+	{
+		accum 1 bitset 2
+		followspline 0 tspln_13 200 wait length 240 wait roll 0 -5
+		accum 1 bitreset 2
+
+		accum 3 set 13
+		trigger truck run_continue
+	}
+
+	trigger run_14
+	{
+		accum 1 bitset 2
+		followspline 0 tspln_14 200 wait length 240 wait roll -5 -3
+		accum 1 bitreset 2
+
+		accum 3 set 14
+		trigger truck run_continue
+	}
+
+	trigger run_15
+	{
+		accum 1 bitset 2
+		followspline 0 tspln_15 200 wait length 240 wait roll -8 7
+		accum 1 bitreset 2
+
+		accum 3 set 15
+		trigger truck run_continue
+	}
+
+	trigger run_16
+	{
+		accum 1 bitset 2
+		followspline 0 tspln_16 200 wait length 240 wait roll -1 1 dampout
+
+		globalaccum 1 trigger_if_equal 0 hill_flag force_allied // Switch hill top spawn to Allied ONLY
+
+		accum 1 bitreset 2
+
+		accum 3 set 16
+		trigger truck run_continue
+	}
+
+	trigger run_17
+	{
+		accum 1 bitset 2
+		followspline 0 tspln_17 200 wait length 240
+
+		trigger truck_engine stop
+		trigger truck wheels_stop
+		wait 600
+
+		accum 5 set 1
+		accum 1 bitreset 2
+
+		accum 3 set 17
+	}
+
+	trigger run_18
+	{
+		accum 1 bitset 2
+		followspline 1 tspln_18 200 wait length 240
+		accum 1 bitreset 2
+
+		accum 3 set 18
+		trigger truck run_continue
+	}
+
+	trigger run_19
+	{
+		// -----------------------vo-----------------------
+		wm_removeteamvoiceannounce 0 "axis_hq_truck_stop"
+		wm_removeteamvoiceannounce 1 "allies_hq_truck_escort"
+		// ------------------------------------------------
+
+		accum 1 bitset 2
+		followspline 1 tspln_19 200 wait length 240
+		accum 5 set 0
+		accum 1 bitreset 2
+
+		accum 3 set 20
+
+		setstate ramp_toi default
+		setstate ramp_materials_flag default
+
+		trigger truck run_continue
+	}
+
+	trigger run_20
+	{
+		accum 1 bitset 2
+
+		trigger truck truck_escape_msg
+
+		trigger ramp remove_all
+
+		followspline 0 tspln_20 200 wait length 240
+		accum 1 bitreset 2
+
+		accum 3 set 20
+
+		trigger truck run_continue
+	}
+
+	trigger run_21
+	{
+		accum 1 bitset 2
+
+		trigger ramp remove_all
+
+		followspline 0 tspln_21 200 wait length 240
+		accum 1 bitreset 2
+
+		accum 3 set 21
+		trigger truck run_continue
+	}
+
+	trigger run_22
+	{
+		accum 1 bitset 2
+		followspline 0 tspln_22 200 wait length 240
+		accum 1 bitreset 2
+
+		accum 3 set 22
+		trigger truck run_continue
+	}
+
+	trigger run_23
+	{
+		accum 1 bitset 2
+		followspline 0 tspln_23 200 wait length 240 wait roll 0 1 dampin
+		accum 1 bitreset 2
+
+		accum 3 set 23
+		trigger truck run_continue
+	}
+
+	trigger run_24
+	{
+		accum 1 bitset 2
+		followspline 0 tspln_24 200 wait length 240 wait roll 1 7
+		accum 1 bitreset 2
+
+		accum 3 set 24
+		trigger truck run_continue
+	}
+
+	trigger run_25
+	{
+		accum 1 bitset 2
+		followspline 0 tspln_25 200 wait length 240 wait roll 8 -3
+		accum 1 bitreset 2
+
+		accum 3 set 25
+		trigger truck run_continue
+	}
+
+	trigger run_26
+	{
+		accum 1 bitset 2
+		followspline 0 tspln_26 200 wait length 240 wait roll 5 -5
+		accum 1 bitreset 2
+
+		trigger truck stuck_check_barrier2_built_msg
+
+		accum 3 set 26
+		trigger truck run_continue
+	}
+
+	trigger run_27
+	{
+		accum 1 bitset 2
+				
+		followspline 0 tspln_27 200 wait length 240 wait roll 0 -5
+
+		trigger defense remove
+		accum 1 bitreset 2
+
+		accum 3 set 27
+		trigger truck run_continue
+	}
+
+	trigger run_28
+	{
+		accum 1 bitset 2
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "axis_truck_barrier2"
+		wm_removeteamvoiceannounce 0 "axis_truckbar_construct"
+		wm_teamvoiceannounce 1 "allies_truck_barrier2"
+		// *---------------------------------------------------------------------------------*
+
+		followspline 0 tspln_28 200 wait length 240 wait roll -5 -1
+		accum 1 bitreset 2
+
+		accum 3 set 28
+		trigger truck run_continue
+	}
+
+	trigger run_29
+	{
+		accum 1 bitset 2
+		followspline 0 tspln_29 200 wait length 240 wait roll -6 8
+		accum 1 bitreset 2
+
+		accum 3 set 29
+		trigger truck run_continue
+	}
+
+	trigger run_30
+	{
+		accum 1 bitset 2
+		followspline 0 tspln_30 200 wait length 240 wait roll 2 -2 dampout
+		accum 1 bitreset 2
+
+		accum 3 set 30
+		trigger truck run_continue
+	}
+
+	trigger run_31
+	{
+		accum 1 bitset 2
+		followspline 0 tspln_31 200 wait length 240
+		accum 1 bitreset 2
+
+		accum 3 set 31
+		trigger truck run_continue
+	}
+
+	trigger run_32
+	{
+		accum 1 bitset 2
+		followspline 0 tspln_32 200 wait length 240
+		accum 1 bitreset 2
+
+		accum 3 set 32
+		trigger truck run_continue
+	}
+
+	trigger run_33
+	{
+		accum 1 bitset 2
+		followspline 0 tspln_33 200 wait length 240
+		accum 1 bitreset 2
+
+		accum 3 set 33
+		trigger truck run_continue
+	}
+
+	trigger run_34
+	{
+		accum 1 bitset 2
+		followspline 0 tspln_34 200 wait length 240
+		accum 1 bitreset 2
+
+		accum 3 set 34
+		trigger truck run_continue
+	}
+
+	trigger run_35
+	{
+		accum 1 bitset 2
+		followspline 0 tspln_35 200 wait length 240
+		accum 1 bitreset 2
+
+		accum 3 set 38
+		trigger truck run_continue
+	}
+
+	trigger run_36
+	{
+		accum 1 bitset 2
+		followspline 0 tspln_36 200 wait length 240
+		accum 1 bitreset 2
+
+		accum 3 set 36
+		trigger truck run_continue
+	}
+
+	trigger run_37
+	{
+		accum 1 bitset 2
+		followspline 0 tspln_37 200 wait length 240
+		accum 1 bitreset 2
+
+		accum 3 set 37
+		trigger truck run_continue
+	}
+
+	trigger run_38
+	{
+		accum 1 bitset 2
+		followspline 0 tspln_38 200 wait length 240
+		accum 1 bitreset 2
+
+		accum 3 set 38
+		trigger truck run_continue
+	}
+
+	trigger run_39
+	{
+		accum 1 bitset 2
+
+		trigger game_manager allies_win
+
+		followspline 0 tspln_36 200 wait length 240
+		followspline 0 tspln_37 200 wait length 240
+		followspline 0 tspln_38 200 wait length 240
+		followspline 0 tspln_39 200 wait length 240
+
+		alertentity gater
+		followspline 0 tspln_40 200 wait length 240
+		followspline 0 tspln_41 200 wait length 240
+		followspline 0 tspln_42 200 wait length 240
+		followspline 0 tspln_43	200 wait length 240
+		accum 1 bitreset 2
+
+		trigger truck run_continue
+	}
+
+	trigger dispatch
+	{
+		accum 3 trigger_if_equal 0 	truck run_1
+		accum 3 trigger_if_equal 1 	truck run_2
+		accum 3 trigger_if_equal 2	truck run_3
+		accum 3 trigger_if_equal 3 	truck run_4
+		accum 3 trigger_if_equal 4 	truck run_5
+		accum 3 trigger_if_equal 5 	truck run_6
+		accum 3 trigger_if_equal 6 	truck run_7
+		accum 3 trigger_if_equal 7 	truck run_8
+		accum 3 trigger_if_equal 8 	truck run_9
+		accum 3 trigger_if_equal 9 	truck run_10
+		accum 3 trigger_if_equal 10	truck run_11
+		accum 3 trigger_if_equal 11	truck run_12
+		accum 3 trigger_if_equal 12	truck run_13
+		accum 3 trigger_if_equal 13	truck run_14
+		accum 3 trigger_if_equal 14	truck run_15
+		accum 3 trigger_if_equal 15	truck run_16
+		accum 3 trigger_if_equal 16	truck run_17
+		accum 3 trigger_if_equal 17	truck run_18
+		accum 3 trigger_if_equal 18	truck run_19
+		accum 3 trigger_if_equal 19	truck run_20
+		accum 3 trigger_if_equal 20	truck run_21
+		accum 3 trigger_if_equal 21	truck run_22
+		accum 3 trigger_if_equal 22	truck run_23
+		accum 3 trigger_if_equal 23	truck run_24
+		accum 3 trigger_if_equal 24	truck run_25
+		accum 3 trigger_if_equal 25	truck run_26
+		accum 3 trigger_if_equal 26	truck run_27
+		accum 3 trigger_if_equal 27	truck run_28
+		accum 3 trigger_if_equal 28	truck run_29
+		accum 3 trigger_if_equal 29	truck run_30
+		accum 3 trigger_if_equal 30	truck run_31
+		accum 3 trigger_if_equal 31	truck run_32
+		accum 3 trigger_if_equal 32	truck run_33
+		accum 3 trigger_if_equal 33	truck run_34
+		accum 3 trigger_if_equal 34	truck run_35
+		accum 3 trigger_if_equal 35	truck run_36
+		accum 3 trigger_if_equal 36	truck run_37
+		accum 3 trigger_if_equal 37	truck run_38
+		accum 3 trigger_if_equal 38	truck run_39
+	}
+
+	// ========================================
+	// barrier checking
+	// digibob: since we cant return variables, just use bit 3 of accum 1 as a register... mmmm assembly......
+
+	trigger stuck_check
+	{
+		accum 1 bitreset 3
+
+		trigger truck stuck_check_barrier1
+		trigger truck stuck_check_cart
+		trigger truck stuck_check_barrier2
+		trigger truck stuck_check_scriptlockout
+	}
+
+	trigger stuck_check_scriptlockout
+	{
+		accum 1 abort_if_not_bitset 4
+
+		accum 1 bitset 3
+	}
+
+	trigger stuck_check_cart
+	{
+		accum 3 abort_if_not_equal 20
+
+		accum 0 abort_if_not_bitset 1
+
+		accum 1 bitset 3
+	}
+
+	trigger stuck_check_barrier1
+	{
+		accum 3 abort_if_not_equal 10
+
+		accum 0 abort_if_not_bitset 0
+
+		accum 1 bitset 3
+	}
+
+	trigger stuck_check_barrier1_built_msg
+	{
+		accum 0 abort_if_not_bitset 0
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 1 "allies_truckbar_destroy"
+		// *---------------------------------------------------------------------------------*
+	}
+
+	trigger stuck_check_barrier2
+	{
+		accum 3 abort_if_not_equal 26
+
+		accum 0 abort_if_not_bitset 2
+
+		accum 1 bitset 3
+	}
+
+	trigger stuck_check_barrier2_built_msg
+	{
+		accum 0 abort_if_not_bitset 2
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 1 "allies_truckbar_destroy"
+		// *---------------------------------------------------------------------------------*
+	}
+
+	// stop check
+	trigger stopcheck_setup
+	{
+		accum 1 bitset 6		// stop if we're stuck/no-one's pushing :)
+
+		accum 1 abort_if_bitset 8	// no one in the trigger, abort
+
+		trigger truck stuck_check	// call the stop check function
+		accum 1 abort_if_bitset 3	// we're stuck so break out
+
+		accum 1 bitreset 6		// we're free to keep going
+	}
+
+	trigger stopcheck
+	{
+		trigger truck stopcheck_setup
+		accum 1 abort_if_not_bitset 6
+
+		trigger truck script_lockout
+
+		// Any just stopped moving stuff goes here
+		trigger truck_engine stop
+		trigger truck wheels_stop
+		// <<<<< stop animation goes here
+
+		trigger truck script_lockout_stop
+		resetscript
+	}
+
+	// ========================================
+	// script lockouts
+
+	trigger script_lockout
+	{
+		accum 1 bitset 4
+	}
+
+	trigger script_lockout_stop
+	{
+		accum 1 bitreset 4
+	}
+
+	// ========================================
+	// enable/disable
+
+	trigger truck_enable
+	{
+		trigger truck stuck_check
+		accum 1 abort_if_bitset 3 	// stuck check
+
+		accum 4 set 0				// reset stop counter
+		accum 1 bitreset 8			// reset stop check
+
+		accum 1 abort_if_bitset 2 	// already following spline
+		accum 1 abort_if_bitset 4 	// script lockout
+
+		accum 1 abort_if_bitset 7 	// death check
+
+		// Any just started moving stuff goes here
+		trigger truck_engine start
+		accum 5 trigger_if_equal 0 truck wheels_forward
+		accum 5 trigger_if_equal 1 truck wheels_backward
+		// <<<<< start animation goes here
+		trigger truck move
+	}
+
+	trigger truck_disable
+	{
+		accum 4 inc 1				// up the stop counter
+		accum 4 abort_if_less_than 2
+
+		accum 1 bitset 8			// set stop check
+
+		trigger truck deathcheck
+	}
+
+	// ========================================
+	// death / rebirth
+
+	rebirth
+	{
+		accum 1 bitreset 7 // we're alive again
+		accum 1 bitreset 9 // we're visibly alive
+
+		changemodel models/mapobjects/blitz_sd/blitzbody.md3
+
+		setstate truck_smoke invisible
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "axis_hq_truck_repaired_allies"
+
+		wm_teamvoiceannounce 1 "allies_hq_truck_repaired"
+		// *---------------------------------------------------------------------------------*
+
+		trigger truck_engine sound_idle
+		//	trigger truck move
+	}
+
+	death
+	{
+		accum 1 bitset 7
+		kill truck_construct
+	}
+
+	trigger deathcheck
+	{
+		accum 1 abort_if_not_bitset 7	// are we dead?
+		accum 1 abort_if_bitset 9		// are we not already visibly dead?
+		accum 1 abort_if_bitset 2		// are we not following a spline?
+		accum 1 abort_if_bitset 4		// are we not in a script lockout?
+
+		accum 1 bitset 9				// we're now visibly dead
+
+		wm_announce "^1The Truck has been damaged!"
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "axis_hq_truck_damaged"
+
+		wm_teamvoiceannounce 1 "allies_hq_truck_damaged_axis"
+		// *---------------------------------------------------------------------------------*
+
+		setstate truck_smoke default
+		kill truck_construct
+
+		trigger truck_engine sound_death
+		//trigger truck tracks_stop		// truck with tracks? i don't think so
+		trigger truck wheels_stop
+		// <<<< stop anim goes here
+
+		changemodel models/mapobjects/blitz_sd/blitzbody_damaged.md3
+
+		resetscript
+	}
+
+	// ========================================
+	// ========================================
+
+
+
+
+	// ========================================
+	// barriers
+
+	trigger enable_stage1
+	{
+		accum 0 bitreset 0
+	}
+
+	trigger disable_stage1
+	{
+		accum 0 bitset 0
+	}
+
+	trigger enable_stage2
+	{
+		accum 0 bitreset 1
+	}
+
+	trigger disable_stage2
+	{
+		accum 0 bitset 1
+	}
+
+	trigger enable_stage3
+	{
+		accum 0 bitreset 2
+	}
+
+	trigger disable_stage3
+	{
+		accum 0 bitset 2
+	}
+
+	// ========================================
+	// ========================================
+}
+
+truck_bwheel2
+{
+	spawn
+	{
+		wait 500
+
+		attachtotag truck tag_wback
+	}
+
+	trigger forward
+	{
+		setrotation 150 0 0
+	}
+
+	trigger backward
+	{
+		setrotation -150 0 0
+	}
+
+	trigger stop
+	{
+		stoprotation
+	}
+}
+
+truck_fwheel
+{
+	spawn
+	{
+		wait 500
+
+		attachtotag truck tag_wfront
+	}
+
+	trigger forward
+	{
+		setrotation 150 0 0
+	}
+
+	trigger backward
+	{
+		setrotation -150 0 0
+	}
+
+	trigger stop
+	{
+		stoprotation
+	}
+}
+
+truck_trigger
+{
+	spawn
+	{
+		wait 500
+
+		attachtotag truck tag_wback
+	}
+}
+
+truck_disabler
+{
+	trigger run
+	{
+		trigger truck truck_disable
+	}
+}
+
+truck_enabler
+{
+	trigger run
+	{
+		trigger truck truck_enable
+	}
+}
+
+defense
+{
+	spawn
+	{
+		wait 400
+		trigger defense setup
+
+		constructible_class 3
+	}
+
+	trigger setup
+	{
+		setstate defense_materials default
+		setstate defense_materials_clip default
+		setstate defense_flag default
+		setstate defense_toi default
+
+
+		setstate defense_wire invisible
+		setstate defense_hurt invisible
+		setstate defense_teeth1 invisible
+		setstate defense_teeth2 invisible
+		setstate defense_teeth3 invisible
+	}
+
+	buildstart final
+	{
+		setstate defense_materials default
+		setstate defense_materials_clip default
+		setstate defense_flag default
+
+
+		setstate defense_wire underconstruction
+		setstate defense_hurt underconstruction
+		setstate defense_teeth1 underconstruction
+		setstate defense_teeth2 underconstruction
+		setstate defense_teeth3 underconstruction
+	}
+
+	built final
+	{
+		accum 0 set 1
+		setstate defense_materials invisible
+		setstate defense_materials_clip invisible
+		setstate defense_flag invisible
+
+
+		setstate defense_wire default
+		setstate defense_hurt default
+		setstate defense_teeth1 default
+		setstate defense_teeth2 default
+		setstate defense_teeth3 default
+
+		trigger truck disable_stage1
+		wait 100
+		trigger truck disable_stage3
+
+		wm_announce "^1Truck Barrier has been constructed."
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "axis_truckbar_constructed"
+		wm_teamvoiceannounce 1 "allies_truckbar_destroy"
+
+		wm_removeteamvoiceannounce 0 "axis_truckbar_construct"
+		wm_addteamvoiceannounce 1 "allies_truckbar_destroy"
+		// *---------------------------------------------------------------------------------*
+	}
+
+	decayed final
+	{
+		setstate defense_materials default
+		setstate defense_materials_clip default
+		setstate defense_flag default
+
+
+		setstate defense_wire invisible
+		setstate defense_hurt invisible
+		setstate defense_teeth1 invisible
+		setstate defense_teeth2 invisible
+		setstate defense_teeth3 invisible
+	}
+
+	death
+	{
+		accum 0 set 0
+		setstate defense_materials default
+		setstate defense_materials_clip default
+		setstate defense_flag default
+
+
+		setstate defense_wire invisible
+		setstate defense_hurt invisible
+		setstate defense_teeth1 invisible
+		setstate defense_teeth2 invisible
+		setstate defense_teeth3 invisible
+
+		trigger truck enable_stage1
+		wait 100
+		trigger truck enable_stage3
+
+		wm_announce "^5Truck Barrier has been destroyed."
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_addteamvoiceannounce 0 "axis_truckbar_construct"
+		wm_removeteamvoiceannounce 1 "allies_truckbar_destroy"
+
+		wm_teamvoiceannounce 0 "axis_truckbar_destroyed"
+		wm_teamvoiceannounce 1 "allies_truckbar_destroyed"
+		// *---------------------------------------------------------------------------------*
+	}
+
+	trigger announce
+	{
+		accum 0 abort_if_equal 1
+
+		wm_teamvoiceannounce 0 "axis_truckbar_construct"
+	}
+
+	trigger remove
+	{
+		wm_removeteamvoiceannounce 0 "axis_truckbar_construct"
+
+		setstate defense_toi invisible
+		setstate defense_materials invisible
+		setstate defense_materials_clip invisible
+		setstate defense_flag invisible
+		setstate defense_wire invisible
+		setstate defense_hurt invisible
+		setstate defense_teeth1 invisible
+		setstate defense_teeth2 invisible
+		setstate defense_teeth3 invisible
+	}
+}
+

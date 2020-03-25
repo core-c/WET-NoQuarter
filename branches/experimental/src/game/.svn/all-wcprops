@@ -1,0 +1,533 @@
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/nq/!svn/ver/4189/branches/experimental/src/game
+END
+bg_sscript.c
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/nq/!svn/ver/4189/branches/experimental/src/game/bg_sscript.c
+END
+g_alarm.c
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/nq/!svn/ver/4189/branches/experimental/src/game/g_alarm.c
+END
+g_syscalls.c
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/nq/!svn/ver/4189/branches/experimental/src/game/g_syscalls.c
+END
+g_etbot_interface.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/nq/!svn/ver/4189/branches/experimental/src/game/g_etbot_interface.cpp
+END
+bg_misc.c
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/nq/!svn/ver/4189/branches/experimental/src/game/bg_misc.c
+END
+bg_character.c
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/nq/!svn/ver/4189/branches/experimental/src/game/bg_character.c
+END
+g_local.h
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/nq/!svn/ver/4189/branches/experimental/src/game/g_local.h
+END
+bg_classes.c
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/nq/!svn/ver/4189/branches/experimental/src/game/bg_classes.c
+END
+bg_stats.c
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/nq/!svn/ver/4189/branches/experimental/src/game/bg_stats.c
+END
+g_strparse.c
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/nq/!svn/ver/4189/branches/experimental/src/game/g_strparse.c
+END
+q_math.c
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/nq/!svn/ver/4189/branches/experimental/src/game/q_math.c
+END
+g_strparse.h
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/nq/!svn/ver/4189/branches/experimental/src/game/g_strparse.h
+END
+g_active.c
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/nq/!svn/ver/4189/branches/experimental/src/game/g_active.c
+END
+g_mem.c
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/nq/!svn/ver/4189/branches/experimental/src/game/g_mem.c
+END
+g_teammapdata.c
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/nq/!svn/ver/4189/branches/experimental/src/game/g_teammapdata.c
+END
+g_antilag.c
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/nq/!svn/ver/4189/branches/experimental/src/game/g_antilag.c
+END
+g_lua.c
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/nq/!svn/ver/4189/branches/experimental/src/game/g_lua.c
+END
+bg_campaign.c
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/nq/!svn/ver/4189/branches/experimental/src/game/bg_campaign.c
+END
+g_public.h
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/nq/!svn/ver/4189/branches/experimental/src/game/g_public.h
+END
+g_script_actions.c
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/nq/!svn/ver/4189/branches/experimental/src/game/g_script_actions.c
+END
+g_main.c
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/nq/!svn/ver/4189/branches/experimental/src/game/g_main.c
+END
+g_multiview.c
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/nq/!svn/ver/4189/branches/experimental/src/game/g_multiview.c
+END
+g_lua.h
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/nq/!svn/ver/4189/branches/experimental/src/game/g_lua.h
+END
+g_shrubbot.c
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/nq/!svn/ver/4189/branches/experimental/src/game/g_shrubbot.c
+END
+bg_pmove.c
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/nq/!svn/ver/4189/branches/experimental/src/game/bg_pmove.c
+END
+g_weapon.c
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/nq/!svn/ver/4189/branches/experimental/src/game/g_weapon.c
+END
+g_misc.c
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/nq/!svn/ver/4189/branches/experimental/src/game/g_misc.c
+END
+g_shrubbot.h
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/nq/!svn/ver/4189/branches/experimental/src/game/g_shrubbot.h
+END
+geoip.c
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/nq/!svn/ver/4189/branches/experimental/src/game/geoip.c
+END
+input_tokens.gperf
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/nq/!svn/ver/4189/branches/experimental/src/game/input_tokens.gperf
+END
+bg_local.h
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/nq/!svn/ver/4189/branches/experimental/src/game/bg_local.h
+END
+g_script.c
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/nq/!svn/ver/4189/branches/experimental/src/game/g_script.c
+END
+g_config.c
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/nq/!svn/ver/4189/branches/experimental/src/game/g_config.c
+END
+game.dsp
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/nq/!svn/ver/4189/branches/experimental/src/game/game.dsp
+END
+g_referee.c
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/nq/!svn/ver/4189/branches/experimental/src/game/g_referee.c
+END
+g_vote.c
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/nq/!svn/ver/4189/branches/experimental/src/game/g_vote.c
+END
+g_fireteams.c
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/nq/!svn/ver/4189/branches/experimental/src/game/g_fireteams.c
+END
+g_items.c
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/nq/!svn/ver/4189/branches/experimental/src/game/g_items.c
+END
+etpro_mdx_lut.h
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/nq/!svn/ver/4189/branches/experimental/src/game/etpro_mdx_lut.h
+END
+game.vcproj
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/nq/!svn/ver/4189/branches/experimental/src/game/game.vcproj
+END
+g_cmds.c
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/nq/!svn/ver/4189/branches/experimental/src/game/g_cmds.c
+END
+g_team.c
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/nq/!svn/ver/4189/branches/experimental/src/game/g_team.c
+END
+g_spawn.c
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/nq/!svn/ver/4189/branches/experimental/src/game/g_spawn.c
+END
+bg_slidemove.c
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/nq/!svn/ver/4189/branches/experimental/src/game/bg_slidemove.c
+END
+etpro_mdx.c
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/nq/!svn/ver/4189/branches/experimental/src/game/etpro_mdx.c
+END
+g_systemmsg.c
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/nq/!svn/ver/4189/branches/experimental/src/game/g_systemmsg.c
+END
+g_team.h
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/nq/!svn/ver/4189/branches/experimental/src/game/g_team.h
+END
+g_match.c
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/nq/!svn/ver/4189/branches/experimental/src/game/g_match.c
+END
+bg_tracemap.c
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/nq/!svn/ver/4189/branches/experimental/src/game/bg_tracemap.c
+END
+g_time.c
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/nq/!svn/ver/4189/branches/experimental/src/game/g_time.c
+END
+g_svcmds.c
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/nq/!svn/ver/4189/branches/experimental/src/game/g_svcmds.c
+END
+etpro_mdx.h
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/nq/!svn/ver/4189/branches/experimental/src/game/etpro_mdx.h
+END
+g_time.h
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/nq/!svn/ver/4189/branches/experimental/src/game/g_time.h
+END
+surfaceflags.h
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/nq/!svn/ver/4189/branches/experimental/src/game/surfaceflags.h
+END
+g_combat.c
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/nq/!svn/ver/4189/branches/experimental/src/game/g_combat.c
+END
+g_cmds_ext.c
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/nq/!svn/ver/4189/branches/experimental/src/game/g_cmds_ext.c
+END
+game.def
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/nq/!svn/ver/4189/branches/experimental/src/game/game.def
+END
+q_shared.c
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/nq/!svn/ver/4189/branches/experimental/src/game/q_shared.c
+END
+g_osfile.c
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/nq/!svn/ver/4189/branches/experimental/src/game/g_osfile.c
+END
+bg_animation.c
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/nq/!svn/ver/4189/branches/experimental/src/game/bg_animation.c
+END
+g_session.c
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/nq/!svn/ver/4189/branches/experimental/src/game/g_session.c
+END
+q_shared.h
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/nq/!svn/ver/4189/branches/experimental/src/game/q_shared.h
+END
+g_osfile.h
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/nq/!svn/ver/4189/branches/experimental/src/game/g_osfile.h
+END
+g_target.c
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/nq/!svn/ver/4189/branches/experimental/src/game/g_target.c
+END
+g_mover.c
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/nq/!svn/ver/4189/branches/experimental/src/game/g_mover.c
+END
+bg_profiler.h
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/nq/!svn/ver/4189/branches/experimental/src/game/bg_profiler.h
+END
+game2005.vcproj
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/nq/!svn/ver/4189/branches/experimental/src/game/game2005.vcproj
+END
+g_sha1.c
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/nq/!svn/ver/4189/branches/experimental/src/game/g_sha1.c
+END
+g_character.c
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/nq/!svn/ver/4189/branches/experimental/src/game/g_character.c
+END
+g_stats.c
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/nq/!svn/ver/4189/branches/experimental/src/game/g_stats.c
+END
+g_crash.c
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/nq/!svn/ver/4189/branches/experimental/src/game/g_crash.c
+END
+g_utils.c
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/nq/!svn/ver/4189/branches/experimental/src/game/g_utils.c
+END
+g_etbot_interface.h
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/nq/!svn/ver/4189/branches/experimental/src/game/g_etbot_interface.h
+END
+g_buddy_list.c
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/nq/!svn/ver/4189/branches/experimental/src/game/g_buddy_list.c
+END
+g_props.c
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/nq/!svn/ver/4189/branches/experimental/src/game/g_props.c
+END
+bg_animgroup.c
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/nq/!svn/ver/4189/branches/experimental/src/game/bg_animgroup.c
+END
+g_trigger.c
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/nq/!svn/ver/4189/branches/experimental/src/game/g_trigger.c
+END
+bg_profiler_hook.c
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/nq/!svn/ver/4189/branches/experimental/src/game/bg_profiler_hook.c
+END
+g_missile.c
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/nq/!svn/ver/4189/branches/experimental/src/game/g_missile.c
+END
+g_xpsave.c
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/nq/!svn/ver/4189/branches/experimental/src/game/g_xpsave.c
+END
+bg_lib.c
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/nq/!svn/ver/4189/branches/experimental/src/game/bg_lib.c
+END
+game2008EE.vcproj
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/nq/!svn/ver/4189/branches/experimental/src/game/game2008EE.vcproj
+END
+g_xpsave.h
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/nq/!svn/ver/4189/branches/experimental/src/game/g_xpsave.h
+END
+bg_weapons.c
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/nq/!svn/ver/4189/branches/experimental/src/game/bg_weapons.c
+END
+g_client.c
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/nq/!svn/ver/4189/branches/experimental/src/game/g_client.c
+END
+g_match_tokens.c
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/nq/!svn/ver/4189/branches/experimental/src/game/g_match_tokens.c
+END
+bg_public.h
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/nq/!svn/ver/4189/branches/experimental/src/game/bg_public.h
+END
+et-antiwarp.c
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/nq/!svn/ver/4189/branches/experimental/src/game/et-antiwarp.c
+END

@@ -1,0 +1,18 @@
+// <animation name>	<first frame> <length> <looping> <fps> <move speed> <transition> <reversed>
+death_knife_1		0	50	0	22	0	0	0
+death_knife_2		52	54	0	22	0	0	0
+death_instant_1		107	41	0	20	0	0	0
+death_instant_2		161	30	0	25	0	0	0
+death_instant_head_1	192	49	0	20	0	0	0
+death_instant_head_2	242	52	0	20	0	0	0
+death_instant_torso_1	295	38	0	20	0	0	0
+death_instant_torso_2	334	41	0	20	0	0	0
+death_tesla_1		386	29	0	20	0	0	0
+death_tesla_2		426	50	0	20	0	0	0
+death_flame_1		477	84	0	30	0	0	0
+death_forward		609	61	0	20	0	0	0
+
+//drop			672	5 	0	20	0	0	0
+kick			673	38	0	40	0	0	0
+
+

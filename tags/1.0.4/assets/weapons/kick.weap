@@ -1,0 +1,22 @@
+weaponDef
+{
+	both {
+		recoilDuration 00
+		recoilPitch 0.00
+		damage 20
+	}
+
+	// This basically fills out weaponInfo_t
+	client {
+		
+		weaponConfig		"models/weapons2/foot/weapon.cfg"
+		
+		firstPerson {
+			model			"models/weapons2/foot/v_foot.md3"
+			axisskin 		"models/weapons2/foot/v_foot_axis.skin"
+			alliedskin 		"models/weapons2/foot/v_foot_allied.skin"
+
+		}
+
+	}
+}

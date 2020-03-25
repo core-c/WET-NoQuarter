@@ -1,0 +1,1674 @@
+// --------------------------------------------------------------------------
+// pong by tbh|bloodwire
+//
+// software used in development of this map:
+//          gtk-radiant, vim, sox, winamp, wavelab, gimp and mozilla firefox.
+
+// 
+// more info in the readme file and on http://www.ekran.no/aw/
+
+// phisherman: Fixed popular bug of not passing on to intermission after timelimit hit and round draw
+
+game_manager
+{
+	spawn 
+   	{
+		remapshaderflush
+		
+		// Game rules
+		wm_axis_respawntime	15 // changes when first piece has blown up.
+		wm_allied_respawntime   15	
+
+		wm_number_of_objectives	2
+		wm_set_round_timelimit	12
+
+		// wm_set_defending_team	0
+		wm_setwinner		0 // defaults to nowinner, if time runs out without any wall pieces being
+                                           // blown up, then the first team to score is winner.
+		wait 2000
+
+		globalaccum 0 set 0 // allies wall bitfield
+		globalaccum 1 set 0 // axis wall bitfield
+		globalaccum 2 set 0 // allies score
+		globalaccum 3 set 0 // axis score
+   	}
+
+	trigger timelimit_hit
+	{
+		wm_setwinner -1
+	}
+} 
+
+
+// --------------------------------------------------------------------------
+// scripts for allies walls
+
+	a1_script
+	{
+		spawn 
+		{
+			wait 200
+			constructible_class 2
+			trigger self startup
+		}
+		built final
+		{
+			globalaccum 0 bitreset 1
+			trigger self startup
+		}
+		decayed final
+		{
+			trigger self startup
+		}
+		death 
+		{
+			setstate a1_wall invisible
+			setstate a1_materials default
+			globalaccum 0 bitset 1
+		}
+		trigger startup
+		{
+			setstate a1_wall default
+			setstate a1_materials invisible
+		}
+	}
+
+	a2_script
+	{
+		spawn 
+		{
+			wait 200
+			constructible_class 2
+			trigger self startup
+		}
+		built final
+		{
+			globalaccum 0 bitreset 2
+			trigger self startup
+		}
+		decayed final
+		{
+			trigger self startup
+		}
+		death 
+		{
+			setstate a2_wall invisible
+			setstate a2_materials default
+			globalaccum 0 bitset 2
+		}
+		trigger startup
+		{
+			setstate a2_wall default
+			setstate a2_materials invisible
+		}
+	}
+
+	a3_script
+	{
+		spawn 
+		{
+			wait 200
+			constructible_class 2
+			trigger self startup
+		}
+		built final
+		{
+			globalaccum 0 bitreset 3
+			trigger self startup
+		}
+		decayed final
+		{
+			trigger self startup
+		}
+		death 
+		{
+			setstate a3_wall invisible
+			setstate a3_materials default
+			globalaccum 0 bitset 3
+		}
+		trigger startup
+		{
+			setstate a3_wall default
+			setstate a3_materials invisible
+		}
+	}
+
+	a4_script
+	{
+		spawn 
+		{
+			wait 200
+			constructible_class 2
+			trigger self startup
+		}
+		built final
+		{
+			globalaccum 0 bitreset 4
+			trigger self startup
+		}
+		decayed final
+		{
+			trigger self startup
+		}
+		death 
+		{
+			setstate a4_wall invisible
+			setstate a4_materials default
+			globalaccum 0 bitset 4
+		}
+		trigger startup
+		{
+			setstate a4_wall default
+			setstate a4_materials invisible
+		}
+	}
+
+
+	a5_script
+	{
+		spawn 
+		{
+			wait 200
+			constructible_class 2
+			trigger self startup
+		}
+		built final
+		{
+			globalaccum 0 bitreset 5
+			trigger self startup
+		}
+		decayed final
+		{
+			trigger self startup
+		}
+		death 
+		{
+			setstate a5_wall invisible
+			setstate a5_materials default
+			globalaccum 0 bitset 5
+		}
+		trigger startup
+		{
+			setstate a5_wall default
+			setstate a5_materials invisible
+		}
+	}
+
+
+	a6_script
+	{
+		spawn 
+		{
+			wait 200
+			constructible_class 2
+			trigger self startup
+		}
+		built final
+		{
+			globalaccum 0 bitreset 6
+			trigger self startup
+		}
+		decayed final
+		{
+			trigger self startup
+		}
+		death 
+		{
+			setstate a6_wall invisible
+			setstate a6_materials default
+			globalaccum 0 bitset 6
+		}
+		trigger startup
+		{
+			setstate a6_wall default
+			setstate a6_materials invisible
+		}
+	}
+
+	a7_script
+	{
+		spawn 
+		{
+			wait 200
+			constructible_class 2
+			trigger self startup
+		}
+		built final
+		{
+			globalaccum 0 bitreset 7
+			trigger self startup
+		}
+		decayed final
+		{
+			trigger self startup
+		}
+		death 
+		{
+			setstate a7_wall invisible
+			setstate a7_materials default
+			globalaccum 0 bitset 7
+		}
+		trigger startup
+		{
+			setstate a7_wall default
+			setstate a7_materials invisible
+		}
+	}
+	a8_script
+	{
+		spawn 
+		{
+			wait 400
+			constructible_class 2
+			trigger self startup
+		}
+		built final
+		{
+			globalaccum 0 bitreset 8
+			trigger self startup
+		}
+		decayed final
+		{
+			trigger self startup
+		}
+		death 
+		{
+			setstate a8_wall invisible
+			setstate a8_materials default
+			globalaccum 0 bitset 8
+		}
+		trigger startup
+		{
+			setstate a8_wall default
+			setstate a8_materials invisible
+		}
+	}
+
+// --------------------------------------------------------------------------
+// scripts for axis walls
+
+	b1_script
+	{
+		spawn 
+		{
+			wait 200
+			constructible_class 2
+			trigger self startup
+		}
+		built final
+		{
+			globalaccum 1 bitreset 1
+			trigger self startup
+		}
+		decayed final
+		{
+			trigger self startup
+		}
+		death 
+		{
+			setstate b1_wall invisible
+			setstate b1_materials default
+			globalaccum 1 bitset 1
+		}
+		trigger startup
+		{
+			setstate b1_wall default
+			setstate b1_materials invisible
+		}
+	}
+
+	b2_script
+	{
+		spawn 
+		{
+			wait 200
+			constructible_class 2
+			trigger self startup
+		}
+		built final
+		{
+			globalaccum 1 bitreset 2
+			trigger self startup
+		}
+		decayed final
+		{
+			trigger self startup
+		}
+		death 
+		{
+			setstate b2_wall invisible
+			setstate b2_materials default
+			globalaccum 1 bitset 2
+		}
+		trigger startup
+		{
+			setstate b2_wall default
+			setstate b2_materials invisible
+		}
+	}
+
+	b3_script
+	{
+		spawn 
+		{
+			wait 200
+			constructible_class 2
+			trigger self startup
+		}
+		built final
+		{
+			globalaccum 1 bitreset 3
+			trigger self startup
+		}
+		decayed final
+		{
+			trigger self startup
+		}
+		death 
+		{
+			setstate b3_wall invisible
+			setstate b3_materials default
+			globalaccum 1 bitset 3
+		}
+		trigger startup
+		{
+			setstate b3_wall default
+			setstate b3_materials invisible
+		}
+	}
+
+	b4_script
+	{
+		spawn 
+		{
+			wait 200
+			constructible_class 2
+			trigger self startup
+		}
+		built final
+		{
+			globalaccum 1 bitreset 4
+			trigger self startup
+		}
+		decayed final
+		{
+			trigger self startup
+		}
+		death 
+		{
+			setstate b4_wall invisible
+			setstate b4_materials default
+			globalaccum 1 bitset 4
+		}
+		trigger startup
+		{
+			setstate b4_wall default
+			setstate b4_materials invisible
+		}
+	}
+
+
+	b5_script
+	{
+		spawn 
+		{
+			wait 200
+			constructible_class 2
+			trigger self startup
+		}
+		built final
+		{
+			globalaccum 1 bitreset 5
+			trigger self startup
+		}
+		decayed final
+		{
+			trigger self startup
+		}
+		death 
+		{
+			setstate b5_wall invisible
+			setstate b5_materials default
+			globalaccum 1 bitset 5
+		}
+		trigger startup
+		{
+			setstate b5_wall default
+			setstate b5_materials invisible
+		}
+	}
+
+
+	b6_script
+	{
+		spawn 
+		{
+			wait 200
+			constructible_class 2
+			trigger self startup
+		}
+		built final
+		{
+			globalaccum 1 bitreset 6
+			trigger self startup
+		}
+		decayed final
+		{
+			trigger self startup
+		}
+		death 
+		{
+			setstate b6_wall invisible
+			setstate b6_materials default
+			globalaccum 1 bitset 6
+		}
+		trigger startup
+		{
+			setstate b6_wall default
+			setstate b6_materials invisible
+		}
+	}
+
+	b7_script
+	{
+		spawn 
+		{
+			wait 200
+			constructible_class 2
+			trigger self startup
+		}
+		built final
+		{
+			globalaccum 1 bitreset 7
+			trigger self startup
+		}
+		decayed final
+		{
+			trigger self startup
+		}
+		death 
+		{
+			setstate b7_wall invisible
+			setstate b7_materials default
+			globalaccum 1 bitset 7
+		}
+		trigger startup
+		{
+			setstate b7_wall default
+			setstate b7_materials invisible
+		}
+	}
+	b8_script
+	{
+		spawn 
+		{
+			wait 400
+			constructible_class 2
+			trigger self startup
+		}
+		built final
+		{
+			globalaccum 1 bitreset 8
+			trigger self startup
+		}
+		decayed final
+		{
+			trigger self startup
+		}
+		death 
+		{
+			setstate b8_wall invisible
+			setstate b8_materials default
+			globalaccum 1 bitset 8
+		}
+		trigger startup
+		{
+			setstate b8_wall default
+			setstate b8_materials invisible
+		}
+	}
+
+
+
+// --------------------------------------------------------------------------
+// control the ball
+
+	ball_script
+	{
+		spawn
+		{
+			wait 500
+			// set scoreboard
+			trigger self an2_cnt0
+			trigger self an1_cnt0
+			trigger self bn2_cnt0
+			trigger self bn1_cnt0
+			trigger ball_script movem
+		}
+
+// ping01 -> side walls
+// ping02 -> end walls
+
+		trigger movem
+		{
+			faceangles 0 0 0 10 wait
+			gotomarker wp1 582 wait
+			playsound sound/pong/ping02-sox.wav volume 768
+			trigger self chk_b8
+			gotomarker wp2 582 wait
+			playsound sound/pong/ping01-sox.wav volume 768
+			gotomarker wp3 582 wait
+			playsound sound/pong/ping02-sox.wav volume 768
+			trigger self chk_a1
+			gotomarker wp4 582 wait
+			playsound sound/pong/ping01-sox.wav volume 768
+			gotomarker wp5 582 wait
+			playsound sound/pong/ping02-sox.wav volume 768
+			trigger self chk_b7
+			gotomarker wp6 582 wait
+			playsound sound/pong/ping01-sox.wav volume 768
+			gotomarker wp7 582 wait
+			playsound sound/pong/ping02-sox.wav volume 768
+			trigger self chk_a2
+			gotomarker wp8 582 wait
+			playsound sound/pong/ping01-sox.wav volume 768
+			gotomarker wp9 582 wait
+			playsound sound/pong/ping02-sox.wav volume 768
+			trigger self chk_b6
+			gotomarker wp10 582 wait
+			playsound sound/pong/ping01-sox.wav volume 768
+			gotomarker wp11 582 wait
+			playsound sound/pong/ping02-sox.wav volume 768
+			trigger self chk_a3
+			gotomarker wp12 582 wait
+			playsound sound/pong/ping01-sox.wav volume 768
+			gotomarker wp13 582 wait
+			playsound sound/pong/ping02-sox.wav volume 768
+			trigger self chk_b5
+			gotomarker wp14 582 wait
+			playsound sound/pong/ping01-sox.wav volume 768
+			gotomarker wp15 582 wait
+			playsound sound/pong/ping02-sox.wav volume 768
+			trigger self chk_a4
+			gotomarker wp16 582 wait
+			playsound sound/pong/ping01-sox.wav volume 768
+			gotomarker wp17 582 wait
+			playsound sound/pong/ping02-sox.wav volume 768
+			trigger self chk_b4
+			gotomarker wp18 582 wait
+			playsound sound/pong/ping01-sox.wav volume 768
+			gotomarker wp19 582 wait
+			playsound sound/pong/ping02-sox.wav volume 768
+			trigger self chk_a5
+			gotomarker wp20 582 wait
+			playsound sound/pong/ping01-sox.wav volume 768
+			gotomarker wp21 582 wait
+			playsound sound/pong/ping02-sox.wav volume 768
+			trigger self chk_b3
+			gotomarker wp22 582 wait
+			playsound sound/pong/ping01-sox.wav volume 768
+			gotomarker wp23 582 wait
+			playsound sound/pong/ping02-sox.wav volume 768
+			trigger self chk_a6
+			gotomarker wp24 582 wait
+			playsound sound/pong/ping01-sox.wav volume 768
+			gotomarker wp25 582 wait
+			playsound sound/pong/ping02-sox.wav volume 768
+			trigger self chk_b2
+			gotomarker wp26 582 wait
+			playsound sound/pong/ping01-sox.wav volume 768
+			gotomarker wp27 582 wait
+			playsound sound/pong/ping02-sox.wav volume 768
+			trigger self chk_a7
+			gotomarker wp28 582 wait
+			playsound sound/pong/ping01-sox.wav volume 768
+			gotomarker wp29 582 wait
+			playsound sound/pong/ping02-sox.wav volume 768
+			trigger self chk_b1
+			gotomarker wp30 582 wait
+			playsound sound/pong/ping01-sox.wav volume 768
+			gotomarker wp31 582 wait
+			playsound sound/pong/ping02-sox.wav volume 768
+			trigger self chk_a8
+			gotomarker wp32 582 wait
+			playsound sound/pong/ping01-sox.wav volume 768
+			gotomarker wp33 582 wait
+			playsound sound/pong/ping01-sox.wav volume 768
+			gotomarker wp34 582 wait
+			playsound sound/pong/ping01-sox.wav volume 768
+			gotomarker wp35 582 wait
+			playsound sound/pong/ping01-sox.wav volume 768
+			gotomarker wp36 582 wait
+			playsound sound/pong/ping01-sox.wav volume 768
+			gotomarker wp37 582 wait
+			playsound sound/pong/ping01-sox.wav volume 768
+			gotomarker wp39 582 wait
+			playsound sound/pong/ping01-sox.wav volume 768
+			gotomarker wp40 582 wait
+			playsound sound/pong/ping01-sox.wav volume 768
+			gotomarker wp38 582 wait
+			playsound sound/pong/ping01-sox.wav volume 768
+			gotomarker wp37 582 wait
+			playsound sound/pong/ping01-sox.wav volume 768
+			gotomarker wp36 582 wait
+			playsound sound/pong/ping01-sox.wav volume 768
+			gotomarker wp35 582 wait
+			playsound sound/pong/ping01-sox.wav volume 768
+			gotomarker wp34 582 wait
+			playsound sound/pong/ping01-sox.wav volume 768
+			gotomarker wp33 582 wait
+			playsound sound/pong/ping01-sox.wav volume 768
+			gotomarker wp32 582 wait
+			playsound sound/pong/ping01-sox.wav volume 768
+			gotomarker wp31 582 wait
+			playsound sound/pong/ping02-sox.wav volume 768
+			trigger self chk_a8
+			gotomarker wp30 582 wait
+			playsound sound/pong/ping01-sox.wav volume 768
+			gotomarker wp29 582 wait
+			playsound sound/pong/ping02-sox.wav volume 768
+			trigger self chk_b1
+			gotomarker wp28 582 wait
+			playsound sound/pong/ping01-sox.wav volume 768
+			gotomarker wp27 582 wait
+			playsound sound/pong/ping02-sox.wav volume 768
+			trigger self chk_a7
+			gotomarker wp26 582 wait
+			playsound sound/pong/ping01-sox.wav volume 768
+			gotomarker wp25 582 wait
+			playsound sound/pong/ping02-sox.wav volume 768
+			trigger self chk_b2
+			gotomarker wp24 582 wait
+			playsound sound/pong/ping01-sox.wav volume 768
+			gotomarker wp23 582 wait
+			playsound sound/pong/ping02-sox.wav volume 768
+			trigger self chk_a6
+			gotomarker wp22 582 wait
+			playsound sound/pong/ping01-sox.wav volume 768
+			gotomarker wp21 582 wait
+			playsound sound/pong/ping02-sox.wav volume 768
+			trigger self chk_b3
+			gotomarker wp20 582 wait
+			playsound sound/pong/ping01-sox.wav volume 768
+			gotomarker wp19 582 wait
+			playsound sound/pong/ping02-sox.wav volume 768
+			trigger self chk_a5
+			gotomarker wp18 582 wait
+			playsound sound/pong/ping01-sox.wav volume 768
+			gotomarker wp17 582 wait
+			playsound sound/pong/ping02-sox.wav volume 768
+			trigger self chk_b4
+			gotomarker wp16 582 wait
+			playsound sound/pong/ping01-sox.wav volume 768
+			gotomarker wp15 582 wait
+			playsound sound/pong/ping02-sox.wav volume 768
+			trigger self chk_a4
+			gotomarker wp14 582 wait
+			playsound sound/pong/ping01-sox.wav volume 768
+			gotomarker wp13 582 wait
+			playsound sound/pong/ping02-sox.wav volume 768
+			trigger self chk_b5
+			gotomarker wp12 582 wait
+			playsound sound/pong/ping01-sox.wav volume 768
+			gotomarker wp11 582 wait
+			playsound sound/pong/ping02-sox.wav volume 768
+			trigger self chk_a3
+			gotomarker wp10 582 wait
+			playsound sound/pong/ping01-sox.wav volume 768
+			gotomarker wp9 582 wait
+			playsound sound/pong/ping02-sox.wav volume 768
+			trigger self chk_b6
+			gotomarker wp8 582 wait
+			playsound sound/pong/ping01-sox.wav volume 768
+			gotomarker wp7 582 wait
+			playsound sound/pong/ping02-sox.wav volume 768
+			trigger self chk_a2
+			gotomarker wp6 582 wait
+			playsound sound/pong/ping01-sox.wav volume 768
+			gotomarker wp5 582 wait
+			playsound sound/pong/ping02-sox.wav volume 768
+			trigger self chk_b7
+			gotomarker wp4 582 wait
+			playsound sound/pong/ping01-sox.wav volume 768
+			trigger self movem2
+		}
+// splitting this into 2 because previous was too long
+		trigger movem2
+		{
+			gotomarker wp3 582 wait
+			playsound sound/pong/ping02-sox.wav volume 768
+			trigger self chk_a1
+			gotomarker wp2 582 wait
+			playsound sound/pong/ping01-sox.wav volume 768
+			gotomarker wp1 582 wait
+			playsound sound/pong/ping02-sox.wav volume 768
+			trigger self chk_b8
+			gotomarker wp50 582 wait
+			playsound sound/pong/ping01-sox.wav volume 768
+			gotomarker wp51 582 wait
+			playsound sound/pong/ping01-sox.wav volume 768
+			gotomarker wp52 582 wait
+			playsound sound/pong/ping01-sox.wav volume 768
+			gotomarker wp53 582 wait
+			playsound sound/pong/ping01-sox.wav volume 768
+			gotomarker wp54 582 wait
+			playsound sound/pong/ping01-sox.wav volume 768
+			gotomarker wp55 582 wait
+			playsound sound/pong/ping01-sox.wav volume 768
+			gotomarker wp56 582 wait
+			playsound sound/pong/ping01-sox.wav volume 768
+			gotomarker wp57 582 wait
+			playsound sound/pong/ping01-sox.wav volume 768
+			gotomarker wp53 582 wait
+			playsound sound/pong/ping01-sox.wav volume 768
+			gotomarker wp52 582 wait
+			playsound sound/pong/ping01-sox.wav volume 768
+			gotomarker wp51 582 wait
+			playsound sound/pong/ping01-sox.wav volume 768
+			gotomarker wp50 582 wait
+			playsound sound/pong/ping01-sox.wav volume 768
+			trigger	ball_script movem
+		}
+
+// check if allies scores
+
+		trigger chk_a8
+		{
+			globalaccum 1 abort_if_not_bitset 8
+			trigger self ascore
+		}
+		trigger chk_a7
+		{
+			globalaccum 1 abort_if_not_bitset 7
+			trigger self ascore
+		}
+		trigger chk_a6
+		{
+			globalaccum 1 abort_if_not_bitset 6
+			trigger self ascore
+		}
+		trigger chk_a5
+		{
+			globalaccum 1 abort_if_not_bitset 5
+			trigger self ascore
+		}
+		trigger chk_a4
+		{
+			globalaccum 1 abort_if_not_bitset 4
+			trigger self ascore
+		}
+		trigger chk_a3
+		{
+			globalaccum 1 abort_if_not_bitset 3
+			trigger self ascore
+		}
+		trigger chk_a2
+		{
+			globalaccum 1 abort_if_not_bitset 2
+			trigger self ascore
+		}
+		trigger chk_a1
+		{
+			globalaccum 1 abort_if_not_bitset 1
+			trigger self ascore
+		}
+
+// check if axis scores
+
+		trigger chk_b8
+		{
+			globalaccum 0 abort_if_not_bitset 8
+			trigger self bscore
+		}
+		trigger chk_b7
+		{
+			globalaccum 0 abort_if_not_bitset 7
+			trigger self bscore
+		}
+		trigger chk_b6
+		{
+			globalaccum 0 abort_if_not_bitset 6
+			trigger self bscore
+		}
+		trigger chk_b5
+		{
+			globalaccum 0 abort_if_not_bitset 5
+			trigger self bscore
+		}
+		trigger chk_b4
+		{
+			globalaccum 0 abort_if_not_bitset 4
+			trigger self bscore
+		}
+		trigger chk_b3
+		{
+			globalaccum 0 abort_if_not_bitset 3
+			trigger self bscore
+		}
+		trigger chk_b2
+		{
+			globalaccum 0 abort_if_not_bitset 2
+			trigger self bscore
+		}
+		trigger chk_b1
+		{
+			globalaccum 0 abort_if_not_bitset 1
+			trigger self bscore
+		}
+
+// call scoreboard updates.
+
+		trigger ascore
+		{
+			playsound sound/pong/score-sox.wav volume 768
+			globalaccum 2 inc 1
+			trigger self ascore01
+			trigger self ascore02
+			trigger self ascore03
+			trigger self ascore04
+			trigger self ascore05
+			trigger self ascore06
+			trigger self ascore07
+			trigger self ascore08
+			trigger self ascore09
+			trigger self ascore10
+			trigger self ascore11
+			trigger self ascore12
+			trigger self ascore13
+			trigger self ascore14
+			trigger self ascore15
+			trigger self ascore16
+			trigger self ascore17
+			trigger self ascore18
+			trigger self ascore19
+			trigger self ascore20
+			trigger self ascore21
+			trigger self ascore22
+			trigger self ascore23
+			trigger self ascore24
+			trigger self ascore25
+			trigger self ascore26
+			trigger self ascore27
+			trigger self ascore28
+			trigger self ascore29
+			trigger self ascore30
+		}
+
+		trigger bscore
+		{
+			playsound sound/pong/score-sox.wav volume 768
+			globalaccum 3 inc 1
+			trigger self bscore01
+			trigger self bscore02
+			trigger self bscore03
+			trigger self bscore04
+			trigger self bscore05
+			trigger self bscore06
+			trigger self bscore07
+			trigger self bscore08
+			trigger self bscore09
+			trigger self bscore10
+			trigger self bscore11
+			trigger self bscore12
+			trigger self bscore13
+			trigger self bscore14
+			trigger self bscore15
+			trigger self bscore16
+			trigger self bscore17
+			trigger self bscore18
+			trigger self bscore19
+			trigger self bscore20
+			trigger self bscore21
+			trigger self bscore22
+			trigger self bscore23
+			trigger self bscore24
+			trigger self bscore25
+			trigger self bscore26
+			trigger self bscore27
+			trigger self bscore28
+			trigger self bscore29
+			trigger self bscore30
+		}
+
+// scoreboard updates.
+
+		trigger ascore01
+		{
+			globalaccum 2 abort_if_not_equal 1
+			trigger self an1_cnt1
+			globalaccum 3 abort_if_greater_than 0 // if axis score > allies-1 then abort
+			wm_setwinner 1 // set allies winner 
+			
+		}
+		trigger ascore02
+		{
+			globalaccum 2 abort_if_not_equal 2
+			trigger self an1_cnt2
+			globalaccum 3 abort_if_greater_than 1
+			wm_setwinner 1
+		}
+		trigger ascore03
+		{
+			globalaccum 2 abort_if_not_equal 3
+			trigger self an1_cnt3
+			globalaccum 3 abort_if_greater_than 2
+			wm_setwinner 1
+		}
+		trigger ascore04
+		{
+			globalaccum 2 abort_if_not_equal 4
+			trigger self an1_cnt4
+			globalaccum 3 abort_if_greater_than 3
+			wm_setwinner 1
+		}
+		trigger ascore05
+		{
+			globalaccum 2 abort_if_not_equal 5
+			trigger self an1_cnt5
+			globalaccum 3 abort_if_greater_than 4
+			wm_setwinner 1
+		}
+		trigger ascore06
+		{
+			globalaccum 2 abort_if_not_equal 6
+			trigger self an1_cnt6
+			globalaccum 3 abort_if_greater_than 5
+			wm_setwinner 1
+		}
+		trigger ascore07
+		{
+			globalaccum 2 abort_if_not_equal 7
+			trigger self an1_cnt7
+			globalaccum 3 abort_if_greater_than 6
+			wm_setwinner 1
+		}
+		trigger ascore08
+		{
+			globalaccum 2 abort_if_not_equal 8
+			trigger self an1_cnt8
+			globalaccum 3 abort_if_greater_than 7
+			wm_setwinner 1
+		}
+		trigger ascore09
+		{
+			globalaccum 2 abort_if_not_equal 9
+			trigger self an1_cnt9
+			globalaccum 3 abort_if_greater_than 8
+			wm_setwinner 1
+		}
+		trigger ascore10
+		{
+			globalaccum 2 abort_if_not_equal 10
+			trigger self an1_cnt0
+			trigger self an2_cnt1
+			globalaccum 3 abort_if_greater_than 9
+			wm_setwinner 1
+		}
+		trigger ascore11
+		{
+			globalaccum 2 abort_if_not_equal 11
+			trigger self an1_cnt1
+			globalaccum 3 abort_if_greater_than 10
+			wm_setwinner 1
+		}
+		trigger ascore12
+		{
+			globalaccum 2 abort_if_not_equal 12
+			trigger self an1_cnt2
+			globalaccum 3 abort_if_greater_than 11
+			wm_setwinner 1
+		}
+		trigger ascore13
+		{
+			globalaccum 2 abort_if_not_equal 13
+			trigger self an1_cnt3
+			globalaccum 3 abort_if_greater_than 12
+			wm_setwinner 1
+		}
+		trigger ascore14
+		{
+			globalaccum 2 abort_if_not_equal 14
+			trigger self an1_cnt4
+			globalaccum 3 abort_if_greater_than 13
+			wm_setwinner 1
+		}
+		trigger ascore15
+		{
+			globalaccum 2 abort_if_not_equal 15
+			trigger self an1_cnt5
+			globalaccum 3 abort_if_greater_than 14
+			wm_setwinner 1
+		}
+		trigger ascore16
+		{
+			globalaccum 2 abort_if_not_equal 16
+			trigger self an1_cnt6
+			globalaccum 3 abort_if_greater_than 15
+			wm_setwinner 1
+		}
+		trigger ascore17
+		{
+			globalaccum 2 abort_if_not_equal 17
+			trigger self an1_cnt7
+			globalaccum 3 abort_if_greater_than 16
+			wm_setwinner 1
+		}
+		trigger ascore18
+		{
+			globalaccum 2 abort_if_not_equal 18
+			trigger self an1_cnt8
+			globalaccum 3 abort_if_greater_than 17
+			wm_setwinner 1
+		}
+		trigger ascore19
+		{
+			globalaccum 2 abort_if_not_equal 19
+			trigger self an1_cnt9
+			globalaccum 3 abort_if_greater_than 18
+			wm_setwinner 1
+		}
+		trigger ascore20
+		{
+			globalaccum 2 abort_if_not_equal 20
+			trigger self an1_cnt0
+			trigger self an2_cnt2
+			globalaccum 3 abort_if_greater_than 19
+			wm_setwinner 1
+		}
+		trigger ascore21
+		{
+			globalaccum 2 abort_if_not_equal 21
+			trigger self an1_cnt1
+			globalaccum 3 abort_if_greater_than 20
+			wm_setwinner 1
+		}
+		trigger ascore22
+		{
+			globalaccum 2 abort_if_not_equal 22
+			trigger self an1_cnt2
+			globalaccum 3 abort_if_greater_than 21
+			wm_setwinner 1
+		}
+		trigger ascore23
+		{
+			globalaccum 2 abort_if_not_equal 23
+			trigger self an1_cnt3
+			globalaccum 3 abort_if_greater_than 22
+			wm_setwinner 1
+		}
+		trigger ascore24
+		{
+			globalaccum 2 abort_if_not_equal 24
+			trigger self an1_cnt4
+			globalaccum 3 abort_if_greater_than 23
+			wm_setwinner 1
+		}
+		trigger ascore25
+		{
+			globalaccum 2 abort_if_not_equal 25
+			trigger self an1_cnt5
+			globalaccum 3 abort_if_greater_than 24
+			wm_setwinner 1
+		}
+		trigger ascore26
+		{
+			globalaccum 2 abort_if_not_equal 26
+			trigger self an1_cnt6
+			globalaccum 3 abort_if_greater_than 25
+			wm_setwinner 1
+		}
+		trigger ascore27
+		{
+			globalaccum 2 abort_if_not_equal 27
+			trigger self an1_cnt7
+			globalaccum 3 abort_if_greater_than 26
+			wm_setwinner 1
+		}
+		trigger ascore28
+		{
+			globalaccum 2 abort_if_not_equal 28
+			trigger self an1_cnt8
+			globalaccum 3 abort_if_greater_than 27
+			wm_setwinner 1
+		}
+		trigger ascore29
+		{
+			globalaccum 2 abort_if_not_equal 29
+			trigger self an1_cnt9
+			globalaccum 3 abort_if_greater_than 28
+			wm_setwinner 1
+		}
+		trigger ascore30
+		{
+			globalaccum 2 abort_if_not_equal 30
+			trigger self an1_cnt0
+			trigger self an2_cnt3
+			globalaccum 3 abort_if_greater_than 29
+			wm_setwinner 1
+			wait 3000
+			wm_endround
+		}
+
+// axis scoreboard updates
+
+		trigger bscore01
+		{
+			globalaccum 3 abort_if_not_equal 1
+			trigger self bn1_cnt1
+			globalaccum 2 abort_if_greater_than 0
+			wm_setwinner 0
+		}
+		trigger bscore02
+		{
+			globalaccum 3 abort_if_not_equal 2
+			trigger self bn1_cnt2
+			globalaccum 2 abort_if_greater_than 1
+			wm_setwinner 0
+		}
+		trigger bscore03
+		{
+			globalaccum 3 abort_if_not_equal 3
+			trigger self bn1_cnt3
+			globalaccum 2 abort_if_greater_than 2
+			wm_setwinner 0
+		}
+		trigger bscore04
+		{
+			globalaccum 3 abort_if_not_equal 4
+			trigger self bn1_cnt4
+			globalaccum 2 abort_if_greater_than 3
+			wm_setwinner 0
+		}
+		trigger bscore05
+		{
+			globalaccum 3 abort_if_not_equal 5
+			trigger self bn1_cnt5
+			globalaccum 2 abort_if_greater_than 4
+			wm_setwinner 0
+		}
+		trigger bscore06
+		{
+			globalaccum 3 abort_if_not_equal 6
+			trigger self bn1_cnt6
+			globalaccum 2 abort_if_greater_than 5
+			wm_setwinner 0
+		}
+		trigger bscore07
+		{
+			globalaccum 3 abort_if_not_equal 7
+			trigger self bn1_cnt7
+			globalaccum 2 abort_if_greater_than 6
+			wm_setwinner 0
+		}
+		trigger bscore08
+		{
+			globalaccum 3 abort_if_not_equal 8
+			trigger self bn1_cnt8
+			globalaccum 2 abort_if_greater_than 7
+			wm_setwinner 0
+		}
+		trigger bscore09
+		{
+			globalaccum 3 abort_if_not_equal 9
+			trigger self bn1_cnt9
+			globalaccum 2 abort_if_greater_than 8
+			wm_setwinner 0
+		}
+		trigger bscore10
+		{
+			globalaccum 3 abort_if_not_equal 10
+			trigger self bn1_cnt0
+			trigger self bn2_cnt1
+			globalaccum 2 abort_if_greater_than 9
+			wm_setwinner 0
+		}
+		trigger bscore11
+		{
+			globalaccum 3 abort_if_not_equal 11
+			trigger self bn1_cnt1
+			globalaccum 2 abort_if_greater_than 10
+			wm_setwinner 0
+		}
+		trigger bscore12
+		{
+			globalaccum 3 abort_if_not_equal 12
+			trigger self bn1_cnt2
+			globalaccum 2 abort_if_greater_than 11
+			wm_setwinner 0
+		}
+		trigger bscore13
+		{
+			globalaccum 3 abort_if_not_equal 13
+			trigger self bn1_cnt3
+			globalaccum 2 abort_if_greater_than 12
+			wm_setwinner 0
+		}
+		trigger bscore14
+		{
+			globalaccum 3 abort_if_not_equal 14
+			trigger self bn1_cnt4
+			globalaccum 2 abort_if_greater_than 13
+			wm_setwinner 0
+		}
+		trigger bscore15
+		{
+			globalaccum 3 abort_if_not_equal 15
+			trigger self bn1_cnt5
+			globalaccum 2 abort_if_greater_than 14
+			wm_setwinner 0
+		}
+		trigger bscore16
+		{
+			globalaccum 3 abort_if_not_equal 16
+			trigger self bn1_cnt6
+			globalaccum 2 abort_if_greater_than 15
+			wm_setwinner 0
+		}
+		trigger bscore17
+		{
+			globalaccum 3 abort_if_not_equal 17
+			trigger self bn1_cnt7
+			globalaccum 2 abort_if_greater_than 16
+			wm_setwinner 0
+		}
+		trigger bscore18
+		{
+			globalaccum 3 abort_if_not_equal 18
+			trigger self bn1_cnt8
+			globalaccum 2 abort_if_greater_than 17
+			wm_setwinner 0
+		}
+		trigger bscore19
+		{
+			globalaccum 3 abort_if_not_equal 19
+			trigger self bn1_cnt9
+			globalaccum 2 abort_if_greater_than 18
+			wm_setwinner 0
+		}
+		trigger bscore20
+		{
+			globalaccum 3 abort_if_not_equal 20
+			trigger self bn1_cnt0
+			trigger self bn2_cnt2
+			globalaccum 2 abort_if_greater_than 19
+			wm_setwinner 0
+		}
+		trigger bscore21
+		{
+			globalaccum 3 abort_if_not_equal 21
+			trigger self bn1_cnt1
+			globalaccum 2 abort_if_greater_than 20
+			wm_setwinner 0
+		}
+		trigger bscore22
+		{
+			globalaccum 3 abort_if_not_equal 22
+			trigger self bn1_cnt2
+			globalaccum 2 abort_if_greater_than 21
+			wm_setwinner 0
+		}
+		trigger bscore23
+		{
+			globalaccum 3 abort_if_not_equal 23
+			trigger self bn1_cnt3
+			globalaccum 2 abort_if_greater_than 22
+			wm_setwinner 0
+		}
+		trigger bscore24
+		{
+			globalaccum 3 abort_if_not_equal 24
+			trigger self bn1_cnt4
+			globalaccum 2 abort_if_greater_than 23
+			wm_setwinner 0
+		}
+		trigger bscore25
+		{
+			globalaccum 3 abort_if_not_equal 25
+			trigger self bn1_cnt5
+			globalaccum 2 abort_if_greater_than 24
+			wm_setwinner 0
+		}
+		trigger bscore26
+		{
+			globalaccum 3 abort_if_not_equal 26
+			trigger self bn1_cnt6
+			globalaccum 2 abort_if_greater_than 25
+			wm_setwinner 0
+		}
+		trigger bscore27
+		{
+			globalaccum 3 abort_if_not_equal 27
+			trigger self bn1_cnt7
+			globalaccum 2 abort_if_greater_than 26
+			wm_setwinner 0
+		}
+		trigger bscore28
+		{
+			globalaccum 3 abort_if_not_equal 28
+			trigger self bn1_cnt8
+			globalaccum 2 abort_if_greater_than 27
+			wm_setwinner 0
+		}
+		trigger bscore29
+		{
+			globalaccum 3 abort_if_not_equal 29
+			trigger self bn1_cnt9
+			globalaccum 2 abort_if_greater_than 28
+			wm_setwinner 0
+		}
+		trigger bscore30
+		{
+			globalaccum 3 abort_if_not_equal 30
+			trigger self bn1_cnt0
+			trigger self bn2_cnt3
+			globalaccum 2 abort_if_greater_than 29
+			wm_setwinner 0
+			wait 3000
+			wm_endround
+		}
+
+
+
+
+	
+ // ------------------------------------------------------------------
+ // scoreboard counters
+	
+		trigger an1_cnt0
+		{
+			setstate an1-01 default
+			setstate an1-02 default
+			setstate an1-03 default
+			setstate an1-04 invisible
+			setstate an1-05 default
+			setstate an1-06 default
+			setstate an1-07 default
+		}
+		trigger an1_cnt1
+		{
+			setstate an1-01 invisible
+			setstate an1-02 invisible
+			setstate an1-03 default
+			setstate an1-04 invisible
+			setstate an1-05 invisible
+			setstate an1-06 default
+			setstate an1-07 invisible
+		}
+		trigger an1_cnt2
+		{
+			setstate an1-01 default
+			setstate an1-02 invisible
+			setstate an1-03 default
+			setstate an1-04 default
+			setstate an1-05 default
+			setstate an1-06 invisible
+			setstate an1-07 default
+		}
+		trigger an1_cnt3
+		{
+			setstate an1-01 default
+			setstate an1-02 invisible
+			setstate an1-03 default
+			setstate an1-04 default
+			setstate an1-05 invisible
+			setstate an1-06 default
+			setstate an1-07 default
+		}
+		trigger an1_cnt4
+		{
+			setstate an1-01 invisible
+			setstate an1-02 default
+			setstate an1-03 default
+			setstate an1-04 default
+			setstate an1-05 invisible
+			setstate an1-06 default
+			setstate an1-07 invisible
+		}
+		trigger an1_cnt5
+		{
+			setstate an1-01 default
+			setstate an1-02 default
+			setstate an1-03 invisible
+			setstate an1-04 default
+			setstate an1-05 invisible
+			setstate an1-06 default
+			setstate an1-07 default
+		}
+		trigger an1_cnt6
+		{
+			setstate an1-01 default
+			setstate an1-02 default
+			setstate an1-03 invisible
+			setstate an1-04 default
+			setstate an1-05 default
+			setstate an1-06 default
+			setstate an1-07 default
+		}
+		trigger an1_cnt7
+		{
+			setstate an1-01 default
+			setstate an1-02 invisible 
+			setstate an1-03 default
+			setstate an1-04 invisible
+			setstate an1-05 invisible
+			setstate an1-06 default
+			setstate an1-07 invisible
+		}
+		trigger an1_cnt8
+		{
+			setstate an1-01 default
+			setstate an1-02 default
+			setstate an1-03 default
+			setstate an1-04 default
+			setstate an1-05 default
+			setstate an1-06 default
+			setstate an1-07 default
+		}
+		trigger an1_cnt9
+		{
+			setstate an1-01 default
+			setstate an1-02 default
+			setstate an1-03 default
+			setstate an1-04 default
+			setstate an1-05 invisible
+			setstate an1-06 default
+			setstate an1-07 default
+		}
+
+ // ----------------------------------------------------------------------
+ // high num allies score
+
+		trigger an2_cnt0
+		{
+			setstate an2-01 default
+			setstate an2-02 default
+			setstate an2-03 default
+			setstate an2-04 invisible
+			setstate an2-05 default
+			setstate an2-06 default
+			setstate an2-07 default
+		}
+		trigger an2_cnt1
+		{
+			setstate an2-01 invisible
+			setstate an2-02 invisible
+			setstate an2-03 default
+			setstate an2-04 invisible
+			setstate an2-05 invisible
+			setstate an2-06 default
+			setstate an2-07 invisible
+		}
+		trigger an2_cnt2
+		{
+			setstate an2-01 default
+			setstate an2-02 invisible
+			setstate an2-03 default
+			setstate an2-04 default
+			setstate an2-05 default
+			setstate an2-06 invisible
+			setstate an2-07 default
+		}
+		trigger an2_cnt3
+		{
+			setstate an2-01 default
+			setstate an2-02 invisible
+			setstate an2-03 default
+			setstate an2-04 default
+			setstate an2-05 invisible
+			setstate an2-06 default
+			setstate an2-07 default
+		}
+ 
+// ------------------------------------------------------------------
+ // scoreboard counters axis lownum
+
+		trigger bn1_cnt0
+		{
+			setstate bn1-01 default
+			setstate bn1-02 default
+			setstate bn1-03 default
+			setstate bn1-04 invisible
+			setstate bn1-05 default
+			setstate bn1-06 default
+			setstate bn1-07 default
+		}
+		trigger bn1_cnt1
+		{
+			setstate bn1-01 invisible
+			setstate bn1-02 invisible
+			setstate bn1-03 default
+			setstate bn1-04 invisible
+			setstate bn1-05 invisible
+			setstate bn1-06 default
+			setstate bn1-07 invisible
+		}
+		trigger bn1_cnt2
+		{
+			setstate bn1-01 default
+			setstate bn1-02 invisible
+			setstate bn1-03 default
+			setstate bn1-04 default
+			setstate bn1-05 default
+			setstate bn1-06 invisible
+			setstate bn1-07 default
+		}
+		trigger bn1_cnt3
+		{
+			setstate bn1-01 default
+			setstate bn1-02 invisible
+			setstate bn1-03 default
+			setstate bn1-04 default
+			setstate bn1-05 invisible
+			setstate bn1-06 default
+			setstate bn1-07 default
+		}
+		trigger bn1_cnt4
+		{
+			setstate bn1-01 invisible
+			setstate bn1-02 default
+			setstate bn1-03 default
+			setstate bn1-04 default
+			setstate bn1-05 invisible
+			setstate bn1-06 default
+			setstate bn1-07 invisible
+		}
+		trigger bn1_cnt5
+		{
+			setstate bn1-01 default
+			setstate bn1-02 default
+			setstate bn1-03 invisible
+			setstate bn1-04 default
+			setstate bn1-05 invisible
+			setstate bn1-06 default
+			setstate bn1-07 default
+		}
+		trigger bn1_cnt6
+		{
+			setstate bn1-01 default
+			setstate bn1-02 default
+			setstate bn1-03 invisible
+			setstate bn1-04 default
+			setstate bn1-05 default
+			setstate bn1-06 default
+			setstate bn1-07 default
+		}
+		trigger bn1_cnt7
+		{
+			setstate bn1-01 default
+			setstate bn1-02 invisible 
+			setstate bn1-03 default
+			setstate bn1-04 invisible
+			setstate bn1-05 invisible
+			setstate bn1-06 default
+			setstate bn1-07 invisible
+		}
+		trigger bn1_cnt8
+		{
+			setstate bn1-01 default
+			setstate bn1-02 default
+			setstate bn1-03 default
+			setstate bn1-04 default
+			setstate bn1-05 default
+			setstate bn1-06 default
+			setstate bn1-07 default
+		}
+		trigger bn1_cnt9
+		{
+			setstate bn1-01 default
+			setstate bn1-02 default
+			setstate bn1-03 default
+			setstate bn1-04 default
+			setstate bn1-05 invisible
+			setstate bn1-06 default
+			setstate bn1-07 default
+		}
+
+ // ----------------------------------------------------------------------
+ // high num axis score
+
+		trigger bn2_cnt0
+		{
+			setstate bn2-01 default
+			setstate bn2-02 default
+			setstate bn2-03 default
+			setstate bn2-04 invisible
+			setstate bn2-05 default
+			setstate bn2-06 default
+			setstate bn2-07 default
+		}
+		trigger bn2_cnt1
+		{
+			setstate bn2-01 invisible
+			setstate bn2-02 invisible
+			setstate bn2-03 default
+			setstate bn2-04 invisible
+			setstate bn2-05 invisible
+			setstate bn2-06 default
+			setstate bn2-07 invisible
+		}
+		trigger bn2_cnt2
+		{
+			setstate bn2-01 default
+			setstate bn2-02 invisible
+			setstate bn2-03 default
+			setstate bn2-04 default
+			setstate bn2-05 default
+			setstate bn2-06 invisible
+			setstate bn2-07 default
+		}
+		trigger bn2_cnt3
+		{
+			setstate bn2-01 default
+			setstate bn2-02 invisible
+			setstate bn2-03 default
+			setstate bn2-04 default
+			setstate bn2-05 invisible
+			setstate bn2-06 default
+			setstate bn2-07 default
+		}
+	}
+
+
+
+
+

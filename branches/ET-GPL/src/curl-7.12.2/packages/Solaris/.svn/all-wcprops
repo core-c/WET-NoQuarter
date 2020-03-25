@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/packages/Solaris
+END
+Makefile.in
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/packages/Solaris/Makefile.in
+END
+Makefile.am
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/curl-7.12.2/packages/Solaris/Makefile.am
+END

@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/nq/!svn/ver/2210/trunk/Lua-libs/LuaSQL/Windows/luasql
+END
+mysql.dll
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/nq/!svn/ver/2210/trunk/Lua-libs/LuaSQL/Windows/luasql/mysql.dll
+END
+odbc.dll
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/nq/!svn/ver/2210/trunk/Lua-libs/LuaSQL/Windows/luasql/odbc.dll
+END
+sqlite3.dll
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/nq/!svn/ver/2210/trunk/Lua-libs/LuaSQL/Windows/luasql/sqlite3.dll
+END

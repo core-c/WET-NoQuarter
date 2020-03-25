@@ -1,0 +1,209 @@
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/renderer
+END
+tr_mesh.c
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/renderer/tr_mesh.c
+END
+anorms256.h
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/renderer/anorms256.h
+END
+tr_local.h
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/renderer/tr_local.h
+END
+tr_cmesh.c
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/renderer/tr_cmesh.c
+END
+tr_model.c
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/renderer/tr_model.c
+END
+tr_init.c
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/renderer/tr_init.c
+END
+tr_shade_calc.c
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/renderer/tr_shade_calc.c
+END
+tr_font.c
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/renderer/tr_font.c
+END
+tr_shadows.c
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/renderer/tr_shadows.c
+END
+tr_flares.c
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/renderer/tr_flares.c
+END
+tr_noise.c
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/renderer/tr_noise.c
+END
+tr_marks.c
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/renderer/tr_marks.c
+END
+renderer.vcproj
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/renderer/renderer.vcproj
+END
+tr_bsp.c
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/renderer/tr_bsp.c
+END
+tr_cmds.c
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/renderer/tr_cmds.c
+END
+tr_surface.c
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/renderer/tr_surface.c
+END
+tr_decals.c
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/renderer/tr_decals.c
+END
+tr_scene.c
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/renderer/tr_scene.c
+END
+tr_sky.c
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/renderer/tr_sky.c
+END
+tr_shader.c
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/renderer/tr_shader.c
+END
+tr_light.c
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/renderer/tr_light.c
+END
+qgl_linked.h
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/renderer/qgl_linked.h
+END
+tr_animation_mdm.c
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/renderer/tr_animation_mdm.c
+END
+ref_trin.def
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/renderer/ref_trin.def
+END
+tr_image.c
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/renderer/tr_image.c
+END
+tr_animation_mds.c
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/renderer/tr_animation_mds.c
+END
+tr_public.h
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/renderer/tr_public.h
+END
+glext.h
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/renderer/glext.h
+END
+qgl.h
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/renderer/qgl.h
+END
+tr_shade.c
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/renderer/tr_shade.c
+END
+tr_main.c
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/renderer/tr_main.c
+END
+tr_curve.c
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/renderer/tr_curve.c
+END
+tr_backend.c
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/renderer/tr_backend.c
+END
+tr_world.c
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/nq/!svn/ver/4501/branches/ET-GPL/src/renderer/tr_world.c
+END

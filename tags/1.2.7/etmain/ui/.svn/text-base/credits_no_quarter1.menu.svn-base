@@ -1,0 +1,161 @@
+#include "ui/menudef.h"
+
+// Defines //
+#define WINDOW_X		16
+#define WINDOW_Y		16
+#define WINDOW_WIDTH	608
+#define WINDOW_HEIGHT	448
+#define GROUP_NAME		"grpCreditsNoQuarter"
+
+// Macros //
+#include "ui/menumacros.h"
+		
+// Additional Menu //
+menuDef {
+	name		"credits_no_quarter1"
+	visible		0
+	fullscreen	0
+	rect		WINDOW_X WINDOW_Y WINDOW_WIDTH WINDOW_HEIGHT
+	style		WINDOW_STYLE_FILLED
+	
+	onESC {
+		close credits_no_quarter1 ;
+		open options_nq
+	}
+
+// Window //
+	itemDef {
+		name		"window"
+		group		GROUP_NAME
+		rect		0 0 WINDOW_WIDTH WINDOW_HEIGHT
+		style		WINDOW_STYLE_FILLED
+		backcolor	0.01 0.01 0.01 .95
+		border		WINDOW_BORDER_FULL
+		bordercolor	.5 .5 .5 .5
+		visible		1
+		decoration
+	}
+	
+// Logo //
+#define LOGOBAR_WIDTH 96+16+96+16+64+16+64
+
+	
+	itemDef {
+		name		"logoNQShadow"
+		rect		$evalfloat(.5*(WINDOW_WIDTH-(LOGOBAR_WIDTH))+57+1) $evalfloat(10+1) 216 27
+		style		WINDOW_STYLE_SHADER
+		background	"ui/assets/logo_nq"
+		forecolor	0 0 0 1
+		visible		1
+		decoration
+	}
+
+	itemDef {
+		name		"logoNQ"
+		rect		$evalfloat(.5*(WINDOW_WIDTH-(LOGOBAR_WIDTH))+57-1) $evalfloat(10-1) 246 27
+		style		WINDOW_STYLE_SHADER
+		background	"ui/assets/logo_nq"
+		forecolor	1 1 1 1
+		visible		1
+		decoration
+	}
+
+
+#define CREDITS_Y	32+4
+	
+	LABELWHITE( 6, CREDITS_Y+27, .5*(WINDOW_WIDTH-36), 10, "James '^>S.S.jetPilot^7' Morrow Valentine", .2, ITEM_ALIGN_RIGHT, .5*(WINDOW_WIDTH-100), 8 )
+	LABELWHITE( 6+.5*(WINDOW_WIDTH-100)+12, CREDITS_Y+27, .5*(WINDOW_WIDTH-36), 10, "Project Founder, Programming, Design, HUD,", .2, ITEM_ALIGN_LEFT, 0, 8 )
+	LABELWHITE( 6+.5*(WINDOW_WIDTH-100)+12, CREDITS_Y+39, .5*(WINDOW_WIDTH-36), 10, "Concept, Research, UI", .2, ITEM_ALIGN_LEFT, 0, 8 )
+
+	LABELWHITE( 6, CREDITS_Y+57, .5*(WINDOW_WIDTH-36), 10, "Chris '^>S.S.Meyerinchains^7' Meyer", .2, ITEM_ALIGN_RIGHT, .5*(WINDOW_WIDTH-100), 8 )
+	LABELWHITE( 6+.5*(WINDOW_WIDTH-100)+12, CREDITS_Y+57, .5*(WINDOW_WIDTH-36), 10, "Project Leader, Models, Skins, Animations,", .2, ITEM_ALIGN_LEFT, 0, 8 )
+	LABELWHITE( 6+.5*(WINDOW_WIDTH-100)+12, CREDITS_Y+69, .5*(WINDOW_WIDTH-36), 10, "UI, 2D Art, Weapon Sounds, Research", .2, ITEM_ALIGN_LEFT, 0, 8 )
+
+	LABELWHITE( 6, CREDITS_Y+87, .5*(WINDOW_WIDTH-66), 10, "Jakub '^9Jaqubo^1SS^7' Bartosh", .2, ITEM_ALIGN_RIGHT, .5*(WINDOW_WIDTH-100), 8 )
+	LABELWHITE( 6+.5*(WINDOW_WIDTH-100)+12, CREDITS_Y+87, .5*(WINDOW_WIDTH-66), 10, "Programmer, Design, Concept", .2, ITEM_ALIGN_LEFT, 0, 8 )
+	LABELWHITE( 6+.5*(WINDOW_WIDTH-100)+12, CREDITS_Y+99, .5*(WINDOW_WIDTH-36), 10, "Official No Quarter Nagman", .2, ITEM_ALIGN_LEFT, 0, 8 )
+
+	LABELWHITE( 6, CREDITS_Y+117, .5*(WINDOW_WIDTH-66), 10, "Richard '^9snl^7/^2/^7lucel^7' Deighton", .2, ITEM_ALIGN_RIGHT, .5*(WINDOW_WIDTH-100), 8 )
+	LABELWHITE( 6+.5*(WINDOW_WIDTH-100)+12, CREDITS_Y+117, .5*(WINDOW_WIDTH-66), 10, "Programmer, Optimization, Mac Freak", .2, ITEM_ALIGN_LEFT, 0, 8 )
+
+	LABELWHITE( 6, CREDITS_Y+139, .5*(WINDOW_WIDTH-66), 10, "Bud '^8Jay^4Bird^7' Byrd", .2, ITEM_ALIGN_RIGHT, .5*(WINDOW_WIDTH-100), 8 )
+	LABELWHITE( 6+.5*(WINDOW_WIDTH-100)+12, CREDITS_Y+139, .5*(WINDOW_WIDTH-66), 10, "Debugging, Optimization, Linux Guy", .2, ITEM_ALIGN_LEFT, 0, 8 )
+
+	LABELWHITE( 6, CREDITS_Y+183, .5*(WINDOW_WIDTH-66), 10, "IRATA [*]", .2, ITEM_ALIGN_RIGHT, .5*(WINDOW_WIDTH-100), 8 )
+	LABELWHITE( 6+.5*(WINDOW_WIDTH-100)+12, CREDITS_Y+183, .5*(WINDOW_WIDTH-66), 10, "Programmer, Debugging, Optimization,", .2, ITEM_ALIGN_LEFT, 0, 8 )
+	LABELWHITE( 6+.5*(WINDOW_WIDTH-100)+12, CREDITS_Y+195, .5*(WINDOW_WIDTH-66), 10, "Girl Friday", .2, ITEM_ALIGN_LEFT, 0, 8 )
+
+	LABELWHITE( 6, CREDITS_Y+213, .5*(WINDOW_WIDTH-66), 10, "^9.::^1red^0eye^9::.", .2, ITEM_ALIGN_RIGHT, .5*(WINDOW_WIDTH-100), 8 )
+	LABELWHITE( 6+.5*(WINDOW_WIDTH-100)+12, CREDITS_Y+213, .5*(WINDOW_WIDTH-66), 10, "Programmer, Debugging, Optimization,", .2, ITEM_ALIGN_LEFT, 0, 8 )
+	LABELWHITE( 6+.5*(WINDOW_WIDTH-100)+12, CREDITS_Y+225, .5*(WINDOW_WIDTH-66), 10, "Linux Guy", .2, ITEM_ALIGN_LEFT, 0, 8 )
+
+	LABELWHITE( 6, CREDITS_Y+271, .5*(WINDOW_WIDTH-66), 10, "crapsh^?oo^7t", .2, ITEM_ALIGN_RIGHT, .5*(WINDOW_WIDTH-100), 8 )
+	LABELWHITE( 6+.5*(WINDOW_WIDTH-100)+12, CREDITS_Y+271, .5*(WINDOW_WIDTH-66), 10, "Programmer, Debugging, Optimization", .2, ITEM_ALIGN_LEFT, 0, 8 )
+
+	LABELWHITE( 6, CREDITS_Y+289, .5*(WINDOW_WIDTH-66), 10, "^2Il^7Du^1ca", .2, ITEM_ALIGN_RIGHT, .5*(WINDOW_WIDTH-100), 8 )
+	LABELWHITE( 6+.5*(WINDOW_WIDTH-100)+12, CREDITS_Y+289, .5*(WINDOW_WIDTH-66), 10, "Programmer, Debugging, Optimization", .2, ITEM_ALIGN_LEFT, 0, 8 )
+
+	LABELWHITE( 6, CREDITS_Y+307, .5*(WINDOW_WIDTH-36), 10, "Berzerkr (GER)", .2, ITEM_ALIGN_RIGHT, .5*(WINDOW_WIDTH-100), 8 )
+	LABELWHITE( 6+.5*(WINDOW_WIDTH-100)+12, CREDITS_Y+307, .5*(WINDOW_WIDTH-36), 10, "Assets, 2D Art", .2, ITEM_ALIGN_LEFT, 0, 8 )
+
+	LABELWHITE( 6, CREDITS_Y+325, .5*(WINDOW_WIDTH-66), 10, "^?|>^7B^2<|^?Mo^7lo^2tov", .2, ITEM_ALIGN_RIGHT, .5*(WINDOW_WIDTH-100), 8 )
+	LABELWHITE( 6+.5*(WINDOW_WIDTH-100)+12, CREDITS_Y+325, .5*(WINDOW_WIDTH-66), 10, "Assets, UI, 2D Art", .2, ITEM_ALIGN_LEFT, 0, 8 )
+
+itemDef {
+		name		"headerBetaTester"
+		group		GROUP_NAME
+		rect		6 $evalfloat(CREDITS_Y+165) $evalfloat(WINDOW_WIDTH-12) 12
+		text		"^?Since 1.2.0"
+		textfont	UI_FONT_ARIBLK_16
+		textstyle	ITEM_TEXTSTYLE_SHADOWED
+		textscale	.25
+		textalign	ITEM_ALIGN_CENTER
+		textalignx	$evalfloat(.5*(WINDOW_WIDTH-12))
+		textaligny	10
+		forecolor	1 1 1 1
+		visible		1
+		decoration
+	}
+
+itemDef {
+		name		"headerBetaTester"
+		group		GROUP_NAME
+		rect		6 $evalfloat(CREDITS_Y+253) $evalfloat(WINDOW_WIDTH-12) 12
+		text		"^?Since 1.2.3"
+		textfont	UI_FONT_ARIBLK_16
+		textstyle	ITEM_TEXTSTYLE_SHADOWED
+		textscale	.25
+		textalign	ITEM_ALIGN_CENTER
+		textalignx	$evalfloat(.5*(WINDOW_WIDTH-12))
+		textaligny	10
+		forecolor	1 1 1 1
+		visible		1
+		decoration
+	}
+
+itemDef {
+		name		"headerBetaTester"
+		group		GROUP_NAME
+		rect		6 $evalfloat(CREDITS_Y+358) $evalfloat(WINDOW_WIDTH-12) 12
+		text		"Visit www.shitstorm.org or No Quarter Online Documentation Pages (WIKI) for more infos."
+		textfont	UI_FONT_ARIBLK_16
+		textstyle	ITEM_TEXTSTYLE_SHADOWED
+		textscale	.20
+		textalign	ITEM_ALIGN_CENTER
+		textalignx	$evalfloat(.5*(WINDOW_WIDTH-12))
+		textaligny	10
+		forecolor	1 1 1 1
+		visible		1
+		decoration
+	}
+
+
+// Special Thanks
+#define CREDITS_Z	CREDITS_Y+54+14+16
+
+// Buttons //
+	BUTTON( 6, WINDOW_HEIGHT-24, .25*(WINDOW_WIDTH-24), 18, "BACK", .3, 14, close credits_no_quarter1 ; open options_nq )
+	BUTTON( 6+.25*(WINDOW_WIDTH-24)+6, WINDOW_HEIGHT-24, .25*(WINDOW_WIDTH-24), 18, "SHITSTORM.ORG", .3, 14, close credits_no_quarter1 ; exec "set ui_finalURL www.shitstorm.org" ; open nq_web )
+	BUTTON( 6+.51*(WINDOW_WIDTH-24)+6, WINDOW_HEIGHT-24, .25*(WINDOW_WIDTH-24), 18, "NQ WIKI", .3, 14, close credits_no_quarter1 ; exec "set ui_finalURL http://shitstorm.org/noquarter/wiki/index.php?title=Main_Page" ; open nq_web )
+	BUTTON( 6+.51*(WINDOW_WIDTH-24)+6+.25*(WINDOW_WIDTH-24)+6, WINDOW_HEIGHT-24, .24*(WINDOW_WIDTH-24), 18, "PAGE 2", .3, 14, close credits_no_quarter1 ; open credits_no_quarter2 )
+}

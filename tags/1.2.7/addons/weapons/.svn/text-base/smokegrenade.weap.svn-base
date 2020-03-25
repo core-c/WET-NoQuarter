@@ -1,0 +1,28 @@
+weaponDef
+{
+	client {
+		weaponConfig		"models/multiplayer/smokebomb/weapon.cfg"
+		handsModel		"models/multiplayer/smokebomb/v_smokebomb_hand.mdc"
+
+		flashDlightColor	1 0.7 0.5
+
+		overheatSound		"sound/weapons/grenade/gren_smoke.wav"
+
+		weaponSelectedIcon	"icons/iconw_smokegrenade_1_select"
+
+		missileModel		"models/multiplayer/smokebomb/smokebomb.md3"
+		missileTrailFunc	"GrenadeTrail"
+
+		firstPerson {
+			model		"models/multiplayer/smokebomb/v_smokebomb.md3"
+			axisskin	"models/multiplayer/smokebomb/smokebomb_axis.skin"
+			alliedskin	"models/multiplayer/smokebomb/smokebomb_allied.skin"
+		}
+
+		thirdPerson {
+			model		"models/multiplayer/smokebomb/smokebomb.md3"
+			axisskin	"models/multiplayer/smokebomb/smokebomb_axis.skin"
+			alliedskin	"models/multiplayer/smokebomb/smokebomb_allied.skin"
+		}
+	}
+}

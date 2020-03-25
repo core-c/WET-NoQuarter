@@ -1,0 +1,491 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="game" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="../../build/Debug/qagame.mp.i386.so" prefix_auto="0" extension_auto="0" />
+				<Option object_output="Debug" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Option createStaticLib="1" />
+				<Compiler>
+					<Add option="-march=i386" />
+					<Add option="-g" />
+					<Add option="-m32" />
+					<Add option="-Wno-unused-value" />
+					<Add option="-ffast-math" />
+					<Add option="-finline-functions" />
+					<Add option="-fschedule-insns2" />
+					<Add option="-O0" />
+					<Add option="-fno-strict-aliasing" />
+					<Add option="-D__linux__" />
+					<Add option="-D_DEBUG" />
+					<Add option="-DBUILDING_REF_GL" />
+					<Add option="-DDEBUG" />
+					<Add option="-DGAMEDLL" />
+					<Add option="-DOMNIBOTS" />
+					<Add option="-D_CRT_SECURE_NO_DEPRECATE" />
+					<Add option="-DET_LUA" />
+				</Compiler>
+			</Target>
+			<Target title="Release LUA OB">
+				<Option output="../../build/Release_LUA_OB/qagame.mp.i386.so" prefix_auto="0" extension_auto="0" />
+				<Option object_output="Release_LUA_OB" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Option createStaticLib="1" />
+				<Compiler>
+					<Add option="-march=i386" />
+					<Add option="-O2" />
+					<Add option="-m32" />
+					<Add option="-Wno-unused-value" />
+					<Add option="-ffast-math" />
+					<Add option="-finline-functions" />
+					<Add option="-fschedule-insns2" />
+					<Add option="-D__linux__" />
+					<Add option="-DNDEBUG" />
+					<Add option="-DGAMEDLL" />
+					<Add option="-DOMNIBOTS" />
+					<Add option="-D_CRT_SECURE_NO_DEPRECATE" />
+					<Add option="-DET_LUA" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+			<Target title="Release">
+				<Option output="../../build/Release/qagame.mp.i386.so" prefix_auto="0" extension_auto="0" />
+				<Option object_output="Release" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Option createStaticLib="1" />
+				<Compiler>
+					<Add option="-march=i386" />
+					<Add option="-O2" />
+					<Add option="-m32" />
+					<Add option="-Wno-unused-value" />
+					<Add option="-ffast-math" />
+					<Add option="-finline-functions" />
+					<Add option="-fschedule-insns2" />
+					<Add option="-D__linux__" />
+					<Add option="-DNDEBUG" />
+					<Add option="-DGAMEDLL" />
+					<Add option="-D_CRT_SECURE_NO_DEPRECATE" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+			<Target title="Release OB">
+				<Option output="../../build/Release_OB/qagame.mp.i386.so" prefix_auto="0" extension_auto="0" />
+				<Option object_output="Release_OB" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Option createStaticLib="1" />
+				<Compiler>
+					<Add option="-march=i386" />
+					<Add option="-O2" />
+					<Add option="-m32" />
+					<Add option="-Wno-unused-value" />
+					<Add option="-ffast-math" />
+					<Add option="-finline-functions" />
+					<Add option="-fschedule-insns2" />
+					<Add option="-D__linux__" />
+					<Add option="-DNDEBUG" />
+					<Add option="-DGAMEDLL" />
+					<Add option="-DOMNIBOTS" />
+					<Add option="-D_CRT_SECURE_NO_DEPRECATE" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+			<Target title="Release LUA">
+				<Option output="../../build/Release_LUA/qagame.mp.i386.so" prefix_auto="0" extension_auto="0" />
+				<Option object_output="Release_LUA" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Option createStaticLib="1" />
+				<Compiler>
+					<Add option="-march=i386" />
+					<Add option="-O2" />
+					<Add option="-m32" />
+					<Add option="-Wno-unused-value" />
+					<Add option="-ffast-math" />
+					<Add option="-finline-functions" />
+					<Add option="-fschedule-insns2" />
+					<Add option="-D__linux__" />
+					<Add option="-DNDEBUG" />
+					<Add option="-DGAMEDLL" />
+					<Add option="-D_CRT_SECURE_NO_DEPRECATE" />
+					<Add option="-DET_LUA" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+			<Target title="Release LUA OB HWGUID">
+				<Option output="../../build/Release_LUA_OB_HWGUID/qagame.mp.i386.so" prefix_auto="0" extension_auto="0" />
+				<Option object_output="Release_LUA_OB_HWGUID" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Option createStaticLib="1" />
+				<Compiler>
+					<Add option="-march=i386" />
+					<Add option="-O2" />
+					<Add option="-m32" />
+					<Add option="-Wno-unused-value" />
+					<Add option="-ffast-math" />
+					<Add option="-finline-functions" />
+					<Add option="-fschedule-insns2" />
+					<Add option="-D__linux__" />
+					<Add option="-DNDEBUG" />
+					<Add option="-DGAMEDLL" />
+					<Add option="-DOMNIBOTS" />
+					<Add option="-D_CRT_SECURE_NO_DEPRECATE" />
+					<Add option="-DET_LUA" />
+					<Add option="-DHW_BAN" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Unit filename="../../Omnibot/Common/BotLoadLibrary.cpp">
+			<Option target="Debug" />
+			<Option target="Release LUA OB" />
+			<Option target="Release OB" />
+			<Option target="Release LUA OB HWGUID" />
+		</Unit>
+		<Unit filename="base64.c">
+			<Option compilerVar="CC" />
+			<Option target="Release LUA OB HWGUID" />
+		</Unit>
+		<Unit filename="base64.h">
+			<Option target="Release LUA OB HWGUID" />
+		</Unit>
+		<Unit filename="bg_animation.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="bg_animgroup.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="bg_campaign.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="bg_character.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="bg_classes.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="bg_hwguid.c">
+			<Option compilerVar="CC" />
+			<Option target="Release LUA OB HWGUID" />
+		</Unit>
+		<Unit filename="bg_hwguid.h">
+			<Option target="Release LUA OB HWGUID" />
+		</Unit>
+		<Unit filename="bg_hwguid_win32_cross.h">
+			<Option target="Release LUA OB HWGUID" />
+		</Unit>
+		<Unit filename="bg_lib.c">
+			<Option compilerVar="CC" />
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="bg_local.h" />
+		<Unit filename="bg_misc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="bg_pmove.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="bg_profiler.h" />
+		<Unit filename="bg_profiler_hook.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="bg_public.h" />
+		<Unit filename="bg_slidemove.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="bg_sscript.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="bg_stats.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="bg_tracemap.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="bg_weapons.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="crc32.c">
+			<Option compilerVar="CC" />
+			<Option target="Release LUA OB HWGUID" />
+		</Unit>
+		<Unit filename="crc32.h">
+			<Option target="Release LUA OB HWGUID" />
+		</Unit>
+		<Unit filename="diskId32.cpp">
+			<Option target="Release LUA OB HWGUID" />
+		</Unit>
+		<Unit filename="et-antiwarp.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="etpro_mdx.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="etpro_mdx.h" />
+		<Unit filename="etpro_mdx_lut.h" />
+		<Unit filename="g_active.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="g_alarm.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="g_antilag.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="g_buddy_list.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="g_character.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="g_client.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="g_cmds.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="g_cmds_ext.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="g_combat.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="g_config.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="g_crash.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="g_etbot_interface.cpp">
+			<Option target="Debug" />
+			<Option target="Release LUA OB" />
+			<Option target="Release OB" />
+			<Option target="Release LUA OB HWGUID" />
+		</Unit>
+		<Unit filename="g_etbot_interface.h" />
+		<Unit filename="g_fireteams.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="g_items.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="g_local.h" />
+		<Unit filename="g_lua.c">
+			<Option compilerVar="CC" />
+			<Option target="Debug" />
+			<Option target="Release LUA OB" />
+			<Option target="Release LUA" />
+			<Option target="Release LUA OB HWGUID" />
+		</Unit>
+		<Unit filename="g_lua.h">
+			<Option target="Debug" />
+			<Option target="Release LUA OB" />
+			<Option target="Release LUA" />
+			<Option target="Release LUA OB HWGUID" />
+		</Unit>
+		<Unit filename="g_main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="g_match.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="g_match_tokens.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="g_mem.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="g_misc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="g_missile.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="g_mover.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="g_multiview.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="g_osfile.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="g_osfile.h" />
+		<Unit filename="g_props.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="g_public.h" />
+		<Unit filename="g_referee.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="g_script.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="g_script_actions.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="g_session.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="g_sha1.c">
+			<Option compilerVar="CC" />
+			<Option target="Debug" />
+			<Option target="Release LUA OB" />
+			<Option target="Release LUA" />
+			<Option target="Release LUA OB HWGUID" />
+		</Unit>
+		<Unit filename="g_shrubbot.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="g_shrubbot.h" />
+		<Unit filename="g_spawn.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="g_stats.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="g_strparse.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="g_strparse.h" />
+		<Unit filename="g_svcmds.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="g_syscalls.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="g_systemmsg.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="g_target.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="g_team.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="g_team.h" />
+		<Unit filename="g_teammapdata.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="g_time.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="g_time.h" />
+		<Unit filename="g_trigger.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="g_utils.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="g_vote.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="g_weapon.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="g_xpsave.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="g_xpsave.h" />
+		<Unit filename="game.def" />
+		<Unit filename="geoip.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="md5.c">
+			<Option compilerVar="CC" />
+			<Option target="Release LUA OB HWGUID" />
+		</Unit>
+		<Unit filename="md5.h">
+			<Option target="Release LUA OB HWGUID" />
+		</Unit>
+		<Unit filename="q_math.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="q_shared.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="q_shared.h" />
+		<Unit filename="surfaceflags.h" />
+		<Unit filename="xorcrypt.c">
+			<Option compilerVar="CC" />
+			<Option target="Release LUA OB HWGUID" />
+		</Unit>
+		<Unit filename="xorcrypt.h">
+			<Option target="Release LUA OB HWGUID" />
+		</Unit>
+		<Unit filename="../lua/include/lauxlib.h">
+			<Option target="Debug" />
+			<Option target="Release LUA OB" />
+			<Option target="Release LUA" />
+			<Option target="Release LUA OB HWGUID" />
+		</Unit>
+		<Unit filename="../lua/include/lua.h">
+			<Option target="Debug" />
+			<Option target="Release LUA OB" />
+			<Option target="Release LUA" />
+			<Option target="Release LUA OB HWGUID" />
+		</Unit>
+		<Unit filename="../lua/include/lua.hpp">
+			<Option target="Debug" />
+			<Option target="Release LUA OB" />
+			<Option target="Release LUA" />
+			<Option target="Release LUA OB HWGUID" />
+		</Unit>
+		<Unit filename="../lua/include/luaconf.h">
+			<Option target="Debug" />
+			<Option target="Release LUA OB" />
+			<Option target="Release LUA" />
+			<Option target="Release LUA OB HWGUID" />
+		</Unit>
+		<Unit filename="../lua/include/lualib.h">
+			<Option target="Debug" />
+			<Option target="Release LUA OB" />
+			<Option target="Release LUA" />
+			<Option target="Release LUA OB HWGUID" />
+		</Unit>
+		<Unit filename="../sha-1/sha1.c">
+			<Option compilerVar="CC" />
+			<Option target="Debug" />
+			<Option target="Release LUA OB" />
+			<Option target="Release LUA" />
+			<Option target="Release LUA OB HWGUID" />
+		</Unit>
+		<Unit filename="../sha-1/sha1.h">
+			<Option target="Debug" />
+			<Option target="Release LUA OB" />
+			<Option target="Release LUA" />
+			<Option target="Release LUA OB HWGUID" />
+		</Unit>
+		<Extensions>
+			<envvars />
+			<code_completion />
+			<debugger />
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

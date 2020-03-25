@@ -1,0 +1,45 @@
+weaponDef
+{
+	both {
+		name					"Grenade"
+		statname				"Grenade"
+		damage					265
+		splashdamage			265
+		splashdamage_radius		265
+		selfKillMessage			"dove on his own grenade"
+		KillMessage				"was exploded by"
+		KillMessage2			"'s grenade."
+		GibbingWeapon
+	}
+
+	client {
+		weaponConfig			"models/weapons2/grenade/weapon.cfg"
+		handsModel				"models/weapons2/grenade/v_grenade_hand.mdc"
+
+		flashDlightColor		1 0.7 0.5
+		flashSound				"sound/weapons/grenade/gren_throw.wav"
+
+		weaponIcon				"icons/iconw_grenade"
+		weaponSelectedIcon		"icons/iconw_grenade_1_select"
+
+		missileModel			"models/ammo/grenade1.md3"
+		missileTrailFunc		"GrenadeTrail"
+
+		firstPerson {
+			model				"models/weapons2/grenade/v_grenade.md3"
+
+			weaponLink
+			{
+				part 0
+				{
+					tag			"tag_barrel"
+					model		"models/weapons2/grenade/v_grenade_barrel.mdc"
+				}
+			}
+		}
+
+		thirdPerson {
+			model				"models/weapons2/grenade/ss_grenade.md3"
+		}
+	}
+}

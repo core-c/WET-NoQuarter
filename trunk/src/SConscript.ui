@@ -1,0 +1,53 @@
+# -*- mode: python -*-
+# Enemy Territory build script
+# TTimo <ttimo@idsoftware.com>
+# http://scons.sourceforge.net
+
+import sys, os
+import scons_utils
+
+Import( 'GLOBALS' )
+Import( GLOBALS )
+
+ui_string = """
+../game/bg_campaign.c
+../game/bg_classes.c
+../game/bg_misc.c
+../game/q_math.c
+../game/q_shared.c
+ui_atoms.c
+ui_gameinfo.c
+ui_loadpanel.c
+ui_main.c
+ui_shared.c
+ui_syscalls.c
+"""
+
+local_env = g_env.Copy()
+
+if (WITH_HWBAN == '1'):
+	ui_string += """../game/bg_hwguid.c ../game/base64.c ../game/crc32.c ../game/md5.c ../game/xorcrypt.c"""
+	local_env.Append( CPPDEFINES = [ 'HW_BAN' ] )
+
+# for cross-compiling
+if (WITH_HWBAN == '1' and g_os == 'win32'):
+	ui_string += """../game/diskId32.cpp"""
+
+ui_list = scons_utils.BuildList( 'ui', ui_string )
+
+
+local_env.Append( CPPDEFINES = [ 'UIDLL' ] )
+
+
+# IlDuca - Compile with plpa support
+#if ( g_os == 'Linux' ):
+#	local_env.Append( CPPPATH 		= [ '../../../plpa-1.3/include' ] )
+#	local_env.Append( LIBPATH 		= [ '%s/plpa-1.3/lib' % (GetLaunchDir()) ] )
+#	local_env.Append( LIBS 			= [ 'libplpa.a' ] )
+
+source_list = ui_list
+
+local_env['LINK'] = local_env['CXX']
+
+ret = local_env.SharedLibrary( target = 'ui', source = source_list )
+Return( 'ret' )

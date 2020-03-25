@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 37
+/svn/nq/!svn/ver/1709/trunk/src/sha-1
+END
+license.txt
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/nq/!svn/ver/1709/trunk/src/sha-1/license.txt
+END
+sha1.h
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/svn/nq/!svn/ver/1709/trunk/src/sha-1/sha1.h
+END
+sha.c
+K 25
+svn:wc:ra_dav:version-url
+V 43
+/svn/nq/!svn/ver/1709/trunk/src/sha-1/sha.c
+END
+shatest.c
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/nq/!svn/ver/1709/trunk/src/sha-1/shatest.c
+END
+sha1.c
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/svn/nq/!svn/ver/1709/trunk/src/sha-1/sha1.c
+END

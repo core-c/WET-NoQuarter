@@ -1,0 +1,1563 @@
+/////Lance
+/////
+
+game_manager
+{
+	spawn
+	{
+		// Game rules
+		wm_axis_respawntime	30
+		wm_allied_respawntime	30
+		wm_set_round_timelimit	20
+              wm_number_of_objectives 4
+
+		// Objectives
+		// 1: Axis_radar_w
+		// 2: Axis_radar_e
+		// 3: Allies_radar_w
+		// 4: Allies_radar_e
+
+		wm_objective_status 1 1 0
+		wm_objective_status 1 0 0
+		wm_objective_status 2 1 0
+		wm_objective_status 2 0 0
+		wm_objective_status 3 1 0
+		wm_objective_status 3 0 0
+		wm_objective_status 4 1 0
+		wm_objective_status 4 0 0
+
+
+		wm_set_defending_team	0
+		wm_setwinner	1
+
+		accum 1 set 0		
+              accum 2 set 0
+
+		wait 500
+
+		disablespeaker allied_cp_sound
+		disablespeaker axis_cp_sound
+
+		setautospawn "Axis Spawn"	0
+		setautospawn "Allied Spawn"	1
+
+
+		// wait for everything to settle
+		wait 500
+
+		// *----------------------------------- vo ------------------------------------------*
+
+		// *---------------------------------------------------------------------------------*
+	}
+
+
+	trigger maindoor1
+	{
+		wm_announce	"Axis have breached the Allies Main Entrance!"
+
+		wait 1000
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_addteamvoiceannounce 0 "radar_axis_radars_defend"
+
+
+		wm_teamvoiceannounce 0 "radar_axis_entrance1_destroyed"
+
+		wm_teamvoiceannounce 1 "radar_allies_entrance1_destroyed"
+
+
+		wm_removeteamvoiceannounce 1 "radar_allies_entrances_destroy"
+		wm_removeteamvoiceannounce 1 "radar_allies_entrance1_destroy"
+		// *---------------------------------------------------------------------------------*
+	}
+
+	trigger maindoor2
+	{
+		wm_announce	"Allies have breached the Axis Main Entrance!"
+
+		wait 1000
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_addteamvoiceannounce 0 "radar_axis_radars_defend"
+
+
+		wm_teamvoiceannounce 0 "radar_axis_entrance1_destroyed"
+
+		wm_teamvoiceannounce 1 "radar_allies_entrance1_destroyed"
+
+
+		wm_removeteamvoiceannounce 1 "radar_allies_entrances_destroy"
+		wm_removeteamvoiceannounce 1 "radar_allies_entrance1_destroy"
+		// *---------------------------------------------------------------------------------*
+	}
+
+	trigger stolen_circuit
+	{
+		accum 1 inc 1				
+		trigger game_manager boom		
+	}
+
+	trigger boom
+	{
+              accum 1 abort_if_not_equal 2
+              wait 3000
+		alertentity bakuha
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "omg_axis"
+
+		wm_teamvoiceannounce 1 "yeehaaa_allies"
+		// *---------------------------------------------------------------------------------*
+              trigger kakoi visible
+	}
+
+	trigger stolen_circuit2
+	{
+		accum 2 inc 1				
+		trigger game_manager boom2		
+	}
+
+	trigger boom2
+	{
+              accum 2 abort_if_not_equal 2
+              wait 3000
+		alertentity bakuha2
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "yeehaaa_axis"
+
+		wm_teamvoiceannounce 1 "omg_allies"
+		// *---------------------------------------------------------------------------------*
+              trigger kakoi2 visible
+	}
+
+
+	trigger Allies_win
+	{
+		wm_setwinner 1
+		wait 1500
+		wm_endround
+	}
+
+	trigger Axis_win
+	{
+		wm_setwinner 0
+		wait 1500
+		wm_endround
+	}
+
+}
+
+//////////////////
+//////////////////破壊オブジェ
+//////////////////
+
+Allies_main_door 
+{
+	spawn
+	{
+		wait 50
+		constructible_class	3
+	}
+
+	death
+	{
+              trigger game_manager maindoor1
+	}
+}
+
+Axis_main_door 
+{
+	spawn
+	{
+		wait 50
+		constructible_class	3
+	}
+
+	death
+	{
+            trigger game_manager maindoor2
+	}
+}
+
+///////////////////////////////////////////////////////
+//////////allies フラグ色々////////////////////////////
+///////////////////////////////////////////////////////
+box1
+{
+	spawn
+	{
+		wait 50
+		setstate box1 invisible
+		accum 1 set 0
+	}
+
+	trigger visible
+	{
+		setstate box1 default
+		accum 1 abort_if_not_equal 0
+		wm_announce	"Allies have secured the West Radar Parts!"
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "radar_axis_radarw_secured"
+
+		wm_teamvoiceannounce 1 "radar_allies_radarw_secured"
+
+		//wm_removeteamvoiceannounce 0 "radar_axis_radarw_defend"
+		// *---------------------------------------------------------------------------------*
+
+		accum 1 set 1
+	}
+
+	trigger invisible
+	{
+		setstate box1 invisible
+	}
+}
+
+box2
+{
+	spawn
+	{
+		wait 50
+		setstate box2 invisible
+		accum 1 set 0
+	}
+
+	trigger visible
+	{
+		setstate box2 default
+		accum 1 abort_if_not_equal 0
+		wm_announce "Allies have secured the East Radar Parts!"
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "radar_axis_radare_secured"
+
+		wm_teamvoiceannounce 1 "radar_allies_radare_secured"
+
+		//wm_removeteamvoiceannounce 0 "radar_axis_radare_defend"
+		// *---------------------------------------------------------------------------------*
+
+		accum 1 set 1
+	}
+
+	trigger invisible
+	{
+		setstate box2 invisible
+	}
+}
+
+goldbox1
+{
+	spawn
+	{
+		wait 50
+		setstate goldbox1 invisible
+		accum 1 set 0
+	}
+
+	trigger visible
+	{
+		setstate goldbox1 default
+		accum 1 abort_if_not_equal 0
+		wm_announce "Allies have secured the Gold!"
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "goldrush_axis_gold1_secured"
+
+		wm_teamvoiceannounce 1 "goldrush_allies_gold1_secured"
+
+		//wm_removeteamvoiceannounce 0 "radar_axis_radare_defend"
+		// *---------------------------------------------------------------------------------*
+
+		accum 1 set 1
+	}
+
+	trigger invisible
+	{
+		setstate goldbox1 invisible
+	}
+}
+
+kakoi
+{
+	spawn
+	{
+		setstate kakoi invisible
+	}
+
+	trigger visible
+	{
+		setstate kakoi default
+
+	}
+
+	trigger invisible
+	{
+		setstate kakoi invisible
+	}
+}
+
+boxtrans1
+{
+	trigger visible
+	{
+		setstate boxtrans1 default
+	}
+
+	trigger invisible
+	{
+		setstate boxtrans1 invisible
+	}
+}
+
+boxtrans2
+{
+	trigger visible
+	{
+		setstate boxtrans2 default
+	}
+
+	trigger invisible
+	{
+		setstate boxtrans2 invisible
+	}
+}
+
+goldboxtrans1
+{
+	trigger visible
+	{
+		setstate goldboxtrans1 default
+	}
+
+	trigger invisible
+	{
+		setstate goldboxtrans1 invisible
+	}
+}
+
+exitpoint 
+{
+	death
+	{
+		trigger game_manager stolen_circuit
+	}
+
+}
+
+exitpoint2 
+{
+	death
+　　　 {
+		trigger game_manager Allies_win
+	}
+}
+
+// ================================================
+// ============== レーダーパーツ  =================
+// ================================================
+
+radarbox1
+{
+	spawn
+	{
+	}
+
+	trigger stolen
+	{
+
+		wait 1000
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "radar_axis_radarw_taken"
+
+		wm_teamvoiceannounce 1 "radar_allies_radarw_taken"
+		// *---------------------------------------------------------------------------------*
+
+              setstate radar_toi invisible
+		setstate radar_cm_marker invisible
+	}
+
+	trigger returned
+	{
+              setstate radar_toi default
+		setstate radar_cm_marker default
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "radar_axis_radarw_returned"
+
+		wm_teamvoiceannounce 1 "radar_allies_radarw_returned"
+		// *---------------------------------------------------------------------------------*
+	}
+
+	trigger dropped
+	{
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "radar_axis_radarw_lost"
+
+		wm_teamvoiceannounce 1 "radar_allies_radarw_lost"
+		// *---------------------------------------------------------------------------------*
+	}
+
+	trigger captured
+	{
+		trigger box1 visible
+		trigger boxtrans1 invisible
+              wm_objective_status 1 1 1
+		wm_objective_status 1 0 2
+	}
+}
+
+
+radarbox2
+{
+	spawn
+	{
+	}
+
+	trigger stolen
+	{
+              setstate radar2_toi invisible
+		setstate radar2_cm_marker invisible
+
+
+		wait 1000
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "radar_axis_radare_taken"
+
+		wm_teamvoiceannounce 1 "radar_allies_radare_taken"
+		// *---------------------------------------------------------------------------------*
+	}
+
+	trigger returned
+	{
+              setstate radar_toi default
+		setstate radar_cm_marker default
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "radar_axis_radare_returned"
+
+		wm_teamvoiceannounce 1 "radar_allies_radare_returned"
+		// *---------------------------------------------------------------------------------*
+	}
+
+	trigger dropped
+	{
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "radar_axis_radare_lost"
+
+		wm_teamvoiceannounce 1 "radar_allies_radare_lost"
+		// *---------------------------------------------------------------------------------*
+	}
+
+	trigger captured
+	{
+		trigger box2 visible
+		trigger boxtrans2 invisible
+              wm_objective_status 2 1 1
+		wm_objective_status 2 0 2
+	}
+}
+
+gold1
+{
+	spawn
+	{
+	}
+
+	trigger stolen
+	{
+
+              setstate Gold1_toi invisible
+		setstate Gold1_cm_marker invisible
+		wait 1000
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "goldrush_axis_gold1_taken"
+
+		wm_teamvoiceannounce 1 "goldrush_allies_gold1_taken"
+		// *---------------------------------------------------------------------------------*
+	}
+
+	trigger returned
+	{
+              setstate Gold1_toi default
+		setstate Gold1_cm_marker default
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "goldrush_axis_gold1_returned"
+
+		wm_teamvoiceannounce 1 "goldrush_allies_gold1_returned"
+		// *---------------------------------------------------------------------------------*
+	}
+
+	trigger dropped
+	{
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "goldrush_axis_gold1_lost"
+
+		wm_teamvoiceannounce 1 "goldrush_allies_gold1_lost"
+		// *---------------------------------------------------------------------------------*
+	}
+
+	trigger captured
+	{
+		trigger goldbox1 visible
+		trigger goldboxtrans1 invisible
+	}
+}
+
+
+///////////////////////////////////////////////////////
+//////////Axis フラグ色々//////////////////////////////
+///////////////////////////////////////////////////////
+box3
+{
+	spawn
+	{
+		wait 50
+		setstate box3 invisible
+		accum 1 set 0
+	}
+
+	trigger visible
+	{
+		setstate box3 default
+		accum 1 abort_if_not_equal 0
+		wm_announce	"Axis have secured the West Radar Parts!"
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "radar_axis_radarw_secured"
+
+		wm_teamvoiceannounce 1 "radar_allies_radarw_secured"
+
+		//wm_removeteamvoiceannounce 0 "radar_axis_radarw_defend"
+		// *---------------------------------------------------------------------------------*
+
+		accum 1 set 1
+	}
+
+	trigger invisible
+	{
+		setstate box3 invisible
+	}
+}
+
+box4
+{
+	spawn
+	{
+		wait 50
+		setstate box4 invisible
+		accum 1 set 0
+	}
+
+	trigger visible
+	{
+		setstate box4 default
+		accum 1 abort_if_not_equal 0
+		wm_announce "Axis have secured the East Radar Parts!"
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "radar_axis_radare_secured"
+
+		wm_teamvoiceannounce 1 "radar_allies_radare_secured"
+
+		//wm_removeteamvoiceannounce 0 "radar_axis_radare_defend"
+		// *---------------------------------------------------------------------------------*
+
+		accum 1 set 1
+	}
+
+	trigger invisible
+	{
+		setstate box4 invisible
+	}
+}
+
+goldbox2
+{
+	spawn
+	{
+		wait 50
+		setstate goldbox2 invisible
+		accum 1 set 0
+	}
+
+	trigger visible
+	{
+		setstate goldbox2 default
+		accum 1 abort_if_not_equal 0
+		wm_announce "Axis have secured the Gold!"
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "goldrush_axis_gold1_secured"
+
+		wm_teamvoiceannounce 1 "goldrush_allies_gold1_secured"
+
+		//wm_removeteamvoiceannounce 0 "radar_axis_radare_defend"
+		// *---------------------------------------------------------------------------------*
+
+		accum 1 set 1
+	}
+
+	trigger invisible
+	{
+		setstate goldbox2 invisible
+	}
+}
+
+kakoi2
+{
+	spawn
+	{
+		setstate kakoi2 invisible
+	}
+
+	trigger visible
+	{
+		setstate kakoi2 default
+
+	}
+
+	trigger invisible
+	{
+		setstate kakoi2 invisible
+	}
+}
+
+boxtrans3
+{
+	trigger visible
+	{
+		setstate boxtrans3 default
+	}
+
+	trigger invisible
+	{
+		setstate boxtrans3 invisible
+	}
+}
+
+boxtrans4
+{
+	trigger visible
+	{
+		setstate boxtrans4 default
+	}
+
+	trigger invisible
+	{
+		setstate boxtrans4 invisible
+	}
+}
+
+goldboxtrans2
+{
+	trigger visible
+	{
+		setstate goldboxtrans2 default
+	}
+
+	trigger invisible
+	{
+		setstate goldboxtrans2 invisible
+	}
+}
+
+exitpoint3
+{
+	death
+	{
+		trigger game_manager stolen_circuit2
+	}
+}
+
+exitpoint4 
+{
+	death
+　　　 {
+		trigger game_manager Axis_win
+	}
+}
+
+// ================================================
+// ==============　レーダーパーツ =================
+// ================================================
+
+radarbox3
+{
+	spawn
+	{
+	}
+
+	trigger stolen
+	{
+
+		wait 1000
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "radar_axis_radarw_taken"
+
+		wm_teamvoiceannounce 1 "radar_allies_radarw_taken"
+		// *---------------------------------------------------------------------------------*
+
+              setstate radar3_toi invisible
+		setstate radar3_cm_marker invisible
+	}
+
+	trigger returned
+	{
+              setstate radar3_toi default
+		setstate radar3_cm_marker default
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "radar_axis_radarw_returned"
+
+		wm_teamvoiceannounce 1 "radar_allies_radarw_returned"
+		// *---------------------------------------------------------------------------------*
+	}
+
+	trigger dropped
+	{
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "radar_axis_radarw_lost"
+
+		wm_teamvoiceannounce 1 "radar_allies_radarw_lost"
+		// *---------------------------------------------------------------------------------*
+	}
+
+	trigger captured
+	{
+		trigger box3 visible
+		trigger boxtrans3 invisible
+              wm_objective_status 3 1 2
+		wm_objective_status 3 0 1
+	}
+}
+
+
+radarbox4
+{
+	spawn
+	{
+	}
+
+	trigger stolen
+	{
+              setstate radar4_toi invisible
+		setstate radar4_cm_marker invisible
+
+
+		wait 1000
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "radar_axis_radare_taken"
+
+		wm_teamvoiceannounce 1 "radar_allies_radare_taken"
+		// *---------------------------------------------------------------------------------*
+	}
+
+	trigger returned
+	{
+              setstate radar4_toi default
+		setstate radar4_cm_marker default
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "radar_axis_radare_returned"
+
+		wm_teamvoiceannounce 1 "radar_allies_radare_returned"
+		// *---------------------------------------------------------------------------------*
+	}
+
+	trigger dropped
+	{
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "radar_axis_radare_lost"
+
+		wm_teamvoiceannounce 1 "radar_allies_radare_lost"
+		// *---------------------------------------------------------------------------------*
+	}
+
+	trigger captured
+	{
+		trigger box4 visible
+		trigger boxtrans4 invisible
+              wm_objective_status 4 1 2
+		wm_objective_status 4 0 1
+	}
+}
+
+gold2
+{
+	spawn
+	{
+	}
+
+	trigger stolen
+	{
+
+              setstate Gold2_toi invisible
+		setstate Gold2_cm_marker invisible
+		wait 1000
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "goldrush_axis_gold1_taken"
+
+		wm_teamvoiceannounce 1 "goldrush_allies_gold1_taken"
+		// *---------------------------------------------------------------------------------*
+	}
+
+	trigger returned
+	{
+              setstate Gold2_toi default
+		setstate Gold2_cm_marker default
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "goldrush_axis_gold1_returned"
+
+		wm_teamvoiceannounce 1 "goldrush_allies_gold1_returned"
+		// *---------------------------------------------------------------------------------*
+	}
+
+	trigger dropped
+	{
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "goldrush_axis_gold1_lost"
+
+		wm_teamvoiceannounce 1 "goldrush_allies_gold1_lost"
+		// *---------------------------------------------------------------------------------*
+	}
+
+	trigger captured
+	{
+		trigger goldbox2 visible
+		trigger goldboxtrans2 invisible
+	}
+}
+
+
+///////////////////////////////////////////////////////
+//////////中央の旗/////////////////////////////////////
+///////////////////////////////////////////////////////
+
+FlagPyramid
+{
+	spawn
+	{
+		accum 0 set 0			
+	}
+
+	trigger axis_capture				
+	{
+		accum 0 abort_if_equal 0 		
+
+		accum 0 set 0 			
+		wm_announce "axis capture the Pyramid Area!"
+
+		// *----------------------------------- vo ------------------------------------------*
+
+		wm_teamvoiceannounce 0 "oasis_axis_city_captured"
+		wm_teamvoiceannounce 1 "oasis_allies_city_lost"
+
+		// *---------------------------------------------------------------------------------*
+
+		alertentity Pyramidarea		
+		setautospawn "Pyramid"	0	
+	}
+
+	trigger allied_capture				
+	{
+		accum 0 abort_if_equal 1 		
+
+		accum 0 set 1 			
+		wm_announce "Allies capture the Pyramid Area!"
+
+		// *----------------------------------- vo ------------------------------------------*
+
+		wm_teamvoiceannounce 0 "oasis_axis_city_lost"
+		wm_teamvoiceannounce 1 "oasis_allies_city_captured"
+
+		// *---------------------------------------------------------------------------------*
+
+		alertentity Pyramidarea		
+		setautospawn "Pyramid"	1	
+	}
+
+	trigger kill
+	{
+		remove				
+	}
+}
+
+/////////////
+/////////////コマンドポスト
+/////////////
+
+
+neutral_cp_toi
+{
+	spawn
+	{
+		wait 50
+		accum 0 set 0	
+
+		trigger self show_previous_cabinet		
+	}
+
+	trigger set_alliedcabinet
+	{
+		accum 0 set 1			
+	}
+
+	trigger set_axiscabinet
+	{
+		accum 0 set 2			
+	}
+
+	trigger show_previous_cabinet
+	{
+		accum 0 trigger_if_equal 0 neutral_cp_toi show_neutral_cabinet
+		accum 0 trigger_if_equal 1 neutral_cp_toi show_allied_cabinet
+		accum 0 trigger_if_equal 2 neutral_cp_toi show_axis_cabinet
+	}
+
+	trigger show_neutral_cabinet			
+	{
+		setstate neutral_cp_closed default
+		setstate neutral_cp_closed_model default
+	}
+
+	trigger show_allied_cabinet		
+	{
+		setstate allied_cp_damaged default
+		setstate allied_cp_damaged_model default
+	}
+
+	trigger show_axis_cabinet		
+	{
+		setstate axis_cp_damaged default
+		setstate axis_cp_damaged_model default
+	}
+
+	trigger hide_all_cabinet		
+	{
+		setstate neutral_cp_closed invisible
+		setstate neutral_cp_closed_model invisible
+		setstate allied_cp_damaged invisible
+		setstate allied_cp_damaged_model invisible
+		setstate axis_cp_damaged invisible
+		setstate axis_cp_damaged_model invisible
+	}
+}
+
+// ================================================
+allied_cp_open
+{
+	spawn
+	{
+		wait 100
+		constructible_class 2			
+
+		setstate allied_cp_damaged invisible	
+		setstate allied_cp_damaged_model invisible
+		trigger self disable_cp_features		
+	}
+
+	trigger disable_cp_features
+	{
+		setstate allied_cp_open_model invisible	
+
+		setchargetimefactor 1 soldier 1
+		setchargetimefactor 1 lieutenant 1
+		setchargetimefactor 1 medic 1
+		setchargetimefactor 1 engineer 1
+		setchargetimefactor 1 covertops 1
+
+		sethqstatus 1 0			
+		disablespeaker allied_cp_sound		
+	}
+
+	trigger enable_cp_features
+	{
+		setstate allied_cp_open_model default	
+
+		setchargetimefactor 1 soldier 0.75
+		setchargetimefactor 1 lieutenant 0.75
+		setchargetimefactor 1 medic 0.75
+		setchargetimefactor 1 engineer 0.75
+		setchargetimefactor 1 covertops 0.75
+
+		sethqstatus 1 1			
+		enablespeaker allied_cp_sound		
+	}
+
+	buildstart final
+	{
+		trigger neutral_cp_toi hide_all_cabinet	
+	}
+
+	built final
+	{
+		trigger neutral_cp_toi set_alliedcabinet	
+		trigger self enable_cp_features		
+
+		wm_announce "Allied Command Post constructed. Charge speed increased!"
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "axis_hq_compost_constructed_allies"
+		wm_teamvoiceannounce 1 "allies_hq_compost_constructed"
+		wm_removeteamvoiceannounce 1 "allies_hq_compost_construct"
+		// *----------------------------------- vo ------------------------------------------*
+	}
+
+	decayed final
+	{
+		setstate allied_cp_open_model invisible	
+		trigger neutral_cp_toi show_previous_cabinet	
+	}
+
+	death
+	{
+		trigger neutral_cp_toi show_previous_cabinet	
+		trigger self disable_cp_features		
+
+		wm_announce "Axis team has destroyed the Allied Command Post!"
+		// *----------------------------------- vo ------------------------------------------*
+		wm_addteamvoiceannounce 0 "axis_hq_compost_construct"
+		wm_addteamvoiceannounce 1 "allies_hq_compost_construct"
+		wm_teamvoiceannounce 0 "axis_hq_compost_construct"
+		wm_teamvoiceannounce 1 "allies_hq_compost_damaged"
+		// *----------------------------------- vo ------------------------------------------*
+	}
+}
+
+// ================================================
+axis_cp_open
+{
+	spawn
+	{
+		wait 100
+		constructible_class 2			
+
+		setstate axis_cp_damaged invisible	// Hide damaged CP model+clip
+		setstate axis_cp_damaged_model invisible
+		trigger self disable_cp_features		
+	}
+
+	trigger disable_cp_features
+	{
+		setstate axis_cp_open_model invisible	
+
+		setchargetimefactor 0 soldier 1
+		setchargetimefactor 0 lieutenant 1
+		setchargetimefactor 0 medic 1
+		setchargetimefactor 0 engineer 1
+		setchargetimefactor 0 covertops 1
+
+		sethqstatus 0 0			
+		disablespeaker axis_cp_sound		
+	}
+
+	trigger enable_cp_features
+	{
+		setstate axis_cp_open_model default	
+
+		setchargetimefactor 0 soldier 0.75
+		setchargetimefactor 0 lieutenant 0.75
+		setchargetimefactor 0 medic 0.75
+		setchargetimefactor 0 engineer 0.75
+		setchargetimefactor 0 covertops 0.75
+
+		sethqstatus 0 1			
+		enablespeaker axis_cp_sound		
+	}
+
+	buildstart final
+	{
+		trigger neutral_cp_toi hide_all_cabinet	
+	}
+
+	built final
+	{
+		trigger neutral_cp_toi set_axiscabinet	
+		trigger self enable_cp_features		
+
+		wm_announce "Axis Command Post constructed. Charge speed increased!"
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "axis_hq_compost_constructed"
+		wm_teamvoiceannounce 1 "allies_hq_compost_constructed_axis"
+		wm_removeteamvoiceannounce 0 "axis_hq_compost_construct"
+		// *----------------------------------- vo ------------------------------------------*
+	}
+
+	decayed final
+	{
+		setstate axis_cp_open_model invisible	
+		trigger neutral_cp_toi show_previous_cabinet	
+	}
+
+	death
+	{
+		trigger neutral_cp_toi show_previous_cabinet	
+		trigger self disable_cp_features		
+
+		wm_announce "Allied team has destroyed the Axis Command Post!"
+		// *----------------------------------- vo ------------------------------------------*
+		wm_addteamvoiceannounce 0 "axis_hq_compost_construct"
+		wm_addteamvoiceannounce 1 "allies_hq_compost_construct"
+		wm_teamvoiceannounce 0 "axis_hq_compost_damaged"
+		wm_teamvoiceannounce 1 "allies_hq_compost_construct"
+		// *----------------------------------- vo ------------------------------------------*
+	}
+}
+
+//////////////////////////////
+///////////Axis色々作る物/////
+//////////////////////////////
+
+/////橋
+axisconstruct1 
+{
+	spawn
+	{
+		wait 50
+		trigger self setup
+		constructible_class 2			
+	}
+
+	trigger setup
+	{
+		setstate axisconstruct1_materials default	
+		setstate axisconstruct1_clip default	
+		setstate axisconstruct1_flag default
+
+	}
+
+	built final
+	{
+		setstate axisconstruct1_materials invisible	
+		setstate axisconstruct1_clip invisible	
+		setstate axisconstruct1_flag invisible
+
+		// *----------------------------------- vo ------------------------------------------*
+
+		wm_teamvoiceannounce 0 "fueldump_axis_bridge_destroy"
+		wm_teamvoiceannounce 1 "fueldump_allies_bridge_constructed"
+
+		// *---------------------------------------------------------------------------------*
+
+		wm_announce "Axis Team have built the Bridge nest!!"
+	}
+
+	decayed final
+	{
+		trigger self setup
+	}
+
+	death
+	{
+		trigger self setup
+		wm_announce "Allies have destroyed the Axis Bridge Nest!!" 
+
+		// *----------------------------------- vo ------------------------------------------*
+
+		wm_teamvoiceannounce 0 "fueldump_axis_bridge_destroyed"
+		wm_teamvoiceannounce 1 "fueldump_allies_bridge_destroyed"
+
+		// *---------------------------------------------------------------------------------*
+
+	}
+}
+
+
+//////梯子
+axisconstruct2
+{
+	spawn
+	{
+		wait 50
+		trigger self setup
+		constructible_class 2			
+	}
+
+	trigger setup
+	{
+		setstate axisconstruct2_materials default	
+		setstate axisconstruct2_clip default	
+		setstate axisconstruct2_flag default
+
+	}
+
+	built final
+	{
+		setstate axisconstruct2_materials invisible	
+		setstate axisconstruct2_clip invisible	
+		setstate axisconstruct2_flag invisible
+
+		// *----------------------------------- vo ------------------------------------------*
+
+		wm_teamvoiceannounce 0 "battery_axis_ramp_constructed"
+		wm_teamvoiceannounce 1 "battery_allies_ramp_constructed"
+
+		// *---------------------------------------------------------------------------------*
+
+
+		wm_announce "The axis Wall Assault Ramp has been constructed."
+	}
+
+	decayed final
+	{
+		trigger self setup
+	}
+
+	death
+	{
+		trigger self setup
+		wm_announce  	"Allied have destroyed the Axis Wall Assault Ramp."
+
+		// *----------------------------------- vo ------------------------------------------*
+
+		wm_teamvoiceannounce 0 "battery_axis_ramp_destroyed"
+		wm_teamvoiceannounce 1 "battery_allies_ramp_destroyed"
+
+		// *---------------------------------------------------------------------------------*
+
+
+	}
+}
+
+//////梯子2
+axisconstruct3
+{
+	spawn
+	{
+		wait 50
+		trigger self setup
+		constructible_class 2			
+	}
+
+	trigger setup
+	{
+		setstate axisconstruct3_materials default	
+		setstate axisconstruct3_clip default	
+		setstate axisconstruct3_flag default
+
+	}
+
+	built final
+	{
+		setstate axisconstruct3_materials invisible	
+		setstate axisconstruct3_clip invisible	
+		setstate axisconstruct3_flag invisible
+
+		// *----------------------------------- vo ------------------------------------------*
+
+		wm_teamvoiceannounce 0 "battery_axis_ramp_constructed"
+		wm_teamvoiceannounce 1 "battery_allies_ramp_constructed"
+
+		// *---------------------------------------------------------------------------------*
+
+
+		wm_announce "The Axis Wall2 Assault Ramp has been constructed."
+	}
+
+	decayed final
+	{
+		trigger self setup
+	}
+
+	death
+	{
+		trigger self setup
+		wm_announce  	"Allied have destroyed the Axis Wall2 Assault Ramp."
+
+		// *----------------------------------- vo ------------------------------------------*
+
+		wm_teamvoiceannounce 0 "battery_axis_ramp_destroyed"
+		wm_teamvoiceannounce 1 "battery_allies_ramp_destroyed"
+
+		// *---------------------------------------------------------------------------------*
+
+
+	}
+}
+
+//////オブジェ守る箱
+axisconstruct4
+{
+	spawn
+	{
+		wait 50
+		trigger self setup
+		constructible_class 2			
+	}
+
+	trigger setup
+	{
+		setstate axisconstruct4_materials default	
+		setstate axisconstruct4_clip default	
+		setstate axisconstruct4_flag default
+
+	}
+
+	built final
+	{
+		setstate axisconstruct4_materials invisible	
+		setstate axisconstruct4_clip invisible	
+		setstate axisconstruct4_flag invisible
+
+		// *----------------------------------- vo ------------------------------------------*
+
+		wm_teamvoiceannounce 0 "fueldump_axis_depotdef_constructed"
+		wm_teamvoiceannounce 1 "fueldump_allies_depotdef_destroy"
+
+		// *---------------------------------------------------------------------------------*
+
+
+		wm_announce "Axis Team has Construted the East Axis Radar Parts Fortification."
+	}
+
+	decayed final
+	{
+		trigger self setup
+	}
+
+	death
+	{
+		trigger self setup
+		wm_announce  	"Allies Team has destroyed the East Axis Radar Parts Fortification."
+
+		// *----------------------------------- vo ------------------------------------------*
+
+		wm_teamvoiceannounce 0 "fueldump_axis_depotdef_destroyed"
+		wm_teamvoiceannounce 1 "fueldump_allies_depotdef_destroyed"
+
+		// *---------------------------------------------------------------------------------*
+
+
+	}
+}
+
+//////////////////////////////
+///////////Allies色々作る物///
+//////////////////////////////
+
+/////橋
+alliesconstruct1 
+{
+	spawn
+	{
+		wait 50
+		trigger self setup
+		constructible_class 2			
+	}
+
+	trigger setup
+	{
+		setstate alliesconstruct1_materials default	
+		setstate alliesconstruct1_clip default	
+		setstate alliesconstruct1_flag default
+
+	}
+
+	built final
+	{
+		setstate alliesconstruct1_materials invisible	
+		setstate alliesconstruct1_clip invisible	
+		setstate alliesconstruct1_flag invisible
+
+		// *----------------------------------- vo ------------------------------------------*
+
+		wm_teamvoiceannounce 0 "fueldump_axis_bridge_destroy"
+		wm_teamvoiceannounce 1 "fueldump_allies_bridge_constructed"
+
+		// *---------------------------------------------------------------------------------*
+
+		wm_announce "Allies Team have built the Bridge nest!!"
+	}
+
+	decayed final
+	{
+		trigger self setup
+	}
+
+	death
+	{
+		trigger self setup
+		wm_announce "Axis have destroyed the Allies Bridge Nest!!" 
+
+		// *----------------------------------- vo ------------------------------------------*
+
+		wm_teamvoiceannounce 0 "fueldump_axis_bridge_destroyed"
+		wm_teamvoiceannounce 1 "fueldump_allies_bridge_destroyed"
+
+		// *---------------------------------------------------------------------------------*
+
+	}
+}
+
+
+//////梯子
+alliesconstruct2
+{
+	spawn
+	{
+		wait 50
+		trigger self setup
+		constructible_class 2			
+	}
+
+	trigger setup
+	{
+		setstate alliesconstruct2_materials default	
+		setstate alliesconstruct2_clip default	
+		setstate alliesconstruct2_flag default
+
+	}
+
+	built final
+	{
+		setstate alliesconstruct2_materials invisible	
+		setstate alliesconstruct2_clip invisible	
+		setstate alliesconstruct2_flag invisible
+
+		// *----------------------------------- vo ------------------------------------------*
+
+		wm_teamvoiceannounce 0 "battery_axis_ramp_constructed"
+		wm_teamvoiceannounce 1 "battery_allies_ramp_constructed"
+
+		// *---------------------------------------------------------------------------------*
+
+
+		wm_announce "The Allies Wall Assault Ramp has been constructed."
+	}
+
+	decayed final
+	{
+		trigger self setup
+	}
+
+	death
+	{
+		trigger self setup
+		wm_announce  	"Axis have destroyed the Allies Wall Assault Ramp."
+
+		// *----------------------------------- vo ------------------------------------------*
+
+		wm_teamvoiceannounce 0 "battery_axis_ramp_destroyed"
+		wm_teamvoiceannounce 1 "battery_allies_ramp_destroyed"
+
+		// *---------------------------------------------------------------------------------*
+
+
+	}
+}
+
+//////梯子2
+alliesconstruct3
+{
+	spawn
+	{
+		wait 50
+		trigger self setup
+		constructible_class 2			
+	}
+
+	trigger setup
+	{
+		setstate alliesconstruct3_materials default	
+		setstate alliesconstruct3_clip default	
+		setstate alliesconstruct3_flag default
+
+	}
+
+	built final
+	{
+		setstate alliesconstruct3_materials invisible	
+		setstate alliesconstruct3_clip invisible	
+		setstate alliesconstruct3_flag invisible
+
+		// *----------------------------------- vo ------------------------------------------*
+
+		wm_teamvoiceannounce 0 "battery_axis_ramp_constructed"
+		wm_teamvoiceannounce 1 "battery_allies_ramp_constructed"
+
+		// *---------------------------------------------------------------------------------*
+
+
+		wm_announce "The Allies Wall2 Assault Ramp has been constructed."
+	}
+
+	decayed final
+	{
+		trigger self setup
+	}
+
+	death
+	{
+		trigger self setup
+		wm_announce  	"Axis have destroyed the Allies Wall2 Assault Ramp."
+
+		// *----------------------------------- vo ------------------------------------------*
+
+		wm_teamvoiceannounce 0 "battery_axis_ramp_destroyed"
+		wm_teamvoiceannounce 1 "battery_allies_ramp_destroyed"
+
+		// *---------------------------------------------------------------------------------*
+
+
+	}
+}
+
+//////オブジェ守る箱
+alliesconstruct4
+{
+	spawn
+	{
+		wait 50
+		trigger self setup
+		constructible_class 2			
+	}
+
+	trigger setup
+	{
+		setstate alliesconstruct4_materials default	
+		setstate alliesconstruct4_clip default	
+		setstate alliesconstruct4_flag default
+
+	}
+
+	built final
+	{
+		setstate alliesconstruct4_materials invisible	
+		setstate alliesconstruct4_clip invisible	
+		setstate alliesconstruct4_flag invisible
+
+		// *----------------------------------- vo ------------------------------------------*
+
+		wm_teamvoiceannounce 0 "fueldump_axis_depotdef_constructed"
+		wm_teamvoiceannounce 1 "fueldump_allies_depotdef_destroy"
+
+		// *---------------------------------------------------------------------------------*
+
+
+		wm_announce "Allies Team has Construted the West Allies Radar Parts Fortification."
+	}
+
+	decayed final
+	{
+		trigger self setup
+	}
+
+	death
+	{
+		trigger self setup
+		wm_announce  	"Axis Team has destroyed the West Allies Radar Parts Fortification."
+
+		// *----------------------------------- vo ------------------------------------------*
+
+		wm_teamvoiceannounce 0 "fueldump_axis_depotdef_destroyed"
+		wm_teamvoiceannounce 1 "fueldump_allies_depotdef_destroyed"
+
+		// *---------------------------------------------------------------------------------*
+
+
+	}
+}
+
+
+

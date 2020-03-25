@@ -1,0 +1,71 @@
+weaponDef
+{
+	both {
+		name					"Sten"
+		statname				"Sten"
+		damage					14
+		spread					200
+		spreadRatio				0.6
+		SpreadScaleAdd			15
+		SpreadScaleAddRand		10
+		viewchange2spread
+		CrouchSpreadRatio		0.6
+		ProneSpreadRatio		0.6
+		selfKillMessage			"found a way to shoot himself!"
+		KillMessage				"was killed by"
+		KillMessage2			"'s Sten."
+		headshotWeapon
+		bulletReflection
+		DistanceFalloff
+	}
+
+	client {
+		standModel				"models/weapons2/sten/sten_stand.mdc"
+		pickupModel				"models/weapons2/sten/sten.md3"
+		bounceSound				"sound/weapons/weaponbounce.wav"
+		clipBounceSound			"sound/weapons/clipbounce.wav"
+
+		weaponConfig			"models/weapons2/sten/weapon.cfg"
+		handsModel				"models/weapons2/sten/v_sten_hand.mdc"
+
+		flashDlightColor		1.0 0.6 0.23
+		flashSound				"sound/weapons/sten/sten_fire.wav"
+
+		overheatSound			"sound/weapons/sten/sten_heat.wav"
+		reloadSound				"sound/weapons/sten/sten_reload.wav"
+		reloadFastSound			"sound/weapons/sten/sten_reload_fast.wav"
+
+		weaponIcon				"icons/iconw_sten"
+		weaponSelectedIcon		"icons/iconw_sten_1_select"
+
+		ejectBrassFunc			"MachineGunEjectBrass"
+		brassmodel				"models/weapons2/shells/45ACPshell.md3"
+
+		firstPerson {
+			model				"models/weapons2/sten/v_sten.md3"
+
+			weaponLink
+			{
+				part 0
+				{
+					tag			"tag_barrel"
+					model		"models/weapons2/sten/v_sten_barrel.mdc"
+				}
+				part 1
+				{
+					tag			"tag_barrel2"
+					model		"models/weapons2/sten/v_sten_barrel2.mdc"
+				}
+				part 2
+				{
+					tag			"tag_barrel3"
+					model		"models/weapons2/sten/v_sten_barrel3.mdc"
+				}
+			}
+		}
+
+		thirdPerson {
+			model				"models/weapons2/sten/ss_sten.mdc"
+		}
+	}
+}

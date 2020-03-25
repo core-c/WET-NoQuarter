@@ -1,0 +1,44 @@
+weaponDef
+{
+	both {
+		name					"Dynamite"
+		statname				"Dynamite"
+		damage					400
+		splashdamage			400
+		splashdamage_radius		400
+		selfKillMessage			"died in his own explosion."
+		KillMessage				"was detonated by"
+		KillMessage2			"'s dynamite."
+		GibbingWeapon
+	}
+
+	client {
+		weaponConfig			"models/weapons2/dynamite/weapon.cfg"
+		handsModel				"models/weapons2/dynamite/v_dynamite_hand.mdc"
+
+		spindownSound			"sound/weapons/dynamite/dynamite_timer.wav"
+
+		weaponIcon				"icons/iconw_dynamite"
+		weaponSelectedIcon		"icons/iconw_dynamite_1_select"
+
+		missileModel			"models/multiplayer/dynamite/dynamite.md3"
+		missileTrailFunc		"DynamiteTrail"
+
+		firstPerson {
+			model				"models/weapons2/dynamite/v_dynamite.md3"
+
+			weaponLink
+			{
+				part 0
+				{
+					tag			"tag_barrel"
+					model		"models/weapons2/dynamite/v_dynamite_barrel.mdc"
+				}
+			}
+		}
+
+		thirdPerson {
+			model				"models/multiplayer/dynamite/dynamite_3rd.md3"
+		}
+	}
+}

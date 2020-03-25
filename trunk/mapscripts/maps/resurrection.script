@@ -1,0 +1,2160 @@
+//
+//Brush Scripting
+//Map: mp_resurrection
+//Last edited by: Dan "RivrStyx" Dorn
+//
+
+game_manager
+{
+	spawn
+	{
+		// Set scenario information
+
+		// Set the respawn times
+
+		wm_allied_respawntime		15
+		wm_axis_respawntime			25
+
+		wm_set_round_timelimit		20
+
+		// Set the number of objectives for the map
+
+		wm_number_of_objectives		7
+
+// Objectives
+		// 1: Main Gate and Waterway Door
+		// 2: Catacomb Door
+		// 3: Advance Flag
+		// 4: Steal Book
+		// 5: Get to raft and escape
+		// 6: Allied command post
+		// 7: Axis command post
+		
+			wm_set_main_objective		1	0
+			wm_set_main_objective		1	1
+
+		// Axis control all objectives at the start (0 == AXIS, 1 == ALLIED)
+		wm_objective_status 1 1 0
+		wm_objective_status 1 0 0
+		wm_objective_status 2 1 0
+		wm_objective_status 2 0 0
+		wm_objective_status 3 1 0
+		wm_objective_status 3 0 0
+		wm_objective_status 4 1 0
+		wm_objective_status 4 0 0
+		wm_objective_status 5 1 0
+		wm_objective_status 5 0 0
+		wm_objective_status 6 0 0
+		wm_objective_status 6 1 0
+		wm_objective_status 7 0 0
+		wm_objective_status 7 1 0
+
+
+		// Set Defending Team for SW Mode
+
+		wm_set_defending_team	0
+
+		// If the round timer expires, the Axis have won, so set the current winning team
+		// Set the round winner:  0 == AXIS, 1 == ALLIED
+		wm_setwinner 0
+
+		wait 150
+
+		setautospawn "Forward Spawn"			1
+		setautospawn "Forward Spawn"			0
+
+		wait 500
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_addteamvoiceannounce 0 "resurrection_axis_entrances_defend"
+		wm_addteamvoiceannounce 0 "resurrection_axis_bunker_stop"
+		wm_addteamvoiceannounce 0 "axis_hq_compost_construct"
+
+		wm_addteamvoiceannounce 1 "resurrection_allies_entrances_destroy"
+		wm_addteamvoiceannounce 1 "resurrection_allies_bunker_capture"
+
+		wm_teamvoiceannounce 0 "resurrection_axis_entrances_defend"
+		wm_teamvoiceannounce 0 "resurrection_axis_bunker_stop"
+		wm_teamvoiceannounce 0 "axis_hq_compost_construct"
+
+		wm_teamvoiceannounce 1 "resurrection_allies_entrances_destroy"
+		wm_teamvoiceannounce 1 "resurrection_allies_bunker_capture"
+		// *---------------------------------------------------------------------------------*
+	
+		accum 0 set 0 // Generator + panel 
+		accum 1 set 0 // 2*Generator + panel
+		accum 2 set 0 // Ammo in place?
+
+		accum 3 set 0 // states of objectives
+
+		accum 4 set 0 // flag for firing sequence
+	}
+
+	trigger allies_win
+	{
+	//	accum 2 abort_if_not_equal 0
+	//	globalaccum 1 abort_if_not_equal 0
+		wm_setwinner	1
+		wm_announce "Allied team escaped with the Book!"
+
+		wm_objective_status 5 0 2
+		wm_objective_status 5 1 1
+
+		wait 1500
+		wm_endround
+	}
+	
+
+// *****Main gate destroyed
+	trigger maingate1_destroyed
+	{
+		// Change the objective state internally, so UI can update, etc.
+		// Allied takes control of objective #1
+		
+
+		wm_objective_status 1 1 1
+		wm_objective_status 1 0 2
+
+		wm_set_main_objective		2	0
+		wm_set_main_objective		2	1
+	//	accum 6 set 1
+		// UI pop-up to alert players
+		wm_announce	"The Main Gate has been breached!"
+
+		wait 1000
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_addteamvoiceannounce 1 "allies_hq_compost_construct"
+
+		wm_teamvoiceannounce 0 "resurrection_axis_entrance1_destroyed"
+
+		wm_teamvoiceannounce 1 "resurrection_allies_entrance1_destroyed"
+
+		wm_removeteamvoiceannounce 0 "resurrection_axis_entrances_defend"
+		wm_removeteamvoiceannounce 0 "resurrection_axis_entrance1_defend"
+		wm_removeteamvoiceannounce 0 "resurrection_axis_bunker_stop"
+
+		wm_removeteamvoiceannounce 1 "resurrection_allies_entrances_destroy"
+		wm_removeteamvoiceannounce 1 "resurrection_allies_entrance1_destroy"
+		wm_removeteamvoiceannounce 1 "resurrection_allies_bunker_capture"
+		// *---------------------------------------------------------------------------------*
+
+
+	}
+
+//**Waterway door destroyed
+trigger waterwaydoor1_destroyed
+	{
+		// Change the objective state internally, so UI can update, etc.
+		// Allied takes control of objective #1
+		wm_objective_status 1 1 1
+		wm_objective_status 1 0 2
+
+		wm_set_main_objective		2	0
+		wm_set_main_objective		2	1
+
+		// Change the variable within the script so that we can check if someone wins the round
+//		accum 7 set 1
+
+		wm_announce	"Allies Breached the waterway entrance"
+
+		// *----------------------------------- vo ------------------------------------------*
+
+		wm_teamvoiceannounce 0 "resurrection_axis_entrance2_destroyed"
+
+		wm_teamvoiceannounce 1 "resurrection_allies_entrance2_destroyed"
+
+		wm_removeteamvoiceannounce 0 "resurrection_axis_entrances_defend"
+		wm_removeteamvoiceannounce 0 "resurrection_axis_entrance2_defend"
+
+		wm_removeteamvoiceannounce 1 "resurrection_allies_entrances_destroy"
+		wm_removeteamvoiceannounce 1 "resurrection_allies_entrance2_destroy"
+		// *---------------------------------------------------------------------------------*	
+		
+
+	}
+
+//**Catacomb Doors
+trigger catacombdoor1_destroyed
+	{
+		// Change the objective state internally, so UI can update, etc.
+		// Allied takes control of objective #1
+		wm_objective_status 2 1 1
+		wm_objective_status 2 0 2
+
+		wm_set_main_objective		3	0
+		wm_set_main_objective		3	1
+
+		// Change the variable within the script so that we can check if someone wins the round
+		//accum 1 set 1
+
+		// UI pop-up to alert players
+		wm_announce	"Allies Breached the catacomb tunnel entrance"
+		// *----------------------------------- vo ------------------------------------------*
+
+		wm_teamvoiceannounce 0 "resurrection_axis_tunnel_destroyed"
+
+		wm_teamvoiceannounce 1 "resurrection_allies_tunnel_destroyed"
+
+		// *---------------------------------------------------------------------------------*
+
+		// Call function to check if the round has been won
+	//	trigger game_manager allies_win
+	}
+}
+
+maingate1 //Main Gate breached.
+{
+	spawn
+	{
+		wait 50
+		constructible_class	3
+	}
+
+	death
+	{
+		trigger game_manager maingate1_destroyed
+	}
+}
+
+waterwaydoor1 //waterway breach.
+{
+	spawn
+	{
+		wait 50
+		constructible_class	3
+	}
+
+	death
+	{
+		trigger game_manager waterwaydoor1_destroyed
+	}
+}
+
+catacombdoor1 //catacomb breach.
+{
+	spawn
+	{
+		wait 50
+		constructible_class	3
+	}
+
+	death
+	{
+		trigger game_manager catacombdoor1_destroyed
+	}
+}
+
+room_flag
+{
+	spawn
+	{
+		accum 5 set 0	// Who has the flag: 0-Axis, 1-Allied
+	}
+	trigger axis_capture
+	{
+		accum 5 abort_if_equal 0 // do Axis own flag?
+		accum 5 set 0 // Axis own the pole
+
+		wm_announce	"Axis reclaims the Forward room!"
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_addteamvoiceannounce 0 "resurrection_axis_bunker_stop"
+
+		wm_addteamvoiceannounce 1 "resurrection_allies_bunker_capture"
+
+		wm_teamvoiceannounce 0 "resurrection_axis_bunker_reclaimed"
+
+		wm_teamvoiceannounce 1 "resurrection_allies_bunker_reclaimed"
+		// *---------------------------------------------------------------------------------*
+
+		wm_objective_status 		3 0 1
+		wm_objective_status 		3 1 2
+
+		alertentity flagspawn_wobj
+	}
+
+	trigger allied_capture
+	{
+		accum 5 abort_if_equal 1 // do Axis own flag?
+		accum 5 set 1 // Axis own the pole
+
+		wm_announce	"Allies capture the Forward room!"
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "resurrection_axis_bunker_captured"
+
+		wm_teamvoiceannounce 1 "resurrection_allies_bunker_captured"
+
+		wm_removeteamvoiceannounce 0 "resurrection_axis_bunker_stop"
+
+		wm_removeteamvoiceannounce 1 "resurrection_allies_bunker_capture"
+		// *---------------------------------------------------------------------------------*
+
+		wm_objective_status 		3 0 2
+		wm_objective_status 		3 1 1
+
+		alertentity flagspawn_wobj
+	}
+
+	trigger check_obj
+	{
+		accum 5 abort_if_equal 1 // Do Allied own the flag?
+
+		wm_objective_status 		3 0 2
+		wm_objective_status 		3 1 1
+
+	}
+
+	trigger force_allied
+	{
+		accum 5 abort_if_equal 1 // Do Allied own the flag?
+
+		alertentity flagspawn_wobj
+		alertentity forward_room
+	}
+
+	trigger kill
+	{
+		remove
+	}
+}
+
+axis_upstairs_wobj
+{
+	spawn
+	{
+		//accum 5 set 0	// Who has the flag: 0-Axis, 1-Allied
+	}
+
+	death
+	{
+	}
+}
+
+allied_outside_wobj
+{
+	spawn
+	{
+		//accum 5 set 0	// Who has the flag: 0-Axis, 1-Allied
+	}
+
+	death
+	{
+	}
+}
+
+thunderstuff
+{
+	spawn
+	{
+		accum 6 set 0 //randomiser to play different lightnings and thunders
+		trigger self random
+	}
+
+	trigger random
+	{
+		accum 0 random 5
+		accum 0 trigger_if_equal 0 thunderstuff thunder01
+		accum 0 trigger_if_equal 1 thunderstuff thunder02
+		accum 0 trigger_if_equal 2 thunderstuff thunder03
+		accum 0 trigger_if_equal 3 thunderstuff thunder04
+		accum 0 trigger_if_equal 4 thunderstuff thunder05
+		wait 25000
+		trigger self random
+	}
+
+	trigger thunder01
+	{
+		alertentity lightning01
+		togglespeaker thunderspeaker01
+	}
+
+	trigger thunder02
+	{
+		alertentity lightning02
+		togglespeaker thunderspeaker02
+	}
+
+	trigger thunder03
+	{
+		alertentity lightning03
+		togglespeaker thunderspeaker03
+	}
+
+	trigger thunder04
+	{
+		alertentity lightning04
+		togglespeaker thunderspeaker04
+	}
+
+	trigger thunder05
+	{
+		alertentity lightning05
+		togglespeaker thunderspeaker05
+	}
+}
+
+
+
+
+//********************************************
+//***************** BOAT  ********************
+//********************************************
+
+
+train2
+{
+	spawn
+	{
+		accum 0 set 0 // is book stolen?
+		accum 2 set 0 // is enabled?
+		accum 3 set 0 // stage
+		accum 4 set 0 // is moving?
+
+		playsound sound/world/dripping_02.wav looping
+	//	faceangles 0 270 0 50
+	}
+
+	trigger run_stage1
+	{
+	//	faceangles 0 90 0 50
+		accum 0 abort_if_equal 0
+		accum 2 abort_if_equal 0
+
+		accum 4 set 1
+		trigger train2_trigger run_stage1
+	//	trigger train2_back run_stage1
+		trigger pentagram run_stage1
+		followspline globalaccum 1 spn0 75 wait length -224
+
+		trigger train2 update_counter_axis
+		trigger train2 update_counter_allies
+		accum 4 set 0
+
+		trigger train2 dispatch_allies
+		trigger train2 dispatch_axis
+	}
+
+	trigger run_stage2
+	{
+		accum 2 abort_if_equal 0
+
+		accum 4 set 1
+		trigger train2_trigger run_stage2
+	//	trigger train2_back run_stage2
+		trigger pentagram run_stage2
+		followspline globalaccum 1 spn1 75 wait length -224
+
+		trigger train2 update_counter_axis
+		trigger train2 update_counter_allies
+		accum 4 set 0
+
+		trigger train2 dispatch_allies
+		trigger train2 dispatch_axis
+	}
+
+	trigger run_stage3
+	{
+		accum 0 abort_if_equal 0
+		accum 2 abort_if_equal 0
+
+		accum 4 set 1
+		trigger train2_trigger run_stage3
+	//	trigger train2_back run_stage3
+		trigger pentagram run_stage3
+		followspline globalaccum 1 spn2 75 wait length -224
+
+		trigger train2 update_counter_axis
+		trigger train2 update_counter_allies
+		accum 4 set 0
+
+		trigger train2 dispatch_allies
+		trigger train2 dispatch_axis
+	}
+
+	trigger run_stage4
+	{
+		accum 2 abort_if_equal 0
+
+		accum 4 set 1
+		trigger train2_trigger run_stage4
+	//	trigger train2_back run_stage4
+		trigger pentagram run_stage4
+		followspline globalaccum 1 spn3 75 wait length -224
+
+		trigger train2 update_counter_axis
+		trigger train2 update_counter_allies
+		accum 4 set 0
+
+		trigger train2 dispatch_allies
+		trigger train2 dispatch_axis
+	}
+
+	trigger run_stage5
+	{
+		accum 0 abort_if_equal 0
+		accum 2 abort_if_equal 0
+
+		accum 4 set 1
+		trigger train2_trigger run_stage5
+	//	trigger train2_back run_stage5
+		trigger pentagram run_stage5
+		followspline globalaccum 1 spn4 75 wait length -224
+
+		trigger train2 update_counter_axis
+		trigger train2 update_counter_allies
+		accum 4 set 0
+
+		trigger train2 dispatch_allies
+		trigger train2 dispatch_axis
+	}
+
+	trigger run_stage6
+	{
+		accum 2 abort_if_equal 0
+
+		accum 4 set 1
+		trigger train2_trigger run_stage6
+	//	trigger train2_back run_stage6
+		trigger pentagram run_stage6
+		followspline globalaccum 1 spn5 75 wait length -224
+
+		trigger train2 update_counter_axis
+		trigger train2 update_counter_allies
+		accum 4 set 0
+
+		trigger train2 dispatch_allies
+		trigger train2 dispatch_axis
+	}
+
+	trigger run_stage7
+	{
+		accum 0 abort_if_equal 0
+		accum 2 abort_if_equal 0
+
+		accum 4 set 1
+		trigger train2_trigger run_stage7
+	//	trigger train2_back run_stage7
+		trigger pentagram run_stage7
+		followspline globalaccum 1 spn6 75 wait length -224
+
+		trigger train2 update_counter_axis
+		trigger train2 update_counter_allies
+		accum 4 set 0
+
+		trigger train2 dispatch_allies
+		trigger train2 dispatch_axis
+	}
+
+	trigger run_stage8
+	{
+		accum 2 abort_if_equal 0
+
+		accum 4 set 1
+		trigger train2_trigger run_stage8
+	//	trigger train2_back run_stage8
+		trigger pentagram run_stage8
+		followspline globalaccum 1 spn7 75 wait length -224
+
+		trigger train2 update_counter_axis
+		trigger train2 update_counter_allies
+		accum 4 set 0
+
+		trigger train2 dispatch_allies
+		trigger train2 dispatch_axis
+	}
+
+	trigger run_stage9
+	{
+		accum 0 abort_if_equal 0
+		accum 2 abort_if_equal 0
+
+		accum 4 set 1
+		trigger train2_trigger run_stage9
+	//	trigger train2_back run_stage9
+		trigger pentagram run_stage9
+		followspline globalaccum 1 spn8 75 wait length -224
+
+		trigger train2 update_counter_axis
+		trigger train2 update_counter_allies
+		accum 4 set 0
+
+		trigger train2 dispatch_allies
+		trigger train2 dispatch_axis
+	}
+
+	trigger run_stage10
+	{
+		accum 2 abort_if_equal 0
+
+		accum 4 set 1
+		trigger train2_trigger run_stage10
+	//	trigger train2_back run_stage10
+		trigger pentagram run_stage10
+		followspline globalaccum 1 spn9 75 wait length -224
+
+		trigger train2 update_counter_axis
+		trigger train2 update_counter_allies
+		accum 4 set 0
+
+		trigger train2 dispatch_allies
+		trigger train2 dispatch_axis
+	}
+
+	trigger run_stage11
+	{
+		accum 0 abort_if_equal 0
+		accum 2 abort_if_equal 0
+
+		accum 4 set 1
+		trigger train2_trigger run_stage11
+	//	trigger train2_back run_stage11
+		trigger pentagram run_stage11
+		followspline globalaccum 1 spn10 75 wait length -224
+
+		trigger train2 update_counter_axis
+		trigger train2 update_counter_allies
+		accum 4 set 0
+
+		trigger train2 dispatch_allies
+		trigger train2 dispatch_axis
+	}
+
+	trigger run_stage12
+	{
+		accum 2 abort_if_equal 0
+
+		accum 4 set 1
+		trigger train2_trigger run_stage12
+	//	trigger train2_back run_stage12
+		trigger pentagram run_stage12
+		followspline globalaccum 1 spn11 75 wait length -224
+
+		trigger train2 update_counter_axis
+		trigger train2 update_counter_allies
+		accum 4 set 0
+
+		trigger train2 dispatch_allies
+		trigger train2 dispatch_axis
+	}
+
+	trigger run_stage13
+	{
+		accum 0 abort_if_equal 0
+		accum 2 abort_if_equal 0
+
+		accum 4 set 1
+		trigger train2_trigger run_stage13
+	//	trigger train2_back run_stage13
+		trigger pentagram run_stage13
+		followspline globalaccum 1 spn12 75 wait length -224
+
+		trigger train2 update_counter_axis
+		trigger train2 update_counter_allies
+		accum 4 set 0
+
+		trigger train2 dispatch_allies
+		trigger train2 dispatch_axis
+	}
+
+	trigger run_stage14
+	{
+		accum 2 abort_if_equal 0
+
+		accum 4 set 1
+		trigger train2_trigger run_stage14
+	//	trigger train2_back run_stage14
+		trigger pentagram run_stage14
+		followspline globalaccum 1 spn13 75 wait length -224
+
+		trigger train2 update_counter_axis
+		trigger train2 update_counter_allies
+		accum 4 set 0
+
+		trigger train2 dispatch_allies
+		trigger train2 dispatch_axis
+	}
+
+	trigger run_stage15
+	{
+		accum 0 abort_if_equal 0
+		accum 2 abort_if_equal 0
+
+		accum 4 set 1
+		trigger train2_trigger run_stage15
+	//	trigger train2_back run_stage15
+		trigger pentagram run_stage15
+		followspline globalaccum 1 spn14 75 wait length -224
+
+		trigger train2 update_counter_axis
+		trigger train2 update_counter_allies
+		accum 4 set 0
+
+		trigger train2 dispatch_allies
+		trigger train2 dispatch_axis
+	}
+
+	trigger run_stage16
+	{
+		accum 2 abort_if_equal 0
+
+		accum 4 set 1
+		trigger train2_trigger run_stage16
+	//	trigger train2_back run_stage16
+		trigger pentagram run_stage16
+		followspline globalaccum 1 spn15 75 wait length -224
+
+		trigger train2 update_counter_axis
+		trigger train2 update_counter_allies
+		accum 4 set 0
+
+		trigger train2 dispatch_allies
+		trigger train2 dispatch_axis
+	}
+
+	trigger run_stage17
+	{
+		accum 0 abort_if_equal 0
+		accum 2 abort_if_equal 0
+
+		accum 4 set 1
+		trigger train2_trigger run_stage17
+	//	trigger train2_back run_stage17
+		trigger pentagram run_stage17
+		followspline globalaccum 1 spn16 75 wait length -224
+
+		trigger train2 update_counter_axis
+		trigger train2 update_counter_allies
+		accum 4 set 0
+
+		trigger train2 dispatch_allies
+		trigger train2 dispatch_axis
+	}
+
+	trigger run_stage18
+	{
+		accum 2 abort_if_equal 0
+
+		accum 4 set 1
+		trigger train2_trigger run_stage18
+	//	trigger train2_back run_stage18
+		trigger pentagram run_stage18
+		followspline globalaccum 1 spn17 75 wait length -224
+
+		trigger train2 update_counter_axis
+		trigger train2 update_counter_allies
+		accum 4 set 0
+
+		trigger train2 dispatch_allies
+		trigger train2 dispatch_axis
+	}
+
+	trigger run_stage19
+	{
+		accum 0 abort_if_equal 0
+		accum 2 abort_if_equal 0
+
+		accum 4 set 1
+		trigger train2_trigger run_stage19
+	//	trigger train2_back run_stage19
+		trigger pentagram run_stage19
+		followspline globalaccum 1 spn18 75 wait length -224
+
+		trigger train2 update_counter_axis
+		trigger train2 update_counter_allies
+		accum 4 set 0
+
+		trigger train2 dispatch_allies
+		trigger train2 dispatch_axis
+	}
+
+	trigger run_stage20
+	{
+		accum 2 abort_if_equal 0
+
+		accum 4 set 1
+		trigger train2_trigger run_stage20
+	//	trigger train2_back run_stage20
+		trigger pentagram run_stage20
+		followspline globalaccum 1 spn19 75 wait length -224
+
+		trigger train2 update_counter_axis
+		trigger train2 update_counter_allies
+		accum 4 set 0
+
+		trigger train2 dispatch_allies
+		trigger train2 dispatch_axis
+	}
+
+	trigger run_stage21
+	{
+		accum 0 abort_if_equal 0
+		accum 2 abort_if_equal 0
+
+		accum 4 set 1
+		trigger train2_trigger run_stage21
+	//	trigger train2_back run_stage21
+		trigger pentagram run_stage21
+		followspline globalaccum 1 spn20 75 wait length -224
+
+		trigger train2 update_counter_axis
+		trigger train2 update_counter_allies
+		accum 4 set 0
+
+		trigger train2 dispatch_allies
+		trigger train2 dispatch_axis
+	}
+
+	trigger run_stage22
+	{
+		accum 2 abort_if_equal 0
+
+		accum 4 set 1
+		trigger train2_trigger run_stage22
+	//	trigger train2_back run_stage22
+		trigger pentagram run_stage22
+		followspline globalaccum 1 spn21 75 wait length -224
+
+		trigger train2 update_counter_axis
+		trigger train2 update_counter_allies
+		accum 4 set 0
+
+		trigger train2 dispatch_allies
+		trigger train2 dispatch_axis
+	}
+
+	trigger run_stage23
+	{
+		accum 0 abort_if_equal 0
+		accum 2 abort_if_equal 0
+
+		accum 4 set 1
+		trigger train2_trigger run_stage23
+	//	trigger train2_back run_stage23
+		trigger pentagram run_stage23
+		followspline globalaccum 1 spn22 75 wait length -224
+
+		trigger train2 update_counter_axis
+		trigger train2 update_counter_allies
+		accum 4 set 0
+
+		trigger train2 dispatch_allies
+		trigger train2 dispatch_axis
+	}
+
+	trigger run_stage24
+	{
+		
+		accum 2 abort_if_equal 0
+
+		accum 4 set 1
+		trigger train2_trigger run_stage24
+	//	trigger train2_back run_stage24
+		trigger pentagram run_stage24
+		followspline globalaccum 1 spn23 75 wait length -224
+
+		trigger game_manager allies_win
+
+		trigger train2 update_counter_axis
+		trigger train2 update_counter_allies
+		accum 4 set 0
+
+		trigger train2 dispatch_allies
+		trigger train2 dispatch_axis
+
+		
+	}
+	
+	trigger run_stage25
+	{
+		
+	//	accum 0 abort_if_equal 0
+		accum 2 abort_if_equal 0
+
+		accum 4 set 1
+		trigger train2_trigger run_stage25
+	//	trigger train2_back run_stage25
+		trigger pentagram run_stage25
+		followspline globalaccum 1 spn24 75 wait length -224
+		
+
+	//	trigger train2 update_counter_axis
+	//	trigger train2 update_counter_allies
+		accum 4 set 0
+
+		
+	}
+
+	trigger train_enable_axis
+	{
+		accum 4 abort_if_equal 1
+
+		accum 2 set 2
+		accum 1 set 0
+
+		trigger train2 dispatch_axis
+	}
+
+	trigger train_enable_allies
+	{
+		accum 4 abort_if_equal 1
+
+		accum 2 set 1
+		accum 1 set 0
+
+		trigger train2 dispatch_allies
+	}
+
+	trigger dispatch_allies
+	{
+		accum 2 abort_if_not_equal 1
+		accum 1 abort_if_not_equal 0
+
+		globalaccum 1 set 0
+
+		accum 3 trigger_if_equal 0 train2 run_Stage1
+		accum 3 trigger_if_equal 1 train2 run_Stage2
+		accum 3 trigger_if_equal 2 train2 run_Stage3
+		accum 3 trigger_if_equal 3 train2 run_Stage4
+		accum 3 trigger_if_equal 4 train2 run_Stage5
+		accum 3 trigger_if_equal 5 train2 run_Stage6
+		accum 3 trigger_if_equal 6 train2 run_Stage7
+		accum 3 trigger_if_equal 7 train2 run_Stage8
+		accum 3 trigger_if_equal 8 train2 run_Stage9
+		accum 3 trigger_if_equal 9 train2 run_Stage10
+		accum 3 trigger_if_equal 10 train2 run_Stage11
+		accum 3 trigger_if_equal 11 train2 run_Stage12
+		accum 3 trigger_if_equal 12 train2 run_Stage13
+		accum 3 trigger_if_equal 13 train2 run_Stage14
+		accum 3 trigger_if_equal 14 train2 run_Stage15
+		accum 3 trigger_if_equal 15 train2 run_Stage16
+		accum 3 trigger_if_equal 16 train2 run_Stage17
+		accum 3 trigger_if_equal 17 train2 run_Stage18
+		accum 3 trigger_if_equal 18 train2 run_Stage19
+		accum 3 trigger_if_equal 19 train2 run_Stage20
+		accum 3 trigger_if_equal 20 train2 run_Stage21
+		accum 3 trigger_if_equal 21 train2 run_Stage22
+		accum 3 trigger_if_equal 22 train2 run_Stage23
+		accum 3 trigger_if_equal 23 train2 run_Stage24
+//		accum 3 trigger_if_equal 24 train2 run_Stage25
+	}
+
+	trigger dispatch_axis
+	{
+		accum 2 abort_if_not_equal 2
+		accum 1 abort_if_not_equal 0
+
+		globalaccum 1 set 1
+
+		accum 3 trigger_if_equal 1 train2 run_Stage1
+		accum 3 trigger_if_equal 2 train2 run_Stage2
+		accum 3 trigger_if_equal 3 train2 run_Stage3
+		accum 3 trigger_if_equal 4 train2 run_Stage4
+		accum 3 trigger_if_equal 5 train2 run_Stage5
+		accum 3 trigger_if_equal 6 train2 run_Stage6
+		accum 3 trigger_if_equal 7 train2 run_Stage7
+		accum 3 trigger_if_equal 8 train2 run_Stage8
+		accum 3 trigger_if_equal 9 train2 run_Stage9
+		accum 3 trigger_if_equal 10 train2 run_Stage10
+		accum 3 trigger_if_equal 11 train2 run_Stage11
+		accum 3 trigger_if_equal 12 train2 run_Stage12
+		accum 3 trigger_if_equal 13 train2 run_Stage13
+		accum 3 trigger_if_equal 14 train2 run_Stage14
+		accum 3 trigger_if_equal 15 train2 run_Stage15
+		accum 3 trigger_if_equal 16 train2 run_Stage16
+		accum 3 trigger_if_equal 17 train2 run_Stage17
+		accum 3 trigger_if_equal 18 train2 run_Stage18
+		accum 3 trigger_if_equal 19 train2 run_Stage19
+		accum 3 trigger_if_equal 20 train2 run_Stage20
+		accum 3 trigger_if_equal 21 train2 run_Stage21
+		accum 3 trigger_if_equal 22 train2 run_Stage22
+		accum 3 trigger_if_equal 23 train2 run_Stage23
+//		accum 3 trigger_if_equal 24 train2 run_Stage24
+//		accum 3 trigger_if_equal 25 train2 run_Stage25
+	}
+
+	trigger train_disable
+	{
+		accum 1 set 1
+
+		accum 4 trigger_if_equal 0 train2 sound_idle
+	}
+
+	trigger sound_move
+	{
+		accum 4 abort_if_equal 0
+		stopsound
+		playsound sound/world/water_03.wav looping
+	}
+
+	trigger sound_idle
+	{
+		stopsound
+		playsound sound/world/dripping_02.wav looping
+	}
+
+
+	trigger add_book
+	{
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "axis_hq_objective_captured"
+
+		wm_teamvoiceannounce 1 "allies_hq_objective_captured"
+		// *---------------------------------------------------------------------------------*
+		accum 0 set 1
+
+		trigger book_full_0 show
+		trigger stolen_book secured
+
+		trigger room_flag force_allied // Switch forward spawn to Allied ONLY
+
+		trigger room_flag check_obj
+
+		trigger room_flag kill
+	//	trigger axis_upstairs_wobj death
+	//	trigger allied_outside_wobj death
+
+		setstate allied_outside_wobj invisible
+	//	setstate axis_radio_closed invisible
+
+	//	setautospawn "Boathouse"	-1
+	//	setautospawn "Axis Hellspawn"	-1
+
+	//	alertentity boathousespawn
+	//	alertentity axis_upstairsspawn
+
+	//	 alertentity allied_outside_wobj 
+	//	 alertentity axis_upstairs_wobj 
+	//	alertentity allied_outside_wobj 
+	//	 alertentity axis_upstairs_wobj
+
+		alertentity allied_outside2_wobj
+		alertentity cavespawn
+		setautospawn "Cave"	0
+		setautospawn "Boathouse"	1
+		wm_announce "Allied team is escaping with the Book!"
+
+		
+		//accum 0 abort_if_less_than 2
+//	trigger train2_controller
+
+		wm_objective_status 4 0 2
+		wm_objective_status 4 1 1
+
+		wm_set_main_objective 5 0
+		wm_set_main_objective 5 1
+
+		setstate resbook_toi invisible
+		setstate resbook_cm_marker invisible
+	}
+
+
+	trigger update_counter_axis
+	{
+		accum 2 abort_if_not_equal 2
+		accum 3 inc -1
+	}
+
+	trigger update_counter_allies
+	{
+		accum 2 abort_if_not_equal 1
+		accum 3 inc 1
+	}
+
+}
+
+train2_controller
+{
+	trigger allied_request
+	{
+		accum 0 inc 1
+	accum 1 set 0
+		accum 2 set 0
+		
+		accum 0 abort_if_less_than 3
+
+		trigger train2 train_enable_allies
+		trigger train2 sound_move
+	}
+
+	trigger axis_request
+	{
+		accum 1 inc 1
+		accum 0 set 0
+		accum 2 set 0
+
+		accum 1 abort_if_less_than 3		
+		trigger train2 train_enable_axis
+		trigger train2 sound_move
+	}
+
+	trigger timer
+	{
+		accum 2 inc 1
+		accum 2 abort_if_less_than 3
+
+		accum 1 set 0
+		accum 0 set 0
+
+		trigger train2 train_disable
+	}
+}
+
+train2_sound
+{
+}
+
+pentagram
+{
+	spawn
+	{
+	}
+
+	trigger run_stage1
+	{
+		followspline globalaccum 1 spn0 75 wait length -224
+	}
+
+	trigger run_stage2
+	{
+		followspline globalaccum 1 spn1 75 wait length -224
+	}
+
+	trigger run_stage3
+	{
+		followspline globalaccum 1 spn2 75 wait length -224
+	}
+
+	trigger run_stage4
+	{
+		followspline globalaccum 1 spn3 75 wait length -224
+	}
+
+	trigger run_stage5
+	{
+		followspline globalaccum 1 spn4 75 wait length -224
+	}
+
+	trigger run_stage6
+	{
+		followspline globalaccum 1 spn5 75 wait length -224
+	}
+
+	trigger run_stage7
+	{
+		followspline globalaccum 1 spn6 75 wait length -224
+	}
+
+	trigger run_stage8
+	{
+		followspline globalaccum 1 spn7 75 wait length -224
+	}
+
+	trigger run_stage9
+	{
+		followspline globalaccum 1 spn8 75 wait length -224
+	}
+
+	trigger run_stage10
+	{
+		followspline globalaccum 1 spn9 75 wait length -224
+	}
+
+	trigger run_stage11
+	{
+		followspline globalaccum 1 spn10 75 wait length -224
+	}
+
+	trigger run_stage12
+	{
+		followspline globalaccum 1 spn11 75 wait length -224
+	}
+
+	trigger run_stage13
+	{
+		followspline globalaccum 1 spn12 75 wait length -224
+	}
+
+	trigger run_stage14
+	{
+		followspline globalaccum 1 spn13 75 wait length -224
+	}
+
+	trigger run_stage15
+	{
+		followspline globalaccum 1 spn14 75 wait length -224
+	}
+
+	trigger run_stage16
+	{
+		followspline globalaccum 1 spn15 75 wait length -224
+	}
+
+	trigger run_stage17
+	{
+		followspline globalaccum 1 spn16 75 wait length -224
+	}
+
+	trigger run_stage18
+	{
+		followspline globalaccum 1 spn17 75 wait length -224
+	}
+
+	trigger run_stage19
+	{
+		followspline globalaccum 1 spn18 75 wait length -224
+	}
+
+	trigger run_stage20
+	{
+		followspline globalaccum 1 spn19 75 wait length -224
+	}
+	
+	trigger run_stage21
+	{
+		followspline globalaccum 1 spn20 75 wait length -224
+	}
+
+	trigger run_stage22
+	{
+		followspline globalaccum 1 spn21 75 wait length -224
+	}
+
+	trigger run_stage23
+	{
+		followspline globalaccum 1 spn22 75 wait length -224
+	}
+
+	trigger run_stage24
+	{
+		followspline globalaccum 1 spn23 75 wait length -224
+	}
+	
+	trigger run_stage25
+	{
+		followspline globalaccum 1 spn24 75 wait length -224
+	}
+}
+
+train2_trigger
+{
+	spawn
+	{
+	}
+
+	trigger run_stage1
+	{
+		followspline globalaccum 1 spn0 75 wait length -224
+	}
+
+	trigger run_stage2
+	{
+		followspline globalaccum 1 spn1 75 wait length -224
+	}
+
+	trigger run_stage3
+	{
+		followspline globalaccum 1 spn2 75 wait length -224
+	}
+
+	trigger run_stage4
+	{
+		followspline globalaccum 1 spn3 75 wait length -224
+	}
+
+	trigger run_stage5
+	{
+		followspline globalaccum 1 spn4 75 wait length -224
+	}
+
+	trigger run_stage6
+	{
+		followspline globalaccum 1 spn5 75 wait length -224
+	}
+
+	trigger run_stage7
+	{
+		followspline globalaccum 1 spn6 75 wait length -224
+	}
+
+	trigger run_stage8
+	{
+		followspline globalaccum 1 spn7 75 wait length -224
+	}
+
+	trigger run_stage9
+	{
+		followspline globalaccum 1 spn8 75 wait length -224
+	}
+
+	trigger run_stage10
+	{
+		followspline globalaccum 1 spn9 75 wait length -224
+	}
+
+	trigger run_stage11
+	{
+		followspline globalaccum 1 spn10 75 wait length -224
+	}
+
+	trigger run_stage12
+	{
+		followspline globalaccum 1 spn11 75 wait length -224
+	}
+
+	trigger run_stage13
+	{
+		followspline globalaccum 1 spn12 75 wait length -224
+	}
+
+	trigger run_stage14
+	{
+		followspline globalaccum 1 spn13 75 wait length -224
+	}
+
+	trigger run_stage15
+	{
+		followspline globalaccum 1 spn14 75 wait length -224
+	}
+
+	trigger run_stage16
+	{
+		followspline globalaccum 1 spn15 75 wait length -224
+	}
+
+	trigger run_stage17
+	{
+		followspline globalaccum 1 spn16 75 wait length -224
+	}
+
+	trigger run_stage18
+	{
+		followspline globalaccum 1 spn17 75 wait length -224
+	}
+
+	trigger run_stage19
+	{
+		followspline globalaccum 1 spn18 75 wait length -224
+	}
+
+	trigger run_stage20
+	{
+		followspline globalaccum 1 spn19 75 wait length -224
+	}
+	
+	trigger run_stage21
+	{
+		followspline globalaccum 1 spn20 75 wait length -224
+	}
+
+	trigger run_stage22
+	{
+		followspline globalaccum 1 spn21 75 wait length -224
+	}
+
+	trigger run_stage23
+	{
+		followspline globalaccum 1 spn22 75 wait length -224
+	}
+
+	trigger run_stage24
+	{
+		followspline globalaccum 1 spn23 75 wait length -224
+	}
+	
+	trigger run_stage25
+	{
+		followspline globalaccum 1 spn24 75 wait length -224
+	}
+}
+
+
+train2_enabler_allies
+{
+	trigger run
+	{
+		trigger train2_controller allied_request
+	}
+}
+
+train2_enabler_axis
+{
+	trigger run
+	{
+		trigger train2_controller axis_request
+	}
+}
+
+train2_disabler
+{
+	trigger run
+	{
+		trigger train2 train_disable
+	}
+}
+
+
+
+
+// *********************************************
+// **************** CONSTRUCTIBLES *************
+// *********************************************
+
+bbridge
+{
+	spawn
+	{
+		wait 400
+		trigger bbridge setup
+
+		constructible_class 2
+	}
+
+	trigger setup
+	{
+	//	setstate bbridge_materials default
+		setstate bbridge_materials_clip default
+		setstate bbridge_flag default
+
+
+		setstate bbridge_bridge invisible
+		setstate bbridge_creak invisible
+		setstate basement_door default
+	}
+
+	buildstart final
+	{
+	//	setstate bbridge_materials default
+		setstate bbridge_materials_clip default
+		setstate bbridge_flag default
+
+
+		setstate bbridge_bridge underconstruction
+		setstate bbridge_creak underconstruction
+		setstate basement_door underconstruction
+	}
+
+	built final
+	{
+	//	setstate bbridge_materials invisible
+		setstate bbridge_materials_clip invisible
+		setstate bbridge_flag invisible
+
+
+		setstate bbridge_bridge default
+		setstate bbridge_creak default
+		setstate basement_door invisible
+
+	//	trigger train2 disable_stage2
+
+		wm_announce "Basement Bridge has been constructed."
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 1 "resurrection_allies_bridge_constructed"
+		
+		wm_teamvoiceannounce 0 "resurrection_axis_bridge_destroy"
+		// *---------------------------------------------------------------------------------*
+	}
+
+	decayed final
+	{
+	//	setstate bbridge_materials default
+		setstate bbridge_materials_clip default
+		setstate bbridge_flag default
+
+
+		setstate bbridge_bridge invisible
+		setstate bbridge_creak invisible
+		setstate basement_door default
+	}
+
+	death
+	{
+	//	setstate bbridge_materials default
+		setstate bbridge_materials_clip default
+		setstate bbridge_flag default
+
+
+		setstate bbridge_bridge invisible
+		setstate bbridge_creak invisible
+		setstate basement_door default
+
+		//trigger train2 enable_stage2
+
+		wm_announce "Basement Bridge has been destroyed."
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "resurrection_axis_bridge_destroyed"
+		wm_teamvoiceannounce 0 "resurrection_axis_bridge_stop"
+
+		wm_teamvoiceannounce 1 "resurrection_allies_bridge_destroyed"
+		wm_teamvoiceannounce 1 "resurrection_allies_bridge_construct"
+		// *---------------------------------------------------------------------------------*
+	}
+
+	trigger remove
+	{
+		setstate bbridge_toi invisible
+	//	setstate bbridge_materials invisible
+		setstate bbridge_materials_clip invisible
+		setstate bbridge_flag invisible
+		setstate bbridge invisible
+		
+
+		// *----------------------------------- vo ------------------------------------------*
+	//	wm_removeteamvoiceannounce 0 "goldrush_axis_truckbar_construct"
+	//	wm_removeteamvoiceannounce 0 "goldrush_axis_truckbars_construct"
+
+	//	wm_removeteamvoiceannounce 1 "goldrush_allies_truckbar_destroy"
+	//	wm_removeteamvoiceannounce 1 "goldrush_allies_truckbars_destroy"
+		// *---------------------------------------------------------------------------------*
+	}
+}
+
+dock
+{
+	spawn
+	{
+		wait 400
+		trigger dock setup
+
+		constructible_class 2
+	}
+
+	trigger setup
+	{
+	//	setstate bbridge_materials default
+		setstate dock_materials_clip default
+		setstate dock_flag default
+
+
+		setstate dock invisible
+		setstate dock_main invisible
+		setstate dock_ladder invisible
+	}
+
+	buildstart final
+	{
+	//	setstate bbridge_materials default
+		setstate dock_materials_clip default
+		setstate dock_flag default
+
+
+		setstate dock underconstruction
+		setstate dock_main underconstruction
+		setstate dock_ladder underconstruction
+	}
+
+	built final
+	{
+	//	setstate bbridge_materials invisible
+		setstate dock_materials_clip invisible
+		setstate dock_flag invisible
+
+
+		setstate dock default
+		setstate dock_main default
+		setstate dock_ladder default
+
+	//	trigger train2 disable_stage2
+
+		wm_announce "Dock to waterway door has been constructed."
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 1 "allies_hq_const_completed"
+		// *---------------------------------------------------------------------------------*
+	}
+
+	decayed final
+	{
+	//	setstate bbridge_materials default
+		setstate dock_materials_clip default
+		setstate dock_flag default
+
+
+		setstate dock invisible
+		setstate dock_main invisible
+		setstate dock_ladder invisible
+	}
+
+	death
+	{
+	//	setstate bbridge_materials default
+		setstate dock_materials_clip default
+		setstate dock_flag default
+
+
+		setstate dock_bridge invisible
+		setstate dock_main invisible
+		setstate dock_ladder invisible
+
+	//	trigger train2 enable_stage2
+
+		wm_announce "Dock to waterway door has been destroyed."
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "axis_hq_const_destroyed"
+
+		wm_teamvoiceannounce 1 "allies_hq_const_destroyed"
+		// *---------------------------------------------------------------------------------*
+	}
+
+	trigger remove
+	{
+		setstate dock_toi invisible
+	//	setstate dock_materials invisible
+		setstate dock_materials_clip invisible
+		setstate dock_flag invisible
+		setstate dock invisible
+
+		// *----------------------------------- vo ------------------------------------------*
+	//	wm_removeteamvoiceannounce 0 "goldrush_axis_truckbar_construct"
+	//	wm_removeteamvoiceannounce 0 "goldrush_axis_truckbars_construct"
+
+	//	wm_removeteamvoiceannounce 1 "goldrush_allies_truckbar_destroy"
+	//	wm_removeteamvoiceannounce 1 "goldrush_allies_truckbars_destroy"
+		// *---------------------------------------------------------------------------------*
+	}
+}
+
+bgate
+{
+	spawn
+	{
+		wait 400
+		trigger bgate setup
+
+		constructible_class 2
+	}
+
+	trigger setup
+	{
+	//	setstate bbridge_materials default
+		setstate bgate_materials_clip default
+		setstate bgate_flag default
+
+
+		setstate bgate invisible
+	//	setstate bgate_main invisible
+	//	setstate bgate_ladder invisible
+	}
+
+	buildstart final
+	{
+	//	setstate bbridge_materials default
+		setstate bgate_materials_clip default
+		setstate bgate_flag default
+
+
+		setstate bgate underconstruction
+	//	setstate dock_main underconstruction
+	//	setstate dock_ladder underconstruction
+	}
+
+	built final
+	{
+	//	setstate bbridge_materials invisible
+		setstate bgate_materials_clip invisible
+		setstate bgate_flag invisible
+
+
+		setstate bgate default
+	//	setstate dock_main default
+	//	setstate dock_ladder default
+
+	//	trigger train2 disable_stage2
+
+		wm_announce "Gate to Crypt has been constructed."
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 1 "allies_hq_const_completed"
+		// *---------------------------------------------------------------------------------*
+	}
+
+	decayed final
+	{
+	//	setstate bbridge_materials default
+		setstate bgate_materials_clip default
+		setstate bgate_flag default
+
+
+		setstate bgate invisible
+	//	setstate dock_main invisible
+	//	setstate dock_ladder invisible
+	}
+
+	death
+	{
+	//	setstate bbridge_materials default
+		setstate bgate_materials_clip default
+		setstate bgate_flag default
+
+
+		setstate bgate invisible
+	//	setstate dock_main invisible
+	//	setstate dock_ladder invisible
+
+	//	trigger train2 enable_stage2
+
+		wm_announce "Gate to Crypt has been destroyed."
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "axis_hq_const_destroyed"
+
+		wm_teamvoiceannounce 1 "allies_hq_const_destroyed"
+		// *---------------------------------------------------------------------------------*
+	}
+
+	trigger remove
+	{
+		setstate bgate_toi invisible
+	//	setstate dock_materials invisible
+		setstate bgate_materials_clip invisible
+		setstate bgate_flag invisible
+		setstate bgate invisible
+
+		// *----------------------------------- vo ------------------------------------------*
+	//	wm_removeteamvoiceannounce 0 "goldrush_axis_truckbar_construct"
+	//	wm_removeteamvoiceannounce 0 "goldrush_axis_truckbars_construct"
+
+	//	wm_removeteamvoiceannounce 1 "goldrush_allies_truckbar_destroy"
+	//	wm_removeteamvoiceannounce 1 "goldrush_allies_truckbars_destroy"
+		// *---------------------------------------------------------------------------------*
+	}
+}
+// *********************************************
+// ****************** FLAG STUFF ***************
+// *********************************************
+
+book_holder
+{
+	death
+	{
+		
+		trigger train2 add_book	
+	}
+}
+
+// *********************************************
+// ****************** book STUFF ***************
+// *********************************************
+
+stolen_book
+{
+	spawn
+	{
+	//	accum 0 set 1 // gold counter
+	}
+
+	trigger stolen
+	{
+	// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "axis_hq_objective_taken"
+
+		wm_teamvoiceannounce 1 "allies_hq_objective_taken"
+	// *----------------------------------- vo ------------------------------------------*
+	}
+
+	trigger secured
+	{
+	// *----------------------------------- vo ------------------------------------------*
+	//	wm_teamvoiceannounce 0 "axis_hq_objective_captured"
+
+	//	wm_teamvoiceannounce 1 "allies_hq_objective_captured"
+	// *---------------------------------------------------------------------------------*
+	}
+
+	trigger returned
+	{
+	/ *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "axis_hq_objective_secure"
+
+		wm_teamvoiceannounce 1 "allies_hq_objective_lost"
+	// *----------------------------------- vo ------------------------------------------*
+	}
+}
+
+book_full_0
+{
+	spawn
+	{
+		wait 50
+		attachtotag pentagram tag_pentagram
+		faceangles 0 180 0 50
+
+		setstate book_full_0 invisible
+	}
+
+	trigger show
+	{
+		setstate book_full_0 default
+	}
+}
+
+
+// ================================================
+// ============ ALLIED COMMAND POST ==============
+// ================================================
+
+allied_compost_built
+{
+	spawn
+	{
+		wait 400
+		trigger allied_compost_built setup
+
+		constructible_class 2
+	}
+
+	trigger setup
+	{
+		setchargetimefactor 1 soldier 1
+		setchargetimefactor 1 lieutenant 1
+		setchargetimefactor 1 medic 1
+		setchargetimefactor 1 engineer 1
+		setchargetimefactor 1 covertops 1
+		sethqstatus 1 0
+	}
+
+	buildstart final
+	{
+		setstate allied_compost_built_model underconstruction
+		setstate allied_compost_closed_clip invisible
+		setstate allied_compost_closed_model invisible
+	}
+
+	built final
+	{
+		setstate allied_compost_built_model default
+		setstate allied_compost_closed_clip invisible
+		setstate allied_compost_closed_model invisible
+
+		trigger allied_compost_built_model enable_allied_features
+
+		enablespeaker allies_compost_sound
+	}
+
+	decayed final
+	{
+		setstate allied_compost_built_model invisible
+		setstate allied_compost_closed_clip default
+		setstate allied_compost_closed_model default
+	}
+
+	death
+	{
+		setstate allied_compost_built_model invisible
+		setstate allied_compost_closed_clip default
+		setstate allied_compost_closed_model default
+
+		trigger allied_compost_built_model disable_allied_features
+
+		disablespeaker allies_compost_sound
+	}
+}
+
+allied_compost_built_model
+{
+	spawn
+	{
+		wait 400
+		setstate allied_compost_built_model invisible
+	}
+
+	trigger enable_allied_features
+	{
+		setchargetimefactor 1 soldier 0.75
+		setchargetimefactor 1 lieutenant 0.75
+		setchargetimefactor 1 medic 0.75
+		setchargetimefactor 1 engineer 0.75
+		setchargetimefactor 1 covertops 0.75
+		sethqstatus 1 1
+
+		wm_announce	"Allied Command Post constructed. Charge speed increased!"
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "axis_hq_compost_constructed_allies"
+
+		wm_teamvoiceannounce 1 "allies_hq_compost_constructed"
+
+		wm_removeteamvoiceannounce 1 "allies_hq_compost_construct"
+		wm_allied_respawntime		15
+		wm_axis_respawntime			25
+		// *---------------------------------------------------------------------------------*
+
+		wm_objective_status 6 1 1
+		wm_objective_status 6 0 2
+	}
+
+	trigger disable_allied_features
+	{
+		setchargetimefactor 1 soldier 1
+		setchargetimefactor 1 lieutenant 1
+		setchargetimefactor 1 medic 1
+		setchargetimefactor 1 engineer 1
+		setchargetimefactor 1 covertops 1
+		sethqstatus 1 0
+
+		wm_announce	"Axis team has destroyed the Allied Command Post!"
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_addteamvoiceannounce 0 "axis_hq_compost_construct"
+
+		wm_addteamvoiceannounce 1 "allies_hq_compost_construct"
+
+		wm_teamvoiceannounce 0 "axis_hq_compost_construct"
+
+		wm_teamvoiceannounce 1 "allies_hq_compost_damaged"
+		// *---------------------------------------------------------------------------------*
+
+		wm_objective_status 6 0 0
+		wm_objective_status 6 1 0
+	}
+}
+
+// ================================================
+// ============ AXIS COMMAND POST ==============
+// ================================================
+
+axis_compost_built
+{
+	spawn
+	{
+		wait 400
+		trigger axis_compost_built setup
+
+		constructible_class 2
+	}
+
+	trigger setup
+	{
+		setchargetimefactor 0 soldier 1
+		setchargetimefactor 0 lieutenant 1
+		setchargetimefactor 0 medic 1
+		setchargetimefactor 0 engineer 1
+		setchargetimefactor 0 covertops 1
+		sethqstatus 0 0
+	}
+
+	buildstart final
+	{
+		setstate axis_compost_built_model underconstruction
+		setstate axis_compost_closed_clip invisible
+		setstate axis_compost_closed_model invisible
+	}
+
+	built final
+	{
+		setstate axis_compost_built_model default
+		setstate axis_compost_closed_clip invisible
+		setstate axis_compost_closed_model invisible
+
+		trigger axis_compost_built_model enable_axis_features
+
+		enablespeaker axis_compost_sound
+	}
+
+	decayed final
+	{
+		setstate axis_compost_built_model invisible
+		setstate axis_compost_closed_clip default
+		setstate axis_compost_closed_model default
+	}
+
+	death
+	{
+		setstate axis_compost_built_model invisible
+		setstate axis_compost_closed_clip default
+		setstate axis_compost_closed_model default
+
+		trigger axis_compost_built_model disable_axis_features
+
+		disablespeaker axis_compost_sound
+	}
+}
+
+axis_compost_built_model
+{
+	spawn
+	{
+		wait 400
+		setstate axis_compost_built_model invisible
+	}
+
+	trigger enable_axis_features
+	{
+		setchargetimefactor 0 soldier 0.75
+		setchargetimefactor 0 lieutenant 0.75
+		setchargetimefactor 0 medic 0.75
+		setchargetimefactor 0 engineer 0.75
+		setchargetimefactor 0 covertops 0.75
+		sethqstatus 0 1
+
+		wm_announce	"Axis Command Post constructed. Charge speed increased!"
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "axis_hq_compost_constructed"
+
+		wm_teamvoiceannounce 1 "allies_hq_compost_constructed_axis"
+
+		wm_removeteamvoiceannounce 0 "axis_hq_compost_construct"
+		wm_allied_respawntime		15
+		wm_axis_respawntime			25
+		// *---------------------------------------------------------------------------------*
+
+		wm_objective_status 7 0 1
+		wm_objective_status 7 1 2
+	}
+
+	trigger disable_axis_features
+	{
+		setchargetimefactor 0 soldier 1
+		setchargetimefactor 0 lieutenant 1
+		setchargetimefactor 0 medic 1
+		setchargetimefactor 0 engineer 1
+		setchargetimefactor 0 covertops 1
+		sethqstatus 0 0
+
+		wm_announce	"Allied team has destroyed the Axis Command Post!"
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_addteamvoiceannounce 0 "axis_hq_compost_construct"
+
+		wm_addteamvoiceannounce 1 "allies_hq_compost_construct"
+
+		wm_teamvoiceannounce 0 "axis_hq_compost_damaged"
+
+		wm_teamvoiceannounce 1 "allies_hq_compost_construct"
+		// *---------------------------------------------------------------------------------*
+
+		wm_objective_status 7 0 0
+		wm_objective_status 7 1 0
+	}
+}
+
+flyghost
+{
+	spawn
+	{
+		wait 10000
+		playsound sound/resdetpak/soul_wail.wav looping
+	//	faceangles 0 225 0 1000
+		trigger flyghost go 
+	}
+	
+	trigger go 
+	{
+		wait 5000
+		faceangles 0 180 0 1020
+		gotomarker ghost1 100  wait
+		gotomarker ghost2 110 
+		gotomarker ghost3 90		
+		gotomarker ghost4 105
+		wait 50000
+		gotomarker ghost5 90  
+		gotomarker ghost6 100 wait 
+		gotomarker ghost7 110 wait
+		faceangles 0 0 0 1020 
+		gotomarker ghost8 190 wait
+		gotomarker ghost1 100 wait
+		trigger flyghost go		
+	}
+}
+
+flyghost2
+{
+	spawn
+	{
+		wait 50000
+		playsound sound/resdetpak/soul_wail.wav looping
+	//	faceangles 0 225 0 1000
+		trigger flyghost2 go 
+	}
+	
+	trigger go 
+	{
+		wait 10000
+		faceangles 0 180 0 1020
+		gotomarker ghost1_1 80 wait 
+		gotomarker ghost1_2 110 
+		gotomarker ghost1_3 100
+		wait 10000		
+		gotomarker ghost1_4 105
+		gotomarker ghost1_5 100  
+		gotomarker ghost1_6 90
+		gotomarker ghost1_7 90  
+		gotomarker ghost1_8 100 wait 
+		faceangles 0 0 0 3020
+		gotomarker ghost1_1 100 wait 2500
+		trigger flyghost2 go		
+	}
+}
+
+flyghost3
+{
+	spawn
+	{
+		wait 25000
+		playsound sound/resdetpak/soul_wail.wav looping
+	//	faceangles 0 225 0 1000
+		trigger flyghost3 go 
+	}
+	
+	trigger go 
+	{
+		wait 25000
+		gotomarker ghost2_1 100 wait 2500
+		faceangles 0 0 0 3020
+		gotomarker ghost2_1 100 wait
+		gotomarker ghost2_2 80 wait
+		faceangles 0 180 0 3020
+		wait 20000
+		gotomarker ghost2_3 100		 
+		gotomarker ghost2_1 100 wait 2500
+		trigger flyghost3 go		
+	}
+}
+
+flyghost4
+{
+	spawn
+	{
+		wait 100
+		playsound sound/resdetpak/soul_wail.wav looping
+	//	faceangles 0 225 0 1000
+		trigger flyghost4 go 
+	}
+	
+	trigger go 
+	{
+		faceangles 0 225 0 1020
+		gotomarker ghost4_1 80 wait
+		faceangles 0 270 0 1020 
+		gotomarker ghost4_2 70 
+		faceangles 0 270 0 1020 
+		gotomarker ghost4_3 70
+		faceangles 0 270 0 1020 		
+		gotomarker ghost4_33 70
+		faceangles 0 260 0 1020 
+		gotomarker ghost4_4 70
+		faceangles 0 280 0 1020   
+		gotomarker ghost50 70
+		faceangles 0 280 0 1020   
+		gotomarker ghost51 60 
+		faceangles 0 275 0 1020 
+		gotomarker ghost52 60 
+		faceangles 0 270 0 1020 
+		gotomarker ghost53 60
+		faceangles 0 275 0 1020  
+		gotomarker ghost54 60
+		faceangles 0 285 0 1020  
+		gotomarker ghost55 50 
+		faceangles 0 135 0 1020 
+		gotomarker ghost56 50
+		faceangles 0 90 0 1020  
+		gotomarker ghost57 90 wait 1000
+		gotomarker ghost4_1 70 wait 1000
+		trigger flyghost4 go		
+	}
+}

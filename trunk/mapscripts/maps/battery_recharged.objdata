@@ -1,0 +1,24 @@
+wm_mapdescription allied "Remove the threat to Allied shipping by silencing the Siegfried 15 inch battery: fight your way into the battery and dynamite the four vital components."
+wm_mapdescription axis "Our mighty Siegfried 38cm shore battery is terrorizing Allied shipping. Protect Siegfried from Allied sabotage."
+wm_mapdescription neutral "The mighty Axis shore battery 'Siegfried' is harassing Allied shipping in the Mediterranean. The Axis must protect Siegfried from Allied attempts at sabotage."
+
+// Axis Objective Descriptions
+wm_objective_axis_desc	1	"Primary Objective:**Defend the Battery Gun Controls."
+wm_objective_axis_desc	2	""
+wm_objective_axis_desc	3	""
+wm_objective_axis_desc	4	"Primary Objective:**Defend the Radar Station needed to detect the approaching convoy."
+wm_objective_axis_desc	5	""
+wm_objective_axis_desc	6	"Secondary Objective:**Defend the West Bunker from the Allies."
+wm_objective_axis_desc	7	"Secondary Objective:**Defend the Generator which holds the magnetic Bunker Doors shut."
+wm_objective_axis_desc	8	"Secondary Objective:**Set up a Command Post in the East Bunker."
+
+// Allied Objective Descriptions
+wm_objective_allied_desc	1	"Primary Objective:**Destroy the Battery Gun Controls."
+wm_objective_allied_desc	2	""
+wm_objective_allied_desc	3	""
+wm_objective_allied_desc	4	"Primary Objective:**Destroy the Radar Station that will detect the approaching convoy."
+wm_objective_allied_desc	5	""
+wm_objective_allied_desc	6	"Secondary Objective:**Capture the West Bunker from the Axis."
+wm_objective_allied_desc	7	"Secondary Objective:**Destroy the Generator which keeps the magnetic Bunker Doors shut."
+wm_objective_allied_desc	8	"Secondary Objective:**Establish a Command Post in the East Bunker."
+

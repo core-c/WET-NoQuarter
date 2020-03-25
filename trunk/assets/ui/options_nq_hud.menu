@@ -1,0 +1,186 @@
+#ifdef NQUI
+
+#include "ui/menudef2.h"
+
+// Defines //
+#define WINDOW_X		16
+#define WINDOW_Y		16
+#define WINDOW_WIDTH	608
+#define WINDOW_HEIGHT	450
+#define GROUP_NAME		"grpOptionsNQHud"
+
+#else	// NQUI
+
+#include "ui/menudef.h"
+
+// Defines //
+#define WINDOW_X		16
+#define WINDOW_Y		16
+//#define WINDOW_WIDTH	608
+#define WINDOW_WIDTH	368
+#define WINDOW_HEIGHT	426
+#define GROUP_NAME		"grpOptionsNQHud"
+
+#endif	// NQUI
+
+
+// Macros //
+
+#ifdef NQUI
+#include "ui/menumacros2.h"
+#else
+#include "ui/menumacros.h"
+#endif
+
+// Customise Game Menu //
+
+menuDef {
+	name		"options_nq_hud"
+	visible		0
+	fullscreen	0
+	rect		WINDOW_X WINDOW_Y WINDOW_WIDTH WINDOW_HEIGHT
+	style		WINDOW_STYLE_FILLED
+
+	onESC {
+		close options_nq_hud ;
+		open options_nq; 
+		}
+
+// Window //
+
+	WINDOW( "^?NO QUARTER HUD^7", 94 )
+
+// HUD //
+
+#ifdef NQUI
+
+// Subwindows //
+#define SUBWINDOW_WIDTH		WINDOW_WIDTH-12
+#define SUBWINDOWL_WIDTH	(0.4*SUBWINDOW_WIDTH)
+#define SUBWINDOWR_WIDTH	SUBWINDOW_WIDTH-SUBWINDOWL_WIDTH
+#define SUBWINDOWR_X		6+SUBWINDOWL_WIDTH
+#define MSG_Y 			32
+#define MSG_HEIGHT		100
+#define SHOW_Y 			MSG_Y+MSG_HEIGHT+4
+#define SHOW_HEIGHT		84
+#define HUD_Y			SHOW_Y+SHOW_HEIGHT+4
+#define HUD_HEIGHT		122
+#define CONV_Y			HUD_Y+HUD_HEIGHT+4
+#define CONV_HEIGHT		70
+
+	SUBWINDOW( 6, (MSG_Y), SUBWINDOWL_WIDTH+1, MSG_HEIGHT, "^1MESSAGES" )
+	MULTIALIGN( 8, (MSG_Y)+18, (SUBWINDOWL_WIDTH)-4, 10, "Popup Message Speed:", .2, .2*(SUBWINDOWL_WIDTH)+2, 8, "cg_pmPopupTime",  cvarFloatList { "Normal" 1 "Fast" .75 "Faster" .5 "Fastest" .25 "Instant" 0 "Slowest" 2 "Slower" 1.5  "Slow" 1.25 }, "Determines how fast the popups are" )
+	YESNOALIGNX( 8, (MSG_Y)+30, (SUBWINDOWL_WIDTH)-4, 10, "Draw Small Popup Icons:", .2, .2*(SUBWINDOWL_WIDTH)+2, 8, "cg_drawSmallPopupIcons", "Draw Small Popup Icons" )
+	YESNOALIGNX( 8, (MSG_Y)+42, (SUBWINDOWL_WIDTH)-4, 10, "Show Descriptive Text:", .2, .2*(SUBWINDOWL_WIDTH)+2, 8, "cg_descriptiveText", "Show Spectator Info" )
+
+	SUBWINDOW( SUBWINDOWR_X+8, (MSG_Y), SUBWINDOWR_WIDTH-8, MSG_HEIGHT, "^1POPUP FILTERS" )
+	LABEL( 460, MSG_Y+14, 100, 10, "^WKILLS MADE BY:", .2, ITEM_ALIGN_RIGHT, 8, 12 )
+	CHECKBOXACTIONBITFLAG( 370, (MSG_Y+30), 200, 10, "^KEnemy", .2, 75, 8, "cg_popUpMessageFilter", 32, togglecvarbit cg_popUpMessageFilter 32, "No Reports On Kills Made By Enemies" )
+	CHECKBOXACTIONBITFLAG( 370, (MSG_Y+42), 200, 10, "^KTeam", .2, 75, 8, "cg_popUpMessageFilter", 64, togglecvarbit cg_popUpMessageFilter 64, "No Reports On Kills Made By Own Team" )
+	CHECKBOXACTIONBITFLAG( 370, (MSG_Y+54), 200, 10, "^KPlayers Themselves", .2, 75, 8, "cg_popUpMessageFilter", 128, togglecvarbit cg_popUpMessageFilter 128, "No Reports On Players Selfkills" )
+	CHECKBOXACTIONBITFLAG( 370, (MSG_Y+66), 200, 10, "^KKills Involving Yourself", .2, 75, 8, "cg_popUpMessageFilter", 256, togglecvarbit cg_popUpMessageFilter 256, "No Reports On Kills Where You Are Involved" )
+	CHECKBOXACTIONBITFLAG( 370, (MSG_Y+78), 200, 10, "^KWrite Kills To Console", .2, 75, 8, "cg_popUpMessageFilter", 512, togglecvarbit cg_popUpMessageFilter 512, "No Kill Messages In Console" )
+	LABEL( 575, MSG_Y+14, 100, 10, "^WGENERAL:", .20, ITEM_ALIGN_RIGHT, 8, 12 )
+	CHECKBOXACTIONBITFLAG( 540, (MSG_Y+30), 90, 10, "^KObjective", .2, 20, 8, "cg_popUpMessageFilter", 1, togglecvarbit cg_popUpMessageFilter 1, "No Messages On Objectives" )
+	CHECKBOXACTIONBITFLAG( 540, (MSG_Y+42), 90, 10, "^KPickups", .2, 20, 8, "cg_popUpMessageFilter", 2, togglecvarbit cg_popUpMessageFilter 2, "No Messages On Pickups" )
+	CHECKBOXACTIONBITFLAG( 540, (MSG_Y+54), 90, 10, "^KTeamjoin", .2, 20, 8, "cg_popUpMessageFilter", 4, togglecvarbit cg_popUpMessageFilter 4, "No Messages On Teamjoins" )
+	CHECKBOXACTIONBITFLAG( 540, (MSG_Y+66), 90, 10, "^KConnect", .2, 20, 8, "cg_popUpMessageFilter", 8, togglecvarbit cg_popUpMessageFilter 8, "No Messages On Connect" )
+	CHECKBOXACTIONBITFLAG( 540, (MSG_Y+78), 90, 10, "^KMapinfo", .2, 20, 8, "cg_popUpMessageFilter", 16, togglecvarbit cg_popUpMessageFilter 16, "No Messages On Mapinfo" )
+
+	SUBWINDOW( 6, (SHOW_Y), (SUBWINDOW_WIDTH), SHOW_HEIGHT, "^1SHOW" )
+	LABEL( 17, (SHOW_Y)+18, .55*(SUBWINDOW_WIDTH)-4, 10, "Crosshair Name Drawing:", .20, ITEM_ALIGN_LEFT, 8, 8 )
+	CHECKBOXACTIONBITFLAG( 206, (SHOW_Y)+18, 60, 10, "Enable", .2, 10, 8, "cg_drawCrosshairNames", 1, togglecvarbit cg_drawCrosshairNames 1, "Enable Name Drawing" )
+	CHECKBOXACTIONBITFLAG( 304, (SHOW_Y)+18, 100, 10, "Colored Names", .2, 30, 8, "cg_drawCrosshairNames", 2, togglecvarbit cg_drawCrosshairNames 2, "Draw Colored Names" )
+	CHECKBOXACTIONBITFLAG( 390, (SHOW_Y)+18, 50, 10, "Ranks", .2, 8, 8, "cg_drawCrosshairNames", 4, togglecvarbit cg_drawCrosshairNames 4, "Draw Ranks" )
+
+	YESNO( 8, (SHOW_Y)+30, .55*(SUBWINDOW_WIDTH)-4, 10, "Auto Select FT Buddies:", .2, 8, "cg_FTAutoSelect", "Automatically Select Buddies In A Fireteam" )
+
+	LABEL( 99, (SHOW_Y)+42, .55*(SUBWINDOW_WIDTH)-4, 10, "Locations:", .20, ITEM_ALIGN_LEFT, 8, 8 )
+	CHECKBOXACTIONBITFLAG( 211, (SHOW_Y)+42, 80, 10, "Fireteam", .2, 18, 8, "cg_locations", 1, togglecvarbit cg_locations 1, "Draw Locations For Fire-teams" )
+	CHECKBOXACTIONBITFLAG( 284, (SHOW_Y)+42, 60, 10, "Chats", .2, 8, 8, "cg_locations", 2, togglecvarbit cg_locations 2, "Draw Locations In Chats" )
+	CHECKBOXACTIONBITFLAG( 364, (SHOW_Y)+42, 90, 10, "Landmines", .2, 18, 8, "cg_locations", 4, togglecvarbit cg_locations 4, "Draw Locations For Landmines" )
+	CHECKBOXACTIONBITFLAG( 454, (SHOW_Y)+42, 92, 10, "Loc+Coords", .2, 28, 8, "cg_locations", 16, togglecvarbit cg_locations 16, "Draw Locations + Coordinates" )
+	CHECKBOXACTIONBITFLAG( 550, (SHOW_Y)+42, 82, 10, "Distances", .2, 22, 8, "cg_locations", 32, togglecvarbit cg_locations 32, "Draw Distances Instead of Locations" )
+
+	YESNO( 8, (SHOW_Y)+54, .55*(SUBWINDOW_WIDTH)-4, 10, "Show Aura Shadows:", .2, 8, "cg_drawAuraIcons", "Draw Aura Icons" )
+
+	LABEL( 80, (SHOW_Y)+66, 284, 10, "Kill Counter:", .2, ITEM_ALIGN_LEFT, 8, 8 )
+	CHECKBOXACTIONBITFLAG( 208, (SHOW_Y)+66, 50, 10, "Spree", .2, 2, 8, "cg_drawkillSpree", 1, togglecvarbit cg_drawkillSpree 1, "Show Current Spree" )
+	CHECKBOXACTIONBITFLAG( 268, (SHOW_Y)+66, 50, 10, "Kills", .2, 2, 8, "cg_drawkillSpree", 2, togglecvarbit cg_drawkillSpree 2, "Show Total Kills" )
+	CHECKBOXACTIONBITFLAG( 333, (SHOW_Y)+66, 50, 10, "Bounty", .2, 2, 8, "cg_drawkillSpree", 4, togglecvarbit cg_drawkillSpree 4, "Show Total Bounty Points" )
+	CHECKBOXACTIONBITFLAG( 398, (SHOW_Y)+66, 50, 10, "Deaths", .2, 2, 8, "cg_drawkillSpree", 8, togglecvarbit cg_drawkillSpree 8, "Show Total Deaths" )
+
+	SUBWINDOW( 6, (HUD_Y), .50*(SUBWINDOW_WIDTH)-2, HUD_HEIGHT, "^1HUD" )
+	YESNO( 20, (HUD_Y)+18, .45*(SUBWINDOW_WIDTH)-4, 10, "Use NQ Hud:", .2, 8, "hud_drawAltHud", "Use Alternate No Quarter HUD" )
+	YESNO( 20, (HUD_Y)+30, .45*(SUBWINDOW_WIDTH)-4, 10, "HUD Head:", .2, 8, "cg_drawHUDHead", "Draw The ET Head" )	
+	MULTI( 20, (HUD_Y)+42, .45*(SUBWINDOW_WIDTH)-4, 10, "HUD Color:", .2, 8, "cg_hudBackgroundColor", cvarStrList { "Default"; ".16 .2 .17"; "White"; "1 1 1"; "Yellow"; "1 1 0"; "Red"; "1 0 0"; "Green"; "0 1 0"; "Blue"; "0 0 1"; "Magenta"; "1 0 1"; "Cyan"; "0 1 1"; "Orange"; "1 .5 0"; "Purple"; "0.5 0 0.5"; "Light Blue"; ".5 .5 1"; "Medium Blue"; "0 0 .5"; "Dark Blue"; "0 0 0.15" ;"Light Red"; "1 .25 .25"; "Medium Red"; ".5 0 0"; "Dark Red"; "0.15 0 0"; "Light Green"; ".25 1 .25"; "Medium Green"; "0 .5 0"; "Dark Green"; "0 .15 0"; "Medium Cyan"; "0 .5 .5"; "Medium Yellow"; ".5 .5 0"; "Medium Orange"; ".5 .25 0"; "Light Grey"; ".6 .6 .6"; "Medium Grey"; ".3 .3 .3"; "Dark Grey"; ".1 .1 .1"; "Black"; "0 0 0" }, "HUD Background Color" )
+	MULTI( 20, (HUD_Y)+54, .45*(SUBWINDOW_WIDTH)-4, 10, "HUD Border Color:", .2, 8, "cg_hudBorderColor", cvarStrList { "Default"; ".5 .5 .5"; "White"; "1 1 1"; "Yellow"; "1 1 0"; "Red"; "1 0 0"; "Green"; "0 1 0"; "Blue"; "0 0 1"; "Magenta"; "1 0 1"; "Cyan"; "0 1 1"; "Orange"; "1 .5 0"; "Purple"; "0.5 0 0.5"; "Light Blue"; ".5 .5 1"; "Medium Blue"; "0 0 .5"; "Dark Blue"; "0 0 0.15"; "Light Red"; "1 .25 .25"; "Medium Red"; ".5 0 0"; "Dark Red"; "0.15 0 0"; "Light Green"; ".25 1 .25"; "Medium Green"; "0 .5 0"; "Dark Green"; "0 .15 0"; "Medium Cyan"; "0 .5 .5"; "Medium Yellow"; ".5 .5 0"; "Medium Orange"; ".5 .25 0"; "Light Grey"; ".6 .6 .6"; "Medium Grey"; ".3 .3 .3"; "Dark Grey"; ".1 .1 .1"; "Black"; "0 0 0" }, "HUD Border Color" )
+	SLIDER( 20, (HUD_Y)+66, .45*(SUBWINDOW_WIDTH)-4, 10, "HUD Alpha:", .2, 8, "cg_hudAlpha" .8 0 1, "Transparency of HUD" )
+	YESNO( 20, (HUD_Y)+78, .45*(SUBWINDOW_WIDTH)-4, 10, "Draw Objective Icons:", .2, 8, "cg_drawObjIcons", "Draw Objective Icon Flags" )
+	YESNO( 20, (HUD_Y)+90, .45*(SUBWINDOW_WIDTH)-4, 10, "Show Powerups in HUD:", .2, 8, "hud_drawPowerups", "Draw Icons of Powerups Currently Available" )
+	MULTI( 20, (HUD_Y)+102, .45*(SUBWINDOW_WIDTH)-4, 10, "Power Up Size:", .2, 8, "hud_powerupSize", cvarFloatList { "Small" 12 "Normal" 18 "Large" 24 }, "Size of Powerup Icons" )
+
+	SUBWINDOW( .50*(SUBWINDOW_WIDTH)+8, (HUD_Y), .50*(SUBWINDOW_WIDTH)-2, HUD_HEIGHT, "^1WEAPONS" )
+	YESNO( .50*(SUBWINDOW_WIDTH)+12, (HUD_Y)+18, .45*(SUBWINDOW_WIDTH)-4, 10, "Show Player Weapons:", .2, 8, "cg_drawCarryWeapons", "Display Weapons A Player Is Carrying" )
+
+	SUBWINDOW( 6, (CONV_Y), (SUBWINDOW_WIDTH), CONV_HEIGHT, "^1CONVENIENCE" )
+	YESNOALIGNX( 8, (CONV_Y)+18, (284), 10, "FPS Meter:", .2, -20, 8, "cg_drawFPS", "Draw Frames Per Second" )
+	YESNOALIGNX( 8, (CONV_Y)+30, (284), 10, "Lag-o-Meter:", .2, -20, 8, "cg_lagometer", "Draw Lag-o-Meter" )
+	YESNOALIGNX( 9, (CONV_Y)+42, 283, 10, "Ping:", .2, -20, 8, "cg_drawPing", "Draw Ping" )	
+
+	SLIDER( 8, (CONV_Y)+54, 244, 10, "Auto Map Zoom:", .2, 8, "cg_automapZoom" 5.159 1 7.43, "Sets Zoom Level Of Compass" )
+
+	MULTIALIGN( 300, (CONV_Y)+18, 270, 10, "Speed:", .2, -30, 8, "cg_drawSpeed", cvarFloatList{ "Off" 0 "Draw Speed" 1 "Draw Speed + Max Achieved" 2 }, "Draw Speed" )
+	MULTIALIGN( 300, (CONV_Y)+30, 270, 10, "Speed Units:", .2, -30, 8, "cg_speedunit", cvarFloatList{ "Units per Second (UPS)" 0 "Kilometers Per Hour (KPH)" 1 "Miles Per Hour (MPH)" 2 }, "Change Unit For Displaying Speed" )
+	YESNOALIGNX( 300, (CONV_Y)+42, 270, 10, "Country-Flags:", .2, -30, 8, "cg_countryflags", "Draw Country-Flags" )
+	MULTIALIGN( 300, (CONV_Y)+54, 270, 10, "Clock:", .2, -30, 8, "cg_drawTime", cvarFloatList{ "Off" 0 "24hr" 1 "12hr" 2 }, "Draw Clock" )
+
+#else	// NQUI
+
+// Subwindows //
+//#define SUBWINDOW_WIDTH	.5*(WINDOW_WIDTH-22)
+#define SUBWINDOW_WIDTH		WINDOW_WIDTH-12
+#define DISP_HEIGHT		128
+#define HUD_HEIGHT		92
+#define CONV_HEIGHT		128
+#define DISP_Y 			32
+#define HUD_Y			DISP_Y+DISP_HEIGHT+8
+#define CONV_Y			HUD_Y+HUD_HEIGHT+8
+		
+// Player //
+
+	SUBWINDOW( 6, (DISP_Y), (SUBWINDOW_WIDTH), DISP_HEIGHT, "^1DISPLAY" )
+	MULTI( 8, (DISP_Y)+18, (SUBWINDOW_WIDTH)-4, 10, "Crosshair Name Drawing:", .2, 8, "cg_drawCrosshairNames", cvarFloatList { "No Names" 0 "White Names" 1 "Color Names" 3 "Color Names & Rank Icons" 7 "White Names & Rank Icons" 5 }, "Displays player info when the crosshair is over a teammate" )
+	YESNO( 8, (DISP_Y)+30, (SUBWINDOW_WIDTH)-4, 10, "Auto Select FT Buddies:", .2, 8, "cg_FTAutoSelect", "Automatically Select Buddies In A Fireteam" )
+	SLIDER( 8, (DISP_Y)+42, (SUBWINDOW_WIDTH)-4, 10, "Auto Map Zoom:", .2, 8, "cg_automapZoom" 5.159 1 7.43, "Sets Zoom Level Automatically When Map Loads" )
+	YESNO( 8, (DISP_Y)+54, (SUBWINDOW_WIDTH)-4, 10, "Show Graphic Obituaries:", .2, 8, "cg_graphicObituaries", "Draw Graphical Obituaries" )
+	MULTI( 8, (DISP_Y)+66, (SUBWINDOW_WIDTH)-4, 10, "Show Kill Counter:", .2, 8, "cg_drawkillSpree",  cvarFloatList { "Off" 0 "Current Spree" 1 "Total Kills" 2 "Spree and Total kills" 3 "Current Bounty" 4 "Bounty and Spree" 5 "Kills and Bounty" 6  "Kills, Spree, and Bounty" 7 }, "Kill Spree Counter Options" )
+	YESNO( 8, (DISP_Y)+78, (SUBWINDOW_WIDTH)-4, 10, "Show Aura Shadows:", .2, 8, "cg_drawAuraIcons", "Draw Aura Icons" )
+	YESNO( 8, (DISP_Y)+90, (SUBWINDOW_WIDTH)-4, 10, "Draw Objective Icons:", .2, 8, "cg_drawObjIcons", "Draw Objective Icon Flags" )
+	MULTI( 8, (DISP_Y)+102, (SUBWINDOW_WIDTH)-4, 10, "Side Message Speed:", .2, 8, "cg_pmPopupTime",  cvarFloatList { "Normal" 1 "Fast" .75 "Faster" .5 "Fastest" .25 "Instant" 0 "Slowest" 2 "Slower" 1.5  "Slow" 1.25 }, "Determines how fast the popups are" )
+	MULTI( 8, (DISP_Y)+114, (SUBWINDOW_WIDTH)-4, 10, "Draw Location:", .2, 8, "cg_locations", cvarFloatList { "Coordinates only" 0 "Fire-Team only" 1 "Team-Chat only" 2 "Team-Chat+Fire-Team" 3 }, "Location View Options" )
+	
+	SUBWINDOW( 6, (HUD_Y), (SUBWINDOW_WIDTH), HUD_HEIGHT, "^1HUD" )
+	YESNO( 8, (HUD_Y)+18, (SUBWINDOW_WIDTH)-4, 10, "Show Powerups in HUD:", .2, 8, "hud_drawPowerups", "Draw Icons of Powerups Currently Available" )
+	MULTI( 8, (HUD_Y)+30, (SUBWINDOW_WIDTH)-4, 10, "Power Up Size:", .2, 8, "hud_powerupSize", cvarFloatList { "Small" 12 "Normal" 18 "Large" 24 }, "Size of Powerup Icons" )
+	YESNO( 8, (HUD_Y)+42, (SUBWINDOW_WIDTH)-4, 10, "Use NQ Hud:", .2, 8, "hud_drawAltHud", "Use Alternate No Quarter HUD" )
+	MULTI( 8, (HUD_Y)+54, (SUBWINDOW_WIDTH)-4, 10, "HUD Color:", .2, 8, "cg_hudBackgroundColor", cvarStrList { "Default"; ".16 .2 .17"; "White"; "1 1 1"; "Yellow"; "1 1 0"; "Red"; "1 0 0"; "Green"; "0 1 0"; "Blue"; "0 0 1"; "Magenta"; "1 0 1"; "Cyan"; "0 1 1"; "Orange"; "1 .5 0"; "Purple"; "0.5 0 0.5"; "Light Blue"; ".5 .5 1"; "Medium Blue"; "0 0 .5"; "Dark Blue"; "0 0 0.15" ;"Light Red"; "1 .25 .25"; "Medium Red"; ".5 0 0"; "Dark Red"; "0.15 0 0"; "Light Green"; ".25 1 .25"; "Medium Green"; "0 .5 0"; "Dark Green"; "0 .15 0"; "Medium Cyan"; "0 .5 .5"; "Medium Yellow"; ".5 .5 0"; "Medium Orange"; ".5 .25 0"; "Light Grey"; ".6 .6 .6"; "Medium Grey"; ".3 .3 .3"; "Dark Grey"; ".1 .1 .1"; "Black"; "0 0 0" }, "HUD Background Color" )
+	MULTI( 8, (HUD_Y)+66, (SUBWINDOW_WIDTH)-4, 10, "HUD Border Color:", .2, 8, "cg_hudBorderColor", cvarStrList { "Default"; ".5 .5 .5"; "White"; "1 1 1"; "Yellow"; "1 1 0"; "Red"; "1 0 0"; "Green"; "0 1 0"; "Blue"; "0 0 1"; "Magenta"; "1 0 1"; "Cyan"; "0 1 1"; "Orange"; "1 .5 0"; "Purple"; "0.5 0 0.5"; "Light Blue"; ".5 .5 1"; "Medium Blue"; "0 0 .5"; "Dark Blue"; "0 0 0.15"; "Light Red"; "1 .25 .25"; "Medium Red"; ".5 0 0"; "Dark Red"; "0.15 0 0"; "Light Green"; ".25 1 .25"; "Medium Green"; "0 .5 0"; "Dark Green"; "0 .15 0"; "Medium Cyan"; "0 .5 .5"; "Medium Yellow"; ".5 .5 0"; "Medium Orange"; ".5 .25 0"; "Light Grey"; ".6 .6 .6"; "Medium Grey"; ".3 .3 .3"; "Dark Grey"; ".1 .1 .1"; "Black"; "0 0 0" }, "HUD Border Color" )
+	SLIDER( 8, (HUD_Y)+78, (SUBWINDOW_WIDTH)-4, 10, "HUD Alpha:", .2, 8, "cg_hudAlpha" .8 0 1, "Transparency of HUD" )
+
+	SUBWINDOW( 6, (CONV_Y), (SUBWINDOW_WIDTH), CONV_HEIGHT, "^1CONVENIENCE" )
+	MULTI( 8, (CONV_Y)+18, (SUBWINDOW_WIDTH)-4, 10, "Show Speed:", .2, 8, "cg_drawSpeed", cvarFloatList{ "Off" 0 "Draw Speed" 1 "Draw Speed + Max Acheived" 2 }, "Draw Speed" )
+	MULTI( 8, (CONV_Y)+30, (SUBWINDOW_WIDTH)-4, 10, "Speed Units:", .2, 8, "cg_speedunit", cvarFloatList{ "Units per Second (UPS)" 0 "Kilometers per Hour (KPH)" 1 "Miles per Hour (MPH)" 2 }, "Change Units That Speed is Displayed As" )
+	YESNO( 8, (CONV_Y)+42, (SUBWINDOW_WIDTH)-4, 10, "Draw Small Popup Icons:", .2, 8, "cg_drawSmallPopupIcons", "Draw Small Pop Icons" )
+	MULTI( 8, (CONV_Y)+54, (SUBWINDOW_WIDTH)-4, 10, "Popup's Filter Strenght:", .2, 8, "cg_popUpMessageFilter", cvarFloatList{ "disabled" 0 "1" 4 "2" 12 "3" 14 "4" 142 "5" 494 "6" 206 "7" 238 "8" 255 }, "Specify filter for the pop-up messages in the left notification area (CPM)" )
+	YESNO( 8, (CONV_Y)+66, (SUBWINDOW_WIDTH)-4, 10, "Show FPS:", .2, 8, "cg_drawFPS", "Draw Frames Per Second" )
+	YESNO( 8, (CONV_Y)+78, (SUBWINDOW_WIDTH)-4, 10, "Show Ping:", .2, 8, "cg_drawPing", "Draw Ping" )	
+	YESNO( 8, (CONV_Y)+90, (SUBWINDOW_WIDTH)-4, 10, "Show Lag-o-Meter:", .2, 8, "cg_lagometer", "Draw Lag-o-Meter" )
+	MULTI( 8, (CONV_Y)+102, (SUBWINDOW_WIDTH)-4, 10, "Show Clock:", .2, 8, "cg_drawTime", cvarFloatList{ "Off" 0 "24hr" 1 "12hr" 2 }, "Draw Clock" )
+	YESNO( 8, (CONV_Y)+114,(SUBWINDOW_WIDTH)-4, 10, "Show Country-Flags:", .2, 8, "cg_countryflags", "Draw Country-Flags" )
+
+#endif	// NQUI
+
+	BUTTON( 6, WINDOW_HEIGHT-24, SUBWINDOW_WIDTH, 18, "BACK", .3, 14, close options_nq_hud ; open options_nq )
+
+}

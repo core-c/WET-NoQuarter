@@ -1,0 +1,53 @@
+weaponDef
+{
+	both {
+		name					"Dagger"
+		statname				"Knife"
+		damage					10
+		splashdamage			0
+		splashdamage_radius		0
+		selfKillMessage			"played with knives!"
+		KillMessage				"was stabbed by"
+		KillMessage2			"'s dagger."
+		headshotWeapon
+	}
+
+	client {
+		droppedangleshack
+		pickupModel				"models/multiplayer/knife/knife_throw.md3"
+
+		weaponConfig			"models/multiplayer/knife/weapon.cfg"
+		handsModel				"models/multiplayer/knife/v_knife_hand.md3"
+
+		flashSound				"sound/weapons/knife/knife_slash1.wav"
+		flashSound				"sound/weapons/knife/knife_slash2.wav"
+		flashSound				"sound/weapons/knife/knife_slash3.wav"
+
+		weaponSelectedIcon		"icons/iconw_knife_1_select"
+
+		modModel 0				"models/multiplayer/knife/knife_yd_blood"
+		modModel 1				"models/multiplayer/knife/knife_yd_blood50"
+		modModel 2				"models/multiplayer/knife/knife_yd_blood100"
+		modModel 3				"models/multiplayer/knife/knife_yd_blood150"
+		modModel 4				"models/multiplayer/knife/knife_yd_blood200"
+
+		firstPerson {
+			model				"models/multiplayer/knife/v_knife.md3"
+			axisskin			"models/multiplayer/knife/knife_axis.skin"
+			alliedskin			"models/multiplayer/knife/knife_allied.skin"
+			
+			weaponLink
+			{
+				part 0
+				{
+					tag			"tag_barrel"
+					model		"models/multiplayer/knife/v_knife_barrel.md3"
+				}
+			}
+		}
+
+		thirdPerson {
+			model				"models/multiplayer/knife/knife.md3"
+		}
+	}
+}

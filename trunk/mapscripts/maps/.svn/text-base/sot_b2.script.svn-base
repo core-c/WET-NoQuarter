@@ -1,0 +1,581 @@
+game_manager
+{
+	spawn
+	{	
+		create
+		{
+			classname "func_fakebrush"
+			origin "-3064 5572 1796"
+			contents 65536  // CONTENTS_PLAYERCLIP
+			mins "-392 -572 -1052"
+			maxs "392 572 1052"
+		}
+		create
+		{
+			classname "func_fakebrush"
+			origin "-3260 4772 864"
+			contents 65536  // CONTENTS_PLAYERCLIP
+			mins "-196 -228 -120"
+			maxs "196 228 120"
+		}
+		// Game rules
+		wm_axis_respawntime	15
+		wm_allied_respawntime	25
+		wm_number_of_objectives 7
+		wm_set_round_timelimit	25
+
+		// Objectives
+		// 1: Forward Spawn (Old Town)
+		// 2: Command Post
+		// 3: Side Wall
+		// 4: Assault Ramp
+		// 5: Broken Mirror
+		// 6: Basement Wall
+		// 7: Gold
+
+		// Current main objectives for each team (0=Axis, 1=Allies)
+		wm_set_main_objective		7	0
+		wm_set_main_objective		7	1
+
+		wm_objective_status 1 1 0
+		wm_objective_status 1 0 0
+		wm_objective_status 2 1 0
+		wm_objective_status 2 0 0
+		wm_objective_status 3 1 0
+		wm_objective_status 3 0 0
+		wm_objective_status 4 1 0
+		wm_objective_status 4 0 0
+		wm_objective_status 5 1 0
+		wm_objective_status 5 0 0
+		wm_objective_status 6 1 0
+		wm_objective_status 6 0 0
+		wm_objective_status 7 1 0
+		wm_objective_status 7 0 0
+
+		wm_set_main_objective		7	0
+		wm_set_main_objective		7	1
+
+		// Stopwatch mode defending team (0=Axis, 1=Allies)
+		wm_set_defending_team	1
+
+		// Winner on expiration of round timer (0=Axis, 1=Allies)
+		wm_setwinner	1
+
+
+		// Set start spawnpoints
+		wait 500
+		setautospawn "Forward Spawn" 1
+		setautospawn "Ruin Spawn" 0
+	}
+
+	trigger allies_win
+	{
+		wm_setwinner	1
+		wm_announce "Allied team has stopped the Axis from pillaging the temples Gold!"
+
+		wm_objective_status 7 0 2
+		wm_objective_status 7 1 1
+
+		wait 1500
+		wm_endround
+	}
+
+	trigger axis_win
+	{
+		wm_setwinner	0
+		wm_announce "The Axis team have escaped with the Gold Crates!"
+		wm_announce "The war will go on for years now..."
+
+		wm_objective_status 7 1 2
+		wm_objective_status 7 0 1
+
+		wait 1500
+		wm_endround
+	}
+
+}
+
+gold_obj
+{
+	spawn
+	{
+	}
+	death
+	{
+	trigger game_manager axis_win
+	}
+}
+
+
+dynawall
+{
+   spawn
+   {
+      wait 200
+      constructible_class 3
+   }
+   death
+   {
+      wm_announce "Axis have blown up The Side Wall!"
+   }
+}
+
+dynawall2
+{
+   spawn
+   {
+      wait 200
+      constructible_class 3
+   }
+   death
+   {
+      wm_announce "Axis have blown up The Basement Wall!"
+   }
+}
+
+secretentrance
+{
+   spawn
+   {
+      wait 200
+      constructible_class 2
+   }
+   death
+   {
+      wm_announce "^3=^4ShitStorm^3= ^1Party Room ^7is now open"
+   }
+}
+//==============================================
+//======           Beam             =======
+//==============================================
+
+beam_build // Beams
+{
+	spawn
+	{
+		wait 400
+		trigger beam_build setup
+
+		constructible_class 2
+	}
+
+	trigger setup
+	{
+		setstate beam_build_materials_clip default
+		setstate beam_build2 default
+
+		setstate beam_build invisible
+		setstate beam_build1 invisible
+
+
+	}
+
+	buildstart final
+	{
+		setstate beam_build_materials_clip default
+		setstate beam_build2 default
+
+		setstate beam_build1 underconstruction
+		
+	}
+
+	built final
+	{
+		setstate beam_build_materials_clip invisible
+		setstate beam_build2 invisible
+		
+		setstate beam_build default
+				
+
+		wm_announce "The Broken Mirror have been fixed. Defend the Gold!"
+
+	}
+
+}
+
+
+//==============================================
+//======           The Assault Ramp    =======
+//==============================================
+
+ramp_build // The Assault Ramp
+{
+	spawn
+	{
+		wait 400
+		trigger ramp_build setup
+
+		constructible_class 3
+	}
+
+	trigger setup
+	{
+		setstate ramp_build_materials_clip default
+		setstate ramp_build_toi default
+
+		setstate ramp_build invisible
+	}
+
+	buildstart final
+	{
+		setstate ramp_build_materials_clip default
+		setstate ramp_build_toi default
+		
+		setstate ramp_build underconstruction
+	}
+
+	built final
+	{
+		setstate ramp_build_materials_clip invisible
+		setstate ramp_build_toi invisible
+
+		setstate ramp_build default
+
+		wm_announce "The Assault Ramp have been constructed."
+
+	}
+
+	decayed final
+	{
+		setstate ramp_build_materials_clip default
+		setstate ramp_build_toi default
+
+		setstate ramp_build invisible
+	}
+
+	death
+	{
+		setstate ramp_build_materials_clip default
+		setstate ramp_build_toi default
+
+		setstate ramp_build invisible
+
+		wm_announce "The Assault Ramp have been destroyed!"
+
+	}
+
+	trigger remove
+	{
+		setstate ramp_build_toi invisible
+		setstate ramp_build_materials_clip invisible
+		setstate ramp_build invisible
+
+		remove
+	}
+}
+
+// ============================================================================
+// Forward Spawn - The Old Town
+// ============================================================================
+
+roadbunker
+{
+	spawn
+	{
+		accum 0 set 1	// 0-Axis, 1-Allied
+	}
+
+	trigger axis_capture	// Flag has been claimed by an axis player
+	{
+		accum 0 abort_if_equal 0 // Do Axis already own the flag?
+
+		accum 0 set 0 // Axis own the flag
+		wm_announce	"Axis capture the Old Town!"
+
+
+		wm_objective_status 1 1 2
+		wm_objective_status 1 0 1
+
+		// spawns:
+		// Ruin
+		// Old Town
+		// Temple
+		setautospawn "Temple Spawn" 1
+		setautospawn "Forward Spawn" 0
+
+		alertentity forward_spawn
+
+	}
+
+	trigger allied_capture	// Flag has been claimed by an allied player
+	{
+		accum 0 abort_if_equal 1 // Do Allies already own flag?
+
+		accum 0 set 1 // Allied own the flag
+		wm_announce	"Allies capture the Old Town!"
+
+		wm_objective_status 1 1 1
+		wm_objective_status 1 0 2
+
+		// spawns:
+		// Ruin ( Ruin Spawn )
+		// Old Town ( Forward Spawn )
+		// Temple ( Temple Spawn )
+		setautospawn "Forward Spawn" 1
+		setautospawn "Ruin Spawn" 0
+
+		alertentity forward_spawn
+
+	}
+
+	trigger kill
+	{
+		remove
+
+
+		wm_removeteamvoiceannounce 0 "radar_axis_bunker_stop"
+		wm_removeteamvoiceannounce 1 "radar_allies_bunker_capture"
+	}
+
+	trigger force_allied
+	{
+		accum 0 abort_if_equal 1 // Do Allies already own flag?
+		accum 0 set 1 // Allied own the flag
+
+		wm_objective_status 1 1 1
+		wm_objective_status 1 0 2
+
+		// spawns:
+		// Ruin (Axis Spawn
+		// Old Town ( Forward Spawn )
+		// Temple ( Temple Spawn)
+		setautospawn "Forward Spawn" 1
+		setautospawn "Temple Spawn" 0
+
+		//alertentity forward_spawn
+		trigger forward_spawn_spawn kill
+	}
+
+}
+
+// ================================================
+// ============ NEUTRAL COMMAND POST ==============
+// ================================================
+
+allied_compost_built
+{
+	spawn
+	{
+		wait 400
+		trigger allied_compost_built setup
+
+		constructible_class 2
+	}
+
+	trigger setup
+	{
+		setchargetimefactor 1 soldier 1
+		setchargetimefactor 1 lieutenant 1
+		setchargetimefactor 1 medic 1
+		setchargetimefactor 1 engineer 1
+		setchargetimefactor 1 covertops 1
+		sethqstatus 1 0
+	}
+
+	buildstart final
+	{
+		setstate allied_compost_built_model underconstruction
+		setstate neutral_compost_closed_clip invisible
+		setstate neutral_compost_closed_model invisible
+	}
+
+	built final
+	{
+		setstate allied_compost_built_model default
+		setstate neutral_compost_closed_clip invisible
+		setstate neutral_compost_closed_model invisible
+
+		trigger allied_compost_built_model enable_allied_features
+
+		enablespeaker allies_compost_sound
+	}
+
+	decayed final
+	{
+		setstate allied_compost_built_model invisible
+		setstate neutral_compost_closed_clip default
+		setstate neutral_compost_closed_model default
+	}
+
+	death
+	{
+		setstate allied_compost_built_model invisible
+		setstate neutral_compost_closed_clip default
+		setstate neutral_compost_closed_model default
+
+		trigger allied_compost_built_model disable_allied_features
+
+		disablespeaker allies_compost_sound
+	}
+}
+
+allied_compost_built_model
+{
+	spawn
+	{
+		wait 400
+		setstate allied_compost_built_model invisible
+	}
+
+	trigger enable_allied_features
+	{
+		setchargetimefactor 1 soldier 0.75
+		setchargetimefactor 1 lieutenant 0.75
+		setchargetimefactor 1 medic 0.75
+		setchargetimefactor 1 engineer 0.75
+		setchargetimefactor 1 covertops 0.75
+		sethqstatus 1 1
+
+		wm_announce	"Allied Command Post constructed. Charge speed increased!"
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "axis_hq_compost_constructed_allies"
+
+		wm_teamvoiceannounce 1 "allies_hq_compost_constructed"
+
+		wm_removeteamvoiceannounce 1 "allies_hq_compost_construct"
+		// *---------------------------------------------------------------------------------*
+
+		wm_objective_status 3 0 2
+		wm_objective_status 3 1 1
+	}
+
+	trigger disable_allied_features
+	{
+		setchargetimefactor 1 soldier 1
+		setchargetimefactor 1 lieutenant 1
+		setchargetimefactor 1 medic 1
+		setchargetimefactor 1 engineer 1
+		setchargetimefactor 1 covertops 1
+		sethqstatus 1 0
+
+		wm_announce	"Axis team has destroyed the Allied Command Post!"
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_addteamvoiceannounce 0 "axis_hq_compost_construct"
+
+		wm_addteamvoiceannounce 1 "allies_hq_compost_construct"
+
+		wm_teamvoiceannounce 0 "axis_hq_compost_construct"
+
+		wm_teamvoiceannounce 1 "allies_hq_compost_damaged"
+		// *---------------------------------------------------------------------------------*
+
+		wm_objective_status 1 0 0
+		wm_objective_status 1 1 0
+	}
+}
+
+axis_compost_built
+{
+	spawn
+	{
+		wait 400
+		trigger axis_compost_built setup
+
+		constructible_class 2
+	}
+
+	trigger setup
+	{
+		setchargetimefactor 0 soldier 1
+		setchargetimefactor 0 lieutenant 1
+		setchargetimefactor 0 medic 1
+		setchargetimefactor 0 engineer 1
+		setchargetimefactor 0 covertops 1
+		sethqstatus 0 0
+	}
+
+	buildstart final
+	{
+		setstate axis_compost_built_model underconstruction
+		setstate neutral_compost_closed_clip invisible
+		setstate neutral_compost_closed_model invisible
+	}
+
+	built final
+	{
+		setstate axis_compost_built_model default
+		setstate neutral_compost_closed_clip invisible
+		setstate neutral_compost_closed_model invisible
+
+		trigger axis_compost_built_model enable_axis_features
+
+		enablespeaker axis_compost_sound
+	}
+
+	decayed final
+	{
+		setstate axis_compost_built_model invisible
+		setstate neutral_compost_closed_clip default
+		setstate neutral_compost_closed_model default
+	}
+
+	death
+	{
+		setstate axis_compost_built_model invisible
+		setstate neutral_compost_closed_clip default
+		setstate neutral_compost_closed_model default
+
+		trigger axis_compost_built_model disable_axis_features
+
+		disablespeaker axis_compost_sound
+	}
+}
+
+axis_compost_built_model
+{
+	spawn
+	{
+		wait 400
+		setstate axis_compost_built_model invisible
+	}
+
+	trigger enable_axis_features
+	{
+		setchargetimefactor 0 soldier 0.75
+		setchargetimefactor 0 lieutenant 0.75
+		setchargetimefactor 0 medic 0.75
+		setchargetimefactor 0 engineer 0.75
+		setchargetimefactor 0 covertops 0.75
+		sethqstatus 0 1
+
+		wm_announce	"Axis Command Post constructed. Charge speed increased!"
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_teamvoiceannounce 0 "axis_hq_compost_constructed"
+
+		wm_teamvoiceannounce 1 "allies_hq_compost_constructed_axis"
+
+		wm_removeteamvoiceannounce 0 "axis_hq_compost_construct"
+		// *---------------------------------------------------------------------------------*
+
+		wm_objective_status 1 0 1
+		wm_objective_status 1 1 2
+	}
+
+	trigger disable_axis_features
+	{
+		setchargetimefactor 0 soldier 1
+		setchargetimefactor 0 lieutenant 1
+		setchargetimefactor 0 medic 1
+		setchargetimefactor 0 engineer 1
+		setchargetimefactor 0 covertops 1
+		sethqstatus 0 0
+
+		wm_announce	"Allied team has destroyed the Axis Command Post!"
+
+		// *----------------------------------- vo ------------------------------------------*
+		wm_addteamvoiceannounce 0 "axis_hq_compost_construct"
+
+		wm_addteamvoiceannounce 1 "allies_hq_compost_construct"
+
+		wm_teamvoiceannounce 0 "axis_hq_compost_damaged"
+
+		wm_teamvoiceannounce 1 "allies_hq_compost_construct"
+		// *---------------------------------------------------------------------------------*
+
+		wm_objective_status 1 0 0
+		wm_objective_status 1 1 0
+	}
+}

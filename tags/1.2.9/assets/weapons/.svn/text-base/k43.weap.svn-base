@@ -1,0 +1,110 @@
+weaponDef
+{
+	both{
+		name					"Scoped K43"
+		statname				"K43 Rifle"
+		damage					34
+		spread					250
+		spreadRatio				0.9
+		SpreadScaleAdd			50
+	 	SpreadScaleAddRand	    20
+		viewchange2spread
+		CrouchSpreadRatio		0.6
+		ProneSpreadRatio		0.6
+		selfKillMessage			"found a way to shoot himself!"
+		KillMessage				"was killed by"
+		KillMessage2			"'s K43"
+		headshotWeapon
+		bulletReflection
+	}
+
+	both_altweap {
+		name					"Scoped K43"
+		damage					50
+		spread					700
+		spreadRatio				10.0
+		SpreadScaleAdd			200
+		velocity2spread
+		recoilDuration			300
+		recoilPitch				0.5
+		recoilYaw				0.5
+		selfKillMessage			"found a way to shoot himself!"
+		KillMessage				"was silenced by"
+		KillMessage2			"'s K43"
+		headshotWeapon
+		bulletReflection
+	}
+
+	client {
+		droppedAnglesHack
+		pickupModel				"models/multiplayer/kar98/kar98_scope_pickup.md3"
+		bounceSound				"sound/weapons/weaponbounce.wav"
+		clipBounceSound			"sound/weapons/clipbounce.wav"
+		
+		weaponConfig			"models/multiplayer/kar98/weapon2.cfg"
+		handsModel				"models/multiplayer/kar98/v_kar98_hand2.md3"
+		
+		flashDlightColor		1.0 0.6 0.23
+		flashSound				"sound/weapons/k43/k43_fire_silence.wav"
+		
+		reloadSound				"sound/weapons/k43/k43_reload.wav"
+		
+		weaponIcon				"icons/iconw_mauser"
+		weaponSelectedIcon		"icons/iconw_mauser_1_select"
+		
+		ejectBrassFunc			"MachineGunEjectBrass"
+		brassmodel				"models/weapons2/shells/792shell.md3"
+		
+		modModel 0				"models/multiplayer/kar98/v_kar98_scope2.md3"
+		modModel 1				"models/multiplayer/kar98/v_kar98_silencer.md3"
+		modModel 2				"models/multiplayer/kar98/kar98_scp.md3"
+		
+		firstPerson {
+			model				"models/multiplayer/kar98/v_kar98.md3"
+			axisskin			"models/multiplayer/kar98/kar98_axis.skin"
+			alliedskin			"models/multiplayer/kar98/kar98_allied.skin"
+			flashModel			"models/multiplayer/kar98/v_kar98_flash.mdc"
+
+			weaponLink
+			{
+				part 0
+				{
+					tag			"tag_barrel"
+					model		"models/multiplayer/kar98/v_kar98_barrel.mdc"
+				}
+				part 1
+				{
+					tag			"tag_barrel2"
+					model		"models/multiplayer/kar98/v_kar98_barrel2.mdc"
+				}
+				part 2
+				{
+					tag			"tag_barrel3"
+					model		"models/multiplayer/kar98/v_kar98_barrel3.mdc"
+					axisskin	"models/multiplayer/kar98/kar98_axis.skin"
+					alliedskin	"models/multiplayer/kar98/kar98_allied.skin"
+				}
+				part 3
+				{
+					tag			"tag_barrel4"
+					model		"models/multiplayer/kar98/v_kar98_barrel4.mdc"
+				}
+				part 4
+				{
+					tag			"tag_barrel5"
+					model		"models/multiplayer/kar98/v_kar98_barrel5.mdc"
+				}
+				part 5
+				{
+					tag			"tag_barrel6"
+					model		"models/multiplayer/kar98/v_kar98_barrel6.mdc"
+				}
+			}
+		}
+		
+		thirdPerson {
+			model				"models/multiplayer/kar98/kar98_3rd.md3"
+			flashmodel			"models/multiplayer/kar98/kar98_3rd_flash.mdc"
+		}
+	}
+}
